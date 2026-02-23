@@ -87,6 +87,110 @@
             margin-top: 0.1rem;
             flex-shrink: 0;
         }
+
+        /* ─── Company Intel ─── */
+        .company-intel {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .intel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .intel-header h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+
+        .intel-header h3 i { color: #f59e0b; }
+
+        .intel-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .intel-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.65rem 0.8rem;
+            background: rgba(99, 102, 241, 0.04);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            transition: border-color 0.15s;
+        }
+
+        .intel-item:hover {
+            border-color: var(--primary-color);
+        }
+
+        .intel-item-text {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .intel-item-text strong {
+            color: var(--accent-color);
+        }
+
+        .intel-insert-btn {
+            flex-shrink: 0;
+            background: none;
+            border: 1px solid var(--panel-border);
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+
+        .intel-insert-btn:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .intel-loading {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .intel-footer {
+            margin-top: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .intel-footer a {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .intel-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 
@@ -146,8 +250,17 @@
 
         <div class="tip-box">
             <i class="fa-solid fa-lightbulb"></i>
-            <span>Tip: Personalise the hiring manager's name and 1 recent company news item before sending. This is a
-                starting draft — make it yours.</span>
+            <span>Tip: Personalise the hiring manager's name and reference a recent company news item before sending. Use the intel below to strengthen your outreach.</span>
+        </div>
+
+        <div class="company-intel" id="company-intel">
+            <div class="intel-header">
+                <h3><i class="fa-solid fa-newspaper"></i> <span id="intel-title">Company Intel</span></h3>
+                <button id="intel-refresh" class="btn small-btn ghost-btn" style="font-size:0.75rem;padding:0.3rem 0.6rem;" onclick="fetchCompanyIntel()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+            </div>
+            <div id="intel-content">
+                <div class="intel-loading"><i class="fa-solid fa-spinner fa-spin"></i> Gathering recent news &amp; insights...</div>
+            </div>
         </div>
     </div>
 
@@ -269,6 +382,113 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Regenerate';
         });
+
+        // ── Company Intel ──
+        const companyName = outputs?.targetCompany;
+        if (companyName) {
+            document.getElementById('intel-title').textContent = companyName + ' — Recent Intel';
+            fetchCompanyIntel();
+        } else {
+            document.getElementById('company-intel').style.display = 'none';
+        }
+
+        async function fetchCompanyIntel() {
+            const content = document.getElementById('intel-content');
+            const refreshBtn = document.getElementById('intel-refresh');
+            content.innerHTML = '<div class="intel-loading"><i class="fa-solid fa-spinner fa-spin"></i> Gathering recent news &amp; insights...</div>';
+            refreshBtn.disabled = true;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-2.5-flash',
+                        systemInstruction: { parts: [{ text: `You are a company research assistant. Return ONLY a JSON array of 4-5 objects, each with "headline" (string, 8-15 words) and "snippet" (string, 1 sentence of context a job applicant could reference in an outreach email). Focus on recent news, product launches, funding, leadership changes, partnerships, awards, or notable company culture initiatives. If you don't have recent info, provide well-known facts about the company that would be useful conversation starters. No markdown, no explanation — ONLY the JSON array.` }] },
+                        contents: [{ parts: [{ text: `Company: ${companyName}\nFind recent notable news, achievements, or developments about this company that a job applicant could reference in an introduction email.` }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+                if (error) throw new Error(error.message);
+
+                let text = data.candidates[0].content.parts[0].text.trim();
+                // Strip markdown code fences if present
+                text = text.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '');
+                const items = JSON.parse(text);
+                renderIntel(items);
+            } catch (e) {
+                console.error('Intel fetch failed:', e);
+                content.innerHTML = `<div class="intel-loading" style="color:var(--text-secondary);">
+                    <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Couldn't load company intel.
+                    <button class="btn small-btn ghost-btn" style="margin-left:0.5rem;font-size:0.75rem;" onclick="fetchCompanyIntel()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                </div>`;
+            } finally {
+                refreshBtn.disabled = false;
+            }
+        }
+
+        function renderIntel(items) {
+            const content = document.getElementById('intel-content');
+            const encoded = encodeURIComponent(companyName + ' news');
+
+            let html = '<div class="intel-items">';
+            items.forEach((item, i) => {
+                const headline = escapeHtml(item.headline);
+                const snippet = escapeHtml(item.snippet);
+                html += `<div class="intel-item">
+                    <div class="intel-item-text"><strong>${headline}</strong><br>${snippet}</div>
+                    <button class="intel-insert-btn" onclick="insertIntel(${i})" title="Insert into email"><i class="fa-solid fa-plus"></i> Insert</button>
+                </div>`;
+            });
+            html += '</div>';
+            html += `<div class="intel-footer">
+                <span style="font-size:0.75rem;color:var(--text-secondary);"><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.25rem;"></i>AI-generated — verify before sending</span>
+                <a href="https://news.google.com/search?q=${encoded}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Google News</a>
+            </div>`;
+            content.innerHTML = html;
+
+            // Store items for insert
+            window._intelItems = items;
+        }
+
+        function insertIntel(index) {
+            const item = window._intelItems?.[index];
+            if (!item) return;
+            const mention = `I was excited to see that ${item.snippet.charAt(0).toLowerCase() + item.snippet.slice(1)}`;
+
+            // Insert at cursor position in contenteditable email card
+            const emailCard = document.getElementById('email-card');
+            emailCard.focus();
+            const sel = window.getSelection();
+            if (sel.rangeCount) {
+                const range = sel.getRangeAt(0);
+                // Only insert inside the email card
+                if (emailCard.contains(range.commonAncestorContainer)) {
+                    range.deleteContents();
+                    const node = document.createTextNode(mention);
+                    range.insertNode(node);
+                    range.setStartAfter(node);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                } else {
+                    emailCard.innerHTML += `<p style="margin:0.4rem 0;">${escapeHtml(mention)}</p>`;
+                }
+            } else {
+                emailCard.innerHTML += `<p style="margin:0.4rem 0;">${escapeHtml(mention)}</p>`;
+            }
+
+            // Visual feedback on button
+            const btn = document.querySelectorAll('.intel-insert-btn')[index];
+            if (btn) {
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Added';
+                btn.style.color = '#10b981';
+                btn.style.borderColor = '#10b981';
+                setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-plus"></i> Insert'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
     </script>
 </body>
 
