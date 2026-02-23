@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Applications – TailorMeSwiftly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
+        crossorigin="anonymous"></script>
+    <style>
+        .history-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 4rem;
+        }
+
+        .history-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .history-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .history-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            position: relative;
+        }
+
+        .history-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-company {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-company .company-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .card-date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .card-applicant {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .card-badge.has {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .card-actions .btn {
+            flex: 1;
+            font-size: 0.82rem;
+            padding: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: block;
+            opacity: 0.5;
+        }
+
+        .empty-state h2 {
+            margin-bottom: 0.75rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand"><a href="index.html" style="text-decoration:none;color:inherit;"><i
+                    class="fa-solid fa-clipboard"></i> TailorMeSwiftly</a></div>
+        <div class="nav-actions">
+            <div id="user-profile"
+                style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                <img id="user-avatar" src="" alt="Avatar"
+                    style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
+                    onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                <span id="user-greeting"
+                    style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+
+                <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                    <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
+                        <i class="fa-solid fa-sliders"></i> Preferences
+                    </button>
+                    <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                        <i class="fa-solid fa-bullhorn"></i> Release Notes
+                    </a>
+                    <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Past Applications
+                    </a>
+                    <button class="dropdown-item theme-btn">
+                        <i class="fa-solid fa-moon"></i> Theme
+                    </button>
+                    <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                    <button class="dropdown-item" id="logout-btn"
+                        onclick="supabaseClient.auth.signOut().then(()=>location.href='index.html')">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="history-page">
+        <div class="history-header">
+            <h1><i class="fa-solid fa-clock-rotate-left" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Past Applications</h1>
+            <p>Browse and restore your previously generated applications</p>
+        </div>
+
+        <div id="history-content">
+            <div class="loading-state">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.5rem;"></i>
+                <p style="margin-top: 1rem;">Loading your history...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=6"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+
+        const historyContent = document.getElementById('history-content');
+
+        async function loadHistory() {
+            if (!window.supabaseClient) {
+                historyContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Not Signed In</h2><p>Please sign in to view your past applications.</p><a href="login.html" class="btn primary-btn">Sign In</a></div>';
+                return;
+            }
+
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) {
+                    historyContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Not Signed In</h2><p>Please sign in to view your past applications.</p><a href="login.html" class="btn primary-btn">Sign In</a></div>';
+                    return;
+                }
+
+                const { data, error } = await window.supabaseClient
+                    .from('generations')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    historyContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-folder-open"></i><h2>No Past Applications</h2><p>Your generated applications will appear here after you tailor your first resume.</p><a href="app.html" class="btn primary-btn"><i class="fa-solid fa-plus"></i> Create Your First Application</a></div>';
+                    return;
+                }
+
+                renderHistory(data);
+            } catch (e) {
+                console.error('Load history error:', e);
+                historyContent.innerHTML = `<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Error Loading History</h2><p>${e.message}</p><button class="btn primary-btn" onclick="loadHistory()"><i class="fa-solid fa-rotate-right"></i> Retry</button></div>`;
+            }
+        }
+
+        function renderHistory(generations) {
+            const grid = document.createElement('div');
+            grid.className = 'history-grid';
+
+            generations.forEach(gen => {
+                const date = new Date(gen.created_at);
+                const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+                const score = gen.match_score;
+                const scoreColor = score >= 75 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
+                const scoreBg = score >= 75 ? 'rgba(16,185,129,0.1)' : score >= 50 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)';
+
+                const companyColor = gen.company_primary_color || '#6366f1';
+
+                const badges = [];
+                if (gen.resume_html) badges.push({ label: 'Resume', has: true });
+                if (gen.cover_letter_html) badges.push({ label: 'Cover Letter', has: true });
+                if (gen.interview_qa && (Array.isArray(gen.interview_qa) ? gen.interview_qa.length > 0 : true)) badges.push({ label: 'Interview', has: true });
+                if (gen.email_text) badges.push({ label: 'Email', has: true });
+
+                const card = document.createElement('div');
+                card.className = 'history-card';
+                card.innerHTML = `
+                    <div class="card-top">
+                        <div class="card-company">
+                            <span class="company-dot" style="background: ${companyColor};"></span>
+                            ${gen.target_company || 'Unknown Company'}
+                        </div>
+                        <span class="card-date">${dateStr}<br>${timeStr}</span>
+                    </div>
+                    ${gen.applicant_name ? `<div class="card-applicant"><i class="fa-solid fa-user" style="margin-right:0.3rem;"></i> ${gen.applicant_name}</div>` : ''}
+                    ${score ? `<div class="card-score" style="background:${scoreBg};color:${scoreColor};"><i class="fa-solid fa-bullseye"></i> ${score}% ATS Match</div>` : ''}
+                    <div class="card-badges">
+                        ${badges.map(b => `<span class="card-badge has"><i class="fa-solid fa-check" style="font-size:0.6rem;"></i> ${b.label}</span>`).join('')}
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn primary-btn" onclick="restoreGeneration('${gen.id}')">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Restore
+                        </button>
+                        <button class="btn ghost-btn" onclick="deleteGeneration('${gen.id}', this)" style="color: #ef4444; border-color: rgba(239,68,68,0.2); flex: 0; padding: 0.5rem 0.75rem;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            historyContent.innerHTML = '';
+            historyContent.appendChild(grid);
+        }
+
+        async function restoreGeneration(id) {
+            try {
+                const { data, error } = await window.supabaseClient
+                    .from('generations')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+
+                const payload = {
+                    generationId: data.id,
+                    resumeHtml: data.resume_html || '',
+                    coverHtml: data.cover_letter_html || null,
+                    interviewQa: data.interview_qa || null,
+                    emailText: data.email_text || null,
+                    applicantName: data.applicant_name || '',
+                    targetCompany: data.target_company || '',
+                    matchScore: data.match_score || null,
+                    missingKeywords: data.missing_keywords || [],
+                    companyPrimaryColor: data.company_primary_color || '#1a1a2e',
+                    resumeText: data.resume_text || '',
+                    jobText: data.job_text || data.job_description || ''
+                };
+
+                sessionStorage.setItem('tms_outputs', JSON.stringify(payload));
+                window.location.href = 'results.html';
+            } catch (e) {
+                alert('Failed to restore: ' + e.message);
+            }
+        }
+
+        async function deleteGeneration(id, btn) {
+            if (!confirm('Delete this application from your history? This cannot be undone.')) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+            try {
+                const { error } = await window.supabaseClient
+                    .from('generations')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                const card = btn.closest('.history-card');
+                card.style.transition = 'opacity 0.3s, transform 0.3s';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.remove();
+                    // Check if grid is now empty
+                    const grid = document.querySelector('.history-grid');
+                    if (grid && grid.children.length === 0) {
+                        historyContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-folder-open"></i><h2>No Past Applications</h2><p>Your generated applications will appear here after you tailor your first resume.</p><a href="app.html" class="btn primary-btn"><i class="fa-solid fa-plus"></i> Create Your First Application</a></div>';
+                    }
+                }, 300);
+            } catch (e) {
+                alert('Failed to delete: ' + e.message);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            }
+        }
+
+        // Wait for auth to initialize, then load history
+        setTimeout(loadHistory, 500);
+    </script>
+</body>
+
+</html>

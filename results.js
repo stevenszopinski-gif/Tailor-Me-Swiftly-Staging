@@ -172,6 +172,68 @@ function downloadAsPDF(el, filename) {
     html2pdf().set(opt).from(el).save().then(() => el.classList.remove('pdf-rendering'));
 }
 
+// ───────────────────────────────────────────────
+// SUPABASE PERSISTENCE (generations table)
+// ───────────────────────────────────────────────
+async function saveGenerationToSupabase(outputs) {
+    if (!window.supabaseClient) return null;
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (!user) return null;
+
+        const row = {
+            user_id: user.id,
+            job_description: outputs.jobText || null,
+            resume_html: outputs.resumeHtml || null,
+            cover_letter_html: outputs.coverHtml || null,
+            match_score: outputs.matchScore || null,
+            applicant_name: outputs.applicantName || null,
+            target_company: outputs.targetCompany || null,
+            interview_qa: outputs.interviewQa || null,
+            email_text: outputs.emailText || null,
+            resume_text: outputs.resumeText || null,
+            job_text: outputs.jobText || null,
+            company_primary_color: outputs.companyPrimaryColor || '#1a1a2e',
+            missing_keywords: outputs.missingKeywords || []
+        };
+
+        // If we already have an ID, update the existing row
+        if (outputs.generationId) {
+            row.id = outputs.generationId;
+        }
+
+        const { data, error } = await window.supabaseClient
+            .from('generations')
+            .upsert(row, { onConflict: 'id' })
+            .select()
+            .single();
+
+        if (error) { console.error('Save generation error:', error); return null; }
+
+        if (data && !outputs.generationId) {
+            // Store the generation ID back into sessionStorage
+            outputs.generationId = data.id;
+            sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+        }
+        return data;
+    } catch (e) {
+        console.error('saveGenerationToSupabase:', e);
+        return null;
+    }
+}
+
+async function updateGenerationField(generationId, fields) {
+    if (!window.supabaseClient || !generationId) return;
+    try {
+        await window.supabaseClient
+            .from('generations')
+            .update(fields)
+            .eq('id', generationId);
+    } catch (e) {
+        console.error('updateGenerationField:', e);
+    }
+}
+
 // Shared auth header update (show user avatar if logged in)
 async function initResultAuth() {
     if (!window.supabaseClient) return;

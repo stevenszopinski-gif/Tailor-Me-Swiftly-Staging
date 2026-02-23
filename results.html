@@ -9,7 +9,7 @@
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
@@ -368,6 +368,9 @@
                         <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-bullhorn"></i> Release Notes
                         </a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Past Applications
+                        </a>
                         <button class="dropdown-item theme-btn" id="theme-toggle">
                             <i class="fa-solid fa-moon"></i> Theme
                         </button>
@@ -437,6 +440,7 @@
 
         <div class="start-over-bar">
             <a href="app.html" class="btn ghost-btn"><i class="fa-solid fa-rotate-left"></i> Start New Application</a>
+            <a href="history.html" class="btn ghost-btn" style="margin-left: 0.75rem;"><i class="fa-solid fa-clock-rotate-left"></i> Past Applications</a>
         </div>
     </div>
     </div> <!-- /app-container -->
@@ -476,8 +480,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="auth.js?v=5"></script>
-    <script src="results.js?v=5"></script>
+    <script src="auth.js?v=6"></script>
+    <script src="results.js?v=6"></script>
     <script>
         const outputs = loadOutputs();
         initResultTheme();
@@ -509,6 +513,9 @@
                 }));
             }
             // Skills selector removed
+
+            // Save to Supabase for history (fire-and-forget)
+            saveGenerationToSupabase(outputs).catch(() => {});
         }
 
         // Skills selector removed
