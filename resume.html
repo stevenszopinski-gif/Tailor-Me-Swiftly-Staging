@@ -257,24 +257,26 @@
 </head>
 
 <body>
-    <nav class="top-nav">
-        <div class="nav-brand"><a href="index.html" style="text-decoration:none;color:inherit;"><i
-                    class="fa-solid fa-clipboard"></i> TailorMeSwiftly</a></div>
-        <div class="nav-actions">
-            <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                <img id="user-avatar" src="" alt="Avatar"
-                    style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
+    <header class="app-header">
+        <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+            <h1>TailorMeSwiftly.com</h1>
+        </div>
+        <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
+            <div id="user-profile" class="user-profile"
+                style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
+                <img id="user-avatar" src="" alt="Profile"
+                    style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
                     onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                 <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
-
                 <div id="avatar-dropdown" class="avatar-dropdown hidden">
                     <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
                         <i class="fa-solid fa-sliders"></i> Preferences
                     </button>
-                    <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                    <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
                         <i class="fa-solid fa-bullhorn"></i> Release Notes
                     </a>
-                    <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                    <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
                         <i class="fa-solid fa-table-columns"></i> Application Tracker
                     </a>
                     <button class="dropdown-item theme-btn">
@@ -288,7 +290,7 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 
     <div class="result-page">
         <div class="result-header">
