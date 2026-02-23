@@ -176,7 +176,16 @@ function downloadAsPDF(el, filename) {
 // SUPABASE PERSISTENCE (generations table)
 // ───────────────────────────────────────────────
 async function saveGenerationToSupabase(outputs) {
-    if (!window.supabaseClient) return null;
+    if (!window.supabaseClient) {
+        // Poll until client is ready (up to 5s)
+        let tries = 0;
+        await new Promise(resolve => {
+            const poll = setInterval(() => {
+                if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
+            }, 100);
+        });
+        if (!window.supabaseClient) return null;
+    }
     try {
         const { data: { user } } = await window.supabaseClient.auth.getUser();
         if (!user) return null;
@@ -223,7 +232,16 @@ async function saveGenerationToSupabase(outputs) {
 }
 
 async function updateGenerationField(generationId, fields) {
-    if (!window.supabaseClient || !generationId) return;
+    if (!generationId) return;
+    if (!window.supabaseClient) {
+        let tries = 0;
+        await new Promise(resolve => {
+            const poll = setInterval(() => {
+                if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
+            }, 100);
+        });
+        if (!window.supabaseClient) return;
+    }
     try {
         await window.supabaseClient
             .from('generations')

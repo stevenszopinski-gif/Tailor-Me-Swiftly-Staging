@@ -514,8 +514,8 @@
             }
             // Skills selector removed
 
-            // Save to Supabase for history (fire-and-forget)
-            saveGenerationToSupabase(outputs).catch(() => {});
+            // Save to Supabase for history
+            saveGenerationToSupabase(outputs).catch(e => console.error('History save failed:', e));
         }
 
         // Skills selector removed
