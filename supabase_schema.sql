@@ -39,6 +39,9 @@ USING (auth.uid() = user_id);
 -- Add version_name column for resume versions
 ALTER TABLE public.generations ADD COLUMN IF NOT EXISTS version_name TEXT;
 
+-- Add notes column for application notes
+ALTER TABLE public.generations ADD COLUMN IF NOT EXISTS notes TEXT;
+
 -- Index for faster lookups
 CREATE INDEX IF NOT EXISTS generations_user_id_idx ON public.generations(user_id);
 CREATE INDEX IF NOT EXISTS generations_created_at_idx ON public.generations(created_at DESC);
