@@ -144,7 +144,18 @@
         }
 
         .intel-item-text strong {
-            color: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .intel-item-text a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .intel-item-text a:hover {
+            text-decoration: underline;
+            color: var(--primary-color);
         }
 
         .intel-insert-btn {
@@ -386,7 +397,7 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
         // ── Company Intel ──
         const companyName = outputs?.targetCompany;
         if (companyName) {
-            document.getElementById('intel-title').textContent = companyName + ' — Recent Intel';
+            document.getElementById('intel-title').textContent = 'Recent News About ' + companyName;
             fetchCompanyIntel();
         } else {
             document.getElementById('company-intel').style.display = 'none';
@@ -402,7 +413,7 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
                     body: {
                         model: 'gemini-2.5-flash',
-                        systemInstruction: { parts: [{ text: `You are a company research assistant. Return ONLY a JSON array of 4-5 objects, each with "headline" (string, 8-15 words) and "snippet" (string, 1 sentence of context a job applicant could reference in an outreach email). Focus on recent news, product launches, funding, leadership changes, partnerships, awards, or notable company culture initiatives. If you don't have recent info, provide well-known facts about the company that would be useful conversation starters. No markdown, no explanation — ONLY the JSON array.` }] },
+                        systemInstruction: { parts: [{ text: `You are a company research assistant. Return ONLY a JSON array of 4-5 objects, each with "headline" (string, 8-15 words), "snippet" (string, 1 sentence of context a job applicant could reference in an outreach email), and "search_query" (string, a short Google search query to find the original article about this news item). Focus on recent news, product launches, funding, leadership changes, partnerships, awards, or notable company culture initiatives. If you don't have recent info, provide well-known facts about the company that would be useful conversation starters. No markdown, no explanation — ONLY the JSON array.` }] },
                         contents: [{ parts: [{ text: `Company: ${companyName}\nFind recent notable news, achievements, or developments about this company that a job applicant could reference in an introduction email.` }] }],
                         generationConfig: { temperature: 0.7 }
                     }
@@ -433,8 +444,9 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
             items.forEach((item, i) => {
                 const headline = escapeHtml(item.headline);
                 const snippet = escapeHtml(item.snippet);
+                const searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(item.search_query || item.headline);
                 html += `<div class="intel-item">
-                    <div class="intel-item-text"><strong>${headline}</strong><br>${snippet}</div>
+                    <div class="intel-item-text"><a href="${searchUrl}" target="_blank" rel="noopener">${headline} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.6rem;opacity:0.5;"></i></a><br>${snippet}</div>
                     <button class="intel-insert-btn" onclick="insertIntel(${i})" title="Insert into email"><i class="fa-solid fa-plus"></i> Insert</button>
                 </div>`;
             });
