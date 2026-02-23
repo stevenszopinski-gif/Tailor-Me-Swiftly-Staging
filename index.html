@@ -4,13 +4,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TailorMeSwiftly.com | Instant Resume Tailoring</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <title>TailorMeSwiftly.com | AI Resume Tailoring, Interview Prep & Application Tracking</title>
+    <link rel="stylesheet" href="style.css?v=7">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ─── Homepage Styles ─── */
+        .hp-main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Hero */
+        .hp-hero {
+            text-align: center;
+            padding: 3rem 0 4rem;
+        }
+
+        .hp-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: var(--primary-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hp-hero h2 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .hp-hero h2 .hp-gradient {
+            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hp-hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hp-hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.15rem;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .hp-hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px var(--accent-glow);
+        }
+
+        .hp-hero-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hp-hero-note span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Animation container */
+        .hp-animation-wrap {
+            margin: 0 auto 1.5rem;
+        }
+
+        /* How it works */
+        .hp-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        .hp-steps::before {
+            content: '';
+            position: absolute;
+            top: calc(3rem + 28px);
+            left: 16.66%;
+            right: 16.66%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-color), #8b5cf6, var(--accent-color));
+            opacity: 0.3;
+        }
+
+        .hp-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .hp-step-num {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hp-step h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hp-step p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Section headings */
+        .hp-section-head {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hp-section-head h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            margin-bottom: 0.75rem;
+        }
+
+        .hp-section-head p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Feature grid */
+        .hp-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            padding: 0 0 4rem;
+        }
+
+        .hp-feat {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .hp-feat:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .hp-feat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hp-feat h3 {
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hp-feat p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Toolkit banner */
+        .hp-toolkit {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            padding: 3rem 0 4rem;
+        }
+
+        .hp-toolkit-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-radius: 16px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+        }
+
+        .hp-toolkit-card i {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .hp-toolkit-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .hp-toolkit-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Differentiators */
+        .hp-diff {
+            padding: 3rem 0 4rem;
+        }
+
+        .hp-diff-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hp-diff-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        .hp-diff-list li {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hp-diff-list .hp-diff-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .hp-diff-list strong {
+            display: block;
+            font-size: 1.05rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .hp-diff-list span {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .hp-diff-visual {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hp-diff-visual .hp-visual-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .hp-diff-visual .hp-visual-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .hp-diff-visual .hp-visual-row i {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .hp-diff-visual .hp-visual-row div strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .hp-diff-visual .hp-visual-row div span {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        /* Bottom CTA */
+        .hp-bottom-cta {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin: 0 -1.5rem 3rem;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(139, 92, 246, 0.08));
+            border: 1px solid var(--panel-border);
+        }
+
+        .hp-bottom-cta h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 0.75rem;
+        }
+
+        .hp-bottom-cta p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hp-steps {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hp-steps::before {
+                display: none;
+            }
+
+            .hp-toolkit {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hp-diff-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hp-hero h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hp-toolkit {
+                grid-template-columns: 1fr;
+            }
+
+            .hp-hero-note {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body data-theme="light">
@@ -21,7 +400,6 @@
 
     <div class="app-container">
         <!-- Header -->
-
         <header class="app-header">
             <div class="logo">
                 <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
@@ -35,7 +413,6 @@
                     <i class="fa-solid fa-moon"></i> Theme
                 </button>
                 <!-- Auth Section -->
-
                 <a href="login.html" id="login-btn" class="btn secondary-btn"
                     style="padding: 0.5rem 1rem; text-decoration: none;">
                     Sign In
@@ -46,7 +423,8 @@
                     <img id="user-avatar" src="" alt="Profile"
                         style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <span id="user-greeting"
+                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
 
                     <div id="avatar-dropdown" class="avatar-dropdown hidden">
                         <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
@@ -69,150 +447,287 @@
                 </div>
             </div>
         </header>
+    </div>
 
-        <main class="marketing-container glass-panel"
-            style="padding: 2rem 2rem 4rem; text-align: center; max-width: 800px; margin: 1rem auto; border-radius: 24px;">
+    <main class="hp-main">
+
+        <!-- ═══════ HERO ═══════ -->
+        <section class="hp-hero">
+            <div class="hp-hero-badge">
+                <i class="fa-solid fa-sparkles"></i> 100% Free &mdash; No Credit Card Required
+            </div>
 
             <!-- Animated AI Visual -->
-            <div class="ai-resume-animation">
-                <div class="floating-node node-1"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <div class="resume-doc">
-                    <div class="ai-scanner"></div>
-                    <div class="resume-header-line"></div>
-                    <div class="resume-text-line long"></div>
-                    <div class="resume-text-line medium"></div>
-                    <div class="resume-text-line short"></div>
-                    <div class="resume-header-line" style="margin-top: 25px; width: 40%;"></div>
-                    <div class="resume-text-line long"></div>
-                    <div class="resume-text-line long"></div>
-                    <div class="resume-text-line medium"></div>
+            <div class="hp-animation-wrap">
+                <div class="ai-resume-animation">
+                    <div class="floating-node node-1"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div class="resume-doc">
+                        <div class="ai-scanner"></div>
+                        <div class="resume-header-line"></div>
+                        <div class="resume-text-line long"></div>
+                        <div class="resume-text-line medium"></div>
+                        <div class="resume-text-line short"></div>
+                        <div class="resume-header-line" style="margin-top: 25px; width: 40%;"></div>
+                        <div class="resume-text-line long"></div>
+                        <div class="resume-text-line long"></div>
+                        <div class="resume-text-line medium"></div>
+                    </div>
+                    <div class="floating-node node-2"><i class="fa-solid fa-check-double"></i></div>
                 </div>
-                <div class="floating-node node-2"><i class="fa-solid fa-check-double"></i></div>
             </div>
 
-            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2.5rem; line-height: 1.6;">
-                Instantly tailor your existing resume and cover letter to any job description using advanced AI. No more
-                starting from scratch.
+            <h2>Your Complete <span class="hp-gradient">AI Career Toolkit</span></h2>
+            <p class="hp-hero-sub">
+                Tailored resume, cover letter, mock interview, introduction email, and a Kanban tracker to manage every
+                application &mdash; generated in seconds from one job description.
             </p>
 
-            <div
-                style="margin-bottom: 4rem; padding: 2rem; background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(var(--border-color-rgb), 0.3);">
-                <a href="login.html" id="hero-get-started-btn" class="btn primary-btn"
-                    style="font-size: 1.25rem; padding: 1rem 3rem; border-radius: 50px; box-shadow: 0 8px 24px rgba(var(--primary-color-rgb), 0.4); margin-bottom: 1rem; display: inline-block; text-decoration: none;">
-                    <i class="fa-solid fa-rocket"></i> Get Started For Free
-                </a>
-                <div
-                    style="font-size: 0.9rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.5rem;">
-                    <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> 100% free
-                        (supported by advertising).</span>
-                    <span><i class="fa-solid fa-lock" style="color: var(--primary-color);"></i> Sign in with Google or
-                        email to save your generated documents.</span>
+            <a href="login.html" id="hero-get-started-btn" class="btn primary-btn hp-hero-cta">
+                <i class="fa-solid fa-rocket"></i> Get Started For Free
+            </a>
+            <div class="hp-hero-note">
+                <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> No cost, ever</span>
+                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 30 seconds</span>
+                <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
+                    yours</span>
+            </div>
+        </section>
+
+        <!-- ═══════ HOW IT WORKS ═══════ -->
+        <section style="padding: 2rem 0 3rem;">
+            <div class="hp-section-head">
+                <h2>How It Works</h2>
+                <p>Three steps. One click. Every document you need.</p>
+            </div>
+            <div class="hp-steps">
+                <div class="hp-step">
+                    <div class="hp-step-num">1</div>
+                    <h4>Upload Your Resume</h4>
+                    <p>Paste your existing resume or upload a PDF. We extract every detail.</p>
+                </div>
+                <div class="hp-step">
+                    <div class="hp-step-num">2</div>
+                    <h4>Paste the Job Description</h4>
+                    <p>Drop in a job listing URL or paste the text. Our AI identifies every keyword and requirement.</p>
+                </div>
+                <div class="hp-step">
+                    <div class="hp-step-num">3</div>
+                    <h4>Get Everything Instantly</h4>
+                    <p>Tailored resume, cover letter, interview prep, and outreach email &mdash; ready to download.</p>
                 </div>
             </div>
+        </section>
 
-            <div class="features-grid"
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: left; margin-top: 4rem;">
-                <!-- Feature 1 -->
-                <div class="feature-card glass-panel" style="padding: 2rem; border-radius: 16px;">
-                    <i class="fa-solid fa-wand-magic-sparkles"
-                        style="color: var(--primary-color); font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">AI-Powered Tailoring</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">Our advanced AI extracts your core
-                        narrative and matches it perfectly to the target role, ensuring your resume speaks directly to
-                        the hiring manager's needs.</p>
+        <!-- ═══════ WHAT YOU GET (Toolkit) ═══════ -->
+        <section style="padding: 2rem 0;">
+            <div class="hp-section-head">
+                <h2>One Click, Five Outputs</h2>
+                <p>Stop juggling separate tools. Get everything from a single generation.</p>
+            </div>
+            <div class="hp-toolkit">
+                <div class="hp-toolkit-card">
+                    <i class="fa-solid fa-file-lines" style="color: var(--primary-color);"></i>
+                    <h4>Tailored Resume</h4>
+                    <p>ATS-optimized &amp; print-ready</p>
                 </div>
-                <!-- Feature 2 -->
-                <div class="feature-card glass-panel" style="padding: 2rem; border-radius: 16px;">
-                    <i class="fa-solid fa-bullseye"
-                        style="color: var(--accent-color); font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Beat the ATS</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">We deeply analyze job descriptions to
-                        guarantee your new resume contains the exact keywords Applicant Tracking Systems (ATS) are
-                        looking for.</p>
+                <div class="hp-toolkit-card">
+                    <i class="fa-solid fa-envelope" style="color: #8b5cf6;"></i>
+                    <h4>Cover Letter</h4>
+                    <p>Personalized to the role</p>
                 </div>
-                <!-- Feature 3 -->
-                <div class="feature-card glass-panel" style="padding: 2rem; border-radius: 16px;">
-                    <i class="fa-solid fa-file-pdf" style="color: #6366f1; font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Instant Export</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">Download flawlessly formatted,
-                        print-ready PDFs of both your newly tailored resume and a custom cover letter in seconds.</p>
+                <div class="hp-toolkit-card">
+                    <i class="fa-solid fa-chalkboard-user" style="color: #eab308;"></i>
+                    <h4>Interview Prep</h4>
+                    <p>10 questions with voice &amp; AI feedback</p>
                 </div>
-                <!-- Feature 4 -->
-                <div class="feature-card glass-panel" style="padding: 2rem; border-radius: 16px;">
-                    <i class="fa-solid fa-chalkboard-user"
-                        style="color: #eab308; font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Mock Interview</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">Don't just get the interview—ace it. Practice with a simulated hiring manager who reads questions aloud, then record your answers and get AI-powered feedback on how to improve.</p>
-                </div>
-                <!-- Feature 5 -->
-                <div class="feature-card glass-panel" style="padding: 2rem; border-radius: 16px;">
-                    <i class="fa-solid fa-envelope-open-text"
-                        style="color: #ec4899; font-size: 2rem; margin-bottom: 1.5rem;"></i>
-                    <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Introduction Email</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6;">Skip the line. Generate punchy,
-                        professional introduction emails designed to be sent directly to hiring managers.</p>
+                <div class="hp-toolkit-card">
+                    <i class="fa-solid fa-paper-plane" style="color: #ec4899;"></i>
+                    <h4>Introduction Email</h4>
+                    <p>Ready to send to the hiring manager</p>
                 </div>
             </div>
+        </section>
 
-            <!-- Why We're Different Section -->
-            <div class="why-different"
-                style="margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: left;">
-                <div style="text-align: center; margin-bottom: 3rem;">
-                    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Why We're Different</h2>
-                    <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Unlike
-                        basic resume builders, TailorMeSwiftly acts as your personal executive career coach.</p>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
-                    <div>
-                        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1.5rem;">
-                            <li style="display: flex; gap: 1rem;">
-                                <i class="fa-solid fa-check-circle"
-                                    style="color: var(--success-color); font-size: 1.5rem; flex-shrink: 0;"></i>
-                                <div>
-                                    <strong style="display: block; font-size: 1.1rem; margin-bottom: 0.25rem;">Preserves
-                                        the Truth</strong>
-                                    <span style="color: var(--text-secondary);">We don't hallucinate experience. We
-                                        reframe your existing narrative to highlight exactly what the employer
-                                        needs.</span>
-                                </div>
-                            </li>
-                            <li style="display: flex; gap: 1rem;">
-                                <i class="fa-solid fa-check-circle"
-                                    style="color: var(--success-color); font-size: 1.5rem; flex-shrink: 0;"></i>
-                                <div>
-                                    <strong
-                                        style="display: block; font-size: 1.1rem; margin-bottom: 0.25rem;">All-In-One
-                                        Toolkit</strong>
-                                    <span style="color: var(--text-secondary);">One click gives you a Resume, Cover
-                                        Letter, Interview Prep, and Introduction Emails. Stop juggling 5 different
-                                        subscriptions.</span>
-                                </div>
-                            </li>
-                            <li style="display: flex; gap: 1rem;">
-                                <i class="fa-solid fa-check-circle"
-                                    style="color: var(--success-color); font-size: 1.5rem; flex-shrink: 0;"></i>
-                                <div>
-                                    <strong style="display: block; font-size: 1.1rem; margin-bottom: 0.25rem;">Lightning Fast
-                                        Results</strong>
-                                    <span style="color: var(--text-secondary);">Get a polished resume, cover letter, interview prep, and introduction email draft in under 30 seconds.</span>
-                                </div>
-                            </li>
-                        </ul>
+        <!-- ═══════ FEATURES ═══════ -->
+        <section style="padding: 2rem 0;">
+            <div class="hp-section-head">
+                <h2>Packed with Features</h2>
+                <p>Everything you need to land more interviews, faster.</p>
+            </div>
+            <div class="hp-features">
+                <!-- 1 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
                     </div>
-                    <div
-                        style="background: rgba(var(--primary-color-rgb), 0.05); padding: 3rem; border-radius: 24px; border: 1px solid rgba(var(--primary-color-rgb), 0.2); text-align: center;">
-                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop"
-                            alt="Team collaborating"
-                            style="width: 100%; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                        <h3 style="font-size: 1.25rem; color: var(--primary-color);">Built for Professionals</h3>
-                        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem;">Designed by
-                            hiring managers who know exactly what it takes to get to the top of the pile.</p>
+                    <h3>AI-Powered Tailoring</h3>
+                    <p>Your resume is rewritten to match the job description's exact language, keywords, and
+                        requirements &mdash; while preserving your real experience.</p>
+                </div>
+                <!-- 2 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(139,92,246,0.1); color: #8b5cf6;">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3>Beat the ATS</h3>
+                    <p>Our skill-gap engine identifies missing keywords from the job listing and weaves them naturally
+                        into your bullet points.</p>
+                </div>
+                <!-- 3 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(234,179,8,0.1); color: #eab308;">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <h3>Mock Interview Mode</h3>
+                    <p>Hear 10 tailored questions read aloud by a premium AI voice. Record your answers and get instant
+                        feedback on how to improve.</p>
+                </div>
+                <!-- 4 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(236,72,153,0.1); color: #ec4899;">
+                        <i class="fa-solid fa-newspaper"></i>
+                    </div>
+                    <h3>Company Intel</h3>
+                    <p>Recent news about your target company is surfaced automatically. Insert a mention directly into
+                        your outreach email to stand out.</p>
+                </div>
+                <!-- 5 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">
+                        <i class="fa-solid fa-table-columns"></i>
+                    </div>
+                    <h3>Kanban Tracker</h3>
+                    <p>Drag-and-drop your applications across Tailored, Applied, Interviewing, Offer, and Rejected
+                        columns. Add notes and interview details to each card.</p>
+                </div>
+                <!-- 6 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(20,184,166,0.1); color: #14b8a6;">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3>Application History</h3>
+                    <p>Every resume, cover letter, and email is saved to the cloud. Restore any past application
+                        instantly without re-generating.</p>
+                </div>
+                <!-- 7 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(249,115,22,0.1); color: #f97316;">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3>Design Customization</h3>
+                    <p>Choose from preset themes or fine-tune typography, accent colors, and spacing. Your resume, your
+                        brand.</p>
+                </div>
+                <!-- 8 -->
+                <div class="hp-feat">
+                    <div class="hp-feat-icon" style="background: rgba(99,102,241,0.1); color: #6366f1;">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <h3>Instant PDF Export</h3>
+                    <p>Download flawlessly formatted, print-ready PDFs of your resume and cover letter in one click.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════ WHY WE'RE DIFFERENT ═══════ -->
+        <section class="hp-diff">
+            <div class="hp-section-head">
+                <h2>Why We're Different</h2>
+                <p>Unlike basic resume builders, TailorMeSwiftly is your complete career command center.</p>
+            </div>
+            <div class="hp-diff-grid">
+                <ul class="hp-diff-list">
+                    <li>
+                        <div class="hp-diff-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <strong>Preserves the Truth</strong>
+                            <span>We never hallucinate experience. Your real narrative is reframed to highlight exactly
+                                what the employer needs.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="hp-diff-icon" style="background: rgba(139,92,246,0.1); color: #8b5cf6;">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <strong>All-In-One Toolkit</strong>
+                            <span>Resume, cover letter, interview prep, outreach email, skill-gap analysis, and
+                                application tracking &mdash; no extra subscriptions.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="hp-diff-icon" style="background: rgba(234,179,8,0.1); color: #eab308;">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <strong>Lightning Fast</strong>
+                            <span>Everything generates in under 30 seconds. Spend your time applying, not
+                                waiting.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="hp-diff-icon" style="background: rgba(236,72,153,0.1); color: #ec4899;">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div>
+                            <strong>Free Forever</strong>
+                            <span>No trials, no paywalls, no credit card. Supported by advertising so you never have to
+                                pay.</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="hp-diff-visual">
+                    <div class="hp-visual-row">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <div>
+                            <strong>Tailored Resume</strong>
+                            <span>ATS keywords injected, sections reordered</span>
+                        </div>
+                    </div>
+                    <div class="hp-visual-row">
+                        <i class="fa-solid fa-envelope"></i>
+                        <div>
+                            <strong>Cover Letter</strong>
+                            <span>Personalized to the company and role</span>
+                        </div>
+                    </div>
+                    <div class="hp-visual-row">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <div>
+                            <strong>Mock Interview</strong>
+                            <span>AI voice reads questions, feedback on your answers</span>
+                        </div>
+                    </div>
+                    <div class="hp-visual-row">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <div>
+                            <strong>Outreach Email + Company Intel</strong>
+                            <span>Ready-to-send email with recent news baked in</span>
+                        </div>
+                    </div>
+                    <div class="hp-visual-row">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <div>
+                            <strong>Application Tracker</strong>
+                            <span>Kanban board with notes and interview details</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </section>
+
+        <!-- ═══════ BOTTOM CTA ═══════ -->
+        <section class="hp-bottom-cta">
+            <h2>Ready to Land Your Next Role?</h2>
+            <p>Upload your resume, paste a job description, and let AI do the rest.</p>
+            <a href="login.html" class="btn primary-btn hp-hero-cta" style="font-size: 1.1rem;">
+                <i class="fa-solid fa-rocket"></i> Get Started For Free
+            </a>
+        </section>
+
+    </main>
 
     <!-- PREFERENCES MODAL -->
     <div id="prefs-modal" class="modal">
@@ -250,12 +765,12 @@
                             style="width: 20px; height: 20px; margin-right: 10px; display: inline-block; vertical-align: middle;">
                         Continue with Google
                     </button>
-
                 </div>
 
                 <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-secondary);">
                     By signing in, you agree to our <a href="terms.html" style="color: var(--primary-color);">Terms &
-                        Conditions</a> and <a href="privacy.html" style="color: var(--primary-color);">Privacy Policy</a>.
+                        Conditions</a> and <a href="privacy.html" style="color: var(--primary-color);">Privacy
+                        Policy</a>.
                 </p>
             </div>
         </div>
