@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Notes | TailorMeSwiftly</title>
+    <link rel="stylesheet" href="style.css?v=5">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body data-theme="dark">
+    <!-- Background Elements -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
+                <button id="theme-toggle" class="btn ghost-btn theme-btn" title="Toggle Light/Dark View">
+                    <i class="fa-solid fa-moon"></i> Theme
+                </button>
+            </div>
+        </header>
+
+        <main class="wizard-container glass-panel" style="max-width: 800px; margin: 3rem auto; padding: 2.5rem;">
+
+            <div class="step-header"
+                style="text-align: left; margin-bottom: 2rem; border-bottom: 1px solid var(--panel-border); padding-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                    <i class="fa-solid fa-bullhorn" style="font-size: 2rem; color: var(--accent-color);"></i>
+                    <h2 style="margin: 0;">Release Notes & Updates</h2>
+                </div>
+                <p>Stay up to date with the latest features, enhancements, and bug fixes.</p>
+            </div>
+
+            <div class="updates-list">
+                <!-- Update Item 3.2.0 -->
+                <div class="update-item" style="margin-bottom: 2.5rem;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="margin: 0; font-size: 1.3rem;">v3.2.0 &mdash; Voice, Reliability & Design</h3>
+                        <span class="update-date"
+                            style="font-size: 0.85rem; background: rgba(16,185,129,0.15); color: var(--success-color); padding: 0.3rem 0.8rem; border-radius: 999px; font-weight: 600;">v3.2.0
+                            &bull; Current</span>
+                    </div>
+
+                    <ul
+                        style="margin: 0; padding-left: 1.2rem; color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">
+                        <li style="margin-bottom: 0.8rem;"><strong>ElevenLabs TTS:</strong> Mock interview questions are now read aloud using a premium ElevenLabs AI voice, with browser TTS as a seamless fallback.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Reliable Job URL Fetching:</strong> Pasting a job listing URL now fetches through our own server, replacing the old third-party proxies that frequently failed.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Resume Quick Presets:</strong> Redesigned preset buttons with color-coded accent dots. Switching presets now correctly updates the accent color picker and all related styles.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Use Last Resume:</strong> Returning users can instantly load their previously uploaded resume on Step 1 instead of re-uploading.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Results Page Refresh:</strong> Updated header and background to match the main app&rsquo;s look and feel with gradient background effects.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Improved Skill Chips:</strong> Missing skills on the Gaps step are now much easier to read with higher-contrast colors in both light and dark modes.</li>
+                        <li><strong>Personalized Greeting:</strong> A &ldquo;Hi, [Name]&rdquo; greeting now appears under your avatar across all pages.</li>
+                    </ul>
+                </div>
+
+                <!-- Update Item 3.1.0 -->
+                <div class="update-item" style="margin-bottom: 2.5rem;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="margin: 0; font-size: 1.3rem;">v3.1.0 &mdash; UX Polish & Improvements</h3>
+                        <span class="update-date"
+                            style="font-size: 0.85rem; background: rgba(255,255,255,0.05); color: var(--text-secondary); padding: 0.3rem 0.8rem; border-radius: 999px; font-weight: 600;">v3.1.0</span>
+                    </div>
+
+                    <ul
+                        style="margin: 0; padding-left: 1.2rem; color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">
+                        <li style="margin-bottom: 0.8rem;"><strong>10 Mock Interview Questions:</strong> Increased from 8 to 10 tailored interview questions for more comprehensive preparation.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Improved Text-to-Speech:</strong> More natural voice delivery with optimized rate and pitch for better interview practice.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Dark Resume Preset:</strong> New high-contrast "Dark" theme with black background and white text for maximum readability.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Results Grid Layout:</strong> All 4 outputs (resume, cover letter, mock interview, introduction email) now display in a single row for better overview.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Updated Homepage:</strong> Moved TailorMeSwiftly.com branding above the animation, cleaner header design.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Removed LinkedIn Optimization:</strong> Streamlined feature set to focus on core strengths.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Enhanced Loading Experience:</strong> Improved funny quotes display and removed unnecessary time estimates.</li>
+                        <li><strong>Messaging Refresh:</strong> Updated homepage copy to highlight lightning-fast results.</li>
+                    </ul>
+                </div>
+
+                <!-- Update Item 3.0.0 -->
+                <div class="update-item" style="margin-bottom: 2.5rem;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="margin: 0; font-size: 1.3rem;">v3.0.0 &mdash; Major Update</h3>
+                        <span class="update-date"
+                            style="font-size: 0.85rem; background: rgba(255,255,255,0.05); color: var(--text-secondary); padding: 0.3rem 0.8rem; border-radius: 999px; font-weight: 600;">v3.0.0</span>
+                    </div>
+
+                    <ul
+                        style="margin: 0; padding-left: 1.2rem; color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">
+                        <li style="margin-bottom: 0.8rem;"><strong>Gaps Assistant:</strong> Renamed and refined the skill gap analysis step for a clearer, more focused workflow.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Mock Interview Mode:</strong> Hear questions read aloud with text-to-speech. Practice one question at a time with Next/Previous navigation and AI-powered feedback on your recorded answers.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>On-Demand Generation:</strong> Interview prep and introduction email drafts now generate only when you click their tab, making the initial resume+cover letter tailoring significantly faster.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Application Tracker Fix:</strong> Kanban board now loads your tailored resumes from the cloud. Drag-and-drop status updates persist to your account.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Resume Versions:</strong> All tailored resumes are saved with version names. View and reload any past version from the sidebar.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Saved Jobs:</strong> Bookmark job descriptions in Step 2 and tailor resumes against them later.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Career Profile:</strong> Store a master career history in Preferences and use it as a base for all future tailoring.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Loading Redesign:</strong> Full-screen centered loading overlay with blurred background during generation.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>Preferences Dropdown:</strong> Preferences and sign-out now accessible from a clean dropdown on your profile avatar.</li>
+                        <li><strong>Generation Timeout:</strong> API calls now have timeouts with retry buttons to prevent stuck generation states.</li>
+                    </ul>
+                </div>
+
+                <!-- Update Item 2.1.0 -->
+                <div class="update-item" style="margin-bottom: 2.5rem;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="margin: 0; font-size: 1.3rem;">Missing Skills Analysis Engine</h3>
+                        <span class="update-date"
+                            style="font-size: 0.85rem; background: rgba(255,255,255,0.05); color: var(--text-secondary); padding: 0.3rem 0.8rem; border-radius: 999px; font-weight: 600;">v2.1.0</span>
+                    </div>
+
+                    <ul
+                        style="margin: 0; padding-left: 1.2rem; color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">
+                        <li style="margin-bottom: 0.8rem;"><strong>New Feature:</strong> Added robust Design
+                            Customization engine allowing you to granularly tweak typography, accent colors, and layout
+                            spacing.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>New Feature:</strong> "Target Company" preset logic
+                            extracts the brand colors of your targeted company and injects them instantly into your
+                            resume templates.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>New Feature:</strong> Added automated extraction of
+                            job requirements that are missing from your uploaded resume.</li>
+                        <li style="margin-bottom: 0.8rem;"><strong>AI Co-Pilot Integration:</strong> Select the missing
+                            skills you possess, and our elite generation engine will weave them seamlessly into your new
+                            bullet points.</li>
+                        <li><strong>Bug Fix:</strong> Resolved the routing issue where the Application Tracker blanked
+                            out instead of rendering your kanban board.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; text-align: center;">
+                <a href="app.html" class="btn primary-btn"><i class="fa-solid fa-arrow-left"></i> Back to Builder</a>
+            </div>
+
+        </main>
+
+        <footer class="site-footer">
+            <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+            <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Inline script for basic theme toggling so the page works independently
+        const html = document.documentElement;
+        const body = document.body;
+        const themeBtn = document.getElementById('theme-toggle');
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        body.setAttribute('data-theme', savedTheme);
+        body.className = savedTheme + '-theme';
+
+        themeBtn.addEventListener('click', () => {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            body.setAttribute('data-theme', newTheme);
+            body.className = newTheme + '-theme';
+            localStorage.setItem('theme', newTheme);
+        });
+    </script>
+</body>
+
+</html>

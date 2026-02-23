@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction Email – TailorMeSwiftly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=5">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
+        crossorigin="anonymous"></script>
+    <style>
+        .result-page {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 4rem;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .result-back {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .result-back:hover {
+            color: var(--text-primary);
+        }
+
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .email-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 2rem;
+            line-height: 1.75;
+            font-size: 0.95rem;
+            min-height: 260px;
+            outline: none;
+        }
+
+        .email-card[contenteditable="true"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        .subject-line {
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1.25rem;
+            font-size: 1rem;
+        }
+
+        .tip-box {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 1.25rem;
+            display: flex;
+            gap: 0.65rem;
+            align-items: flex-start;
+        }
+
+        .tip-box i {
+            color: var(--primary-color);
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand"><a href="index.html" style="text-decoration:none;color:inherit;"><i
+                    class="fa-solid fa-clipboard"></i> TailorMeSwiftly</a></div>
+        <div class="nav-actions">
+            <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                <img id="user-avatar" src="" alt="Avatar"
+                    style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
+                    onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+
+                <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                    <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
+                        <i class="fa-solid fa-sliders"></i> Preferences
+                    </button>
+                    <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                        <i class="fa-solid fa-bullhorn"></i> Release Notes
+                    </a>
+                    <button class="dropdown-item theme-btn">
+                        <i class="fa-solid fa-moon"></i> Theme
+                    </button>
+                    <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                    <button class="dropdown-item" id="logout-btn"
+                        onclick="supabaseClient.auth.signOut().then(()=>location.href='index.html')">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="result-page">
+        <div class="result-header">
+            <a href="results.html" class="result-back"><i class="fa-solid fa-arrow-left"></i> All Results</a>
+            <span class="result-title"><i class="fa-solid fa-paper-plane" style="color:#f59e0b;"></i> Introduction Email
+                Draft</span>
+            <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+                <button id="refine-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
+                <button id="regen-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-rotate"></i>
+                    Regenerate</button>
+                <button id="copy-btn" class="btn small-btn primary-btn"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+        </div>
+
+        <div id="email-card" class="email-card" contenteditable="true">
+            <p style="color:var(--text-secondary);text-align:center;padding:3rem 0;">Loading email draft...</p>
+        </div>
+
+        <div class="tip-box">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Tip: Personalise the hiring manager's name and 1 recent company news item before sending. This is a
+                starting draft — make it yours.</span>
+        </div>
+    </div>
+
+    <!-- Refinement Modal -->
+    <div id="refine-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;">
+        <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:20px;padding:2rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+                <h3 style="margin:0;"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--primary-color);margin-right:0.5rem;"></i>Refine Your Email</h3>
+                <button onclick="document.getElementById('refine-modal').style.display='none';" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-secondary);">&times;</button>
+            </div>
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">What would you like to change? Provide specific instructions:</p>
+            <textarea id="refine-input" placeholder="e.g., Make it shorter, Add more personality, Focus on collaboration, Use different tone..." style="width:100%;height:120px;padding:0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.9rem;resize:vertical;"></textarea>
+            <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+                <button onclick="document.getElementById('refine-modal').style.display='none';" class="btn ghost-btn" style="flex:1;">Cancel</button>
+                <button onclick="applyRefinement()" class="btn primary-btn" style="flex:1;"><i class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=5"></script>
+    <script src="results.js?v=5"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+
+        let outputs = loadOutputs();
+        const card = document.getElementById('email-card');
+
+        function renderEmail(text) {
+            if (!text) { card.innerHTML = '<p style="color:var(--text-secondary);">No email draft available.</p>'; return; }
+            card.innerHTML = text.split('\n').map(line => {
+                if (line.startsWith('Subject:')) return `<div class="subject-line">${line}</div>`;
+                return `<p style="margin:0.4rem 0;">${line || '&nbsp;'}</p>`;
+            }).join('');
+        }
+
+        async function generateEmailOnDemand() {
+            card.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Generating your introduction email draft...</p>';
+            const company = outputs?.targetCompany || 'the company';
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: `Write a concise introduction email to the hiring manager at ${company}. Subject line first (prefix "Subject: "). Max 150 words. Warm but professional. Reference 1-2 achievements. End with a low-pressure CTA. Plain text only.` }] },
+                        contents: [{ parts: [{ text: `Resume:\n${outputs?.resumeText}\n\nJob Description:\n${outputs?.jobText}` }] }],
+                        generationConfig: { temperature: 0.8 }
+                    }
+                });
+                if (error) throw new Error(error.message);
+                const text = data.candidates[0].content.parts[0].text.trim();
+                outputs.emailText = text;
+                sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+                renderEmail(text);
+            } catch (e) {
+                card.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed to generate email: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateEmailOnDemand()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        if (!outputs) {
+            showSessionExpired(document.querySelector('.result-page'));
+        } else if (!outputs.emailText) {
+            card.innerHTML = `<div style="text-align:center;padding:3rem;"><p style="color:var(--text-secondary);margin-bottom:1.5rem;">Your introduction email hasn't been generated yet.</p><button class="btn primary-btn" onclick="generateEmailOnDemand()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Email</button></div>`;
+        } else {
+            renderEmail(outputs.emailText);
+        }
+
+        document.getElementById('copy-btn').addEventListener('click', e => copyToClipboard(card.innerText, e.currentTarget));
+
+        document.getElementById('refine-btn').addEventListener('click', () => {
+            document.getElementById('refine-modal').style.display = 'flex';
+            document.getElementById('refine-input').focus();
+        });
+
+        async function applyRefinement() {
+            const refinement = document.getElementById('refine-input').value.trim();
+            if (!refinement) {
+                alert('Please provide refinement instructions.');
+                return;
+            }
+
+            document.getElementById('refine-modal').style.display = 'none';
+            card.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Refining your email...</p>';
+
+            const company = outputs?.targetCompany || 'the company';
+            const systemPrompt = `You are an expert introduction email writer. Apply the following refinement to the email:
+User refinement: "${refinement}"
+Write a concise introduction email to the hiring manager at ${company}. Subject line first (prefix "Subject: "). Max 150 words. Warm but professional. Reference 1-2 achievements. End with a low-pressure CTA. Plain text only.`;
+
+            const userPrompt = `Current Email:\n${outputs?.emailText}\n\nResume:\n${outputs?.resumeText}\n\nJob Description:\n${outputs?.jobText}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.8 }
+                    }
+                });
+                if (error) throw new Error(error.message);
+                const text = data.candidates[0].content.parts[0].text.trim();
+                outputs.emailText = text;
+                sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+                renderEmail(text);
+            } catch (e) {
+                card.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed to refine: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="applyRefinement()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        document.getElementById('regen-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('regen-btn');
+            btn.disabled = true;
+            outputs.emailText = null;
+            sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+            await generateEmailOnDemand();
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Regenerate';
+        });
+    </script>
+</body>
+
+</html>

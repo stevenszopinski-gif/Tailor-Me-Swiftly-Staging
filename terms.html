@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and Conditions - TailorMeSwiftly.com</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=4">
+
+    <style>
+        .legal-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(var(--surface-color-rgb), 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(var(--border-color-rgb), 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .legal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .legal-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .legal-content h2 {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .legal-content p,
+        .legal-content li {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .legal-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Essential Background Shapes for Visual Consistency */
+        .glass-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+        }
+
+        .shape-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-background">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="legal-container">
+            <div class="legal-header">
+                <h1>Terms and Conditions</h1>
+                <p>Last Updated: February 2026</p>
+            </div>
+
+            <div class="legal-content">
+                <h2>1. Acceptance of Terms</h2>
+                <p>By accessing and using TailorMeSwiftly.com (the "Service"), you accept and agree to be bound by the
+                    terms and provision of this agreement.</p>
+
+                <h2>2. Free Use and Monetization Disclosure</h2>
+                <p><strong>This Service is provided completely free of charge to users.</strong> We do not charge
+                    subscription fees or require payment to generate resumes or cover letters.</p>
+                <p>In order to maintain the Service and cover operational costs (including AI API usage and hosting),
+                    <strong>we primarily generate revenue through third-party advertising</strong> displayed on the
+                    site.
+                </p>
+
+                <h2>3. Description of Service</h2>
+                <p>TailorMeSwiftly.com provides an AI-powered tool designed to assist users in tailoring their existing
+                    resumes and cover letters to specific job descriptions. The output generated is intended as a
+                    helpful draft and should be reviewed and verified by the user before submission to any employer.</p>
+
+                <h2>4. Data Privacy and AI Processing</h2>
+                <p>To provide this Service, your provided resume text and job description data are transmitted to and
+                    processed by third-party AI providers (such as Google Gemini). By utilizing the Service, you consent
+                    to this processing.</p>
+                <ul>
+                    <li>We process your data transiently for the sole purpose of generating your requested documents.
+                    </li>
+                    <li>We do not persistently store your personal resume data on our servers after your session ends.
+                    </li>
+                    <li>Please refer to the respective privacy policies of our AI providers for details on their data
+                        handling practices.</li>
+                </ul>
+
+                <h2>5. User Responsibilities</h2>
+                <p>You agree not to use the Service for any unlawful purpose. You are solely responsible for the content
+                    you input and the accuracy of the final documents you choose to use in your job applications.</p>
+
+                <h2>6. Limitation of Liability</h2>
+                <p>TailorMeSwiftly.com is provided on an "as is" and "as available" basis. We make no guarantees that
+                    the generated content will secure employment or guarantee interviews. In no event shall
+                    TailorMeSwiftly.com or its operators be liable for any direct, indirect, incidental, consequential,
+                    or punitive damages arising from your use of the Service.</p>
+
+                <h2>7. Changes to Terms</h2>
+                <p>We reserve the right to modify these terms at any time. Your continued use of the Service following
+                    any changes indicates your acceptance of the new Terms and Conditions.</p>
+
+                <a href="index.html" class="back-link">&larr; Return to TailorMeSwiftly.com</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
