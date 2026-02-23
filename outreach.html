@@ -409,10 +409,25 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
             content.innerHTML = '<div class="intel-loading"><i class="fa-solid fa-spinner fa-spin"></i> Gathering recent news &amp; insights...</div>';
             refreshBtn.disabled = true;
 
+            // Wait for supabaseClient if not ready yet
+            if (!window.supabaseClient) {
+                await new Promise(resolve => {
+                    let tries = 0;
+                    const poll = setInterval(() => {
+                        if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
+                    }, 100);
+                });
+            }
+            if (!window.supabaseClient) {
+                content.innerHTML = '<div class="intel-loading" style="color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Sign in to load company intel.</div>';
+                refreshBtn.disabled = false;
+                return;
+            }
+
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
                     body: {
-                        model: 'gemini-2.5-flash',
+                        model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: `You are a company research assistant. Return ONLY a JSON array of 4-5 objects, each with "headline" (string, 8-15 words), "snippet" (string, 1 sentence of context a job applicant could reference in an outreach email), and "search_query" (string, a short Google search query to find the original article about this news item). Focus on recent news, product launches, funding, leadership changes, partnerships, awards, or notable company culture initiatives. If you don't have recent info, provide well-known facts about the company that would be useful conversation starters. No markdown, no explanation — ONLY the JSON array.` }] },
                         contents: [{ parts: [{ text: `Company: ${companyName}\nFind recent notable news, achievements, or developments about this company that a job applicant could reference in an introduction email.` }] }],
                         generationConfig: { temperature: 0.7 }
@@ -429,7 +444,8 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
                 console.error('Intel fetch failed:', e);
                 content.innerHTML = `<div class="intel-loading" style="color:var(--text-secondary);">
                     <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Couldn't load company intel.
-                    <button class="btn small-btn ghost-btn" style="margin-left:0.5rem;font-size:0.75rem;" onclick="fetchCompanyIntel()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                    <span style="font-size:0.75rem;display:block;margin-top:0.3rem;opacity:0.6;">${escapeHtml(e.message || 'Unknown error')}</span>
+                    <button class="btn small-btn ghost-btn" style="margin-top:0.5rem;font-size:0.75rem;" onclick="fetchCompanyIntel()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 </div>`;
             } finally {
                 refreshBtn.disabled = false;
