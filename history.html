@@ -394,20 +394,15 @@
         let draggedCard = null;
         let draggedCardId = null;
 
+        function showNotSignedIn() {
+            kanbanContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Not Signed In</h2><p>Please sign in to view your applications.</p><a href="login.html" class="btn primary-btn">Sign In</a></div>';
+        }
+
         // ── Data Loading ──
-        async function loadHistory() {
-            if (!window.supabaseClient) {
-                kanbanContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Not Signed In</h2><p>Please sign in to view your applications.</p><a href="login.html" class="btn primary-btn">Sign In</a></div>';
-                return;
-            }
+        async function loadHistory(user) {
+            if (!user) { showNotSignedIn(); return; }
 
             try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) {
-                    kanbanContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Not Signed In</h2><p>Please sign in to view your applications.</p><a href="login.html" class="btn primary-btn">Sign In</a></div>';
-                    return;
-                }
-                const user = session.user;
 
                 const { data, error } = await window.supabaseClient
                     .from('generations')
@@ -425,7 +420,7 @@
                 renderKanban(data);
             } catch (e) {
                 console.error('Load history error:', e);
-                kanbanContent.innerHTML = `<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Error Loading Applications</h2><p>${e.message}</p><button class="btn primary-btn" onclick="loadHistory()"><i class="fa-solid fa-rotate-right"></i> Retry</button></div>`;
+                kanbanContent.innerHTML = `<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Error Loading Applications</h2><p>${e.message}</p><button class="btn primary-btn" onclick="location.reload()"><i class="fa-solid fa-rotate-right"></i> Retry</button></div>`;
             }
         }
 
@@ -766,26 +761,35 @@
 
         // ── Auth Bootstrap ──
         (async function waitAndLoad() {
+            // 1. Wait for supabaseClient to be created by auth.js
             if (!window.supabaseClient) {
                 await new Promise(resolve => {
                     let tries = 0;
                     const poll = setInterval(() => {
-                        if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
+                        if (window.supabaseClient || ++tries > 80) { clearInterval(poll); resolve(); }
                     }, 100);
                 });
             }
-            if (!window.supabaseClient) { loadHistory(); return; }
+            if (!window.supabaseClient) { showNotSignedIn(); return; }
 
+            // 2. Try cached session first
             const { data: { session } } = await window.supabaseClient.auth.getSession();
             if (session) {
-                loadHistory();
-            } else {
-                const { data: { subscription } } = window.supabaseClient.auth.onAuthStateChange((event, sess) => {
-                    subscription.unsubscribe();
-                    loadHistory();
-                });
-                setTimeout(() => { subscription.unsubscribe(); loadHistory(); }, 3000);
+                loadHistory(session.user);
+                return;
             }
+
+            // 3. Session not hydrated yet — wait for auth state change
+            const { data: { subscription } } = window.supabaseClient.auth.onAuthStateChange((event, sess) => {
+                subscription.unsubscribe();
+                if (sess) {
+                    loadHistory(sess.user);
+                } else {
+                    showNotSignedIn();
+                }
+            });
+            // Safety timeout — if no auth event fires within 4s, show not signed in
+            setTimeout(() => { subscription.unsubscribe(); showNotSignedIn(); }, 4000);
         })();
     </script>
 </body>
