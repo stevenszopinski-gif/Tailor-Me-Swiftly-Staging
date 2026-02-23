@@ -175,20 +175,34 @@ function downloadAsPDF(el, filename) {
 // ───────────────────────────────────────────────
 // SUPABASE PERSISTENCE (generations table)
 // ───────────────────────────────────────────────
-async function saveGenerationToSupabase(outputs) {
+async function waitForSupabaseAuth() {
+    // Wait for client
     if (!window.supabaseClient) {
-        // Poll until client is ready (up to 5s)
-        let tries = 0;
         await new Promise(resolve => {
+            let tries = 0;
             const poll = setInterval(() => {
                 if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
             }, 100);
         });
         if (!window.supabaseClient) return null;
     }
+    // Wait for session to be restored
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (session) return session.user;
+    // Session may still be loading — wait for auth state change
+    return new Promise(resolve => {
+        const { data: { subscription } } = window.supabaseClient.auth.onAuthStateChange((event, sess) => {
+            subscription.unsubscribe();
+            resolve(sess?.user || null);
+        });
+        setTimeout(() => { subscription.unsubscribe(); resolve(null); }, 3000);
+    });
+}
+
+async function saveGenerationToSupabase(outputs) {
+    const user = await waitForSupabaseAuth();
+    if (!user) return null;
     try {
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
-        if (!user) return null;
 
         const row = {
             user_id: user.id,
@@ -233,15 +247,8 @@ async function saveGenerationToSupabase(outputs) {
 
 async function updateGenerationField(generationId, fields) {
     if (!generationId) return;
-    if (!window.supabaseClient) {
-        let tries = 0;
-        await new Promise(resolve => {
-            const poll = setInterval(() => {
-                if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
-            }, 100);
-        });
-        if (!window.supabaseClient) return;
-    }
+    const user = await waitForSupabaseAuth();
+    if (!user) return;
     try {
         await window.supabaseClient
             .from('generations')

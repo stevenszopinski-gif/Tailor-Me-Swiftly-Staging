@@ -373,14 +373,32 @@
             }
         }
 
-        // Wait for Supabase client to initialize, then load history
-        (function waitAndLoad() {
-            if (window.supabaseClient) { loadHistory(); return; }
-            let tries = 0;
-            const poll = setInterval(() => {
-                if (window.supabaseClient) { clearInterval(poll); loadHistory(); }
-                else if (++tries > 50) { clearInterval(poll); loadHistory(); } // 5s max
-            }, 100);
+        // Wait for Supabase client + auth session to be ready, then load
+        (async function waitAndLoad() {
+            // 1. Wait for supabaseClient to exist
+            if (!window.supabaseClient) {
+                await new Promise(resolve => {
+                    let tries = 0;
+                    const poll = setInterval(() => {
+                        if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
+                    }, 100);
+                });
+            }
+            if (!window.supabaseClient) { loadHistory(); return; }
+
+            // 2. Wait for auth session to be restored from storage
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (session) {
+                loadHistory();
+            } else {
+                // Session may still be loading — listen for auth state change
+                const { data: { subscription } } = window.supabaseClient.auth.onAuthStateChange((event, sess) => {
+                    subscription.unsubscribe();
+                    loadHistory();
+                });
+                // Fallback: if no event fires within 3s, load anyway
+                setTimeout(() => { subscription.unsubscribe(); loadHistory(); }, 3000);
+            }
         })();
     </script>
 </body>
