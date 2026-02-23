@@ -889,7 +889,7 @@ textarea:focus {
     border: 1px solid var(--panel-border);
     border-radius: 12px;
     padding: 0.4rem;
-    min-width: 190px;
+    min-width: 220px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     z-index: 200;
     animation: modalFade 0.15s ease-out;

@@ -402,11 +402,12 @@
             }
 
             try {
-                const { data: { user } } = await window.supabaseClient.auth.getUser();
-                if (!user) {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
                     kanbanContent.innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Not Signed In</h2><p>Please sign in to view your applications.</p><a href="login.html" class="btn primary-btn">Sign In</a></div>';
                     return;
                 }
+                const user = session.user;
 
                 const { data, error } = await window.supabaseClient
                     .from('generations')
