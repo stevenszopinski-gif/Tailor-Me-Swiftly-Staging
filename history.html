@@ -373,8 +373,15 @@
             }
         }
 
-        // Wait for auth to initialize, then load history
-        setTimeout(loadHistory, 500);
+        // Wait for Supabase client to initialize, then load history
+        (function waitAndLoad() {
+            if (window.supabaseClient) { loadHistory(); return; }
+            let tries = 0;
+            const poll = setInterval(() => {
+                if (window.supabaseClient) { clearInterval(poll); loadHistory(); }
+                else if (++tries > 50) { clearInterval(poll); loadHistory(); } // 5s max
+            }, 100);
+        })();
     </script>
 </body>
 

@@ -236,7 +236,16 @@ async function updateGenerationField(generationId, fields) {
 
 // Shared auth header update (show user avatar if logged in)
 async function initResultAuth() {
-    if (!window.supabaseClient) return;
+    if (!window.supabaseClient) {
+        // Poll until client is ready (up to 5s)
+        let tries = 0;
+        await new Promise(resolve => {
+            const poll = setInterval(() => {
+                if (window.supabaseClient || ++tries > 50) { clearInterval(poll); resolve(); }
+            }, 100);
+        });
+        if (!window.supabaseClient) return;
+    }
     const { data: { session } } = await supabaseClient.auth.getSession();
     const userProfile = document.getElementById('user-profile');
     const userAvatar = document.getElementById('user-avatar');
