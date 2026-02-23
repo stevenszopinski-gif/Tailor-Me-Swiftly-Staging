@@ -122,7 +122,7 @@ function getSectionDragAfterElement(container, y) {
 }
 
 function initResultTheme() {
-    const saved = localStorage.getItem(THEME_STORAGE) || 'dark';
+    const saved = localStorage.getItem(THEME_STORAGE) || 'light';
     document.body.setAttribute('data-theme', saved);
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.innerHTML = saved === 'dark'

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body data-theme="dark">
+<body data-theme="light">
     <!-- Background Elements -->
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
@@ -178,7 +178,7 @@
         const themeBtn = document.getElementById('theme-toggle');
 
         // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const savedTheme = localStorage.getItem('theme') || 'light';
         html.setAttribute('data-theme', savedTheme);
         body.setAttribute('data-theme', savedTheme);
         body.className = savedTheme + '-theme';

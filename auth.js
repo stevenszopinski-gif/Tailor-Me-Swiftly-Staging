@@ -231,7 +231,7 @@
     // --- Global Theme Logic --- //
     window.initTheme = function() {
         const THEME_STORAGE = 'ats_theme_preference';
-        const savedTheme = localStorage.getItem(THEME_STORAGE) || 'dark';
+        const savedTheme = localStorage.getItem(THEME_STORAGE) || 'light';
 
         document.body.setAttribute('data-theme', savedTheme);
 
