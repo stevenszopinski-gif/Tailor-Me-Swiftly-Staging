@@ -183,6 +183,8 @@
 
             const systemPrompt = `You are an elite Executive Career Coach and Expert ATS Cover Letter Writer.
 Write a 3-4 paragraph cover letter connecting 2-3 achievements to the Job Description.
+ALWAYS start with a professional greeting (e.g. "Dear Hiring Manager," or "Dear [Company] Recruiting Team,").
+ALWAYS end with a professional closing salutation (e.g. "Sincerely," or "Best regards,") followed by the applicant's full name.
 Clean semantic HTML only. No markdown formatting.`;
 
             const userPrompt = `Resume:\n${outputs?.resumeText}\n\nJob Description:\n${outputs?.jobText}`;
@@ -256,7 +258,8 @@ Clean semantic HTML only. No markdown formatting.`;
             const systemPrompt = `You are an elite Executive Career Coach and Expert ATS Cover Letter Writer.
 The user has provided the following refinement request. Apply these changes to the existing cover letter.
 User refinement: "${refinement}"
-Write a 3-4 paragraph cover letter. Clean semantic HTML only. No markdown formatting.`;
+Write a 3-4 paragraph cover letter. ALWAYS start with a professional greeting (e.g. "Dear Hiring Manager,") and ALWAYS end with a professional closing salutation (e.g. "Sincerely,") followed by the applicant's full name.
+Clean semantic HTML only. No markdown formatting.`;
 
             const userPrompt = `Current Cover Letter:\n${outputs?.coverHtml}\n\nResume:\n${outputs?.resumeText}\n\nJob Description:\n${outputs?.jobText}`;
 
