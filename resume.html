@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Your Resume – TailorMeSwiftly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Add html-docx-js for DOCX export -->
+    <script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.min.js"></script>
+    <style>
+        .result-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 4rem;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .result-back {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .result-back:hover {
+            color: var(--text-primary);
+        }
+
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .template-switcher {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .template-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-secondary);
+            border-radius: 999px;
+            padding: 0.3rem 0.85rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .template-btn:hover,
+        .template-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
+        .word-bar {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 0.4rem 0;
+        }
+
+        .resume-output {
+            background: #fff;
+            color: #111;
+            border-radius: 8px;
+            padding: 2.5rem;
+            min-height: 400px;
+            outline: none;
+            line-height: 1.65;
+        }
+
+        [data-theme="dark"] .resume-output {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-primary);
+            border: 1px solid var(--panel-border);
+        }
+
+        /* LinkedIn Modal */
+        .linkedin-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .linkedin-modal.visible {
+            display: flex;
+        }
+
+        .linkedin-modal-inner {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 560px;
+            width: 90%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .linkedin-output {
+            flex: 1;
+            overflow-y: auto;
+            line-height: 1.65;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* Workspace Grid for Customizer */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .design-sidebar {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .design-group {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        .design-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .design-label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .design-control {
+            margin-bottom: 1rem;
+        }
+
+        /* Form Controls */
+        .custom-select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .custom-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .color-picker-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .color-picker-label {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .color-picker-input {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: none;
+        }
+
+        .color-picker-input::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker-input::-webkit-color-swatch {
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+        }
+
+        .spacing-slider {
+            width: 100%;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .reset-design-btn {
+            width: 100%;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .workspace-grid { gap: 1.25rem; }
+            .design-sidebar { position: static; }
+        }
+        @media (max-width: 480px) {
+            .result-page { padding: 1rem 1rem 3rem; }
+            .result-header { flex-direction: column; gap: 0.5rem; }
+            .result-header > div { width: 100%; justify-content: center; }
+            .result-header .btn { min-height: 48px; flex: 1; }
+            .design-sidebar { padding: 1rem; }
+            .design-group { margin-bottom: 1rem; padding-bottom: 1rem; }
+            .template-switcher { gap: 0.35rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+    <header class="app-header">
+        <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+            <h1>TailorMeSwiftly.com</h1>
+        </div>
+        <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
+            <div id="user-profile" class="user-profile"
+                style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
+                <img id="user-avatar" src="" alt="Profile"
+                    style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
+                    onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                    <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
+                        <i class="fa-solid fa-sliders"></i> Preferences
+                    </button>
+                    <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-bullhorn"></i> Release Notes
+                    </a>
+                    <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                        <i class="fa-solid fa-table-columns"></i> Application Tracker
+                    </a>
+                    <button class="dropdown-item theme-btn">
+                        <i class="fa-solid fa-moon"></i> Theme
+                    </button>
+                    <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                    <button class="dropdown-item" id="logout-btn">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    </div> <!-- /app-container -->
+
+    <div class="result-page">
+        <h1 class="result-title" style="text-align:center;margin:0 0 1.25rem;font-size:1.6rem;"><i class="fa-solid fa-file-lines" style="color:var(--primary-color);margin-right:0.5rem;"></i>Your Resume</h1>
+        <div class="result-header">
+            <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+                <button id="refine-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
+                <button id="copy-btn" class="btn small-btn ghost-btn"><i class="fa-regular fa-copy"></i> Copy</button>
+                <button id="download-txt-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-file-lines"></i>
+                    TXT</button>
+                <button id="download-docx-btn" class="btn small-btn ghost-btn"
+                    style="color: #2563eb; border-color: rgba(37, 99, 235, 0.2);"><i class="fa-solid fa-file-word"></i>
+                    DOCX</button>
+                <button id="download-btn" class="btn small-btn"
+                    style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-color:#6366f1;"><i
+                        class="fa-solid fa-file-pdf"></i> PDF</button>
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <!-- Sidebar -->
+            <aside class="design-sidebar">
+                <div class="design-group">
+                    <span class="design-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Quick Presets</span>
+                    <div class="template-switcher" id="template-switcher">
+                        <button class="template-btn active" data-theme="theme-executive">Executive</button>
+                        <button class="template-btn" data-theme="theme-creative">Creative</button>
+                        <button class="template-btn" data-theme="theme-company" id="company-preset-btn"
+                            style="border: 1px solid var(--primary-color); color: var(--text-primary);"><i
+                                class="fa-solid fa-building" style="margin-right: 4px; color: var(--primary-color);"></i> <span id="company-preset-label">Company</span></button>
+                    </div>
+                </div>
+
+                <div class="design-group">
+                    <span class="design-label"><i class="fa-solid fa-font"></i> Typography</span>
+                    <div class="design-control">
+                        <select id="font-select" class="custom-select">
+                            <option value="'Georgia', 'Times New Roman', serif">Georgia (Classic)</option>
+                            <option value="'Lora', 'Georgia', serif">Lora (Elegant)</option>
+                            <option value="'Outfit', 'Segoe UI', sans-serif">Outfit (Modern)</option>
+                            <option value="'Inter', 'Helvetica Neue', sans-serif">Inter (Clean)</option>
+                            <option value="'Roboto', 'Arial', sans-serif">Roboto (Tech)</option>
+                            <option value="'Courier New', Courier, monospace">Courier (Mono)</option>
+                            <option value="'Garamond', serif">Garamond (Refined)</option>
+                            <option value="'Palatino', serif">Palatino (Professional)</option>
+                            <option value="'Trebuchet MS', sans-serif">Trebuchet (Modern)</option>
+                            <option value="'Verdana', sans-serif">Verdana (Clear)</option>
+                            <option value="'Calibri', sans-serif">Calibri (Business)</option>
+                            <option value="'Comic Sans MS', cursive">Comic Sans (Casual)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="design-group">
+                    <span class="design-label"><i class="fa-solid fa-palette"></i> Colors</span>
+                    <div class="color-picker-group">
+                        <span class="color-picker-label">Accent Color</span>
+                        <input type="color" id="color-accent" class="color-picker-input" value="#c9a84c">
+                    </div>
+                    <input type="color" id="color-text" class="color-picker-input" value="#333333" hidden>
+                </div>
+
+                <div class="design-group">
+                    <span class="design-label"><i class="fa-solid fa-text-height"></i> Spacing</span>
+                    <div class="design-control">
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.4rem;">
+                            <span>Compact</span>
+                            <span>Relaxed</span>
+                        </div>
+                        <input type="range" id="spacing-slider" class="spacing-slider" min="1.3" max="2.0" step="0.1"
+                            value="1.65">
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="workspace-main">
+                <div class="action-bar" style="justify-content: flex-end;">
+                    <div class="word-bar">
+                        <span id="word-count"><i class="fa-solid fa-align-left"></i> 0 words</span>
+                        <span id="page-est"><i class="fa-regular fa-file"></i> ~1 page</span>
+                    </div>
+                </div>
+
+                <div id="resume-output" class="resume-output rich-output-area theme-executive" contenteditable="true">
+                    <p style="color:var(--text-secondary);text-align:center;padding:3rem 0;">Loading your resume...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refinement Modal -->
+    <div id="refine-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;">
+        <div style="background:var(--bg-color, #1a1a2e);border:1px solid var(--panel-border);border-radius:20px;padding:2rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+                <h3 style="margin:0;"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--primary-color);margin-right:0.5rem;"></i>Refine Your Resume</h3>
+                <button onclick="document.getElementById('refine-modal').style.display='none';" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-secondary);">&times;</button>
+            </div>
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">What would you like to change? Provide specific instructions:</p>
+            <textarea id="refine-input" placeholder="e.g., Make it more concise, Add more metrics, Emphasize leadership, Remove technical jargon..." style="width:100%;height:120px;padding:0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.9rem;resize:vertical;"></textarea>
+            <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+                <button onclick="document.getElementById('refine-modal').style.display='none';" class="btn ghost-btn" style="flex:1;">Cancel</button>
+                <button onclick="applyRefinement()" class="btn primary-btn" style="flex:1;"><i class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=6"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        const ALL_THEMES = ['theme-executive', 'theme-modern-tech', 'theme-creative', 'theme-minimal', 'theme-bold', 'theme-warm', 'theme-sharp', 'theme-dark'];
+        const resumeEl = document.getElementById('resume-output');
+
+        initResultTheme();
+        initResultAuth();
+
+        const outputs = loadOutputs();
+
+        // Set company name on the Target preset button
+        if (outputs?.targetCompany) {
+            const label = document.getElementById('company-preset-label');
+            if (label) label.textContent = outputs.targetCompany;
+        }
+
+        if (!outputs || !outputs.resumeHtml) {
+            showSessionExpired(document.querySelector('.result-page'));
+        } else {
+            resumeEl.innerHTML = outputs.resumeHtml;
+            document.title = `Resume${outputs.applicantName ? ' – ' + outputs.applicantName : ''} – TailorMeSwiftly`;
+            updateWordCount();
+
+            // Initialize drag and drop section reordering
+            initDraggableResume(resumeEl);
+
+            // Load saved custom design preferences if they exist
+            loadDesignPreferences();
+        }
+
+        // ── DESIGN CUSTOMIZER LOGIC ──
+        const fontSelect = document.getElementById('font-select');
+        const colorAccent = document.getElementById('color-accent');
+        const colorText = document.getElementById('color-text');
+        const spacingSlider = document.getElementById('spacing-slider');
+
+        // Function to apply a specific CSS variable to the resume element
+        function applyDesignVariable(varName, value) {
+            resumeEl.style.setProperty(varName, value);
+            saveDesignPreferences();
+        }
+
+        // Event Listeners for granular controls
+        fontSelect.addEventListener('change', (e) => applyDesignVariable('--r-font-family', e.target.value));
+        colorAccent.addEventListener('input', (e) => {
+            const val = e.target.value;
+            resumeEl.style.setProperty('--r-accent-color', val);
+            resumeEl.style.setProperty('--r-h2-color', val);
+            resumeEl.style.setProperty('--r-h1-border', `3px solid ${val}`);
+            resumeEl.style.setProperty('--r-h2-border', `1px solid ${val}`);
+            saveDesignPreferences();
+        });
+        colorText.addEventListener('input', (e) => applyDesignVariable('--r-text-color', e.target.value));
+        spacingSlider.addEventListener('input', (e) => applyDesignVariable('--r-spacing', e.target.value));
+
+        // Function to save current manual preferences to localStorage
+        function saveDesignPreferences() {
+            const prefs = {
+                font: fontSelect.value,
+                accent: colorAccent.value,
+                text: colorText.value,
+                spacing: spacingSlider.value
+            };
+            localStorage.setItem('resumeDesignPrefs', JSON.stringify(prefs));
+        }
+
+        // Function to load saved preferences on init
+        function loadDesignPreferences() {
+            const saved = localStorage.getItem('resumeDesignPrefs');
+            if (saved) {
+                try {
+                    const prefs = JSON.parse(saved);
+                    if (prefs.font) { fontSelect.value = prefs.font; resumeEl.style.setProperty('--r-font-family', prefs.font); }
+                    if (prefs.accent) { colorAccent.value = prefs.accent; resumeEl.style.setProperty('--r-accent-color', prefs.accent); }
+                    if (prefs.text) { colorText.value = prefs.text; resumeEl.style.setProperty('--r-text-color', prefs.text); }
+                    if (prefs.spacing) { spacingSlider.value = prefs.spacing; resumeEl.style.setProperty('--r-spacing', prefs.spacing); }
+
+                    // Unselect preset buttons since we are using custom specs
+                    document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+                } catch (e) { }
+            }
+        }
+
+        // Helper to extract computed variable from the stylesheet based on a class
+        function extractPresetVariables(className) {
+            // Create a temporary hidden element to sniff the applied CSS variables of the preset class
+            const temp = document.createElement('div');
+            temp.className = `resume-output rich-output-area ${className}`;
+            temp.style.display = 'none';
+            document.body.appendChild(temp);
+
+            const styles = window.getComputedStyle(temp);
+            const rFont = styles.getPropertyValue('--r-font-family').trim();
+
+            // Format colors to hex for the inputs
+            const rgbToHex = (rgb) => {
+                if (!rgb || !rgb.startsWith('rgb')) return '#000000';
+                const arr = rgb.match(/\d+/g);
+                if (!arr || arr.length < 3) return '#000000';
+                return "#" + ((1 << 24) + (parseInt(arr[0]) << 16) + (parseInt(arr[1]) << 8) + parseInt(arr[2])).toString(16).slice(1);
+            };
+
+            const payload = {
+                font: rFont.includes('Outfit') ? "'Outfit', 'Segoe UI', sans-serif" :
+                    rFont.includes('Georgia') ? "'Georgia', 'Times New Roman', serif" :
+                        rFont.includes('Lora') ? "'Lora', 'Georgia', serif" :
+                            rFont.includes('Helvetica') ? "'Inter', 'Helvetica Neue', sans-serif" :
+                                rFont.includes('Courier') ? "'Courier New', Courier, monospace" :
+                                    "'Georgia', 'Times New Roman', serif",
+                accent: rgbToHex(styles.getPropertyValue('--r-accent-color')),
+                text: rgbToHex(styles.getPropertyValue('--r-text-color')),
+                h2Color: rgbToHex(styles.getPropertyValue('--r-h2-color')),
+                h1Border: styles.getPropertyValue('--r-h1-border').trim(),
+                h2Border: styles.getPropertyValue('--r-h2-border').trim(),
+                spacing: '1.65'
+            };
+
+            document.body.removeChild(temp);
+            return payload;
+        }
+
+        // Quick Preset Switcher mapping
+        document.querySelectorAll('.template-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                let theme = btn.dataset.theme;
+
+                // Set active class
+                document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Apply class to element so it picks up the specific border/formatting quirks (like tech transforms)
+                let cssClass = theme === 'theme-company' ? 'theme-minimal' : theme;
+                resumeEl.className = `resume-output rich-output-area ${cssClass}`;
+
+                let presetValues;
+                if (theme === 'theme-company') {
+                    // Extract dynamic company brand color or fallback
+                    const companyHex = outputs.companyPrimaryColor || '#1a1a2e';
+                    presetValues = {
+                        font: "'Inter', 'Helvetica Neue', sans-serif",
+                        accent: companyHex,
+                        bg: '#ffffff',
+                        text: '#111111',
+                        h2Color: companyHex,
+                        h1Border: `3px solid ${companyHex}`,
+                        h2Border: `1px solid ${companyHex}`,
+                        spacing: '1.65'
+                    };
+                } else {
+                    // Get the computed base variables for this theme
+                    presetValues = extractPresetVariables(theme);
+                }
+
+                // Clear all previous inline style overrides so the CSS class takes full effect
+                resumeEl.style.cssText = '';
+
+                // Company preset needs inline overrides since it uses dynamic brand colors
+                if (theme === 'theme-company') {
+                    resumeEl.style.setProperty('--r-font-family', presetValues.font);
+                    resumeEl.style.setProperty('--r-accent-color', presetValues.accent);
+                    resumeEl.style.setProperty('--r-text-color', presetValues.text);
+                    resumeEl.style.setProperty('--r-h2-color', presetValues.h2Color);
+                    resumeEl.style.setProperty('--r-h1-border', presetValues.h1Border);
+                    resumeEl.style.setProperty('--r-h2-border', presetValues.h2Border);
+                }
+
+                // Update the sidebar controls to reflect the preset (display only)
+                fontSelect.value = presetValues.font;
+                colorAccent.value = presetValues.accent;
+                colorText.value = presetValues.text;
+                spacingSlider.value = presetValues.spacing;
+
+                saveDesignPreferences();
+            });
+        });
+
+        // Copy
+        document.getElementById('copy-btn').addEventListener('click', e => copyToClipboard(resumeEl.innerText, e.currentTarget));
+
+        // Download PDF
+        document.getElementById('download-btn').addEventListener('click', () => {
+            const name = (outputs?.applicantName || 'Applicant').replace(/\s+/g, '_');
+            const co = (outputs?.targetCompany || 'Company').replace(/\s+/g, '_');
+            downloadAsPDF(resumeEl, `${name}_${co}_Resume.pdf`);
+        });
+
+        // Download DOCX
+        document.getElementById('download-docx-btn').addEventListener('click', () => {
+            const name = (outputs?.applicantName || 'Applicant').replace(/\s+/g, '_');
+            const co = (outputs?.targetCompany || 'Company').replace(/\s+/g, '_');
+            const filename = `${name}_${co}_Resume.docx`;
+
+            // Compute current active variables from the visual DOM
+            const styles = window.getComputedStyle(resumeEl);
+            const activeFont = styles.getPropertyValue('--r-font-family').trim() || "'Georgia', serif";
+            const activeAccent = styles.getPropertyValue('--r-accent-color').trim() || "#c9a84c";
+            const activeBg = styles.getPropertyValue('--r-bg-color').trim() || "#fff";
+            const activeText = styles.getPropertyValue('--r-text-color').trim() || "#1a1a2e";
+
+            // DOCX parser (html-docx-js) has limited CSS variable support. We need to 
+            // aggressively inline these properties to ensure they survive the conversion.
+            const inlineResumeHTML = resumeEl.innerHTML
+                .replace(/<h1(.*?)>/g, `<h1$1 style="color: ${styles.getPropertyValue('--r-h1-color').trim() || activeAccent}; border-bottom: ${styles.getPropertyValue('--r-h1-border').trim()}; text-align: ${styles.getPropertyValue('--r-h1-align').trim()}; text-transform: ${styles.getPropertyValue('--r-h1-transform').trim()}; margin-bottom: 0.25rem;">`)
+                .replace(/<h2(.*?)>/g, `<h2$1 style="color: ${styles.getPropertyValue('--r-h2-color').trim() || activeAccent}; border-bottom: ${styles.getPropertyValue('--r-h2-border').trim()}; text-transform: ${styles.getPropertyValue('--r-h2-transform').trim()}; margin-top: 1.5rem; padding-bottom: 0.25rem; font-size: 11pt;">`)
+                .replace(/<h3(.*?)>/g, `<h3$1 style="color: ${styles.getPropertyValue('--r-h3-color').trim() || '#1a1a2e'}; font-size: 10pt;">`)
+                .replace(/<p(.*?)>/g, `<p$1 style="color: ${activeText}; margin-bottom: 6pt;">`)
+                .replace(/<span class="rdoc-date"(.*?)>/g, `<span class="rdoc-date"$1 style="color: #666; float: right; font-size: 9pt;">`);
+
+            // Create a styled HTML template for the DOCX parser structure
+            const docHtml = `
+                <!DOCTYPE html><html><head><meta charset="UTF-8">
+                <style>
+                    body { 
+                        font-family: ${activeFont}; 
+                        line-height: ${styles.getPropertyValue('--r-spacing') || '1.65'}; 
+                        color: ${activeText}; 
+                        background-color: ${activeBg}; /* Word might ignore Bg, but included for parser */
+                    }
+                    .rdoc-section-title { font-size: 14pt; color: ${activeAccent}; border-bottom: 1px solid ${activeAccent}; margin-bottom: 8pt; font-weight: bold; }
+                    .rdoc-role { font-weight: bold; font-size: 11pt; }
+                    .rdoc-date { color: #666; text-align: right; font-size: 9pt; }
+                    ul { margin-top: 4pt; padding-left: 20pt; }
+                    li { margin-bottom: 4pt; color: ${activeText}; }
+                    strong { color: ${styles.getPropertyValue('--r-h1-color').trim() || activeAccent}; }
+                </style>
+                </head><body>
+                ${inlineResumeHTML}
+                </body></html>
+            `;
+
+            const converted = htmlDocx.asBlob(docHtml);
+            saveAsBlob(converted, filename);
+        });
+
+        // Download TXT
+        document.getElementById('download-txt-btn').addEventListener('click', () => {
+            const name = (outputs?.applicantName || 'Applicant').replace(/\s+/g, '_');
+            const co = (outputs?.targetCompany || 'Company').replace(/\s+/g, '_');
+            const filename = `${name}_${co}_Resume.txt`;
+
+            // Extract raw text preserving basic newline structure
+            const textContent = resumeEl.innerText
+                .replace(/\n{3,}/g, '\n\n') // Normalize multiple newlines
+                .trim();
+
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            saveAsBlob(blob, filename);
+        });
+
+        // Helper to trigger download
+        function saveAsBlob(blob, filename) {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Word count
+        function updateWordCount() {
+            const words = (resumeEl.innerText || '').trim().split(/\s+/).filter(Boolean).length;
+            const pages = Math.max(1, Math.ceil(words / 350));
+            document.getElementById('word-count').innerHTML = `<i class="fa-solid fa-align-left"></i> ${words.toLocaleString()} words`;
+            document.getElementById('page-est').innerHTML = `<i class="fa-regular fa-file"></i> ~${pages} page${pages !== 1 ? 's' : ''}`;
+        }
+        new MutationObserver(updateWordCount).observe(resumeEl, { childList: true, subtree: true, characterData: true });
+        resumeEl.addEventListener('input', updateWordCount);
+
+        // Refinement Modal
+        document.getElementById('refine-btn').addEventListener('click', () => {
+            document.getElementById('refine-modal').style.display = 'flex';
+            document.getElementById('refine-input').focus();
+        });
+
+        async function applyRefinement() {
+            const refinement = document.getElementById('refine-input').value.trim();
+            if (!refinement) {
+                alert('Please provide refinement instructions.');
+                return;
+            }
+
+            document.getElementById('refine-modal').style.display = 'none';
+            resumeEl.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-secondary);"><i class="fa-solid fa-spinner fa-spin"></i> Refining your resume...</div>';
+
+            const systemPrompt = `You are an elite ATS Resume Writer. Apply the following refinement request to the resume:
+User refinement: "${refinement}"
+Rewrite the resume to match the job description with strong ATS-optimized keywords and the user's refinement request.
+Every bullet starts with an action verb. Preserve all metrics.
+Clean semantic HTML only (h1, h2, ul, li, strong). No full HTML document wrapper.`;
+
+            const userPrompt = `Current Resume HTML:\n${outputs?.resumeHtml}\n\nJob Description:\n${outputs?.jobText}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                const cleanHtml = data.candidates[0].content.parts[0].text.trim();
+                outputs.resumeHtml = cleanHtml;
+                sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+                resumeEl.innerHTML = cleanHtml;
+                updateWordCount();
+            } catch (e) {
+                resumeEl.innerHTML = `<div style="color:var(--error-color);text-align:center;padding:2rem;">Failed to refine: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="applyRefinement()"><i class="fa-solid fa-rotate-right"></i> Retry</button></div>`;
+            }
+        }
+
+    </script>
+</body>
+
+</html>
