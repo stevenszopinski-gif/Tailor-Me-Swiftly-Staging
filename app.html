@@ -114,6 +114,30 @@
                                         onclick="document.getElementById('file-input').click()">Browse Files</button>
                                 </div>
 
+                                <div class="divider"><span>OR IMPORT FROM LINKEDIN</span></div>
+
+                                <div id="linkedin-import-section" style="margin-bottom: 1.5rem;">
+                                    <div style="background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1rem 1.25rem;">
+                                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                            <i class="fa-brands fa-linkedin" style="color: #0a66c2; font-size: 1.2rem;"></i>
+                                            <span style="font-weight: 600; font-size: 0.95rem;">Import from LinkedIn</span>
+                                        </div>
+                                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                                            Paste your public LinkedIn profile URL and we'll extract your experience automatically.
+                                        </p>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <div class="input-with-icon" style="flex: 1;">
+                                                <i class="fa-solid fa-link"></i>
+                                                <input type="url" id="linkedin-url-input" placeholder="https://linkedin.com/in/your-profile">
+                                            </div>
+                                            <button type="button" id="linkedin-import-btn" class="btn primary-btn" style="white-space: nowrap;">
+                                                <i class="fa-solid fa-download"></i> Import
+                                            </button>
+                                        </div>
+                                        <div id="linkedin-import-status" style="margin-top: 0.5rem; font-size: 0.8rem;"></div>
+                                    </div>
+                                </div>
+
                                 <div class="divider"><span>OR PASTE MANUALLY</span></div>
 
                                 <div style="text-align:center; margin-bottom:1.5rem;">

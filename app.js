@@ -253,6 +253,18 @@ function attachEventListeners() {
         }
     }
 
+    // LinkedIn Import
+    const linkedinImportBtn = document.getElementById('linkedin-import-btn');
+    if (linkedinImportBtn) {
+        linkedinImportBtn.addEventListener('click', handleLinkedInImport);
+        const linkedinInput = document.getElementById('linkedin-url-input');
+        if (linkedinInput) {
+            linkedinInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleLinkedInImport();
+            });
+        }
+    }
+
     // Template Switcher (Phase 3)
     if (el.templateBtns) {
         el.templateBtns.forEach(btn => {
@@ -441,6 +453,124 @@ async function fetchWithFallback(targetUrl) {
     }
 
     return data;
+}
+
+// ------ LINKEDIN PROFILE IMPORT ------
+async function handleLinkedInImport() {
+    const urlInput = document.getElementById('linkedin-url-input');
+    const statusEl = document.getElementById('linkedin-import-status');
+    const importBtn = document.getElementById('linkedin-import-btn');
+    const url = urlInput?.value.trim();
+
+    if (!url) return;
+
+    // Validate LinkedIn URL
+    if (!/^https?:\/\/(www\.)?linkedin\.com\/in\/[\w-]+\/?/i.test(url)) {
+        statusEl.innerHTML = '<span class="error-text"><i class="fa-solid fa-xmark"></i> Please enter a valid LinkedIn profile URL (linkedin.com/in/username)</span>';
+        return;
+    }
+
+    importBtn.disabled = true;
+    statusEl.innerHTML = '<span style="color:var(--text-secondary)"><i class="fa-solid fa-globe fa-spin"></i> Fetching your LinkedIn profile...</span>';
+
+    try {
+        // Step 1: Scrape the profile page
+        const data = await fetchWithFallback(url);
+
+        let pageText = '';
+        if (data.text) {
+            pageText = data.text;
+        } else if (data.html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data.html, 'text/html');
+            doc.querySelectorAll('script, style, nav, footer').forEach(e => e.remove());
+            pageText = (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+        }
+
+        if (pageText.length < 50) {
+            throw new Error('Could not read the LinkedIn profile. LinkedIn may be blocking the request. Try copying your profile text and pasting it manually instead.');
+        }
+
+        // Step 2: Send to Gemini for structured extraction
+        statusEl.innerHTML = '<span style="color:var(--text-secondary)"><i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> Extracting experience, education, and skills with AI...</span>';
+
+        const extractionPrompt = `Extract all resume-relevant information from this LinkedIn profile and format it as a clean, professional resume in plain text. Use this exact format:
+
+[Full Name]
+[Headline] | [Location]
+
+EXPERIENCE
+[Job Title] | [Company] | [Dates]
+- [Achievement/responsibility bullet 1]
+- [Achievement/responsibility bullet 2]
+
+EDUCATION
+[Degree] | [School] | [Dates]
+- [Detail]
+
+SKILLS
+- [Skill 1], [Skill 2], [Skill 3]
+
+Rules:
+- Start every bullet with an action verb
+- Keep all real metrics/numbers
+- If only descriptions exist (not bullets), break them into concise achievement bullets
+- Include up to 5 experience entries and 3 education entries
+- Include up to 15 skills
+- Output ONLY the formatted resume text, no markdown fences, no explanation`;
+
+        const { data: geminiData, error: geminiError } = await withTimeout(
+            supabaseClient.functions.invoke('gemini-proxy', {
+                body: {
+                    model: state.model,
+                    systemInstruction: { parts: [{ text: extractionPrompt }] },
+                    contents: [{ parts: [{ text: `LinkedIn Profile Page Text:\n\n${pageText}` }] }],
+                    generationConfig: { temperature: 0.2 }
+                }
+            }),
+            60000
+        );
+
+        if (geminiError) throw new Error(geminiError.message || 'AI extraction failed');
+
+        const responseText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        if (!responseText.trim()) throw new Error('AI returned empty response. Please try again.');
+
+        // Step 3: Set as resume text
+        state.resumeText = responseText;
+        if (el.baseResumeRaw) el.baseResumeRaw.value = responseText;
+
+        // Try to extract the name from the first line
+        const firstLine = responseText.split('\n')[0].trim();
+        if (firstLine && firstLine.length < 60) {
+            state.applicantName = firstLine;
+        }
+
+        // Show in the manual paste area for review
+        const manualWrap = document.getElementById('manual-resume-wrap');
+        const manualInput = document.getElementById('manual-resume-input');
+        if (manualWrap) manualWrap.classList.remove('hidden');
+        if (manualInput) manualInput.value = responseText;
+
+        // Update file status display
+        if (el.fileStatus) {
+            el.fileStatus.classList.remove('hidden');
+            if (el.fileName) el.fileName.textContent = 'LinkedIn Profile';
+            if (el.parseStatus) el.parseStatus.innerHTML = '<i class="fa-solid fa-check-circle"></i> Extracted from LinkedIn';
+        }
+
+        // Save to localStorage as last resume
+        localStorage.setItem('tms_last_resume', responseText);
+        localStorage.setItem('tms_last_resume_name', 'LinkedIn Profile');
+
+        statusEl.innerHTML = '<span class="success-text"><i class="fa-solid fa-check-circle"></i> Profile imported! Review the extracted text below, then click Next.</span>';
+        checkStep1();
+
+    } catch (err) {
+        statusEl.innerHTML = `<span class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> ${err.message}</span>`;
+    } finally {
+        importBtn.disabled = false;
+    }
 }
 
 async function extractTextFromPDF(file) {
