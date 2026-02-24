@@ -509,7 +509,7 @@ Degree | School | Dates
 SKILLS
 Skill1, Skill2, Skill3
 
-Keep real metrics. Max 5 jobs, 3 education, 15 skills. Output ONLY the resume text.`;
+Keep real metrics. Max 5 jobs, 3 education, 15 skills. NEVER invent email, phone, or address — only include contact info if it actually appears in the text. Output ONLY the resume text.`;
 
         const { data: geminiData, error: geminiError } = await withTimeout(
             supabaseClient.functions.invoke('gemini-proxy', {
@@ -976,6 +976,7 @@ async function processGeneration() {
 BLOCK 1 — Resume HTML:
 - Rewrite the resume to match the job description with strong ATS-optimized keywords.
 - Every bullet starts with an action verb. Preserve all metrics.
+- NEVER fabricate contact info (email, phone, address). Use ONLY what appears in the source resume. If missing, use placeholders: [your email], [your phone], [your city, state].
 - Clean semantic HTML only (h1, h2, ul, li, strong). No full HTML document wrapper.
 
 BLOCK 2 — Metadata JSON:
