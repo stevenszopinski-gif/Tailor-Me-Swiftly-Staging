@@ -913,10 +913,13 @@
                             <div class="color-swatch" data-color="#06b6d4" style="background:#06b6d4;" title="Cyan"></div>
                             <div class="color-swatch" data-color="#c9a84c" style="background:#c9a84c;" title="Gold"></div>
                         </div>
-                        <div style="display:flex;align-items:center;gap:0.5rem;">
+                        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
                             <button class="color-custom-link" onclick="document.getElementById('color-accent').click()">Use custom color</button>
                             <input type="color" id="color-accent" value="#c9a84c" style="width:0;height:0;opacity:0;position:absolute;">
                         </div>
+                        <button id="company-brand-btn" class="improve-action" style="margin-top:0.5rem;width:100%;font-size:0.78rem;gap:0.4rem;display:none;">
+                            <i class="fa-solid fa-building"></i> <span id="company-brand-label">Use Company Brand Color</span>
+                        </button>
                         <input type="color" id="color-text" value="#333333" hidden>
                     </div>
 
@@ -1104,26 +1107,25 @@
         const TEMPLATES = [
             { id: 'theme-executive',     name: 'Executive',      bg: '#ffffff', accent: '#c9a84c', text: '#333', h1: '#1a1a2e', border: '3px solid #c9a84c' },
             { id: 'theme-classic-serif', name: 'Classic Serif',  bg: '#ffffff', accent: '#1a1a2e', text: '#222', h1: '#1a1a2e', border: '2px solid #1a1a2e' },
-            { id: 'theme-modern-clean',  name: 'Modern Clean',   bg: '#ffffff', accent: '#2563eb', text: '#374151', h1: '#111827', border: '2px solid #2563eb' },
+            { id: 'theme-modern-clean',  name: 'Modern Clean',   bg: '#ffffff', accent: '#2563eb', text: '#374151', h1: '#111827', border: '3px solid #2563eb', leftBorder: '#2563eb' },
             { id: 'theme-minimal',       name: 'Minimal',        bg: '#ffffff', accent: '#111111', text: '#6b7280', h1: '#111111', border: '1px solid #f3f4f6' },
             { id: 'theme-creative',      name: 'Creative',       bg: '#fafaf8', accent: '#0d9488', text: '#444', h1: '#0d9488', border: 'none', leftBorder: '#0d9488' },
             { id: 'theme-coral',         name: 'Coral',          bg: '#ffffff', accent: '#e85d75', text: '#4a4a4a', h1: '#2d2d2d', border: 'none', leftBorder: '#e85d75' },
             { id: 'theme-slate',         name: 'Slate',          bg: '#f8fafc', accent: '#475569', text: '#475569', h1: '#0f172a', border: '1px solid #e2e8f0' },
             { id: 'theme-nordic',        name: 'Nordic',         bg: '#f0f4f8', accent: '#5a7d9a', text: '#4a5568', h1: '#2d3748', border: '1px solid #cbd5e0' },
-            { id: 'theme-ruby',          name: 'Ruby',           bg: '#ffffff', accent: '#9b1b30', text: '#333', h1: '#9b1b30', border: '3px solid #9b1b30' },
+            { id: 'theme-ruby',          name: 'Ruby',           bg: '#ffffff', accent: '#9b1b30', text: '#333', h1: '#9b1b30', border: '4px solid #9b1b30', topBorder: '#9b1b30' },
             { id: 'theme-warm',          name: 'Warm',           bg: '#fdf6ec', accent: '#c2704f', text: '#5c4a3a', h1: '#c2704f', border: '1px solid #e8ccb8', topBorder: '#c2704f' },
             { id: 'theme-sunset',        name: 'Sunset',         bg: '#fffbf5', accent: '#e07a5f', text: '#4a3728', h1: '#3d405b', border: 'none', topGradient: 'linear-gradient(90deg, #e07a5f, #f2cc8f, #81b29a)' },
             { id: 'theme-forest',        name: 'Forest',         bg: '#f8faf5', accent: '#2d6a4f', text: '#3d4a3a', h1: '#1b4332', border: '3px double #2d6a4f' },
-            { id: 'theme-lavender',      name: 'Lavender',       bg: '#faf5ff', accent: '#7c3aed', text: '#4c1d95', h1: '#4c1d95', border: '1px solid #ddd6fe' },
+            { id: 'theme-lavender',      name: 'Lavender',       bg: '#faf5ff', accent: '#7c3aed', text: '#4c1d95', h1: '#4c1d95', border: '1px solid #ddd6fe', rounded: true },
             { id: 'theme-two-column',    name: 'Two Column',     bg: '#ffffff', accent: '#334155', text: '#333', h1: '#fff', border: '2px solid #334155', sideBar: '#334155' },
-            { id: 'theme-monospace',     name: 'Monospace',      bg: '#fafafa', accent: '#16a34a', text: '#333', h1: '#111', border: '2px dashed #16a34a' },
+            { id: 'theme-monospace',     name: 'Monospace',      bg: '#fafafa', accent: '#16a34a', text: '#333', h1: '#111', border: '2px dashed #16a34a', dashedBorder: true },
             { id: 'theme-sharp',         name: 'Sharp',          bg: '#ffffff', accent: '#000000', text: '#111', h1: '#000', border: '4px solid #000' },
-            { id: 'theme-modern-tech',   name: 'Modern Tech',    bg: '#0d1117', accent: '#8b5cf6', text: '#8b949e', h1: '#8b5cf6', border: '2px solid #8b5cf6' },
+            { id: 'theme-modern-tech',   name: 'Modern Tech',    bg: '#0d1117', accent: '#8b5cf6', text: '#8b949e', h1: '#8b5cf6', border: '1px solid #30363d' },
             { id: 'theme-ocean',         name: 'Ocean',          bg: '#0f172a', accent: '#06b6d4', text: '#94a3b8', h1: '#f1f5f9', border: '2px solid #06b6d4' },
             { id: 'theme-midnight-gold', name: 'Midnight Gold',  bg: '#1a1a2e', accent: '#d4a843', text: '#a8a8b3', h1: '#d4a843', border: '1px solid #d4a843' },
             { id: 'theme-bold',          name: 'Bold',           bg: '#1e1b4b', accent: '#c084fc', text: '#c7d2fe', h1: '#fff', border: 'none', gradient: 'linear-gradient(90deg, #818cf8, #c084fc)' },
             { id: 'theme-dark',          name: 'Dark',           bg: '#000000', accent: '#ffffff', text: '#fff', h1: '#fff', border: '2px solid #fff' },
-            { id: 'theme-company',       name: 'Company Brand',  bg: '#ffffff', accent: '#6366f1', text: '#333', h1: '#333', border: '3px solid #6366f1', isCompany: true },
         ];
 
         const resumeEl = document.getElementById('resume-output');
@@ -1210,11 +1212,10 @@
                 if (t.topBorder) extraStyle += `border-top: 3px solid ${t.topBorder};`;
                 if (t.topGradient) extraStyle += `border-top: 3px solid transparent; border-image: ${t.topGradient} 1;`;
                 if (t.sideBar) extraStyle += `border-left: 12px solid ${t.sideBar};`;
+                if (t.dashedBorder) extraStyle += `border: 1.5px dashed #ccc;`;
+                if (t.rounded) extraStyle += `border-radius: 8px;`;
 
                 let nameLabel = t.name;
-                if (t.isCompany && outputs?.targetCompany) {
-                    nameLabel = outputs.targetCompany;
-                }
 
                 card.innerHTML = `
                     <div class="template-preview" style="background:${t.bg};${extraStyle}">
@@ -1249,21 +1250,8 @@
             pushUndo();
             currentTheme = themeId;
 
-            let cssClass = themeId;
-            if (themeId === 'theme-company') cssClass = 'theme-minimal';
-
-            resumeEl.className = `resume-output rich-output-area ${cssClass}`;
+            resumeEl.className = `resume-output rich-output-area ${themeId}`;
             resumeEl.style.cssText = '';
-
-            if (themeId === 'theme-company') {
-                const companyHex = outputs?.companyPrimaryColor || '#6366f1';
-                resumeEl.style.setProperty('--r-font-family', "'Inter', 'Helvetica Neue', sans-serif");
-                resumeEl.style.setProperty('--r-accent-color', companyHex);
-                resumeEl.style.setProperty('--r-text-color', '#111111');
-                resumeEl.style.setProperty('--r-h2-color', companyHex);
-                resumeEl.style.setProperty('--r-h1-border', `3px solid ${companyHex}`);
-                resumeEl.style.setProperty('--r-h2-border', `1px solid ${companyHex}`);
-            }
 
             // Re-apply current design overrides
             applyDesignOverrides();
@@ -1360,9 +1348,23 @@
         function applyAccentColor(color) {
             resumeEl.style.setProperty('--r-accent-color', color);
             resumeEl.style.setProperty('--r-h2-color', color);
-            resumeEl.style.setProperty('--r-h1-border', `3px solid ${color}`);
-            resumeEl.style.setProperty('--r-h2-border', `1px solid ${color}`);
+            resumeEl.style.setProperty('--r-h1-border-bottom', `3px solid ${color}`);
+            resumeEl.style.setProperty('--r-h2-border-bottom', `1px solid ${color}`);
             saveDesignPreferences();
+        }
+
+        // Company Brand Color button
+        const companyBrandBtn = document.getElementById('company-brand-btn');
+        if (outputs?.companyPrimaryColor) {
+            companyBrandBtn.style.display = 'flex';
+            const label = outputs.targetCompany ? `Use ${outputs.targetCompany} Brand Color` : 'Use Company Brand Color';
+            document.getElementById('company-brand-label').textContent = label;
+            companyBrandBtn.addEventListener('click', () => {
+                const color = outputs.companyPrimaryColor;
+                applyAccentColor(color);
+                document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                colorAccent.value = color;
+            });
         }
 
         function applyDesignOverrides() {

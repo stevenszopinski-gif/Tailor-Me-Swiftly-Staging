@@ -1842,6 +1842,7 @@ ins.adsbygoogle[data-ad-status="filled"] {
     margin: 1rem auto;
 }
 
+
 /* ═══════════════════════════════════════════════════════════
    RESUME THEME STYLES
    Applied as a class on #resume-output .rich-output-area
@@ -1849,20 +1850,31 @@ ins.adsbygoogle[data-ad-status="filled"] {
 
 /* ── BASE CSS VARIABLES FOR RESUMES ── */
 .resume-output.rich-output-area {
-    /* Base Variables */
     --r-font-family: 'Georgia', 'Times New Roman', serif;
     --r-bg-color: #ffffff;
-    --r-text-color: #1a1a2e;
+    --r-text-color: #333333;
     --r-accent-color: #c9a84c;
     --r-h1-color: #1a1a2e;
     --r-h2-color: #c9a84c;
     --r-h3-color: #1a1a2e;
     --r-spacing: 1.65;
-    --r-h1-border: 3px solid var(--r-accent-color);
-    --r-h2-border: 1px solid var(--r-accent-color);
-    --r-h1-transform: uppercase;
-    --r-h2-transform: uppercase;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 700;
     --r-h1-align: center;
+    --r-h1-transform: uppercase;
+    --r-h1-spacing: 2px;
+    --r-h1-border-bottom: 3px solid var(--r-accent-color);
+    --r-h1-padding-bottom: 0.5rem;
+    --r-h2-size: 0.85rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: 1px solid var(--r-accent-color);
+    --r-h2-padding: 0 0 0.25rem 0;
+    --r-h2-margin-top: 1.5rem;
+    --r-h3-size: 1rem;
+    --r-h3-weight: 700;
+    --r-body-size: 0.92rem;
 
     font-family: var(--r-font-family) !important;
     background: var(--r-bg-color) !important;
@@ -1871,41 +1883,44 @@ ins.adsbygoogle[data-ad-status="filled"] {
     padding: 2.5rem !important;
     line-height: var(--r-spacing) !important;
     transition: background 0.3s, color 0.3s;
+    position: relative;
 }
 
 .resume-output.rich-output-area h1 {
-    font-size: 2rem;
+    font-size: var(--r-h1-size);
+    font-weight: var(--r-h1-weight);
     color: var(--r-h1-color) !important;
     text-align: var(--r-h1-align);
-    letter-spacing: 2px;
+    letter-spacing: var(--r-h1-spacing);
     text-transform: var(--r-h1-transform);
-    border-bottom: var(--r-h1-border);
-    padding-bottom: 0.5rem;
+    border-bottom: var(--r-h1-border-bottom);
+    padding-bottom: var(--r-h1-padding-bottom);
     margin-bottom: 0.25rem;
     -webkit-text-fill-color: var(--r-h1-color) !important;
     background: none !important;
 }
 
 .resume-output.rich-output-area h2 {
-    font-size: 0.85rem;
+    font-size: var(--r-h2-size);
+    font-weight: var(--r-h2-weight);
     color: var(--r-h2-color) !important;
-    letter-spacing: 3px;
+    letter-spacing: var(--r-h2-spacing);
     text-transform: var(--r-h2-transform);
-    border-bottom: var(--r-h2-border);
-    margin-top: calc(1.5rem * (var(--r-spacing) / 1.5));
-    padding-bottom: 0.25rem;
+    border-bottom: var(--r-h2-border-bottom);
+    margin-top: var(--r-h2-margin-top);
+    padding: var(--r-h2-padding);
 }
 
 .resume-output.rich-output-area h3 {
-    font-size: 1rem;
+    font-size: var(--r-h3-size);
+    font-weight: var(--r-h3-weight);
     color: var(--r-h3-color) !important;
-    font-weight: 700;
 }
 
 .resume-output.rich-output-area p,
 .resume-output.rich-output-area li {
     color: var(--r-text-color) !important;
-    font-size: 0.92rem;
+    font-size: var(--r-body-size);
     line-height: var(--r-spacing);
 }
 
@@ -1913,497 +1928,601 @@ ins.adsbygoogle[data-ad-status="filled"] {
     color: var(--r-h1-color) !important;
 }
 
-/* ── PRESETS (They just reassign the variables) ── */
+/* ═══════════════════════════════════════════════════════════
+   THEME PRESETS — Each dramatically changes structure & feel
+   ═══════════════════════════════════════════════════════════ */
 
+/* ── 1. EXECUTIVE (classic centered, gold serif, formal) ── */
 .theme-executive {
     --r-font-family: 'Georgia', 'Times New Roman', serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #333333;
     --r-accent-color: #c9a84c;
     --r-h1-color: #1a1a2e;
     --r-h2-color: #c9a84c;
     --r-h3-color: #1a1a2e;
-    --r-h1-border: 3px solid var(--r-accent-color);
-    --r-h2-border: 1px solid var(--r-accent-color);
+    --r-text-color: #333333;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 700;
+    --r-h1-align: center;
     --r-h1-transform: uppercase;
+    --r-h1-spacing: 3px;
+    --r-h1-border-bottom: 3px solid #c9a84c;
+    --r-h2-size: 0.8rem;
+    --r-h2-weight: 600;
     --r-h2-transform: uppercase;
-    --r-h1-align: center;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: 1px solid #c9a84c;
 }
 
-/* ── MODERN TECH (dark card, purple/cyan accent) ── */
-.theme-modern-tech {
-    --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
-    --r-bg-color: #0d1117;
-    --r-text-color: #8b949e;
-    --r-accent-color: #8b5cf6;
-    --r-h1-color: #8b5cf6;
-    --r-h2-color: #3b82f6;
-    --r-h3-color: #f0f6fc;
-    --r-h1-border: 2px solid var(--r-accent-color);
-    --r-h2-border: 1px solid #21262d;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
-    --r-h1-align: left;
-}
-
-/* ── CREATIVE (off-white, bold serif header, teal left-border accent) ── */
-.theme-creative {
-    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
-    --r-bg-color: #fafaf8;
-    --r-text-color: #444444;
-    --r-accent-color: #0d9488;
-    --r-h1-color: #0d9488;
-    --r-h2-color: #0d9488;
-    --r-h3-color: #333333;
-    --r-h1-border: none;
-    --r-h2-border: none;
-    --r-h1-transform: none;
-    --r-h2-transform: none;
-    --r-h1-align: left;
-}
-
-.theme-creative.resume-output.rich-output-area {
-    border-radius: 4px !important;
-    border-left: 6px solid #0d9488 !important;
-}
-
-.theme-creative h1 {
-    font-weight: 800;
-    letter-spacing: -1px;
-}
-
-.theme-creative h2 {
-    border-left: 3px solid #0d9488;
-    padding-left: 0.75rem;
-    letter-spacing: 0;
-}
-
-/* ── MINIMAL (pure white, tiny grey section labels, ultra-clean) ── */
-.theme-minimal {
-    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #6b7280;
-    --r-accent-color: #111111;
-    --r-h1-color: #111111;
-    --r-h2-color: #9ca3af;
-    --r-h3-color: #374151;
-    --r-h1-border: none;
-    --r-h2-border: 1px solid #f3f4f6;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
-    --r-h1-align: center;
-}
-
-.theme-minimal.resume-output.rich-output-area {
-    border: 1px solid #e5e7eb !important;
-    border-radius: 2px !important;
-    padding: 3rem !important;
-}
-
-.theme-minimal h1 {
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-
-.theme-minimal h2 {
-    letter-spacing: 4px;
-    font-weight: 600;
-}
-
-/* ── BOLD (bright accent blocks, very visual) ── */
-.theme-bold {
-    --r-font-family: 'Outfit', sans-serif;
-    --r-bg-color: #1e1b4b;
-    --r-text-color: #c7d2fe;
-    --r-accent-color: #c084fc;
-    --r-h1-color: #ffffff;
-    --r-h2-color: #818cf8;
-    --r-h3-color: #a5b4fc;
-    --r-h1-border: none;
-    --r-h2-border: 1px solid rgba(129, 140, 248, 0.3);
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
-    --r-h1-align: center;
-}
-
-.theme-bold h1 {
-    background: linear-gradient(90deg, #818cf8, #c084fc) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    font-weight: 900;
-    letter-spacing: -1px;
-}
-
-.theme-bold h2 {
-    background: linear-gradient(90deg, #818cf8, #c084fc);
-    color: transparent !important;
-    -webkit-background-clip: text;
-    background-clip: text;
-    letter-spacing: 3px;
-    font-weight: 700;
-}
-
-/* ── WARM (cream paper, terracotta accents) ── */
-.theme-warm {
-    --r-font-family: 'Georgia', serif;
-    --r-bg-color: #fdf6ec;
-    --r-text-color: #5c4a3a;
-    --r-accent-color: #c2704f;
-    --r-h1-color: #c2704f;
-    --r-h2-color: #c2704f;
-    --r-h3-color: #3b2f2f;
-    --r-h1-border: none;
-    --r-h2-border: 1px solid #e8ccb8;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
-    --r-h1-align: center;
-}
-
-.theme-warm.resume-output.rich-output-area {
-    border-top: 5px solid #c2704f !important;
-    border-radius: 2px !important;
-}
-
-.theme-warm h1 {
-    font-weight: 700;
-}
-
-.theme-warm h2 {
-    letter-spacing: 2px;
-}
-
-/* ── SHARP (black & white newspaper, strong contrast) ── */
-.theme-sharp {
-    --r-font-family: 'Outfit', 'Arial Narrow', sans-serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #111111;
-    --r-accent-color: #000000;
-    --r-h1-color: #000000;
-    --r-h2-color: #ffffff;
-    --r-h3-color: #000000;
-    --r-h1-border: 4px solid #000;
-    --r-h2-border: none;
-    --r-h1-transform: uppercase;
-    --r-h2-transform: uppercase;
-    --r-h1-align: center;
-}
-
-.theme-sharp.resume-output.rich-output-area {
-    border: 2px solid #000 !important;
-    border-radius: 0 !important;
-}
-
-.theme-sharp h1 {
-    font-weight: 900;
-    letter-spacing: -1px;
-    border-top: 4px solid #000;
-    padding-top: 0.5rem;
-}
-
-.theme-sharp h2 {
-    background: #000 !important;
-    letter-spacing: 3px;
-    padding: 0.25rem 0.6rem;
-    display: inline-block;
-}
-
-.theme-sharp h3 {
-    text-decoration: underline;
-}
-
-.theme-sharp strong {
-    font-weight: 900;
-}
-
-.theme-dark {
-    --r-font-family: 'Outfit', 'Arial Narrow', sans-serif;
-    --r-bg-color: #000000;
-    --r-text-color: #ffffff;
-    --r-accent-color: #ffffff;
-    --r-h1-color: #ffffff;
-    --r-h2-color: #ffffff;
-    --r-h3-color: #ffffff;
-    --r-h1-border: 2px solid #ffffff;
-    --r-h2-border: 1px solid rgba(255, 255, 255, 0.3);
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
-    --r-h1-align: left;
-}
-
-.theme-dark.resume-output.rich-output-area {
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-.theme-dark h1 {
-    font-weight: 700;
-}
-
-.theme-dark h2 {
-    font-size: 1.1rem;
-    padding-bottom: 0.5rem;
-}
-
-/* ── CLASSIC SERIF (traditional, Harvard resume style) ── */
+/* ── 2. CLASSIC SERIF (Harvard/academic, thin weight, wide tracking) ── */
 .theme-classic-serif {
     --r-font-family: 'Garamond', 'Times New Roman', serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #222222;
     --r-accent-color: #1a1a2e;
     --r-h1-color: #1a1a2e;
     --r-h2-color: #1a1a2e;
     --r-h3-color: #1a1a2e;
-    --r-h1-border: 2px solid #1a1a2e;
-    --r-h2-border: 1px solid #cccccc;
-    --r-h1-transform: uppercase;
-    --r-h2-transform: uppercase;
+    --r-text-color: #222222;
+    --r-h1-size: 1.8rem;
+    --r-h1-weight: 400;
     --r-h1-align: center;
+    --r-h1-transform: uppercase;
+    --r-h1-spacing: 6px;
+    --r-h1-border-bottom: 1px solid #1a1a2e;
+    --r-h2-size: 0.72rem;
+    --r-h2-weight: 400;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 5px;
+    --r-h2-border-bottom: 1px solid #cccccc;
+    --r-h3-size: 0.95rem;
+    --r-body-size: 0.9rem;
 }
-.theme-classic-serif h1 { font-weight: 400; letter-spacing: 4px; }
-.theme-classic-serif h2 { font-weight: 400; letter-spacing: 3px; font-size: 0.8rem; }
 
-/* ── MODERN CLEAN (light, blue accent, sans-serif) ── */
+/* ── 3. MODERN CLEAN (left-aligned, bold 2.4rem name, thick blue borders, left bar) ── */
 .theme-modern-clean {
     --r-font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #374151;
     --r-accent-color: #2563eb;
     --r-h1-color: #111827;
     --r-h2-color: #2563eb;
     --r-h3-color: #111827;
-    --r-h1-border: none;
-    --r-h2-border: 2px solid #2563eb;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
+    --r-text-color: #374151;
+    --r-h1-size: 2.4rem;
+    --r-h1-weight: 800;
     --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: -1px;
+    --r-h1-border-bottom: none;
+    --r-h1-padding-bottom: 0.25rem;
+    --r-h2-size: 0.9rem;
+    --r-h2-weight: 700;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 2px;
+    --r-h2-border-bottom: 3px solid #2563eb;
 }
-.theme-modern-clean h1 { font-weight: 800; letter-spacing: -1px; font-size: 2.2rem; }
-.theme-modern-clean h2 { letter-spacing: 2px; font-weight: 700; }
+.resume-output.rich-output-area.theme-modern-clean {
+    border-left: 5px solid #2563eb !important;
+}
 
-/* ── CORAL (warm coral + charcoal, contemporary) ── */
+/* ── 4. MINIMAL (ultra-restrained, subtle, wide tracking tiny headings) ── */
+.theme-minimal {
+    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
+    --r-accent-color: #e5e7eb;
+    --r-h1-color: #111111;
+    --r-h2-color: #9ca3af;
+    --r-h3-color: #374151;
+    --r-text-color: #6b7280;
+    --r-h1-size: 1.5rem;
+    --r-h1-weight: 600;
+    --r-h1-align: center;
+    --r-h1-transform: none;
+    --r-h1-spacing: 0px;
+    --r-h1-border-bottom: none;
+    --r-h1-padding-bottom: 0.25rem;
+    --r-h2-size: 0.62rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 6px;
+    --r-h2-border-bottom: 1px solid #f3f4f6;
+}
+.resume-output.rich-output-area.theme-minimal {
+    border: 1px solid #e5e7eb !important;
+    padding: 3rem !important;
+}
+
+/* ── 5. CREATIVE (6px teal left bar, indented section headings, modern bold) ── */
+.theme-creative {
+    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
+    --r-accent-color: #0d9488;
+    --r-h1-color: #0d9488;
+    --r-h2-color: #0d9488;
+    --r-h3-color: #333333;
+    --r-text-color: #444444;
+    --r-bg-color: #fafaf8;
+    --r-h1-size: 2.2rem;
+    --r-h1-weight: 800;
+    --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: -1px;
+    --r-h1-border-bottom: none;
+    --r-h2-size: 0.85rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: none;
+    --r-h2-spacing: 0px;
+    --r-h2-border-bottom: none;
+    --r-h2-padding: 0.3rem 0 0.3rem 0.75rem;
+}
+.resume-output.rich-output-area.theme-creative {
+    border-left: 6px solid #0d9488 !important;
+    border-radius: 4px !important;
+}
+.resume-output.rich-output-area.theme-creative h2 {
+    border-left: 3px solid #0d9488 !important;
+    border-bottom: none !important;
+}
+
+/* ── 6. CORAL (gradient text headings, left accent, dotted dividers) ── */
 .theme-coral {
     --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #4a4a4a;
     --r-accent-color: #e85d75;
     --r-h1-color: #2d2d2d;
     --r-h2-color: #e85d75;
     --r-h3-color: #2d2d2d;
-    --r-h1-border: none;
-    --r-h2-border: none;
-    --r-h1-transform: none;
-    --r-h2-transform: none;
+    --r-text-color: #4a4a4a;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 700;
     --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: 0px;
+    --r-h1-border-bottom: none;
+    --r-h2-size: 0.9rem;
+    --r-h2-weight: 700;
+    --r-h2-transform: none;
+    --r-h2-spacing: 1px;
+    --r-h2-border-bottom: 2px dotted #f5a3b3;
 }
-.theme-coral.resume-output.rich-output-area {
+.resume-output.rich-output-area.theme-coral {
     border-left: 5px solid #e85d75 !important;
     border-radius: 0 !important;
 }
-.theme-coral h1 { font-weight: 700; }
-.theme-coral h2 { font-weight: 600; background: linear-gradient(90deg, #e85d75, #f093a0); -webkit-background-clip: text; background-clip: text; color: transparent !important; }
-
-/* ── OCEAN (deep navy + aqua accents) ── */
-.theme-ocean {
-    --r-font-family: 'Outfit', sans-serif;
-    --r-bg-color: #0f172a;
-    --r-text-color: #94a3b8;
-    --r-accent-color: #06b6d4;
-    --r-h1-color: #f1f5f9;
-    --r-h2-color: #06b6d4;
-    --r-h3-color: #e2e8f0;
-    --r-h1-border: 2px solid #06b6d4;
-    --r-h2-border: 1px solid rgba(6, 182, 212, 0.3);
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
-    --r-h1-align: center;
+.resume-output.rich-output-area.theme-coral h2 {
+    background: linear-gradient(90deg, #e85d75, #f093a0) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
 }
-.theme-ocean h1 { font-weight: 300; letter-spacing: 3px; }
-.theme-ocean h2 { letter-spacing: 3px; }
 
-/* ── FOREST (earthy greens, natural feel) ── */
-.theme-forest {
-    --r-font-family: 'Georgia', serif;
-    --r-bg-color: #f8faf5;
-    --r-text-color: #3d4a3a;
-    --r-accent-color: #2d6a4f;
-    --r-h1-color: #1b4332;
-    --r-h2-color: #2d6a4f;
-    --r-h3-color: #1b4332;
-    --r-h1-border: 3px double #2d6a4f;
-    --r-h2-border: 1px solid #b7e4c7;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
-    --r-h1-align: center;
-}
-.theme-forest h1 { font-weight: 700; }
-.theme-forest h2 { letter-spacing: 2px; }
-
-/* ── SLATE (cool greys, professional tech) ── */
+/* ── 7. SLATE (giant ultralight 2.8rem name, tiny section labels, tech feel) ── */
 .theme-slate {
     --r-font-family: 'Roboto', 'Arial', sans-serif;
-    --r-bg-color: #f8fafc;
-    --r-text-color: #475569;
     --r-accent-color: #475569;
     --r-h1-color: #0f172a;
-    --r-h2-color: #64748b;
+    --r-h2-color: #94a3b8;
     --r-h3-color: #1e293b;
-    --r-h1-border: 1px solid #e2e8f0;
-    --r-h2-border: 1px solid #e2e8f0;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
+    --r-text-color: #475569;
+    --r-bg-color: #f8fafc;
+    --r-h1-size: 2.8rem;
+    --r-h1-weight: 200;
     --r-h1-align: left;
-}
-.theme-slate h1 { font-weight: 300; font-size: 2.4rem; letter-spacing: -1px; }
-.theme-slate h2 { letter-spacing: 4px; font-weight: 400; font-size: 0.75rem; }
-
-/* ── MIDNIGHT GOLD (dark with gold luxury accents) ── */
-.theme-midnight-gold {
-    --r-font-family: 'Garamond', 'Georgia', serif;
-    --r-bg-color: #1a1a2e;
-    --r-text-color: #a8a8b3;
-    --r-accent-color: #d4a843;
-    --r-h1-color: #d4a843;
-    --r-h2-color: #d4a843;
-    --r-h3-color: #e0e0e0;
-    --r-h1-border: 1px solid #d4a843;
-    --r-h2-border: 1px solid rgba(212, 168, 67, 0.3);
-    --r-h1-transform: uppercase;
-    --r-h2-transform: uppercase;
-    --r-h1-align: center;
-}
-.theme-midnight-gold h1 { font-weight: 400; letter-spacing: 5px; }
-.theme-midnight-gold h2 { letter-spacing: 3px; }
-
-/* ── SUNSET (warm gradient feel, orange to pink) ── */
-.theme-sunset {
-    --r-font-family: 'Outfit', sans-serif;
-    --r-bg-color: #fffbf5;
-    --r-text-color: #4a3728;
-    --r-accent-color: #e07a5f;
-    --r-h1-color: #3d405b;
-    --r-h2-color: #e07a5f;
-    --r-h3-color: #3d405b;
-    --r-h1-border: none;
-    --r-h2-border: none;
     --r-h1-transform: none;
-    --r-h2-transform: none;
-    --r-h1-align: left;
+    --r-h1-spacing: -1px;
+    --r-h1-border-bottom: 1px solid #e2e8f0;
+    --r-h2-size: 0.6rem;
+    --r-h2-weight: 500;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 5px;
+    --r-h2-border-bottom: 1px solid #e2e8f0;
+    --r-h3-size: 0.95rem;
+    --r-body-size: 0.88rem;
 }
-.theme-sunset.resume-output.rich-output-area {
-    border-top: 4px solid transparent !important;
-    border-image: linear-gradient(90deg, #e07a5f, #f2cc8f, #81b29a) 1 !important;
-    border-radius: 0 !important;
-}
-.theme-sunset h1 { font-weight: 800; }
-.theme-sunset h2 { font-weight: 600; letter-spacing: 1px; }
 
-/* ── NORDIC (Scandinavian minimalism, muted blues) ── */
+/* ── 8. NORDIC (Scandinavian clean, light bg, ultralight centered name) ── */
 .theme-nordic {
     --r-font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    --r-bg-color: #f0f4f8;
-    --r-text-color: #4a5568;
     --r-accent-color: #5a7d9a;
     --r-h1-color: #2d3748;
     --r-h2-color: #5a7d9a;
     --r-h3-color: #2d3748;
-    --r-h1-border: none;
-    --r-h2-border: 1px solid #cbd5e0;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
+    --r-text-color: #4a5568;
+    --r-bg-color: #f0f4f8;
+    --r-h1-size: 2.6rem;
+    --r-h1-weight: 200;
     --r-h1-align: center;
+    --r-h1-transform: none;
+    --r-h1-spacing: 3px;
+    --r-h1-border-bottom: none;
+    --r-h1-padding-bottom: 0.75rem;
+    --r-h2-size: 0.78rem;
+    --r-h2-weight: 500;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: 1px solid #cbd5e0;
 }
-.theme-nordic h1 { font-weight: 200; font-size: 2.5rem; letter-spacing: 2px; }
-.theme-nordic h2 { letter-spacing: 3px; font-weight: 500; }
 
-/* ── RUBY (deep red, authoritative) ── */
+/* ── 9. RUBY (authoritative red, thick borders top & bottom, serif) ── */
 .theme-ruby {
     --r-font-family: 'Georgia', serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #333333;
     --r-accent-color: #9b1b30;
     --r-h1-color: #9b1b30;
     --r-h2-color: #9b1b30;
     --r-h3-color: #1a1a1a;
-    --r-h1-border: 3px solid #9b1b30;
-    --r-h2-border: 1px solid #d4a5a5;
-    --r-h1-transform: uppercase;
-    --r-h2-transform: uppercase;
+    --r-text-color: #333333;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 700;
     --r-h1-align: center;
+    --r-h1-transform: uppercase;
+    --r-h1-spacing: 3px;
+    --r-h1-border-bottom: 4px solid #9b1b30;
+    --r-h2-size: 0.8rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: 2px solid #d4a5a5;
 }
-.theme-ruby h1 { font-weight: 700; letter-spacing: 3px; }
-.theme-ruby h2 { letter-spacing: 2px; }
+.resume-output.rich-output-area.theme-ruby {
+    border-top: 4px solid #9b1b30 !important;
+}
+.resume-output.rich-output-area.theme-ruby h1 {
+    border-top: 4px solid #9b1b30 !important;
+    padding-top: 0.5rem !important;
+}
 
-/* ── TWO COLUMN (simulated 2-col with left sidebar accent) ── */
+/* ── 10. WARM (cream paper, terracotta top bar, double-line dividers) ── */
+.theme-warm {
+    --r-font-family: 'Georgia', serif;
+    --r-accent-color: #c2704f;
+    --r-h1-color: #c2704f;
+    --r-h2-color: #c2704f;
+    --r-h3-color: #3b2f2f;
+    --r-text-color: #5c4a3a;
+    --r-bg-color: #fdf6ec;
+    --r-h1-size: 1.9rem;
+    --r-h1-weight: 700;
+    --r-h1-align: center;
+    --r-h1-transform: none;
+    --r-h1-spacing: 1px;
+    --r-h1-border-bottom: none;
+    --r-h2-size: 0.8rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 2px;
+    --r-h2-border-bottom: 3px double #c2704f;
+}
+.resume-output.rich-output-area.theme-warm {
+    border-top: 5px solid #c2704f !important;
+    border-radius: 2px !important;
+}
+
+/* ── 11. SUNSET (rainbow gradient top bar, warm organic, short accent underlines) ── */
+.theme-sunset {
+    --r-font-family: 'Outfit', sans-serif;
+    --r-accent-color: #e07a5f;
+    --r-h1-color: #3d405b;
+    --r-h2-color: #e07a5f;
+    --r-h3-color: #3d405b;
+    --r-text-color: #4a3728;
+    --r-bg-color: #fffbf5;
+    --r-h1-size: 2.2rem;
+    --r-h1-weight: 800;
+    --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: -0.5px;
+    --r-h1-border-bottom: none;
+    --r-h2-size: 0.85rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: none;
+    --r-h2-spacing: 1px;
+    --r-h2-border-bottom: none;
+    --r-h2-padding: 0 0 0.5rem 0;
+}
+.resume-output.rich-output-area.theme-sunset {
+    border-top: 4px solid transparent !important;
+    border-image: linear-gradient(90deg, #e07a5f, #f2cc8f, #81b29a) 1 !important;
+    border-radius: 0 !important;
+}
+.resume-output.rich-output-area.theme-sunset h2 {
+    position: relative;
+    border-bottom: none !important;
+}
+.resume-output.rich-output-area.theme-sunset h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #e07a5f, #f2cc8f);
+    border-radius: 2px;
+}
+
+/* ── 12. FOREST (earthy greens, double borders, light green bg) ── */
+.theme-forest {
+    --r-font-family: 'Georgia', serif;
+    --r-accent-color: #2d6a4f;
+    --r-h1-color: #1b4332;
+    --r-h2-color: #2d6a4f;
+    --r-h3-color: #1b4332;
+    --r-text-color: #3d4a3a;
+    --r-bg-color: #f8faf5;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 700;
+    --r-h1-align: center;
+    --r-h1-transform: none;
+    --r-h1-spacing: 1px;
+    --r-h1-border-bottom: 3px double #2d6a4f;
+    --r-h2-size: 0.8rem;
+    --r-h2-weight: 500;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 2px;
+    --r-h2-border-bottom: 1px solid #b7e4c7;
+}
+
+/* ── 13. LAVENDER (soft purple bg, rounded 16px corners, pill-shaped headings) ── */
+.theme-lavender {
+    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
+    --r-accent-color: #7c3aed;
+    --r-h1-color: #4c1d95;
+    --r-h2-color: #6d28d9;
+    --r-h3-color: #4c1d95;
+    --r-text-color: #4c1d95;
+    --r-bg-color: #faf5ff;
+    --r-h1-size: 1.8rem;
+    --r-h1-weight: 600;
+    --r-h1-align: center;
+    --r-h1-transform: none;
+    --r-h1-spacing: 0px;
+    --r-h1-border-bottom: none;
+    --r-h2-size: 0.72rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 2px;
+    --r-h2-border-bottom: none;
+    --r-h2-padding: 0.35rem 0.85rem;
+}
+.resume-output.rich-output-area.theme-lavender {
+    border: 1px solid #ddd6fe !important;
+    border-radius: 16px !important;
+}
+.resume-output.rich-output-area.theme-lavender h2 {
+    background: #ede9fe !important;
+    border-radius: 20px !important;
+    display: inline-block !important;
+    border-bottom: none !important;
+    color: #6d28d9 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* ── 14. TWO COLUMN (60px dark sidebar bar, name panel, dramatic layout) ── */
 .theme-two-column {
     --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
-    --r-bg-color: #ffffff;
-    --r-text-color: #333333;
     --r-accent-color: #334155;
     --r-h1-color: #ffffff;
     --r-h2-color: #334155;
     --r-h3-color: #1e293b;
-    --r-h1-border: none;
-    --r-h2-border: 2px solid #334155;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
+    --r-text-color: #333333;
+    --r-h1-size: 1.5rem;
+    --r-h1-weight: 700;
     --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: 1px;
+    --r-h1-border-bottom: none;
+    --r-h2-size: 0.85rem;
+    --r-h2-weight: 700;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 2px;
+    --r-h2-border-bottom: 2px solid #334155;
 }
-.theme-two-column.resume-output.rich-output-area {
-    position: relative;
+.resume-output.rich-output-area.theme-two-column {
     padding-left: 3.5rem !important;
     border-left: 60px solid #334155 !important;
     border-radius: 0 !important;
 }
-.theme-two-column h1 {
-    margin-left: -3.5rem;
-    padding-left: 1rem;
+.resume-output.rich-output-area.theme-two-column h1 {
+    margin-left: -3.5rem !important;
+    padding: 0.75rem 1rem !important;
     background: #334155 !important;
     -webkit-text-fill-color: #fff !important;
-    padding: 0.75rem 1rem;
-    font-weight: 700;
 }
-.theme-two-column h2 { letter-spacing: 2px; font-weight: 700; }
 
-/* ── LAVENDER (soft purple, gentle, approachable) ── */
-.theme-lavender {
-    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
-    --r-bg-color: #faf5ff;
-    --r-text-color: #4c1d95;
-    --r-accent-color: #7c3aed;
-    --r-h1-color: #4c1d95;
-    --r-h2-color: #7c3aed;
-    --r-h3-color: #4c1d95;
-    --r-h1-border: none;
-    --r-h2-border: 1px solid #ddd6fe;
-    --r-h1-transform: none;
-    --r-h2-transform: none;
-    --r-h1-align: center;
-}
-.theme-lavender.resume-output.rich-output-area {
-    border: 1px solid #ddd6fe !important;
-    border-radius: 16px !important;
-}
-.theme-lavender h1 { font-weight: 600; }
-.theme-lavender h2 { font-weight: 600; letter-spacing: 1px; }
-
-/* ── MONOSPACE (developer/hacker style) ── */
+/* ── 15. MONOSPACE (developer style, dashed borders, // prefix, > bullets) ── */
 .theme-monospace {
     --r-font-family: 'Courier New', 'Fira Code', monospace;
-    --r-bg-color: #fafafa;
-    --r-text-color: #333333;
     --r-accent-color: #16a34a;
     --r-h1-color: #111111;
     --r-h2-color: #16a34a;
     --r-h3-color: #111111;
-    --r-h1-border: 2px dashed #16a34a;
-    --r-h2-border: 1px dashed #bbf7d0;
-    --r-h1-transform: none;
-    --r-h2-transform: uppercase;
+    --r-text-color: #333333;
+    --r-bg-color: #fafafa;
+    --r-h1-size: 1.5rem;
+    --r-h1-weight: 700;
     --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: 0px;
+    --r-h1-border-bottom: 2px dashed #16a34a;
+    --r-h2-size: 0.78rem;
+    --r-h2-weight: 700;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 2px;
+    --r-h2-border-bottom: 1px dashed #bbf7d0;
+    --r-body-size: 0.88rem;
 }
-.theme-monospace h1 { font-weight: 700; letter-spacing: 0; font-size: 1.6rem; }
-.theme-monospace h2 { letter-spacing: 2px; font-size: 0.8rem; }
-.theme-monospace h2::before { content: '// '; color: #86efac; }
+.resume-output.rich-output-area.theme-monospace {
+    border: 2px dashed #d1d5db !important;
+    border-radius: 0 !important;
+}
+.resume-output.rich-output-area.theme-monospace h2::before {
+    content: '// ';
+    color: #86efac;
+}
+.resume-output.rich-output-area.theme-monospace ul {
+    list-style-type: '> ';
+}
+
+/* ── 16. SHARP (newspaper/editorial, inverted black h2 bars, heavy borders) ── */
+.theme-sharp {
+    --r-font-family: 'Outfit', 'Arial Narrow', sans-serif;
+    --r-accent-color: #000000;
+    --r-h1-color: #000000;
+    --r-h2-color: #ffffff;
+    --r-h3-color: #000000;
+    --r-text-color: #111111;
+    --r-h1-size: 2.2rem;
+    --r-h1-weight: 900;
+    --r-h1-align: center;
+    --r-h1-transform: uppercase;
+    --r-h1-spacing: -1px;
+    --r-h1-border-bottom: 4px solid #000;
+    --r-h1-padding-bottom: 0.5rem;
+    --r-h2-size: 0.8rem;
+    --r-h2-weight: 700;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: none;
+    --r-h2-padding: 0.3rem 0.75rem;
+}
+.resume-output.rich-output-area.theme-sharp {
+    border: 2px solid #000 !important;
+    border-radius: 0 !important;
+}
+.resume-output.rich-output-area.theme-sharp h1 {
+    border-top: 4px solid #000 !important;
+    padding-top: 0.5rem !important;
+}
+.resume-output.rich-output-area.theme-sharp h2 {
+    background: #000 !important;
+    display: inline-block !important;
+    border-bottom: none !important;
+    -webkit-text-fill-color: #fff !important;
+    color: #fff !important;
+}
+.resume-output.rich-output-area.theme-sharp h3 {
+    text-decoration: underline !important;
+}
+
+/* ── 17. MODERN TECH (dark GitHub bg, purple/blue accents) ── */
+.theme-modern-tech {
+    --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
+    --r-accent-color: #8b5cf6;
+    --r-h1-color: #8b5cf6;
+    --r-h2-color: #3b82f6;
+    --r-h3-color: #f0f6fc;
+    --r-text-color: #8b949e;
+    --r-bg-color: #0d1117;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 600;
+    --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: 0px;
+    --r-h1-border-bottom: 2px solid #8b5cf6;
+    --r-h2-size: 0.82rem;
+    --r-h2-weight: 600;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 2px;
+    --r-h2-border-bottom: 1px solid #21262d;
+}
+.resume-output.rich-output-area.theme-modern-tech {
+    border: 1px solid #30363d !important;
+}
+
+/* ── 18. OCEAN (deep navy, cyan accents, light centered name) ── */
+.theme-ocean {
+    --r-font-family: 'Outfit', sans-serif;
+    --r-accent-color: #06b6d4;
+    --r-h1-color: #f1f5f9;
+    --r-h2-color: #06b6d4;
+    --r-h3-color: #e2e8f0;
+    --r-text-color: #94a3b8;
+    --r-bg-color: #0f172a;
+    --r-h1-size: 2.2rem;
+    --r-h1-weight: 300;
+    --r-h1-align: center;
+    --r-h1-transform: none;
+    --r-h1-spacing: 3px;
+    --r-h1-border-bottom: 2px solid #06b6d4;
+    --r-h2-size: 0.78rem;
+    --r-h2-weight: 500;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+/* ── 19. MIDNIGHT GOLD (dark luxury, gold, wide letter-spacing) ── */
+.theme-midnight-gold {
+    --r-font-family: 'Garamond', 'Georgia', serif;
+    --r-accent-color: #d4a843;
+    --r-h1-color: #d4a843;
+    --r-h2-color: #d4a843;
+    --r-h3-color: #e0e0e0;
+    --r-text-color: #a8a8b3;
+    --r-bg-color: #1a1a2e;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 400;
+    --r-h1-align: center;
+    --r-h1-transform: uppercase;
+    --r-h1-spacing: 6px;
+    --r-h1-border-bottom: 1px solid #d4a843;
+    --r-h2-size: 0.72rem;
+    --r-h2-weight: 400;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 4px;
+    --r-h2-border-bottom: 1px solid rgba(212, 168, 67, 0.3);
+}
+
+/* ── 20. BOLD (deep indigo, gradient text on h1 & h2, vibrant) ── */
+.theme-bold {
+    --r-font-family: 'Outfit', sans-serif;
+    --r-accent-color: #c084fc;
+    --r-h1-color: #ffffff;
+    --r-h2-color: #818cf8;
+    --r-h3-color: #a5b4fc;
+    --r-text-color: #c7d2fe;
+    --r-bg-color: #1e1b4b;
+    --r-h1-size: 2.4rem;
+    --r-h1-weight: 900;
+    --r-h1-align: center;
+    --r-h1-transform: none;
+    --r-h1-spacing: -1px;
+    --r-h1-border-bottom: none;
+    --r-h2-size: 0.85rem;
+    --r-h2-weight: 700;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: 1px solid rgba(129, 140, 248, 0.3);
+}
+.resume-output.rich-output-area.theme-bold h1 {
+    background: linear-gradient(90deg, #818cf8, #c084fc) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+.resume-output.rich-output-area.theme-bold h2 {
+    background: linear-gradient(90deg, #818cf8, #c084fc) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+/* ── 21. DARK (pure black, stark white text, minimal) ── */
+.theme-dark {
+    --r-font-family: 'Outfit', 'Arial Narrow', sans-serif;
+    --r-accent-color: #ffffff;
+    --r-h1-color: #ffffff;
+    --r-h2-color: #ffffff;
+    --r-h3-color: #ffffff;
+    --r-text-color: #d1d5db;
+    --r-bg-color: #000000;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 700;
+    --r-h1-align: left;
+    --r-h1-transform: none;
+    --r-h1-spacing: 0px;
+    --r-h1-border-bottom: 2px solid #ffffff;
+    --r-h2-size: 0.9rem;
+    --r-h2-weight: 500;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 3px;
+    --r-h2-border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.resume-output.rich-output-area.theme-dark {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
 
 /* ─── Step 3 Loading Pills ─── */
 .step-pill {
