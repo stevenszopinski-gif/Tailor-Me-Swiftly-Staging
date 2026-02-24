@@ -10,7 +10,7 @@
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1200,13 +1200,16 @@
                         html = `<div class="template-preview" style="background:${t.bg};padding:10px 8px;font-family:Garamond,Georgia,serif;border:1px solid #d4d4d4;">
                             <div class="tp-name" style="text-align:center;color:${t.h1};font-weight:300;letter-spacing:2.5px;font-size:9px;text-transform:uppercase;border-bottom:2px double ${t.h1};padding-bottom:2px;">JOHN DOE</div>
                             <div class="tp-contact" style="text-align:center;color:${tx};">john@email.com | New York, NY</div>
-                            <div style="border-bottom:1px solid ${t.h1};margin:3px 0;"></div>
                             <div class="tp-section" style="color:${t.accent};text-align:center;border-bottom:1px solid #ddd;padding-bottom:1px;font-variant:small-caps;text-transform:none;font-size:4.5px;letter-spacing:1px;">Experience</div>
-                            <div class="tp-role" style="color:${t.h1};font-style:italic;font-weight:400;">Senior Designer — Studio Co.</div>
-                            <div class="tp-bullet" style="color:${tx};">• Redesigned brand identity system</div>
-                            <div class="tp-bullet" style="color:${tx};">• Managed team of 5 designers</div>
+                            <div style="margin-left:10px;">
+                                <div class="tp-role" style="color:${t.h1};font-style:italic;font-weight:400;">Senior Designer — Studio Co.</div>
+                                <div class="tp-bullet" style="color:${tx};">• Redesigned brand identity system</div>
+                                <div class="tp-bullet" style="color:${tx};">• Managed team of 5 designers</div>
+                            </div>
                             <div class="tp-section" style="color:${t.accent};text-align:center;border-bottom:1px solid #ddd;padding-bottom:1px;font-variant:small-caps;text-transform:none;font-size:4.5px;letter-spacing:1px;">Education</div>
-                            <div class="tp-role" style="color:${t.h1};font-style:italic;font-weight:400;">B.A. Fine Arts, Yale University</div>
+                            <div style="margin-left:10px;">
+                                <div class="tp-role" style="color:${t.h1};font-style:italic;font-weight:400;">B.A. Fine Arts, Yale University</div>
+                            </div>
                         </div>`;
                         break;
 
@@ -1225,8 +1228,8 @@
 
                     case 'minimal':
                         html = `<div class="template-preview" style="background:${t.bg};padding:16px 14px;">
-                            <div class="tp-name" style="text-align:center;color:${t.h1};font-weight:300;font-size:8px;">John Doe</div>
-                            <div class="tp-contact" style="text-align:center;color:${tx};margin-bottom:8px;">john@email.com | NYC</div>
+                            <div class="tp-name" style="text-align:right;color:${t.h1};font-weight:300;font-size:8px;border-bottom:1px solid #e5e7eb;padding-bottom:3px;">John Doe</div>
+                            <div class="tp-contact" style="text-align:right;color:${tx};margin-bottom:8px;">john@email.com | NYC</div>
                             <div class="tp-section" style="color:#9ca3af;letter-spacing:3px;font-size:3px;font-weight:300;margin-top:8px;">EXPERIENCE</div>
                             <div class="tp-role" style="color:${t.h1};font-weight:500;">Designer — Acme Inc.</div>
                             <div class="tp-text" style="color:${tx};">Led product design for mobile app</div>
@@ -1262,15 +1265,14 @@
                         break;
 
                     case 'slate':
-                        html = `<div class="template-preview" style="background:${t.bg};padding:6px 9px;">
-                            <div class="tp-name" style="color:${t.h1};font-size:14px;font-weight:100;letter-spacing:-0.5px;">John Doe</div>
+                        html = `<div class="template-preview" style="background:${t.bg};padding:6px 9px 6px 16px;border-left:2px solid #e2e8f0;">
+                            <div class="tp-name" style="color:${t.h1};font-size:14px;font-weight:100;letter-spacing:-0.5px;margin-left:-8px;">John Doe</div>
                             <div class="tp-contact" style="color:${tx};">john@email.com | Chicago, IL</div>
                             <div class="tp-section" style="color:#94a3b8;font-size:2.5px;letter-spacing:3px;margin-top:8px;">EXPERIENCE</div>
-                            <div class="tp-role" style="color:#334155;font-weight:400;">Data Scientist — IBM</div>
+                            <div class="tp-role" style="color:#334155;font-weight:400;position:relative;"><span style="position:absolute;left:-11px;top:1px;width:4px;height:4px;background:#94a3b8;border-radius:50%;display:block;"></span>Data Scientist — IBM</div>
                             <div class="tp-bullet" style="color:${tx};">• Built ML pipeline serving 1M+ predictions/day</div>
-                            <div class="tp-bullet" style="color:${tx};">• Reduced model latency by 60%</div>
                             <div class="tp-section" style="color:#94a3b8;font-size:2.5px;letter-spacing:3px;margin-top:8px;">EDUCATION</div>
-                            <div class="tp-role" style="color:#334155;font-weight:400;">Ph.D. Statistics, UChicago</div>
+                            <div class="tp-role" style="color:#334155;font-weight:400;position:relative;"><span style="position:absolute;left:-11px;top:1px;width:4px;height:4px;background:#94a3b8;border-radius:50%;display:block;"></span>Ph.D. Statistics, UChicago</div>
                         </div>`;
                         break;
 
@@ -1291,14 +1293,18 @@
                         break;
 
                     case 'ruby':
-                        html = `<div class="template-preview" style="background:${t.bg};padding:8px 9px;border-top:3px solid ${t.accent};font-family:Georgia,serif;">
-                            <div class="tp-name" style="text-align:center;color:${t.h1};font-size:9px;text-transform:uppercase;letter-spacing:1px;border-top:3px solid ${t.accent};border-bottom:3px double ${t.accent};padding:2px 0;margin-top:1px;">JOHN DOE</div>
-                            <div class="tp-contact" style="text-align:center;color:${tx};">john@email.com | Boston, MA</div>
-                            <div class="tp-section" style="color:${t.accent};padding-bottom:1px;">■  EXPERIENCE</div>
-                            <div class="tp-role" style="color:${t.h1};font-variant:small-caps;">Attorney — Ropes & Gray LLP</div>
-                            <div class="tp-bullet" style="color:${tx};">• Managed 15+ corporate M&A transactions</div>
-                            <div class="tp-section" style="color:${t.accent};padding-bottom:1px;">■  EDUCATION</div>
-                            <div class="tp-role" style="color:${t.h1};">J.D., Harvard Law School</div>
+                        html = `<div class="template-preview" style="background:${t.bg};padding:0;font-family:Georgia,serif;overflow:hidden;">
+                            <div style="background:#9b1b30;padding:5px 9px;">
+                                <div class="tp-name" style="color:#fff;font-size:9px;text-transform:uppercase;letter-spacing:1px;text-align:center;">JOHN DOE</div>
+                                <div class="tp-contact" style="color:rgba(255,255,255,0.7);text-align:center;">john@email.com | Boston, MA</div>
+                            </div>
+                            <div style="padding:5px 9px;">
+                                <div class="tp-section" style="background:#9b1b30;color:#fff;padding:1px 4px;display:block;border-bottom:none;font-size:3.5px;">EXPERIENCE</div>
+                                <div class="tp-role" style="color:${t.h1};font-variant:small-caps;">Attorney — Ropes & Gray LLP</div>
+                                <div class="tp-bullet" style="color:${tx};">• Managed 15+ corporate M&A transactions</div>
+                                <div class="tp-section" style="background:#9b1b30;color:#fff;padding:1px 4px;display:block;border-bottom:none;font-size:3.5px;">EDUCATION</div>
+                                <div class="tp-role" style="color:${t.h1};">J.D., Harvard Law School</div>
+                            </div>
                         </div>`;
                         break;
 
@@ -1331,7 +1337,8 @@
                         break;
 
                     case 'forest':
-                        html = `<div class="template-preview" style="background:${t.bg};padding:8px 8px;border:1.5px solid #b7e4c7;border-top:4px solid ${t.accent};">
+                        html = `<div class="template-preview" style="background:${t.bg};padding:8px 8px 8px 22px;border:1.5px solid #b7e4c7;border-top:4px solid ${t.accent};position:relative;overflow:hidden;">
+                            <div style="position:absolute;left:0;top:0;bottom:0;width:14px;background:#2d6a4f;"></div>
                             <div class="tp-name" style="text-align:center;color:${t.h1};font-size:9px;font-weight:700;border-bottom:2px double ${t.accent};padding-bottom:2px;">JOHN DOE</div>
                             <div class="tp-contact" style="text-align:center;color:${tx};">john@email.com | Denver, CO</div>
                             <div class="tp-section" style="color:${t.accent};background:#ecfdf5;padding:1px 3px;border-radius:2px;display:inline-block;">1. EXPERIENCE</div>
@@ -1389,15 +1396,18 @@
                         break;
 
                     case 'sharp':
-                        html = `<div class="template-preview" style="background:${t.bg};padding:8px 9px;border:2px solid #000;">
-                            <div class="tp-name" style="color:${t.h1};font-size:10px;font-weight:900;text-transform:uppercase;border-bottom:3px solid #000;padding-bottom:2px;">JOHN DOE</div>
-                            <div class="tp-contact" style="color:${tx};">john@email.com | London, UK</div>
-                            <div class="tp-section" style="background:#000;color:#fff;display:inline-block;padding:0.5px 4px;border-bottom:none;font-size:3.5px;margin:4px 0 2px;">EXPERIENCE</div>
-                            <div class="tp-role" style="color:${t.h1};text-decoration:underline;">Editor — The Guardian</div>
-                            <div class="tp-bullet" style="color:${tx};">• Led investigative journalism team</div>
-                            <div class="tp-bullet" style="color:${tx};">• Published 200+ front-page stories</div>
-                            <div class="tp-section" style="background:#000;color:#fff;display:inline-block;padding:0.5px 4px;border-bottom:none;font-size:3.5px;margin:4px 0 2px;">EDUCATION</div>
-                            <div class="tp-role" style="color:${t.h1};text-decoration:underline;">M.A. Journalism, Oxford</div>
+                        html = `<div class="template-preview" style="background:${t.bg};padding:0;border:2px solid #000;overflow:hidden;">
+                            <div style="background:#000;padding:5px 9px;">
+                                <div class="tp-name" style="color:#fff;font-size:10px;font-weight:900;text-transform:uppercase;">JOHN DOE</div>
+                                <div class="tp-contact" style="color:rgba(255,255,255,0.6);">john@email.com | London, UK</div>
+                            </div>
+                            <div style="padding:5px 9px;">
+                                <div class="tp-section" style="background:#000;color:#fff;display:inline-block;padding:0.5px 4px;border-bottom:none;font-size:3.5px;margin:2px 0 2px;">EXPERIENCE</div>
+                                <div class="tp-role" style="color:${t.h1};text-decoration:underline;">Editor — The Guardian</div>
+                                <div class="tp-bullet" style="color:${tx};">• Led investigative journalism team</div>
+                                <div class="tp-section" style="background:#000;color:#fff;display:inline-block;padding:0.5px 4px;border-bottom:none;font-size:3.5px;margin:2px 0 2px;">EDUCATION</div>
+                                <div class="tp-role" style="color:${t.h1};text-decoration:underline;">M.A. Journalism, Oxford</div>
+                            </div>
                         </div>`;
                         break;
 

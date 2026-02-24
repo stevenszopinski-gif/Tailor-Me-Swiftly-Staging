@@ -1995,6 +1995,11 @@ ins.adsbygoogle[data-ad-status="filled"] {
     font-style: italic !important;
     font-weight: 400 !important;
 }
+.resume-output.rich-output-area.theme-classic-serif h3,
+.resume-output.rich-output-area.theme-classic-serif p,
+.resume-output.rich-output-area.theme-classic-serif ul {
+    margin-left: 2rem !important;
+}
 
 /* ── 3. MODERN CLEAN (left-aligned, bold 2.4rem name, thick blue borders, left bar) ── */
 .theme-modern-clean {
@@ -2046,10 +2051,10 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-text-color: #6b7280;
     --r-h1-size: 1.5rem;
     --r-h1-weight: 300;
-    --r-h1-align: center;
+    --r-h1-align: right;
     --r-h1-transform: none;
     --r-h1-spacing: 0px;
-    --r-h1-border-bottom: none;
+    --r-h1-border-bottom: 1px solid #e5e7eb;
     --r-h1-padding-bottom: 0.5rem;
     --r-h2-size: 0.65rem;
     --r-h2-weight: 300;
@@ -2164,12 +2169,28 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h3-size: 0.9rem;
     --r-body-size: 0.85rem;
 }
+.resume-output.rich-output-area.theme-slate {
+    padding-left: 3rem !important;
+    border-left: 2px solid #e2e8f0 !important;
+}
 .resume-output.rich-output-area.theme-slate h1 {
     margin-bottom: 0.1rem !important;
+    margin-left: -1.5rem !important;
 }
 .resume-output.rich-output-area.theme-slate h3 {
     font-weight: 400 !important;
     color: #334155 !important;
+    position: relative !important;
+}
+.resume-output.rich-output-area.theme-slate h3::before {
+    content: '';
+    position: absolute;
+    left: -2.15rem;
+    width: 8px;
+    height: 8px;
+    background: #94a3b8;
+    border-radius: 50%;
+    margin-top: 0.35rem;
 }
 
 /* ── 8. NORDIC (full-bleed dark header banner, light body, left-accented sections) ── */
@@ -2227,18 +2248,21 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h2-spacing: 4px;
     --r-h2-border-bottom: none;
 }
-.resume-output.rich-output-area.theme-ruby {
-    border-top: 4px solid #9b1b30 !important;
-    border-bottom: 4px solid #9b1b30 !important;
-}
 .resume-output.rich-output-area.theme-ruby h1 {
-    border-top: 4px solid #9b1b30 !important;
-    padding-top: 0.5rem !important;
+    background: #9b1b30 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    padding: 0.8rem 1rem !important;
+    margin: -2.5rem -2.5rem 1rem -2.5rem !important;
+    border: none !important;
 }
-.resume-output.rich-output-area.theme-ruby h2::before {
-    content: '■  ';
-    font-size: 0.6rem;
-    vertical-align: middle;
+.resume-output.rich-output-area.theme-ruby h2 {
+    background: #9b1b30 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    padding: 0.3rem 0.6rem !important;
+    display: block !important;
+    border: none !important;
 }
 .resume-output.rich-output-area.theme-ruby h3 {
     font-variant: small-caps !important;
@@ -2359,6 +2383,17 @@ ins.adsbygoogle[data-ad-status="filled"] {
     border: 2px solid #b7e4c7 !important;
     border-top: 5px solid #2d6a4f !important;
     counter-reset: section !important;
+    padding-left: 4rem !important;
+    position: relative;
+}
+.resume-output.rich-output-area.theme-forest::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 35px;
+    background: #2d6a4f;
 }
 .resume-output.rich-output-area.theme-forest h2 {
     background: #ecfdf5 !important;
@@ -2515,8 +2550,12 @@ ins.adsbygoogle[data-ad-status="filled"] {
     border-radius: 0 !important;
 }
 .resume-output.rich-output-area.theme-sharp h1 {
-    border-top: 5px solid #000 !important;
-    padding-top: 0.5rem !important;
+    background: #000 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    padding: 1rem 1.2rem !important;
+    margin: -2.5rem -2.5rem 1rem -2.5rem !important;
+    border: none !important;
 }
 .resume-output.rich-output-area.theme-sharp h2 {
     background: #000 !important;
