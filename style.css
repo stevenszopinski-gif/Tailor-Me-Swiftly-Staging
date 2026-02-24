@@ -2057,39 +2057,6 @@ ins.adsbygoogle[data-ad-status="filled"] {
     vertical-align: middle;
 }
 
-/* ── 4. MINIMAL (zen, zero borders, pure whitespace separation, extreme restraint) ── */
-.theme-minimal {
-    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
-    --r-accent-color: #e5e7eb;
-    --r-h1-color: #111111;
-    --r-h2-color: #9ca3af;
-    --r-h3-color: #374151;
-    --r-text-color: #6b7280;
-    --r-h1-size: 2.8rem;
-    --r-h1-weight: 200;
-    --r-h1-align: right;
-    --r-h1-transform: none;
-    --r-h1-spacing: -1px;
-    --r-h1-border-bottom: none;
-    --r-h1-padding-bottom: 1.5rem;
-    --r-h2-size: 0.45rem;
-    --r-h2-weight: 400;
-    --r-h2-transform: uppercase;
-    --r-h2-spacing: 12px;
-    --r-h2-border-bottom: none;
-    --r-h2-margin-top: 3.5rem;
-}
-.resume-output.rich-output-area.theme-minimal {
-    padding: 3.5rem 4rem !important;
-}
-.resume-output.rich-output-area.theme-minimal h2 {
-    color: #d1d5db !important;
-    -webkit-text-fill-color: #d1d5db !important;
-}
-.resume-output.rich-output-area.theme-minimal h3 {
-    font-weight: 500 !important;
-}
-
 /* ── 5. CREATIVE (magazine layout, teal top bar, colored pill h2 tags, dotted h3) ── */
 .theme-creative {
     --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
@@ -2134,53 +2101,6 @@ ins.adsbygoogle[data-ad-status="filled"] {
 }
 .resume-output.rich-output-area.theme-creative h2:nth-of-type(even) {
     text-align: right !important;
-}
-
-/* ── 6. CORAL (card style, rounded corners, shadow, centered name, gradient bar) ── */
-.theme-coral {
-    --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
-    --r-accent-color: #e85d75;
-    --r-h1-color: #2d2d2d;
-    --r-h2-color: #e85d75;
-    --r-h3-color: #e85d75;
-    --r-text-color: #4a4a4a;
-    --r-h1-size: 1.6rem;
-    --r-h1-weight: 700;
-    --r-h1-align: center;
-    --r-h1-transform: none;
-    --r-h1-spacing: 0px;
-    --r-h1-border-bottom: 3px solid;
-    --r-h2-size: 0.9rem;
-    --r-h2-weight: 700;
-    --r-h2-transform: none;
-    --r-h2-spacing: 1px;
-    --r-h2-border-bottom: 2px solid #fecdd3;
-}
-.resume-output.rich-output-area.theme-coral {
-    border-radius: 16px !important;
-    box-shadow: 0 8px 40px rgba(232, 93, 117, 0.18) !important;
-    border: 1px solid #fecdd3 !important;
-    padding: 3rem !important;
-}
-.resume-output.rich-output-area.theme-coral h1 {
-    background: linear-gradient(135deg, #e85d75, #f093a0) !important;
-    color: #fff !important;
-    -webkit-text-fill-color: #fff !important;
-    border: none !important;
-    padding: 0.6rem 1.2rem !important;
-    border-radius: 30px !important;
-    display: inline-block !important;
-    margin-bottom: 0.5rem !important;
-}
-.resume-output.rich-output-area.theme-coral h2 {
-    background: linear-gradient(90deg, #e85d75, #f093a0) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    text-align: center !important;
-}
-.resume-output.rich-output-area.theme-coral h3 {
-    text-align: center !important;
 }
 
 /* ── 7. SLATE (giant 3.2rem ultralight name, no borders anywhere, pure whitespace) ── */
@@ -2230,41 +2150,6 @@ ins.adsbygoogle[data-ad-status="filled"] {
     background: #94a3b8;
     border-radius: 50%;
     margin-top: 0.35rem;
-}
-
-/* ── 8. NORDIC (full-bleed dark header banner, light body, left-accented sections) ── */
-.theme-nordic {
-    --r-font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    --r-accent-color: #5a7d9a;
-    --r-h1-color: #f0f4f8;
-    --r-h2-color: #5a7d9a;
-    --r-h3-color: #2d3748;
-    --r-text-color: #4a5568;
-    --r-bg-color: #f0f4f8;
-    --r-h1-size: 2rem;
-    --r-h1-weight: 600;
-    --r-h1-align: left;
-    --r-h1-transform: none;
-    --r-h1-spacing: 1px;
-    --r-h1-border-bottom: none;
-    --r-h1-padding-bottom: 0;
-    --r-h2-size: 0.78rem;
-    --r-h2-weight: 600;
-    --r-h2-transform: uppercase;
-    --r-h2-spacing: 3px;
-    --r-h2-border-bottom: none;
-    --r-h2-padding: 0 0 0.25rem 0.6rem;
-}
-.resume-output.rich-output-area.theme-nordic h1 {
-    background: #2d3748 !important;
-    padding: 1rem 1.2rem !important;
-    margin: -2.5rem -2.5rem 1rem -2.5rem !important;
-    border-radius: 0 !important;
-    -webkit-text-fill-color: #f0f4f8 !important;
-}
-.resume-output.rich-output-area.theme-nordic h2 {
-    border-left: 3px solid #5a7d9a !important;
-    border-bottom: none !important;
 }
 
 /* ── 9. RUBY (law-firm brief, red square bullets on h2, double-rule name, small-caps h3) ── */
@@ -2350,62 +2235,6 @@ ins.adsbygoogle[data-ad-status="filled"] {
 }
 .resume-output.rich-output-area.theme-warm h2::after {
     content: '  —';
-}
-
-/* ── 11. SUNSET (rainbow gradient top bar, warm organic, short accent underlines) ── */
-.theme-sunset {
-    --r-font-family: 'Outfit', sans-serif;
-    --r-accent-color: #e07a5f;
-    --r-h1-color: #3d405b;
-    --r-h2-color: #e07a5f;
-    --r-h3-color: #3d405b;
-    --r-text-color: #4a3728;
-    --r-bg-color: #fffbf5;
-    --r-h1-size: 2.2rem;
-    --r-h1-weight: 800;
-    --r-h1-align: left;
-    --r-h1-transform: none;
-    --r-h1-spacing: -0.5px;
-    --r-h1-border-bottom: none;
-    --r-h2-size: 0.85rem;
-    --r-h2-weight: 600;
-    --r-h2-transform: none;
-    --r-h2-spacing: 1px;
-    --r-h2-border-bottom: none;
-    --r-h2-padding: 0 0 0.5rem 0;
-}
-.resume-output.rich-output-area.theme-sunset {
-    border-top: 4px solid transparent !important;
-    border-image: linear-gradient(90deg, #e07a5f, #f2cc8f, #81b29a) 1 !important;
-    border-radius: 0 !important;
-}
-.resume-output.rich-output-area.theme-sunset h1 {
-    background: linear-gradient(135deg, rgba(224, 122, 95, 0.08), rgba(129, 178, 154, 0.08)) !important;
-    padding: 0.8rem 1.2rem !important;
-    margin: -2.5rem -2.5rem 1rem -2.5rem !important;
-    -webkit-text-fill-color: #3d405b !important;
-}
-.resume-output.rich-output-area.theme-sunset h2 {
-    position: relative;
-    border-bottom: none !important;
-    text-align: right !important;
-}
-.resume-output.rich-output-area.theme-sunset h3 {
-    text-align: right !important;
-}
-.resume-output.rich-output-area.theme-sunset p,
-.resume-output.rich-output-area.theme-sunset li {
-    text-align: right !important;
-}
-.resume-output.rich-output-area.theme-sunset h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 50px;
-    height: 3px;
-    background: linear-gradient(90deg, #e07a5f, #f2cc8f);
-    border-radius: 2px;
 }
 
 /* ── 12. FOREST (earthy greens, double borders, light green bg) ── */
@@ -2667,49 +2496,6 @@ ins.adsbygoogle[data-ad-status="filled"] {
     list-style-type: '→ ';
 }
 
-/* ── 18. OCEAN (deep navy, cyan accents, light centered name) ── */
-.theme-ocean {
-    --r-font-family: 'Outfit', sans-serif;
-    --r-accent-color: #06b6d4;
-    --r-h1-color: #0e7490;
-    --r-h2-color: #06b6d4;
-    --r-h3-color: #1e293b;
-    --r-text-color: #475569;
-    --r-h1-size: 2.2rem;
-    --r-h1-weight: 300;
-    --r-h1-align: center;
-    --r-h1-transform: none;
-    --r-h1-spacing: 3px;
-    --r-h1-border-bottom: 2px solid #06b6d4;
-    --r-h2-size: 0.78rem;
-    --r-h2-weight: 500;
-    --r-h2-transform: uppercase;
-    --r-h2-spacing: 3px;
-    --r-h2-border-bottom: 1px solid rgba(6, 182, 212, 0.3);
-}
-.resume-output.rich-output-area.theme-ocean {
-    border: 1px solid rgba(6, 182, 212, 0.25) !important;
-    box-shadow: inset 0 -3px 30px rgba(6, 182, 212, 0.04) !important;
-    padding: 2.5rem 5rem !important;
-}
-.resume-output.rich-output-area.theme-ocean h1 {
-    background: rgba(6, 182, 212, 0.06) !important;
-    padding: 0.8rem 1.2rem !important;
-    border-radius: 6px !important;
-}
-.resume-output.rich-output-area.theme-ocean h2 {
-    text-align: center !important;
-    letter-spacing: 8px !important;
-    font-size: 0.6rem !important;
-    border-bottom: 1px solid rgba(6, 182, 212, 0.2) !important;
-    border-top: 1px solid rgba(6, 182, 212, 0.2) !important;
-    padding: 0.5rem 0 !important;
-    margin-top: 2.5rem !important;
-}
-.resume-output.rich-output-area.theme-ocean h3 {
-    text-align: center !important;
-}
-
 /* ── 19. MIDNIGHT GOLD (dark luxury, gold, wide letter-spacing) ── */
 .theme-midnight-gold {
     --r-font-family: 'Garamond', 'Georgia', serif;
@@ -2809,54 +2595,6 @@ ins.adsbygoogle[data-ad-status="filled"] {
     background: linear-gradient(90deg, #818cf8, #c084fc);
     margin-top: 3px;
     border-radius: 1px;
-}
-
-/* ── 21. DARK (pure black, stark white text, minimal) ── */
-.theme-dark {
-    --r-font-family: 'Outfit', 'Arial Narrow', sans-serif;
-    --r-accent-color: #000000;
-    --r-h1-color: #000000;
-    --r-h2-color: #000000;
-    --r-h3-color: #111111;
-    --r-text-color: #374151;
-    --r-h1-size: 3.5rem;
-    --r-h1-weight: 900;
-    --r-h1-align: left;
-    --r-h1-transform: uppercase;
-    --r-h1-spacing: -2px;
-    --r-h1-border-bottom: 3px solid #000000;
-    --r-h2-size: 0.9rem;
-    --r-h2-weight: 500;
-    --r-h2-transform: uppercase;
-    --r-h2-spacing: 3px;
-    --r-h2-border-bottom: 1px solid #e5e7eb;
-}
-.resume-output.rich-output-area.theme-dark {
-    border: 3px solid #000 !important;
-    border-radius: 0 !important;
-}
-.resume-output.rich-output-area.theme-dark h2 {
-    font-size: 1.3rem !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    border-bottom: 3px solid #000 !important;
-    border-left: none !important;
-    padding-left: 0 !important;
-    padding-bottom: 0.2rem !important;
-    margin-top: 2.5rem !important;
-    letter-spacing: 0 !important;
-}
-.resume-output.rich-output-area.theme-dark h3 {
-    text-transform: uppercase !important;
-    font-size: 0.8rem !important;
-    letter-spacing: 2px !important;
-}
-.resume-output.rich-output-area.theme-dark ul {
-    list-style: none;
-}
-.resume-output.rich-output-area.theme-dark li::before {
-    content: '/ ';
-    color: rgba(0, 0, 0, 0.3);
 }
 
 /* ─── Step 3 Loading Pills ─── */
