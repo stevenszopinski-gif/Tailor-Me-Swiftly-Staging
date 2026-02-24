@@ -431,11 +431,16 @@ async function fetchWithFallback(targetUrl) {
 
     const data = await resp.json();
 
-    if (!resp.ok || data.error) {
+    if (!resp.ok) {
         throw new Error(data.error || `Fetch failed (${resp.status})`);
     }
 
-    return data.html;
+    // LinkedIn or other soft errors (returned as 200 with error field)
+    if (data.error) {
+        throw new Error(data.error);
+    }
+
+    return data;
 }
 
 async function extractTextFromPDF(file) {
@@ -485,17 +490,24 @@ async function fetchJobDescription() {
     el.urlStatus.innerHTML = '<span style="color:var(--text-secondary)"><i class="fa-solid fa-spinner fa-spin"></i> Fetching from proxied source...</span>';
 
     try {
-        const rawHtml = await fetchWithFallback(url);
+        const data = await fetchWithFallback(url);
 
-        if (rawHtml) {
-            // Very simplistic HTML to text extraction
+        // Structured response (Greenhouse, Lever, Workday, JSON-LD)
+        if (data.structured && data.text) {
+            el.jobDescRaw.value = data.text;
+            const extras = [data.title, data.company].filter(Boolean).join(' at ');
+            const label = extras ? `Extracted: ${extras}` : 'Extracted structured job data';
+            el.urlStatus.innerHTML = `<span class="success-text"><i class="fa-solid fa-check"></i> ${label}. Review below.</span>`;
+            checkStep2();
+            return;
+        }
+
+        // Fallback: raw HTML
+        if (data.html) {
             const parser = new DOMParser();
-            const doc = parser.parseFromString(rawHtml, 'text/html');
-            // Remove scripts and styles
+            const doc = parser.parseFromString(data.html, 'text/html');
             doc.querySelectorAll('script, style, nav, header, footer').forEach(e => e.remove());
             const text = doc.body.textContent || "";
-
-            // Clean up excessive whitespace
             const cleanText = text.replace(/\s+/g, ' ').trim();
 
             if (cleanText.length > 50) {
