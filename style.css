@@ -786,8 +786,8 @@ textarea:focus {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
-    width: 182.5mm !important;
-    /* Maximized width for 0.5in margins */
+    width: 196mm !important;
+    /* Maximized width for 6mm side margins */
     box-sizing: border-box !important;
     overflow-wrap: break-word !important;
     word-break: break-word !important;

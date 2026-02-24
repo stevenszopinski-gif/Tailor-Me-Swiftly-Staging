@@ -161,7 +161,7 @@ function copyToClipboard(text, btn) {
 
 function downloadAsPDF(el, filename) {
     const opt = {
-        margin: [12.7, 12.7],
+        margin: [10, 6],
         filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true },
