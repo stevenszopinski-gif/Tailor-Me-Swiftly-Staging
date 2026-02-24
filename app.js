@@ -484,49 +484,43 @@ async function handleLinkedInImport() {
         if (fetchError) throw new Error(fetchError.message || 'Failed to fetch profile');
         if (fetchData?.error) throw new Error(fetchData.error);
 
-        const pageText = fetchData?.text || fetchData?.html?.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || '';
+        let pageText = fetchData?.text || fetchData?.html?.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || '';
         if (!pageText || pageText.length < 50) {
             throw new Error('Could not retrieve profile content. Make sure your profile is set to public.');
         }
 
+        // Truncate to ~8K chars — profile content is in the first portion, rest is boilerplate
+        if (pageText.length > 8000) pageText = pageText.substring(0, 8000);
+
         statusEl.innerHTML = '<span style="color:var(--text-secondary)"><i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> Extracting experience, education, and skills with AI...</span>';
 
         // Step 2: Send to Gemini for structured extraction
-        const extractionPrompt = `Extract all resume-relevant information from this LinkedIn profile and format it as a clean, professional resume in plain text. Use this exact format:
-
-[Full Name]
-[Headline] | [Location]
+        const extractionPrompt = `Convert this LinkedIn profile into a plain-text resume. Format:
+NAME
+Headline | Location
 
 EXPERIENCE
-[Job Title] | [Company] | [Dates]
-- [Achievement/responsibility bullet 1]
-- [Achievement/responsibility bullet 2]
+Job Title | Company | Dates
+- Achievement bullet (action verb)
 
 EDUCATION
-[Degree] | [School] | [Dates]
-- [Detail]
+Degree | School | Dates
 
 SKILLS
-- [Skill 1], [Skill 2], [Skill 3]
+Skill1, Skill2, Skill3
 
-Rules:
-- Start every bullet with an action verb
-- Keep all real metrics/numbers
-- If only descriptions exist (not bullets), break them into concise achievement bullets
-- Include up to 5 experience entries and 3 education entries
-- Include up to 15 skills
-- Output ONLY the formatted resume text, no markdown fences, no explanation`;
+Keep real metrics. Max 5 jobs, 3 education, 15 skills. Output ONLY the resume text.`;
 
         const { data: geminiData, error: geminiError } = await withTimeout(
             supabaseClient.functions.invoke('gemini-proxy', {
                 body: {
-                    model: state.model,
+                    model: 'gemini-3-flash-preview',
                     systemInstruction: { parts: [{ text: extractionPrompt }] },
-                    contents: [{ parts: [{ text: `LinkedIn Profile Page Text:\n\n${pageText}` }] }],
-                    generationConfig: { temperature: 0.2 }
+                    contents: [{ parts: [{ text: pageText }] }],
+                    generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
                 }
             }),
-            60000
+            30000
         );
 
         if (geminiError) throw new Error(geminiError.message || 'AI extraction failed');
