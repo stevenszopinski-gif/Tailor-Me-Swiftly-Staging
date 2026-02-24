@@ -2144,6 +2144,267 @@ ins.adsbygoogle[data-ad-status="filled"] {
     padding-bottom: 0.5rem;
 }
 
+/* ── CLASSIC SERIF (traditional, Harvard resume style) ── */
+.theme-classic-serif {
+    --r-font-family: 'Garamond', 'Times New Roman', serif;
+    --r-bg-color: #ffffff;
+    --r-text-color: #222222;
+    --r-accent-color: #1a1a2e;
+    --r-h1-color: #1a1a2e;
+    --r-h2-color: #1a1a2e;
+    --r-h3-color: #1a1a2e;
+    --r-h1-border: 2px solid #1a1a2e;
+    --r-h2-border: 1px solid #cccccc;
+    --r-h1-transform: uppercase;
+    --r-h2-transform: uppercase;
+    --r-h1-align: center;
+}
+.theme-classic-serif h1 { font-weight: 400; letter-spacing: 4px; }
+.theme-classic-serif h2 { font-weight: 400; letter-spacing: 3px; font-size: 0.8rem; }
+
+/* ── MODERN CLEAN (light, blue accent, sans-serif) ── */
+.theme-modern-clean {
+    --r-font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    --r-bg-color: #ffffff;
+    --r-text-color: #374151;
+    --r-accent-color: #2563eb;
+    --r-h1-color: #111827;
+    --r-h2-color: #2563eb;
+    --r-h3-color: #111827;
+    --r-h1-border: none;
+    --r-h2-border: 2px solid #2563eb;
+    --r-h1-transform: none;
+    --r-h2-transform: uppercase;
+    --r-h1-align: left;
+}
+.theme-modern-clean h1 { font-weight: 800; letter-spacing: -1px; font-size: 2.2rem; }
+.theme-modern-clean h2 { letter-spacing: 2px; font-weight: 700; }
+
+/* ── CORAL (warm coral + charcoal, contemporary) ── */
+.theme-coral {
+    --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
+    --r-bg-color: #ffffff;
+    --r-text-color: #4a4a4a;
+    --r-accent-color: #e85d75;
+    --r-h1-color: #2d2d2d;
+    --r-h2-color: #e85d75;
+    --r-h3-color: #2d2d2d;
+    --r-h1-border: none;
+    --r-h2-border: none;
+    --r-h1-transform: none;
+    --r-h2-transform: none;
+    --r-h1-align: left;
+}
+.theme-coral.resume-output.rich-output-area {
+    border-left: 5px solid #e85d75 !important;
+    border-radius: 0 !important;
+}
+.theme-coral h1 { font-weight: 700; }
+.theme-coral h2 { font-weight: 600; background: linear-gradient(90deg, #e85d75, #f093a0); -webkit-background-clip: text; background-clip: text; color: transparent !important; }
+
+/* ── OCEAN (deep navy + aqua accents) ── */
+.theme-ocean {
+    --r-font-family: 'Outfit', sans-serif;
+    --r-bg-color: #0f172a;
+    --r-text-color: #94a3b8;
+    --r-accent-color: #06b6d4;
+    --r-h1-color: #f1f5f9;
+    --r-h2-color: #06b6d4;
+    --r-h3-color: #e2e8f0;
+    --r-h1-border: 2px solid #06b6d4;
+    --r-h2-border: 1px solid rgba(6, 182, 212, 0.3);
+    --r-h1-transform: none;
+    --r-h2-transform: uppercase;
+    --r-h1-align: center;
+}
+.theme-ocean h1 { font-weight: 300; letter-spacing: 3px; }
+.theme-ocean h2 { letter-spacing: 3px; }
+
+/* ── FOREST (earthy greens, natural feel) ── */
+.theme-forest {
+    --r-font-family: 'Georgia', serif;
+    --r-bg-color: #f8faf5;
+    --r-text-color: #3d4a3a;
+    --r-accent-color: #2d6a4f;
+    --r-h1-color: #1b4332;
+    --r-h2-color: #2d6a4f;
+    --r-h3-color: #1b4332;
+    --r-h1-border: 3px double #2d6a4f;
+    --r-h2-border: 1px solid #b7e4c7;
+    --r-h1-transform: none;
+    --r-h2-transform: uppercase;
+    --r-h1-align: center;
+}
+.theme-forest h1 { font-weight: 700; }
+.theme-forest h2 { letter-spacing: 2px; }
+
+/* ── SLATE (cool greys, professional tech) ── */
+.theme-slate {
+    --r-font-family: 'Roboto', 'Arial', sans-serif;
+    --r-bg-color: #f8fafc;
+    --r-text-color: #475569;
+    --r-accent-color: #475569;
+    --r-h1-color: #0f172a;
+    --r-h2-color: #64748b;
+    --r-h3-color: #1e293b;
+    --r-h1-border: 1px solid #e2e8f0;
+    --r-h2-border: 1px solid #e2e8f0;
+    --r-h1-transform: none;
+    --r-h2-transform: uppercase;
+    --r-h1-align: left;
+}
+.theme-slate h1 { font-weight: 300; font-size: 2.4rem; letter-spacing: -1px; }
+.theme-slate h2 { letter-spacing: 4px; font-weight: 400; font-size: 0.75rem; }
+
+/* ── MIDNIGHT GOLD (dark with gold luxury accents) ── */
+.theme-midnight-gold {
+    --r-font-family: 'Garamond', 'Georgia', serif;
+    --r-bg-color: #1a1a2e;
+    --r-text-color: #a8a8b3;
+    --r-accent-color: #d4a843;
+    --r-h1-color: #d4a843;
+    --r-h2-color: #d4a843;
+    --r-h3-color: #e0e0e0;
+    --r-h1-border: 1px solid #d4a843;
+    --r-h2-border: 1px solid rgba(212, 168, 67, 0.3);
+    --r-h1-transform: uppercase;
+    --r-h2-transform: uppercase;
+    --r-h1-align: center;
+}
+.theme-midnight-gold h1 { font-weight: 400; letter-spacing: 5px; }
+.theme-midnight-gold h2 { letter-spacing: 3px; }
+
+/* ── SUNSET (warm gradient feel, orange to pink) ── */
+.theme-sunset {
+    --r-font-family: 'Outfit', sans-serif;
+    --r-bg-color: #fffbf5;
+    --r-text-color: #4a3728;
+    --r-accent-color: #e07a5f;
+    --r-h1-color: #3d405b;
+    --r-h2-color: #e07a5f;
+    --r-h3-color: #3d405b;
+    --r-h1-border: none;
+    --r-h2-border: none;
+    --r-h1-transform: none;
+    --r-h2-transform: none;
+    --r-h1-align: left;
+}
+.theme-sunset.resume-output.rich-output-area {
+    border-top: 4px solid transparent !important;
+    border-image: linear-gradient(90deg, #e07a5f, #f2cc8f, #81b29a) 1 !important;
+    border-radius: 0 !important;
+}
+.theme-sunset h1 { font-weight: 800; }
+.theme-sunset h2 { font-weight: 600; letter-spacing: 1px; }
+
+/* ── NORDIC (Scandinavian minimalism, muted blues) ── */
+.theme-nordic {
+    --r-font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    --r-bg-color: #f0f4f8;
+    --r-text-color: #4a5568;
+    --r-accent-color: #5a7d9a;
+    --r-h1-color: #2d3748;
+    --r-h2-color: #5a7d9a;
+    --r-h3-color: #2d3748;
+    --r-h1-border: none;
+    --r-h2-border: 1px solid #cbd5e0;
+    --r-h1-transform: none;
+    --r-h2-transform: uppercase;
+    --r-h1-align: center;
+}
+.theme-nordic h1 { font-weight: 200; font-size: 2.5rem; letter-spacing: 2px; }
+.theme-nordic h2 { letter-spacing: 3px; font-weight: 500; }
+
+/* ── RUBY (deep red, authoritative) ── */
+.theme-ruby {
+    --r-font-family: 'Georgia', serif;
+    --r-bg-color: #ffffff;
+    --r-text-color: #333333;
+    --r-accent-color: #9b1b30;
+    --r-h1-color: #9b1b30;
+    --r-h2-color: #9b1b30;
+    --r-h3-color: #1a1a1a;
+    --r-h1-border: 3px solid #9b1b30;
+    --r-h2-border: 1px solid #d4a5a5;
+    --r-h1-transform: uppercase;
+    --r-h2-transform: uppercase;
+    --r-h1-align: center;
+}
+.theme-ruby h1 { font-weight: 700; letter-spacing: 3px; }
+.theme-ruby h2 { letter-spacing: 2px; }
+
+/* ── TWO COLUMN (simulated 2-col with left sidebar accent) ── */
+.theme-two-column {
+    --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
+    --r-bg-color: #ffffff;
+    --r-text-color: #333333;
+    --r-accent-color: #334155;
+    --r-h1-color: #ffffff;
+    --r-h2-color: #334155;
+    --r-h3-color: #1e293b;
+    --r-h1-border: none;
+    --r-h2-border: 2px solid #334155;
+    --r-h1-transform: none;
+    --r-h2-transform: uppercase;
+    --r-h1-align: left;
+}
+.theme-two-column.resume-output.rich-output-area {
+    position: relative;
+    padding-left: 3.5rem !important;
+    border-left: 60px solid #334155 !important;
+    border-radius: 0 !important;
+}
+.theme-two-column h1 {
+    margin-left: -3.5rem;
+    padding-left: 1rem;
+    background: #334155 !important;
+    -webkit-text-fill-color: #fff !important;
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+}
+.theme-two-column h2 { letter-spacing: 2px; font-weight: 700; }
+
+/* ── LAVENDER (soft purple, gentle, approachable) ── */
+.theme-lavender {
+    --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
+    --r-bg-color: #faf5ff;
+    --r-text-color: #4c1d95;
+    --r-accent-color: #7c3aed;
+    --r-h1-color: #4c1d95;
+    --r-h2-color: #7c3aed;
+    --r-h3-color: #4c1d95;
+    --r-h1-border: none;
+    --r-h2-border: 1px solid #ddd6fe;
+    --r-h1-transform: none;
+    --r-h2-transform: none;
+    --r-h1-align: center;
+}
+.theme-lavender.resume-output.rich-output-area {
+    border: 1px solid #ddd6fe !important;
+    border-radius: 16px !important;
+}
+.theme-lavender h1 { font-weight: 600; }
+.theme-lavender h2 { font-weight: 600; letter-spacing: 1px; }
+
+/* ── MONOSPACE (developer/hacker style) ── */
+.theme-monospace {
+    --r-font-family: 'Courier New', 'Fira Code', monospace;
+    --r-bg-color: #fafafa;
+    --r-text-color: #333333;
+    --r-accent-color: #16a34a;
+    --r-h1-color: #111111;
+    --r-h2-color: #16a34a;
+    --r-h3-color: #111111;
+    --r-h1-border: 2px dashed #16a34a;
+    --r-h2-border: 1px dashed #bbf7d0;
+    --r-h1-transform: none;
+    --r-h2-transform: uppercase;
+    --r-h1-align: left;
+}
+.theme-monospace h1 { font-weight: 700; letter-spacing: 0; font-size: 1.6rem; }
+.theme-monospace h2 { letter-spacing: 2px; font-size: 0.8rem; }
+.theme-monospace h2::before { content: '// '; color: #86efac; }
+
 /* ─── Step 3 Loading Pills ─── */
 .step-pill {
     display: inline-flex;
