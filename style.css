@@ -619,6 +619,10 @@ textarea:focus {
     justify-content: flex-start;
 }
 
+.step-actions.split {
+    justify-content: space-between;
+}
+
 /* Output Generation */
 .generation-intro {
     text-align: center;
