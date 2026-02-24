@@ -428,27 +428,23 @@ async function handleFile(file) {
 // ------ LinkedIn Support ------
 // ------ Generic Resilience Helper ------
 async function fetchWithFallback(targetUrl) {
-    const session = window.supabaseClient ? (await window.supabaseClient.auth.getSession()).data.session : null;
-    const token = session?.access_token || SUPABASE_ANON_KEY;
-
-    const resp = await fetch(SUPABASE_FETCH_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'apikey': SUPABASE_ANON_KEY
-        },
-        body: JSON.stringify({ url: targetUrl })
-    });
-
-    const data = await resp.json();
-
-    if (!resp.ok) {
-        throw new Error(data.error || `Fetch failed (${resp.status})`);
+    if (!window.supabaseClient) {
+        throw new Error('App not ready. Please refresh the page.');
     }
 
-    // LinkedIn or other soft errors (returned as 200 with error field)
-    if (data.error) {
+    const { data, error } = await withTimeout(
+        supabaseClient.functions.invoke('fetch-url', {
+            body: { url: targetUrl }
+        }),
+        20000
+    );
+
+    if (error) {
+        throw new Error(error.message || 'Failed to fetch URL');
+    }
+
+    // Soft errors (returned as 200 with error field)
+    if (data?.error) {
         throw new Error(data.error);
     }
 

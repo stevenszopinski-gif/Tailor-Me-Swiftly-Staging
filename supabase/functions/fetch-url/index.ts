@@ -81,18 +81,44 @@ Deno.serve(async (req) => {
         const controller = new AbortController()
         const timeout = setTimeout(() => controller.abort(), 15000)
 
-        const resp = await fetch(url, {
-            signal: controller.signal,
-            headers: {
-                'User-Agent': ua,
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-            },
-            redirect: 'follow',
-        })
+        let resp: Response
+        try {
+            resp = await fetch(url, {
+                signal: controller.signal,
+                headers: {
+                    'User-Agent': ua,
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                },
+                redirect: 'follow',
+            })
+        } catch (fetchErr) {
+            clearTimeout(timeout)
+            // LinkedIn profile fetch failed — return helpful message
+            if (isLinkedInProfile) {
+                return new Response(JSON.stringify({
+                    error: 'Could not reach LinkedIn. Please copy your profile page text (Ctrl+A, Ctrl+C) and paste it in the resume upload area instead.',
+                    source: 'linkedin'
+                }), {
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                    status: 200,
+                })
+            }
+            throw fetchErr
+        }
         clearTimeout(timeout)
 
         if (!resp.ok) {
+            // LinkedIn commonly returns 999 or 403 to block scrapers
+            if (isLinkedInProfile) {
+                return new Response(JSON.stringify({
+                    error: 'LinkedIn blocked automated access. Please copy your profile page text (Ctrl+A, Ctrl+C) and paste it in the resume upload area instead.',
+                    source: 'linkedin'
+                }), {
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                    status: 200,
+                })
+            }
             throw new Error(`Remote server returned ${resp.status}`)
         }
 
@@ -203,7 +229,7 @@ Deno.serve(async (req) => {
         const msg = error.name === 'AbortError' ? 'Request timed out' : error.message
         return new Response(JSON.stringify({ error: msg }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-            status: 400,
+            status: 200,
         })
     }
 })
