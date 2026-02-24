@@ -878,42 +878,139 @@ Rules:
             });
         });
 
-        // ── ADD SECTIONS ──
-        const SECTION_TEMPLATES = {
-            certifications: '<h2>Certifications</h2><ul><li><strong>Certification Name</strong> — Issuing Organization, Year</li></ul>',
-            projects: '<h2>Projects</h2><ul><li><strong>Project Name</strong> — Brief description of the project and your contributions</li></ul>',
-            volunteer: '<h2>Volunteer Experience</h2><ul><li><strong>Role</strong> — Organization, Dates<br>Description of volunteer work and impact</li></ul>',
-            languages: '<h2>Languages</h2><p>English (Native), Spanish (Professional), French (Conversational)</p>',
-            publications: '<h2>Publications</h2><ul><li>Author(s). "Title." Journal/Conference, Year.</li></ul>',
-            awards: '<h2>Awards & Honors</h2><ul><li><strong>Award Name</strong> — Organization, Year</li></ul>'
+        // ── ADD SECTIONS (toggle + AI-populated) ──
+        const SECTION_META = {
+            certifications: { heading: 'Certifications', placeholder: '<ul><li><strong>Certification Name</strong> — Issuing Organization, Year</li></ul>' },
+            projects:       { heading: 'Projects', placeholder: '<ul><li><strong>Project Name</strong> — Brief description of the project and your contributions</li></ul>' },
+            volunteer:      { heading: 'Volunteer Experience', placeholder: '<ul><li><strong>Role</strong> — Organization, Dates<br>Description of volunteer work and impact</li></ul>' },
+            languages:      { heading: 'Languages', placeholder: '<p>English (Native), Spanish (Professional), French (Conversational)</p>' },
+            publications:   { heading: 'Publications', placeholder: '<ul><li>Author(s). "Title." Journal/Conference, Year.</li></ul>' },
+            awards:         { heading: 'Awards & Honors', placeholder: '<ul><li><strong>Award Name</strong> — Organization, Year</li></ul>' }
         };
 
-        document.querySelectorAll('.add-section-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const section = btn.dataset.section;
-                const template = SECTION_TEMPLATES[section];
-                if (!template) return;
+        // Find an existing section in the resume by its heading text
+        function findSectionInResume(heading) {
+            const headings = resumeEl.querySelectorAll('h2');
+            for (const h of headings) {
+                if (h.textContent.trim().toLowerCase().includes(heading.toLowerCase())) {
+                    return h;
+                }
+            }
+            return null;
+        }
 
-                // Append the new section to the resume
+        // Remove a section (its h2 + all siblings until the next h2)
+        function removeSectionFromResume(heading) {
+            const h2 = findSectionInResume(heading);
+            if (!h2) return false;
+            const toRemove = [h2];
+            let next = h2.nextElementSibling;
+            while (next && next.tagName !== 'H2') {
+                toRemove.push(next);
+                next = next.nextElementSibling;
+            }
+            toRemove.forEach(el => el.remove());
+            return true;
+        }
+
+        // Update button visual state
+        function updateSectionBtnState(btn, active) {
+            if (active) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        }
+
+        // On load, mark buttons for sections already in the resume
+        document.querySelectorAll('.add-section-btn').forEach(btn => {
+            const meta = SECTION_META[btn.dataset.section];
+            if (meta && findSectionInResume(meta.heading)) {
+                updateSectionBtnState(btn, true);
+            }
+        });
+
+        document.querySelectorAll('.add-section-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const sectionKey = btn.dataset.section;
+                const meta = SECTION_META[sectionKey];
+                if (!meta) return;
+
+                // Toggle OFF — remove section if it already exists
+                if (findSectionInResume(meta.heading)) {
+                    removeSectionFromResume(meta.heading);
+                    updateSectionBtnState(btn, false);
+                    outputs.resumeHtml = resumeEl.innerHTML;
+                    sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+                    updateWordCount();
+                    return;
+                }
+
+                // Toggle ON — add section
+                const sourceText = outputs?.resumeText || '';
+                const hasSourceData = sourceText.length > 100;
+
+                // If we have source resume data, try AI extraction first
+                if (hasSourceData) {
+                    btn.disabled = true;
+                    const origHtml = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+                    try {
+                        const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                            body: {
+                                model: 'gemini-3-flash-preview',
+                                systemInstruction: { parts: [{ text: `Extract ONLY the "${meta.heading}" information from this resume/profile text. Format as clean HTML: an <h2> heading followed by <ul><li> items (or <p> for languages). Use <strong> for names/titles. If the source text has NO relevant ${meta.heading.toLowerCase()} information at all, respond with exactly: NO_DATA` }] },
+                                contents: [{ parts: [{ text: sourceText }] }],
+                                generationConfig: { temperature: 0.1 }
+                            }
+                        });
+
+                        if (!error) {
+                            let sectionHtml = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+                            sectionHtml = sectionHtml.replace(/^```html?\s*/i, '').replace(/\s*```$/i, '');
+
+                            if (sectionHtml && !sectionHtml.includes('NO_DATA') && sectionHtml.length > 10) {
+                                // Ensure it starts with an h2
+                                if (!sectionHtml.startsWith('<h2')) {
+                                    sectionHtml = `<h2>${meta.heading}</h2>${sectionHtml}`;
+                                }
+                                const wrapper = document.createElement('div');
+                                wrapper.innerHTML = sectionHtml;
+                                while (wrapper.firstChild) {
+                                    resumeEl.appendChild(wrapper.firstChild);
+                                }
+                                updateSectionBtnState(btn, true);
+                                outputs.resumeHtml = resumeEl.innerHTML;
+                                sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+                                updateWordCount();
+                                initDraggableResume(resumeEl);
+                                resumeEl.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                btn.disabled = false;
+                                btn.innerHTML = origHtml;
+                                return;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('AI section extraction failed, using placeholder:', e);
+                    }
+
+                    btn.disabled = false;
+                    btn.innerHTML = origHtml;
+                }
+
+                // Fallback: insert placeholder template
                 const wrapper = document.createElement('div');
-                wrapper.innerHTML = template;
+                wrapper.innerHTML = `<h2>${meta.heading}</h2>${meta.placeholder}`;
                 while (wrapper.firstChild) {
                     resumeEl.appendChild(wrapper.firstChild);
                 }
-
-                // Update outputs
+                updateSectionBtnState(btn, true);
                 outputs.resumeHtml = resumeEl.innerHTML;
                 sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
                 updateWordCount();
                 initDraggableResume(resumeEl);
-
-                // Scroll to the new section
                 resumeEl.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // Brief visual feedback
-                btn.style.background = 'var(--primary-color)';
-                btn.style.color = '#fff';
-                setTimeout(() => { btn.style.background = ''; btn.style.color = ''; }, 800);
             });
         });
 
