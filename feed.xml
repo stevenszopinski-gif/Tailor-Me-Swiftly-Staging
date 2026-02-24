@@ -5,8 +5,27 @@
     <link>https://tailormeswiftly.com</link>
     <description>Latest updates and new features for TailorMeSwiftly.com — the AI-powered resume tailoring tool.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Feb 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 23 Feb 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://tailormeswiftly.com/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>v3.5.0 — Premium Tier, Mobile, Flashcards &amp; More</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v3.5.0</guid>
+      <pubDate>Mon, 23 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Premium Tier:</strong> TailorMeSwiftly Premium ($9.99/mo) unlocks unlimited AI generations. Free users get 5 per month with a seamless Stripe Checkout upgrade flow.</li>
+          <li><strong>Interview Flashcards:</strong> Toggle flashcard mode on the Interview Prep page — flip cards to reveal answers, swipe through on mobile, and track your progress.</li>
+          <li><strong>Follow-up Reminders:</strong> Set reminder dates on any Kanban card. Overdue follow-ups surface in an amber banner at the top of your Application Tracker.</li>
+          <li><strong>Mobile Responsiveness:</strong> Full responsive pass across all pages — 48px touch targets, stacked layouts on small screens, and a 320px ultra-small breakpoint.</li>
+          <li><strong>Smarter Job URL Import:</strong> Paste a Greenhouse, Lever, or Workday link and the app extracts the job title, company, and description automatically via JSON-LD.</li>
+          <li><strong>Edge Function Caching:</strong> Company intel lookups are now cached for 24 hours, making repeat visits instant.</li>
+          <li><strong>Error Monitoring:</strong> Client-side errors are now automatically captured and logged for faster debugging.</li>
+          <li><strong>RSS Feed:</strong> Subscribe to release notes via RSS at /feed.xml.</li>
+        </ul>
+      ]]></description>
+    </item>
 
     <item>
       <title>v3.4.0 — Kanban Tracker, Notes &amp; Company Intel</title>
