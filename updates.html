@@ -48,6 +48,13 @@
             text-overflow: ellipsis;
         }
 
+        .rn-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
         .rn-badge {
             font-size: 0.75rem;
             padding: 0.2rem 0.6rem;
@@ -95,12 +102,13 @@
         .rn-body ul li:last-child { margin-bottom: 0; }
         .rn-body ul li strong { color: var(--text-primary); }
 
-        .rn-expand-all {
+        .rn-toolbar {
             display: flex;
-            justify-content: flex-end;
-            margin-bottom: 0.5rem;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
         }
-        .rn-expand-all button {
+        .rn-toolbar button {
             background: none;
             border: none;
             color: var(--text-secondary);
@@ -109,11 +117,41 @@
             font-family: var(--font-family);
             padding: 0.3rem 0;
         }
-        .rn-expand-all button:hover { color: var(--primary-color); }
+        .rn-toolbar button:hover { color: var(--primary-color); }
+
+        .rn-pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .rn-pagination button {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: var(--font-family);
+            padding: 0.35rem 0.7rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .rn-pagination button:hover:not(:disabled) {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .rn-pagination button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+        .rn-pagination .rn-page-info {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
 
         @media (max-width: 600px) {
             .rn-header-left h3 { font-size: 0.95rem; }
             .rn-header { padding: 0.85rem 1rem; }
+            .rn-date { display: none; }
         }
     </style>
 </head>
@@ -152,144 +190,16 @@
                 <p>Stay up to date with the latest features, enhancements, and bug fixes.</p>
             </div>
 
-            <div class="rn-expand-all">
+            <div class="rn-toolbar">
                 <button id="rn-toggle-all"><i class="fa-solid fa-angles-down"></i> Expand All</button>
+                <div class="rn-pagination">
+                    <button id="rn-prev" disabled><i class="fa-solid fa-chevron-left"></i> Prev</button>
+                    <span class="rn-page-info" id="rn-page-info">Page 1 of 1</span>
+                    <button id="rn-next"><i class="fa-solid fa-chevron-right"></i> Next</button>
+                </div>
             </div>
 
-            <div class="rn-accordion" id="rn-accordion">
-
-                <!-- v3.4.0 -->
-                <div class="rn-item open">
-                    <div class="rn-header" onclick="toggleRN(this)">
-                        <div class="rn-header-left">
-                            <h3>v3.4.0 &mdash; Kanban Tracker, Notes & Company Intel</h3>
-                        </div>
-                        <span class="rn-badge current">Current</span>
-                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
-                    </div>
-                    <div class="rn-body">
-                        <ul>
-                            <li><strong>Kanban Application Tracker:</strong> Your applications now live on a full drag-and-drop Kanban board with five columns&mdash;Tailored, Applied, Interviewing, Offer, and Rejected.</li>
-                            <li><strong>Click-to-Open Cards:</strong> Click any Kanban card to open a detail modal with notes, a &ldquo;Go to Application&rdquo; button, and Save/Cancel controls.</li>
-                            <li><strong>Application Notes:</strong> Add free-form notes to any application&mdash;interview dates, contact names, follow-up reminders.</li>
-                            <li><strong>Interview Details:</strong> Cards in the Interviewing column surface structured fields for interview date, contacts, and follow-ups.</li>
-                            <li><strong>Company Intel:</strong> The Introduction Email page now auto-fetches recent news and insights about your target company.</li>
-                            <li><strong>Light Theme Default:</strong> The app now defaults to light mode for new users.</li>
-                            <li><strong>UI Polish:</strong> Opaque dropdown menus, wider navigation labels, and improved auth session handling.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- v3.3.0 -->
-                <div class="rn-item">
-                    <div class="rn-header" onclick="toggleRN(this)">
-                        <div class="rn-header-left">
-                            <h3>v3.3.0 &mdash; Past Applications & History</h3>
-                        </div>
-                        <span class="rn-badge past">v3.3.0</span>
-                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
-                    </div>
-                    <div class="rn-body">
-                        <ul>
-                            <li><strong>Past Applications:</strong> All your generated resumes, cover letters, interview Q&amp;A, and outreach emails are now automatically saved to your account.</li>
-                            <li><strong>One-Click Restore:</strong> Instantly reload any previous application&rsquo;s outputs without re-generating.</li>
-                            <li><strong>Incremental Saves:</strong> When you generate a cover letter, interview questions, or outreach email on-demand, the save updates automatically.</li>
-                            <li><strong>History Navigation:</strong> Quick links to Past Applications are now available throughout the app.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- v3.2.0 -->
-                <div class="rn-item">
-                    <div class="rn-header" onclick="toggleRN(this)">
-                        <div class="rn-header-left">
-                            <h3>v3.2.0 &mdash; Voice, Reliability & Design</h3>
-                        </div>
-                        <span class="rn-badge past">v3.2.0</span>
-                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
-                    </div>
-                    <div class="rn-body">
-                        <ul>
-                            <li><strong>ElevenLabs TTS:</strong> Mock interview questions are now read aloud using a premium ElevenLabs AI voice, with browser TTS as a fallback.</li>
-                            <li><strong>Reliable Job URL Fetching:</strong> Pasting a job listing URL now fetches through our own server, replacing old third-party proxies.</li>
-                            <li><strong>Resume Quick Presets:</strong> Redesigned preset buttons with color-coded accent dots.</li>
-                            <li><strong>Use Last Resume:</strong> Returning users can instantly load their previously uploaded resume.</li>
-                            <li><strong>Results Page Refresh:</strong> Updated header and background to match the main app&rsquo;s look and feel.</li>
-                            <li><strong>Improved Skill Chips:</strong> Missing skills now have higher-contrast colors in both themes.</li>
-                            <li><strong>Personalized Greeting:</strong> A &ldquo;Hi, [Name]&rdquo; greeting now appears under your avatar.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- v3.1.0 -->
-                <div class="rn-item">
-                    <div class="rn-header" onclick="toggleRN(this)">
-                        <div class="rn-header-left">
-                            <h3>v3.1.0 &mdash; UX Polish & Improvements</h3>
-                        </div>
-                        <span class="rn-badge past">v3.1.0</span>
-                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
-                    </div>
-                    <div class="rn-body">
-                        <ul>
-                            <li><strong>10 Mock Interview Questions:</strong> Increased from 8 to 10 tailored interview questions.</li>
-                            <li><strong>Improved Text-to-Speech:</strong> More natural voice delivery with optimized rate and pitch.</li>
-                            <li><strong>Dark Resume Preset:</strong> New high-contrast "Dark" theme for maximum readability.</li>
-                            <li><strong>Results Grid Layout:</strong> All 4 outputs now display in a single row.</li>
-                            <li><strong>Updated Homepage:</strong> Cleaner header design with TailorMeSwiftly.com branding above the animation.</li>
-                            <li><strong>Removed LinkedIn Optimization:</strong> Streamlined feature set to focus on core strengths.</li>
-                            <li><strong>Enhanced Loading Experience:</strong> Improved funny quotes display.</li>
-                            <li><strong>Messaging Refresh:</strong> Updated homepage copy to highlight lightning-fast results.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- v3.0.0 -->
-                <div class="rn-item">
-                    <div class="rn-header" onclick="toggleRN(this)">
-                        <div class="rn-header-left">
-                            <h3>v3.0.0 &mdash; Major Update</h3>
-                        </div>
-                        <span class="rn-badge past">v3.0.0</span>
-                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
-                    </div>
-                    <div class="rn-body">
-                        <ul>
-                            <li><strong>Gaps Assistant:</strong> Renamed and refined the skill gap analysis step.</li>
-                            <li><strong>Mock Interview Mode:</strong> Hear questions read aloud with TTS. Practice one at a time with AI-powered feedback on recorded answers.</li>
-                            <li><strong>On-Demand Generation:</strong> Interview prep and email drafts generate only when you click their tab, making initial tailoring faster.</li>
-                            <li><strong>Application Tracker Fix:</strong> Kanban board now loads from the cloud with persistent drag-and-drop.</li>
-                            <li><strong>Resume Versions:</strong> All tailored resumes saved with version names. View and reload any past version.</li>
-                            <li><strong>Saved Jobs:</strong> Bookmark job descriptions and tailor resumes against them later.</li>
-                            <li><strong>Career Profile:</strong> Store a master career history in Preferences.</li>
-                            <li><strong>Loading Redesign:</strong> Full-screen centered loading overlay with blurred background.</li>
-                            <li><strong>Preferences Dropdown:</strong> Accessible from a clean dropdown on your profile avatar.</li>
-                            <li><strong>Generation Timeout:</strong> API calls now have timeouts with retry buttons.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- v2.1.0 -->
-                <div class="rn-item">
-                    <div class="rn-header" onclick="toggleRN(this)">
-                        <div class="rn-header-left">
-                            <h3>v2.1.0 &mdash; Missing Skills Analysis Engine</h3>
-                        </div>
-                        <span class="rn-badge past">v2.1.0</span>
-                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
-                    </div>
-                    <div class="rn-body">
-                        <ul>
-                            <li><strong>Design Customization:</strong> Granularly tweak typography, accent colors, and layout spacing.</li>
-                            <li><strong>Target Company Preset:</strong> Extracts brand colors of your targeted company and injects them into your resume.</li>
-                            <li><strong>Missing Skills Extraction:</strong> Automated extraction of job requirements missing from your resume.</li>
-                            <li><strong>AI Co-Pilot Integration:</strong> Select missing skills you possess and our engine weaves them into your bullet points.</li>
-                            <li><strong>Bug Fix:</strong> Resolved the routing issue where the Application Tracker blanked out.</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
+            <div class="rn-accordion" id="rn-accordion"></div>
 
             <div style="margin-top: 2rem; text-align: center;">
                 <a href="app.html" class="btn primary-btn"><i class="fa-solid fa-arrow-left"></i> Back to Builder</a>
@@ -323,6 +233,141 @@
             localStorage.setItem('theme', newTheme);
         });
 
+        // ── Release notes data ──
+        const releases = [
+            {
+                version: 'v3.4.0',
+                title: 'Kanban Tracker, Notes & Company Intel',
+                date: 'Feb 22, 2026',
+                current: true,
+                items: [
+                    '<strong>Kanban Application Tracker:</strong> Your applications now live on a full drag-and-drop Kanban board with five columns&mdash;Tailored, Applied, Interviewing, Offer, and Rejected.',
+                    '<strong>Click-to-Open Cards:</strong> Click any Kanban card to open a detail modal with notes, a &ldquo;Go to Application&rdquo; button, and Save/Cancel controls.',
+                    '<strong>Application Notes:</strong> Add free-form notes to any application&mdash;interview dates, contact names, follow-up reminders.',
+                    '<strong>Interview Details:</strong> Cards in the Interviewing column surface structured fields for interview date, contacts, and follow-ups.',
+                    '<strong>Company Intel:</strong> The Introduction Email page now auto-fetches recent news and insights about your target company.',
+                    '<strong>Light Theme Default:</strong> The app now defaults to light mode for new users.',
+                    '<strong>UI Polish:</strong> Opaque dropdown menus, wider navigation labels, and improved auth session handling.'
+                ]
+            },
+            {
+                version: 'v3.3.0',
+                title: 'Past Applications & History',
+                date: 'Feb 15, 2026',
+                items: [
+                    '<strong>Past Applications:</strong> All your generated resumes, cover letters, interview Q&amp;A, and outreach emails are now automatically saved to your account.',
+                    '<strong>One-Click Restore:</strong> Instantly reload any previous application&rsquo;s outputs without re-generating.',
+                    '<strong>Incremental Saves:</strong> When you generate a cover letter, interview questions, or outreach email on-demand, the save updates automatically.',
+                    '<strong>History Navigation:</strong> Quick links to Past Applications are now available throughout the app.'
+                ]
+            },
+            {
+                version: 'v3.2.0',
+                title: 'Voice, Reliability & Design',
+                date: 'Feb 8, 2026',
+                items: [
+                    '<strong>ElevenLabs TTS:</strong> Mock interview questions are now read aloud using a premium ElevenLabs AI voice, with browser TTS as a fallback.',
+                    '<strong>Reliable Job URL Fetching:</strong> Pasting a job listing URL now fetches through our own server, replacing old third-party proxies.',
+                    '<strong>Resume Quick Presets:</strong> Redesigned preset buttons with color-coded accent dots.',
+                    '<strong>Use Last Resume:</strong> Returning users can instantly load their previously uploaded resume.',
+                    '<strong>Results Page Refresh:</strong> Updated header and background to match the main app&rsquo;s look and feel.',
+                    '<strong>Improved Skill Chips:</strong> Missing skills now have higher-contrast colors in both themes.',
+                    '<strong>Personalized Greeting:</strong> A &ldquo;Hi, [Name]&rdquo; greeting now appears under your avatar.'
+                ]
+            },
+            {
+                version: 'v3.1.0',
+                title: 'UX Polish & Improvements',
+                date: 'Jan 30, 2026',
+                items: [
+                    '<strong>10 Mock Interview Questions:</strong> Increased from 8 to 10 tailored interview questions.',
+                    '<strong>Improved Text-to-Speech:</strong> More natural voice delivery with optimized rate and pitch.',
+                    '<strong>Dark Resume Preset:</strong> New high-contrast &ldquo;Dark&rdquo; theme for maximum readability.',
+                    '<strong>Results Grid Layout:</strong> All 4 outputs now display in a single row.',
+                    '<strong>Updated Homepage:</strong> Cleaner header design with TailorMeSwiftly.com branding above the animation.',
+                    '<strong>Removed LinkedIn Optimization:</strong> Streamlined feature set to focus on core strengths.',
+                    '<strong>Enhanced Loading Experience:</strong> Improved funny quotes display.',
+                    '<strong>Messaging Refresh:</strong> Updated homepage copy to highlight lightning-fast results.'
+                ]
+            },
+            {
+                version: 'v3.0.0',
+                title: 'Major Update',
+                date: 'Jan 18, 2026',
+                items: [
+                    '<strong>Gaps Assistant:</strong> Renamed and refined the skill gap analysis step.',
+                    '<strong>Mock Interview Mode:</strong> Hear questions read aloud with TTS. Practice one at a time with AI-powered feedback on recorded answers.',
+                    '<strong>On-Demand Generation:</strong> Interview prep and email drafts generate only when you click their tab, making initial tailoring faster.',
+                    '<strong>Application Tracker Fix:</strong> Kanban board now loads from the cloud with persistent drag-and-drop.',
+                    '<strong>Resume Versions:</strong> All tailored resumes saved with version names. View and reload any past version.',
+                    '<strong>Saved Jobs:</strong> Bookmark job descriptions and tailor resumes against them later.',
+                    '<strong>Career Profile:</strong> Store a master career history in Preferences.',
+                    '<strong>Loading Redesign:</strong> Full-screen centered loading overlay with blurred background.',
+                    '<strong>Preferences Dropdown:</strong> Accessible from a clean dropdown on your profile avatar.',
+                    '<strong>Generation Timeout:</strong> API calls now have timeouts with retry buttons.'
+                ]
+            },
+            {
+                version: 'v2.1.0',
+                title: 'Missing Skills Analysis Engine',
+                date: 'Dec 20, 2025',
+                items: [
+                    '<strong>Design Customization:</strong> Granularly tweak typography, accent colors, and layout spacing.',
+                    '<strong>Target Company Preset:</strong> Extracts brand colors of your targeted company and injects them into your resume.',
+                    '<strong>Missing Skills Extraction:</strong> Automated extraction of job requirements missing from your resume.',
+                    '<strong>AI Co-Pilot Integration:</strong> Select missing skills you possess and our engine weaves them into your bullet points.',
+                    '<strong>Bug Fix:</strong> Resolved the routing issue where the Application Tracker blanked out.'
+                ]
+            }
+        ];
+
+        // ── Pagination ──
+        const PER_PAGE = 10;
+        let currentPage = 1;
+        const totalPages = Math.max(1, Math.ceil(releases.length / PER_PAGE));
+
+        const accordion = document.getElementById('rn-accordion');
+        const prevBtn = document.getElementById('rn-prev');
+        const nextBtn = document.getElementById('rn-next');
+        const pageInfo = document.getElementById('rn-page-info');
+
+        function renderPage(page) {
+            currentPage = page;
+            const start = (page - 1) * PER_PAGE;
+            const slice = releases.slice(start, start + PER_PAGE);
+
+            accordion.innerHTML = slice.map((r, i) => {
+                const isFirst = page === 1 && i === 0;
+                const badgeClass = r.current ? 'current' : 'past';
+                const badgeText = r.current ? 'Current' : r.version;
+                return `
+                <div class="rn-item${isFirst ? ' open' : ''}">
+                    <div class="rn-header" onclick="toggleRN(this)">
+                        <div class="rn-header-left">
+                            <h3>${r.version} &mdash; ${r.title}</h3>
+                        </div>
+                        <span class="rn-date">${r.date}</span>
+                        <span class="rn-badge ${badgeClass}">${badgeText}</span>
+                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
+                    </div>
+                    <div class="rn-body">
+                        <ul>${r.items.map(li => `<li>${li}</li>`).join('')}</ul>
+                    </div>
+                </div>`;
+            }).join('');
+
+            pageInfo.textContent = `Page ${page} of ${totalPages}`;
+            prevBtn.disabled = page <= 1;
+            nextBtn.disabled = page >= totalPages;
+
+            // Reset expand/collapse button
+            const toggleBtn = document.getElementById('rn-toggle-all');
+            toggleBtn.innerHTML = '<i class="fa-solid fa-angles-down"></i> Expand All';
+        }
+
+        prevBtn.addEventListener('click', () => { if (currentPage > 1) renderPage(currentPage - 1); });
+        nextBtn.addEventListener('click', () => { if (currentPage < totalPages) renderPage(currentPage + 1); });
+
         // Accordion toggle
         function toggleRN(header) {
             header.closest('.rn-item').classList.toggle('open');
@@ -337,6 +382,9 @@
                 ? '<i class="fa-solid fa-angles-down"></i> Expand All'
                 : '<i class="fa-solid fa-angles-up"></i> Collapse All';
         });
+
+        // Initial render
+        renderPage(1);
     </script>
 </body>
 
