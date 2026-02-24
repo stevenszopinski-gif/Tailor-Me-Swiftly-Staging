@@ -71,14 +71,15 @@ function initDOMReferences() {
         urlStatus: document.getElementById('url-status'),
         jobDescRaw: document.getElementById('job-description'),
 
-        // Step 3: Gaps Assistant
-        strategyCards: document.querySelectorAll('.strategy-card'),
+        // Step 3: ATS Scanner
         nextTo4Btn: document.getElementById('next-to-4'),
         backTo2Btn: document.getElementById('back-to-2'),
-        missingSkillsContainer: document.getElementById('missing-skills-container'),
-        missingSkillsLoading: document.getElementById('missing-skills-loading'),
+        atsLoadingState: document.getElementById('ats-loading-state'),
+        atsResultsState: document.getElementById('ats-results-state'),
+        atsGaugeRing: document.getElementById('ats-gauge-ring'),
+        atsScoreNum: document.getElementById('ats-score-num'),
+        atsNav: document.getElementById('ats-nav'),
         missingSkillsList: document.getElementById('missing-skills-list'),
-        missingSkillsError: document.getElementById('missing-skills-error'),
 
         // Step 4: Loading / Generation
         generationControl: document.getElementById('generation-control'),
@@ -369,9 +370,9 @@ function goToStep(num) {
         });
     }
 
-    // Trigger missing skills extraction on step 3
+    // Trigger ATS analysis on step 3
     if (num === 3) {
-        extractMissingSkills();
+        runATSAnalysis();
     }
 }
 
@@ -1452,101 +1453,219 @@ function loadSharedContent() {
 // ───────────────────────────────────────────────
 // NEW: MISSING SKILLS EXTRACTION (Phase 4)
 // ───────────────────────────────────────────────
-async function extractMissingSkills() {
+// ═══════════════════════════════════════════
+// ATS SCANNER (Step 3)
+// ═══════════════════════════════════════════
+async function runATSAnalysis() {
     const currentKey = `${state.resumeText.length}_${state.jobText.length}`;
-    if (state.lastMissingSkillsKey === currentKey) return; // Already extracted for this content
+    if (state.lastATSKey === currentKey && state.atsData) {
+        // Already analyzed — just show results
+        showATSResults(state.atsData);
+        return;
+    }
 
-    state.lastMissingSkillsKey = currentKey;
+    state.lastATSKey = currentKey;
     state.selectedMissingSkills = [];
 
-    if (!el.missingSkillsContainer) return;
+    // Show loading
+    if (el.atsLoadingState) el.atsLoadingState.style.display = 'block';
+    if (el.atsResultsState) el.atsResultsState.style.display = 'none';
 
-    el.missingSkillsContainer.style.display = 'block';
-    el.missingSkillsLoading.style.display = 'block';
-    el.missingSkillsList.style.display = 'none';
-    el.missingSkillsList.innerHTML = '';
-    el.missingSkillsError.style.display = 'none';
+    const systemPrompt = `You are an expert ATS (Applicant Tracking System) resume analyzer. Analyze the resume against the job description and return a comprehensive JSON report. Return ONLY valid JSON with NO markdown.
 
-    const systemPrompt = `You are an expert technical recruiter analyzing a resume against a job description.
-Identify exactly 5 to 10 important "hard skills" or specific keywords present in the Job Description that are MISSING from the Resume.
-Return ONLY a valid JSON array of strings, with absolutely no markdown formatting or backticks. Example: ["AWS", "Kubernetes", "B2B Sales"]`;
-    const userPrompt = `Resume:\n${state.resumeText}\n\nJob Description:\n${state.jobText}`;
+The JSON structure must be:
+{
+  "matchScore": <number 0-100>,
+  "searchability": [
+    { "label": "Contact Information", "status": "pass|warn|fail", "details": ["detail 1", "detail 2"] },
+    { "label": "Summary", "status": "pass|warn|fail", "details": ["..."] },
+    { "label": "Section Headings", "status": "pass|warn|fail", "details": ["..."] },
+    { "label": "Job Title Match", "status": "pass|warn|fail", "details": ["..."] },
+    { "label": "Date Formatting", "status": "pass|warn|fail", "details": ["..."] },
+    { "label": "Education Match", "status": "pass|warn|fail", "details": ["..."] }
+  ],
+  "hardSkills": [
+    { "skill": "Skill Name", "inResume": true|false, "jdCount": <number> }
+  ],
+  "softSkills": [
+    { "skill": "Skill Name", "inResume": true|false, "jdCount": <number> }
+  ],
+  "recruiterTips": [
+    { "label": "Job Level Match", "status": "pass|warn|fail", "detail": "..." },
+    { "label": "Measurable Results", "status": "pass|warn|fail", "detail": "..." },
+    { "label": "Resume Tone", "status": "pass|warn|fail", "detail": "..." },
+    { "label": "Word Count", "status": "pass|warn|fail", "detail": "..." },
+    { "label": "Action Verbs", "status": "pass|warn|fail", "detail": "..." }
+  ],
+  "formatting": [
+    { "category": "Font & Readability", "checks": [{ "status": "pass|warn|fail", "detail": "..." }] },
+    { "category": "Layout", "checks": [{ "status": "pass|warn|fail", "detail": "..." }] },
+    { "category": "Page Setup", "checks": [{ "status": "pass|warn|fail", "detail": "..." }] }
+  ]
+}
+
+For hardSkills: identify 8-15 important technical/hard skills from the JD and check if each is in the resume. Sort by jdCount descending.
+For softSkills: identify 5-10 soft skills from the JD.
+Be thorough and accurate. Check actual content, don't guess.`;
 
     try {
-        // Ensure supabaseClient is available
-        if (!window.supabaseClient) {
-            throw new Error('Supabase client not initialized. Please refresh the page.');
-        }
+        if (!window.supabaseClient) throw new Error('Not ready. Please refresh.');
 
         const { data, error } = await withTimeout(
             window.supabaseClient.functions.invoke('gemini-proxy', {
                 body: {
                     model: 'gemini-3-flash-preview',
                     systemInstruction: { parts: [{ text: systemPrompt }] },
-                    contents: [{ parts: [{ text: userPrompt }] }],
+                    contents: [{ parts: [{ text: `Resume:\n${state.resumeText}\n\nJob Description:\n${state.jobText}` }] }],
                     generationConfig: { temperature: 0.1 }
                 }
             }),
-            30000 // 30 second timeout for skills extraction
+            45000
         );
 
         if (error) throw new Error(error.message);
-        if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-            throw new Error(data?.error?.message || 'No response from AI model');
-        }
-
-        let text = data.candidates[0].content.parts[0].text.trim();
-        // Fallback: strip markdown formatting if the model still wrapped it
-        text = text.replace(/```json\n?|```/g, '').trim();
-
-        const missingSkills = JSON.parse(text);
-
-        if (!Array.isArray(missingSkills) || missingSkills.length === 0) {
-            el.missingSkillsLoading.style.display = 'none';
-            el.missingSkillsError.textContent = "No significant missing skills found.";
-            el.missingSkillsError.style.display = 'block';
-            return;
-        }
-
-        renderMissingSkills(missingSkills);
+        let raw = data.candidates[0].content.parts[0].text.trim().replace(/^```json?\s*/i, '').replace(/\s*```$/i, '');
+        const atsData = JSON.parse(raw);
+        state.atsData = atsData;
+        showATSResults(atsData);
 
     } catch (e) {
-        console.error("Skills extraction error:", e);
-        el.missingSkillsLoading.style.display = 'none';
-        el.missingSkillsError.textContent = "Could not analyze gap: " + e.message;
-        el.missingSkillsError.style.display = 'block';
+        console.error('ATS analysis error:', e);
+        if (el.atsLoadingState) {
+            el.atsLoadingState.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="font-size:2rem;color:var(--error-color);display:block;margin-bottom:1rem;"></i><div style="font-weight:600;margin-bottom:0.5rem;">Analysis Failed</div><div>${e.message}</div><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="runATSAnalysis()"><i class="fa-solid fa-rotate-right"></i> Retry</button>`;
+        }
     }
 }
 
-function renderMissingSkills(skills) {
-    el.missingSkillsLoading.style.display = 'none';
-    el.missingSkillsList.style.display = 'flex';
-    el.missingSkillsList.innerHTML = '';
+function showATSResults(data) {
+    if (el.atsLoadingState) el.atsLoadingState.style.display = 'none';
+    if (el.atsResultsState) el.atsResultsState.style.display = 'block';
 
-    skills.forEach(skill => {
-        const pill = document.createElement('span');
-        pill.className = 'keyword-badge skill-pill';
-        pill.innerHTML = `<i class="fa-solid fa-plus" style="margin-right:4px;"></i> ${skill}`;
-        pill.style.cursor = 'pointer';
-        pill.addEventListener('click', () => {
-            const index = state.selectedMissingSkills.indexOf(skill);
-            if (index > -1) {
-                state.selectedMissingSkills.splice(index, 1);
-                pill.style.background = '';
-                pill.style.borderColor = '';
-                pill.style.color = '';
-                pill.innerHTML = `<i class="fa-solid fa-plus" style="margin-right:4px;"></i> ${skill}`;
-            } else {
-                state.selectedMissingSkills.push(skill);
-                pill.style.background = 'rgba(16, 185, 129, 0.15)';
-                pill.style.borderColor = 'var(--success-color)';
-                pill.style.color = 'var(--success-color)';
-                pill.innerHTML = `<i class="fa-solid fa-check" style="margin-right:4px;"></i> ${skill}`;
-            }
+    // Score gauge
+    const score = Math.min(100, Math.max(0, data.matchScore || 0));
+    const circumference = 2 * Math.PI * 52; // 326.73
+    const offset = circumference - (score / 100) * circumference;
+    const color = score >= 75 ? '#16a34a' : score >= 50 ? '#f59e0b' : '#dc2626';
+    if (el.atsGaugeRing) {
+        el.atsGaugeRing.setAttribute('stroke', color);
+        setTimeout(() => el.atsGaugeRing.setAttribute('stroke-dashoffset', offset), 50);
+    }
+    if (el.atsScoreNum) el.atsScoreNum.textContent = score + '%';
+
+    // Nav counts
+    const searchIssues = (data.searchability || []).filter(s => s.status !== 'pass').length;
+    const hardMissing = (data.hardSkills || []).filter(s => !s.inResume).length;
+    const softMissing = (data.softSkills || []).filter(s => !s.inResume).length;
+    const tipIssues = (data.recruiterTips || []).filter(t => t.status !== 'pass').length;
+    const fmtIssues = (data.formatting || []).reduce((c, cat) => c + cat.checks.filter(ch => ch.status !== 'pass').length, 0);
+
+    const navCount = (id, count) => { const el = document.getElementById(id); if (el) el.textContent = count > 0 ? `${count} issues` : 'OK'; };
+    navCount('nav-count-search', searchIssues);
+    navCount('nav-count-hard', hardMissing);
+    navCount('nav-count-soft', softMissing);
+    navCount('nav-count-tips', tipIssues);
+    navCount('nav-count-fmt', fmtIssues);
+
+    // Searchability
+    const searchEl = document.getElementById('ats-searchability-checks');
+    if (searchEl) {
+        searchEl.innerHTML = (data.searchability || []).map(s => {
+            const icon = s.status === 'pass' ? 'fa-circle-check pass' : s.status === 'warn' ? 'fa-triangle-exclamation warn' : 'fa-circle-xmark fail';
+            const details = (s.details || []).map(d => `<div class="check-detail">${s.status === 'pass' ? '<i class="fa-solid fa-check" style="color:#16a34a;margin-right:4px;font-size:0.7rem;"></i>' : '<i class="fa-solid fa-xmark" style="color:#dc2626;margin-right:4px;font-size:0.7rem;"></i>'}${d}</div>`).join('');
+            return `<div class="ats-check-row"><i class="fa-solid ${icon} check-icon"></i><div><div class="check-label">${s.label}</div>${details}</div></div>`;
+        }).join('');
+    }
+
+    // Hard Skills table
+    renderSkillsTable('ats-hard-skills-table', data.hardSkills || []);
+
+    // Render missing skills as selectable pills
+    const missingHard = (data.hardSkills || []).filter(s => !s.inResume);
+    if (el.missingSkillsList) {
+        el.missingSkillsList.innerHTML = '';
+        missingHard.forEach(s => {
+            const pill = document.createElement('span');
+            pill.className = 'ats-skill-pill';
+            pill.innerHTML = `<i class="fa-solid fa-plus" style="font-size:0.65rem;"></i> ${s.skill}`;
+            pill.addEventListener('click', () => {
+                const idx = state.selectedMissingSkills.indexOf(s.skill);
+                if (idx > -1) {
+                    state.selectedMissingSkills.splice(idx, 1);
+                    pill.classList.remove('selected');
+                    pill.innerHTML = `<i class="fa-solid fa-plus" style="font-size:0.65rem;"></i> ${s.skill}`;
+                } else {
+                    state.selectedMissingSkills.push(s.skill);
+                    pill.classList.add('selected');
+                    pill.innerHTML = `<i class="fa-solid fa-check" style="font-size:0.65rem;"></i> ${s.skill}`;
+                }
+            });
+            el.missingSkillsList.appendChild(pill);
         });
+    }
 
-        el.missingSkillsList.appendChild(pill);
-    });
+    // Soft Skills table
+    renderSkillsTable('ats-soft-skills-table', data.softSkills || []);
+
+    // Recruiter Tips
+    const tipsEl = document.getElementById('ats-recruiter-tips-checks');
+    if (tipsEl) {
+        tipsEl.innerHTML = (data.recruiterTips || []).map(t => {
+            const icon = t.status === 'pass' ? 'fa-circle-check pass' : t.status === 'warn' ? 'fa-triangle-exclamation warn' : 'fa-circle-xmark fail';
+            return `<div class="ats-check-row"><i class="fa-solid ${icon} check-icon"></i><div><div class="check-label">${t.label}</div><div class="check-detail">${t.detail}</div></div></div>`;
+        }).join('');
+    }
+
+    // Formatting
+    const fmtEl = document.getElementById('ats-formatting-checks');
+    if (fmtEl) {
+        fmtEl.innerHTML = (data.formatting || []).map(cat => {
+            const checks = cat.checks.map(c => {
+                const icon = c.status === 'pass' ? 'fa-circle-check pass' : c.status === 'warn' ? 'fa-triangle-exclamation warn' : 'fa-circle-xmark fail';
+                return `<div class="ats-check-row"><i class="fa-solid ${icon} check-icon"></i><div class="check-detail">${c.detail}</div></div>`;
+            }).join('');
+            return `<div style="margin-bottom:1rem;"><div style="font-weight:600;font-size:0.9rem;margin-bottom:0.5rem;">${cat.category}</div>${checks}</div>`;
+        }).join('');
+    }
+
+    // Wire up sidebar nav
+    if (el.atsNav) {
+        el.atsNav.querySelectorAll('li').forEach(li => {
+            li.addEventListener('click', () => {
+                el.atsNav.querySelectorAll('li').forEach(l => l.classList.remove('active'));
+                li.classList.add('active');
+                document.querySelectorAll('.ats-section-panel').forEach(p => p.classList.remove('active'));
+                const panel = document.querySelector(`.ats-section-panel[data-ats-panel="${li.dataset.panel}"]`);
+                if (panel) panel.classList.add('active');
+            });
+        });
+    }
+
+    // Re-scan button
+    const rescanBtn = document.getElementById('ats-rescan-btn');
+    if (rescanBtn) {
+        rescanBtn.onclick = () => {
+            state.lastATSKey = null;
+            state.atsData = null;
+            if (el.atsLoadingState) {
+                el.atsLoadingState.style.display = 'block';
+                el.atsLoadingState.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><div style="font-size:1rem;font-weight:600;margin-bottom:0.5rem;">Scanning your resume...</div><div>Analyzing searchability, skills, formatting, and more.</div>';
+            }
+            runATSAnalysis();
+        };
+    }
+}
+
+function renderSkillsTable(tableId, skills) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    tbody.innerHTML = skills.map(s => `
+        <tr>
+            <td class="skill-name">${s.skill}</td>
+            <td class="skill-check">${s.inResume ? '<i class="fa-solid fa-check skill-yes"></i>' : '<i class="fa-solid fa-xmark skill-no"></i>'}</td>
+            <td class="skill-count">${s.jdCount}</td>
+        </tr>
+    `).join('');
 }
 
 // Hook it into init reliably

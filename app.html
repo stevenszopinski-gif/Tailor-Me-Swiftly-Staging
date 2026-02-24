@@ -76,7 +76,7 @@
                     <div class="step-line"></div>
                     <div class="step" data-step="3">
                         <div class="step-num">3</div>
-                        <div class="step-label">Gaps</div>
+                        <div class="step-label">ATS Scan</div>
                     </div>
                     <div class="step-line"></div>
                     <div class="step" data-step="4">
@@ -217,40 +217,168 @@
                         </div>
                     </div>
 
-                    <!-- STEP 3: Gaps Assistant -->
+                    <!-- STEP 3: ATS Scanner -->
                     <div id="step-3" class="wizard-step hidden">
+                        <style>
+                            .ats-layout { display: flex; gap: 1.5rem; margin-top: 1rem; }
+                            .ats-sidebar { width: 200px; flex-shrink: 0; }
+                            .ats-sidebar-nav { list-style: none; padding: 0; margin: 0; }
+                            .ats-sidebar-nav li { padding: 0.6rem 0.75rem; font-size: 0.82rem; cursor: pointer; border-radius: 8px; margin-bottom: 0.25rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; transition: all 0.15s; }
+                            .ats-sidebar-nav li:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+                            .ats-sidebar-nav li.active { background: var(--primary-color); color: #fff; }
+                            .ats-sidebar-nav .nav-count { font-size: 0.7rem; background: rgba(255,255,255,0.15); padding: 0.1rem 0.5rem; border-radius: 99px; }
+                            .ats-sidebar-nav li.active .nav-count { background: rgba(255,255,255,0.25); }
+                            .ats-main { flex: 1; min-width: 0; }
+                            .ats-score-wrap { text-align: center; margin-bottom: 1.5rem; }
+                            .ats-gauge { width: 140px; height: 140px; margin: 0 auto 0.5rem; position: relative; }
+                            .ats-gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+                            .ats-gauge .gauge-score { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; color: var(--text-primary); }
+                            .ats-section-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+                            .ats-section-title { display: flex; align-items: center; gap: 0.5rem; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+                            .ats-badge { font-size: 0.6rem; text-transform: uppercase; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 99px; letter-spacing: 0.5px; }
+                            .ats-badge.important { background: #dbeafe; color: #1d4ed8; }
+                            .ats-badge.high { background: #fef3c7; color: #92400e; }
+                            .ats-badge.medium { background: #e0e7ff; color: #4338ca; }
+                            .ats-check-row { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.65rem 0; border-bottom: 1px solid var(--panel-border); font-size: 0.85rem; line-height: 1.45; }
+                            .ats-check-row:last-child { border-bottom: none; }
+                            .ats-check-row .check-icon { flex-shrink: 0; margin-top: 2px; font-size: 0.85rem; }
+                            .ats-check-row .check-icon.pass { color: #16a34a; }
+                            .ats-check-row .check-icon.warn { color: #f59e0b; }
+                            .ats-check-row .check-icon.fail { color: #dc2626; }
+                            .ats-check-row .check-label { font-weight: 600; color: var(--text-primary); }
+                            .ats-check-row .check-detail { color: var(--text-secondary); font-size: 0.8rem; }
+                            .skills-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+                            .skills-table th { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 2px solid var(--panel-border); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; }
+                            .skills-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--panel-border); }
+                            .skills-table .skill-name { font-weight: 500; }
+                            .skills-table .skill-check { text-align: center; }
+                            .skills-table .skill-count { text-align: center; color: var(--text-secondary); }
+                            .skill-yes { color: #16a34a; }
+                            .skill-no { color: #dc2626; }
+                            .ats-tip { font-size: 0.78rem; color: var(--text-secondary); background: rgba(99,102,241,0.05); border-left: 3px solid var(--primary-color); padding: 0.5rem 0.75rem; border-radius: 0 6px 6px 0; margin-bottom: 1rem; }
+                            .ats-loading { text-align: center; padding: 4rem 2rem; color: var(--text-secondary); }
+                            .ats-loading i { font-size: 2rem; margin-bottom: 1rem; display: block; color: var(--primary-color); }
+                            .ats-section-panel { display: none; }
+                            .ats-section-panel.active { display: block; }
+                            .ats-action-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+                            @media (max-width: 700px) {
+                                .ats-layout { flex-direction: column; }
+                                .ats-sidebar { width: 100%; }
+                                .ats-sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+                                .ats-sidebar-nav li { flex: 1; min-width: fit-content; text-align: center; justify-content: center; }
+                            }
+
+                            /* Missing skills selection pills */
+                            .ats-skill-pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.75rem; border-radius: 99px; border: 1px solid var(--panel-border); background: var(--glass-bg); color: var(--text-secondary); font-size: 0.8rem; cursor: pointer; transition: all 0.15s; margin: 0.2rem; }
+                            .ats-skill-pill:hover { border-color: var(--primary-color); }
+                            .ats-skill-pill.selected { background: rgba(16, 185, 129, 0.12); border-color: var(--success-color); color: var(--success-color); }
+                        </style>
+
                         <div class="step-header">
                             <div class="step-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                            <h2>Gaps Assistant</h2>
-                            <p>We analyze the job description and surface skills that are missing from your resume.</p>
+                            <h2>ATS Resume Scanner</h2>
+                            <p>We scan your resume against the job description and give you a detailed ATS compatibility report.</p>
                         </div>
 
-                        <div class="step-header" style="margin-top: 1.5rem; text-align: center;">
-                            <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem;">Missing
-                                Skills Found</h3>
-                            <p style="font-size: 0.9rem;">Select the skills you possess but aren't explicitly listed in
-                                your resume. We'll weave them in.</p>
+                        <div id="ats-loading-state" class="ats-loading">
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+                            <div style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;">Scanning your resume...</div>
+                            <div>Analyzing searchability, skills, formatting, and more.</div>
                         </div>
 
-                        <div id="missing-skills-container"
-                            style="background: rgba(0,0,0,0.1); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--panel-border);">
-                            <div id="missing-skills-loading"
-                                style="text-align:center; color: var(--text-secondary); font-size: 0.9rem;">
-                                <i class="fa-solid fa-spinner fa-spin"></i> Analyzing Job Description for gaps...
+                        <div id="ats-results-state" style="display:none;">
+                            <div class="ats-layout">
+                                <!-- Left sidebar -->
+                                <div class="ats-sidebar">
+                                    <div class="ats-score-wrap">
+                                        <div class="ats-gauge">
+                                            <svg viewBox="0 0 120 120">
+                                                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(128,128,128,0.12)" stroke-width="10"/>
+                                                <circle id="ats-gauge-ring" cx="60" cy="60" r="52" fill="none" stroke="#16a34a" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="326.73" style="transition: stroke-dashoffset 1s ease;"/>
+                                            </svg>
+                                            <div class="gauge-score" id="ats-score-num">0%</div>
+                                        </div>
+                                        <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);">Match Rate</div>
+                                    </div>
+
+                                    <ul class="ats-sidebar-nav" id="ats-nav">
+                                        <li class="active" data-panel="searchability">Searchability <span class="nav-count" id="nav-count-search">-</span></li>
+                                        <li data-panel="hard-skills">Hard Skills <span class="nav-count" id="nav-count-hard">-</span></li>
+                                        <li data-panel="soft-skills">Soft Skills <span class="nav-count" id="nav-count-soft">-</span></li>
+                                        <li data-panel="recruiter-tips">Recruiter Tips <span class="nav-count" id="nav-count-tips">-</span></li>
+                                        <li data-panel="formatting">Formatting <span class="nav-count" id="nav-count-fmt">-</span></li>
+                                    </ul>
+
+                                    <button id="ats-rescan-btn" class="btn primary-btn" style="width:100%;margin-top:1rem;font-size:0.82rem;">
+                                        <i class="fa-solid fa-rotate-right"></i> Re-scan
+                                    </button>
+                                </div>
+
+                                <!-- Main content -->
+                                <div class="ats-main">
+                                    <!-- Searchability -->
+                                    <div class="ats-section-panel active" data-ats-panel="searchability">
+                                        <div class="ats-section-card">
+                                            <div class="ats-section-title">Searchability <span class="ats-badge important">Important</span></div>
+                                            <div class="ats-tip">ATS software is used by 90% of companies to search for resumes. Below is how well your resume appears in an ATS.</div>
+                                            <div id="ats-searchability-checks"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Hard Skills -->
+                                    <div class="ats-section-panel" data-ats-panel="hard-skills">
+                                        <div class="ats-section-card">
+                                            <div class="ats-section-title">Hard Skills <span class="ats-badge high">High Score Impact</span></div>
+                                            <div class="ats-tip">Match the skills in your resume to the exact spelling in the job description. Prioritize skills that appear most frequently.</div>
+                                            <div style="margin-bottom:0.75rem;">
+                                                <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem;">Skills Comparison</div>
+                                                <table class="skills-table" id="ats-hard-skills-table">
+                                                    <thead><tr><th>Skill</th><th style="text-align:center;">Resume</th><th style="text-align:center;">Job Description</th></tr></thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <div style="margin-top:1rem;">
+                                                <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem;">Select missing skills you possess — we'll weave them into your resume:</div>
+                                                <div id="missing-skills-list" style="display:flex;flex-wrap:wrap;gap:0;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Soft Skills -->
+                                    <div class="ats-section-panel" data-ats-panel="soft-skills">
+                                        <div class="ats-section-card">
+                                            <div class="ats-section-title">Soft Skills <span class="ats-badge medium">Medium Score Impact</span></div>
+                                            <div class="ats-tip">Soft skills have a moderate impact on your match score. Prioritize hard skills first, then showcase soft skills in the interview.</div>
+                                            <table class="skills-table" id="ats-soft-skills-table">
+                                                <thead><tr><th>Skill</th><th style="text-align:center;">Resume</th><th style="text-align:center;">Job Description</th></tr></thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Recruiter Tips -->
+                                    <div class="ats-section-panel" data-ats-panel="recruiter-tips">
+                                        <div class="ats-section-card">
+                                            <div class="ats-section-title">Recruiter Tips <span class="ats-badge important">Important</span></div>
+                                            <div id="ats-recruiter-tips-checks"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Formatting -->
+                                    <div class="ats-section-panel" data-ats-panel="formatting">
+                                        <div class="ats-section-card">
+                                            <div class="ats-section-title">Formatting</div>
+                                            <div class="ats-tip">Formatting recommendations to ensure your resume is easily read by ATS, recruiters, and hiring managers.</div>
+                                            <div id="ats-formatting-checks"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="missing-skills-list" class="keyword-badges"
-                                style="display:none; justify-content: center; gap: 0.8rem;">
-                                <!-- Populated by JS -->
-                            </div>
-                            <p id="missing-skills-error" class="error-text"
-                                style="display:none; text-align:center; margin:0; font-size: 0.85rem;"></p>
                         </div>
 
-                        <div class="step-actions split">
-                            <button id="back-to-2" class="btn ghost-btn"><i class="fa-solid fa-arrow-left"></i>
-                                Back</button>
-                            <button id="next-to-4" class="btn primary-btn">Finalize & Tailor <i
-                                    class="fa-solid fa-wand-magic-sparkles"></i></button>
+                        <div class="step-actions split" style="margin-top:1.5rem;">
+                            <button id="back-to-2" class="btn ghost-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                            <button id="next-to-4" class="btn primary-btn">Finalize & Tailor <i class="fa-solid fa-wand-magic-sparkles"></i></button>
                         </div>
                     </div>
 
