@@ -204,10 +204,16 @@
             userAvatar.src = 'https://ui-avatars.com/api/?background=random&name=' + encodeURIComponent(user.email);
         }
 
+        const firstName = (user.user_metadata?.full_name || user.email || '').split(/[\s@]/)[0];
+
         const greeting = document.getElementById('user-greeting');
         if (greeting) {
-            const firstName = (user.user_metadata?.full_name || user.email || '').split(/[\s@]/)[0];
             greeting.textContent = `Hi, ${firstName}`;
+        }
+
+        const welcome = document.getElementById('welcome-message');
+        if (welcome && firstName) {
+            welcome.textContent = `Hello, ${firstName}`;
         }
 
         const dropZone = document.getElementById('drop-zone');

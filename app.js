@@ -153,15 +153,7 @@ function init() {
     window.checkStep1();
     window.checkStep2();
 
-    // Set welcome message on load + auth changes
-    supabaseClient.auth.getUser().then(({ data: { user } }) => {
-        if (user) updateWelcomeMessage(user);
-    });
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN') {
-            updateWelcomeMessage(session.user);
-        }
-    });
+    // Welcome message is set by auth.js updateUIForUser()
 
     // Use Last Resume banner
     const lastResume = (() => { try { return JSON.parse(localStorage.getItem('tms_last_resume')); } catch (e) { return null; } })();
