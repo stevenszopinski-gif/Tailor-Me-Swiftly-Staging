@@ -173,9 +173,32 @@
                 </a>
             </div>
             <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
-                <button id="theme-toggle" class="btn ghost-btn theme-btn" title="Toggle Light/Dark View">
-                    <i class="fa-solid fa-moon"></i> Theme
-                </button>
+                <div id="user-profile" class="user-profile"
+                    style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
+                    <img id="user-avatar" src="" alt="Profile"
+                        style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
+                        onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" onclick="location.href='app.html'">
+                            <i class="fa-solid fa-sliders"></i> Preferences
+                        </button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-bullhorn"></i> Release Notes
+                        </a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-table-columns"></i> Application Tracker
+                        </a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle">
+                            <i class="fa-solid fa-moon"></i> Theme
+                        </button>
+                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"
+                            onclick="supabaseClient.auth.signOut().then(()=>location.href='index.html')">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -213,25 +236,9 @@
         </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=6"></script>
     <script>
-        // Theme toggling
-        const html = document.documentElement;
-        const body = document.body;
-        const themeBtn = document.getElementById('theme-toggle');
-
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        html.setAttribute('data-theme', savedTheme);
-        body.setAttribute('data-theme', savedTheme);
-        body.className = savedTheme + '-theme';
-
-        themeBtn.addEventListener('click', () => {
-            const isDark = body.getAttribute('data-theme') === 'dark';
-            const newTheme = isDark ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            body.setAttribute('data-theme', newTheme);
-            body.className = newTheme + '-theme';
-            localStorage.setItem('theme', newTheme);
-        });
 
         // ── Release notes data ──
         const releases = [
