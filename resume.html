@@ -8,7 +8,9 @@
     <title>Your Resume – TailorMeSwiftly</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Lora:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=13">
     <link rel="stylesheet" href="templates.css">
@@ -298,14 +300,56 @@
             font-size: 5px;
             line-height: 1.4;
         }
-        .template-preview * { box-sizing: border-box; }
-        .tp-name { font-weight: 700; font-size: 8px; margin-bottom: 1px; }
-        .tp-contact { font-size: 3.5px; opacity: 0.6; margin-bottom: 4px; }
-        .tp-section { font-weight: 700; font-size: 4.5px; text-transform: uppercase; letter-spacing: 0.5px; margin: 5px 0 2px; }
-        .tp-role { font-weight: 600; font-size: 4px; margin-bottom: 1px; }
-        .tp-text { font-size: 3.5px; opacity: 0.55; margin-bottom: 1px; line-height: 1.3; }
-        .tp-bullet { font-size: 3.5px; opacity: 0.55; padding-left: 5px; margin-bottom: 0.5px; line-height: 1.3; }
-        .tp-divider { height: 1px; margin: 3px 0; }
+
+        .template-preview * {
+            box-sizing: border-box;
+        }
+
+        .tp-name {
+            font-weight: 700;
+            font-size: 8px;
+            margin-bottom: 1px;
+        }
+
+        .tp-contact {
+            font-size: 3.5px;
+            opacity: 0.6;
+            margin-bottom: 4px;
+        }
+
+        .tp-section {
+            font-weight: 700;
+            font-size: 4.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 5px 0 2px;
+        }
+
+        .tp-role {
+            font-weight: 600;
+            font-size: 4px;
+            margin-bottom: 1px;
+        }
+
+        .tp-text {
+            font-size: 3.5px;
+            opacity: 0.55;
+            margin-bottom: 1px;
+            line-height: 1.3;
+        }
+
+        .tp-bullet {
+            font-size: 3.5px;
+            opacity: 0.55;
+            padding-left: 5px;
+            margin-bottom: 0.5px;
+            line-height: 1.3;
+        }
+
+        .tp-divider {
+            height: 1px;
+            margin: 3px 0;
+        }
 
         .template-card-label {
             padding: 0.4rem 0.6rem;
@@ -428,7 +472,7 @@
             justify-content: center;
             color: #fff;
             font-size: 0.6rem;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .color-custom-link {
@@ -568,9 +612,17 @@
             border-bottom: none;
         }
 
-        .ats-icon-pass { color: #16a34a; }
-        .ats-icon-warn { color: #eab308; }
-        .ats-icon-fail { color: #dc2626; }
+        .ats-icon-pass {
+            color: #16a34a;
+        }
+
+        .ats-icon-warn {
+            color: #eab308;
+        }
+
+        .ats-icon-fail {
+            color: #dc2626;
+        }
 
         /* ═══ DOWNLOAD PANEL ═══ */
         .download-option {
@@ -645,20 +697,25 @@
             .editor-nav {
                 width: 56px;
             }
+
             .editor-panel {
                 width: 280px;
             }
+
             .editor-main {
                 padding: 1rem;
             }
+
             .nav-tab {
                 width: 44px;
                 height: 44px;
                 font-size: 0;
             }
+
             .nav-tab i {
                 font-size: 1.1rem;
             }
+
             .template-grid {
                 grid-template-columns: 1fr;
             }
@@ -672,8 +729,9 @@
                 bottom: 0;
                 z-index: 100;
                 width: 280px;
-                box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
             }
+
             .editor-panel.collapsed {
                 left: -280px;
             }
@@ -710,39 +768,40 @@
 <body>
     <!-- Site Header -->
     <div class="app-container" style="min-height: auto;">
-    <header class="app-header">
-        <div class="logo">
-            <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
-            <h1>TailorMeSwiftly.com</h1>
-        </div>
-        <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
-            <div id="user-profile" class="user-profile"
-                style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
-                <img id="user-avatar" src="" alt="Profile"
-                    style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
-                    onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
-                <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                    <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
-                        <i class="fa-solid fa-sliders"></i> Preferences
-                    </button>
-                    <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
-                        <i class="fa-solid fa-bullhorn"></i> Release Notes
-                    </a>
-                    <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
-                        <i class="fa-solid fa-table-columns"></i> Application Tracker
-                    </a>
-                    <button class="dropdown-item theme-btn">
-                        <i class="fa-solid fa-moon"></i> Theme
-                    </button>
-                    <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
-                    <button class="dropdown-item" id="logout-btn">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
-                    </button>
+        <header class="app-header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                <h1>TailorMeSwiftly.com</h1>
+            </div>
+            <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
+                <div id="user-profile" class="user-profile"
+                    style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
+                    <img id="user-avatar" src="" alt="Profile"
+                        style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
+                        onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting"
+                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
+                            <i class="fa-solid fa-sliders"></i> Preferences
+                        </button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-bullhorn"></i> Release Notes
+                        </a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-table-columns"></i> Application Tracker
+                        </a>
+                        <button class="dropdown-item theme-btn">
+                            <i class="fa-solid fa-moon"></i> Theme
+                        </button>
+                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
     </div>
 
     <div class="editor-layout">
@@ -800,18 +859,26 @@
             <!-- ── SECTIONS TAB ── -->
             <div class="panel-section" data-panel="sections">
                 <div class="panel-header">
-                    <h3><i class="fa-solid fa-layer-group" style="color:var(--primary-color);margin-right:0.4rem;"></i> Add Section</h3>
+                    <h3><i class="fa-solid fa-layer-group" style="color:var(--primary-color);margin-right:0.4rem;"></i>
+                        Add Section</h3>
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
-                    <p style="font-size:0.78rem;color:var(--text-secondary);margin:0 0 1rem;">Click to add or remove sections from your resume.</p>
+                    <p style="font-size:0.78rem;color:var(--text-secondary);margin:0 0 1rem;">Click to add or remove
+                        sections from your resume.</p>
                     <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
-                        <button class="section-pill add-section-btn" data-section="certifications"><i class="fa-solid fa-certificate"></i> Certifications</button>
-                        <button class="section-pill add-section-btn" data-section="projects"><i class="fa-solid fa-diagram-project"></i> Projects</button>
-                        <button class="section-pill add-section-btn" data-section="volunteer"><i class="fa-solid fa-hand-holding-heart"></i> Volunteer</button>
-                        <button class="section-pill add-section-btn" data-section="languages"><i class="fa-solid fa-language"></i> Languages</button>
-                        <button class="section-pill add-section-btn" data-section="publications"><i class="fa-solid fa-book"></i> Publications</button>
-                        <button class="section-pill add-section-btn" data-section="awards"><i class="fa-solid fa-trophy"></i> Awards</button>
+                        <button class="section-pill add-section-btn" data-section="certifications"><i
+                                class="fa-solid fa-certificate"></i> Certifications</button>
+                        <button class="section-pill add-section-btn" data-section="projects"><i
+                                class="fa-solid fa-diagram-project"></i> Projects</button>
+                        <button class="section-pill add-section-btn" data-section="volunteer"><i
+                                class="fa-solid fa-hand-holding-heart"></i> Volunteer</button>
+                        <button class="section-pill add-section-btn" data-section="languages"><i
+                                class="fa-solid fa-language"></i> Languages</button>
+                        <button class="section-pill add-section-btn" data-section="publications"><i
+                                class="fa-solid fa-book"></i> Publications</button>
+                        <button class="section-pill add-section-btn" data-section="awards"><i
+                                class="fa-solid fa-trophy"></i> Awards</button>
                     </div>
                 </div>
             </div>
@@ -819,11 +886,13 @@
             <!-- ── REARRANGE TAB ── -->
             <div class="panel-section" data-panel="rearrange">
                 <div class="panel-header">
-                    <h3><i class="fa-solid fa-arrow-down-1-9" style="color:var(--primary-color);margin-right:0.4rem;"></i> Rearrange</h3>
+                    <h3><i class="fa-solid fa-arrow-down-1-9"
+                            style="color:var(--primary-color);margin-right:0.4rem;"></i> Rearrange</h3>
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
-                    <p style="font-size:0.78rem;color:var(--text-secondary);margin:0 0 0.75rem;">Drag sections to reorder them. You can also drag directly on the resume.</p>
+                    <p style="font-size:0.78rem;color:var(--text-secondary);margin:0 0 0.75rem;">Drag sections to
+                        reorder them. You can also drag directly on the resume.</p>
                     <ul class="rearrange-list" id="rearrange-list"></ul>
                 </div>
             </div>
@@ -831,7 +900,8 @@
             <!-- ── TEMPLATES TAB ── -->
             <div class="panel-section active" data-panel="templates">
                 <div class="panel-header">
-                    <h3><i class="fa-solid fa-table-cells" style="color:var(--primary-color);margin-right:0.4rem;"></i> Templates</h3>
+                    <h3><i class="fa-solid fa-table-cells" style="color:var(--primary-color);margin-right:0.4rem;"></i>
+                        Templates</h3>
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
@@ -842,7 +912,8 @@
             <!-- ── DESIGN & FONT TAB ── -->
             <div class="panel-section" data-panel="design">
                 <div class="panel-header">
-                    <h3><i class="fa-solid fa-paintbrush" style="color:var(--primary-color);margin-right:0.4rem;"></i> Design & Font</h3>
+                    <h3><i class="fa-solid fa-paintbrush" style="color:var(--primary-color);margin-right:0.4rem;"></i>
+                        Design & Font</h3>
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
@@ -853,7 +924,8 @@
                             <span class="design-value" id="margin-value">5</span>
                         </div>
                         <div class="design-slider-row">
-                            <button onclick="adjustSlider('margin-slider', -1)"><i class="fa-solid fa-minus"></i></button>
+                            <button onclick="adjustSlider('margin-slider', -1)"><i
+                                    class="fa-solid fa-minus"></i></button>
                             <input type="range" id="margin-slider" min="1" max="10" step="1" value="5">
                             <button onclick="adjustSlider('margin-slider', 1)"><i class="fa-solid fa-plus"></i></button>
                         </div>
@@ -867,9 +939,11 @@
                             <span class="design-value" id="section-spacing-value">3</span>
                         </div>
                         <div class="design-slider-row">
-                            <button onclick="adjustSlider('section-spacing-slider', -1)"><i class="fa-solid fa-minus"></i></button>
+                            <button onclick="adjustSlider('section-spacing-slider', -1)"><i
+                                    class="fa-solid fa-minus"></i></button>
                             <input type="range" id="section-spacing-slider" min="1" max="5" step="1" value="3">
-                            <button onclick="adjustSlider('section-spacing-slider', 1)"><i class="fa-solid fa-plus"></i></button>
+                            <button onclick="adjustSlider('section-spacing-slider', 1)"><i
+                                    class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="slider-labels"><span>compact</span><span>more space</span></div>
                     </div>
@@ -878,23 +952,37 @@
                     <div class="design-group">
                         <div class="design-label"><span>COLORS</span></div>
                         <div class="color-swatch-grid" id="color-swatches">
-                            <div class="color-swatch active" data-color="#1a1a2e" style="background:#1a1a2e;" title="Navy"></div>
-                            <div class="color-swatch" data-color="#475569" style="background:#475569;" title="Slate"></div>
-                            <div class="color-swatch" data-color="#2d6a4f" style="background:#2d6a4f;" title="Forest"></div>
-                            <div class="color-swatch" data-color="#e07a5f" style="background:#e07a5f;" title="Coral"></div>
-                            <div class="color-swatch" data-color="#2563eb" style="background:#2563eb;" title="Blue"></div>
-                            <div class="color-swatch" data-color="#7c3aed" style="background:#7c3aed;" title="Purple"></div>
-                            <div class="color-swatch" data-color="#dc2626" style="background:#dc2626;" title="Red"></div>
-                            <div class="color-swatch" data-color="#c084fc" style="background:#c084fc;" title="Lavender"></div>
-                            <div class="color-swatch" data-color="#06b6d4" style="background:#06b6d4;" title="Cyan"></div>
-                            <div class="color-swatch" data-color="#c9a84c" style="background:#c9a84c;" title="Gold"></div>
+                            <div class="color-swatch active" data-color="#1a1a2e" style="background:#1a1a2e;"
+                                title="Navy"></div>
+                            <div class="color-swatch" data-color="#475569" style="background:#475569;" title="Slate">
+                            </div>
+                            <div class="color-swatch" data-color="#2d6a4f" style="background:#2d6a4f;" title="Forest">
+                            </div>
+                            <div class="color-swatch" data-color="#e07a5f" style="background:#e07a5f;" title="Coral">
+                            </div>
+                            <div class="color-swatch" data-color="#2563eb" style="background:#2563eb;" title="Blue">
+                            </div>
+                            <div class="color-swatch" data-color="#7c3aed" style="background:#7c3aed;" title="Purple">
+                            </div>
+                            <div class="color-swatch" data-color="#dc2626" style="background:#dc2626;" title="Red">
+                            </div>
+                            <div class="color-swatch" data-color="#c084fc" style="background:#c084fc;" title="Lavender">
+                            </div>
+                            <div class="color-swatch" data-color="#06b6d4" style="background:#06b6d4;" title="Cyan">
+                            </div>
+                            <div class="color-swatch" data-color="#c9a84c" style="background:#c9a84c;" title="Gold">
+                            </div>
                         </div>
                         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-                            <button class="color-custom-link" onclick="document.getElementById('color-accent').click()">Use custom color</button>
-                            <input type="color" id="color-accent" value="#c9a84c" style="width:0;height:0;opacity:0;position:absolute;">
+                            <button class="color-custom-link"
+                                onclick="document.getElementById('color-accent').click()">Use custom color</button>
+                            <input type="color" id="color-accent" value="#c9a84c"
+                                style="width:0;height:0;opacity:0;position:absolute;">
                         </div>
-                        <button id="company-brand-btn" class="improve-action" style="margin-top:0.5rem;width:100%;font-size:0.78rem;gap:0.4rem;display:none;">
-                            <i class="fa-solid fa-building"></i> <span id="company-brand-label">Use Company Brand Color</span>
+                        <button id="company-brand-btn" class="improve-action"
+                            style="margin-top:0.5rem;width:100%;font-size:0.78rem;gap:0.4rem;display:none;">
+                            <i class="fa-solid fa-building"></i> <span id="company-brand-label">Use Company Brand
+                                Color</span>
                         </button>
                         <input type="color" id="color-text" value="#333333" hidden>
                     </div>
@@ -937,9 +1025,11 @@
                             <span class="design-value" id="line-height-value">1.65</span>
                         </div>
                         <div class="design-slider-row">
-                            <button onclick="adjustSlider('line-height-slider', -0.1)"><i class="fa-solid fa-minus"></i></button>
+                            <button onclick="adjustSlider('line-height-slider', -0.1)"><i
+                                    class="fa-solid fa-minus"></i></button>
                             <input type="range" id="line-height-slider" min="1.2" max="2.2" step="0.05" value="1.65">
-                            <button onclick="adjustSlider('line-height-slider', 0.1)"><i class="fa-solid fa-plus"></i></button>
+                            <button onclick="adjustSlider('line-height-slider', 0.1)"><i
+                                    class="fa-solid fa-plus"></i></button>
                         </div>
                         <div class="slider-labels"><span>tight</span><span>relaxed</span></div>
                     </div>
@@ -949,16 +1039,20 @@
             <!-- ── IMPROVE TEXT TAB ── -->
             <div class="panel-section" data-panel="improve">
                 <div class="panel-header">
-                    <h3><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--primary-color);margin-right:0.4rem;"></i> Improve Text</h3>
+                    <h3><i class="fa-solid fa-wand-magic-sparkles"
+                            style="color:var(--primary-color);margin-right:0.4rem;"></i> Improve Text</h3>
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
                     <!-- AI Tailor -->
                     <div class="design-group">
                         <div class="design-label"><span>AI TAILOR</span></div>
-                        <p style="font-size:0.76rem;color:var(--text-secondary);margin:0 0 0.5rem;">Paste a job description to re-optimize your resume.</p>
-                        <textarea id="tailor-jd-input" placeholder="Paste job description here..." style="width:100%;height:80px;padding:0.6rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.82rem;resize:vertical;"></textarea>
-                        <button id="tailor-btn" class="btn primary-btn" style="width:100%;margin-top:0.5rem;font-size:0.82rem;">
+                        <p style="font-size:0.76rem;color:var(--text-secondary);margin:0 0 0.5rem;">Paste a job
+                            description to re-optimize your resume.</p>
+                        <textarea id="tailor-jd-input" placeholder="Paste job description here..."
+                            style="width:100%;height:80px;padding:0.6rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.82rem;resize:vertical;"></textarea>
+                        <button id="tailor-btn" class="btn primary-btn"
+                            style="width:100%;margin-top:0.5rem;font-size:0.82rem;">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> Tailor Resume
                         </button>
                         <div id="tailor-status" style="margin-top:0.4rem;font-size:0.78rem;"></div>
@@ -989,11 +1083,13 @@
             <!-- ── ATS CHECK TAB ── -->
             <div class="panel-section" data-panel="check">
                 <div class="panel-header">
-                    <h3><i class="fa-solid fa-spell-check" style="color:var(--primary-color);margin-right:0.4rem;"></i> ATS Check</h3>
+                    <h3><i class="fa-solid fa-spell-check" style="color:var(--primary-color);margin-right:0.4rem;"></i>
+                        ATS Check</h3>
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
-                    <p style="font-size:0.78rem;color:var(--text-secondary);margin:0 0 1rem;">Scan your resume for ATS compatibility issues and keyword optimization.</p>
+                    <p style="font-size:0.78rem;color:var(--text-secondary);margin:0 0 1rem;">Scan your resume for ATS
+                        compatibility issues and keyword optimization.</p>
                     <button id="ats-check-btn" class="btn primary-btn" style="width:100%;font-size:0.85rem;">
                         <i class="fa-solid fa-magnifying-glass-chart"></i> Run ATS Check
                     </button>
@@ -1004,7 +1100,8 @@
             <!-- ── DOWNLOAD TAB ── -->
             <div class="panel-section" data-panel="download">
                 <div class="panel-header">
-                    <h3><i class="fa-solid fa-download" style="color:var(--primary-color);margin-right:0.4rem;"></i> Download</h3>
+                    <h3><i class="fa-solid fa-download" style="color:var(--primary-color);margin-right:0.4rem;"></i>
+                        Download</h3>
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
@@ -1060,14 +1157,21 @@
     <div id="refine-modal" class="modal-overlay">
         <div class="modal-inner">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-                <h3 style="margin:0;font-size:1rem;"><i class="fa-solid fa-pen-fancy" style="color:var(--primary-color);margin-right:0.5rem;"></i>Custom Refinement</h3>
-                <button onclick="document.getElementById('refine-modal').classList.remove('visible');" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-secondary);">&times;</button>
+                <h3 style="margin:0;font-size:1rem;"><i class="fa-solid fa-pen-fancy"
+                        style="color:var(--primary-color);margin-right:0.5rem;"></i>Custom Refinement</h3>
+                <button onclick="document.getElementById('refine-modal').classList.remove('visible');"
+                    style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-secondary);">&times;</button>
             </div>
-            <p style="color:var(--text-secondary);margin-bottom:0.75rem;font-size:0.85rem;">What would you like to change?</p>
-            <textarea id="refine-input" placeholder="e.g., Make it more concise, Add more metrics, Emphasize leadership..." style="width:100%;height:100px;padding:0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.9rem;resize:vertical;"></textarea>
+            <p style="color:var(--text-secondary);margin-bottom:0.75rem;font-size:0.85rem;">What would you like to
+                change?</p>
+            <textarea id="refine-input"
+                placeholder="e.g., Make it more concise, Add more metrics, Emphasize leadership..."
+                style="width:100%;height:100px;padding:0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.9rem;resize:vertical;"></textarea>
             <div style="display:flex;gap:0.75rem;margin-top:1rem;">
-                <button onclick="document.getElementById('refine-modal').classList.remove('visible');" class="btn ghost-btn" style="flex:1;">Cancel</button>
-                <button onclick="applyRefinement()" class="btn primary-btn" style="flex:1;"><i class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
+                <button onclick="document.getElementById('refine-modal').classList.remove('visible');"
+                    class="btn ghost-btn" style="flex:1;">Cancel</button>
+                <button onclick="applyRefinement()" class="btn primary-btn" style="flex:1;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
             </div>
         </div>
     </div>
@@ -1081,21 +1185,21 @@
         // TEMPLATE DATA
         // ═══════════════════════════════════════════
         const TEMPLATES = [
-            { id: 'theme-executive',     name: 'Executive',      bg: '#ffffff', accent: '#c9a84c', text: '#333', h1: '#1a1a2e', layout: 'executive' },
-            { id: 'theme-classic-serif', name: 'Classic Serif',  bg: '#ffffff', accent: '#1a1a2e', text: '#222', h1: '#1a1a2e', layout: 'classic-serif' },
-            { id: 'theme-modern-clean',  name: 'Modern Clean',   bg: '#ffffff', accent: '#2563eb', text: '#374151', h1: '#111827', layout: 'modern-clean' },
-            { id: 'theme-creative',      name: 'Creative',       bg: '#fafaf8', accent: '#0d9488', text: '#444', h1: '#0d9488', layout: 'creative' },
-            { id: 'theme-slate',         name: 'Slate',          bg: '#f8fafc', accent: '#94a3b8', text: '#475569', h1: '#0f172a', layout: 'slate' },
-            { id: 'theme-ruby',          name: 'Ruby',           bg: '#ffffff', accent: '#9b1b30', text: '#333', h1: '#9b1b30', layout: 'ruby' },
-            { id: 'theme-warm',          name: 'Warm',           bg: '#fdf6ec', accent: '#c2704f', text: '#5c4a3a', h1: '#c2704f', layout: 'warm' },
-            { id: 'theme-forest',        name: 'Forest',         bg: '#f8faf5', accent: '#2d6a4f', text: '#3d4a3a', h1: '#1b4332', layout: 'forest' },
-            { id: 'theme-lavender',      name: 'Lavender',       bg: '#faf5ff', accent: '#7c3aed', text: '#4c1d95', h1: '#4c1d95', layout: 'lavender' },
-            { id: 'theme-two-column',    name: 'Two Column',     bg: '#ffffff', accent: '#334155', text: '#333', h1: '#fff', layout: 'two-column' },
-            { id: 'theme-monospace',     name: 'Monospace',      bg: '#fafafa', accent: '#16a34a', text: '#333', h1: '#111', layout: 'monospace' },
-            { id: 'theme-sharp',         name: 'Sharp',          bg: '#ffffff', accent: '#000000', text: '#111', h1: '#000', layout: 'sharp' },
-            { id: 'theme-modern-tech',   name: 'Modern Tech',    bg: '#ffffff', accent: '#8b5cf6', text: '#4b5563', h1: '#8b5cf6', layout: 'modern-tech' },
-            { id: 'theme-midnight-gold', name: 'Midnight Gold',  bg: '#ffffff', accent: '#b8942e', text: '#4a4a5a', h1: '#b8942e', layout: 'midnight-gold' },
-            { id: 'theme-bold',          name: 'Bold',           bg: '#ffffff', accent: '#c084fc', text: '#4b5563', h1: '#4338ca', layout: 'bold', gradient: 'linear-gradient(90deg, #818cf8, #c084fc)' },
+            { id: 'theme-executive', name: 'Executive', bg: '#ffffff', accent: '#c9a84c', text: '#333', h1: '#1a1a2e', layout: 'executive' },
+            { id: 'theme-classic-serif', name: 'Classic Serif', bg: '#ffffff', accent: '#1a1a2e', text: '#222', h1: '#1a1a2e', layout: 'classic-serif' },
+            { id: 'theme-modern-clean', name: 'Modern Clean', bg: '#ffffff', accent: '#2563eb', text: '#374151', h1: '#111827', layout: 'modern-clean' },
+            { id: 'theme-creative', name: 'Creative', bg: '#fafaf8', accent: '#0d9488', text: '#444', h1: '#0d9488', layout: 'creative' },
+            { id: 'theme-slate', name: 'Slate', bg: '#f8fafc', accent: '#94a3b8', text: '#475569', h1: '#0f172a', layout: 'slate' },
+            { id: 'theme-ruby', name: 'Ruby', bg: '#ffffff', accent: '#9b1b30', text: '#333', h1: '#9b1b30', layout: 'ruby' },
+            { id: 'theme-warm', name: 'Warm', bg: '#fdf6ec', accent: '#c2704f', text: '#5c4a3a', h1: '#c2704f', layout: 'warm' },
+            { id: 'theme-forest', name: 'Forest', bg: '#f8faf5', accent: '#2d6a4f', text: '#3d4a3a', h1: '#1b4332', layout: 'forest' },
+            { id: 'theme-lavender', name: 'Lavender', bg: '#faf5ff', accent: '#7c3aed', text: '#4c1d95', h1: '#4c1d95', layout: 'lavender' },
+            { id: 'theme-two-column', name: 'Two Column', bg: '#ffffff', accent: '#334155', text: '#333', h1: '#fff', layout: 'two-column' },
+            { id: 'theme-monospace', name: 'Monospace', bg: '#fafafa', accent: '#16a34a', text: '#333', h1: '#111', layout: 'monospace' },
+            { id: 'theme-sharp', name: 'Sharp', bg: '#ffffff', accent: '#000000', text: '#111', h1: '#000', layout: 'sharp' },
+            { id: 'theme-modern-tech', name: 'Modern Tech', bg: '#ffffff', accent: '#8b5cf6', text: '#4b5563', h1: '#8b5cf6', layout: 'modern-tech' },
+            { id: 'theme-midnight-gold', name: 'Midnight Gold', bg: '#ffffff', accent: '#b8942e', text: '#4a4a5a', h1: '#b8942e', layout: 'midnight-gold' },
+            { id: 'theme-bold', name: 'Bold', bg: '#ffffff', accent: '#c084fc', text: '#4b5563', h1: '#4338ca', layout: 'bold', gradient: 'linear-gradient(90deg, #818cf8, #c084fc)' },
         ];
 
         const resumeEl = document.getElementById('resume-output');
@@ -1175,9 +1279,7 @@
                 const dk = isColorDark(t.bg);
                 const tx = t.text;
                 const grad = t.gradient || t.accent;
-                let html = '';
 
-                
                 let html = `
                 <div class="template-preview" style="background:${t.bg}; padding: 0; overflow: hidden; position: relative;">
                     <div style="transform: scale(0.2); transform-origin: top left; width: 500%; height: 500%; pointer-events: none;">
@@ -1194,7 +1296,8 @@
                             <p><strong>M.S. Computer Science</strong> | Stanford University</p>
                         </div>
                     </div>
-                </div>`;\n                card.innerHTML = html + `<div class="template-card-label">${t.name}</div>`;
+                </div>`;
+                card.innerHTML = html + `<div class="template-card-label">${t.name}</div>`;
                 card.addEventListener('click', () => applyTemplate(t.id));
                 templateGrid.appendChild(card);
             });
@@ -1369,7 +1472,7 @@
                 if (p.sectionSpacing) { sectionSpacingSlider.value = p.sectionSpacing; sectionSpacingSlider.dispatchEvent(new Event('input')); }
                 if (p.fontSize) { fontSizeSlider.value = p.fontSize; fontSizeSlider.dispatchEvent(new Event('input')); }
                 if (p.lineHeight) { lineHeightSlider.value = p.lineHeight; lineHeightSlider.dispatchEvent(new Event('input')); }
-            } catch (e) {}
+            } catch (e) { }
         }
 
         if (outputs?.resumeHtml) loadDesignPreferences();
@@ -1783,11 +1886,11 @@ Return ONLY the JSON object, nothing else.`;
         // ═══════════════════════════════════════════
         const SECTION_META = {
             certifications: { heading: 'Certifications', placeholder: '<ul><li><strong>Certification Name</strong> — Issuing Organization, Year</li></ul>' },
-            projects:       { heading: 'Projects', placeholder: '<ul><li><strong>Project Name</strong> — Brief description of the project and your contributions</li></ul>' },
-            volunteer:      { heading: 'Volunteer Experience', placeholder: '<ul><li><strong>Role</strong> — Organization, Dates<br>Description of volunteer work and impact</li></ul>' },
-            languages:      { heading: 'Languages', placeholder: '<p>English (Native), Spanish (Professional), French (Conversational)</p>' },
-            publications:   { heading: 'Publications', placeholder: '<ul><li>Author(s). "Title." Journal/Conference, Year.</li></ul>' },
-            awards:         { heading: 'Awards & Honors', placeholder: '<ul><li><strong>Award Name</strong> — Organization, Year</li></ul>' }
+            projects: { heading: 'Projects', placeholder: '<ul><li><strong>Project Name</strong> — Brief description of the project and your contributions</li></ul>' },
+            volunteer: { heading: 'Volunteer Experience', placeholder: '<ul><li><strong>Role</strong> — Organization, Dates<br>Description of volunteer work and impact</li></ul>' },
+            languages: { heading: 'Languages', placeholder: '<p>English (Native), Spanish (Professional), French (Conversational)</p>' },
+            publications: { heading: 'Publications', placeholder: '<ul><li>Author(s). "Title." Journal/Conference, Year.</li></ul>' },
+            awards: { heading: 'Awards & Honors', placeholder: '<ul><li><strong>Award Name</strong> — Organization, Year</li></ul>' }
         };
 
         function findSectionInResume(heading) {
