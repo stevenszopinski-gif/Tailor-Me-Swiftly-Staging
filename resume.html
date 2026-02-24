@@ -254,6 +254,20 @@
             margin-top: 1rem;
             font-size: 0.85rem;
         }
+
+        @media (max-width: 768px) {
+            .workspace-grid { gap: 1.25rem; }
+            .design-sidebar { position: static; }
+        }
+        @media (max-width: 480px) {
+            .result-page { padding: 1rem 1rem 3rem; }
+            .result-header { flex-direction: column; gap: 0.5rem; }
+            .result-header > div { width: 100%; justify-content: center; }
+            .result-header .btn { min-height: 48px; flex: 1; }
+            .design-sidebar { padding: 1rem; }
+            .design-group { margin-bottom: 1rem; padding-bottom: 1rem; }
+            .template-switcher { gap: 0.35rem; }
+        }
     </style>
 </head>
 

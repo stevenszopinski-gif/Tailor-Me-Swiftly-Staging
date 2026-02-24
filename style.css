@@ -1322,6 +1322,13 @@ textarea:focus {
     }
 }
 
+/* 48px touch targets on tablet and below */
+@media screen and (max-width: 768px) {
+    .btn {
+        min-height: 44px;
+    }
+}
+
 @media screen and (max-width: 480px) {
     .intro-hero h1 {
         font-size: 1.8rem;
@@ -1338,6 +1345,40 @@ textarea:focus {
 
     .step-actions.right {
         justify-content: center;
+    }
+
+    .btn {
+        min-height: 48px;
+        font-size: 0.9rem;
+    }
+
+    .small-btn {
+        min-height: 40px;
+    }
+}
+
+/* Ultra-small mobile */
+@media screen and (max-width: 320px) {
+    .app-container {
+        padding: 0.75rem;
+    }
+
+    .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .logo h1 {
+        font-size: 1.2rem;
+    }
+
+    .wizard-body {
+        padding: 1rem 0.75rem;
+    }
+
+    .modal-content {
+        width: 98%;
+        margin: 0.5rem;
     }
 }
 

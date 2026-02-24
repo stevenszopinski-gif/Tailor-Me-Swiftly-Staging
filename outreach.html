@@ -203,6 +203,18 @@
         }
 
         .intel-footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .intel-item { padding: 0.5rem 0.6rem; }
+        }
+        @media (max-width: 480px) {
+            .result-page { padding: 1rem 1rem 3rem; }
+            .result-header { flex-direction: column; gap: 0.5rem; }
+            .result-header .btn { width: 100%; min-height: 48px; }
+            .intel-item { flex-direction: column; gap: 0.4rem; }
+            .intel-insert-btn { align-self: flex-end; min-height: 36px; }
+            .intel-footer { flex-direction: column; align-items: flex-start; }
+        }
     </style>
 </head>
 

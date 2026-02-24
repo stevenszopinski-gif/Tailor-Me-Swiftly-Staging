@@ -248,6 +248,19 @@
         }
         .flashcard-counter strong { color: var(--text-primary); }
 
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .mock-question-card { padding: 1.25rem; }
+            .q-text-display { font-size: 1rem; min-height: 40px; }
+            .q-actions { flex-direction: column; gap: 0.5rem; }
+            .q-actions .btn { width: 100%; min-height: 48px; }
+            .mock-nav { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+            .mock-nav .btn { min-height: 48px; flex: 1; min-width: 100px; }
+            .practice-section { padding: 1rem; }
+            .answer-reveal { padding: 1rem; }
+            .result-header { flex-direction: column; gap: 0.5rem; }
+        }
+
         /* TTS pulsing */
         @keyframes speakerPulse {
 
