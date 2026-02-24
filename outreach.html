@@ -438,12 +438,15 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
             }
 
             try {
+                const companySlug = companyName.toLowerCase().replace(/[^a-z0-9]+/g, '_');
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
                     body: {
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: `You are a company research assistant. Return ONLY a JSON array of 4-5 objects, each with "headline" (string, 8-15 words), "snippet" (string, 1 sentence of context a job applicant could reference in an outreach email), and "search_query" (string, a short Google search query to find the original article about this news item). Focus on recent news, product launches, funding, leadership changes, partnerships, awards, or notable company culture initiatives. If you don't have recent info, provide well-known facts about the company that would be useful conversation starters. No markdown, no explanation — ONLY the JSON array.` }] },
                         contents: [{ parts: [{ text: `Company: ${companyName}\nFind recent notable news, achievements, or developments about this company that a job applicant could reference in an introduction email.` }] }],
-                        generationConfig: { temperature: 0.7 }
+                        generationConfig: { temperature: 0.7 },
+                        cacheKey: `company_intel_${companySlug}`,
+                        cacheTtlSeconds: 86400
                     }
                 });
                 if (error) throw new Error(error.message);
