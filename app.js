@@ -1099,10 +1099,20 @@ function renderKeywords(keywords) {
     keywordContainer.classList.remove('hidden');
 }
 
-function updateWelcomeMessage() {
+async function updateWelcomeMessage() {
     const welcomeEl = document.getElementById('welcome-message');
     if (!welcomeEl) return;
-    welcomeEl.textContent = 'Hello, Steven';
+    try {
+        const { data: { user } } = await window.supabaseClient.auth.getUser();
+        if (user) {
+            const firstName = (user.user_metadata?.full_name || user.email || '').split(/[\s@]/)[0];
+            welcomeEl.textContent = `Hello, ${firstName}`;
+        } else {
+            welcomeEl.textContent = 'Hello';
+        }
+    } catch {
+        welcomeEl.textContent = 'Hello';
+    }
 }
 
 const ALL_THEMES = [
