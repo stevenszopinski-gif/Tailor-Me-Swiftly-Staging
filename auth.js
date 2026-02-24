@@ -101,9 +101,12 @@
         if (!window.supabaseClient) return;
 
         try {
-            await window.supabaseClient.auth.signOut();
+            window._signingOut = true;
+            await window.supabaseClient.auth.signOut({ scope: 'global' });
+            window.location.href = 'index.html';
         } catch (e) {
             console.error("Sign out error:", e.message);
+            window._signingOut = false;
         }
     };
 
@@ -168,11 +171,14 @@
         }
 
         window.supabaseClient.auth.onAuthStateChange((event, session) => {
+            // Don't auto-redirect back after an explicit sign-out
+            if (window._signingOut) return;
+
             const path = window.location.pathname;
             const isApp = path.includes('app.html');
             const isPublic = path.includes('index.html') || path === '/' || path.includes('login.html') || path.includes('signup.html');
 
-            if (session && isPublic) {
+            if (session && isPublic && event === 'SIGNED_IN') {
                 window.location.href = 'app.html';
             } else if (!session && isApp) {
                 window.location.href = 'index.html';
