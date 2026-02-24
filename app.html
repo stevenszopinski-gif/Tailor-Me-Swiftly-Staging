@@ -114,9 +114,10 @@
                                         onclick="document.getElementById('file-input').click()">Browse Files</button>
                                 </div>
 
-                                <div class="divider"><span>OR IMPORT FROM LINKEDIN</span></div>
+                                <!-- LinkedIn import hidden until scraping solution found -->
+                                <div class="divider" style="display:none;"><span>OR IMPORT FROM LINKEDIN</span></div>
 
-                                <div id="linkedin-import-section" style="margin-bottom: 1.5rem;">
+                                <div id="linkedin-import-section" style="display:none; margin-bottom: 1.5rem;">
                                     <div style="background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1rem 1.25rem;">
                                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
                                             <i class="fa-brands fa-linkedin" style="color: #0a66c2; font-size: 1.2rem;"></i>
@@ -410,8 +411,8 @@
                     </div>
                 </div>
 
-                <!-- LinkedIn About Modal -->
-                <div id="linkedin-modal" class="modal">
+                <!-- LinkedIn About Modal (hidden until scraping solution found) -->
+                <div id="linkedin-modal" class="modal" style="display:none;"
                     <div class="modal-content glass-panel" style="max-width: 560px;">
                         <div class="modal-header">
                             <h3><i class="fa-brands fa-linkedin" style="color: #0077b5;"></i> LinkedIn About Section
