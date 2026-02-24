@@ -723,7 +723,114 @@ function stopFunnyQuotes() {
 }
 
 // ------ API GENERATION ------
+async function checkGenerationLimit() {
+    if (!window.supabaseClient) return true; // allow if not signed in (anon usage)
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session) return true;
+
+    const { data: profile } = await window.supabaseClient
+        .from('user_profiles')
+        .select('plan, generation_count, generation_reset_at')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+    if (!profile) return true; // no profile row yet — allow
+
+    // Premium users: unlimited
+    if (profile.plan === 'premium') return true;
+
+    // Monthly reset check
+    const resetAt = new Date(profile.generation_reset_at);
+    const now = new Date();
+    const monthDiff = (now.getFullYear() - resetAt.getFullYear()) * 12 + (now.getMonth() - resetAt.getMonth());
+    if (monthDiff >= 1) {
+        await window.supabaseClient.from('user_profiles')
+            .update({ generation_count: 0, generation_reset_at: now.toISOString() })
+            .eq('user_id', session.user.id);
+        return true;
+    }
+
+    // Free tier: 5 generations/month
+    if (profile.generation_count >= 5) return false;
+    return true;
+}
+
+async function incrementGenerationCount() {
+    if (!window.supabaseClient) return;
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session) return;
+
+    // Read current count, increment, write back
+    const { data: profile } = await window.supabaseClient
+        .from('user_profiles')
+        .select('generation_count')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+    if (profile) {
+        await window.supabaseClient.from('user_profiles')
+            .update({ generation_count: (profile.generation_count || 0) + 1 })
+            .eq('user_id', session.user.id);
+    }
+}
+
+function showUpgradeModal() {
+    // Remove existing modal if any
+    document.getElementById('upgrade-modal-overlay')?.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'upgrade-modal-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+    overlay.innerHTML = `
+        <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;padding:2rem;max-width:420px;width:90%;text-align:center;">
+            <i class="fa-solid fa-crown" style="font-size:2.5rem;color:#f59e0b;margin-bottom:1rem;display:block;"></i>
+            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Free Limit Reached</h2>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
+                You've used your 5 free generations this month.<br>
+                Upgrade to Premium for <strong>unlimited</strong> generations.
+            </p>
+            <button class="btn primary-btn" onclick="createCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
+                <i class="fa-solid fa-bolt"></i> Upgrade to Premium
+            </button>
+            <button class="btn ghost-btn" onclick="this.closest('#upgrade-modal-overlay').remove()" style="width:100%;min-height:44px;">
+                Maybe Later
+            </button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+async function createCheckout() {
+    if (!window.supabaseClient) return;
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session) { alert('Please sign in first.'); return; }
+
+    try {
+        const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
+            body: {
+                userId: session.user.id,
+                email: session.user.email,
+                returnUrl: window.location.origin + '/app.html'
+            }
+        });
+        if (error) throw error;
+        if (data?.url) window.location.href = data.url;
+    } catch (e) {
+        console.error('Checkout error:', e);
+        alert('Unable to start checkout. Please try again.');
+    }
+}
+
 async function processGeneration() {
+    // Generation limit gate
+    const allowed = await checkGenerationLimit();
+    if (!allowed) {
+        showUpgradeModal();
+        return;
+    }
+
     el.generationControl.classList.add('hidden');
     if (el.loadingOverlay) {
         el.loadingOverlay.classList.remove('hidden');
@@ -831,6 +938,10 @@ async function parseAndRedirect(content) {
         jobText: state.jobText
     };
     sessionStorage.setItem('tms_outputs', JSON.stringify(payload));
+
+    // Increment generation count for free tier tracking
+    incrementGenerationCount();
+
     window.location.href = 'results.html';
 }
 
