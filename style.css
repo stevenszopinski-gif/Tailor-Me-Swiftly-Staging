@@ -1960,7 +1960,7 @@ ins.adsbygoogle[data-ad-status="filled"] {
     text-align: center !important;
 }
 
-/* ── 2. CLASSIC SERIF (Harvard/academic, thin weight, wide tracking) ── */
+/* ── 2. CLASSIC SERIF (dense academic, double-rule name, small-caps h2, italic h3) ── */
 .theme-classic-serif {
     --r-font-family: 'Garamond', 'Times New Roman', serif;
     --r-accent-color: #1a1a2e;
@@ -1973,14 +1973,14 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h1-align: center;
     --r-h1-transform: uppercase;
     --r-h1-spacing: 6px;
-    --r-h1-border-bottom: 1px solid #1a1a2e;
-    --r-h2-size: 0.72rem;
+    --r-h1-border-bottom: 3px double #1a1a2e;
+    --r-h2-size: 0.8rem;
     --r-h2-weight: 400;
-    --r-h2-transform: uppercase;
-    --r-h2-spacing: 5px;
+    --r-h2-transform: none;
+    --r-h2-spacing: 4px;
     --r-h2-border-bottom: 1px solid #cccccc;
-    --r-h3-size: 0.95rem;
-    --r-body-size: 0.9rem;
+    --r-h3-size: 0.92rem;
+    --r-body-size: 0.85rem;
 }
 .resume-output.rich-output-area.theme-classic-serif {
     border: 1px solid #d4d4d4 !important;
@@ -1988,9 +1988,12 @@ ins.adsbygoogle[data-ad-status="filled"] {
 }
 .resume-output.rich-output-area.theme-classic-serif h2 {
     text-align: center !important;
+    font-variant: small-caps !important;
+    text-transform: none !important;
 }
 .resume-output.rich-output-area.theme-classic-serif h3 {
     font-style: italic !important;
+    font-weight: 400 !important;
 }
 
 /* ── 3. MODERN CLEAN (left-aligned, bold 2.4rem name, thick blue borders, left bar) ── */
@@ -2017,6 +2020,11 @@ ins.adsbygoogle[data-ad-status="filled"] {
 .resume-output.rich-output-area.theme-modern-clean {
     border-left: 5px solid #2563eb !important;
 }
+.resume-output.rich-output-area.theme-modern-clean h2 {
+    background: #eff6ff !important;
+    padding: 0.3rem 0.6rem !important;
+    border-radius: 2px !important;
+}
 .resume-output.rich-output-area.theme-modern-clean h3::before {
     content: '';
     display: inline-block;
@@ -2028,7 +2036,7 @@ ins.adsbygoogle[data-ad-status="filled"] {
     vertical-align: middle;
 }
 
-/* ── 4. MINIMAL (ultra-restrained, subtle, wide tracking tiny headings) ── */
+/* ── 4. MINIMAL (zen, zero borders, pure whitespace separation, extreme restraint) ── */
 .theme-minimal {
     --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
     --r-accent-color: #e5e7eb;
@@ -2037,29 +2045,32 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h3-color: #374151;
     --r-text-color: #6b7280;
     --r-h1-size: 1.5rem;
-    --r-h1-weight: 600;
+    --r-h1-weight: 300;
     --r-h1-align: center;
     --r-h1-transform: none;
     --r-h1-spacing: 0px;
     --r-h1-border-bottom: none;
-    --r-h1-padding-bottom: 0.25rem;
-    --r-h2-size: 0.62rem;
-    --r-h2-weight: 600;
+    --r-h1-padding-bottom: 0.5rem;
+    --r-h2-size: 0.65rem;
+    --r-h2-weight: 300;
     --r-h2-transform: uppercase;
-    --r-h2-spacing: 6px;
-    --r-h2-border-bottom: 1px solid #f3f4f6;
+    --r-h2-spacing: 8px;
+    --r-h2-border-bottom: none;
+    --r-h2-margin-top: 2.5rem;
 }
 .resume-output.rich-output-area.theme-minimal {
-    border: 1px solid #e5e7eb !important;
-    padding: 3rem !important;
+    padding: 3.5rem !important;
+}
+.resume-output.rich-output-area.theme-minimal h3 {
+    font-weight: 500 !important;
 }
 
-/* ── 5. CREATIVE (6px teal left bar, indented section headings, modern bold) ── */
+/* ── 5. CREATIVE (magazine layout, teal top bar, colored pill h2 tags, dotted h3) ── */
 .theme-creative {
     --r-font-family: 'Outfit', 'Helvetica Neue', sans-serif;
     --r-accent-color: #0d9488;
     --r-h1-color: #0d9488;
-    --r-h2-color: #0d9488;
+    --r-h2-color: #ffffff;
     --r-h3-color: #333333;
     --r-text-color: #444444;
     --r-bg-color: #fafaf8;
@@ -2069,45 +2080,57 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h1-transform: none;
     --r-h1-spacing: -1px;
     --r-h1-border-bottom: none;
-    --r-h2-size: 0.85rem;
+    --r-h2-size: 0.78rem;
     --r-h2-weight: 600;
-    --r-h2-transform: none;
-    --r-h2-spacing: 0px;
+    --r-h2-transform: uppercase;
+    --r-h2-spacing: 1px;
     --r-h2-border-bottom: none;
-    --r-h2-padding: 0.3rem 0 0.3rem 0.75rem;
+    --r-h2-padding: 0.2rem 0.7rem;
 }
 .resume-output.rich-output-area.theme-creative {
-    border-left: 6px solid #0d9488 !important;
-    border-radius: 4px !important;
+    border-top: 4px solid #0d9488 !important;
+    border-radius: 0 !important;
 }
 .resume-output.rich-output-area.theme-creative h2 {
-    border-left: 3px solid #0d9488 !important;
+    background: #0d9488 !important;
+    display: inline-block !important;
+    border-radius: 3px !important;
     border-bottom: none !important;
+    -webkit-text-fill-color: #fff !important;
+    color: #fff !important;
+    margin-bottom: 0.4rem !important;
+}
+.resume-output.rich-output-area.theme-creative h3 {
+    border-bottom: 1px dotted #0d9488 !important;
+    display: inline !important;
 }
 
-/* ── 6. CORAL (gradient text headings, left accent, dotted dividers) ── */
+/* ── 6. CORAL (card style, rounded corners, shadow, centered name, gradient bar) ── */
 .theme-coral {
     --r-font-family: 'Outfit', 'Segoe UI', sans-serif;
     --r-accent-color: #e85d75;
     --r-h1-color: #2d2d2d;
     --r-h2-color: #e85d75;
-    --r-h3-color: #2d2d2d;
+    --r-h3-color: #e85d75;
     --r-text-color: #4a4a4a;
-    --r-h1-size: 2rem;
+    --r-h1-size: 1.6rem;
     --r-h1-weight: 700;
-    --r-h1-align: left;
+    --r-h1-align: center;
     --r-h1-transform: none;
     --r-h1-spacing: 0px;
-    --r-h1-border-bottom: none;
+    --r-h1-border-bottom: 3px solid;
     --r-h2-size: 0.9rem;
     --r-h2-weight: 700;
     --r-h2-transform: none;
     --r-h2-spacing: 1px;
-    --r-h2-border-bottom: 2px dotted #f5a3b3;
+    --r-h2-border-bottom: 2px solid #fecdd3;
 }
 .resume-output.rich-output-area.theme-coral {
-    border-left: 5px solid #e85d75 !important;
-    border-radius: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 24px rgba(232, 93, 117, 0.12) !important;
+}
+.resume-output.rich-output-area.theme-coral h1 {
+    border-image: linear-gradient(90deg, #e85d75, #f093a0) 1 !important;
 }
 .resume-output.rich-output-area.theme-coral h2 {
     background: linear-gradient(90deg, #e85d75, #f093a0) !important;
@@ -2116,7 +2139,7 @@ ins.adsbygoogle[data-ad-status="filled"] {
     -webkit-text-fill-color: transparent !important;
 }
 
-/* ── 7. SLATE (giant ultralight 2.8rem name, tiny section labels, tech feel) ── */
+/* ── 7. SLATE (giant 3.2rem ultralight name, no borders anywhere, pure whitespace) ── */
 .theme-slate {
     --r-font-family: 'Roboto', 'Arial', sans-serif;
     --r-accent-color: #475569;
@@ -2125,62 +2148,66 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h3-color: #1e293b;
     --r-text-color: #475569;
     --r-bg-color: #f8fafc;
-    --r-h1-size: 2.8rem;
-    --r-h1-weight: 200;
+    --r-h1-size: 3.2rem;
+    --r-h1-weight: 100;
     --r-h1-align: left;
     --r-h1-transform: none;
     --r-h1-spacing: -1px;
-    --r-h1-border-bottom: 1px solid #e2e8f0;
-    --r-h2-size: 0.6rem;
+    --r-h1-border-bottom: none;
+    --r-h1-padding-bottom: 0.75rem;
+    --r-h2-size: 0.55rem;
     --r-h2-weight: 500;
     --r-h2-transform: uppercase;
     --r-h2-spacing: 5px;
-    --r-h2-border-bottom: 1px solid #e2e8f0;
-    --r-h3-size: 0.95rem;
-    --r-body-size: 0.88rem;
+    --r-h2-border-bottom: none;
+    --r-h2-margin-top: 2rem;
+    --r-h3-size: 0.9rem;
+    --r-body-size: 0.85rem;
 }
 .resume-output.rich-output-area.theme-slate h1 {
     margin-bottom: 0.1rem !important;
 }
-.resume-output.rich-output-area.theme-slate h2 {
-    margin-top: 1.2rem !important;
-}
 .resume-output.rich-output-area.theme-slate h3 {
-    font-weight: 500 !important;
-    color: #64748b !important;
+    font-weight: 400 !important;
+    color: #334155 !important;
 }
 
-/* ── 8. NORDIC (Scandinavian clean, light bg, ultralight centered name) ── */
+/* ── 8. NORDIC (full-bleed dark header banner, light body, left-accented sections) ── */
 .theme-nordic {
     --r-font-family: 'Inter', 'Helvetica Neue', sans-serif;
     --r-accent-color: #5a7d9a;
-    --r-h1-color: #2d3748;
+    --r-h1-color: #f0f4f8;
     --r-h2-color: #5a7d9a;
     --r-h3-color: #2d3748;
     --r-text-color: #4a5568;
     --r-bg-color: #f0f4f8;
-    --r-h1-size: 2.6rem;
-    --r-h1-weight: 200;
-    --r-h1-align: center;
+    --r-h1-size: 2rem;
+    --r-h1-weight: 600;
+    --r-h1-align: left;
     --r-h1-transform: none;
-    --r-h1-spacing: 3px;
+    --r-h1-spacing: 1px;
     --r-h1-border-bottom: none;
-    --r-h1-padding-bottom: 0.75rem;
+    --r-h1-padding-bottom: 0;
     --r-h2-size: 0.78rem;
-    --r-h2-weight: 500;
+    --r-h2-weight: 600;
     --r-h2-transform: uppercase;
     --r-h2-spacing: 3px;
-    --r-h2-border-bottom: 1px solid #cbd5e0;
+    --r-h2-border-bottom: none;
+    --r-h2-padding: 0 0 0.25rem 0.6rem;
 }
 .resume-output.rich-output-area.theme-nordic h1 {
-    background: #e2e8f0 !important;
-    padding: 0.75rem 1rem !important;
-    border-radius: 6px !important;
-    margin-bottom: 0.5rem !important;
-    -webkit-text-fill-color: #2d3748 !important;
+    background: #2d3748 !important;
+    padding: 1rem 1.2rem !important;
+    margin: -2.5rem -2.5rem 1rem -2.5rem !important;
+    border-radius: 0 !important;
+    -webkit-text-fill-color: #f0f4f8 !important;
+}
+.resume-output.rich-output-area.theme-nordic h2 {
+    border-left: 3px solid #5a7d9a !important;
+    border-bottom: none !important;
 }
 
-/* ── 9. RUBY (authoritative red, thick borders top & bottom, serif) ── */
+/* ── 9. RUBY (law-firm brief, red square bullets on h2, double-rule name, small-caps h3) ── */
 .theme-ruby {
     --r-font-family: 'Georgia', serif;
     --r-accent-color: #9b1b30;
@@ -2193,22 +2220,31 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h1-align: center;
     --r-h1-transform: uppercase;
     --r-h1-spacing: 3px;
-    --r-h1-border-bottom: 4px solid #9b1b30;
+    --r-h1-border-bottom: 4px double #9b1b30;
     --r-h2-size: 0.8rem;
-    --r-h2-weight: 600;
+    --r-h2-weight: 700;
     --r-h2-transform: uppercase;
-    --r-h2-spacing: 3px;
-    --r-h2-border-bottom: 2px solid #d4a5a5;
+    --r-h2-spacing: 4px;
+    --r-h2-border-bottom: none;
 }
 .resume-output.rich-output-area.theme-ruby {
     border-top: 4px solid #9b1b30 !important;
+    border-bottom: 4px solid #9b1b30 !important;
 }
 .resume-output.rich-output-area.theme-ruby h1 {
     border-top: 4px solid #9b1b30 !important;
     padding-top: 0.5rem !important;
 }
+.resume-output.rich-output-area.theme-ruby h2::before {
+    content: '■  ';
+    font-size: 0.6rem;
+    vertical-align: middle;
+}
+.resume-output.rich-output-area.theme-ruby h3 {
+    font-variant: small-caps !important;
+}
 
-/* ── 10. WARM (cream paper, terracotta top bar, double-line dividers) ── */
+/* ── 10. WARM (vintage letter, cream paper, italic name, ornamental h2, wide margins) ── */
 .theme-warm {
     --r-font-family: 'Georgia', serif;
     --r-accent-color: #c2704f;
@@ -2218,20 +2254,35 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-text-color: #5c4a3a;
     --r-bg-color: #fdf6ec;
     --r-h1-size: 1.9rem;
-    --r-h1-weight: 700;
+    --r-h1-weight: 400;
     --r-h1-align: center;
     --r-h1-transform: none;
-    --r-h1-spacing: 1px;
+    --r-h1-spacing: 2px;
     --r-h1-border-bottom: none;
-    --r-h2-size: 0.8rem;
+    --r-h2-size: 0.75rem;
     --r-h2-weight: 600;
     --r-h2-transform: uppercase;
-    --r-h2-spacing: 2px;
+    --r-h2-spacing: 3px;
     --r-h2-border-bottom: 3px double #c2704f;
+    --r-h2-padding: 0 0 0.3rem 0;
 }
 .resume-output.rich-output-area.theme-warm {
     border-top: 5px solid #c2704f !important;
-    border-radius: 2px !important;
+    border-bottom: 5px solid #c2704f !important;
+    border-radius: 0 !important;
+    padding: 3rem !important;
+}
+.resume-output.rich-output-area.theme-warm h1 {
+    font-style: italic !important;
+}
+.resume-output.rich-output-area.theme-warm h2 {
+    text-align: center !important;
+}
+.resume-output.rich-output-area.theme-warm h2::before {
+    content: '—  ';
+}
+.resume-output.rich-output-area.theme-warm h2::after {
+    content: '  —';
 }
 
 /* ── 11. SUNSET (rainbow gradient top bar, warm organic, short accent underlines) ── */
@@ -2261,15 +2312,22 @@ ins.adsbygoogle[data-ad-status="filled"] {
     border-image: linear-gradient(90deg, #e07a5f, #f2cc8f, #81b29a) 1 !important;
     border-radius: 0 !important;
 }
+.resume-output.rich-output-area.theme-sunset h1 {
+    background: linear-gradient(135deg, rgba(224, 122, 95, 0.08), rgba(129, 178, 154, 0.08)) !important;
+    padding: 0.8rem 1.2rem !important;
+    margin: -2.5rem -2.5rem 1rem -2.5rem !important;
+    -webkit-text-fill-color: #3d405b !important;
+}
 .resume-output.rich-output-area.theme-sunset h2 {
     position: relative;
     border-bottom: none !important;
+    text-align: right !important;
 }
 .resume-output.rich-output-area.theme-sunset h2::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     width: 50px;
     height: 3px;
     background: linear-gradient(90deg, #e07a5f, #f2cc8f);
@@ -2300,11 +2358,20 @@ ins.adsbygoogle[data-ad-status="filled"] {
 .resume-output.rich-output-area.theme-forest {
     border: 2px solid #b7e4c7 !important;
     border-top: 5px solid #2d6a4f !important;
+    counter-reset: section !important;
 }
 .resume-output.rich-output-area.theme-forest h2 {
     background: #ecfdf5 !important;
     padding: 0.2rem 0.5rem !important;
     border-radius: 3px !important;
+}
+.resume-output.rich-output-area.theme-forest h2::before {
+    counter-increment: section;
+    content: counter(section) '. ';
+}
+.resume-output.rich-output-area.theme-forest h3 {
+    border-left: 3px solid #2d6a4f !important;
+    padding-left: 0.5rem !important;
 }
 
 /* ── 13. LAVENDER (soft purple bg, rounded 16px corners, pill-shaped headings) ── */
@@ -2339,7 +2406,15 @@ ins.adsbygoogle[data-ad-status="filled"] {
     display: inline-block !important;
     border-bottom: none !important;
     color: #6d28d9 !important;
+    -webkit-text-fill-color: #6d28d9 !important;
     margin-bottom: 0.5rem !important;
+}
+.resume-output.rich-output-area.theme-lavender h3::before {
+    content: '●';
+    color: #7c3aed;
+    font-size: 5px;
+    margin-right: 0.4rem;
+    vertical-align: middle;
 }
 
 /* ── 14. TWO COLUMN (60px dark sidebar bar, name panel, dramatic layout) ── */
@@ -2401,8 +2476,13 @@ ins.adsbygoogle[data-ad-status="filled"] {
     border-radius: 0 !important;
 }
 .resume-output.rich-output-area.theme-monospace h2::before {
-    content: '// ';
+    content: '## ';
     color: #86efac;
+}
+.resume-output.rich-output-area.theme-monospace h3 {
+    background: rgba(22, 163, 106, 0.06) !important;
+    padding: 0.15rem 0.5rem !important;
+    border-radius: 2px !important;
 }
 .resume-output.rich-output-area.theme-monospace ul {
     list-style-type: '> ';
@@ -2416,12 +2496,12 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h2-color: #ffffff;
     --r-h3-color: #000000;
     --r-text-color: #111111;
-    --r-h1-size: 2.2rem;
+    --r-h1-size: 2.8rem;
     --r-h1-weight: 900;
     --r-h1-align: center;
     --r-h1-transform: uppercase;
     --r-h1-spacing: -1px;
-    --r-h1-border-bottom: 4px solid #000;
+    --r-h1-border-bottom: 5px solid #000;
     --r-h1-padding-bottom: 0.5rem;
     --r-h2-size: 0.8rem;
     --r-h2-weight: 700;
@@ -2435,7 +2515,7 @@ ins.adsbygoogle[data-ad-status="filled"] {
     border-radius: 0 !important;
 }
 .resume-output.rich-output-area.theme-sharp h1 {
-    border-top: 4px solid #000 !important;
+    border-top: 5px solid #000 !important;
     padding-top: 0.5rem !important;
 }
 .resume-output.rich-output-area.theme-sharp h2 {
@@ -2474,10 +2554,18 @@ ins.adsbygoogle[data-ad-status="filled"] {
     border: 1px solid #30363d !important;
     border-top: 3px solid #8b5cf6 !important;
 }
+.resume-output.rich-output-area.theme-modern-tech h1::before {
+    content: '> ';
+    color: #8b5cf6;
+    font-weight: 400;
+}
 .resume-output.rich-output-area.theme-modern-tech h2 {
     border-left: 3px solid #3b82f6 !important;
     padding-left: 0.6rem !important;
     border-bottom: none !important;
+}
+.resume-output.rich-output-area.theme-modern-tech ul {
+    list-style-type: '→ ';
 }
 
 /* ── 18. OCEAN (deep navy, cyan accents, light centered name) ── */
@@ -2503,12 +2591,20 @@ ins.adsbygoogle[data-ad-status="filled"] {
 }
 .resume-output.rich-output-area.theme-ocean {
     border: 1px solid rgba(6, 182, 212, 0.2) !important;
+    box-shadow: inset 0 -3px 30px rgba(6, 182, 212, 0.06) !important;
 }
 .resume-output.rich-output-area.theme-ocean h1 {
     background: rgba(6, 182, 212, 0.08) !important;
     padding: 0.6rem 0.8rem !important;
     border-radius: 4px !important;
     -webkit-text-fill-color: #f1f5f9 !important;
+}
+.resume-output.rich-output-area.theme-ocean h2 {
+    text-align: center !important;
+    letter-spacing: 6px !important;
+}
+.resume-output.rich-output-area.theme-ocean h3 {
+    text-align: center !important;
 }
 
 /* ── 19. MIDNIGHT GOLD (dark luxury, gold, wide letter-spacing) ── */
@@ -2533,12 +2629,19 @@ ins.adsbygoogle[data-ad-status="filled"] {
     --r-h2-border-bottom: 1px solid rgba(212, 168, 67, 0.3);
 }
 .resume-output.rich-output-area.theme-midnight-gold {
+    --r-h1-spacing: 8px;
+    --r-h1-padding-bottom: 1rem;
     border: 1px solid rgba(212, 168, 67, 0.2) !important;
-    border-top: 3px solid #d4a843 !important;
+    border-top: 4px solid #d4a843 !important;
 }
 .resume-output.rich-output-area.theme-midnight-gold h1 {
     border-top: 1px solid rgba(212, 168, 67, 0.3) !important;
     padding-top: 0.5rem !important;
+}
+.resume-output.rich-output-area.theme-midnight-gold h2::before {
+    content: '◆  ';
+    font-size: 0.5rem;
+    vertical-align: middle;
 }
 
 /* ── 20. BOLD (deep indigo, gradient text on h1 & h2, vibrant) ── */
@@ -2578,6 +2681,15 @@ ins.adsbygoogle[data-ad-status="filled"] {
     background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
+.resume-output.rich-output-area.theme-bold h3::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #818cf8, #c084fc);
+    margin-top: 3px;
+    border-radius: 1px;
+}
 
 /* ── 21. DARK (pure black, stark white text, minimal) ── */
 .theme-dark {
@@ -2604,12 +2716,24 @@ ins.adsbygoogle[data-ad-status="filled"] {
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 .resume-output.rich-output-area.theme-dark h2 {
-    border-left: 2px solid rgba(255, 255, 255, 0.5) !important;
-    padding-left: 0.6rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 800 !important;
     border-bottom: none !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin-top: 2rem !important;
+}
+.resume-output.rich-output-area.theme-dark h3 {
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 2px !important;
 }
 .resume-output.rich-output-area.theme-dark ul {
-    list-style-type: '— ';
+    list-style: none;
+}
+.resume-output.rich-output-area.theme-dark li::before {
+    content: '/ ';
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* ─── Step 3 Loading Pills ─── */
