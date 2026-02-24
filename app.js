@@ -455,45 +455,47 @@ async function fetchWithFallback(targetUrl) {
     return data;
 }
 
-// ------ LINKEDIN PROFILE IMPORT ------
+// ------ LINKEDIN PROFILE IMPORT (URL-based) ------
 async function handleLinkedInImport() {
     const urlInput = document.getElementById('linkedin-url-input');
     const statusEl = document.getElementById('linkedin-import-status');
     const importBtn = document.getElementById('linkedin-import-btn');
-    const url = urlInput?.value.trim();
+    const linkedinUrl = urlInput?.value.trim();
 
-    if (!url) return;
+    if (!linkedinUrl) {
+        statusEl.innerHTML = '<span class="error-text"><i class="fa-solid fa-xmark"></i> Please enter your LinkedIn profile URL.</span>';
+        return;
+    }
 
-    // Validate LinkedIn URL
-    if (!/^https?:\/\/(www\.)?linkedin\.com\/in\/[\w-]+\/?/i.test(url)) {
-        statusEl.innerHTML = '<span class="error-text"><i class="fa-solid fa-xmark"></i> Please enter a valid LinkedIn profile URL (linkedin.com/in/username)</span>';
+    // Validate it looks like a LinkedIn profile URL
+    if (!linkedinUrl.match(/linkedin\.com\/in\//i)) {
+        statusEl.innerHTML = '<span class="error-text"><i class="fa-solid fa-xmark"></i> Please enter a valid LinkedIn profile URL (e.g. linkedin.com/in/your-name).</span>';
         return;
     }
 
     importBtn.disabled = true;
-    statusEl.innerHTML = '<span style="color:var(--text-secondary)"><i class="fa-solid fa-globe fa-spin"></i> Fetching your LinkedIn profile...</span>';
+    statusEl.innerHTML = '<span style="color:var(--text-secondary)"><i class="fa-solid fa-spinner fa-spin"></i> Fetching your LinkedIn profile...</span>';
 
     try {
-        // Step 1: Scrape the profile page
-        const data = await fetchWithFallback(url);
+        // Step 1: Fetch profile page via edge function
+        const { data: fetchData, error: fetchError } = await withTimeout(
+            supabaseClient.functions.invoke('fetch-url', {
+                body: { url: linkedinUrl.startsWith('http') ? linkedinUrl : `https://${linkedinUrl}` }
+            }),
+            20000
+        );
 
-        let pageText = '';
-        if (data.text) {
-            pageText = data.text;
-        } else if (data.html) {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(data.html, 'text/html');
-            doc.querySelectorAll('script, style, nav, footer').forEach(e => e.remove());
-            pageText = (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+        if (fetchError) throw new Error(fetchError.message || 'Failed to fetch profile');
+        if (fetchData?.error) throw new Error(fetchData.error);
+
+        const pageText = fetchData?.text || fetchData?.html?.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() || '';
+        if (!pageText || pageText.length < 50) {
+            throw new Error('Could not retrieve profile content. Make sure your profile is set to public.');
         }
 
-        if (pageText.length < 50) {
-            throw new Error('Could not read the LinkedIn profile. LinkedIn may be blocking the request. Try copying your profile text and pasting it manually instead.');
-        }
-
-        // Step 2: Send to Gemini for structured extraction
         statusEl.innerHTML = '<span style="color:var(--text-secondary)"><i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> Extracting experience, education, and skills with AI...</span>';
 
+        // Step 2: Send to Gemini for structured extraction
         const extractionPrompt = `Extract all resume-relevant information from this LinkedIn profile and format it as a clean, professional resume in plain text. Use this exact format:
 
 [Full Name]
@@ -556,7 +558,7 @@ Rules:
         if (el.fileStatus) {
             el.fileStatus.classList.remove('hidden');
             if (el.fileName) el.fileName.textContent = 'LinkedIn Profile';
-            if (el.parseStatus) el.parseStatus.innerHTML = '<i class="fa-solid fa-check-circle"></i> Extracted from LinkedIn';
+            if (el.parseStatus) el.parseStatus.innerHTML = '<i class="fa-solid fa-check-circle"></i> Imported from LinkedIn';
         }
 
         // Save to localStorage as last resume

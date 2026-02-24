@@ -62,10 +62,13 @@ Deno.serve(async (req) => {
 
         const host = parsed.hostname.toLowerCase()
 
-        // ── LinkedIn: reject early with helpful message ──
-        if (host.includes('linkedin.com')) {
+        // ── LinkedIn: special handling for profile pages ──
+        const isLinkedInProfile = host.includes('linkedin.com') && parsed.pathname.startsWith('/in/')
+        const isLinkedInJob = host.includes('linkedin.com') && !isLinkedInProfile
+
+        if (isLinkedInJob) {
             return new Response(JSON.stringify({
-                error: 'LinkedIn blocks automated access. Please copy the job description text and paste it manually.',
+                error: 'LinkedIn blocks automated job listing access. Please copy the job description text and paste it manually.',
                 source: 'linkedin'
             }), {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -94,6 +97,60 @@ Deno.serve(async (req) => {
         }
 
         const html = await resp.text()
+
+        // ── LinkedIn Profile: extract visible text from the public page ──
+        if (isLinkedInProfile) {
+            // LinkedIn public profiles include structured data in JSON-LD
+            // and visible text in the page body
+            let text = ''
+
+            // Try JSON-LD for Person schema
+            const personMatches = html.match(/<script[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)
+            if (personMatches) {
+                for (const match of personMatches) {
+                    try {
+                        const json = match.replace(/<script[^>]*>/i, '').replace(/<\/script>/i, '').trim()
+                        const parsed = JSON.parse(json)
+                        const schemas = Array.isArray(parsed) ? parsed : [parsed]
+                        for (const schema of schemas) {
+                            if (schema['@type'] === 'Person' || schema['@type'] === 'ProfilePage') {
+                                text += `${schema.name || ''}\n${schema.jobTitle || ''}\n${schema.description || ''}\n`
+                            }
+                        }
+                    } catch { /* skip */ }
+                }
+            }
+
+            // Also extract readable text from the HTML body
+            const bodyText = html
+                .replace(/<script[\s\S]*?<\/script>/gi, '')
+                .replace(/<style[\s\S]*?<\/style>/gi, '')
+                .replace(/<nav[\s\S]*?<\/nav>/gi, '')
+                .replace(/<footer[\s\S]*?<\/footer>/gi, '')
+                .replace(/<[^>]+>/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+
+            if (bodyText.length > text.length) {
+                text = bodyText
+            }
+
+            if (text.length > 50) {
+                return new Response(JSON.stringify({ text, source: 'linkedin-profile' }), {
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                    status: 200,
+                })
+            }
+
+            // If we got very little text, LinkedIn likely blocked us
+            return new Response(JSON.stringify({
+                error: 'LinkedIn returned limited data. Please make sure your profile is set to public, or copy your profile text and paste it in the resume upload area.',
+                source: 'linkedin'
+            }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 200,
+            })
+        }
 
         // ── Greenhouse: try JSON-LD extraction ──
         if (host.includes('greenhouse.io') || host.includes('boards.greenhouse.io')) {
