@@ -178,7 +178,7 @@
             const isApp = path.includes('app.html');
             const isPublic = path.includes('index.html') || path === '/' || path.includes('login.html') || path.includes('signup.html');
 
-            if (session && isPublic && event === 'SIGNED_IN') {
+            if (session && isPublic && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
                 window.location.href = 'app.html';
             } else if (!session && isApp) {
                 window.location.href = 'index.html';
