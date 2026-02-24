@@ -154,9 +154,10 @@
                 document.getElementById('auth-error-message').textContent = error.message;
                 document.getElementById('auth-error-message').style.display = 'block';
             } else {
-                document.getElementById('auth-error-message').textContent = "Account created!";
-                document.getElementById('auth-error-message').style.color = "var(--success-color)";
-                document.getElementById('auth-error-message').style.display = 'block';
+                const msgEl = document.getElementById('auth-error-message');
+                msgEl.innerHTML = "<strong>Check your email!</strong> We sent a confirmation link to <strong>" + emailInput.value + "</strong>. Click it to activate your account.";
+                msgEl.style.color = "var(--success-color)";
+                msgEl.style.display = 'block';
             }
         } catch (e) {
             document.getElementById('auth-error-message').textContent = e.message;
