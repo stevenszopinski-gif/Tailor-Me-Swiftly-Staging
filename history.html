@@ -502,6 +502,10 @@
             <p>Drag cards between columns to track your application progress</p>
         </div>
 
+        <div id="reminder-banner" style="display:none;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:0.85rem 1.2rem;margin:0 1.5rem 1rem;color:var(--text-primary);font-size:0.88rem;">
+            <i class="fa-solid fa-bell" style="color:#f59e0b;margin-right:0.4rem;"></i>
+            <strong>Overdue follow-ups:</strong> <span id="reminder-list"></span>
+        </div>
         <div id="kanban-content">
             <div class="loading-state">
                 <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.5rem;"></i>
@@ -518,6 +522,11 @@
                 <button class="notes-modal-close" onclick="closeNotesModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="notes-modal-body">
+                <!-- Follow-up Reminder (always visible) -->
+                <div style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;">
+                    <label style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem;margin-bottom:0.35rem;"><i class="fa-solid fa-bell" style="color:#f59e0b;"></i>Follow-up Reminder</label>
+                    <input type="datetime-local" id="reminder-date" style="width:100%;padding:0.45rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.85rem;">
+                </div>
                 <div id="interview-tip" style="display:none;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(52,211,153,0.08));border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem;">
                         <div style="display:flex;align-items:center;gap:0.5rem;">
@@ -627,6 +636,7 @@
             kanbanContent.innerHTML = '';
             kanbanContent.appendChild(board);
             initKanbanDragDrop();
+            checkOverdueReminders();
         }
 
         function createColumn(colConfig, items) {
@@ -695,6 +705,7 @@
                     <span class="kcard-date">${dateStr}</span>
                 </div>
                 ${score ? `<div class="kcard-score" style="background:${scoreBg};color:${scoreColor};"><i class="fa-solid fa-bullseye"></i> ${score}%</div>` : ''}
+                <div class="kcard-reminder" style="display:none;font-size:0.75rem;margin-bottom:0.4rem;"><i class="fa-solid fa-bell" style="margin-right:0.3rem;"></i><span></span></div>
                 <div class="kcard-interview-date" style="display:none;font-size:0.75rem;color:#10b981;margin-bottom:0.4rem;"><i class="fa-solid fa-calendar-check" style="margin-right:0.3rem;"></i><span></span></div>
                 <div class="kcard-badges">
                     ${badges.map(b => `<span class="card-badge has"><i class="fa-solid fa-check" style="font-size:0.55rem;"></i> ${b}</span>`).join('')}
@@ -723,14 +734,54 @@
 
         function updateCardInterviewBadge(card, meta) {
             const badge = card.querySelector('.kcard-interview-date');
-            if (!badge) return;
-            if (meta && meta.interview_date) {
-                const d = new Date(meta.interview_date);
-                const formatted = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-                badge.querySelector('span').textContent = formatted;
-                badge.style.display = 'block';
+            if (badge) {
+                if (meta && meta.interview_date) {
+                    const d = new Date(meta.interview_date);
+                    const formatted = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+                    badge.querySelector('span').textContent = formatted;
+                    badge.style.display = 'block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+            // Reminder badge
+            const reminderBadge = card.querySelector('.kcard-reminder');
+            if (reminderBadge) {
+                if (meta && meta.reminder_date) {
+                    const rd = new Date(meta.reminder_date);
+                    const now = new Date();
+                    const isOverdue = rd <= now;
+                    const formatted = rd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+                    reminderBadge.querySelector('span').textContent = (isOverdue ? 'Overdue: ' : 'Reminder: ') + formatted;
+                    reminderBadge.style.color = isOverdue ? '#ef4444' : '#f59e0b';
+                    reminderBadge.style.display = 'block';
+                } else {
+                    reminderBadge.style.display = 'none';
+                }
+            }
+        }
+
+        // ── Overdue Reminders ──
+        function checkOverdueReminders() {
+            const banner = document.getElementById('reminder-banner');
+            const list = document.getElementById('reminder-list');
+            if (!banner || !list) return;
+
+            const now = new Date();
+            const overdue = [];
+
+            document.querySelectorAll('.kanban-card').forEach(card => {
+                const meta = JSON.parse(card.dataset.interviewMeta || '{}');
+                if (meta.reminder_date && new Date(meta.reminder_date) <= now) {
+                    overdue.push(card.dataset.company || 'Unknown');
+                }
+            });
+
+            if (overdue.length > 0) {
+                list.textContent = overdue.join(', ');
+                banner.style.display = 'block';
             } else {
-                badge.style.display = 'none';
+                banner.style.display = 'none';
             }
         }
 
@@ -979,13 +1030,16 @@
             document.getElementById('notes-modal-title').textContent = company + ' — Notes';
             document.getElementById('notes-textarea').value = notes;
 
+            // Always load reminder date
+            const meta = JSON.parse(card.dataset.interviewMeta || '{}');
+            document.getElementById('reminder-date').value = meta.reminder_date || '';
+
             // Show interview fields if card is in Interviewing column
             const isInterviewing = columnStatus === 'Interviewing';
             const tip = document.getElementById('interview-tip');
             tip.style.display = isInterviewing ? 'block' : 'none';
 
             if (isInterviewing) {
-                const meta = JSON.parse(card.dataset.interviewMeta || '{}');
                 document.getElementById('interview-date').value = meta.interview_date || '';
                 document.getElementById('interview-contacts').value = meta.contacts || '';
                 document.getElementById('interview-followups').value = meta.follow_ups || '';
@@ -1013,22 +1067,27 @@
             try {
                 const fields = { notes: newNotes || null };
 
-                // Save interview meta if the fields are visible
+                // Always read reminder date
+                const reminderDate = document.getElementById('reminder-date').value || null;
+
+                // Build interview_meta — always include reminder_date, plus interview fields if visible
+                const card = document.querySelector(`.kanban-card[data-id="${activeNotesCardId}"]`);
+                const existingMeta = card ? JSON.parse(card.dataset.interviewMeta || '{}') : {};
+                const meta = { ...existingMeta, reminder_date: reminderDate };
+
                 const tipVisible = document.getElementById('interview-tip').style.display !== 'none';
                 if (tipVisible) {
-                    const meta = {
-                        interview_date: document.getElementById('interview-date').value || null,
-                        contacts: document.getElementById('interview-contacts').value.trim() || null,
-                        follow_ups: document.getElementById('interview-followups').value.trim() || null
-                    };
-                    const hasAny = meta.interview_date || meta.contacts || meta.follow_ups;
-                    fields.interview_meta = hasAny ? meta : null;
+                    meta.interview_date = document.getElementById('interview-date').value || null;
+                    meta.contacts = document.getElementById('interview-contacts').value.trim() || null;
+                    meta.follow_ups = document.getElementById('interview-followups').value.trim() || null;
                 }
+
+                const hasAny = meta.interview_date || meta.contacts || meta.follow_ups || meta.reminder_date;
+                fields.interview_meta = hasAny ? meta : null;
 
                 await updateGenerationField(activeNotesCardId, fields);
 
                 // Update card DOM
-                const card = document.querySelector(`.kanban-card[data-id="${activeNotesCardId}"]`);
                 if (card) {
                     card.dataset.notes = newNotes;
 
@@ -1063,6 +1122,7 @@
 
                 showToast('Saved');
                 closeNotesModal();
+                checkOverdueReminders();
             } catch (err) {
                 console.error('Failed to save notes:', err);
                 showToast('Failed to save notes', true);
