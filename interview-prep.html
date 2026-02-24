@@ -165,80 +165,96 @@
         /* ── Flashcard Mode ── */
         .flashcard-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
-        @media (max-width: 768px) {
-            .flashcard-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .flashcard-grid { grid-template-columns: 1fr; }
         }
         .flashcard {
-            perspective: 800px;
-            height: 220px;
+            perspective: 1000px;
             cursor: pointer;
+            min-height: 180px;
         }
         .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.5s;
+            display: grid;
+            transition: transform 0.5s ease;
             transform-style: preserve-3d;
         }
         .flashcard.flipped .flashcard-inner {
             transform: rotateY(180deg);
         }
         .flashcard-front, .flashcard-back {
-            position: absolute;
-            inset: 0;
+            grid-area: 1 / 1;
             backface-visibility: hidden;
             border-radius: 14px;
             border: 1px solid var(--panel-border);
-            padding: 1.25rem;
+            padding: 1.25rem 1.25rem 1rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow-y: auto;
         }
         .flashcard-front {
             background: var(--glass-bg);
         }
+        .flashcard:hover .flashcard-front {
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 12px rgba(16,185,129,0.1);
+        }
         .flashcard-back {
-            background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(52,211,153,0.06));
+            background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(52,211,153,0.04));
             border-color: rgba(16,185,129,0.3);
             transform: rotateY(180deg);
         }
-        .flashcard-front .fc-number {
+        .fc-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        .fc-badge {
             font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            background: rgba(16,185,129,0.1);
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            letter-spacing: 0.3px;
+        }
+        .fc-flip-hint {
+            font-size: 0.68rem;
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            opacity: 0.6;
         }
-        .flashcard-front .fc-question {
-            font-size: 0.92rem;
+        .flashcard:hover .fc-flip-hint { opacity: 1; }
+        .fc-question {
+            font-size: 0.9rem;
             font-weight: 600;
-            line-height: 1.5;
+            line-height: 1.6;
             color: var(--text-primary);
+            flex: 1;
         }
-        .flashcard-back .fc-label {
+        .fc-back-label {
             font-size: 0.7rem;
             color: #10b981;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
         }
-        .flashcard-back .fc-answer {
-            font-size: 0.82rem;
+        .fc-answer {
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            line-height: 1.55;
+            line-height: 1.65;
+            flex: 1;
         }
         .flashcard.reviewed .flashcard-front {
-            border-color: rgba(16,185,129,0.4);
+            border-color: rgba(16,185,129,0.35);
+            background: linear-gradient(135deg, var(--glass-bg), rgba(16,185,129,0.03));
+        }
+        .flashcard.reviewed .fc-badge {
+            background: rgba(16,185,129,0.2);
         }
         .flashcard-counter {
             text-align: center;
@@ -575,11 +591,14 @@
                 return `<div class="flashcard${reviewed}" data-idx="${i}" onclick="flipCard(this, ${i})" ontouchstart="fcTouchStart(event)" ontouchend="fcTouchEnd(event, this, ${i})">
                     <div class="flashcard-inner">
                         <div class="flashcard-front">
-                            <div class="fc-number">Question ${i + 1}</div>
+                            <div class="fc-header">
+                                <span class="fc-badge">Q${i + 1}</span>
+                                <span class="fc-flip-hint"><i class="fa-solid fa-rotate"></i> Tap to flip</span>
+                            </div>
                             <div class="fc-question">${qa.question}</div>
                         </div>
                         <div class="flashcard-back">
-                            <div class="fc-label"><i class="fa-solid fa-lightbulb" style="margin-right:0.3rem;"></i>Answer</div>
+                            <div class="fc-back-label"><i class="fa-solid fa-lightbulb"></i> Ideal Answer</div>
                             <div class="fc-answer">${qa.answer}</div>
                         </div>
                     </div>
