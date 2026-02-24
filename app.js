@@ -153,7 +153,10 @@ function init() {
     window.checkStep1();
     window.checkStep2();
 
-    // Listen for auth state changes
+    // Set welcome message on load + auth changes
+    supabaseClient.auth.getUser().then(({ data: { user } }) => {
+        if (user) updateWelcomeMessage(user);
+    });
     supabaseClient.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN') {
             updateWelcomeMessage(session.user);
@@ -1099,18 +1102,13 @@ function renderKeywords(keywords) {
     keywordContainer.classList.remove('hidden');
 }
 
-async function updateWelcomeMessage() {
+function updateWelcomeMessage(user) {
     const welcomeEl = document.getElementById('welcome-message');
     if (!welcomeEl) return;
-    try {
-        const { data: { user } } = await window.supabaseClient.auth.getUser();
-        if (user) {
-            const firstName = (user.user_metadata?.full_name || user.email || '').split(/[\s@]/)[0];
-            welcomeEl.textContent = `Hello, ${firstName}`;
-        } else {
-            welcomeEl.textContent = 'Hello';
-        }
-    } catch {
+    if (user) {
+        const firstName = (user.user_metadata?.full_name || user.email || '').split(/[\s@]/)[0];
+        welcomeEl.textContent = firstName ? `Hello, ${firstName}` : 'Hello';
+    } else {
         welcomeEl.textContent = 'Hello';
     }
 }
