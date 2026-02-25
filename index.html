@@ -544,6 +544,141 @@
             font-size: 1.05rem;
         }
 
+        /* ═══ DIFFERENTIATOR SECTION ═══ */
+        .hp-diff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 2rem 0 3rem;
+        }
+        .hp-diff-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 1.75rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hp-diff-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+        }
+        .hp-diff-card:nth-child(1)::before { background: linear-gradient(90deg, #ef4444, #f97316); }
+        .hp-diff-card:nth-child(2)::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
+        .hp-diff-card:nth-child(3)::before { background: linear-gradient(90deg, #10b981, #06b6d4); }
+        .hp-diff-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .hp-diff-card h4 {
+            font-size: 1.1rem;
+            margin: 0 0 0.75rem;
+        }
+        .hp-diff-card p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ═══ CATEGORIZED TOOLKIT ═══ */
+        .hp-cat-section {
+            margin-bottom: 2.5rem;
+        }
+        .hp-cat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+        .hp-cat-header i {
+            font-size: 1rem;
+        }
+        .hp-cat-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .hp-cat-header span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+        .hp-cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+        .hp-tool-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: transform 0.15s, border-color 0.15s;
+        }
+        .hp-tool-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+        .hp-tool-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+        .hp-tool-card h5 {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .hp-tool-card p {
+            margin: 0.1rem 0 0;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            line-height: 1.3;
+        }
+
+        /* ═══ STATS BAR ═══ */
+        .hp-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+        .hp-stat {
+            text-align: center;
+        }
+        .hp-stat-num {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hp-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hp-steps {
@@ -572,6 +707,10 @@
             .hp-hero h2 {
                 font-size: 1.8rem;
             }
+
+            .hp-diff-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -587,6 +726,10 @@
 
             .mock-kanban-col {
                 min-width: 45%;
+            }
+
+            .hp-stats {
+                gap: 1.5rem;
             }
         }
     </style>
@@ -655,20 +798,19 @@
 
         <!-- ═══════ HERO ═══════ -->
         <section class="hp-hero">
-            <h2>Your Complete <span class="hp-gradient">AI Career Toolkit</span></h2>
+            <h2>Stop Applying Blind. <span class="hp-gradient">Apply Smarter.</span></h2>
             <p class="hp-hero-sub">
-                Tailored resume, cover letter, mock interview, introduction email, and more to manage every
-                application &mdash; generated in seconds from just your resume and a job description.
+                Other tools build resumes. TailorMeSwiftly is a 30+ tool AI career platform that handles everything &mdash; from resume tailoring to salary negotiation practice to detecting toxic companies &mdash; so you apply to the <em>right</em> jobs, prepared for every stage.
             </p>
 
             <a href="login.html" id="hero-get-started-btn" class="btn primary-btn hp-hero-cta">
                 <i class="fa-solid fa-rocket"></i> Get Started For Free
             </a>
             <div class="hp-hero-note">
-                <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> Most features free</span>
-                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 1 minute</span>
-                <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
-                    private</span>
+                <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> Free to use</span>
+                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 60 seconds</span>
+                <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays private</span>
+                <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
             </div>
         </section>
 
@@ -678,6 +820,31 @@
                 data-ad-format="horizontal" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+
+        <!-- ═══════ WHY TMS IS DIFFERENT ═══════ -->
+        <section style="padding: 2rem 0 1rem;">
+            <div class="hp-section-head">
+                <h2>Why Not Just Another Resume Builder?</h2>
+                <p>Resume tools stop at the PDF. We cover the entire job search.</p>
+            </div>
+            <div class="hp-diff-grid">
+                <div class="hp-diff-card">
+                    <div class="hp-diff-label">Resume builders give you</div>
+                    <h4>A PDF and a prayer</h4>
+                    <p>We start with an ATS-optimized resume, then give you a cover letter, mock interview, salary negotiation practice, and 25+ more tools to actually land the job.</p>
+                </div>
+                <div class="hp-diff-card">
+                    <div class="hp-diff-label">Job trackers give you</div>
+                    <h4>A spreadsheet with status columns</h4>
+                    <p>We give you a Kanban board plus AI intelligence: ghosting prediction, toxic culture scanning, compensation decoding, and company back-channel mapping.</p>
+                </div>
+                <div class="hp-diff-card">
+                    <div class="hp-diff-label">Interview prep gives you</div>
+                    <h4>Generic questions from a blog</h4>
+                    <p>We generate role-specific questions, grade your delivery with webcam AI, simulate voice-to-voice salary negotiations, and prep custom coding challenges.</p>
+                </div>
+            </div>
+        </section>
 
         <!-- ═══════ HOW IT WORKS ═══════ -->
         <section style="padding: 2rem 0 3rem;">
@@ -1439,7 +1606,7 @@
     <!-- Site Footer -->
     <footer class="site-footer">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
-        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
 
     <!-- Scripts -->

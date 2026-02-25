@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="TailorMeSwiftly security policy. Learn how we handle your data, encryption, and secure storage practices.">
+    <title>Security Policy - TailorMeSwiftly.com</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=4">
+
+    <style>
+        .legal-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(var(--surface-color-rgb), 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(var(--border-color-rgb), 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .legal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .legal-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .legal-content h2 {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .legal-content p,
+        .legal-content li {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .legal-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Essential Background Shapes for Visual Consistency */
+        .glass-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+        }
+
+        .shape-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-background">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="legal-container">
+            <div class="legal-header">
+                <div class="security-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    Secure by Design
+                </div>
+                <h1>Security & Data Storage Policy</h1>
+                <p>Last Updated: February 2026</p>
+            </div>
+
+            <div class="legal-content">
+                <p>At TailorMeSwiftly.com, we treat your career data with the highest level of security. This page
+                    outlines exactly how your information is stored, encrypted, and protected.</p>
+
+                <h2>1. Encryption in Transit</h2>
+                <p>All data transmitted between your device and our servers is strictly encrypted in transit. We use
+                    industry-standard HTTPS (TLS/SSL encryption) for every single network request. This ensures that
+                    your resume text, job descriptions, and user profile information cannot be intercepted by third
+                    parties while traveling across the internet.</p>
+
+                <h2>2. Encryption at Rest (Cloud Storage)</h2>
+                <p>Our backend infrastructure is powered by Supabase (built on PostgreSQL). All database data is
+                    encrypted at rest by default using strong AES-256 encryption.</p>
+                <p>When you create an account, the following information is securely stored in this encrypted database:
+                </p>
+                <ul>
+                    <li>Your authentication records (managed by Supabase Auth).</li>
+                    <li>Basic profile details (such as your display name or avatar).</li>
+                    <li>Copies of your generated resumes and cover letters, ensuring you can access your application
+                        history from any device.</li>
+                    <li>Anonymous crash logs to help us improve the application's stability.</li>
+                </ul>
+
+                <h2>3. Local Browser Storage (Your Device)</h2>
+                <p>To provide a snappy user experience and allow certain tools to work immediately without requiring an
+                    account, we rely heavily on your browser's local storage (<code>localStorage</code>).</p>
+                <ul>
+                    <li><strong>Cached Inputs:</strong> The last resume you pasted or uploaded is cached locally on your
+                        device so you don't have to re-upload it on your next visit.</li>
+                    <li><strong>Preferences:</strong> Your UI preferences (such as Light Mode vs. Dark Mode) and custom
+                        AI tailoring instructions are saved directly to your browser.</li>
+                    <li><strong>Stateless Tools:</strong> Some tools store their tracking data exclusively on your
+                        device unless you choose to create an account to sync them.</li>
+                </ul>
+                <p><em>Security Tip:</em> Because this data lives directly within your web browser, it is only as secure
+                    as the device you are using. If you are on a public or shared computer, we recommend signing out or
+                    clearing your browsing data after use.</p>
+
+                <h2>4. Zero-Retention AI Processing</h2>
+                <p>We use third-party AI APIs (such as Google Gemini and ElevenLabs) strictly to process the text
+                    required to generate your tailored documents and interview prep. We have configured our API
+                    integrations such that these third-party providers do <strong>not</strong> use your resume data to
+                    train their models.</p>
+
+                <h2>5. Security Audits & Updates</h2>
+                <p>We regularly audit our dependencies, update our Supabase client libraries, and monitor our edge
+                    functions to ensure we are protected against the latest security vulnerabilities.</p>
+
+                <div
+                    style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(var(--border-color-rgb), 0.5);">
+                    <a href="index.html" class="back-link" style="margin-top: 0;">&larr; Return to
+                        TailorMeSwiftly.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
