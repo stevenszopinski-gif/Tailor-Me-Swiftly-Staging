@@ -212,6 +212,36 @@
 
         const outputs = loadOutputs();
 
+        async function callGeminiForCover(systemPrompt, userPrompt) {
+            const res = await supabaseClient.functions.invoke('gemini-proxy', {
+                body: {
+                    model: 'gemini-3-flash-preview',
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    generationConfig: { temperature: 0.7 }
+                }
+            });
+
+            if (res.error) throw new Error(res.error.message || 'Edge function error');
+
+            const data = res.data;
+            // Handle EDGE_ERROR wrapped in 200 (auth failure, Gemini error, etc.)
+            if (data?.error) throw new Error(data.error.message || data.error.status || 'Unknown API error');
+            // Validate Gemini response structure
+            const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!text) {
+                const reason = data?.promptFeedback?.blockReason || 'No response from Gemini';
+                throw new Error(reason);
+            }
+
+            let cleanHtml = text.trim();
+            if (cleanHtml.startsWith('```html')) {
+                cleanHtml = cleanHtml.substring(7);
+                if (cleanHtml.endsWith('```')) cleanHtml = cleanHtml.substring(0, cleanHtml.length - 3);
+            }
+            return cleanHtml.trim();
+        }
+
         async function generateCoverOnDemand() {
             coverEl.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Generating your tailored cover letter...</p>';
 
@@ -224,27 +254,8 @@ Clean semantic HTML only. No markdown formatting.`;
             const userPrompt = `Resume:\n${outputs?.resumeText}\n\nJob Description:\n${outputs?.jobText}`;
 
             try {
-                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                    body: {
-                        model: 'gemini-3-flash-preview',
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        contents: [{ parts: [{ text: userPrompt }] }],
-                        generationConfig: { temperature: 0.7 }
-                    }
-                });
-
-                if (error) throw new Error(error.message);
-
-                const text = data.candidates[0].content.parts[0].text.trim();
-
-                // Remove possible markdown formatting from the response
-                let cleanHtml = text;
-                if (cleanHtml.startsWith('```html')) {
-                    cleanHtml = cleanHtml.substring(7);
-                    if (cleanHtml.endsWith('```')) cleanHtml = cleanHtml.substring(0, cleanHtml.length - 3);
-                }
-
-                outputs.coverHtml = cleanHtml.trim();
+                const html = await callGeminiForCover(systemPrompt, userPrompt);
+                outputs.coverHtml = html;
                 sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
                 updateGenerationField(outputs.generationId, { cover_letter_html: outputs.coverHtml });
                 renderCoverLetter();
@@ -298,23 +309,8 @@ Clean semantic HTML only. No markdown formatting.`;
             const userPrompt = `Current Cover Letter:\n${outputs?.coverHtml}\n\nResume:\n${outputs?.resumeText}\n\nJob Description:\n${outputs?.jobText}`;
 
             try {
-                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                    body: {
-                        model: 'gemini-3-flash-preview',
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        contents: [{ parts: [{ text: userPrompt }] }],
-                        generationConfig: { temperature: 0.7 }
-                    }
-                });
-
-                if (error) throw new Error(error.message);
-                let cleanHtml = data.candidates[0].content.parts[0].text.trim();
-                if (cleanHtml.startsWith('```html')) {
-                    cleanHtml = cleanHtml.substring(7);
-                    if (cleanHtml.endsWith('```')) cleanHtml = cleanHtml.substring(0, cleanHtml.length - 3);
-                }
-
-                outputs.coverHtml = cleanHtml.trim();
+                const html = await callGeminiForCover(systemPrompt, userPrompt);
+                outputs.coverHtml = html;
                 sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
                 updateGenerationField(outputs.generationId, { cover_letter_html: outputs.coverHtml });
                 renderCoverLetter();
