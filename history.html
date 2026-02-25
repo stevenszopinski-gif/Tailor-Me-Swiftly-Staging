@@ -48,9 +48,18 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .kanban-board::-webkit-scrollbar { height: 6px; }
-        .kanban-board::-webkit-scrollbar-track { background: transparent; }
-        .kanban-board::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 3px; }
+        .kanban-board::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .kanban-board::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .kanban-board::-webkit-scrollbar-thumb {
+            background: var(--panel-border);
+            border-radius: 3px;
+        }
 
         /* ─── Columns ─── */
         .kanban-column {
@@ -102,11 +111,25 @@
         }
 
         /* Per-column accent colors */
-        .kanban-column[data-status="Tailored"] .column-title i { color: #8b5cf6; }
-        .kanban-column[data-status="Applied"] .column-title i { color: #3b82f6; }
-        .kanban-column[data-status="Interviewing"] .column-title i { color: #f59e0b; }
-        .kanban-column[data-status="Offer"] .column-title i { color: #10b981; }
-        .kanban-column[data-status="Rejected"] .column-title i { color: #ef4444; }
+        .kanban-column[data-status="Tailored"] .column-title i {
+            color: #8b5cf6;
+        }
+
+        .kanban-column[data-status="Applied"] .column-title i {
+            color: #3b82f6;
+        }
+
+        .kanban-column[data-status="Interviewing"] .column-title i {
+            color: #f59e0b;
+        }
+
+        .kanban-column[data-status="Offer"] .column-title i {
+            color: #10b981;
+        }
+
+        .kanban-column[data-status="Rejected"] .column-title i {
+            color: #ef4444;
+        }
 
         /* ─── Card Drop Zone ─── */
         .column-cards {
@@ -213,7 +236,9 @@
             transition: opacity 0.2s;
         }
 
-        .kanban-card:hover .kcard-actions { opacity: 1; }
+        .kanban-card:hover .kcard-actions {
+            opacity: 1;
+        }
 
         .kcard-btn {
             padding: 0.3rem 0.5rem !important;
@@ -244,7 +269,9 @@
             text-align: center;
         }
 
-        .column-empty i { font-size: 1.5rem; }
+        .column-empty i {
+            font-size: 1.5rem;
+        }
 
         /* ─── Notes Preview ─── */
         .kcard-notes {
@@ -276,8 +303,10 @@
         .notes-modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(4px);
             z-index: 1000;
@@ -291,8 +320,15 @@
         }
 
         @keyframes modalFade {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .notes-modal {
@@ -322,7 +358,9 @@
             gap: 0.5rem;
         }
 
-        .notes-modal-header h3 i { color: #f59e0b; }
+        .notes-modal-header h3 i {
+            color: #f59e0b;
+        }
 
         .notes-modal-close {
             background: none;
@@ -335,7 +373,9 @@
             transition: color 0.15s;
         }
 
-        .notes-modal-close:hover { color: var(--text-primary); }
+        .notes-modal-close:hover {
+            color: var(--text-primary);
+        }
 
         .notes-modal-body {
             padding: 1.25rem 1.5rem;
@@ -380,12 +420,21 @@
         }
 
         /* ─── Mobile Status Select ─── */
-        .kcard-mobile-status { display: none; }
+        .kcard-mobile-status {
+            display: none;
+        }
 
         /* ─── Toast ─── */
         @keyframes slideUp {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
         }
 
         /* ─── Empty & Loading States ─── */
@@ -402,8 +451,14 @@
             opacity: 0.5;
         }
 
-        .empty-state h2 { margin-bottom: 0.75rem; }
-        .empty-state p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .empty-state h2 {
+            margin-bottom: 0.75rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
 
         .loading-state {
             text-align: center;
@@ -435,9 +490,13 @@
                 max-height: none;
             }
 
-            .kanban-header h1 { font-size: 1.5rem; }
+            .kanban-header h1 {
+                font-size: 1.5rem;
+            }
 
-            .kcard-actions { opacity: 1; }
+            .kcard-actions {
+                opacity: 1;
+            }
 
             .kcard-mobile-status {
                 display: block;
@@ -460,48 +519,51 @@
 
 <body>
     <div class="app-container" style="min-height: auto;">
-    <header class="app-header">
-        <div class="logo">
-            <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
-            <h1>TailorMeSwiftly.com</h1>
-        </div>
-        <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
-            <div id="user-profile" class="user-profile"
-                style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
-                <img id="user-avatar" src="" alt="Profile"
-                    style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
-                    onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
-                <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                    <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
-                        <i class="fa-solid fa-sliders"></i> Preferences
-                    </button>
-                    <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
-                        <i class="fa-solid fa-bullhorn"></i> Release Notes
-                    </a>
-                    <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
-                        <i class="fa-solid fa-table-columns"></i> Application Tracker
-                    </a>
-                    <button class="dropdown-item theme-btn">
-                        <i class="fa-solid fa-moon"></i> Theme
-                    </button>
-                    <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
-                    <button class="dropdown-item" id="logout-btn">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
-                    </button>
+        <header class="app-header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                <h1>TailorMeSwiftly.com</h1>
+            </div>
+            <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
+                <div id="user-profile" class="user-profile"
+                    style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
+                    <img id="user-avatar" src="" alt="Profile"
+                        style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
+                        onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting"
+                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
+                            <i class="fa-solid fa-sliders"></i> Preferences
+                        </button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-bullhorn"></i> Release Notes
+                        </a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-table-columns"></i> Application Tracker
+                        </a>
+                        <button class="dropdown-item theme-btn">
+                            <i class="fa-solid fa-moon"></i> Theme
+                        </button>
+                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
     </div> <!-- /app-container -->
 
     <div class="kanban-page">
         <div class="kanban-header">
-            <h1><i class="fa-solid fa-columns" style="color: var(--primary-color); margin-right: 0.5rem;"></i>Application Tracker</h1>
+            <h1><i class="fa-solid fa-columns"
+                    style="color: var(--primary-color); margin-right: 0.5rem;"></i>Application Tracker</h1>
             <p>Drag cards between columns to track your application progress</p>
         </div>
 
-        <div id="reminder-banner" style="display:none;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:0.85rem 1.2rem;margin:0 1.5rem 1rem;color:var(--text-primary);font-size:0.88rem;">
+        <div id="reminder-banner"
+            style="display:none;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:0.85rem 1.2rem;margin:0 1.5rem 1rem;color:var(--text-primary);font-size:0.88rem;">
             <i class="fa-solid fa-bell" style="color:#f59e0b;margin-right:0.4rem;"></i>
             <strong>Overdue follow-ups:</strong> <span id="reminder-list"></span>
         </div>
@@ -522,40 +584,62 @@
             </div>
             <div class="notes-modal-body">
                 <!-- Follow-up Reminder (always visible) -->
-                <div style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;">
-                    <label style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem;margin-bottom:0.35rem;"><i class="fa-solid fa-bell" style="color:#f59e0b;"></i>Follow-up Reminder</label>
-                    <input type="datetime-local" id="reminder-date" style="width:100%;padding:0.45rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.85rem;">
+                <div
+                    style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;">
+                    <label
+                        style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem;margin-bottom:0.35rem;"><i
+                            class="fa-solid fa-bell" style="color:#f59e0b;"></i>Follow-up Reminder</label>
+                    <input type="datetime-local" id="reminder-date"
+                        style="width:100%;padding:0.45rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.85rem;">
                 </div>
-                <div id="interview-tip" style="display:none;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(52,211,153,0.08));border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem;">
+                <div id="interview-tip"
+                    style="display:none;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(52,211,153,0.08));border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem;">
                         <div style="display:flex;align-items:center;gap:0.5rem;">
                             <i class="fa-solid fa-calendar-check" style="color:#10b981;"></i>
                             <strong style="font-size:0.9rem;color:var(--text-primary);">Interview Details</strong>
                         </div>
-                        <button class="btn primary-btn" onclick="goToInterview()" style="font-size:0.75rem;padding:0.35rem 0.75rem;background:linear-gradient(135deg,#10b981,#34d399);"><i class="fa-solid fa-comments"></i> Interview Prep</button>
+                        <button class="btn primary-btn" onclick="goToInterview()"
+                            style="font-size:0.75rem;padding:0.35rem 0.75rem;background:linear-gradient(135deg,#10b981,#34d399);"><i
+                                class="fa-solid fa-comments"></i> Interview Prep</button>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:0.7rem;">
                         <div>
-                            <label style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.25rem;"><i class="fa-solid fa-calendar" style="margin-right:0.3rem;"></i>Interview Date</label>
-                            <input type="datetime-local" id="interview-date" style="width:100%;padding:0.5rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.85rem;">
+                            <label
+                                style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.25rem;"><i
+                                    class="fa-solid fa-calendar" style="margin-right:0.3rem;"></i>Interview Date</label>
+                            <input type="datetime-local" id="interview-date"
+                                style="width:100%;padding:0.5rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.85rem;">
                         </div>
                         <div>
-                            <label style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.25rem;"><i class="fa-solid fa-address-book" style="margin-right:0.3rem;"></i>Contacts</label>
-                            <textarea id="interview-contacts" rows="2" placeholder="e.g. Jane Smith — HR Manager, john@company.com" style="width:100%;padding:0.5rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.83rem;resize:vertical;line-height:1.4;"></textarea>
+                            <label
+                                style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.25rem;"><i
+                                    class="fa-solid fa-address-book" style="margin-right:0.3rem;"></i>Contacts</label>
+                            <textarea id="interview-contacts" rows="2"
+                                placeholder="e.g. Jane Smith — HR Manager, john@company.com"
+                                style="width:100%;padding:0.5rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.83rem;resize:vertical;line-height:1.4;"></textarea>
                         </div>
                         <div>
-                            <label style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.25rem;"><i class="fa-solid fa-list-check" style="margin-right:0.3rem;"></i>Follow-ups</label>
-                            <textarea id="interview-followups" rows="2" placeholder="e.g. Send thank-you email, ask about next steps" style="width:100%;padding:0.5rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.83rem;resize:vertical;line-height:1.4;"></textarea>
+                            <label
+                                style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.25rem;"><i
+                                    class="fa-solid fa-list-check" style="margin-right:0.3rem;"></i>Follow-ups</label>
+                            <textarea id="interview-followups" rows="2"
+                                placeholder="e.g. Send thank-you email, ask about next steps"
+                                style="width:100%;padding:0.5rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.83rem;resize:vertical;line-height:1.4;"></textarea>
                         </div>
                     </div>
                 </div>
-                <textarea id="notes-textarea" placeholder="Add notes about this application — interview dates, contacts, follow-ups..."></textarea>
+                <textarea id="notes-textarea"
+                    placeholder="Add notes about this application — interview dates, contacts, follow-ups..."></textarea>
             </div>
             <div class="notes-modal-footer" style="justify-content: space-between;">
-                <button class="btn primary-btn" id="notes-go-btn" onclick="goToApplication()" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);"><i class="fa-solid fa-arrow-right"></i> Go to Application</button>
+                <button class="btn primary-btn" id="notes-go-btn" onclick="goToApplication()"
+                    style="background:linear-gradient(135deg,#6366f1,#8b5cf6);"><i class="fa-solid fa-arrow-right"></i>
+                    Go to Application</button>
                 <div style="display:flex;gap:0.6rem;">
                     <button class="btn ghost-btn" onclick="closeNotesModal()">Cancel</button>
-                    <button class="btn primary-btn" id="notes-save-btn" onclick="saveNotes()"><i class="fa-solid fa-check"></i> Save</button>
+                    <button class="btn primary-btn" id="notes-save-btn" onclick="saveNotes()"><i
+                            class="fa-solid fa-check"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -572,11 +656,11 @@
         const kanbanContent = document.getElementById('kanban-content');
 
         const KANBAN_COLUMNS = [
-            { status: 'Tailored',     icon: 'fa-wand-magic-sparkles', label: 'Tailored' },
-            { status: 'Applied',      icon: 'fa-paper-plane',         label: 'Applied' },
-            { status: 'Interviewing', icon: 'fa-comments',            label: 'Interviewing' },
-            { status: 'Offer',        icon: 'fa-trophy',              label: 'Offer' },
-            { status: 'Rejected',     icon: 'fa-circle-xmark',        label: 'Rejected' }
+            { status: 'Tailored', icon: 'fa-wand-magic-sparkles', label: 'Tailored' },
+            { status: 'Applied', icon: 'fa-paper-plane', label: 'Applied' },
+            { status: 'Interviewing', icon: 'fa-comments', label: 'Interviewing' },
+            { status: 'Offer', icon: 'fa-trophy', label: 'Offer' },
+            { status: 'Rejected', icon: 'fa-circle-xmark', label: 'Rejected' }
         ];
 
         let draggedCard = null;
@@ -712,10 +796,10 @@
                 </div>
                 ${hasNotes ? `<div class="kcard-notes">${escapedNotes}</div>` : ''}
                 <div class="kcard-actions">
-                    <button class="btn ghost-btn kcard-btn" onclick="event.stopPropagation(); restoreGeneration('${gen.id}')" title="Restore">
+                    <button class="btn ghost-btn kcard-btn" onclick="restoreGeneration(event, '${gen.id}')" title="Restore">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                     </button>
-                    <button class="btn ghost-btn kcard-btn" onclick="event.stopPropagation(); deleteGeneration('${gen.id}', this)" title="Delete" style="color:#ef4444;">
+                    <button class="btn ghost-btn kcard-btn" onclick="deleteGeneration(event, '${gen.id}', this)" title="Delete" style="color:#ef4444;">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -947,7 +1031,8 @@
         }
 
         // ── Restore ──
-        async function restoreGeneration(id) {
+        async function restoreGeneration(event, id) {
+            if (event) event.stopPropagation();
             try {
                 const { data, error } = await window.supabaseClient
                     .from('generations')
@@ -980,19 +1065,24 @@
         }
 
         // ── Delete ──
-        async function deleteGeneration(id, btn) {
+        async function deleteGeneration(event, id, btn) {
+            if (event) event.stopPropagation();
             if (!confirm('Delete this application? This cannot be undone.')) return;
 
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
             try {
-                const { error } = await window.supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('generations')
                     .delete()
-                    .eq('id', id);
+                    .eq('id', id)
+                    .select(); // Ask for returned data to verify it actually deleted
 
                 if (error) throw error;
+                if (!data || data.length === 0) {
+                    throw new Error("Application not found or you lack permission to delete it.");
+                }
 
                 const card = btn.closest('.kanban-card');
                 card.style.transition = 'opacity 0.3s, transform 0.3s';
