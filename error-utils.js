@@ -12,7 +12,7 @@
 
     function getUser() {
         try {
-            const raw = localStorage.getItem('sb-ohtdrboxcjmimpeqkgny-auth-token');
+            const raw = localStorage.getItem('sb-gwmpdgjvcjzndbloctla-auth-token');
             if (!raw) return null;
             const parsed = JSON.parse(raw);
             return parsed?.user?.id || parsed?.currentSession?.user?.id || null;

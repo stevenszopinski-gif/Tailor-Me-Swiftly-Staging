@@ -842,9 +842,9 @@ function stopFunnyQuotes() {
 
 // ------ API GENERATION ------
 async function checkGenerationLimit() {
-    if (!window.supabaseClient) return true; // allow if not signed in (anon usage)
+    if (!window.supabaseClient) return false;
     const { data: { session } } = await window.supabaseClient.auth.getSession();
-    if (!session) return true;
+    if (!session) return false;
 
     const { data: profile } = await window.supabaseClient
         .from('user_profiles')
@@ -920,6 +920,34 @@ function showUpgradeModal() {
     document.body.appendChild(overlay);
 }
 
+function showLoginPrompt() {
+    // Remove existing modal if any
+    document.getElementById('login-prompt-overlay')?.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'login-prompt-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+    overlay.innerHTML = `
+        <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;padding:2rem;max-width:420px;width:90%;text-align:center;">
+            <i class="fa-solid fa-lock" style="font-size:2.5rem;color:var(--accent-color);margin-bottom:1rem;display:block;"></i>
+            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Account Required</h2>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
+                You need a free account to generate documents and run analyses. 
+                <br>Sign up to get 5 free generations every month!
+            </p>
+            <button class="btn primary-btn" onclick="window.location.href='signup.html'" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
+                <i class="fa-solid fa-user-plus"></i> Create Free Account
+            </button>
+            <button class="btn ghost-btn" onclick="window.location.href='login.html'" style="width:100%;min-height:44px;">
+                Already have an account? Log in
+            </button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
 async function createCheckout() {
     if (!window.supabaseClient) return;
     const { data: { session } } = await window.supabaseClient.auth.getSession();
@@ -942,6 +970,13 @@ async function createCheckout() {
 }
 
 async function processGeneration() {
+    // Check if user is logged in
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session) {
+        showLoginPrompt();
+        return;
+    }
+
     // Generation limit gate
     const allowed = await checkGenerationLimit();
     if (!allowed) {

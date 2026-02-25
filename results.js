@@ -50,12 +50,20 @@ function _gemCacheHash(str) {
             // API call
             let res = await _invoke(fn, opts);
 
-            // Auth recovery: if call failed due to expired session (401),
-            // sign out locally to clear stale tokens, then retry with anon key
+            // Auth recovery: if call failed due to expired session,
+            // try refreshing the session first, then retry
             if (res.error?.message?.includes('non-2xx') && !opts._retried) {
                 try {
-                    await window.supabaseClient.auth.signOut({ scope: 'local' });
-                    res = await _invoke(fn, { ...opts, _retried: true });
+                    // Attempt to refresh the session
+                    const { data: refreshData } = await window.supabaseClient.auth.refreshSession();
+                    if (refreshData?.session) {
+                        // Session refreshed — retry the call
+                        res = await _invoke(fn, { ...opts, _retried: true });
+                    } else {
+                        // Refresh failed — sign out stale tokens and retry once
+                        await window.supabaseClient.auth.signOut({ scope: 'local' });
+                        res = await _invoke(fn, { ...opts, _retried: true });
+                    }
                 } catch {}
             }
 
