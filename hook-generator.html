@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-generated scroll-stopping opening hooks for your cover letter and outreach emails. Stand out from generic openers.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Hook Generator – TailorMeSwiftly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
+        crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .hook-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; transition: border-color 0.2s; cursor: pointer; }
+        .hook-card:hover { border-color: #f97316; }
+        .hook-card.selected { border-color: #f97316; box-shadow: 0 0 0 1px #f97316; }
+        .hook-number { position: absolute; top: -8px; left: 1rem; background: linear-gradient(135deg, #f97316, #fb923c); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; }
+        .hook-text { font-size: 1rem; line-height: 1.7; font-style: italic; margin-bottom: 0.75rem; }
+        .hook-why { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+        .hook-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+        .hook-actions button { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+        .bad-opener { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 1rem; margin-bottom: 2rem; text-align: center; }
+        .bad-opener .bad-text { font-style: italic; color: #ef4444; text-decoration: line-through; font-size: 0.9rem; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-bolt" style="color:#f97316;margin-right:0.5rem;"></i>Hook Generator</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Scroll-stopping opening lines for your cover letter & outreach</p>
+
+        <div id="hooks-output">
+            <div class="bad-opener">
+                <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;">99% of cover letters start with:</p>
+                <p class="bad-text">"I am writing to apply for the position of..."</p>
+                <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.5rem;">Recruiters stop reading immediately.</p>
+            </div>
+            <div style="text-align:center;"><button class="btn primary-btn" onclick="generateHooks()"><i class="fa-solid fa-bolt"></i> Generate 3 Killer Hooks</button></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+
+        if (!outputs) {
+            showSessionExpired(document.querySelector('.result-page'));
+        }
+
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text);
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        }
+
+        async function generateHooks() {
+            const container = document.getElementById('hooks-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Crafting scroll-stopping hooks...</p>';
+
+            const systemPrompt = `You are a master copywriter who specializes in cover letters and professional outreach.
+
+Generate 3 completely different, scroll-stopping opening hooks for a cover letter or outreach email. Each hook should:
+- Reference something specific about the company (from the JD context)
+- Connect a specific achievement from the candidate's background
+- Be 2-3 sentences max
+- Make the reader NEED to keep reading
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "hooks": [
+        {
+            "text": "The full opening hook paragraph",
+            "strategy": "Brief name of the strategy used (e.g., 'News-Based Hook', 'Shared Problem Hook', 'Contrarian Hook')",
+            "why": "1 sentence explaining why this hook works psychologically"
+        }
+    ]
+}`;
+
+            const userPrompt = `Resume:\n${outputs.resumeText}\n\nTarget Job Description:\n${outputs.jobText}\n\nTarget Company: ${outputs.targetCompany || 'Unknown'}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.85 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderHooks(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateHooks()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderHooks(result) {
+            const container = document.getElementById('hooks-output');
+            let html = '';
+
+            result.hooks.forEach((h, i) => {
+                html += `<div class="hook-card" onclick="this.classList.toggle('selected')">
+                    <div class="hook-number">${h.strategy}</div>
+                    <div class="hook-text" id="hook-${i}">"${h.text}"</div>
+                    <div class="hook-why"><i class="fa-solid fa-brain" style="margin-right:0.3rem;"></i> ${h.why}</div>
+                    <div class="hook-actions">
+                        <button class="btn small-btn ghost-btn" onclick="event.stopPropagation();copyText(this, document.getElementById('hook-${i}').innerText)"><i class="fa-regular fa-copy"></i> Copy</button>
+                    </div>
+                </div>`;
+            });
+
+            html += `<div style="text-align:center;margin-top:1.5rem;"><button class="btn ghost-btn" onclick="generateHooks()"><i class="fa-solid fa-rotate"></i> Generate 3 More</button></div>`;
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

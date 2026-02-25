@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-generated guerrilla job hunting tactics to bypass the ATS and get noticed directly by decision makers.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Guerrilla Tactics – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .tactic-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
+        .tactic-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
+        .tactic-card.high::before { background: linear-gradient(90deg, #ef4444, #f97316); }
+        .tactic-card.medium::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
+        .tactic-card.low::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .tactic-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .tactic-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+        .tactic-card.high .tactic-num { background: #ef4444; }
+        .tactic-card.medium .tactic-num { background: #f59e0b; }
+        .tactic-card.low .tactic-num { background: #10b981; }
+        .effort-tag { font-size: 0.65rem; padding: 0.15rem 0.4rem; border-radius: 3px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .effort-tag.high { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .effort-tag.medium { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .effort-tag.low { background: rgba(16,185,129,0.1); color: #10b981; }
+        .script-box { background: rgba(255,255,255,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 1rem; font-size: 0.85rem; line-height: 1.6; margin-top: 0.75rem; position: relative; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: 1px solid var(--panel-border); color: var(--text-secondary); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; cursor: pointer; }
+        .copy-btn:hover { color: var(--text-primary); border-color: var(--primary-color); }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-user-ninja" style="color:#ef4444;margin-right:0.5rem;"></i>Guerrilla Tactics</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Skip the front door. Aggressive strategies to get noticed by decision makers.</p>
+
+        <div id="tactics-output">
+            <div style="text-align:center;padding:3rem;"><p style="color:var(--text-secondary);margin-bottom:1.5rem;">For highly competitive roles, sometimes you need to bypass the ATS entirely.</p><button class="btn primary-btn" onclick="generateTactics()"><i class="fa-solid fa-user-ninja"></i> Generate Guerrilla Strategy</button></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text);
+            const orig = btn.innerHTML;
+            btn.innerHTML = 'Copied!';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        }
+
+        async function generateTactics() {
+            const container = document.getElementById('tactics-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Generating guerrilla strategy...</p>';
+
+            const systemPrompt = `You are an aggressive job hunting strategist. Based on the target company and role, generate customized "guerrilla tactics" to bypass the ATS and get noticed directly by decision makers.
+
+For each tactic, include:
+- A specific, actionable strategy tailored to THIS company and role
+- Estimated effort level
+- A ready-to-use script or deliverable
+
+Include the likely email format for the company (e.g., first.last@company.com) and identify the likely hiring manager title.
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "company": "Company name",
+    "likelyHiringManager": "VP of Engineering (or relevant title)",
+    "emailFormat": "first.last@company.com",
+    "tactics": [
+        {
+            "title": "Tactic name",
+            "description": "Detailed step-by-step instructions",
+            "effort": "high"|"medium"|"low",
+            "impact": "high"|"medium"|"low",
+            "timeEstimate": "e.g., 2-3 hours",
+            "script": "Ready-to-use email/message script or deliverable description"
+        }
+    ],
+    "warningNote": "A brief ethical/professional disclaimer"
+}`;
+
+            const userPrompt = `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}\n\nCompany: ${outputs.targetCompany || 'Unknown'}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.8 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderTactics(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateTactics()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderTactics(result) {
+            const container = document.getElementById('tactics-output');
+            let html = '';
+
+            html += `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;margin-bottom:1.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;text-align:center;">`;
+            html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Target</div><strong>${result.company}</strong></div>`;
+            html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Decision Maker</div><strong>${result.likelyHiringManager}</strong></div>`;
+            html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Email Format</div><strong style="color:var(--primary-color);">${result.emailFormat}</strong></div>`;
+            html += `</div>`;
+
+            result.tactics.forEach((t, i) => {
+                html += `<div class="tactic-card ${t.impact}">
+                    <div class="tactic-header">
+                        <div class="tactic-num">${i + 1}</div>
+                        <div style="flex:1;">
+                            <strong style="font-size:0.95rem;">${t.title}</strong>
+                            <div style="display:flex;gap:0.4rem;margin-top:0.3rem;">
+                                <span class="effort-tag ${t.effort}"><i class="fa-solid fa-bolt"></i> ${t.effort} effort</span>
+                                <span class="effort-tag ${t.impact}"><i class="fa-solid fa-bullseye"></i> ${t.impact} impact</span>
+                                <span style="font-size:0.65rem;color:var(--text-secondary);"><i class="fa-regular fa-clock"></i> ${t.timeEstimate}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.85rem;line-height:1.6;margin:0 0 0.5rem;">${t.description}</p>
+                    <div class="script-box" id="script-${i}">
+                        <button class="copy-btn" onclick="copyText(this, document.getElementById('script-${i}').innerText)"><i class="fa-regular fa-copy"></i> Copy</button>
+                        ${t.script}
+                    </div>
+                </div>`;
+            });
+
+            if (result.warningNote) {
+                html += `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:1rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;margin-right:0.3rem;"></i> ${result.warningNote}</div>`;
+            }
+
+            html += `<div style="text-align:center;margin-top:1.5rem;"><button class="btn ghost-btn" onclick="generateTactics()"><i class="fa-solid fa-rotate"></i> Regenerate Tactics</button></div>`;
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

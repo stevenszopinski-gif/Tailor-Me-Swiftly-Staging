@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-generated referral strategy and cold outreach scripts to find backdoor connections at your target company.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Referral Mapper – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .strategy-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .strategy-step { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+        .step-num { background: linear-gradient(135deg, #10b981, #059669); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+        .script-box { background: rgba(255,255,255,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 1rem; font-size: 0.85rem; line-height: 1.6; margin-top: 0.5rem; position: relative; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: 1px solid var(--panel-border); color: var(--text-secondary); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; cursor: pointer; }
+        .copy-btn:hover { color: var(--text-primary); border-color: var(--primary-color); }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-people-arrows" style="color:#10b981;margin-right:0.5rem;"></i>Referral Network Mapper</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Your strategy for finding a backdoor referral at the target company</p>
+
+        <div id="referral-output">
+            <div style="text-align:center;padding:3rem;"><p style="color:var(--text-secondary);margin-bottom:1.5rem;">Referrals are 10x more effective than cold applications.</p><button class="btn primary-btn" onclick="generateReferral()"><i class="fa-solid fa-people-arrows"></i> Build Referral Strategy</button></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text);
+            const orig = btn.innerHTML;
+            btn.innerHTML = 'Copied!';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        }
+
+        async function generateReferral() {
+            const container = document.getElementById('referral-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Building your referral strategy...</p>';
+
+            const systemPrompt = `You are a networking and referral strategy expert. Based on the target company and role, generate a comprehensive referral hunting strategy.
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "company": "Company name",
+    "strategy": [
+        {
+            "step": "Action to take (e.g., 'Search LinkedIn for alumni from your college at Company X')",
+            "detail": "Specific instructions on how to execute this step",
+            "priority": "high"|"medium"|"low"
+        }
+    ],
+    "connectionScript": "A ready-to-use cold LinkedIn connection request message (under 300 chars)",
+    "followUpScript": "A follow-up message to send after they accept your connection",
+    "coffeChatScript": "A message asking for a 15-minute informational chat",
+    "tips": ["2-3 networking tips specific to this company/industry"]
+}`;
+
+            const userPrompt = `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}\n\nCompany: ${outputs.targetCompany || 'Unknown'}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderReferral(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateReferral()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderReferral(result) {
+            const container = document.getElementById('referral-output');
+            let html = '';
+
+            html += `<div class="strategy-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-map" style="color:#10b981;margin-right:0.4rem;"></i> Referral Strategy for ${result.company}</h3>`;
+            result.strategy.forEach((s, i) => {
+                const color = s.priority === 'high' ? '#10b981' : s.priority === 'medium' ? '#f59e0b' : '#64748b';
+                html += `<div class="strategy-step"><div class="step-num" style="background:${color};">${i + 1}</div><div><strong style="font-size:0.9rem;">${s.step}</strong><p style="font-size:0.8rem;color:var(--text-secondary);margin:0.25rem 0 0;line-height:1.5;">${s.detail}</p></div></div>`;
+            });
+            html += `</div>`;
+
+            const scripts = [
+                { title: 'Connection Request', icon: 'fa-user-plus', text: result.connectionScript },
+                { title: 'Follow-Up Message', icon: 'fa-reply', text: result.followUpScript },
+                { title: 'Coffee Chat Ask', icon: 'fa-mug-hot', text: result.coffeChatScript }
+            ];
+
+            scripts.forEach((s, i) => {
+                html += `<div class="strategy-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid ${s.icon}" style="color:#10b981;margin-right:0.4rem;"></i> ${s.title}</h3><div class="script-box" id="script-${i}"><button class="copy-btn" onclick="copyText(this, document.getElementById('script-${i}').innerText)"><i class="fa-regular fa-copy"></i> Copy</button>${s.text}</div></div>`;
+            });
+
+            if (result.tips && result.tips.length > 0) {
+                html += `<div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:1.25rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#10b981;margin-right:0.4rem;"></i> Pro Tips</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                result.tips.forEach(t => { html += `<li>${t}</li>`; });
+                html += `</ul></div>`;
+            }
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

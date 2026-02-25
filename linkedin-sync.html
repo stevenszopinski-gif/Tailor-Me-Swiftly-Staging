@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-optimized LinkedIn headline, about section, and bullet points synced from your tailored resume.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>LinkedIn Sync – TailorMeSwiftly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
+        crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .section-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .section-card h3 { margin: 0 0 0.75rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .section-card .content { background: rgba(255,255,255,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 1rem; font-size: 0.9rem; line-height: 1.6; min-height: 60px; outline: none; }
+        .copy-section { display: inline-flex; align-items: center; gap: 0.4rem; background: none; border: 1px solid var(--panel-border); color: var(--text-secondary); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; margin-top: 0.5rem; }
+        .copy-section:hover { color: var(--text-primary); border-color: var(--primary-color); }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-brands fa-linkedin-in" style="color:#0077b5;margin-right:0.5rem;"></i>LinkedIn Profile Sync</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Optimized LinkedIn content synced from your tailored resume</p>
+
+        <div id="linkedin-output">
+            <div style="text-align:center;padding:3rem;"><p style="color:var(--text-secondary);margin-bottom:1.5rem;">Your LinkedIn profile content hasn't been generated yet.</p><button class="btn primary-btn" onclick="generateLinkedIn()"><i class="fa-brands fa-linkedin-in"></i> Generate LinkedIn Profile</button></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+
+        if (!outputs) {
+            showSessionExpired(document.querySelector('.result-page'));
+        }
+
+        async function generateLinkedIn() {
+            const container = document.getElementById('linkedin-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Generating your LinkedIn profile content...</p>';
+
+            const systemPrompt = `You are an elite LinkedIn Profile Optimization expert.
+Based on the tailored resume and job description, generate optimized LinkedIn content.
+
+Return EXACTLY this JSON structure (no markdown, no code fences):
+{
+    "headline": "A punchy 120-char LinkedIn headline optimized for recruiters searching for this role",
+    "about": "A compelling 3-4 paragraph first-person About section that tells a story, not just lists skills. Include a hook, your key value proposition, and a call to action.",
+    "experienceBullets": [
+        {"title": "Job Title at Company", "bullets": ["Achievement-focused bullet 1", "Achievement-focused bullet 2", "Achievement-focused bullet 3"]}
+    ],
+    "skills": ["Top 10 skills to feature on LinkedIn for this target role"]
+}`;
+
+            const userPrompt = `Resume:\n${outputs.resumeText}\n\nTarget Job Description:\n${outputs.jobText}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const profile = JSON.parse(text);
+                renderLinkedIn(profile);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateLinkedIn()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text);
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        }
+
+        function renderLinkedIn(profile) {
+            const container = document.getElementById('linkedin-output');
+            let html = '';
+
+            html += `<div class="section-card"><h3><i class="fa-solid fa-heading" style="color:#0077b5;"></i> Headline</h3><div class="content" id="li-headline">${profile.headline}</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-headline').innerText)"><i class="fa-regular fa-copy"></i> Copy</button></div>`;
+
+            html += `<div class="section-card"><h3><i class="fa-solid fa-user" style="color:#0077b5;"></i> About Section</h3><div class="content" id="li-about">${profile.about.replace(/\n/g, '<br>')}</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-about').innerText)"><i class="fa-regular fa-copy"></i> Copy</button></div>`;
+
+            if (profile.experienceBullets && profile.experienceBullets.length > 0) {
+                html += `<div class="section-card"><h3><i class="fa-solid fa-briefcase" style="color:#0077b5;"></i> Experience Bullets</h3>`;
+                profile.experienceBullets.forEach((exp, i) => {
+                    html += `<div style="margin-bottom:1rem;"><strong style="font-size:0.9rem;">${exp.title}</strong><ul style="margin:0.5rem 0 0 1.2rem;font-size:0.85rem;line-height:1.6;" id="li-exp-${i}">`;
+                    exp.bullets.forEach(b => { html += `<li>${b}</li>`; });
+                    html += `</ul><button class="copy-section" onclick="copyText(this, document.getElementById('li-exp-${i}').innerText)"><i class="fa-regular fa-copy"></i> Copy</button></div>`;
+                });
+                html += `</div>`;
+            }
+
+            if (profile.skills && profile.skills.length > 0) {
+                html += `<div class="section-card"><h3><i class="fa-solid fa-star" style="color:#0077b5;"></i> Featured Skills</h3><div style="display:flex;flex-wrap:wrap;gap:0.4rem;" id="li-skills">`;
+                profile.skills.forEach(s => {
+                    html += `<span style="background:rgba(0,119,181,0.1);color:#0077b5;border:1px solid rgba(0,119,181,0.2);padding:0.3rem 0.7rem;border-radius:6px;font-size:0.8rem;">${s}</span>`;
+                });
+                html += `</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-skills').innerText)"><i class="fa-regular fa-copy"></i> Copy All</button></div>`;
+            }
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

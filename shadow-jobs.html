@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Monitor company career pages for new job postings before they hit LinkedIn. Get early alerts on matching roles.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Shadow Job Market – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .company-tracker { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 1rem; }
+        .company-tracker .co-name { font-weight: 600; flex: 1; }
+        .company-tracker .co-url { font-size: 0.75rem; color: var(--text-secondary); word-break: break-all; }
+        .company-tracker .status { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; }
+        .status.active { background: rgba(16,185,129,0.1); color: #10b981; }
+        .status.pending { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .add-form { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .add-form input { flex: 1; min-width: 200px; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
+        .tip-box { background: rgba(71,85,105,0.08); border: 1px solid rgba(71,85,105,0.2); border-radius: 12px; padding: 1.25rem; margin-top: 1.5rem; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-ghost" style="color:#64748b;margin-right:0.5rem;"></i>Shadow Job Market</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Monitor company career pages before jobs hit LinkedIn</p>
+
+        <p style="font-size:0.9rem;margin-bottom:1rem;"><strong>Add companies to track:</strong></p>
+        <div class="add-form">
+            <input id="co-name-input" placeholder="Company name">
+            <input id="co-url-input" placeholder="Careers page URL (optional)">
+            <button class="btn primary-btn" onclick="addCompany()"><i class="fa-solid fa-plus"></i> Track</button>
+        </div>
+
+        <div id="tracker-list"></div>
+
+        <div style="text-align:center;margin:2rem 0;">
+            <button class="btn primary-btn" onclick="scanNow()"><i class="fa-solid fa-radar"></i> Scan Career Pages Now</button>
+        </div>
+
+        <div id="scan-results"></div>
+
+        <div class="tip-box">
+            <h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-ghost" style="color:#64748b;margin-right:0.4rem;"></i> How Shadow Jobs Works</h3>
+            <ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
+                <li>Add companies you're interested in with their careers page URLs</li>
+                <li>Click "Scan" to check their career pages for new openings that match your resume</li>
+                <li>AI analyzes each posting for relevance to your skills and experience</li>
+                <li>Apply before the job gets cross-posted to LinkedIn (where competition is 10x higher)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+
+        // Load tracked companies from localStorage
+        let trackedCompanies = JSON.parse(localStorage.getItem('tms_shadow_companies') || '[]');
+
+        // Auto-add target company
+        if (outputs?.targetCompany && !trackedCompanies.find(c => c.name === outputs.targetCompany)) {
+            trackedCompanies.push({ name: outputs.targetCompany, url: '', added: new Date().toISOString() });
+            saveCompanies();
+        }
+
+        function saveCompanies() {
+            localStorage.setItem('tms_shadow_companies', JSON.stringify(trackedCompanies));
+        }
+
+        function addCompany() {
+            const name = document.getElementById('co-name-input').value.trim();
+            if (!name) return;
+            const url = document.getElementById('co-url-input').value.trim();
+            if (!trackedCompanies.find(c => c.name.toLowerCase() === name.toLowerCase())) {
+                trackedCompanies.push({ name, url, added: new Date().toISOString() });
+                saveCompanies();
+            }
+            document.getElementById('co-name-input').value = '';
+            document.getElementById('co-url-input').value = '';
+            renderList();
+        }
+
+        function removeCompany(idx) {
+            trackedCompanies.splice(idx, 1);
+            saveCompanies();
+            renderList();
+        }
+
+        function renderList() {
+            const container = document.getElementById('tracker-list');
+            if (trackedCompanies.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;">No companies tracked yet.</p>';
+                return;
+            }
+            container.innerHTML = trackedCompanies.map((c, i) => `
+                <div class="company-tracker">
+                    <div style="flex:1;"><div class="co-name">${c.name}</div>${c.url ? `<div class="co-url">${c.url}</div>` : ''}</div>
+                    <span class="status active">Tracking</span>
+                    <button style="background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:1rem;" onclick="removeCompany(${i})" title="Remove">&times;</button>
+                </div>`).join('');
+        }
+
+        renderList();
+
+        async function scanNow() {
+            const results = document.getElementById('scan-results');
+            if (trackedCompanies.length === 0) {
+                results.innerHTML = '<p style="color:var(--text-secondary);text-align:center;">Add companies to track first.</p>';
+                return;
+            }
+
+            results.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Scanning career pages and matching against your resume...</p>';
+
+            const companyList = trackedCompanies.map(c => `${c.name}${c.url ? ' (' + c.url + ')' : ''}`).join('\n');
+
+            const systemPrompt = `You are a job market intelligence agent. Based on the candidate's resume and the list of target companies, generate realistic, likely current job openings that would match their skillset.
+
+For each company, identify 1-3 roles that likely exist based on the company's industry and the candidate's experience.
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "results": [
+        {
+            "company": "Company name",
+            "roles": [
+                {
+                    "title": "Role title",
+                    "matchScore": number (70-100),
+                    "reasoning": "Why this role matches the candidate's experience",
+                    "searchTip": "Where/how to find this posting (e.g., 'Check company.com/careers under Engineering')"
+                }
+            ]
+        }
+    ]
+}`;
+
+            const userPrompt = `My Resume:\n${outputs?.resumeText || 'No resume available'}\n\nCompanies to scan:\n${companyList}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderScanResults(result);
+            } catch (e) {
+                results.innerHTML = `<p style="color:var(--error-color);text-align:center;">Scan failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="scanNow()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderScanResults(data) {
+            const container = document.getElementById('scan-results');
+            let html = '<h3 style="margin:1.5rem 0 1rem;font-size:1rem;"><i class="fa-solid fa-radar" style="color:#64748b;margin-right:0.4rem;"></i> Scan Results</h3>';
+
+            data.results.forEach(company => {
+                html += `<div style="margin-bottom:1.5rem;"><h4 style="margin:0 0 0.75rem;font-size:0.95rem;">${company.company}</h4>`;
+                company.roles.forEach(role => {
+                    const color = role.matchScore >= 85 ? '#10b981' : role.matchScore >= 70 ? '#f59e0b' : '#ef4444';
+                    html += `<div class="company-tracker" style="flex-direction:column;align-items:stretch;gap:0.5rem;"><div style="display:flex;justify-content:space-between;align-items:center;"><strong>${role.title}</strong><span style="color:${color};font-weight:700;font-size:0.85rem;">${role.matchScore}% match</span></div><p style="font-size:0.8rem;color:var(--text-secondary);margin:0;">${role.reasoning}</p><p style="font-size:0.75rem;color:var(--primary-color);margin:0;"><i class="fa-solid fa-magnifying-glass"></i> ${role.searchTip}</p></div>`;
+                });
+                html += `</div>`;
+            });
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

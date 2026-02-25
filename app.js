@@ -976,7 +976,32 @@ BLOCK 1 — Resume HTML:
 - Clean semantic HTML only (h1, h2, ul, li, strong). No full HTML document wrapper.
 
 BLOCK 2 — Metadata JSON:
-- {"applicantName": string, "targetCompany": string, "matchScore": number (0-100), "missingKeywords": [string], "companyPrimaryColor": string (hex code of the target company's main brand color, default to #1a1a2e if unknown)}
+- {
+    "applicantName": string, 
+    "targetCompany": string, 
+    "matchScore": number (0-100), 
+    "missingKeywords": [string], 
+    "companyPrimaryColor": string,
+    "heatmapData": [
+        {"phrase": string, "intensity": "high"|"medium", "reason": string}
+    ],
+    "culturalFit": {
+        "tone": string,
+        "alignmentScore": number,
+        "topSuggestions": [string],
+        "analysis": string
+    },
+    "roastLines": [string] (3-5 brutally honest, slightly humorous roasts of the ORIGINAL resume's weakest points. Be witty and specific — e.g. "You said you 'assisted with operations' — did you run a $2M supply chain or refill the printer?"),
+    "redFlags": [
+        {"flag": string, "severity": "critical"|"warning", "fix": string}
+    ] (3-7 things that would make a recruiter reject this resume — cliché jargon, unexplained gaps, vague metrics, formatting issues, exaggerated claims),
+    "burnoutCheck": {
+        "flightRiskScore": number (0-100, how likely this job leads to burnout based on JD language),
+        "toxicPhrases": [string] (phrases from the JD that signal overwork culture — e.g. "fast-paced", "wear many hats"),
+        "overemploymentFit": "high"|"medium"|"low" (is this role suitable for remote/async/output-based work),
+        "analysis": string (2-3 sentence assessment)
+    }
+}
 
 ${state.userPreferences ? `USER PREFERENCES (STRICTLY FOLLOW):\n${state.userPreferences}\n` : ''}
 
@@ -1053,6 +1078,11 @@ async function parseAndRedirect(content) {
         matchScore: meta.matchScore || null,
         missingKeywords: meta.missingKeywords || [],
         companyPrimaryColor: meta.companyPrimaryColor || '#1a1a2e',
+        heatmapData: meta.heatmapData || [],
+        culturalFit: meta.culturalFit || null,
+        roastLines: meta.roastLines || [],
+        redFlags: meta.redFlags || [],
+        burnoutCheck: meta.burnoutCheck || null,
         resumeText: state.resumeText,
         jobText: state.jobText
     };

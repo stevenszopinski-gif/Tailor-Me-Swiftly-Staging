@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-generated 60-second video intro script with built-in teleprompter and webcam recorder.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Video Intro – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .script-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .script-text { font-size: 1rem; line-height: 1.8; white-space: pre-wrap; }
+        .teleprompter-wrap { position: relative; width: 100%; max-width: 640px; margin: 0 auto; border-radius: 12px; overflow: hidden; background: #000; }
+        .teleprompter-wrap video { width: 100%; display: block; transform: scaleX(-1); }
+        .teleprompter-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 1.5rem; color: #fff; font-size: 1.3rem; line-height: 1.6; text-align: center; font-weight: 500; text-shadow: 0 1px 4px rgba(0,0,0,0.8); max-height: 40%; overflow: hidden; }
+        .record-controls { display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+        .timer { font-size: 1.5rem; font-weight: 700; font-family: 'Outfit', monospace; text-align: center; margin-top: 0.5rem; }
+        .timer.recording { color: #ef4444; }
+        .speed-control { display: flex; gap: 0.5rem; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 0.85rem; }
+        .speed-control input { width: 120px; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-video" style="color:#8b5cf6;margin-right:0.5rem;"></i>Video Intro Script</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">60-second script + built-in teleprompter with webcam</p>
+
+        <div id="script-section">
+            <div style="text-align:center;padding:2rem;">
+                <button class="btn primary-btn" onclick="generateScript()"><i class="fa-solid fa-video"></i> Generate 60-Second Script</button>
+            </div>
+        </div>
+
+        <div id="teleprompter-section" style="display:none;">
+            <h3 style="text-align:center;margin-bottom:1rem;font-size:1rem;"><i class="fa-solid fa-display" style="color:#8b5cf6;margin-right:0.4rem;"></i> Teleprompter</h3>
+            <div class="speed-control">
+                <span>Speed:</span>
+                <input type="range" id="scroll-speed" min="1" max="10" value="4">
+                <span id="speed-label">4</span>
+            </div>
+            <div class="teleprompter-wrap">
+                <video id="webcam" autoplay muted playsinline></video>
+                <div class="teleprompter-overlay" id="teleprompter-text"></div>
+            </div>
+            <div class="timer" id="timer">0:00</div>
+            <div class="record-controls">
+                <button class="btn primary-btn" id="start-btn" onclick="startRecording()"><i class="fa-solid fa-circle" style="color:#ef4444;"></i> Record</button>
+                <button class="btn ghost-btn" id="stop-btn" onclick="stopRecording()" disabled><i class="fa-solid fa-stop"></i> Stop</button>
+                <button class="btn ghost-btn" id="download-vid-btn" onclick="downloadVideo()" style="display:none;"><i class="fa-solid fa-download"></i> Download</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        let scriptText = '';
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let timerInterval = null;
+        let scrollInterval = null;
+
+        document.getElementById('scroll-speed').addEventListener('input', e => {
+            document.getElementById('speed-label').textContent = e.target.value;
+        });
+
+        async function generateScript() {
+            const section = document.getElementById('script-section');
+            section.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Writing your script...</p>';
+
+            const systemPrompt = `You are a video introduction scriptwriter. Write a punchy, natural-sounding 60-second video intro script (approximately 150 words) tailored to the job description.
+
+Structure:
+1. Hook (5 sec) - Grab attention with a bold statement
+2. Who you are (10 sec) - Name and current/recent role
+3. Why this role (15 sec) - Connect your experience to their needs
+4. Top achievement (15 sec) - One specific, impressive result
+5. Cultural fit (10 sec) - Why you belong at this company
+6. Close (5 sec) - Confident call to action
+
+Write it in first person, conversational tone. Mark natural pause points with [pause]. Return ONLY the script text, nothing else.`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}\n\nCompany: ${outputs.targetCompany || 'Unknown'}` }] }],
+                        generationConfig: { temperature: 0.75 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                scriptText = data.candidates[0].content.parts[0].text.trim();
+                if (scriptText.startsWith('```')) scriptText = scriptText.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+
+                const words = scriptText.split(/\s+/).length;
+                const estSeconds = Math.round(words / 2.5);
+
+                section.innerHTML = `<div class="script-card"><h3 style="margin:0 0 0.75rem;font-size:1rem;"><i class="fa-solid fa-scroll" style="color:#8b5cf6;margin-right:0.4rem;"></i> Your Script <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:400;">(${words} words, ~${estSeconds}s)</span></h3><div class="script-text" id="script-display" contenteditable="true">${scriptText.replace(/\[pause\]/g, '<span style="color:#8b5cf6;font-weight:600;">[pause]</span>')}</div><div style="display:flex;gap:0.6rem;margin-top:1rem;flex-wrap:wrap;"><button class="btn small-btn ghost-btn" onclick="navigator.clipboard.writeText(scriptText);this.innerHTML='<i class=\\'fa-solid fa-check\\'></i> Copied';setTimeout(()=>this.innerHTML='<i class=\\'fa-regular fa-copy\\'></i> Copy',1500)"><i class="fa-regular fa-copy"></i> Copy</button><button class="btn small-btn ghost-btn" onclick="generateScript()"><i class="fa-solid fa-rotate"></i> Regenerate</button><button class="btn small-btn primary-btn" onclick="openTeleprompter()"><i class="fa-solid fa-display"></i> Open Teleprompter</button></div></div>`;
+            } catch (e) {
+                section.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateScript()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        async function openTeleprompter() {
+            document.getElementById('teleprompter-section').style.display = 'block';
+            document.getElementById('teleprompter-text').textContent = scriptText.replace(/\[pause\]/g, '...');
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                document.getElementById('webcam').srcObject = stream;
+            } catch (e) {
+                console.warn('Webcam not available:', e);
+            }
+
+            document.getElementById('teleprompter-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function startRecording() {
+            const video = document.getElementById('webcam');
+            if (!video.srcObject) { alert('Please allow webcam access first.'); return; }
+
+            recordedChunks = [];
+            mediaRecorder = new MediaRecorder(video.srcObject, { mimeType: 'video/webm' });
+            mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+            mediaRecorder.onstop = () => {
+                document.getElementById('download-vid-btn').style.display = 'inline-flex';
+            };
+
+            mediaRecorder.start();
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('stop-btn').disabled = false;
+
+            // Start timer
+            let seconds = 0;
+            const timerEl = document.getElementById('timer');
+            timerEl.classList.add('recording');
+            timerInterval = setInterval(() => {
+                seconds++;
+                timerEl.textContent = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+            }, 1000);
+
+            // Start teleprompter scroll
+            const overlay = document.getElementById('teleprompter-text');
+            const speed = parseInt(document.getElementById('scroll-speed').value);
+            let scrollPos = 0;
+            scrollInterval = setInterval(() => {
+                scrollPos += speed * 0.3;
+                overlay.style.transform = `translateY(-${scrollPos}px)`;
+            }, 50);
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+            clearInterval(timerInterval);
+            clearInterval(scrollInterval);
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('stop-btn').disabled = true;
+            document.getElementById('timer').classList.remove('recording');
+        }
+
+        function downloadVideo() {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${(outputs?.applicantName || 'Video_Intro').replace(/\s+/g, '_')}_Intro.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

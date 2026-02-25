@@ -1226,6 +1226,68 @@ textarea:focus {
     text-decoration: underline;
 }
 
+/* Recruiter Heatmap Highlights */
+.heatmap-active .hm-high {
+    background: rgba(239, 68, 68, 0.25);
+    border-bottom: 2px solid #ef4444;
+    cursor: help;
+    position: relative;
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+
+.heatmap-active .hm-high:hover {
+    background: rgba(239, 68, 68, 0.4);
+}
+
+.heatmap-active .hm-medium {
+    background: rgba(251, 191, 36, 0.2);
+    border-bottom: 2px solid #f59e0b;
+    cursor: help;
+    position: relative;
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+
+.heatmap-active .hm-medium:hover {
+    background: rgba(251, 191, 36, 0.35);
+}
+
+.hm-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a2e;
+    color: #e6edf3;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    white-space: normal;
+    min-width: 200px;
+    max-width: 300px;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.hm-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1a1a2e;
+}
+
+.hm-high:hover .hm-tooltip,
+.hm-medium:hover .hm-tooltip {
+    display: block;
+}
+
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
     .app-container {

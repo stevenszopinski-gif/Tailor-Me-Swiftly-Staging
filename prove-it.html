@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered metric extractor that turns vague resume bullet points into quantified achievements with hard data.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Prove It – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .bullet-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .bullet-original { font-size: 0.9rem; color: #ef4444; text-decoration: line-through; margin-bottom: 0.75rem; opacity: 0.7; }
+        .bullet-question { font-size: 0.9rem; color: var(--primary-color); margin-bottom: 0.75rem; font-weight: 500; }
+        .bullet-input { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; font-size: 0.85rem; margin-bottom: 0.75rem; }
+        .bullet-improved { font-size: 0.95rem; line-height: 1.6; padding: 0.75rem; background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px; display: none; }
+        .bullet-improved.visible { display: block; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-chart-column" style="color:#06b6d4;margin-right:0.5rem;"></i>Prove It Metric Extractor</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Turn vague bullet points into quantified achievements with hard data</p>
+
+        <div id="prove-output">
+            <div style="text-align:center;padding:3rem;"><p style="color:var(--text-secondary);margin-bottom:1.5rem;">We'll find your weakest bullet points and help you add real numbers.</p><button class="btn primary-btn" onclick="analyzeBullets()"><i class="fa-solid fa-chart-column"></i> Find Weak Bullet Points</button></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        async function analyzeBullets() {
+            const container = document.getElementById('prove-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Scanning your resume for vague bullet points...</p>';
+
+            const systemPrompt = `You are an expert resume coach who specializes in quantifying achievements.
+
+Scan the resume and find 5-8 bullet points that are VAGUE and lack specific metrics, numbers, or quantified results. For each one, generate a probing question that will extract the real data.
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "bullets": [
+        {
+            "original": "The vague bullet point from the resume",
+            "problem": "Brief explanation of why this is weak (e.g., 'No numbers, no scope, no timeframe')",
+            "question": "A specific probing question to extract metrics (e.g., 'By roughly what percentage did you improve server speed? How many users were affected?')",
+            "exampleImproved": "An example of what the bullet COULD look like with metrics filled in"
+        }
+    ]
+}`;
+
+            const userPrompt = `Resume:\n${outputs.resumeText}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderBullets(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="analyzeBullets()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderBullets(result) {
+            const container = document.getElementById('prove-output');
+            let html = `<p style="text-align:center;color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.85rem;">Found <strong>${result.bullets.length}</strong> bullet points that need quantification. Answer the questions below:</p>`;
+
+            result.bullets.forEach((b, i) => {
+                html += `<div class="bullet-card">
+                    <div class="bullet-original">${b.original}</div>
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;"><i class="fa-solid fa-circle-exclamation" style="color:#f59e0b;"></i> ${b.problem}</div>
+                    <div class="bullet-question"><i class="fa-solid fa-comment-dots"></i> ${b.question}</div>
+                    <input class="bullet-input" id="answer-${i}" placeholder="Type your answer here..." data-idx="${i}" data-original="${encodeURIComponent(b.original)}">
+                    <button class="btn small-btn primary-btn" onclick="rewriteBullet(${i})" style="margin-bottom:0.75rem;"><i class="fa-solid fa-wand-magic-sparkles"></i> Rewrite with My Data</button>
+                    <div class="bullet-improved" id="improved-${i}"></div>
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.5rem;"><strong>Example:</strong> ${b.exampleImproved}</div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        async function rewriteBullet(idx) {
+            const input = document.getElementById(`answer-${idx}`);
+            const answer = input.value.trim();
+            if (!answer) { input.focus(); return; }
+
+            const improved = document.getElementById(`improved-${idx}`);
+            improved.className = 'bullet-improved visible';
+            improved.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rewriting...';
+
+            const original = decodeURIComponent(input.dataset.original);
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: 'You are a resume bullet point writer. Take the original vague bullet point and the user\'s answer with specific data, and rewrite it as a powerful, quantified achievement bullet point. Start with a strong action verb. Return ONLY the rewritten bullet point text, nothing else.' }] },
+                        contents: [{ parts: [{ text: `Original: ${original}\nUser's data: ${answer}` }] }],
+                        generationConfig: { temperature: 0.5 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                const rewritten = data.candidates[0].content.parts[0].text.trim();
+                improved.innerHTML = `<strong style="color:#10b981;"><i class="fa-solid fa-check-circle"></i> Improved:</strong> ${rewritten} <button style="background:none;border:none;color:var(--primary-color);cursor:pointer;font-size:0.8rem;" onclick="navigator.clipboard.writeText('${rewritten.replace(/'/g, "\\'")}');this.textContent='Copied!'"><i class="fa-regular fa-copy"></i> Copy</button>`;
+            } catch (e) {
+                improved.innerHTML = `<span style="color:var(--error-color);">Failed: ${e.message}</span>`;
+            }
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

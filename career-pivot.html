@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Translate your experience from one industry to another. AI-powered career pivot language translator.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Career Pivot Translator – TailorMeSwiftly</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
+        crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .pivot-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: stretch; margin-bottom: 1rem; }
+        .pivot-col { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1rem; font-size: 0.85rem; line-height: 1.6; }
+        .pivot-col.original { border-left: 3px solid #ef4444; }
+        .pivot-col.translated { border-left: 3px solid #10b981; }
+        .pivot-arrow { display: flex; align-items: center; font-size: 1.2rem; color: var(--primary-color); }
+        .pivot-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .pivot-label.old { color: #ef4444; }
+        .pivot-label.new { color: #10b981; }
+        .industry-select { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
+        .industry-select select { padding: 0.5rem 1rem; border: 1px solid var(--panel-border); border-radius: 8px; background: var(--glass-bg); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
+        @media (max-width: 600px) { .pivot-row { grid-template-columns: 1fr; } .pivot-arrow { justify-content: center; transform: rotate(90deg); } }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-arrows-spin" style="color:#14b8a6;margin-right:0.5rem;"></i>Career Pivot Translator</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:1.5rem;">Translate your experience into target industry language</p>
+
+        <div class="industry-select">
+            <div>
+                <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Current Industry</label>
+                <select id="current-industry">
+                    <option value="">Auto-detect from resume</option>
+                    <option>Education / Teaching</option>
+                    <option>Military / Government</option>
+                    <option>Healthcare / Medical</option>
+                    <option>Retail / Hospitality</option>
+                    <option>Finance / Banking</option>
+                    <option>Manufacturing / Engineering</option>
+                    <option>Marketing / Advertising</option>
+                    <option>Legal / Law</option>
+                    <option>Nonprofit / NGO</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Target Industry</label>
+                <select id="target-industry">
+                    <option value="">Auto-detect from job description</option>
+                    <option>Technology / Software</option>
+                    <option>Finance / FinTech</option>
+                    <option>Healthcare / BioTech</option>
+                    <option>Marketing / Digital</option>
+                    <option>Consulting / Strategy</option>
+                    <option>Product Management</option>
+                    <option>Data / Analytics</option>
+                    <option>Operations / Supply Chain</option>
+                    <option>Sales / Business Development</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-bottom:2rem;">
+            <button class="btn primary-btn" onclick="generatePivot()"><i class="fa-solid fa-arrows-spin"></i> Translate My Experience</button>
+        </div>
+
+        <div id="pivot-output"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+
+        if (!outputs) {
+            showSessionExpired(document.querySelector('.result-page'));
+        }
+
+        async function generatePivot() {
+            const container = document.getElementById('pivot-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Translating your experience...</p>';
+
+            const currentInd = document.getElementById('current-industry').value || 'auto-detect from resume';
+            const targetInd = document.getElementById('target-industry').value || 'auto-detect from job description';
+
+            const systemPrompt = `You are an expert Career Pivot Translator specializing in helping professionals transition between industries.
+
+Analyze the resume and translate each major bullet point / achievement from the current industry's language into the target industry's jargon and vocabulary.
+
+Current industry: ${currentInd}
+Target industry: ${targetInd}
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "detectedCurrent": "The detected/confirmed current industry",
+    "detectedTarget": "The detected/confirmed target industry",
+    "translations": [
+        {
+            "original": "The original bullet point or experience description",
+            "translated": "The same achievement rewritten in target industry language",
+            "explanation": "Brief note on what changed and why"
+        }
+    ],
+    "tips": ["3-5 general tips for making this specific career pivot"]
+}`;
+
+            const userPrompt = `Resume:\n${outputs.resumeText}\n\nTarget Job Description:\n${outputs.jobText}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderPivot(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generatePivot()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderPivot(result) {
+            const container = document.getElementById('pivot-output');
+            let html = `<div style="text-align:center;margin-bottom:1.5rem;font-size:0.9rem;color:var(--text-secondary);"><strong style="color:#ef4444;">${result.detectedCurrent}</strong> <i class="fa-solid fa-arrow-right" style="margin:0 0.5rem;color:var(--primary-color);"></i> <strong style="color:#10b981;">${result.detectedTarget}</strong></div>`;
+
+            result.translations.forEach(t => {
+                html += `<div class="pivot-row">
+                    <div class="pivot-col original"><div class="pivot-label old">Original</div>${t.original}</div>
+                    <div class="pivot-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="pivot-col translated"><div class="pivot-label new">Translated</div>${t.translated}<div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-secondary);font-style:italic;">${t.explanation}</div></div>
+                </div>`;
+            });
+
+            if (result.tips && result.tips.length > 0) {
+                html += `<div style="background:rgba(20,184,166,0.05);border:1px solid rgba(20,184,166,0.2);border-radius:12px;padding:1.25rem;margin-top:1.5rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#14b8a6;margin-right:0.4rem;"></i> Pivot Tips</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                result.tips.forEach(tip => { html += `<li>${tip}</li>`; });
+                html += `</ul></div>`;
+            }
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

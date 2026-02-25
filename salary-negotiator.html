@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practice salary negotiation with an AI HR rep. Build confidence before your real negotiation.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Salary Negotiator – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 700px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .chat-container { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem; min-height: 300px; }
+        .chat-msg { max-width: 85%; padding: 1rem; border-radius: 16px; font-size: 0.9rem; line-height: 1.6; animation: fadeIn 0.3s ease-out; }
+        .chat-msg.hr { align-self: flex-start; background: var(--glass-bg); border: 1px solid var(--panel-border); border-bottom-left-radius: 4px; }
+        .chat-msg.user { align-self: flex-end; background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(52,211,153,0.1)); border: 1px solid rgba(16,185,129,0.3); border-bottom-right-radius: 4px; }
+        .chat-msg.coach { align-self: center; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; font-size: 0.8rem; text-align: center; max-width: 95%; }
+        .chat-msg .role { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+        .chat-msg.hr .role { color: #ef4444; }
+        .chat-msg.user .role { color: #10b981; }
+        .chat-msg.coach .role { color: #6366f1; }
+        .chat-input-bar { display: flex; gap: 0.5rem; }
+        .chat-input-bar input { flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--panel-border); border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
+        .chat-input-bar input:focus { outline: none; border-color: var(--primary-color); }
+        .salary-setup { text-align: center; }
+        .salary-setup input { padding: 0.5rem 1rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; font-size: 1rem; width: 150px; text-align: center; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-sack-dollar" style="color:#22c55e;margin-right:0.5rem;"></i>Salary Negotiator</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Practice negotiating with a stubborn AI HR rep</p>
+
+        <div id="salary-setup" class="salary-setup">
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">What salary are you targeting?</p>
+            <div style="display:flex;gap:1rem;justify-content:center;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;">
+                <div>
+                    <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Your Target</label>
+                    <input id="target-salary" type="text" placeholder="$120,000" value="">
+                </div>
+                <div>
+                    <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Their Likely Offer</label>
+                    <input id="initial-offer" type="text" placeholder="$95,000" value="">
+                </div>
+            </div>
+            <button class="btn primary-btn" onclick="startNegotiation()"><i class="fa-solid fa-sack-dollar"></i> Start Negotiation</button>
+        </div>
+
+        <div id="chat-area" style="display:none;">
+            <div class="chat-container" id="chat-container"></div>
+            <div class="chat-input-bar">
+                <input id="chat-input" placeholder="Type your response..." onkeydown="if(event.key==='Enter')sendMessage()">
+                <button class="btn primary-btn" onclick="sendMessage()" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            <div style="text-align:center;margin-top:1rem;">
+                <button class="btn small-btn ghost-btn" onclick="getCoachTip()"><i class="fa-solid fa-lightbulb"></i> Get Coach Tip</button>
+                <button class="btn small-btn ghost-btn" onclick="endNegotiation()"><i class="fa-solid fa-flag-checkered"></i> End & Get Score</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        let chatHistory = [];
+        let targetSalary = '';
+        let initialOffer = '';
+
+        function addMessage(role, text) {
+            const container = document.getElementById('chat-container');
+            const div = document.createElement('div');
+            div.className = `chat-msg ${role}`;
+            const roleLabel = role === 'hr' ? 'HR Rep' : role === 'user' ? 'You' : 'Coach';
+            div.innerHTML = `<div class="role">${roleLabel}</div>${text}`;
+            container.appendChild(div);
+            div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
+        async function startNegotiation() {
+            targetSalary = document.getElementById('target-salary').value || '$120,000';
+            initialOffer = document.getElementById('initial-offer').value || '$95,000';
+
+            document.getElementById('salary-setup').style.display = 'none';
+            document.getElementById('chat-area').style.display = 'block';
+
+            addMessage('coach', `Negotiation starting. The HR rep will offer around <strong>${initialOffer}</strong>. Your goal: <strong>${targetSalary}</strong>. Stay calm, be specific, and back up your asks with data.`);
+
+            const systemMsg = `You are a stubborn but professional HR representative at ${outputs.targetCompany || 'a company'}. You're negotiating salary for the role described in the job description. Your initial offer is ${initialOffer}. You should:
+- Start by presenting the offer enthusiastically
+- Push back on counter-offers with budget constraints, market data, and company policy
+- Be willing to negotiate on non-salary items (signing bonus, equity, PTO, remote work)
+- Eventually concede slightly if the candidate makes strong arguments
+- Be realistic and professional, not cartoonish
+- Keep responses to 2-4 sentences
+
+Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'}`;
+
+            chatHistory = [{ role: 'user', parts: [{ text: systemMsg }] }];
+
+            await getHRResponse('Start the negotiation by presenting the initial offer.');
+        }
+
+        async function getHRResponse(userText) {
+            chatHistory.push({ role: 'user', parts: [{ text: userText }] });
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: `You are a stubborn HR representative negotiating salary. The initial offer is ${initialOffer}. Keep responses to 2-4 sentences. Be professional but firm. Push back with budget constraints and market data.` }] },
+                        contents: chatHistory,
+                        generationConfig: { temperature: 0.8 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                const response = data.candidates[0].content.parts[0].text.trim();
+                chatHistory.push({ role: 'model', parts: [{ text: response }] });
+                addMessage('hr', response);
+            } catch (e) {
+                addMessage('coach', `Connection error: ${e.message}. Try again.`);
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            input.value = '';
+            addMessage('user', text);
+
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+            await getHRResponse(text);
+
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+            input.focus();
+        }
+
+        async function getCoachTip() {
+            const lastHR = chatHistory.filter(m => m.role === 'model').pop();
+            if (!lastHR) return;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: `You are a salary negotiation coach. The candidate is targeting ${targetSalary} and was offered ${initialOffer}. Give a brief, specific tip (1-2 sentences) on how to respond to the HR rep's last message. Be tactical.` }] },
+                        contents: [{ parts: [{ text: `HR rep just said: "${lastHR.parts[0].text}"\n\nWhat should I say next?` }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                const tip = data.candidates[0].content.parts[0].text.trim();
+                addMessage('coach', `<i class="fa-solid fa-lightbulb" style="color:#6366f1;"></i> ${tip}`);
+            } catch (e) {
+                addMessage('coach', 'Could not get tip. Try again.');
+            }
+        }
+
+        async function endNegotiation() {
+            addMessage('coach', '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing your negotiation...');
+
+            const convo = chatHistory.map(m => `${m.role === 'model' ? 'HR' : 'Candidate'}: ${m.parts[0].text}`).join('\n');
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: `You are a salary negotiation expert. Score this negotiation and provide feedback. Initial offer: ${initialOffer}. Target: ${targetSalary}. Provide: 1) A score out of 10, 2) What they did well, 3) What they should improve, 4) Estimate of what salary they'd likely land at. Keep it concise.` }] },
+                        contents: [{ parts: [{ text: convo }] }],
+                        generationConfig: { temperature: 0.5 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                const feedback = data.candidates[0].content.parts[0].text.trim();
+                // Remove the "analyzing" message
+                const container = document.getElementById('chat-container');
+                container.lastChild.remove();
+                addMessage('coach', `<strong><i class="fa-solid fa-flag-checkered"></i> Negotiation Complete!</strong><br><br>${feedback.replace(/\n/g, '<br>')}`);
+
+                document.querySelector('.chat-input-bar').style.display = 'none';
+            } catch (e) {
+                addMessage('coach', `Could not analyze: ${e.message}`);
+            }
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

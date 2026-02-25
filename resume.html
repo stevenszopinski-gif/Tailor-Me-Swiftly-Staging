@@ -893,6 +893,10 @@
                 <i class="fa-solid fa-spell-check"></i>
                 <span>Check</span>
             </button>
+            <button class="nav-tab" data-tab="insights" title="AI Insights">
+                <i class="fa-solid fa-brain"></i>
+                <span>Insights</span>
+            </button>
             <button class="nav-tab" data-tab="download" title="Download">
                 <i class="fa-solid fa-download"></i>
                 <span>Download</span>
@@ -1177,6 +1181,39 @@
                     </div>
                 </div>
 
+                <!-- ── INSIGHTS TAB ── -->
+                <div class="panel-section" data-panel="insights">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-brain" style="color:var(--primary-color);margin-right:0.4rem;"></i> AI Insights</h3>
+                        <button class="panel-close" onclick="closePanel()">&times;</button>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Cultural Tone -->
+                        <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(244,114,182,0.05);border:1px solid rgba(244,114,182,0.2);border-radius:12px;">
+                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i class="fa-solid fa-heart-pulse" style="color:#f472b6;margin-right:0.4rem;"></i>Cultural Tone</div>
+                            <div id="insight-culture-content" style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5;">
+                                <p>Loading cultural alignment...</p>
+                            </div>
+                        </div>
+
+                        <!-- Red Flags -->
+                        <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:12px;">
+                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;margin-right:0.4rem;"></i>Red Flags</div>
+                            <div id="insight-redflag-content" style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5;">
+                                <p>Loading red flag analysis...</p>
+                            </div>
+                        </div>
+
+                        <!-- Burnout Check -->
+                        <div style="padding:1rem;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);border-radius:12px;">
+                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i class="fa-solid fa-shield-halved" style="color:#f59e0b;margin-right:0.4rem;"></i>Burnout Check</div>
+                            <div id="insight-burnout-content" style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5;">
+                                <p>Loading burnout analysis...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ── DOWNLOAD TAB ── -->
                 <div class="panel-section" data-panel="download">
                     <div class="panel-header">
@@ -1305,6 +1342,26 @@
                 document.title = `Resume${outputs.applicantName ? ' – ' + outputs.applicantName : ''} – TailorMeSwiftly`;
                 updateWordCount();
                 initDraggableResume(resumeEl);
+
+                // Populate Insights panel
+                if (outputs.culturalFit) {
+                    const cf = outputs.culturalFit;
+                    document.getElementById('insight-culture-content').innerHTML = `<div style="display:inline-block;background:rgba(244,114,182,0.1);color:#f472b6;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;font-weight:700;margin-bottom:0.4rem;">${cf.tone}</div><div style="margin-bottom:0.4rem;">Alignment: <strong style="color:var(--text-primary);">${cf.alignmentScore}%</strong></div><div style="margin-bottom:0.5rem;">${cf.analysis}</div>${(cf.topSuggestions || []).map(s => `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);padding:0.25rem 0.5rem;border-radius:4px;margin:0.2rem 0;font-size:0.75rem;">${s}</div>`).join('')}`;
+                }
+                if (outputs.redFlags && outputs.redFlags.length > 0) {
+                    document.getElementById('insight-redflag-content').innerHTML = outputs.redFlags.map(f => `<div style="padding:0.4rem 0;border-bottom:1px solid var(--panel-border);"><div style="display:flex;align-items:center;gap:0.3rem;"><i class="fa-solid ${f.severity === 'critical' ? 'fa-circle-xmark' : 'fa-circle-exclamation'}" style="color:${f.severity === 'critical' ? '#ef4444' : '#f59e0b'};font-size:0.7rem;"></i><strong style="font-size:0.8rem;">${f.flag}</strong></div><div style="color:var(--primary-color);font-size:0.75rem;margin-top:0.2rem;"><i class="fa-solid fa-lightbulb"></i> ${f.fix}</div></div>`).join('');
+                }
+                if (outputs.burnoutCheck) {
+                    const bc = outputs.burnoutCheck;
+                    const score = bc.flightRiskScore || 0;
+                    const color = score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
+                    let html = `<div style="margin-bottom:0.5rem;">Flight Risk: <strong style="color:${color};">${score}%</strong></div><div style="height:6px;border-radius:3px;background:var(--panel-border);margin-bottom:0.5rem;overflow:hidden;"><div style="height:100%;width:${score}%;background:${color};border-radius:3px;"></div></div>`;
+                    if (bc.toxicPhrases && bc.toxicPhrases.length > 0) {
+                        html += `<div style="margin-bottom:0.4rem;font-weight:600;font-size:0.75rem;">Toxic phrases:</div>` + bc.toxicPhrases.map(p => `<span style="display:inline-block;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);padding:0.1rem 0.4rem;border-radius:3px;font-size:0.7rem;margin:0.1rem;">${p}</span>`).join('');
+                    }
+                    html += `<div style="margin-top:0.5rem;">Remote fit: <strong style="text-transform:uppercase;color:${bc.overemploymentFit === 'high' ? '#10b981' : bc.overemploymentFit === 'medium' ? '#f59e0b' : '#ef4444'}">${bc.overemploymentFit || '?'}</strong></div>`;
+                    document.getElementById('insight-burnout-content').innerHTML = html;
+                }
             }
 
             // ═══════════════════════════════════════════
