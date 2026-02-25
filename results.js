@@ -48,7 +48,16 @@ function _gemCacheHash(str) {
             } catch {}
 
             // API call
-            const res = await _invoke(fn, opts);
+            let res = await _invoke(fn, opts);
+
+            // Auth recovery: if call failed due to expired session (401),
+            // sign out locally to clear stale tokens, then retry with anon key
+            if (res.error?.message?.includes('non-2xx') && !opts._retried) {
+                try {
+                    await window.supabaseClient.auth.signOut({ scope: 'local' });
+                    res = await _invoke(fn, { ...opts, _retried: true });
+                } catch {}
+            }
 
             // Detect edge function errors returned as 200 (error wrapped in data)
             if (!res.error && res.data?.error?.status === 'EDGE_ERROR') {
