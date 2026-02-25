@@ -177,10 +177,15 @@
 
             const path = window.location.pathname;
             const isApp = path.includes('app.html');
-            const isPublic = path.includes('index.html') || path === '/' || path.includes('login.html') || path.includes('signup.html');
+            const isLoginSignup = path.includes('login.html') || path.includes('signup.html');
+            const isLanding = path.includes('index.html') || path === '/';
 
-            if (session && isPublic && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
+            if (session && isLoginSignup && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
+                // Only redirect from login/signup pages — let landing page stay accessible
                 window.location.href = 'app.html';
+            } else if (session && isLanding) {
+                // Logged-in user on landing page — update UI but don't redirect
+                updateUIForUser(session.user);
             } else if (!session && isApp) {
                 window.location.href = 'index.html';
             } else if (session) {
@@ -222,6 +227,12 @@
             dropZone.style.opacity = '1';
             dropZone.style.pointerEvents = 'auto';
         }
+
+        // Update landing page CTAs for logged-in users
+        document.querySelectorAll('.hp-hero-cta').forEach(btn => {
+            btn.href = 'app.html';
+            btn.innerHTML = '<i class="fa-solid fa-arrow-right"></i> Go to App';
+        });
     }
 
     function updateUIForLoggedOut() {
@@ -236,6 +247,12 @@
             dropZone.style.opacity = '0.5';
             dropZone.style.pointerEvents = 'none';
         }
+
+        // Revert landing page CTAs for logged-out users
+        document.querySelectorAll('.hp-hero-cta').forEach(btn => {
+            btn.href = 'login.html';
+            btn.innerHTML = '<i class="fa-solid fa-rocket"></i> Get Started For Free';
+        });
     }
 
     window.updateUIForUser = updateUIForUser;
