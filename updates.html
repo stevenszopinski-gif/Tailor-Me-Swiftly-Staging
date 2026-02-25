@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TailorMeSwiftly release notes and product updates. See the latest features, improvements, and bug fixes.">
+    <meta name="description"
+        content="TailorMeSwiftly release notes and product updates. See the latest features, improvements, and bug fixes.">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Release Notes | TailorMeSwiftly</title>
     <link rel="stylesheet" href="style.css?v=6">
@@ -13,7 +14,11 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
     <style>
-        .rn-accordion { display: flex; flex-direction: column; gap: 0.75rem; }
+        .rn-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
 
         .rn-item {
             border: 1px solid var(--panel-border);
@@ -22,8 +27,14 @@
             overflow: hidden;
             transition: border-color 0.2s;
         }
-        .rn-item:hover { border-color: var(--text-secondary); }
-        .rn-item.open { border-color: var(--primary-color); }
+
+        .rn-item:hover {
+            border-color: var(--text-secondary);
+        }
+
+        .rn-item.open {
+            border-color: var(--primary-color);
+        }
 
         .rn-header {
             display: flex;
@@ -34,7 +45,10 @@
             user-select: none;
             gap: 1rem;
         }
-        .rn-header:hover { background: rgba(255,255,255,0.03); }
+
+        .rn-header:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
 
         .rn-header-left {
             display: flex;
@@ -43,6 +57,7 @@
             flex: 1;
             min-width: 0;
         }
+
         .rn-header-left h3 {
             margin: 0;
             font-size: 1.05rem;
@@ -67,12 +82,14 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
+
         .rn-badge.current {
-            background: rgba(16,185,129,0.15);
+            background: rgba(16, 185, 129, 0.15);
             color: var(--success-color);
         }
+
         .rn-badge.past {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
         }
 
@@ -82,7 +99,10 @@
             transition: transform 0.25s ease;
             flex-shrink: 0;
         }
-        .rn-item.open .rn-chevron { transform: rotate(180deg); }
+
+        .rn-item.open .rn-chevron {
+            transform: rotate(180deg);
+        }
 
         .rn-body {
             max-height: 0;
@@ -90,6 +110,7 @@
             transition: max-height 0.3s ease, padding 0.3s ease;
             padding: 0 1.25rem;
         }
+
         .rn-item.open .rn-body {
             max-height: 1000px;
             padding: 0 1.25rem 1.25rem;
@@ -102,9 +123,18 @@
             font-size: 0.95rem;
             line-height: 1.7;
         }
-        .rn-body ul li { margin-bottom: 0.6rem; }
-        .rn-body ul li:last-child { margin-bottom: 0; }
-        .rn-body ul li strong { color: var(--text-primary); }
+
+        .rn-body ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .rn-body ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .rn-body ul li strong {
+            color: var(--text-primary);
+        }
 
         .rn-toolbar {
             display: flex;
@@ -112,6 +142,7 @@
             align-items: center;
             margin-bottom: 0.75rem;
         }
+
         .rn-toolbar button {
             background: none;
             border: none;
@@ -121,13 +152,17 @@
             font-family: var(--font-family);
             padding: 0.3rem 0;
         }
-        .rn-toolbar button:hover { color: var(--primary-color); }
+
+        .rn-toolbar button:hover {
+            color: var(--primary-color);
+        }
 
         .rn-pagination {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
+
         .rn-pagination button {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
@@ -139,23 +174,34 @@
             border-radius: 6px;
             transition: all 0.2s;
         }
+
         .rn-pagination button:hover:not(:disabled) {
             color: var(--primary-color);
             border-color: var(--primary-color);
         }
+
         .rn-pagination button:disabled {
             opacity: 0.35;
             cursor: not-allowed;
         }
+
         .rn-pagination .rn-page-info {
             font-size: 0.8rem;
             color: var(--text-secondary);
         }
 
         @media (max-width: 600px) {
-            .rn-header-left h3 { font-size: 0.95rem; }
-            .rn-header { padding: 0.85rem 1rem; }
-            .rn-date { display: none; }
+            .rn-header-left h3 {
+                font-size: 0.95rem;
+            }
+
+            .rn-header {
+                padding: 0.85rem 1rem;
+            }
+
+            .rn-date {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -265,7 +311,6 @@
                     '<strong>Pain Letter Creator:</strong> Identifies the hiring manager\'s biggest business problem from the JD and drafts a provocative outreach letter positioning you as the solution.',
                     '<strong>Prove It Metric Extractor:</strong> Interactive wizard that finds your vague bullet points, asks probing questions to extract real numbers, and rewrites them with hard data.',
                     '<strong>Day in the Life Simulator:</strong> AI reads the JD and generates a realistic hour-by-hour day in the role, complete with interview ammunition and hidden challenges.',
-                    '<strong>Case Study Generator:</strong> Pick any resume bullet point and expand it into a beautiful 1-page mini portfolio case study with metrics, downloadable as PDF.',
                     '<strong>Video Intro Script & Teleprompter:</strong> AI writes a punchy 60-second video intro script, then opens a built-in webcam teleprompter so you can record it flawlessly.',
                     '<strong>Referral Network Mapper:</strong> Generates a step-by-step referral hunting strategy with ready-to-use LinkedIn connection requests, follow-up messages, and coffee chat scripts.',
                     '<strong>Shadow Job Market:</strong> Track company career pages and scan for new openings that match your resume before they\'re cross-posted to LinkedIn.',
