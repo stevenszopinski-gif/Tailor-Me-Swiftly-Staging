@@ -1445,6 +1445,17 @@
                 const base = FONT_SIZE_MAP[fs];
                 resumeEl.querySelectorAll('p, li').forEach(el => el.style.fontSize = `${base}rem`);
             }
+
+            // Re-apply custom properties wiped by cssText = ''
+            if (colorAccent && colorAccent.value && colorAccent.value !== '#333333') {
+                applyAccentColor(colorAccent.value);
+            }
+            if (fontSelect && fontSelect.value) {
+                resumeEl.style.setProperty('--r-font-family', fontSelect.value);
+            }
+            if (lineHeightSlider && lineHeightSlider.value) {
+                resumeEl.style.setProperty('--r-spacing', parseFloat(lineHeightSlider.value).toFixed(2));
+            }
         }
 
         // ── Save / Load preferences ──
