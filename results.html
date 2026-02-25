@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Your AI-tailored application is ready. View your optimized resume, cover letter, mock interview questions, and outreach email.">
+    <meta name="description"
+        content="Your AI-tailored application is ready. View your optimized resume, cover letter, mock interview questions, and outreach email.">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Your Results – TailorMeSwiftly</title>
     <link rel="icon"
@@ -204,48 +205,7 @@
             min-width: 180px;
         }
 
-        /* Cultural Alignment Card */
-        .card-culture .card-icon {
-            background: linear-gradient(135deg, #f472b6, #db2777);
-        }
-
-        .culture-details {
-            display: none;
-            width: 100%;
-            margin-top: 1.5rem;
-            text-align: left;
-            background: rgba(244, 114, 182, 0.05);
-            border: 1px solid rgba(244, 114, 182, 0.2);
-            border-radius: 12px;
-            padding: 1rem;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .culture-details.visible {
-            display: block;
-        }
-
-        .culture-tag {
-            display: inline-block;
-            background: rgba(244, 114, 182, 0.1);
-            color: #f472b6;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-
-        .suggestion-chip {
-            display: inline-block;
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            padding: 0.3rem 0.6rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            margin: 0.2rem;
-        }
+        /* Cultural Alignment Card removed */
 
         @keyframes fadeIn {
             from {
@@ -340,20 +300,53 @@
         }
 
         /* New feature card icons */
-        .card-roast .card-icon { background: linear-gradient(135deg, #ef4444, #f97316); }
-        .card-redflag .card-icon { background: linear-gradient(135deg, #f59e0b, #ef4444); }
-        .card-burnout .card-icon { background: linear-gradient(135deg, #f97316, #eab308); }
-        .card-linkedin .card-icon { background: linear-gradient(135deg, #0077b5, #00a0dc); }
-        .card-pivot .card-icon { background: linear-gradient(135deg, #14b8a6, #06b6d4); }
-        .card-salary .card-icon { background: linear-gradient(135deg, #22c55e, #10b981); }
-        .card-proveit .card-icon { background: linear-gradient(135deg, #06b6d4, #0ea5e9); }
-        .card-hooks .card-icon { background: linear-gradient(135deg, #f97316, #fb923c); }
-        .card-dayinlife .card-icon { background: linear-gradient(135deg, #6366f1, #818cf8); }
-        .card-casestudy .card-icon { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .card-painletter .card-icon { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-        .card-video .card-icon { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-        .card-referral .card-icon { background: linear-gradient(135deg, #10b981, #059669); }
-        .card-shadowjob .card-icon { background: linear-gradient(135deg, #475569, #64748b); }
+        .card-roast .card-icon {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+        }
+
+        .card-redflag .card-icon {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
+        .card-burnout .card-icon {
+            background: linear-gradient(135deg, #f97316, #eab308);
+        }
+
+        .card-salary .card-icon {
+            background: linear-gradient(135deg, #22c55e, #10b981);
+        }
+
+        .card-proveit .card-icon {
+            background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+        }
+
+        .card-hooks .card-icon {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .card-dayinlife .card-icon {
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+        }
+
+        .card-casestudy .card-icon {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+        }
+
+        .card-painletter .card-icon {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        .card-video .card-icon {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        }
+
+        .card-referral .card-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .card-shadowjob .card-icon {
+            background: linear-gradient(135deg, #475569, #64748b);
+        }
 
         .section-label {
             font-size: 0.8rem;
@@ -366,6 +359,7 @@
             align-items: center;
             gap: 0.5rem;
         }
+
         .section-label::after {
             content: '';
             flex: 1;
@@ -378,12 +372,16 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
-        .roast-modal.visible { display: flex; }
+
+        .roast-modal.visible {
+            display: flex;
+        }
+
         .roast-inner {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
@@ -395,6 +393,7 @@
             overflow-y: auto;
             text-align: center;
         }
+
         .roast-line {
             background: rgba(239, 68, 68, 0.06);
             border-left: 3px solid #ef4444;
@@ -418,9 +417,22 @@
             font-size: 0.85rem;
             line-height: 1.5;
         }
-        .redflag-item.critical { background: rgba(239, 68, 68, 0.08); border-left: 3px solid #ef4444; }
-        .redflag-item.warning { background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b; }
-        .redflag-fix { color: var(--primary-color); font-size: 0.8rem; margin-top: 0.25rem; }
+
+        .redflag-item.critical {
+            background: rgba(239, 68, 68, 0.08);
+            border-left: 3px solid #ef4444;
+        }
+
+        .redflag-item.warning {
+            background: rgba(245, 158, 11, 0.08);
+            border-left: 3px solid #f59e0b;
+        }
+
+        .redflag-fix {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
 
         /* Burnout modal */
         .burnout-bar {
@@ -430,11 +442,13 @@
             margin: 0.75rem 0;
             overflow: hidden;
         }
+
         .burnout-fill {
             height: 100%;
             border-radius: 4px;
             transition: width 0.8s ease;
         }
+
         .toxic-chip {
             display: inline-block;
             background: rgba(245, 158, 11, 0.1);
@@ -552,7 +566,8 @@
 
         <!-- Ad Unit -->
         <div style="text-align:center;margin:0 auto 1.5rem;max-width:728px;">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7832382680038641" data-ad-slot="auto" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7832382680038641" data-ad-slot="auto"
+                data-ad-format="horizontal" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
@@ -603,20 +618,7 @@
                         on
                         click</span>
                 </a>
-                <a class="output-card card-culture" id="culture-card">
-                    <div class="card-icon"><i class="fa-solid fa-heart-pulse" style="color:#fff;"></i></div>
-                    <h3>Cultural Fit</h3>
-                    <p id="culture-summary">Analyzing company vibe...</p>
-                    <div id="culture-details" class="culture-details">
-                        <div id="culture-tone" class="culture-tag"></div>
-                        <div id="culture-analysis"
-                            style="font-size: 0.85rem; margin-bottom: 0.75rem; color: var(--text-secondary);"></div>
-                        <div
-                            style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-primary);">
-                            Coach's Tips:</div>
-                        <div id="culture-suggestions"></div>
-                    </div>
-                </a>
+                <!-- Cultural Fit Card removed -->
                 <a href="outreach.html" class="output-card card-email">
                     <div class="card-icon"><i class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
                     <h3>Introduction Email</h3>
@@ -630,17 +632,20 @@
             <!-- ═══ DEEP ANALYSIS ═══ -->
             <div class="section-label"><i class="fa-solid fa-magnifying-glass-chart"></i> Deep Analysis</div>
             <div class="output-grid">
-                <a class="output-card card-roast" id="roast-card" onclick="document.getElementById('roast-modal').classList.add('visible')">
+                <a class="output-card card-roast" id="roast-card"
+                    onclick="document.getElementById('roast-modal').classList.add('visible')">
                     <div class="card-icon"><i class="fa-solid fa-fire-flame-curved" style="color:#fff;"></i></div>
                     <h3>Brutal Roast</h3>
                     <p id="roast-summary">AI roasts your resume's weakest points</p>
                 </a>
-                <a class="output-card card-redflag" id="redflag-card" onclick="document.getElementById('redflag-modal').classList.add('visible')">
+                <a class="output-card card-redflag" id="redflag-card"
+                    onclick="document.getElementById('redflag-modal').classList.add('visible')">
                     <div class="card-icon"><i class="fa-solid fa-triangle-exclamation" style="color:#fff;"></i></div>
                     <h3>Red Flag Detector</h3>
                     <p id="redflag-summary">Things that get your resume rejected</p>
                 </a>
-                <a class="output-card card-burnout" id="burnout-card" onclick="document.getElementById('burnout-modal').classList.add('visible')">
+                <a class="output-card card-burnout" id="burnout-card"
+                    onclick="document.getElementById('burnout-modal').classList.add('visible')">
                     <div class="card-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;"></i></div>
                     <h3>Burnout Check</h3>
                     <p id="burnout-summary">Toxic job language & overemployment fit</p>
@@ -649,36 +654,29 @@
                     <div class="card-icon"><i class="fa-solid fa-sun" style="color:#fff;"></i></div>
                     <h3>Day in the Life</h3>
                     <p>Realistic simulation of your day in this role</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on click</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
                 </a>
             </div>
 
             <!-- ═══ CAREER TOOLKIT ═══ -->
             <div class="section-label"><i class="fa-solid fa-toolbox"></i> Career Toolkit</div>
             <div class="output-grid">
-                <a href="linkedin-sync.html" class="output-card card-linkedin">
-                    <div class="card-icon"><i class="fa-brands fa-linkedin-in" style="color:#fff;"></i></div>
-                    <h3>LinkedIn Sync</h3>
-                    <p>Optimized headline, about section & bullet points</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on click</span>
-                </a>
-                <a href="career-pivot.html" class="output-card card-pivot">
-                    <div class="card-icon"><i class="fa-solid fa-arrows-spin" style="color:#fff;"></i></div>
-                    <h3>Career Pivot</h3>
-                    <p>Translate your experience into target industry jargon</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on click</span>
-                </a>
                 <a href="salary-negotiator.html" class="output-card card-salary">
                     <div class="card-icon"><i class="fa-solid fa-sack-dollar" style="color:#fff;"></i></div>
                     <h3>Salary Negotiator</h3>
                     <p>Practice negotiating with a stubborn AI HR rep</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Interactive chat</span>
+                    <span
+                        style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Interactive
+                        chat</span>
                 </a>
                 <a href="prove-it.html" class="output-card card-proveit">
                     <div class="card-icon"><i class="fa-solid fa-chart-column" style="color:#fff;"></i></div>
                     <h3>Prove It</h3>
                     <p>Turn vague bullet points into hard metrics</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Interactive wizard</span>
+                    <span
+                        style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Interactive
+                        wizard</span>
                 </a>
             </div>
 
@@ -689,43 +687,52 @@
                     <div class="card-icon"><i class="fa-solid fa-bolt" style="color:#fff;"></i></div>
                     <h3>Hook Generator</h3>
                     <p>3 scroll-stopping openers for your cover letter</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on click</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
                 </a>
                 <a href="pain-letter.html" class="output-card card-painletter">
                     <div class="card-icon"><i class="fa-solid fa-crosshairs" style="color:#fff;"></i></div>
                     <h3>Pain Letter</h3>
                     <p>Target the hiring manager's biggest headache</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on click</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
                 </a>
                 <a href="referral-mapper.html" class="output-card card-referral">
                     <div class="card-icon"><i class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
                     <h3>Referral Mapper</h3>
                     <p>Find backdoor referrals + cold outreach scripts</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on click</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
                 </a>
                 <a href="case-study.html" class="output-card card-casestudy">
                     <div class="card-icon"><i class="fa-solid fa-rectangle-list" style="color:#fff;"></i></div>
                     <h3>Case Study</h3>
                     <p>Turn a bullet point into a 1-page mini portfolio piece</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Interactive builder</span>
+                    <span
+                        style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Interactive
+                        builder</span>
                 </a>
                 <a href="video-intro.html" class="output-card card-video">
                     <div class="card-icon"><i class="fa-solid fa-video" style="color:#fff;"></i></div>
                     <h3>Video Intro</h3>
                     <p>60-second script + built-in teleprompter</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Script + recorder</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Script +
+                        recorder</span>
                 </a>
                 <a href="shadow-jobs.html" class="output-card card-shadowjob">
                     <div class="card-icon"><i class="fa-solid fa-ghost" style="color:#fff;"></i></div>
                     <h3>Shadow Jobs</h3>
                     <p>Monitor company career pages before jobs hit LinkedIn</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Setup tracker</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Setup
+                        tracker</span>
                 </a>
                 <a href="guerrilla-tactics.html" class="output-card" style="border-color:rgba(239,68,68,0.3);">
-                    <div class="card-icon" style="background:linear-gradient(135deg, #ef4444, #dc2626);"><i class="fa-solid fa-user-ninja" style="color:#fff;"></i></div>
+                    <div class="card-icon" style="background:linear-gradient(135deg, #ef4444, #dc2626);"><i
+                            class="fa-solid fa-user-ninja" style="color:#fff;"></i></div>
                     <h3>Guerrilla Tactics</h3>
                     <p>Bypass the ATS — reach decision makers directly</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on click</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
                 </a>
             </div>
 
@@ -743,10 +750,13 @@
         <div class="roast-inner">
             <div style="font-size:2.5rem;margin-bottom:0.5rem;">&#128293;</div>
             <h2 style="margin:0 0 0.25rem;">Resume Roast</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.85rem;">Brutally honest takes on your resume's weak spots</p>
+            <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.85rem;">Brutally honest takes on your
+                resume's weak spots</p>
             <div id="roast-lines"></div>
-            <p style="color:var(--text-secondary);font-size:0.75rem;margin-top:1.5rem;">Don't worry — your tailored resume already fixed these.</p>
-            <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn" style="margin-top:1rem;">Close</button>
+            <p style="color:var(--text-secondary);font-size:0.75rem;margin-top:1.5rem;">Don't worry — your tailored
+                resume already fixed these.</p>
+            <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn"
+                style="margin-top:1rem;">Close</button>
         </div>
     </div>
 
@@ -755,9 +765,11 @@
         <div class="roast-inner">
             <div style="font-size:2.5rem;margin-bottom:0.5rem;">&#9888;&#65039;</div>
             <h2 style="margin:0 0 0.25rem;">Red Flag Report</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.85rem;">Things that could get your resume thrown out</p>
+            <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.85rem;">Things that could get your
+                resume thrown out</p>
             <div id="redflag-lines"></div>
-            <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn" style="margin-top:1rem;">Close</button>
+            <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn"
+                style="margin-top:1rem;">Close</button>
         </div>
     </div>
 
@@ -766,9 +778,11 @@
         <div class="roast-inner">
             <div style="font-size:2.5rem;margin-bottom:0.5rem;">&#128737;&#65039;</div>
             <h2 style="margin:0 0 0.25rem;">Burnout & Overemployment Check</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1rem;font-size:0.85rem;">How this job stacks up for work-life balance</p>
+            <p style="color:var(--text-secondary);margin-bottom:1rem;font-size:0.85rem;">How this job stacks up for
+                work-life balance</p>
             <div id="burnout-content"></div>
-            <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn" style="margin-top:1rem;">Close</button>
+            <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn"
+                style="margin-top:1rem;">Close</button>
         </div>
     </div>
 
@@ -843,29 +857,7 @@
             // Save to Supabase for history
             saveGenerationToSupabase(outputs).catch(e => console.error('History save failed:', e));
 
-            // Cultural Fit Display
-            if (outputs.culturalFit) {
-                const cf = outputs.culturalFit;
-                document.getElementById('culture-summary').textContent = `Match: ${cf.alignmentScore}% — ${cf.tone}`;
-                document.getElementById('culture-tone').textContent = cf.tone;
-                document.getElementById('culture-analysis').textContent = cf.analysis;
-
-                const suggs = document.getElementById('culture-suggestions');
-                suggs.innerHTML = '';
-                (cf.topSuggestions || []).forEach(s => {
-                    const span = document.createElement('span');
-                    span.className = 'suggestion-chip';
-                    span.textContent = s;
-                    suggs.appendChild(span);
-                });
-
-                document.getElementById('culture-card').onclick = () => {
-                    document.getElementById('culture-details').classList.toggle('visible');
-                };
-            } else {
-                document.getElementById('culture-card').style.opacity = '0.5';
-                document.getElementById('culture-summary').textContent = 'Cultural analysis pending...';
-            }
+            // Cultural Fit Display removed
 
             // Brutal Roast Display
             if (outputs.roastLines && outputs.roastLines.length > 0) {
