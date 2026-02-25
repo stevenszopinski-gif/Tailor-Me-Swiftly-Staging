@@ -107,18 +107,55 @@ function _gemCacheHash(str) {
 function loadOutputs() {
     try {
         const raw = sessionStorage.getItem('tms_outputs');
-        if (!raw) return null;
-        // The original code returned JSON.parse(raw).
-        // The instruction provided a different return type, but without context for u8arr and mime.
-        // Assuming the instruction intended to show placement, but if this is a literal change,
-        // u8arr and mime would need to be defined for this to be valid.
-        // For now, I will revert to the original JSON.parse(raw) as it's syntactically correct
-        // and consistent with the comment "Reads the tms_outputs payload from sessionStorage".
-        // If the intent was to change the return type, please provide the full context for u8arr and mime.
-        return JSON.parse(raw);
+        if (raw) return JSON.parse(raw);
+    } catch (e) { /* fall through */ }
+    return null;
+}
+
+// Load a generation from the DB and hydrate sessionStorage so pages work normally.
+// Returns the outputs object, or null if not found/not authed.
+async function loadGenerationFromDb(genId) {
+    if (!genId) return null;
+    const user = await waitForSupabaseAuth();
+    if (!user) return null;
+    try {
+        const { data, error } = await window.supabaseClient
+            .from('generations')
+            .select('*')
+            .eq('id', genId)
+            .eq('user_id', user.id)
+            .single();
+        if (error || !data) return null;
+
+        const outputs = {
+            generationId: data.id,
+            resumeHtml: data.resume_html || '',
+            resumeText: data.resume_text || '',
+            coverHtml: data.cover_letter_html || '',
+            jobText: data.job_text || data.job_description || '',
+            matchScore: data.match_score || null,
+            applicantName: data.applicant_name || '',
+            targetCompany: data.target_company || '',
+            interviewQa: data.interview_qa || null,
+            emailText: data.email_text || '',
+            companyPrimaryColor: data.company_primary_color || '#1a1a2e',
+            missingKeywords: data.missing_keywords || []
+        };
+
+        sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+        return outputs;
     } catch (e) {
+        console.error('loadGenerationFromDb:', e);
         return null;
     }
+}
+
+// Resolve the generation ID from URL param or localStorage fallback.
+function resolveGenerationId() {
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = params.get('gen');
+    if (fromUrl) return fromUrl;
+    return localStorage.getItem('tms_last_gen_id') || null;
 }
 
 // ───────────────────────────────────────────────
@@ -242,6 +279,28 @@ function initResultTheme() {
 }
 
 function showSessionExpired(container) {
+    // Try to restore from the generations DB before showing expired
+    const genId = resolveGenerationId();
+    if (genId) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:4rem 2rem;">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;color:var(--primary-color);margin-bottom:1rem;display:block;"></i>
+                <p style="color:var(--text-secondary);">Restoring your previous session...</p>
+            </div>`;
+        loadGenerationFromDb(genId).then(outputs => {
+            if (outputs) {
+                // Data restored to sessionStorage — reload page so it picks up the data
+                location.reload();
+            } else {
+                _renderExpired(container);
+            }
+        }).catch(() => _renderExpired(container));
+        return;
+    }
+    _renderExpired(container);
+}
+
+function _renderExpired(container) {
     container.innerHTML = `
         <div style="text-align:center;padding:4rem 2rem;">
             <i class="fa-solid fa-triangle-exclamation" style="font-size:3rem;color:var(--accent-color);margin-bottom:1rem;display:block;"></i>
@@ -334,10 +393,13 @@ async function saveGenerationToSupabase(outputs) {
 
         if (error) { console.error('Save generation error:', error); return null; }
 
-        if (data && !outputs.generationId) {
-            // Store the generation ID back into sessionStorage
-            outputs.generationId = data.id;
-            sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+        if (data) {
+            if (!outputs.generationId) {
+                outputs.generationId = data.id;
+                sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
+            }
+            // Persist gen ID in localStorage so it survives browser restarts
+            localStorage.setItem('tms_last_gen_id', data.id);
         }
         return data;
     } catch (e) {
