@@ -1106,8 +1106,11 @@ function updateWelcomeMessage(user) {
 }
 
 const ALL_THEMES = [
-    'theme-executive', 'theme-modern-tech', 'theme-creative',
-    'theme-minimal', 'theme-bold', 'theme-warm', 'theme-sharp'
+    'theme-executive', 'theme-modern-split', 'theme-timeline',
+    'theme-minimalist-grid', 'theme-infographic', 'theme-brutalist',
+    'theme-academic', 'theme-tech-sidebar', 'theme-elegant',
+    'theme-startup', 'theme-two-tone', 'theme-matrix',
+    'theme-gallery', 'theme-newsletter', 'theme-terminal'
 ];
 
 function applyTemplateTheme(theme) {

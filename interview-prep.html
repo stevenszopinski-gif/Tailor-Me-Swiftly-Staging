@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
     <style>
@@ -47,119 +48,256 @@
             font-weight: 700;
         }
 
-        /* Progress dots */
-        .mock-progress {
+        /* ── Chat Conversation UI ── */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 1.25rem;
+            scroll-behavior: smooth;
+            margin-bottom: 1rem;
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-msg {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-msg.from-interviewer {
+            align-items: flex-start;
+        }
+
+        .chat-msg.from-user {
+            align-items: flex-end;
+        }
+
+        .chat-msg.from-system {
+            align-items: stretch;
+        }
+
+        .chat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+            padding: 0 0.25rem;
+        }
+
+        .chat-label.interviewer {
+            color: var(--accent-color);
+        }
+
+        .chat-label.user {
+            text-align: right;
+            color: var(--primary-color);
+        }
+
+        .chat-label.system {
+            color: var(--text-secondary);
+        }
+
+        .chat-bubble {
+            max-width: 85%;
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: bubbleIn 0.35s ease-out;
+        }
+
+        .chat-bubble.interviewer {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-bubble.user {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(52, 211, 153, 0.08));
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: var(--text-primary);
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-bubble.system {
+            max-width: 100%;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+        }
+
+        .bubble-actions {
             display: flex;
             gap: 0.5rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .bubble-actions .btn {
+            font-size: 0.8rem;
+            padding: 0.35rem 0.7rem;
+        }
+
+        .chat-answer-toggle {
+            cursor: pointer;
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
+            gap: 0.4rem;
+            user-select: none;
         }
 
-        .progress-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--panel-border);
-            transition: all 0.3s;
+        .chat-answer-toggle:hover {
+            text-decoration: underline;
         }
 
-        .progress-dot.active {
-            background: var(--primary-color);
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-            transform: scale(1.2);
+        .chat-answer-content {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 3px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
         }
 
-        .progress-dot.done {
-            background: var(--accent-color);
+        .chat-answer-content.visible {
+            display: block;
+            animation: bubbleIn 0.25s ease-out;
         }
 
-        /* Question card */
-        .mock-question-card {
+        /* Chat input area */
+        .chat-input-area {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
             border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .q-number {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-end;
             margin-bottom: 0.75rem;
-            font-weight: 500;
         }
 
-        .q-text-display {
-            font-size: 1.2rem;
-            font-weight: 600;
-            line-height: 1.6;
+        .chat-input-area textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
             color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            min-height: 60px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            resize: none;
+            outline: none;
+            min-height: 40px;
+            max-height: 120px;
+            line-height: 1.5;
+            padding: 0.3rem 0;
         }
 
-        .q-actions {
+        .chat-input-area textarea::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .chat-input-area .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0.4rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            min-height: 36px;
+        }
+
+        .chat-input-area .icon-btn:hover {
+            color: var(--primary-color);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .chat-input-area .icon-btn.send-btn {
+            color: var(--primary-color);
+        }
+
+        .chat-input-area .icon-btn.send-btn:hover {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .chat-recording-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+            padding: 0.3rem 0;
+        }
+
+        .chat-recording-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulseRed 1.5s infinite;
+            flex-shrink: 0;
+        }
+
+        /* Action buttons row */
+        .chat-action-row {
             display: flex;
             gap: 0.75rem;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .q-actions .btn {
-            font-size: 0.88rem;
-        }
-
-        /* Answer reveal */
-        .answer-reveal {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            display: none;
-        }
-
-        .answer-reveal.visible {
-            display: block;
-            animation: modalFade 0.3s ease-out;
-        }
-
-        .answer-reveal h4 {
-            margin: 0 0 0.75rem;
-            color: var(--accent-color);
-            font-size: 0.95rem;
-        }
-
-        .answer-reveal p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.7;
-            margin: 0;
-        }
-
-        /* Practice section */
-        .practice-section {
-            background: rgba(0, 0, 0, 0.15);
-            border: 1px solid var(--panel-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .practice-section h4 {
-            margin: 0 0 1rem;
-            font-size: 0.95rem;
-        }
-
-        /* Navigation */
-        .mock-nav {
+        /* Progress bar */
+        .chat-progress {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 1rem;
+            gap: 0.6rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .chat-progress-bar {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--panel-border);
+            overflow: hidden;
+        }
+
+        .chat-progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        @keyframes bubbleIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ── Flashcard Mode ── */
@@ -169,23 +307,31 @@
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
+
         @media (max-width: 600px) {
-            .flashcard-grid { grid-template-columns: 1fr; }
+            .flashcard-grid {
+                grid-template-columns: 1fr;
+            }
         }
+
         .flashcard {
             perspective: 1000px;
             cursor: pointer;
             min-height: 180px;
         }
+
         .flashcard-inner {
             display: grid;
             transition: transform 0.5s ease;
             transform-style: preserve-3d;
         }
+
         .flashcard.flipped .flashcard-inner {
             transform: rotateY(180deg);
         }
-        .flashcard-front, .flashcard-back {
+
+        .flashcard-front,
+        .flashcard-back {
             grid-area: 1 / 1;
             backface-visibility: hidden;
             border-radius: 14px;
@@ -194,39 +340,49 @@
             display: flex;
             flex-direction: column;
         }
+
         .flashcard-front {
             background: var(--glass-bg);
         }
+
         .flashcard:hover .flashcard-front {
             border-color: var(--primary-color);
-            box-shadow: 0 2px 12px rgba(16,185,129,0.1);
+            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.1);
         }
+
         .flashcard-back {
-            background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(52,211,153,0.04));
-            border-color: rgba(16,185,129,0.3);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(52, 211, 153, 0.04));
+            border-color: rgba(16, 185, 129, 0.3);
             transform: rotateY(180deg);
         }
+
         .fc-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 0.75rem;
         }
+
         .fc-badge {
             font-size: 0.7rem;
             font-weight: 700;
             color: var(--primary-color);
-            background: rgba(16,185,129,0.1);
+            background: rgba(16, 185, 129, 0.1);
             padding: 0.2rem 0.55rem;
             border-radius: 6px;
             letter-spacing: 0.3px;
         }
+
         .fc-flip-hint {
             font-size: 0.68rem;
             color: var(--text-secondary);
             opacity: 0.6;
         }
-        .flashcard:hover .fc-flip-hint { opacity: 1; }
+
+        .flashcard:hover .fc-flip-hint {
+            opacity: 1;
+        }
+
         .fc-question {
             font-size: 0.9rem;
             font-weight: 600;
@@ -234,6 +390,7 @@
             color: var(--text-primary);
             flex: 1;
         }
+
         .fc-back-label {
             font-size: 0.7rem;
             color: #10b981;
@@ -243,38 +400,82 @@
             align-items: center;
             gap: 0.35rem;
         }
+
         .fc-answer {
             font-size: 0.85rem;
             color: var(--text-secondary);
             line-height: 1.65;
             flex: 1;
         }
+
         .flashcard.reviewed .flashcard-front {
-            border-color: rgba(16,185,129,0.35);
-            background: linear-gradient(135deg, var(--glass-bg), rgba(16,185,129,0.03));
+            border-color: rgba(16, 185, 129, 0.35);
+            background: linear-gradient(135deg, var(--glass-bg), rgba(16, 185, 129, 0.03));
         }
+
         .flashcard.reviewed .fc-badge {
-            background: rgba(16,185,129,0.2);
+            background: rgba(16, 185, 129, 0.2);
         }
+
         .flashcard-counter {
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.88rem;
             margin-bottom: 1rem;
         }
-        .flashcard-counter strong { color: var(--text-primary); }
+
+        .flashcard-counter strong {
+            color: var(--text-primary);
+        }
 
         /* Mobile responsiveness */
         @media (max-width: 480px) {
-            .mock-question-card { padding: 1.25rem; }
-            .q-text-display { font-size: 1rem; min-height: 40px; }
-            .q-actions { flex-direction: column; gap: 0.5rem; }
-            .q-actions .btn { width: 100%; min-height: 48px; }
-            .mock-nav { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
-            .mock-nav .btn { min-height: 48px; flex: 1; min-width: 100px; }
-            .practice-section { padding: 1rem; }
-            .answer-reveal { padding: 1rem; }
-            .result-header { flex-direction: column; gap: 0.5rem; }
+            .chat-container {
+                max-height: 50vh;
+                padding: 0.75rem;
+                gap: 0.75rem;
+            }
+
+            .chat-bubble {
+                max-width: 95%;
+                font-size: 0.9rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .chat-bubble.system {
+                max-width: 100%;
+            }
+
+            .chat-input-area {
+                padding: 0.6rem 0.75rem;
+            }
+
+            .chat-input-area textarea {
+                font-size: 0.88rem;
+            }
+
+            .bubble-actions {
+                flex-direction: column;
+            }
+
+            .bubble-actions .btn {
+                width: 100%;
+                min-height: 40px;
+            }
+
+            .chat-action-row {
+                flex-direction: column;
+            }
+
+            .chat-action-row .btn {
+                width: 100%;
+                min-height: 44px;
+            }
+
+            .result-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
         }
 
         /* TTS pulsing */
@@ -316,64 +517,67 @@
 
 <body>
     <div class="app-container" style="min-height: auto;">
-    <header class="app-header">
-        <div class="logo">
-            <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
-            <h1>TailorMeSwiftly.com</h1>
-        </div>
-        <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
-            <div id="user-profile" class="user-profile"
-                style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
-                <img id="user-avatar" src="" alt="Profile"
-                    style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
-                    onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
-                <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                    <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
-                        <i class="fa-solid fa-sliders"></i> Preferences
-                    </button>
-                    <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
-                        <i class="fa-solid fa-bullhorn"></i> Release Notes
-                    </a>
-                    <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
-                        <i class="fa-solid fa-table-columns"></i> Application Tracker
-                    </a>
-                    <button class="dropdown-item theme-btn">
-                        <i class="fa-solid fa-moon"></i> Theme
-                    </button>
-                    <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
-                    <button class="dropdown-item" id="logout-btn">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
-                    </button>
+        <header class="app-header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                <h1>TailorMeSwiftly.com</h1>
+            </div>
+            <div class="header-actions" style="display: flex; gap: 1rem; align-items: center;">
+                <div id="user-profile" class="user-profile"
+                    style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
+                    <img id="user-avatar" src="" alt="Profile"
+                        style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
+                        onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting"
+                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
+                            <i class="fa-solid fa-sliders"></i> Preferences
+                        </button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-bullhorn"></i> Release Notes
+                        </a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+                            <i class="fa-solid fa-table-columns"></i> Application Tracker
+                        </a>
+                        <button class="dropdown-item theme-btn">
+                            <i class="fa-solid fa-moon"></i> Theme
+                        </button>
+                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
     </div> <!-- /app-container -->
 
     <div class="result-page">
-        <h1 class="result-title" style="text-align:center;margin:0 0 1.25rem;font-size:1.6rem;"><i class="fa-solid fa-comments" style="color:#10b981;margin-right:0.5rem;"></i>Mock Interview</h1>
+        <h1 class="result-title" style="text-align:center;margin:0 0 1.25rem;font-size:1.6rem;"><i
+                class="fa-solid fa-comments" style="color:#10b981;margin-right:0.5rem;"></i>Mock Interview</h1>
         <div class="result-header">
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                <button id="flashcard-toggle" class="btn small-btn ghost-btn" onclick="toggleFlashcardMode()"><i class="fa-solid fa-layer-group"></i> Flashcards</button>
-                <button id="refine-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
+                <button id="flashcard-toggle" class="btn small-btn ghost-btn" onclick="toggleFlashcardMode()"><i
+                        class="fa-solid fa-layer-group"></i> Flashcards</button>
+                <button id="refine-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Refine</button>
                 <button id="regen-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-rotate"></i>
                     Regenerate</button>
             </div>
         </div>
 
-        <div
-            style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: center;">
-            <h3 style="margin-top:0; margin-bottom: 0.4rem; color:var(--text-primary); font-size: 1rem;"><i
-                    class="fa-solid fa-microphone"></i> Mock Interview Mode</h3>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">Listen to each question, practice
-                your answer out loud, then reveal the ideal framework.</p>
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success-color); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; text-align: center;"
+            id="info-banner">
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;"><i class="fa-solid fa-comments"
+                    style="margin-right:0.4rem;color:var(--primary-color);"></i>Your interviewer will ask questions one
+                at a time. Type or record your answer to get instant AI feedback.</p>
         </div>
 
-        <!-- Progress dots -->
-        <div class="mock-progress" id="progress-dots"></div>
+        <!-- Chat progress bar -->
+        <div class="chat-progress" id="chat-progress"></div>
 
-        <!-- Single question display -->
+        <!-- Conversation content -->
         <div id="mock-content">
             <p style="color:var(--text-secondary);text-align:center;padding:3rem 0;">Loading questions...</p>
         </div>
@@ -411,17 +615,26 @@
     </div>
 
     <!-- Refinement Modal -->
-    <div id="refine-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;">
-        <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:20px;padding:2rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
+    <div id="refine-modal"
+        style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;">
+        <div
+            style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:20px;padding:2rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
-                <h3 style="margin:0;"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--primary-color);margin-right:0.5rem;"></i>Refine Interview Questions</h3>
-                <button onclick="document.getElementById('refine-modal').style.display='none';" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-secondary);">&times;</button>
+                <h3 style="margin:0;"><i class="fa-solid fa-wand-magic-sparkles"
+                        style="color:var(--primary-color);margin-right:0.5rem;"></i>Refine Interview Questions</h3>
+                <button onclick="document.getElementById('refine-modal').style.display='none';"
+                    style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-secondary);">&times;</button>
             </div>
-            <p style="color:var(--text-secondary);margin-bottom:1rem;">What would you like to change? Provide specific instructions:</p>
-            <textarea id="refine-input" placeholder="e.g., Focus more on technical skills, Add behavioral questions, Make them harder, Focus on leadership..." style="width:100%;height:120px;padding:0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.9rem;resize:vertical;"></textarea>
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">What would you like to change? Provide specific
+                instructions:</p>
+            <textarea id="refine-input"
+                placeholder="e.g., Focus more on technical skills, Add behavioral questions, Make them harder, Focus on leadership..."
+                style="width:100%;height:120px;padding:0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.9rem;resize:vertical;"></textarea>
             <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
-                <button onclick="document.getElementById('refine-modal').style.display='none';" class="btn ghost-btn" style="flex:1;">Cancel</button>
-                <button onclick="applyRefinement()" class="btn primary-btn" style="flex:1;"><i class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
+                <button onclick="document.getElementById('refine-modal').style.display='none';" class="btn ghost-btn"
+                    style="flex:1;">Cancel</button>
+                <button onclick="applyRefinement()" class="btn primary-btn" style="flex:1;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Refine</button>
             </div>
         </div>
     </div>
@@ -443,8 +656,12 @@
         let flashcardMode = false;
         let reviewedCards = new Set();
 
+        // Chat conversation state
+        let chatHistory = [];       // Array of { id, type, html }
+        let chatState = 'idle';     // idle | awaiting_response | recording | processing | feedback_shown
+        let currentAttempt = 0;
+
         const mockContent = document.getElementById('mock-content');
-        const progressDots = document.getElementById('progress-dots');
         const overlay = document.getElementById('gen-overlay');
 
         // ── Initialization ──
@@ -454,7 +671,7 @@
             mockContent.innerHTML = `<div style="text-align:center;padding:3rem;"><p style="color:var(--text-secondary);margin-bottom:1.5rem;">Your interview questions haven't been generated yet.</p><button class="btn primary-btn" onclick="generateOnDemand()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Questions</button></div>`;
         } else {
             questions = outputs.interviewQa;
-            renderMockMode();
+            renderChatMode();
         }
 
         // ── On-demand generation ──
@@ -481,12 +698,11 @@
                 let raw = data.candidates[0].content.parts[0].text.trim().replace(/```json|```/g, '').trim();
                 questions = JSON.parse(raw);
 
-                // Cache to sessionStorage
                 outputs.interviewQa = questions;
                 sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
                 updateGenerationField(outputs.generationId, { interview_qa: outputs.interviewQa });
 
-                renderMockMode();
+                resetChat();
             } catch (e) {
                 mockContent.innerHTML = `<p style="color:var(--error-color);text-align:center;padding:2rem;">Failed to generate questions: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateOnDemand()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
             } finally {
@@ -494,83 +710,613 @@
             }
         }
 
-        // ── Render mock interview (single question at a time) ──
-        function renderMockMode() {
+        // ══════════════════════════════════════
+        // ── CONVERSATIONAL CHAT MODE ──
+        // ══════════════════════════════════════
+
+        function renderChatMode() {
             if (!questions.length) {
                 mockContent.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;">No questions generated.</p>';
                 return;
             }
-            renderProgressDots();
-            renderCurrentQuestion();
-        }
-
-        function renderProgressDots() {
-            progressDots.innerHTML = questions.map((_, i) => {
-                let cls = 'progress-dot';
-                if (i === currentQ) cls += ' active';
-                else if (visitedQs.has(i)) cls += ' done';
-                return `<div class="${cls}" title="Question ${i + 1}" style="cursor:pointer;" onclick="goToQuestion(${i})"></div>`;
-            }).join('');
-        }
-
-        function renderCurrentQuestion() {
-            visitedQs.add(currentQ);
-            const qa = questions[currentQ];
-            const safeQ = qa.question.replace(/`/g, '\\`').replace(/'/g, "\\'");
+            chatHistory = [];
+            currentQ = 0;
+            currentAttempt = 0;
+            chatState = 'idle';
 
             mockContent.innerHTML = `
-                <div class="mock-question-card">
-                    <div class="q-number">Question ${currentQ + 1} of ${questions.length}</div>
-                    <div class="q-text-display">"${qa.question}"</div>
-                    <div class="q-actions">
-                        <button id="tts-btn" class="btn ghost-btn" onclick="hearQuestion()">
-                            <i class="fa-solid fa-volume-high"></i> Hear Question
-                        </button>
-                        <button class="btn ghost-btn" onclick="toggleAnswer()">
-                            <i class="fa-solid fa-eye"></i> Show Answer
-                        </button>
-                    </div>
-                </div>
-
-                <div class="answer-reveal" id="answer-reveal">
-                    <h4><i class="fa-solid fa-lightbulb"></i> Ideal Answer Framework</h4>
-                    <p>${qa.answer}</p>
-                </div>
-
-                <div class="practice-section">
-                    <h4><i class="fa-solid fa-headset"></i> Practice Your Answer</h4>
-                    <div id="recorder-controls">
-                        <button class="btn secondary-btn" onclick="startRecording()">
-                            <i class="fa-solid fa-microphone"></i> Start Recording
-                        </button>
-                    </div>
-                    <div id="ai-feedback" style="display:none; margin-top: 1.5rem; text-align: left; background: var(--panel-bg); padding: 1rem; border-radius: 8px; border: 1px solid var(--panel-border);"></div>
-                </div>
-
-                <div class="mock-nav">
-                    <button class="btn ghost-btn" onclick="prevQuestion()" ${currentQ === 0 ? 'disabled style="opacity:0.3;pointer-events:none;"' : ''}>
-                        <i class="fa-solid fa-arrow-left"></i> Previous
-                    </button>
-                    <span style="color:var(--text-secondary);font-size:0.85rem;">${currentQ + 1} / ${questions.length}</span>
-                    <button class="btn ${currentQ === questions.length - 1 ? 'ghost-btn' : 'primary-btn'}" onclick="nextQuestion()" ${currentQ === questions.length - 1 ? 'disabled style="opacity:0.3;pointer-events:none;"' : ''}>
-                        Next <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </div>
+                <div class="chat-container" id="chat-container"></div>
+                <div id="chat-input-wrapper"></div>
+                <div class="chat-action-row" id="chat-actions"></div>
             `;
-            renderProgressDots();
+
+            renderChatProgress();
+
+            // Welcome message
+            appendBubble('welcome', `
+                <div class="chat-msg from-interviewer">
+                    <div class="chat-label interviewer">Interviewer</div>
+                    <div class="chat-bubble interviewer">
+                        Welcome! I'll be conducting your mock interview with <strong>${questions.length} questions</strong> tailored to this role. Type or record your response to each question, and I'll provide feedback. Let's begin.
+                    </div>
+                </div>`);
+
+            appendInterviewerQuestion(currentQ);
+            showInputArea();
         }
 
-        // ── Flashcard Mode ──
+        function renderChatProgress() {
+            const answered = Object.keys(visitedQs.size ? [...visitedQs] : []).length;
+            const pct = questions.length ? Math.round((currentQ / questions.length) * 100) : 0;
+            const el = document.getElementById('chat-progress');
+            if (!el) return;
+            el.innerHTML = `
+                <i class="fa-solid fa-comments" style="color:var(--primary-color);"></i>
+                <span>Question ${Math.min(currentQ + 1, questions.length)} of ${questions.length}</span>
+                <div class="chat-progress-bar">
+                    <div class="chat-progress-fill" style="width:${pct}%"></div>
+                </div>
+            `;
+        }
+
+        // ── Bubble helpers ──
+        function appendBubble(id, html) {
+            chatHistory.push({ id, html });
+            const container = document.getElementById('chat-container');
+            if (container) {
+                container.insertAdjacentHTML('beforeend', html);
+                scrollToBottom();
+            }
+        }
+
+        function appendInterviewerQuestion(qIdx) {
+            const qa = questions[qIdx];
+            visitedQs.add(qIdx);
+            chatState = 'awaiting_response';
+
+            appendBubble(`q${qIdx}-interviewer`, `
+                <div class="chat-msg from-interviewer" id="msg-q${qIdx}">
+                    <div class="chat-label interviewer">Interviewer &middot; Question ${qIdx + 1}</div>
+                    <div class="chat-bubble interviewer">
+                        <div style="font-weight:600;line-height:1.6;">"${qa.question}"</div>
+                        <div class="bubble-actions">
+                            <button id="tts-btn-${qIdx}" class="btn ghost-btn" onclick="hearQuestionAt(${qIdx})" style="font-size:0.8rem;padding:0.35rem 0.7rem;">
+                                <i class="fa-solid fa-volume-high"></i> Listen
+                            </button>
+                        </div>
+                    </div>
+                </div>`);
+        }
+
+        function appendUserBubble(content, isAudio) {
+            const display = isAudio
+                ? '<i class="fa-solid fa-microphone" style="margin-right:0.4rem;opacity:0.6;"></i> <em>Audio response recorded</em>'
+                : escapeHtml(content);
+
+            appendBubble(`q${currentQ}-user-${currentAttempt}`, `
+                <div class="chat-msg from-user">
+                    <div class="chat-label user">You</div>
+                    <div class="chat-bubble user">${display}</div>
+                </div>`);
+        }
+
+        function appendProcessingIndicator() {
+            const html = `
+                <div class="chat-msg from-system" id="processing-indicator">
+                    <div class="chat-label system">AI Coach</div>
+                    <div class="chat-bubble system" style="text-align:center;color:var(--text-secondary);">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Analyzing your response...
+                    </div>
+                </div>`;
+            const container = document.getElementById('chat-container');
+            if (container) {
+                container.insertAdjacentHTML('beforeend', html);
+                scrollToBottom();
+            }
+        }
+
+        function removeProcessingIndicator() {
+            const el = document.getElementById('processing-indicator');
+            if (el) el.remove();
+        }
+
+        function appendFeedbackBubble(feedbackHtml) {
+            const qa = questions[currentQ];
+            const answerId = `answer-${currentQ}-${currentAttempt}`;
+
+            appendBubble(`q${currentQ}-feedback-${currentAttempt}`, `
+                <div class="chat-msg from-system">
+                    <div class="chat-label system">AI Coach Feedback</div>
+                    <div class="chat-bubble system">
+                        ${feedbackHtml}
+                        <div class="chat-answer-toggle" onclick="toggleChatAnswer('${answerId}')">
+                            <i class="fa-solid fa-lightbulb"></i> View Ideal Answer Framework
+                            <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;"></i>
+                        </div>
+                        <div class="chat-answer-content" id="${answerId}">
+                            ${qa.answer}
+                        </div>
+                    </div>
+                </div>`);
+
+            chatState = 'feedback_shown';
+            showPostFeedbackActions();
+        }
+
+        function toggleChatAnswer(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.toggle('visible');
+            const toggle = el.previousElementSibling;
+            if (toggle) {
+                const chevron = toggle.querySelector('.fa-chevron-down, .fa-chevron-up');
+                if (chevron) {
+                    chevron.classList.toggle('fa-chevron-down');
+                    chevron.classList.toggle('fa-chevron-up');
+                }
+            }
+        }
+
+        // ── Input area ──
+        function showInputArea() {
+            const wrapper = document.getElementById('chat-input-wrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = `
+                <div class="chat-input-area" id="chat-input-box">
+                    <textarea id="text-response" placeholder="Type your answer..." rows="1"
+                        oninput="autoResizeTextarea(this)"
+                        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitTextResponse();}"></textarea>
+                    <button class="icon-btn" onclick="startChatRecording()" id="mic-btn" title="Record audio answer">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <button class="icon-btn send-btn" onclick="submitTextResponse()" title="Send answer">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>`;
+            document.getElementById('chat-actions').innerHTML = '';
+            // Focus the textarea
+            setTimeout(() => {
+                const ta = document.getElementById('text-response');
+                if (ta) ta.focus();
+            }, 100);
+        }
+
+        function hideInputArea() {
+            const wrapper = document.getElementById('chat-input-wrapper');
+            if (wrapper) wrapper.innerHTML = '';
+        }
+
+        function autoResizeTextarea(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+        }
+
+        // ── Post-feedback action buttons ──
+        function showPostFeedbackActions() {
+            hideInputArea();
+            const isLast = currentQ >= questions.length - 1;
+            const actionsDiv = document.getElementById('chat-actions');
+            if (!actionsDiv) return;
+
+            actionsDiv.innerHTML = `
+                <button class="btn ghost-btn" onclick="tryAgain()">
+                    <i class="fa-solid fa-rotate-right"></i> Try Again
+                </button>
+                ${isLast
+                    ? `<button class="btn primary-btn" onclick="showCompletion()">
+                           <i class="fa-solid fa-check"></i> Finish Interview
+                       </button>`
+                    : `<button class="btn primary-btn" onclick="advanceToNext()">
+                           Continue <i class="fa-solid fa-arrow-right"></i>
+                       </button>`
+                }`;
+        }
+
+        // ── Navigation ──
+        function advanceToNext() {
+            currentQ++;
+            currentAttempt = 0;
+            renderChatProgress();
+            appendInterviewerQuestion(currentQ);
+            showInputArea();
+        }
+
+        function tryAgain() {
+            currentAttempt++;
+            appendBubble(`retry-${currentQ}-${currentAttempt}`, `
+                <div class="chat-msg from-system">
+                    <div class="chat-bubble system" style="font-size:0.82rem;padding:0.5rem 1rem;text-align:center;opacity:0.7;">
+                        <i class="fa-solid fa-rotate-right"></i> Retrying Question ${currentQ + 1}
+                    </div>
+                </div>`);
+            chatState = 'awaiting_response';
+            showInputArea();
+        }
+
+        function showCompletion() {
+            appendBubble('completion', `
+                <div class="chat-msg from-system">
+                    <div class="chat-bubble system" style="text-align:center;padding:1.5rem;">
+                        <i class="fa-solid fa-trophy" style="font-size:1.5rem;color:var(--primary-color);display:block;margin-bottom:0.5rem;"></i>
+                        <strong style="font-size:1.05rem;">Interview Complete!</strong><br>
+                        <span style="font-size:0.88rem;color:var(--text-secondary);">You've practiced all ${questions.length} questions. Use Flashcards for quick review, or Regenerate for a fresh set.</span>
+                    </div>
+                </div>`);
+            hideInputArea();
+            document.getElementById('chat-actions').innerHTML = '';
+            // Update progress to 100%
+            const fill = document.querySelector('.chat-progress-fill');
+            if (fill) fill.style.width = '100%';
+            const label = document.querySelector('.chat-progress span');
+            if (label) label.textContent = `${questions.length} of ${questions.length} complete`;
+        }
+
+        function scrollToBottom() {
+            requestAnimationFrame(() => {
+                const container = document.getElementById('chat-container');
+                if (container) container.scrollTop = container.scrollHeight;
+            });
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function formatFeedback(text) {
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--accent-color);display:block;margin-top:1rem;margin-bottom:0.5rem;">$1</strong>');
+            text = text.replace(/- (.*)/g, '<li style="margin-left:1.5rem;margin-bottom:0.25rem;">$1</li>');
+            return text;
+        }
+
+        function resetChat() {
+            chatHistory = [];
+            currentQ = 0;
+            currentAttempt = 0;
+            visitedQs.clear();
+            if (flashcardMode) {
+                renderFlashcards();
+            } else {
+                renderChatMode();
+            }
+        }
+
+        // Restore chat from history (e.g. after exiting flashcard mode)
+        function renderChatFromHistory() {
+            if (!chatHistory.length) {
+                renderChatMode();
+                return;
+            }
+            mockContent.innerHTML = `
+                <div class="chat-container" id="chat-container"></div>
+                <div id="chat-input-wrapper"></div>
+                <div class="chat-action-row" id="chat-actions"></div>
+            `;
+            const container = document.getElementById('chat-container');
+            container.innerHTML = chatHistory.map(m => m.html).join('');
+            renderChatProgress();
+
+            if (chatState === 'feedback_shown') {
+                showPostFeedbackActions();
+            } else if (chatState === 'awaiting_response') {
+                showInputArea();
+            }
+            scrollToBottom();
+        }
+
+        // ══════════════════════════════════════
+        // ── TEXT SUBMISSION ──
+        // ══════════════════════════════════════
+
+        function submitTextResponse() {
+            const textarea = document.getElementById('text-response');
+            if (!textarea) return;
+            const text = textarea.value.trim();
+            if (!text) return;
+
+            appendUserBubble(text, false);
+            hideInputArea();
+            document.getElementById('chat-actions').innerHTML = '';
+            chatState = 'processing';
+            appendProcessingIndicator();
+            submitTextForFeedback(text);
+        }
+
+        async function submitTextForFeedback(text) {
+            const questionText = questions[currentQ].question;
+            const sysPrompt = `You are an expert executive interview coach.
+The candidate has provided a written answer to an interview question.
+Evaluate their answer and provide constructive feedback.
+Format your response exactly like this:
+
+**Strengths:**
+- (Point 1)
+- (Point 2)
+
+**Areas for Improvement:**
+- (Constructive point 1)
+- (Constructive point 2)
+
+**Overall Assessment:**
+(Comment on content quality, structure, relevance, and completeness)`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: sysPrompt }] },
+                        contents: [{
+                            parts: [{ text: `Question: ${questionText}\n\nCandidate's Answer: ${text}` }]
+                        }],
+                        generationConfig: { temperature: 0.4 }
+                    }
+                });
+                if (error) throw new Error(error.message);
+
+                let reviewText = data.candidates[0].content.parts[0].text.trim();
+                removeProcessingIndicator();
+                appendFeedbackBubble(formatFeedback(reviewText));
+            } catch (e) {
+                console.error('Text feedback error:', e);
+                removeProcessingIndicator();
+                appendFeedbackBubble(`<p style="color:var(--error-color);">Failed to analyze: ${e.message}</p>`);
+            }
+        }
+
+        // ══════════════════════════════════════
+        // ── AUDIO RECORDING (CHAT MODE) ──
+        // ══════════════════════════════════════
+
+        async function startChatRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = e => {
+                    if (e.data.size > 0) audioChunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    stream.getTracks().forEach(t => t.stop());
+                    appendUserBubble('', true);
+                    hideInputArea();
+                    document.getElementById('chat-actions').innerHTML = '';
+                    chatState = 'processing';
+                    appendProcessingIndicator();
+                    processAudio(audioBlob);
+                };
+
+                mediaRecorder.start();
+                chatState = 'recording';
+
+                // Replace input area with recording indicator
+                const inputBox = document.getElementById('chat-input-box');
+                if (inputBox) {
+                    inputBox.innerHTML = `
+                        <div class="chat-recording-indicator">
+                            <div class="chat-recording-dot"></div>
+                            <span style="color:var(--text-primary);font-weight:500;">Recording...</span>
+                        </div>
+                        <button class="btn primary-btn" onclick="stopChatRecording()" style="background:#ef4444;color:white;font-size:0.88rem;">
+                            <i class="fa-solid fa-stop"></i> Stop
+                        </button>`;
+                }
+            } catch (err) {
+                console.error('Microphone access error:', err);
+                alert('Could not access microphone. Please ensure permissions are granted.');
+            }
+        }
+
+        function stopChatRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        }
+
+        async function processAudio(audioBlob) {
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = async () => {
+                const base64Audio = reader.result.split(',')[1];
+                await submitAudioResponse(base64Audio, audioBlob.type);
+            };
+        }
+
+        async function submitAudioResponse(base64Audio, mimeType) {
+            const questionText = questions[currentQ].question;
+
+            const sysPrompt = `You are an expert executive interview coach.
+The user is providing an audio recording of their answer to an interview question.
+Listen to the audio, transcribe their core points, and provide immediate, constructive feedback.
+Format your response exactly like this:
+
+**Transcription Summary:**
+(Briefly summarize what you heard them say)
+
+**Strengths:**
+- (Point 1)
+- (Point 2)
+
+**Areas for Improvement:**
+- (Constructive point 1)
+- (Constructive point 2)
+
+**Overall Delivery:**
+(Comment on tone, pacing, filler words, and confidence)`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: sysPrompt }] },
+                        contents: [{
+                            parts: [
+                                { text: `Question: ${questionText}` },
+                                { inlineData: { mimeType: mimeType, data: base64Audio } }
+                            ]
+                        }],
+                        generationConfig: { temperature: 0.4 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+
+                let reviewText = data.candidates[0].content.parts[0].text.trim();
+                removeProcessingIndicator();
+                appendFeedbackBubble(formatFeedback(reviewText));
+            } catch (e) {
+                console.error('Audio analysis error:', e);
+                removeProcessingIndicator();
+                appendFeedbackBubble(`<p style="color:var(--error-color);">Failed to analyze audio: ${e.message}</p>`);
+            }
+        }
+
+        // ══════════════════════════════════════
+        // ── TEXT-TO-SPEECH (ElevenLabs) ──
+        // ══════════════════════════════════════
+
+        const ttsCache = {};
+        let currentAudio = null;
+
+        async function hearQuestionAt(qIdx) {
+            const btn = document.getElementById(`tts-btn-${qIdx}`);
+            if (!btn) return;
+
+            // If audio is playing, stop it
+            if (currentAudio && !currentAudio.paused) {
+                stopTTS();
+                return;
+            }
+            if (window.speechSynthesis && window.speechSynthesis.speaking) {
+                stopTTS();
+                return;
+            }
+
+            if (ttsCache[qIdx]) {
+                playAudio(ttsCache[qIdx], btn);
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
+
+            try {
+                const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
+                const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                const token = session?.access_token || SUPABASE_KEY;
+
+                const resp = await fetch(`${SUPABASE_URL}/functions/v1/elevenlabs-tts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                        'apikey': SUPABASE_KEY
+                    },
+                    body: JSON.stringify({ text: questions[qIdx].question })
+                });
+
+                if (!resp.ok) {
+                    const errBody = await resp.json().catch(() => ({}));
+                    throw new Error(errBody.error || `TTS request failed (${resp.status})`);
+                }
+
+                const audioBlob = await resp.blob();
+                const audioUrl = URL.createObjectURL(new Blob([audioBlob], { type: 'audio/mpeg' }));
+                ttsCache[qIdx] = audioUrl;
+
+                playAudio(audioUrl, btn);
+            } catch (e) {
+                console.error('TTS error (falling back to browser):', e);
+                playBrowserTTS(questions[qIdx].question, btn);
+            }
+        }
+
+        function playAudio(url, btn) {
+            currentAudio = new Audio(url);
+            btn.disabled = false;
+            btn.classList.add('speaking');
+            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
+
+            currentAudio.onended = () => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
+                currentAudio = null;
+            };
+
+            currentAudio.onerror = () => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
+                currentAudio = null;
+                playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
+            };
+
+            currentAudio.play().catch(err => {
+                console.error('Audio play() failed:', err);
+                playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
+            });
+        }
+
+        function playBrowserTTS(text, btn) {
+            if (!window.speechSynthesis) {
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> TTS unavailable';
+                btn.disabled = false;
+                setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.95;
+            utterance.pitch = 1;
+
+            btn.disabled = false;
+            btn.classList.add('speaking');
+            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
+
+            utterance.onend = () => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopTTS() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+            // Reset all visible TTS buttons
+            document.querySelectorAll('[id^="tts-btn-"]').forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
+            });
+        }
+
+        // ══════════════════════════════════════
+        // ── FLASHCARD MODE ──
+        // ══════════════════════════════════════
+
         function toggleFlashcardMode() {
             flashcardMode = !flashcardMode;
             const btn = document.getElementById('flashcard-toggle');
-            const dots = document.getElementById('progress-dots');
+            const progressEl = document.getElementById('chat-progress');
+            const bannerEl = document.getElementById('info-banner');
+
             if (flashcardMode) {
                 btn.classList.add('active');
                 btn.style.background = 'var(--primary-color)';
                 btn.style.color = '#fff';
                 btn.style.borderColor = 'var(--primary-color)';
-                dots.style.display = 'none';
+                if (progressEl) progressEl.style.display = 'none';
+                if (bannerEl) bannerEl.style.display = 'none';
                 stopTTS();
                 renderFlashcards();
             } else {
@@ -578,8 +1324,9 @@
                 btn.style.background = '';
                 btn.style.color = '';
                 btn.style.borderColor = '';
-                dots.style.display = '';
-                renderMockMode();
+                if (progressEl) progressEl.style.display = '';
+                if (bannerEl) bannerEl.style.display = '';
+                renderChatFromHistory();
             }
         }
 
@@ -620,293 +1367,17 @@
             if (c) c.innerHTML = `<i class="fa-solid fa-layer-group" style="margin-right:0.4rem;"></i><strong>${reviewedCards.size}</strong> of <strong>${questions.length}</strong> reviewed`;
         }
 
-        // Touch swipe for flashcards
         let fcTouchX = 0;
         function fcTouchStart(e) { fcTouchX = e.touches[0].clientX; }
         function fcTouchEnd(e, el, idx) {
             const dx = e.changedTouches[0].clientX - fcTouchX;
-            if (Math.abs(dx) > 50) {
-                flipCard(el, idx);
-            }
+            if (Math.abs(dx) > 50) { flipCard(el, idx); }
         }
 
-        // ── Navigation ──
-        function goToQuestion(idx) {
-            stopTTS();
-            currentQ = idx;
-            renderCurrentQuestion();
-        }
+        // ══════════════════════════════════════
+        // ── REFINEMENT & REGENERATION ──
+        // ══════════════════════════════════════
 
-        function nextQuestion() {
-            if (currentQ < questions.length - 1) {
-                stopTTS();
-                currentQ++;
-                renderCurrentQuestion();
-            }
-        }
-
-        function prevQuestion() {
-            if (currentQ > 0) {
-                stopTTS();
-                currentQ--;
-                renderCurrentQuestion();
-            }
-        }
-
-        // ── Text-to-Speech (ElevenLabs) ──
-        const ttsCache = {}; // Cache audio URLs per question index
-        let currentAudio = null;
-
-        async function hearQuestion() {
-            const btn = document.getElementById('tts-btn');
-
-            // If audio is playing, stop it
-            if (currentAudio && !currentAudio.paused) {
-                stopTTS();
-                return;
-            }
-            // If browser TTS is speaking, stop it
-            if (window.speechSynthesis && window.speechSynthesis.speaking) {
-                stopTTS();
-                return;
-            }
-
-            // Check cache first (ElevenLabs audio)
-            if (ttsCache[currentQ]) {
-                playAudio(ttsCache[currentQ], btn);
-                return;
-            }
-
-            // Show loading state
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
-
-            try {
-                // Direct fetch to bypass Supabase client binary handling issues
-                const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
-                const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                const token = session?.access_token || SUPABASE_KEY;
-
-                const resp = await fetch(`${SUPABASE_URL}/functions/v1/elevenlabs-tts`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                        'apikey': SUPABASE_KEY
-                    },
-                    body: JSON.stringify({ text: questions[currentQ].question })
-                });
-
-                if (!resp.ok) {
-                    const errBody = await resp.json().catch(() => ({}));
-                    throw new Error(errBody.error || `TTS request failed (${resp.status})`);
-                }
-
-                const audioBlob = await resp.blob();
-                const audioUrl = URL.createObjectURL(new Blob([audioBlob], { type: 'audio/mpeg' }));
-                ttsCache[currentQ] = audioUrl;
-
-                playAudio(audioUrl, btn);
-            } catch (e) {
-                console.error('TTS error (falling back to browser):', e);
-                playBrowserTTS(questions[currentQ].question, btn);
-            }
-        }
-
-        function playAudio(url, btn) {
-            currentAudio = new Audio(url);
-            btn.disabled = false;
-            btn.classList.add('speaking');
-            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
-
-            currentAudio.onended = () => {
-                btn.classList.remove('speaking');
-                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Hear Question';
-                currentAudio = null;
-            };
-
-            currentAudio.onerror = (e) => {
-                console.error('Audio playback error:', currentAudio.error);
-                btn.classList.remove('speaking');
-                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Hear Question';
-                currentAudio = null;
-                // Fallback to browser TTS
-                playBrowserTTS(questions[currentQ].question, btn);
-            };
-
-            currentAudio.play().catch(err => {
-                console.error('Audio play() failed:', err);
-                playBrowserTTS(questions[currentQ].question, btn);
-            });
-        }
-
-        function playBrowserTTS(text, btn) {
-            if (!window.speechSynthesis) {
-                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> TTS unavailable';
-                btn.disabled = false;
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Hear Question';
-                }, 3000);
-                return;
-            }
-
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 0.95;
-            utterance.pitch = 1;
-
-            btn.disabled = false;
-            btn.classList.add('speaking');
-            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
-
-            utterance.onend = () => {
-                btn.classList.remove('speaking');
-                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Hear Question';
-            };
-
-            window.speechSynthesis.speak(utterance);
-        }
-
-        function stopTTS() {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-                currentAudio = null;
-            }
-            if (window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-            }
-            const btn = document.getElementById('tts-btn');
-            if (btn) {
-                btn.classList.remove('speaking');
-                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Hear Question';
-            }
-        }
-
-        // ── Show/Hide Answer ──
-        function toggleAnswer() {
-            const el = document.getElementById('answer-reveal');
-            el.classList.toggle('visible');
-        }
-
-        // ── Audio Recording ──
-        async function startRecording() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-
-                mediaRecorder.ondataavailable = e => {
-                    if (e.data.size > 0) audioChunks.push(e.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    processAudio(audioBlob);
-                    stream.getTracks().forEach(track => track.stop());
-                };
-
-                mediaRecorder.start();
-
-                const controls = document.getElementById('recorder-controls');
-                controls.innerHTML = `
-                    <div style="display:flex; align-items:center; justify-content:center; gap: 1rem;">
-                        <div style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444; animation: pulseRed 1.5s infinite;"></div>
-                        <span style="color:var(--text-primary); font-weight: 500;">Recording...</span>
-                        <button class="btn primary-btn" onclick="stopRecording()" style="background: #ef4444; color: white;">
-                            <i class="fa-solid fa-stop"></i> Stop & Evaluate
-                        </button>
-                    </div>
-                `;
-            } catch (err) {
-                console.error("Microphone access error:", err);
-                alert("Could not access microphone. Please ensure permissions are granted.");
-            }
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-                const controls = document.getElementById('recorder-controls');
-                controls.innerHTML = '<div style="color:var(--text-secondary);"><i class="fa-solid fa-spinner fa-spin"></i> Analyzing your response...</div>';
-            }
-        }
-
-        async function processAudio(audioBlob) {
-            const reader = new FileReader();
-            reader.readAsDataURL(audioBlob);
-            reader.onloadend = async () => {
-                const base64Audio = reader.result.split(',')[1];
-                await submitAudioResponse(base64Audio, audioBlob.type);
-            };
-        }
-
-        async function submitAudioResponse(base64Audio, mimeType) {
-            const feedbackDiv = document.getElementById('ai-feedback');
-            const controls = document.getElementById('recorder-controls');
-            const questionText = questions[currentQ].question;
-
-            const sysPrompt = `You are an expert executive interview coach.
-The user is providing an audio recording of their answer to an interview question.
-Listen to the audio, transcribe their core points, and provide immediate, constructive feedback.
-Format your response exactly like this:
-
-**Transcription Summary:**
-(Briefly summarize what you heard them say)
-
-**Strengths:**
-- (Point 1)
-- (Point 2)
-
-**Areas for Improvement:**
-- (Constructive point 1)
-- (Constructive point 2)
-
-**Overall Delivery:**
-(Comment on tone, pacing, filler words, and confidence)`;
-
-            try {
-                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                    body: {
-                        model: 'gemini-3-flash-preview',
-                        systemInstruction: { parts: [{ text: sysPrompt }] },
-                        contents: [{
-                            parts: [
-                                { text: `Question: ${questionText}` },
-                                { inlineData: { mimeType: mimeType, data: base64Audio } }
-                            ]
-                        }],
-                        generationConfig: { temperature: 0.4 }
-                    }
-                });
-
-                if (error) throw new Error(error.message);
-
-                let reviewText = data.candidates[0].content.parts[0].text.trim();
-                reviewText = reviewText.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--accent-color); display:block; margin-top:1rem; margin-bottom:0.5rem;">$1</strong>');
-                reviewText = reviewText.replace(/- (.*)/g, '<li style="margin-left: 1.5rem; margin-bottom: 0.25rem;">$1</li>');
-
-                feedbackDiv.innerHTML = `<h4 style="margin-top:0; border-bottom: 1px solid var(--panel-border); padding-bottom: 0.5rem;">AI Coach Feedback</h4>${reviewText}`;
-                feedbackDiv.style.display = 'block';
-
-                controls.innerHTML = `
-                    <button class="btn secondary-btn" onclick="startRecording()">
-                        <i class="fa-solid fa-rotate-right"></i> Try Again
-                    </button>
-                `;
-            } catch (e) {
-                console.error("Audio Analysis Error:", e);
-                feedbackDiv.innerHTML = `<p class="error-text">Failed to analyze audio: ${e.message}</p>`;
-                feedbackDiv.style.display = 'block';
-                controls.innerHTML = `
-                    <button class="btn secondary-btn" onclick="startRecording()">
-                        <i class="fa-solid fa-rotate-right"></i> Retry Recording
-                    </button>
-                `;
-            }
-        }
-
-        // ── Refinement Modal ──
         document.getElementById('refine-btn').addEventListener('click', () => {
             document.getElementById('refine-modal').style.display = 'flex';
             document.getElementById('refine-input').focus();
@@ -920,7 +1391,6 @@ Format your response exactly like this:
             }
 
             document.getElementById('refine-modal').style.display = 'none';
-            const overlay = document.getElementById('gen-overlay');
             overlay.style.display = 'flex';
 
             const systemPrompt = `Generate exactly 10 role-specific interview questions with ideal answer frameworks. Apply this refinement request to the questions:
@@ -946,23 +1416,19 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
                 outputs.interviewQa = questions;
                 sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
                 updateGenerationField(outputs.generationId, { interview_qa: outputs.interviewQa });
-                currentQ = 0;
-                visitedQs.clear();
-                renderMockMode();
                 overlay.style.display = 'none';
+                resetChat();
             } catch (e) {
                 overlay.style.display = 'none';
                 mockContent.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed to refine: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="applyRefinement()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
             }
         }
 
-        // ── Regenerate ──
         document.getElementById('regen-btn').addEventListener('click', async () => {
             const btn = document.getElementById('regen-btn');
             btn.disabled = true;
             currentQ = 0;
             visitedQs.clear();
-            // Force regeneration by clearing cached data
             outputs.interviewQa = null;
             sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
             await generateOnDemand();

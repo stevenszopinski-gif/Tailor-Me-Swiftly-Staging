@@ -720,7 +720,6 @@ textarea:focus {
     font-size: 1.8rem;
     margin-top: 0;
     margin-bottom: 0.5rem;
-    text-align: center;
     color: var(--accent-color);
 }
 
@@ -728,7 +727,6 @@ textarea:focus {
     font-size: 1.3rem;
     margin-top: 1.2rem;
     margin-bottom: 0.3rem;
-    border-bottom: 2px solid var(--panel-border);
     padding-bottom: 0.3rem;
     color: var(--text-primary);
 }
@@ -1894,7 +1892,6 @@ ins.adsbygoogle[data-ad-status="filled"] {
     font-size: var(--r-h1-size);
     font-weight: var(--r-h1-weight);
     color: var(--r-h1-color);
-    text-align: var(--r-h1-align);
     letter-spacing: var(--r-h1-spacing);
     text-transform: var(--r-h1-transform);
     border-bottom: var(--r-h1-border-bottom);
@@ -1912,6 +1909,7 @@ ins.adsbygoogle[data-ad-status="filled"] {
     text-transform: var(--r-h2-transform);
     border-bottom: var(--r-h2-border-bottom);
     margin-top: var(--r-h2-margin-top);
+
     padding: var(--r-h2-padding);
 }
 

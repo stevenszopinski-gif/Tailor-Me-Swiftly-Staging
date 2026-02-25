@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
@@ -338,7 +339,6 @@
                 transform: rotate(360deg);
             }
         }
-
     </style>
 </head>
 
@@ -351,17 +351,20 @@
     <div class="app-container" style="max-width:1100px;">
         <header class="app-header">
             <div class="logo">
-                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                <a href="index.html"
+                    style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
                     <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
                     <h1>TailorMeSwiftly.com</h1>
                 </a>
             </div>
             <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
-                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                <div id="user-profile"
+                    style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
                     <img id="user-avatar" src="" alt="Avatar"
                         style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <span id="user-greeting"
+                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
                     <div id="avatar-dropdown" class="avatar-dropdown hidden">
                         <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
                             <i class="fa-solid fa-sliders"></i> Preferences
@@ -384,61 +387,70 @@
             </div>
         </header>
 
-    <div class="results-hub">
-        <div class="result-header" style="flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;">
-            <h1 class="result-title" style="font-size: 2.5rem; margin: 0; text-align: center;"><i class="fa-solid fa-rocket" style="color: var(--primary-color); margin-right: 0.5rem;"></i>You're Now Ready to Apply</h1>
-            <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 0;">Everything tailored for <strong id="hero-company">your target role</strong></p>
-        </div>
+        <div class="results-hub">
+            <div class="result-header"
+                style="flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;">
+                <h1 class="result-title" style="font-size: 2.5rem; margin: 0; text-align: center;"><i
+                        class="fa-solid fa-rocket" style="color: var(--primary-color); margin-right: 0.5rem;"></i>You're
+                    Now Ready to Apply</h1>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 0;">Everything tailored for <strong
+                        id="hero-company">your target role</strong></p>
+            </div>
 
-        <div class="results-meta" style="margin-bottom: 2rem; margin-top: 2rem;">
-            <div class="score-dial-wrap" id="score-dial-wrap" style="display:none;">
-                <svg viewBox="0 0 36 36">
-                    <circle class="dial-bg" cx="18" cy="18" r="15.9155" />
-                    <circle id="dial-arc" class="dial-arc" cx="18" cy="18" r="15.9155" stroke-dasharray="0 100"
-                        stroke="#10b981" />
-                    <text x="18" y="17" class="dial-pct" id="dial-pct">0%</text>
-                    <text x="18" y="22" class="dial-sub">ATS Score</text>
-                </svg>
-                <span class="dial-label">Match Score</span>
+            <div class="results-meta" style="margin-bottom: 2rem; margin-top: 2rem;">
+                <div class="score-dial-wrap" id="score-dial-wrap" style="display:none;">
+                    <svg viewBox="0 0 36 36">
+                        <circle class="dial-bg" cx="18" cy="18" r="15.9155" />
+                        <circle id="dial-arc" class="dial-arc" cx="18" cy="18" r="15.9155" stroke-dasharray="0 100"
+                            stroke="#10b981" />
+                        <text x="18" y="17" class="dial-pct" id="dial-pct">0%</text>
+                        <text x="18" y="22" class="dial-sub">ATS Score</text>
+                    </svg>
+                    <span class="dial-label">Match Score</span>
+                </div>
+            </div>
+
+            <!-- Skills Selector removed -->
+
+            <div class="output-grid">
+                <a href="resume.html" class="output-card card-resume">
+                    <div class="card-icon"><i class="fa-solid fa-file-lines" style="color:#fff;"></i></div>
+                    <h3>Resume</h3>
+                    <p>ATS-optimized, tailored to the job description</p>
+                </a>
+                <a href="cover-letter.html" class="output-card card-cover">
+                    <div class="card-icon"><i class="fa-solid fa-envelope-open-text" style="color:#fff;"></i></div>
+                    <h3>Cover Letter</h3>
+                    <p>Compelling 3-4 paragraph cover letter</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on
+                        click</span>
+                </a>
+                <a href="interview-prep.html" class="output-card card-interview">
+                    <div class="card-icon"><i class="fa-solid fa-comments" style="color:#fff;"></i></div>
+                    <h3>Mock Interview</h3>
+                    <p>10 role-specific questions with TTS & practice mode</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on
+                        click</span>
+                </a>
+                <a href="outreach.html" class="output-card card-email">
+                    <div class="card-icon"><i class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
+                    <h3>Introduction Email</h3>
+                    <p>Outreach email draft to the hiring manager</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on
+                        click</span>
+                </a>
+            </div>
+
+            <div class="start-over-bar">
+                <a href="app.html" class="btn ghost-btn"><i class="fa-solid fa-rotate-left"></i> Start New
+                    Application</a>
+                <a href="history.html" class="btn ghost-btn" style="margin-left: 0.75rem;"><i
+                        class="fa-solid fa-table-columns"></i> Application Tracker</a>
             </div>
         </div>
-
-        <!-- Skills Selector removed -->
-
-        <div class="output-grid">
-            <a href="resume.html" class="output-card card-resume">
-                <div class="card-icon"><i class="fa-solid fa-file-lines" style="color:#fff;"></i></div>
-                <h3>Resume</h3>
-                <p>ATS-optimized, tailored to the job description</p>
-            </a>
-            <a href="cover-letter.html" class="output-card card-cover">
-                <div class="card-icon"><i class="fa-solid fa-envelope-open-text" style="color:#fff;"></i></div>
-                <h3>Cover Letter</h3>
-                <p>Compelling 3-4 paragraph cover letter</p>
-                <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on
-                    click</span>
-            </a>
-            <a href="interview-prep.html" class="output-card card-interview">
-                <div class="card-icon"><i class="fa-solid fa-comments" style="color:#fff;"></i></div>
-                <h3>Mock Interview</h3>
-                <p>10 role-specific questions with TTS & practice mode</p>
-                <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on
-                    click</span>
-            </a>
-            <a href="outreach.html" class="output-card card-email">
-                <div class="card-icon"><i class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
-                <h3>Introduction Email</h3>
-                <p>Outreach email draft to the hiring manager</p>
-                <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates on
-                    click</span>
-            </a>
-        </div>
-
-        <div class="start-over-bar">
-            <a href="app.html" class="btn ghost-btn"><i class="fa-solid fa-rotate-left"></i> Start New Application</a>
-            <a href="history.html" class="btn ghost-btn" style="margin-left: 0.75rem;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
-        </div>
-    </div>
     </div> <!-- /app-container -->
 
     <!-- Regeneration overlay -->
@@ -469,8 +481,12 @@
             <h3>Updating Your Application</h3>
             <p>Adding your selected skills and regenerating all 4 documents…</p>
             <div style="margin-top: 1.5rem; max-width: 420px; text-align: center;">
-                <span style="display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 0.4rem;">Did you know?</span>
-                <p id="regen-fact" style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin: 0; min-height: 1.5rem; opacity: 1; transition: opacity 0.5s ease-in-out;"></p>
+                <span
+                    style="display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 0.4rem;">Did
+                    you know?</span>
+                <p id="regen-fact"
+                    style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin: 0; min-height: 1.5rem; opacity: 1; transition: opacity 0.5s ease-in-out;">
+                </p>
             </div>
         </div>
     </div>
