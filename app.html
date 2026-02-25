@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Build your ATS-optimized resume with TailorMeSwiftly's AI-powered wizard. Paste your resume and job description to get started.">
+    <meta name="description"
+        content="Build your ATS-optimized resume with TailorMeSwiftly's AI-powered wizard. Paste your resume and job description to get started.">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>TailorMeSwiftly.com | Instant Resume Tailoring</title>
     <link rel="stylesheet" href="style.css?v=13">
@@ -39,7 +40,8 @@
                     <img id="user-avatar" src="" alt="Profile"
                         style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <span id="user-greeting"
+                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
                     <div id="avatar-dropdown" class="avatar-dropdown hidden">
                         <button class="dropdown-item" id="open-prefs">
                             <i class="fa-solid fa-sliders"></i> Preferences
@@ -64,7 +66,8 @@
 
         <!-- Ad Unit -->
         <div style="text-align:center;margin:0 auto 1.5rem;max-width:728px;">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7832382680038641" data-ad-slot="auto" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7832382680038641" data-ad-slot="auto"
+                data-ad-format="horizontal" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
@@ -100,98 +103,134 @@
                     <!-- STEP 1: Upload -->
                     <div id="step-1" class="wizard-step active-step">
 
-                        <!-- New Workspace Header -->
                         <div class="workspace-header">
                             <div class="user-welcome">
                                 <h2 id="welcome-message">Hello</h2>
-                                <p>Ready to land your next role? Let's tailor your application.</p>
+                                <p>Ready to land your next role? Let's choose a path.</p>
                             </div>
                         </div>
 
-                        <div class="step-header" style="margin-top: 1rem;">
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.5rem; margin-bottom: 2rem;">
+                            <!-- Option 1: Past Applications -->
+                            <a href="history.html" class="glass-panel"
+                                style="border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; text-decoration: none; color: inherit; display: flex; flex-direction: row; align-items: center; gap: 1rem; transition: transform 0.2s, border-color 0.2s;"
+                                onmouseover="this.style.borderColor='var(--primary-color)'; this.style.transform='translateY(-2px)';"
+                                onmouseout="this.style.borderColor='var(--panel-border)'; this.style.transform='none';">
+                                <div
+                                    style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #6366f1, #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
+                                    <i class="fa-solid fa-clock-rotate-left" style="color:#fff;"></i></div>
+                                <div>
+                                    <h3
+                                        style="font-size: 1rem; margin: 0 0 0.2rem; display: flex; align-items: center; gap: 0.5rem;">
+                                        Past Applications <i class="fa-solid fa-arrow-right"
+                                            style="font-size: 0.75rem; color: var(--text-secondary);"></i></h3>
+                                    <p
+                                        style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">
+                                        View your history & tracking board</p>
+                                </div>
+                            </a>
+
+                            <!-- Option 2: New Application (Current State) -->
+                            <div class="glass-panel"
+                                style="border: 1px solid var(--primary-color); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: row; align-items: center; gap: 1rem; background: rgba(16, 185, 129, 0.05);">
+                                <div
+                                    style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
+                                    <i class="fa-solid fa-plus" style="color:#fff;"></i></div>
+                                <div>
+                                    <h3 style="font-size: 1rem; margin: 0 0 0.2rem;">New Application</h3>
+                                    <p
+                                        style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">
+                                        Upload a resume below to start</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divider"><span>START NEW APPLICATION</span></div>
+
+                        <div class="step-header" style="margin-top: 2rem;">
                             <h2>Start by uploading your resume</h2>
                             <p>We'll extract your core narrative while preserving the facts.</p>
                         </div>
 
-                                <div class="upload-area" id="drop-zone">
-                                    <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display: none;">
-                                    <div class="upload-icon">
-                                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    </div>
-                                    <h3>Drag & drop your resume here</h3>
-                                    <p>Supports PDF, DOCX, and TXT (Max 5MB)</p>
-                                    <button type="button" class="btn secondary-btn"
-                                        onclick="document.getElementById('file-input').click()">Browse Files</button>
+                        <div class="upload-area" id="drop-zone">
+                            <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display: none;">
+                            <div class="upload-icon">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <h3>Drag & drop your resume here</h3>
+                            <p>Supports PDF, DOCX, and TXT (Max 5MB)</p>
+                            <button type="button" class="btn secondary-btn"
+                                onclick="document.getElementById('file-input').click()">Browse Files</button>
+                        </div>
+
+                        <!-- LinkedIn import hidden until scraping solution found -->
+                        <div class="divider" style="display:none;"><span>OR IMPORT FROM LINKEDIN</span></div>
+
+                        <div id="linkedin-import-section" style="display:none; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1rem 1.25rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                    <i class="fa-brands fa-linkedin" style="color: #0a66c2; font-size: 1.2rem;"></i>
+                                    <span style="font-weight: 600; font-size: 0.95rem;">Import from LinkedIn</span>
                                 </div>
-
-                                <!-- LinkedIn import hidden until scraping solution found -->
-                                <div class="divider" style="display:none;"><span>OR IMPORT FROM LINKEDIN</span></div>
-
-                                <div id="linkedin-import-section" style="display:none; margin-bottom: 1.5rem;">
-                                    <div style="background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1rem 1.25rem;">
-                                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                            <i class="fa-brands fa-linkedin" style="color: #0a66c2; font-size: 1.2rem;"></i>
-                                            <span style="font-weight: 600; font-size: 0.95rem;">Import from LinkedIn</span>
-                                        </div>
-                                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                                            Paste your LinkedIn profile URL and we'll import your experience automatically.
-                                        </p>
-                                        <div style="display: flex; gap: 0.5rem;">
-                                            <input type="url" id="linkedin-url-input" class="input-field"
-                                                style="flex: 1; font-size: 0.85rem; padding: 0.5rem 0.75rem;"
-                                                placeholder="https://linkedin.com/in/your-profile">
-                                            <button type="button" id="linkedin-import-btn" class="btn primary-btn" style="white-space: nowrap;">
-                                                <i class="fa-solid fa-download"></i> Import
-                                            </button>
-                                        </div>
-                                        <div id="linkedin-import-status" style="margin-top: 0.5rem; font-size: 0.8rem;"></div>
-                                    </div>
-                                </div>
-
-                                <div class="divider"><span>OR PASTE MANUALLY</span></div>
-
-                                <div style="text-align:center; margin-bottom:1.5rem;">
-                                    <button type="button" class="btn ghost-btn"
-                                        onclick="document.getElementById('manual-resume-wrap').classList.toggle('hidden')">
-                                        <i class="fa-solid fa-keyboard"></i> Toggle Manual Paste
+                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                                    Paste your LinkedIn profile URL and we'll import your experience automatically.
+                                </p>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <input type="url" id="linkedin-url-input" class="input-field"
+                                        style="flex: 1; font-size: 0.85rem; padding: 0.5rem 0.75rem;"
+                                        placeholder="https://linkedin.com/in/your-profile">
+                                    <button type="button" id="linkedin-import-btn" class="btn primary-btn"
+                                        style="white-space: nowrap;">
+                                        <i class="fa-solid fa-download"></i> Import
                                     </button>
                                 </div>
+                                <div id="linkedin-import-status" style="margin-top: 0.5rem; font-size: 0.8rem;"></div>
+                            </div>
+                        </div>
 
-                                <div id="manual-resume-wrap" class="hidden" style="margin-bottom:1.5rem;">
-                                    <textarea id="manual-resume-input" class="manual-jd"
-                                        style="width:100%; height:150px;"
-                                        placeholder="Paste your resume text here..."></textarea>
+                        <div class="divider"><span>OR PASTE MANUALLY</span></div>
+
+                        <div style="text-align:center; margin-bottom:1.5rem;">
+                            <button type="button" class="btn ghost-btn"
+                                onclick="document.getElementById('manual-resume-wrap').classList.toggle('hidden')">
+                                <i class="fa-solid fa-keyboard"></i> Toggle Manual Paste
+                            </button>
+                        </div>
+
+                        <div id="manual-resume-wrap" class="hidden" style="margin-bottom:1.5rem;">
+                            <textarea id="manual-resume-input" class="manual-jd" style="width:100%; height:150px;"
+                                placeholder="Paste your resume text here..."></textarea>
+                        </div>
+
+                        <div id="file-status" class="file-status hidden">
+                            <div class="file-info">
+                                <i class="fa-solid fa-file-lines"></i>
+                                <span id="file-name">resume.pdf</span>
+                            </div>
+                            <div class="parse-status success" id="parse-status">
+                                <i class="fa-solid fa-check-circle"></i> Extracted
+                            </div>
+                        </div>
+
+                        <!-- Hidden text input for raw parsed text -->
+                        <textarea id="base-resume" hidden></textarea>
+
+                        <!-- Use Last Resume shortcut -->
+                        <div id="use-last-resume-bar" style="display:none; margin-top:0.75rem; text-align:center;">
+                            <div
+                                style="background:var(--glass-bg); border:1px solid var(--panel-border); border-radius:12px; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+                                <div style="display:flex; align-items:center; gap:0.6rem; font-size:0.88rem;">
+                                    <i class="fa-solid fa-clock-rotate-left" style="color:var(--primary-color);"></i>
+                                    <span>Use your last uploaded resume: <strong id="last-resume-name"
+                                            style="color:var(--text-primary);">–</strong></span>
                                 </div>
-
-                                <div id="file-status" class="file-status hidden">
-                                    <div class="file-info">
-                                        <i class="fa-solid fa-file-lines"></i>
-                                        <span id="file-name">resume.pdf</span>
-                                    </div>
-                                    <div class="parse-status success" id="parse-status">
-                                        <i class="fa-solid fa-check-circle"></i> Extracted
-                                    </div>
-                                </div>
-
-                                <!-- Hidden text input for raw parsed text -->
-                                <textarea id="base-resume" hidden></textarea>
-
-                                <!-- Use Last Resume shortcut -->
-                                <div id="use-last-resume-bar"
-                                    style="display:none; margin-top:0.75rem; text-align:center;">
-                                    <div
-                                        style="background:var(--glass-bg); border:1px solid var(--panel-border); border-radius:12px; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
-                                        <div style="display:flex; align-items:center; gap:0.6rem; font-size:0.88rem;">
-                                            <i class="fa-solid fa-clock-rotate-left"
-                                                style="color:var(--primary-color);"></i>
-                                            <span>Use your last uploaded resume: <strong id="last-resume-name"
-                                                    style="color:var(--text-primary);">–</strong></span>
-                                        </div>
-                                        <button id="use-last-resume-btn" class="btn small-btn primary-btn">
-                                            <i class="fa-solid fa-bolt"></i> Use This
-                                        </button>
-                                    </div>
-                                </div>
+                                <button id="use-last-resume-btn" class="btn small-btn primary-btn">
+                                    <i class="fa-solid fa-bolt"></i> Use This
+                                </button>
+                            </div>
+                        </div>
 
                         <div class="step-actions right">
                             <button id="next-to-2" class="btn primary-btn" disabled>Next Step <i
@@ -231,83 +270,411 @@
                     <!-- STEP 3: ATS Scanner -->
                     <div id="step-3" class="wizard-step hidden">
                         <style>
-                            .ats-layout { display: flex; gap: 1.5rem; margin-top: 1rem; }
-                            .ats-sidebar { width: 200px; flex-shrink: 0; }
-                            .ats-sidebar-nav { list-style: none; padding: 0; margin: 0; }
-                            .ats-sidebar-nav li { padding: 0.6rem 0.75rem; font-size: 0.82rem; cursor: pointer; border-radius: 8px; margin-bottom: 0.25rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; transition: all 0.15s; }
-                            .ats-sidebar-nav li:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-                            .ats-sidebar-nav li.active { background: var(--primary-color); color: #fff; }
-                            .ats-sidebar-nav .nav-count { font-size: 0.7rem; background: rgba(255,255,255,0.15); padding: 0.1rem 0.5rem; border-radius: 99px; }
-                            .ats-sidebar-nav li.active .nav-count { background: rgba(255,255,255,0.25); }
-                            .ats-main { flex: 1; min-width: 0; }
-                            .ats-score-wrap { text-align: center; margin-bottom: 1.5rem; }
-                            .ats-gauge { width: 140px; height: 140px; margin: 0 auto 0.5rem; position: relative; }
-                            .ats-gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-                            .ats-gauge .gauge-score { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; color: var(--text-primary); }
-                            .ats-section-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
-                            .ats-section-title { display: flex; align-items: center; gap: 0.5rem; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
-                            .ats-badge { font-size: 0.6rem; text-transform: uppercase; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 99px; letter-spacing: 0.5px; }
-                            .ats-badge.important { background: #dbeafe; color: #1d4ed8; }
-                            .ats-badge.high { background: #fef3c7; color: #92400e; }
-                            .ats-badge.medium { background: #e0e7ff; color: #4338ca; }
-                            .ats-check-row { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.65rem 0; border-bottom: 1px solid var(--panel-border); font-size: 0.85rem; line-height: 1.45; }
-                            .ats-check-row:last-child { border-bottom: none; }
-                            .ats-check-row .check-icon { flex-shrink: 0; margin-top: 2px; font-size: 0.85rem; }
-                            .ats-check-row .check-icon.pass { color: #16a34a; }
-                            .ats-check-row .check-icon.warn { color: #f59e0b; }
-                            .ats-check-row .check-icon.fail { color: #dc2626; }
-                            .ats-check-row .check-label { font-weight: 600; color: var(--text-primary); }
-                            .ats-check-row .check-detail { color: var(--text-secondary); font-size: 0.8rem; }
-                            .skills-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-                            .skills-table th { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 2px solid var(--panel-border); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); font-weight: 600; }
-                            .skills-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--panel-border); }
-                            .skills-table .skill-name { font-weight: 500; }
-                            .skills-table .skill-check { text-align: center; }
-                            .skills-table .skill-count { text-align: center; color: var(--text-secondary); }
-                            .skill-yes { color: #16a34a; }
-                            .skill-no { color: #dc2626; }
-                            .ats-tip { font-size: 0.78rem; color: var(--text-secondary); background: rgba(99,102,241,0.05); border-left: 3px solid var(--primary-color); padding: 0.5rem 0.75rem; border-radius: 0 6px 6px 0; margin-bottom: 1rem; }
-                            .ats-loading { text-align: center; padding: 4rem 2rem; color: var(--text-secondary); }
-                            .ats-loading i { font-size: 2rem; margin-bottom: 1rem; display: block; color: var(--primary-color); }
-                            .ats-section-panel { display: none; }
-                            .ats-section-panel.active { display: block; }
-                            .ats-action-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+                            .ats-layout {
+                                display: flex;
+                                gap: 1.5rem;
+                                margin-top: 1rem;
+                            }
+
+                            .ats-sidebar {
+                                width: 200px;
+                                flex-shrink: 0;
+                            }
+
+                            .ats-sidebar-nav {
+                                list-style: none;
+                                padding: 0;
+                                margin: 0;
+                            }
+
+                            .ats-sidebar-nav li {
+                                padding: 0.6rem 0.75rem;
+                                font-size: 0.82rem;
+                                cursor: pointer;
+                                border-radius: 8px;
+                                margin-bottom: 0.25rem;
+                                color: var(--text-secondary);
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                transition: all 0.15s;
+                            }
+
+                            .ats-sidebar-nav li:hover {
+                                background: rgba(255, 255, 255, 0.05);
+                                color: var(--text-primary);
+                            }
+
+                            .ats-sidebar-nav li.active {
+                                background: var(--primary-color);
+                                color: #fff;
+                            }
+
+                            .ats-sidebar-nav .nav-count {
+                                font-size: 0.7rem;
+                                background: rgba(255, 255, 255, 0.15);
+                                padding: 0.1rem 0.5rem;
+                                border-radius: 99px;
+                            }
+
+                            .ats-sidebar-nav li.active .nav-count {
+                                background: rgba(255, 255, 255, 0.25);
+                            }
+
+                            .ats-main {
+                                flex: 1;
+                                min-width: 0;
+                            }
+
+                            .ats-score-wrap {
+                                text-align: center;
+                                margin-bottom: 1.5rem;
+                            }
+
+                            .ats-gauge {
+                                width: 140px;
+                                height: 140px;
+                                margin: 0 auto 0.5rem;
+                                position: relative;
+                            }
+
+                            .ats-gauge svg {
+                                width: 100%;
+                                height: 100%;
+                                transform: rotate(-90deg);
+                            }
+
+                            .ats-gauge .gauge-score {
+                                position: absolute;
+                                inset: 0;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 2.2rem;
+                                font-weight: 800;
+                                color: var(--text-primary);
+                            }
+
+                            .ats-section-card {
+                                background: var(--glass-bg);
+                                border: 1px solid var(--panel-border);
+                                border-radius: 12px;
+                                padding: 1.25rem;
+                                margin-bottom: 1rem;
+                            }
+
+                            .ats-section-title {
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                                font-size: 1.05rem;
+                                font-weight: 700;
+                                margin-bottom: 0.75rem;
+                            }
+
+                            .ats-badge {
+                                font-size: 0.6rem;
+                                text-transform: uppercase;
+                                font-weight: 700;
+                                padding: 0.15rem 0.5rem;
+                                border-radius: 99px;
+                                letter-spacing: 0.5px;
+                            }
+
+                            .ats-badge.important {
+                                background: #dbeafe;
+                                color: #1d4ed8;
+                            }
+
+                            .ats-badge.high {
+                                background: #fef3c7;
+                                color: #92400e;
+                            }
+
+                            .ats-badge.medium {
+                                background: #e0e7ff;
+                                color: #4338ca;
+                            }
+
+                            .ats-check-row {
+                                display: flex;
+                                align-items: flex-start;
+                                gap: 0.6rem;
+                                padding: 0.65rem 0;
+                                border-bottom: 1px solid var(--panel-border);
+                                font-size: 0.85rem;
+                                line-height: 1.45;
+                            }
+
+                            .ats-check-row:last-child {
+                                border-bottom: none;
+                            }
+
+                            .ats-check-row .check-icon {
+                                flex-shrink: 0;
+                                margin-top: 2px;
+                                font-size: 0.85rem;
+                            }
+
+                            .ats-check-row .check-icon.pass {
+                                color: #16a34a;
+                            }
+
+                            .ats-check-row .check-icon.warn {
+                                color: #f59e0b;
+                            }
+
+                            .ats-check-row .check-icon.fail {
+                                color: #dc2626;
+                            }
+
+                            .ats-check-row .check-label {
+                                font-weight: 600;
+                                color: var(--text-primary);
+                            }
+
+                            .ats-check-row .check-detail {
+                                color: var(--text-secondary);
+                                font-size: 0.8rem;
+                            }
+
+                            .skills-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-size: 0.82rem;
+                            }
+
+                            .skills-table th {
+                                text-align: left;
+                                padding: 0.5rem 0.6rem;
+                                border-bottom: 2px solid var(--panel-border);
+                                font-size: 0.7rem;
+                                text-transform: uppercase;
+                                letter-spacing: 0.5px;
+                                color: var(--text-secondary);
+                                font-weight: 600;
+                            }
+
+                            .skills-table td {
+                                padding: 0.5rem 0.6rem;
+                                border-bottom: 1px solid var(--panel-border);
+                            }
+
+                            .skills-table .skill-name {
+                                font-weight: 500;
+                            }
+
+                            .skills-table .skill-check {
+                                text-align: center;
+                            }
+
+                            .skills-table .skill-count {
+                                text-align: center;
+                                color: var(--text-secondary);
+                            }
+
+                            .skill-yes {
+                                color: #16a34a;
+                            }
+
+                            .skill-no {
+                                color: #dc2626;
+                            }
+
+                            .ats-tip {
+                                font-size: 0.78rem;
+                                color: var(--text-secondary);
+                                background: rgba(99, 102, 241, 0.05);
+                                border-left: 3px solid var(--primary-color);
+                                padding: 0.5rem 0.75rem;
+                                border-radius: 0 6px 6px 0;
+                                margin-bottom: 1rem;
+                            }
+
+                            .ats-loading {
+                                text-align: center;
+                                padding: 4rem 2rem;
+                                color: var(--text-secondary);
+                            }
+
+                            .ats-loading i {
+                                font-size: 2rem;
+                                margin-bottom: 1rem;
+                                display: block;
+                                color: var(--primary-color);
+                            }
+
+                            .ats-section-panel {
+                                display: none;
+                            }
+
+                            .ats-section-panel.active {
+                                display: block;
+                            }
+
+                            .ats-action-bar {
+                                display: flex;
+                                gap: 0.5rem;
+                                margin-bottom: 1rem;
+                                flex-wrap: wrap;
+                            }
+
                             @media (max-width: 700px) {
-                                .ats-layout { flex-direction: column; }
-                                .ats-sidebar { width: 100%; }
-                                .ats-sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
-                                .ats-sidebar-nav li { flex: 1; min-width: fit-content; text-align: center; justify-content: center; }
+                                .ats-layout {
+                                    flex-direction: column;
+                                }
+
+                                .ats-sidebar {
+                                    width: 100%;
+                                }
+
+                                .ats-sidebar-nav {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 0.25rem;
+                                }
+
+                                .ats-sidebar-nav li {
+                                    flex: 1;
+                                    min-width: fit-content;
+                                    text-align: center;
+                                    justify-content: center;
+                                }
                             }
 
                             /* Missing skills selection pills */
-                            .ats-skill-pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.75rem; border-radius: 99px; border: 1px solid var(--panel-border); background: var(--glass-bg); color: var(--text-secondary); font-size: 0.8rem; cursor: pointer; transition: all 0.15s; margin: 0.2rem; }
-                            .ats-skill-pill:hover { border-color: var(--primary-color); }
-                            .ats-skill-pill.selected { background: rgba(16, 185, 129, 0.12); border-color: var(--success-color); color: var(--success-color); }
+                            .ats-skill-pill {
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 0.3rem;
+                                padding: 0.3rem 0.75rem;
+                                border-radius: 99px;
+                                border: 1px solid var(--panel-border);
+                                background: var(--glass-bg);
+                                color: var(--text-secondary);
+                                font-size: 0.8rem;
+                                cursor: pointer;
+                                transition: all 0.15s;
+                                margin: 0.2rem;
+                            }
+
+                            .ats-skill-pill:hover {
+                                border-color: var(--primary-color);
+                            }
+
+                            .ats-skill-pill.selected {
+                                background: rgba(16, 185, 129, 0.12);
+                                border-color: var(--success-color);
+                                color: var(--success-color);
+                            }
 
                             /* Fix It buttons */
-                            .ats-fix-btn { margin-left: auto; flex-shrink: 0; padding: 0.2rem 0.6rem; font-size: 0.72rem; font-weight: 600; border: 1px solid var(--primary-color); background: transparent; color: var(--primary-color); border-radius: 6px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap; font-family: var(--font-family); }
-                            .ats-fix-btn:hover { background: rgba(16, 185, 129, 0.1); transform: translateY(-1px); }
-                            .ats-fix-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-                            .ats-fix-btn.fixing { pointer-events: none; opacity: 0.7; }
-                            .ats-fix-btn.fixed { border-color: #16a34a; color: #16a34a; pointer-events: none; }
-                            .ats-fix-all-bar { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; margin-bottom: 0.75rem; padding: 0.5rem 0; }
-                            .ats-fix-all-btn { padding: 0.35rem 0.85rem; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--primary-color); background: rgba(16, 185, 129, 0.08); color: var(--primary-color); border-radius: 8px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-family); }
-                            .ats-fix-all-btn:hover { background: rgba(16, 185, 129, 0.15); }
-                            .ats-fix-all-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-                            .ats-fix-all-progress { font-size: 0.75rem; color: var(--text-secondary); }
-                            .ats-check-row.just-fixed { animation: fixedFlash 0.6s ease; }
-                            @keyframes fixedFlash { 0% { background: rgba(16, 185, 129, 0.15); } 100% { background: transparent; } }
+                            .ats-fix-btn {
+                                margin-left: auto;
+                                flex-shrink: 0;
+                                padding: 0.2rem 0.6rem;
+                                font-size: 0.72rem;
+                                font-weight: 600;
+                                border: 1px solid var(--primary-color);
+                                background: transparent;
+                                color: var(--primary-color);
+                                border-radius: 6px;
+                                cursor: pointer;
+                                transition: all 0.15s;
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 0.3rem;
+                                white-space: nowrap;
+                                font-family: var(--font-family);
+                            }
+
+                            .ats-fix-btn:hover {
+                                background: rgba(16, 185, 129, 0.1);
+                                transform: translateY(-1px);
+                            }
+
+                            .ats-fix-btn:disabled {
+                                opacity: 0.5;
+                                cursor: not-allowed;
+                                transform: none;
+                            }
+
+                            .ats-fix-btn.fixing {
+                                pointer-events: none;
+                                opacity: 0.7;
+                            }
+
+                            .ats-fix-btn.fixed {
+                                border-color: #16a34a;
+                                color: #16a34a;
+                                pointer-events: none;
+                            }
+
+                            .ats-fix-all-bar {
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-end;
+                                gap: 0.5rem;
+                                margin-bottom: 0.75rem;
+                                padding: 0.5rem 0;
+                            }
+
+                            .ats-fix-all-btn {
+                                padding: 0.35rem 0.85rem;
+                                font-size: 0.78rem;
+                                font-weight: 600;
+                                border: 1px solid var(--primary-color);
+                                background: rgba(16, 185, 129, 0.08);
+                                color: var(--primary-color);
+                                border-radius: 8px;
+                                cursor: pointer;
+                                transition: all 0.15s;
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 0.4rem;
+                                font-family: var(--font-family);
+                            }
+
+                            .ats-fix-all-btn:hover {
+                                background: rgba(16, 185, 129, 0.15);
+                            }
+
+                            .ats-fix-all-btn:disabled {
+                                opacity: 0.5;
+                                cursor: not-allowed;
+                            }
+
+                            .ats-fix-all-progress {
+                                font-size: 0.75rem;
+                                color: var(--text-secondary);
+                            }
+
+                            .ats-check-row.just-fixed {
+                                animation: fixedFlash 0.6s ease;
+                            }
+
+                            @keyframes fixedFlash {
+                                0% {
+                                    background: rgba(16, 185, 129, 0.15);
+                                }
+
+                                100% {
+                                    background: transparent;
+                                }
+                            }
                         </style>
 
                         <div class="step-header">
                             <div class="step-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
                             <h2>ATS Resume Scanner</h2>
-                            <p>We scan your resume against the job description and give you a detailed ATS compatibility report.</p>
+                            <p>We scan your resume against the job description and give you a detailed ATS compatibility
+                                report.</p>
                         </div>
 
                         <div id="ats-loading-state" class="ats-loading">
                             <i class="fa-solid fa-spinner fa-spin"></i>
-                            <div style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;">Scanning your resume...</div>
+                            <div style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem;">Scanning your
+                                resume...</div>
                             <div>Analyzing searchability, skills, formatting, and more.</div>
                         </div>
 
@@ -318,23 +685,34 @@
                                     <div class="ats-score-wrap">
                                         <div class="ats-gauge">
                                             <svg viewBox="0 0 120 120">
-                                                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(128,128,128,0.12)" stroke-width="10"/>
-                                                <circle id="ats-gauge-ring" cx="60" cy="60" r="52" fill="none" stroke="#16a34a" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="326.73" style="transition: stroke-dashoffset 1s ease;"/>
+                                                <circle cx="60" cy="60" r="52" fill="none"
+                                                    stroke="rgba(128,128,128,0.12)" stroke-width="10" />
+                                                <circle id="ats-gauge-ring" cx="60" cy="60" r="52" fill="none"
+                                                    stroke="#16a34a" stroke-width="10" stroke-linecap="round"
+                                                    stroke-dasharray="326.73" stroke-dashoffset="326.73"
+                                                    style="transition: stroke-dashoffset 1s ease;" />
                                             </svg>
                                             <div class="gauge-score" id="ats-score-num">0%</div>
                                         </div>
-                                        <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);">Match Rate</div>
+                                        <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);">Match
+                                            Rate</div>
                                     </div>
 
                                     <ul class="ats-sidebar-nav" id="ats-nav">
-                                        <li class="active" data-panel="searchability">Searchability <span class="nav-count" id="nav-count-search">-</span></li>
-                                        <li data-panel="hard-skills">Hard Skills <span class="nav-count" id="nav-count-hard">-</span></li>
-                                        <li data-panel="soft-skills">Soft Skills <span class="nav-count" id="nav-count-soft">-</span></li>
-                                        <li data-panel="recruiter-tips">Recruiter Tips <span class="nav-count" id="nav-count-tips">-</span></li>
-                                        <li data-panel="formatting">Formatting <span class="nav-count" id="nav-count-fmt">-</span></li>
+                                        <li class="active" data-panel="searchability">Searchability <span
+                                                class="nav-count" id="nav-count-search">-</span></li>
+                                        <li data-panel="hard-skills">Hard Skills <span class="nav-count"
+                                                id="nav-count-hard">-</span></li>
+                                        <li data-panel="soft-skills">Soft Skills <span class="nav-count"
+                                                id="nav-count-soft">-</span></li>
+                                        <li data-panel="recruiter-tips">Recruiter Tips <span class="nav-count"
+                                                id="nav-count-tips">-</span></li>
+                                        <li data-panel="formatting">Formatting <span class="nav-count"
+                                                id="nav-count-fmt">-</span></li>
                                     </ul>
 
-                                    <button id="ats-rescan-btn" class="btn primary-btn" style="width:100%;margin-top:1rem;font-size:0.82rem;">
+                                    <button id="ats-rescan-btn" class="btn primary-btn"
+                                        style="width:100%;margin-top:1rem;font-size:0.82rem;">
                                         <i class="fa-solid fa-rotate-right"></i> Re-scan
                                     </button>
                                 </div>
@@ -344,8 +722,10 @@
                                     <!-- Searchability -->
                                     <div class="ats-section-panel active" data-ats-panel="searchability">
                                         <div class="ats-section-card">
-                                            <div class="ats-section-title">Searchability <span class="ats-badge important">Important</span></div>
-                                            <div class="ats-tip">ATS software is used by 90% of companies to search for resumes. Below is how well your resume appears in an ATS.</div>
+                                            <div class="ats-section-title">Searchability <span
+                                                    class="ats-badge important">Important</span></div>
+                                            <div class="ats-tip">ATS software is used by 90% of companies to search for
+                                                resumes. Below is how well your resume appears in an ATS.</div>
                                             <div id="ats-searchability-checks"></div>
                                         </div>
                                     </div>
@@ -353,18 +733,31 @@
                                     <!-- Hard Skills -->
                                     <div class="ats-section-panel" data-ats-panel="hard-skills">
                                         <div class="ats-section-card">
-                                            <div class="ats-section-title">Hard Skills <span class="ats-badge high">High Score Impact</span></div>
-                                            <div class="ats-tip">Match the skills in your resume to the exact spelling in the job description. Prioritize skills that appear most frequently.</div>
+                                            <div class="ats-section-title">Hard Skills <span class="ats-badge high">High
+                                                    Score Impact</span></div>
+                                            <div class="ats-tip">Match the skills in your resume to the exact spelling
+                                                in the job description. Prioritize skills that appear most frequently.
+                                            </div>
                                             <div style="margin-bottom:0.75rem;">
-                                                <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem;">Skills Comparison</div>
+                                                <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem;">
+                                                    Skills Comparison</div>
                                                 <table class="skills-table" id="ats-hard-skills-table">
-                                                    <thead><tr><th>Skill</th><th style="text-align:center;">Resume</th><th style="text-align:center;">Job Description</th></tr></thead>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Skill</th>
+                                                            <th style="text-align:center;">Resume</th>
+                                                            <th style="text-align:center;">Job Description</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody></tbody>
                                                 </table>
                                             </div>
                                             <div style="margin-top:1rem;">
-                                                <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem;">Select missing skills you possess — we'll weave them into your resume:</div>
-                                                <div id="missing-skills-list" style="display:flex;flex-wrap:wrap;gap:0;"></div>
+                                                <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem;">
+                                                    Select missing skills you possess — we'll weave them into your
+                                                    resume:</div>
+                                                <div id="missing-skills-list"
+                                                    style="display:flex;flex-wrap:wrap;gap:0;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -372,10 +765,19 @@
                                     <!-- Soft Skills -->
                                     <div class="ats-section-panel" data-ats-panel="soft-skills">
                                         <div class="ats-section-card">
-                                            <div class="ats-section-title">Soft Skills <span class="ats-badge medium">Medium Score Impact</span></div>
-                                            <div class="ats-tip">Soft skills have a moderate impact on your match score. Prioritize hard skills first, then showcase soft skills in the interview.</div>
+                                            <div class="ats-section-title">Soft Skills <span
+                                                    class="ats-badge medium">Medium Score Impact</span></div>
+                                            <div class="ats-tip">Soft skills have a moderate impact on your match score.
+                                                Prioritize hard skills first, then showcase soft skills in the
+                                                interview.</div>
                                             <table class="skills-table" id="ats-soft-skills-table">
-                                                <thead><tr><th>Skill</th><th style="text-align:center;">Resume</th><th style="text-align:center;">Job Description</th></tr></thead>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Skill</th>
+                                                        <th style="text-align:center;">Resume</th>
+                                                        <th style="text-align:center;">Job Description</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody></tbody>
                                             </table>
                                         </div>
@@ -384,7 +786,8 @@
                                     <!-- Recruiter Tips -->
                                     <div class="ats-section-panel" data-ats-panel="recruiter-tips">
                                         <div class="ats-section-card">
-                                            <div class="ats-section-title">Recruiter Tips <span class="ats-badge important">Important</span></div>
+                                            <div class="ats-section-title">Recruiter Tips <span
+                                                    class="ats-badge important">Important</span></div>
                                             <div id="ats-recruiter-tips-checks"></div>
                                         </div>
                                     </div>
@@ -393,7 +796,8 @@
                                     <div class="ats-section-panel" data-ats-panel="formatting">
                                         <div class="ats-section-card">
                                             <div class="ats-section-title">Formatting</div>
-                                            <div class="ats-tip">Formatting recommendations to ensure your resume is easily read by ATS, recruiters, and hiring managers.</div>
+                                            <div class="ats-tip">Formatting recommendations to ensure your resume is
+                                                easily read by ATS, recruiters, and hiring managers.</div>
                                             <div id="ats-formatting-checks"></div>
                                         </div>
                                     </div>
@@ -402,8 +806,10 @@
                         </div>
 
                         <div class="step-actions split" style="margin-top:1.5rem;">
-                            <button id="back-to-2" class="btn ghost-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                            <button id="next-to-4" class="btn primary-btn">Finalize & Tailor <i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                            <button id="back-to-2" class="btn ghost-btn"><i class="fa-solid fa-arrow-left"></i>
+                                Back</button>
+                            <button id="next-to-4" class="btn primary-btn">Finalize & Tailor <i
+                                    class="fa-solid fa-wand-magic-sparkles"></i></button>
                         </div>
                     </div>
 
@@ -428,105 +834,105 @@
                             <p class="helper-text">These instructions will be applied to every document we generate
                                 for
                                 you.</p>
-                            <button id="save-prefs" class="btn primary-btn"
-                                style="width: 100%; margin-top: 1rem;">Save
+                            <button id="save-prefs" class="btn primary-btn" style="width: 100%; margin-top: 1rem;">Save
                                 Preferences</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- LinkedIn About Modal (hidden until scraping solution found) -->
-                <div id="linkedin-modal" class="modal" style="display:none;"
-                    <div class="modal-content glass-panel" style="max-width: 560px;">
-                        <div class="modal-header">
-                            <h3><i class="fa-brands fa-linkedin" style="color: #0077b5;"></i> LinkedIn About Section
-                            </h3>
-                            <span id="close-linkedin" class="close">&times;</span>
-                        </div>
-                        <div class="modal-body">
-                            <p class="helper-text" style="margin-bottom: 1rem;">A polished 300-word About section
-                                distilled from
-                                your tailored resume.</p>
-                            <div id="linkedin-output" class="rich-output-area" contenteditable="true"
-                                style="min-height: 200px; font-size: 0.95rem; line-height: 1.7;"
-                                data-placeholder="Generating your LinkedIn About section..."></div>
-                            <button id="copy-linkedin-btn" class="btn primary-btn"
-                                style="width: 100%; margin-top: 1rem;">
-                                <i class="fa-regular fa-copy"></i> Copy to Clipboard
-                            </button>
-                        </div>
+                <div id="linkedin-modal" class="modal" style="display:none;" <div class="modal-content glass-panel"
+                    style="max-width: 560px;">
+                    <div class="modal-header">
+                        <h3><i class="fa-brands fa-linkedin" style="color: #0077b5;"></i> LinkedIn About Section
+                        </h3>
+                        <span id="close-linkedin" class="close">&times;</span>
                     </div>
-                </div>
-
-                <!-- Share Toast -->
-                <div id="share-toast" class="share-toast hidden">
-                    <i class="fa-solid fa-check-circle"></i> Link copied to clipboard!
-                </div>
-
-
-
-                <!-- Site Footer -->
-                <footer class="site-footer">
-                    <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
-                    <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
-                </footer>
-
-                <!-- Scripts -->
-                <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-
-                <!-- Parser Libraries -->
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-                <script>
-                    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-                </script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-                <script src="auth.js?v=8"></script>
-                <script src="error-utils.js"></script>
-                <script src="app.js?v=9"></script>
-
-                <!-- Full viewport overlay -->
-                <div id="loading-overlay" class="hidden">
-                    <div class="resume-anim-wrap" style="transform: scale(1.1);">
-                        <div class="resume-doc">
-                            <div class="rdoc-header">
-                                <div class="rdoc-avatar"></div>
-                                <div class="rdoc-title-lines">
-                                    <div class="rdoc-line rdoc-line-name"></div>
-                                    <div class="rdoc-line rdoc-line-sub"></div>
-                                </div>
-                            </div>
-                            <div class="rdoc-section-label"></div>
-                            <div class="rdoc-line rdoc-body-line" style="--d:0.1s;--w:95%"></div>
-                            <div class="rdoc-line rdoc-body-line" style="--d:0.3s;--w:88%"></div>
-                            <div class="rdoc-line rdoc-body-line" style="--d:0.5s;--w:72%"></div>
-                            <div class="rdoc-section-label" style="--d2:0.7s;margin-top:10px"></div>
-                            <div class="rdoc-line rdoc-body-line" style="--d:0.9s;--w:90%"></div>
-                            <div class="rdoc-line rdoc-body-line" style="--d:1.1s;--w:65%"></div>
-                            <span class="rdoc-cursor"></span>
-                        </div>
-                        <div class="sparkle sp1">✦</div>
-                        <div class="sparkle sp2">✦</div>
-                    </div>
-
-                    <h3 id="loading-title" style="margin-top: 1rem;"></h3>
-                    <p id="loading-estimate" style="color: var(--text-secondary); display: none;"></p>
-                    <div id="did-you-know-box" style="margin-top: 1.5rem; max-width: 480px; text-align: center;">
-                        <span style="display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 0.4rem;">Did you know?</span>
-                        <p id="funny-quote"
-                            style="color: var(--text-secondary); min-height: 1.5rem; opacity: 1; transition: opacity 0.5s ease-in-out; font-size: 0.9rem; line-height: 1.5; margin: 0;">
-                        </p>
-                    </div>
-
-                    <div id="generation-status" class="status-message">
-                    </div>
-
-                    <div id="generation-control" class="hidden" style="margin-top: 1rem;">
-                        <!-- Injected on error -->
+                    <div class="modal-body">
+                        <p class="helper-text" style="margin-bottom: 1rem;">A polished 300-word About section
+                            distilled from
+                            your tailored resume.</p>
+                        <div id="linkedin-output" class="rich-output-area" contenteditable="true"
+                            style="min-height: 200px; font-size: 0.95rem; line-height: 1.7;"
+                            data-placeholder="Generating your LinkedIn About section..."></div>
+                        <button id="copy-linkedin-btn" class="btn primary-btn" style="width: 100%; margin-top: 1rem;">
+                            <i class="fa-regular fa-copy"></i> Copy to Clipboard
+                        </button>
                     </div>
                 </div>
             </div>
+
+            <!-- Share Toast -->
+            <div id="share-toast" class="share-toast hidden">
+                <i class="fa-solid fa-check-circle"></i> Link copied to clipboard!
+            </div>
+
+
+
+            <!-- Site Footer -->
+            <footer class="site-footer">
+                <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+                <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+            </footer>
+
+            <!-- Scripts -->
+            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+
+            <!-- Parser Libraries -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+            <script>
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+            <script src="auth.js?v=8"></script>
+            <script src="error-utils.js"></script>
+            <script src="app.js?v=9"></script>
+
+            <!-- Full viewport overlay -->
+            <div id="loading-overlay" class="hidden">
+                <div class="resume-anim-wrap" style="transform: scale(1.1);">
+                    <div class="resume-doc">
+                        <div class="rdoc-header">
+                            <div class="rdoc-avatar"></div>
+                            <div class="rdoc-title-lines">
+                                <div class="rdoc-line rdoc-line-name"></div>
+                                <div class="rdoc-line rdoc-line-sub"></div>
+                            </div>
+                        </div>
+                        <div class="rdoc-section-label"></div>
+                        <div class="rdoc-line rdoc-body-line" style="--d:0.1s;--w:95%"></div>
+                        <div class="rdoc-line rdoc-body-line" style="--d:0.3s;--w:88%"></div>
+                        <div class="rdoc-line rdoc-body-line" style="--d:0.5s;--w:72%"></div>
+                        <div class="rdoc-section-label" style="--d2:0.7s;margin-top:10px"></div>
+                        <div class="rdoc-line rdoc-body-line" style="--d:0.9s;--w:90%"></div>
+                        <div class="rdoc-line rdoc-body-line" style="--d:1.1s;--w:65%"></div>
+                        <span class="rdoc-cursor"></span>
+                    </div>
+                    <div class="sparkle sp1">✦</div>
+                    <div class="sparkle sp2">✦</div>
+                </div>
+
+                <h3 id="loading-title" style="margin-top: 1rem;"></h3>
+                <p id="loading-estimate" style="color: var(--text-secondary); display: none;"></p>
+                <div id="did-you-know-box" style="margin-top: 1.5rem; max-width: 480px; text-align: center;">
+                    <span
+                        style="display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 0.4rem;">Did
+                        you know?</span>
+                    <p id="funny-quote"
+                        style="color: var(--text-secondary); min-height: 1.5rem; opacity: 1; transition: opacity 0.5s ease-in-out; font-size: 0.9rem; line-height: 1.5; margin: 0;">
+                    </p>
+                </div>
+
+                <div id="generation-status" class="status-message">
+                </div>
+
+                <div id="generation-control" class="hidden" style="margin-top: 1rem;">
+                    <!-- Injected on error -->
+                </div>
+            </div>
+    </div>
 
 </body>
 

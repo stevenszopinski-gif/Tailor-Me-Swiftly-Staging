@@ -219,17 +219,161 @@
             }
         }
 
-        /* Output grid - Update to 5 columns for new card or keep 4/2 layout */
+        /* Dashboard Layout */
+        .health-dashboard {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            align-items: stretch;
+        }
+
+        .score-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 250px;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .insight-widget {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .insight-widget:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .insight-widget .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .insight-widget h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .insight-widget p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Core Deliverables Grid */
+        .core-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .core-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .core-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .core-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2);
+        }
+
+        .core-card .card-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .core-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .core-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Standard Output Grid */
         .output-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.25rem;
             margin-bottom: 2.5rem;
         }
 
         @media (max-width: 1200px) {
-            .output-grid {
+            .health-dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .core-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .insights-grid,
+            .core-grid,
+            .output-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -334,6 +478,50 @@
 
         .card-shadowjob .card-icon {
             background: linear-gradient(135deg, #475569, #64748b);
+        }
+
+        .card-autoapp .card-icon {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+        }
+
+        .card-reverseint .card-icon {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .card-ghosting .card-icon {
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+        }
+
+        .card-compdecoder .card-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .card-skilltrack .card-icon {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .card-backchannel .card-icon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .card-techscreen .card-icon {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+        }
+
+        .card-rejection .card-icon {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+        }
+
+        .card-toxicradar .card-icon {
+            background: linear-gradient(135deg, #ef4444, #991b1b);
+        }
+
+        .card-confidence .card-icon {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+        }
+
+        .card-thankyou .card-icon {
+            background: linear-gradient(135deg, #10b981, #047857);
         }
 
         .section-label {
@@ -569,74 +757,89 @@
                         id="hero-company">your target role</strong></p>
             </div>
 
-            <div class="results-meta" style="margin-bottom: 2rem; margin-top: 2rem;">
-                <div class="score-dial-wrap" id="score-dial-wrap" style="display:none;">
-                    <svg viewBox="0 0 36 36">
-                        <circle class="dial-bg" cx="18" cy="18" r="15.9155" />
-                        <circle id="dial-arc" class="dial-arc" cx="18" cy="18" r="15.9155" stroke-dasharray="0 100"
-                            stroke="#10b981" />
-                        <text x="18" y="17" class="dial-pct" id="dial-pct">0%</text>
-                        <text x="18" y="22" class="dial-sub">ATS Score</text>
-                    </svg>
-                    <span class="dial-label">Match Score</span>
+            <div class="health-dashboard">
+                <div class="score-card">
+                    <div class="score-dial-wrap" id="score-dial-wrap" style="display:none;">
+                        <svg viewBox="0 0 36 36">
+                            <circle class="dial-bg" cx="18" cy="18" r="15.9155" />
+                            <circle id="dial-arc" class="dial-arc" cx="18" cy="18" r="15.9155" stroke-dasharray="0 100"
+                                stroke="#10b981" />
+                            <text x="18" y="17" class="dial-pct" id="dial-pct">0%</text>
+                            <text x="18" y="22" class="dial-sub">ATS Score</text>
+                        </svg>
+                        <span class="dial-label" style="margin-top:0.5rem;">Match Score</span>
+                    </div>
+                </div>
+
+                <div class="insights-grid">
+                    <div class="insight-widget" id="roast-card"
+                        onclick="document.getElementById('roast-modal').classList.add('visible')">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);"><i
+                                class="fa-solid fa-fire-flame-curved" style="color:#fff;"></i></div>
+                        <div>
+                            <h4>Brutal Roast</h4>
+                            <p id="roast-summary">AI roasts your weakest points</p>
+                        </div>
+                    </div>
+                    <div class="insight-widget" id="redflag-card"
+                        onclick="document.getElementById('redflag-modal').classList.add('visible')">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);"><i
+                                class="fa-solid fa-triangle-exclamation" style="color:#fff;"></i></div>
+                        <div>
+                            <h4>Red Flag Detector</h4>
+                            <p id="redflag-summary">Things that get you rejected</p>
+                        </div>
+                    </div>
+                    <div class="insight-widget" id="burnout-card"
+                        onclick="document.getElementById('burnout-modal').classList.add('visible')">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f97316, #eab308);"><i
+                                class="fa-solid fa-shield-halved" style="color:#fff;"></i></div>
+                        <div>
+                            <h4>Burnout Check</h4>
+                            <p id="burnout-summary">Toxic language & OE fit</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Skills Selector removed -->
+            <!-- ═══ CORE DELIVERABLES ═══ -->
+            <div class="section-label"><i class="fa-solid fa-star"></i> Core Deliverables</div>
+            <div class="core-grid">
+                <a href="resume.html" class="core-card card-resume">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);"><i
+                            class="fa-solid fa-file-lines" style="color:#fff;"></i></div>
+                    <div>
+                        <h3>Tailored Resume</h3>
+                        <p>ATS-optimized for the job description</p>
+                    </div>
+                </a>
+                <a href="cover-letter.html" class="core-card card-cover">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #0ea5e9, #38bdf8);"><i
+                            class="fa-solid fa-envelope-open-text" style="color:#fff;"></i></div>
+                    <div>
+                        <h3>Cover Letter</h3>
+                        <p>Compelling 3-4 paragraph narrative</p>
+                    </div>
+                </a>
+                <a href="outreach.html" class="core-card card-email">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);"><i
+                            class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
+                    <div>
+                        <h3>Intro Email</h3>
+                        <p>Outreach draft to the hiring manager</p>
+                    </div>
+                </a>
+            </div>
 
+            <!-- ═══ INTERVIEW & PREP ═══ -->
+            <div class="section-label"><i class="fa-solid fa-microphone-lines"></i> Interview & Prep</div>
             <div class="output-grid">
-                <a href="resume.html" class="output-card card-resume">
-                    <div class="card-icon"><i class="fa-solid fa-file-lines" style="color:#fff;"></i></div>
-                    <h3>Resume</h3>
-                    <p>ATS-optimized, tailored to the job description</p>
-                </a>
-                <a href="cover-letter.html" class="output-card card-cover">
-                    <div class="card-icon"><i class="fa-solid fa-envelope-open-text" style="color:#fff;"></i></div>
-                    <h3>Cover Letter</h3>
-                    <p>Compelling 3-4 paragraph cover letter</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
-                        on
-                        click</span>
-                </a>
                 <a href="interview-prep.html" class="output-card card-interview">
                     <div class="card-icon"><i class="fa-solid fa-comments" style="color:#fff;"></i></div>
                     <h3>Mock Interview</h3>
                     <p>10 role-specific questions with TTS & practice mode</p>
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
-                        on
-                        click</span>
-                </a>
-                <!-- Cultural Fit Card removed -->
-                <a href="outreach.html" class="output-card card-email">
-                    <div class="card-icon"><i class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
-                    <h3>Introduction Email</h3>
-                    <p>Outreach email draft to the hiring manager</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
-                        on
-                        click</span>
-                </a>
-            </div>
-
-            <!-- ═══ DEEP ANALYSIS ═══ -->
-            <div class="section-label"><i class="fa-solid fa-magnifying-glass-chart"></i> Deep Analysis</div>
-            <div class="output-grid">
-                <a class="output-card card-roast" id="roast-card"
-                    onclick="document.getElementById('roast-modal').classList.add('visible')">
-                    <div class="card-icon"><i class="fa-solid fa-fire-flame-curved" style="color:#fff;"></i></div>
-                    <h3>Brutal Roast</h3>
-                    <p id="roast-summary">AI roasts your resume's weakest points</p>
-                </a>
-                <a class="output-card card-redflag" id="redflag-card"
-                    onclick="document.getElementById('redflag-modal').classList.add('visible')">
-                    <div class="card-icon"><i class="fa-solid fa-triangle-exclamation" style="color:#fff;"></i></div>
-                    <h3>Red Flag Detector</h3>
-                    <p id="redflag-summary">Things that get your resume rejected</p>
-                </a>
-                <a class="output-card card-burnout" id="burnout-card"
-                    onclick="document.getElementById('burnout-modal').classList.add('visible')">
-                    <div class="card-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;"></i></div>
-                    <h3>Burnout Check</h3>
-                    <p id="burnout-summary">Toxic job language & overemployment fit</p>
+                        on click</span>
                 </a>
                 <a href="day-in-life.html" class="output-card card-dayinlife">
                     <div class="card-icon"><i class="fa-solid fa-sun" style="color:#fff;"></i></div>
@@ -645,11 +848,6 @@
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
                         on click</span>
                 </a>
-            </div>
-
-            <!-- ═══ CAREER TOOLKIT ═══ -->
-            <div class="section-label"><i class="fa-solid fa-toolbox"></i> Career Toolkit</div>
-            <div class="output-grid">
                 <a href="salary-negotiator.html" class="output-card card-salary">
                     <div class="card-icon"><i class="fa-solid fa-sack-dollar" style="color:#fff;"></i></div>
                     <h3>Salary Negotiator</h3>
@@ -668,6 +866,96 @@
                 </a>
             </div>
 
+
+
+            <!-- ═══ INTELLIGENCE & SCOUTING ═══ -->
+            <div class="section-label"><i class="fa-solid fa-satellite-dish"></i> Intelligence & Scouting</div>
+            <div class="output-grid">
+                <a href="comp-decoder.html" class="output-card card-compdecoder">
+                    <div class="card-icon"><i class="fa-solid fa-scale-balanced" style="color:#fff;"></i></div>
+                    <h3>Comp Decoder</h3>
+                    <p>Decode the true value of any offer — equity, COL, benefits</p>
+                    <span
+                        style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Calculator</span>
+                </a>
+                <a href="skills-tracker.html" class="output-card card-skilltrack">
+                    <div class="card-icon"><i class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
+                    <h3>Skills Tracker</h3>
+                    <p>See which skills are rising and decaying + roadmap</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </a>
+                <a href="ghosting-predictor.html" class="output-card card-ghosting">
+                    <div class="card-icon"><i class="fa-solid fa-ghost" style="color:#fff;"></i></div>
+                    <h3>Ghosting Predictor</h3>
+                    <p>Is this a ghost job? AI analyzes the posting signals</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </a>
+                <a href="toxic-radar.html" class="output-card card-toxicradar">
+                    <div class="card-icon"><i class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
+                    <h3>Toxic Culture Radar</h3>
+                    <p>Toxicity score, layoff risk, and Glassdoor estimate</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Company
+                        scan</span>
+                </a>
+                <a href="reverse-interview.html" class="output-card card-reverseint">
+                    <div class="card-icon"><i class="fa-solid fa-magnifying-glass-arrow-right" style="color:#fff;"></i>
+                    </div>
+                    <h3>Reverse Interview</h3>
+                    <p>Probing questions that make you look like a consultant</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </a>
+                <a href="auto-app.html" class="output-card card-autoapp">
+                    <div class="card-icon"><i class="fa-solid fa-robot" style="color:#fff;"></i></div>
+                    <h3>Auto-App Agent</h3>
+                    <p>Set criteria and AI finds + tailors matching applications</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Job
+                        scanner</span>
+                </a>
+                <a href="shadow-jobs.html" class="output-card card-shadowjob">
+                    <div class="card-icon"><i class="fa-solid fa-eye" style="color:#fff;"></i></div>
+                    <h3>Shadow Jobs</h3>
+                    <p>Monitor company career pages before jobs hit LinkedIn</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Setup
+                        tracker</span>
+                </a>
+            </div>
+
+            <!-- ═══ INTERVIEW & FOLLOW-UP ═══ -->
+            <div class="section-label"><i class="fa-solid fa-handshake"></i> Interview & Follow-Up</div>
+            <div class="output-grid">
+                <a href="tech-screen.html" class="output-card card-techscreen">
+                    <div class="card-icon"><i class="fa-solid fa-fire" style="color:#fff;"></i></div>
+                    <h3>Trial By Fire</h3>
+                    <p>Custom tech challenge mimicking this company's interview</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Sandbox
+                        IDE</span>
+                </a>
+                <a href="confidence-scorer.html" class="output-card card-confidence">
+                    <div class="card-icon"><i class="fa-solid fa-microphone-lines" style="color:#fff;"></i></div>
+                    <h3>Confidence Scorer</h3>
+                    <p>AI grades your delivery — filler words, pace, structure</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Webcam +
+                        mic</span>
+                </a>
+                <a href="thank-you.html" class="output-card card-thankyou">
+                    <div class="card-icon"><i class="fa-solid fa-envelope-circle-check" style="color:#fff;"></i></div>
+                    <h3>Thank-You Engine</h3>
+                    <p>3 variants of the perfect post-interview thank-you email</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </a>
+                <a href="rejection-reverser.html" class="output-card card-rejection">
+                    <div class="card-icon"><i class="fa-solid fa-rotate-left" style="color:#fff;"></i></div>
+                    <h3>Rejection Reverser</h3>
+                    <p>Turn rejections into networking gold</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </a>
+            </div>
+
             <!-- ═══ OUTREACH & EDGE ═══ -->
             <div class="section-label"><i class="fa-solid fa-rocket"></i> Outreach & Edge</div>
             <div class="output-grid">
@@ -678,19 +966,19 @@
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
                         on click</span>
                 </a>
+                <a href="backchannel.html" class="output-card card-backchannel">
+                    <div class="card-icon"><i class="fa-solid fa-diagram-project" style="color:#fff;"></i></div>
+                    <h3>Back-Channel</h3>
+                    <p>Find hidden connections — alumni, former coworkers, insiders</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Network
+                        mapper</span>
+                </a>
                 <a href="video-intro.html" class="output-card card-video">
                     <div class="card-icon"><i class="fa-solid fa-video" style="color:#fff;"></i></div>
                     <h3>Video Intro</h3>
                     <p>60-second script + built-in teleprompter</p>
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Script +
                         recorder</span>
-                </a>
-                <a href="shadow-jobs.html" class="output-card card-shadowjob">
-                    <div class="card-icon"><i class="fa-solid fa-ghost" style="color:#fff;"></i></div>
-                    <h3>Shadow Jobs</h3>
-                    <p>Monitor company career pages before jobs hit LinkedIn</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Setup
-                        tracker</span>
                 </a>
                 <a href="guerrilla-tactics.html" class="output-card" style="border-color:rgba(239,68,68,0.3);">
                     <div class="card-icon" style="background:linear-gradient(135deg, #ef4444, #dc2626);"><i
