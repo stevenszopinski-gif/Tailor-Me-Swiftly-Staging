@@ -213,6 +213,12 @@
         const outputs = loadOutputs();
 
         async function callGeminiForCover(systemPrompt, userPrompt) {
+            // Ensure a fresh auth token before calling the edge function
+            const { data: refreshData } = await supabaseClient.auth.refreshSession();
+            if (!refreshData?.session) {
+                throw new Error('Your session has expired. <a href="login.html" style="color:var(--primary-color);text-decoration:underline;">Sign in again</a> to continue.');
+            }
+
             const res = await supabaseClient.functions.invoke('gemini-proxy', {
                 body: {
                     model: 'gemini-3-flash-preview',
