@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI analyzes company culture from news, Glassdoor sentiment, and JD language to generate a Toxicity & Layoff Risk Score.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Toxic Culture Radar – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .radar-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .toxicity-meter { text-align: center; margin-bottom: 1.5rem; }
+        .toxicity-score { font-size: 4rem; font-weight: 800; font-family: 'Outfit', sans-serif; line-height: 1; }
+        .toxicity-bar { height: 12px; border-radius: 6px; background: var(--panel-border); margin: 1rem auto; max-width: 400px; overflow: hidden; }
+        .toxicity-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
+        .radar-signal { display: flex; gap: 1rem; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .radar-signal:last-child { border-bottom: none; }
+        .radar-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; }
+        .layoff-timeline { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+        .layoff-event { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.78rem; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-biohazard" style="color:#ef4444;margin-right:0.5rem;"></i>Toxic Culture Radar</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Know what you're getting into before you waste hours applying</p>
+
+        <div id="radar-output">
+            <div style="text-align:center;padding:3rem;">
+                <p style="color:var(--text-secondary);margin-bottom:1.5rem;">AI will analyze the company's culture signals, layoff history, and JD red flags.</p>
+                <button class="btn primary-btn" onclick="analyzeCompany()"><i class="fa-solid fa-biohazard"></i> Scan Company Culture</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        async function analyzeCompany() {
+            const container = document.getElementById('radar-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Scanning company culture and risk signals...</p>';
+
+            const systemPrompt = `You are a company culture analyst and employee advocate. Analyze the target company and its job description for culture red flags, toxicity signals, and layoff risk.
+
+Look for:
+- JD language red flags ("fast-paced," "wear many hats," "rockstar," "family," etc.)
+- Layoff history or recent restructuring
+- Glassdoor sentiment patterns
+- Work-life balance indicators
+- Management style clues
+- Compensation transparency
+- DEI commitments vs. reality
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "company": "Company name",
+    "toxicityScore": number (0-100, where 100 = extremely toxic),
+    "layoffRisk": "low"|"moderate"|"high"|"critical",
+    "verdict": "Safe Bet"|"Proceed with Caution"|"Orange Flags"|"Run",
+    "signals": [
+        {
+            "category": "jd-language"|"layoff-history"|"culture"|"management"|"compensation"|"work-life",
+            "signal": "What was found",
+            "severity": "green"|"yellow"|"red",
+            "detail": "Explanation"
+        }
+    ],
+    "layoffEvents": ["Any known layoff events with dates/context"],
+    "glassdoorEstimate": {
+        "rating": "Estimated rating (e.g., 3.2/5)",
+        "commonComplaints": ["Top complaint themes"],
+        "commonPraises": ["Top praise themes"]
+    },
+    "interviewQuestions": ["2-3 questions to ask in the interview to verify culture"],
+    "bottomLine": "2-3 sentence honest assessment"
+}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: `Company: ${outputs?.targetCompany || 'Unknown'}\n\nJob Description:\n${outputs?.jobText || 'Not provided'}` }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderRadar(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Scan failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="analyzeCompany()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderRadar(result) {
+            const container = document.getElementById('radar-output');
+            const score = result.toxicityScore;
+            const color = score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
+            const layoffColor = { low: '#10b981', moderate: '#f59e0b', high: '#ef4444', critical: '#dc2626' }[result.layoffRisk] || '#f59e0b';
+
+            let html = `<div class="toxicity-meter">
+                <div class="toxicity-score" style="color:${color};">${score}%</div>
+                <div style="font-size:1.1rem;font-weight:600;color:${color};margin-top:0.3rem;">${result.verdict}</div>
+                <div class="toxicity-bar"><div class="toxicity-fill" style="width:${score}%;background:${color};"></div></div>
+                <div style="display:flex;justify-content:center;gap:1.5rem;margin-top:0.75rem;">
+                    <span style="font-size:0.85rem;"><strong>Toxicity:</strong> <span style="color:${color};font-weight:700;">${score}%</span></span>
+                    <span style="font-size:0.85rem;"><strong>Layoff Risk:</strong> <span style="color:${layoffColor};font-weight:700;text-transform:uppercase;">${result.layoffRisk}</span></span>
+                </div>
+            </div>`;
+
+            // Signals
+            html += `<div class="radar-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-signal" style="color:#ef4444;margin-right:0.4rem;"></i> Culture Signals</h3>`;
+            const catIcons = {
+                'jd-language': 'fa-file-lines', 'layoff-history': 'fa-scissors', 'culture': 'fa-people-group',
+                'management': 'fa-user-tie', 'compensation': 'fa-money-bill', 'work-life': 'fa-scale-balanced'
+            };
+            result.signals.forEach(s => {
+                const sColor = s.severity === 'red' ? '#ef4444' : s.severity === 'yellow' ? '#f59e0b' : '#10b981';
+                const sBg = s.severity === 'red' ? 'rgba(239,68,68,0.1)' : s.severity === 'yellow' ? 'rgba(245,158,11,0.1)' : 'rgba(16,185,129,0.1)';
+                html += `<div class="radar-signal">
+                    <div class="radar-icon" style="background:${sBg};color:${sColor};"><i class="fa-solid ${catIcons[s.category] || 'fa-circle'}"></i></div>
+                    <div><strong style="font-size:0.9rem;">${s.signal}</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin:0.2rem 0 0;line-height:1.5;">${s.detail}</p></div>
+                </div>`;
+            });
+            html += `</div>`;
+
+            // Layoff events
+            if (result.layoffEvents && result.layoffEvents.length > 0) {
+                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-scissors" style="color:#ef4444;margin-right:0.4rem;"></i> Layoff History</h3><div class="layoff-timeline">`;
+                result.layoffEvents.forEach(e => { html += `<span class="layoff-event">${e}</span>`; });
+                html += `</div></div>`;
+            }
+
+            // Glassdoor estimate
+            if (result.glassdoorEstimate) {
+                const ge = result.glassdoorEstimate;
+                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-star" style="color:#f59e0b;margin-right:0.4rem;"></i> Estimated Glassdoor: ${ge.rating}</h3>
+                <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                    <div style="flex:1;min-width:200px;"><h4 style="font-size:0.85rem;color:#ef4444;margin:0 0 0.4rem;">Common Complaints</h4><ul style="margin:0;padding-left:1rem;font-size:0.82rem;line-height:1.6;color:var(--text-secondary);">`;
+                ge.commonComplaints.forEach(c => { html += `<li>${c}</li>`; });
+                html += `</ul></div><div style="flex:1;min-width:200px;"><h4 style="font-size:0.85rem;color:#10b981;margin:0 0 0.4rem;">Common Praises</h4><ul style="margin:0;padding-left:1rem;font-size:0.82rem;line-height:1.6;color:var(--text-secondary);">`;
+                ge.commonPraises.forEach(c => { html += `<li>${c}</li>`; });
+                html += `</ul></div></div></div>`;
+            }
+
+            // Interview questions
+            if (result.interviewQuestions && result.interviewQuestions.length > 0) {
+                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-question-circle" style="color:#6366f1;margin-right:0.4rem;"></i> Questions to Verify Culture</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.8;color:var(--text-secondary);">`;
+                result.interviewQuestions.forEach(q => { html += `<li>${q}</li>`; });
+                html += `</ul></div>`;
+            }
+
+            html += `<div style="background:var(--glass-bg);border:2px solid ${color};border-radius:16px;padding:1.5rem;text-align:center;">
+                <p style="font-size:0.95rem;margin:0;line-height:1.6;">${result.bottomLine}</p>
+            </div>`;
+
+            html += `<div style="text-align:center;margin-top:1.5rem;"><button class="btn small-btn ghost-btn" onclick="analyzeCompany()"><i class="fa-solid fa-rotate"></i> Re-scan</button></div>`;
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI identifies your decaying skills and rising skills, then generates a personalized 6-month upskill roadmap.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Skills Tracker – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .skill-section { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .skill-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .skill-row:last-child { border-bottom: none; }
+        .skill-name { font-weight: 600; font-size: 0.9rem; min-width: 120px; }
+        .skill-bar { flex: 1; height: 8px; background: var(--panel-border); border-radius: 4px; overflow: hidden; }
+        .skill-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+        .skill-pct { font-size: 0.8rem; font-weight: 700; min-width: 45px; text-align: right; }
+        .trend-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600; }
+        .trend-badge.rising { background: rgba(16,185,129,0.1); color: #10b981; }
+        .trend-badge.decaying { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .trend-badge.stable { background: rgba(99,102,241,0.1); color: #6366f1; }
+        .roadmap-step { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem; }
+        .roadmap-week { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; min-width: 60px; text-align: center; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-chart-line" style="color:#06b6d4;margin-right:0.5rem;"></i>Skills Obsolescence Tracker</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Skate to where the puck is going — see which skills are rising and decaying</p>
+
+        <div id="skills-output">
+            <div style="text-align:center;padding:3rem;">
+                <p style="color:var(--text-secondary);margin-bottom:1.5rem;">AI analyzes your resume against current market trends to identify skill gaps and opportunities.</p>
+                <button class="btn primary-btn" onclick="analyzeSkills()"><i class="fa-solid fa-chart-line"></i> Analyze My Skills</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        async function analyzeSkills() {
+            const container = document.getElementById('skills-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Analyzing your skills against market trends...</p>';
+
+            const systemPrompt = `You are a career market analyst. Analyze the candidate's resume skills against current job market trends in their field. Identify decaying skills (becoming less in-demand), rising skills (increasingly required), and stable skills.
+
+Then generate a personalized 6-month upskill roadmap.
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "field": "The candidate's primary field",
+    "marketInsight": "2-3 sentence overview of market trends in their field",
+    "skills": [
+        {
+            "name": "Skill name",
+            "trend": "rising"|"decaying"|"stable",
+            "demandPct": number (0-100, current market demand),
+            "note": "Brief context (e.g., '40% of React roles now require this')"
+        }
+    ],
+    "missingSkills": [
+        {
+            "name": "Skill they should learn",
+            "urgency": "high"|"medium"|"low",
+            "reason": "Why this skill matters now"
+        }
+    ],
+    "roadmap": [
+        {
+            "week": "Week 1-2",
+            "focus": "What to focus on",
+            "action": "Specific actionable task (e.g., 'Complete X crash course on Y platform')",
+            "timeCommitment": "e.g., '2 hours/weekend'"
+        }
+    ]
+}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: `Resume:\n${outputs?.resumeText || 'No resume'}\n\nTarget Job Description:\n${outputs?.jobText || 'Not provided'}\n\nCompany: ${outputs?.targetCompany || 'Unknown'}` }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderSkills(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Analysis failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="analyzeSkills()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderSkills(result) {
+            const container = document.getElementById('skills-output');
+            let html = '';
+
+            html += `<div style="background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.2);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">
+                <h3 style="margin:0 0 0.5rem;font-size:0.95rem;"><i class="fa-solid fa-satellite-dish" style="color:#06b6d4;margin-right:0.4rem;"></i> Market Insight: ${result.field}</h3>
+                <p style="font-size:0.9rem;color:var(--text-secondary);margin:0;line-height:1.6;">${result.marketInsight}</p>
+            </div>`;
+
+            // Current skills
+            html += `<div class="skill-section"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-gauge-high" style="color:#06b6d4;margin-right:0.4rem;"></i> Your Skills vs Market Demand</h3>`;
+            result.skills.forEach(s => {
+                const color = s.trend === 'rising' ? '#10b981' : s.trend === 'decaying' ? '#ef4444' : '#6366f1';
+                html += `<div class="skill-row">
+                    <span class="skill-name">${s.name}</span>
+                    <div class="skill-bar"><div class="skill-fill" style="width:${s.demandPct}%;background:${color};"></div></div>
+                    <span class="skill-pct" style="color:${color};">${s.demandPct}%</span>
+                    <span class="trend-badge ${s.trend}"><i class="fa-solid ${s.trend === 'rising' ? 'fa-arrow-up' : s.trend === 'decaying' ? 'fa-arrow-down' : 'fa-minus'}"></i> ${s.trend}</span>
+                </div>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin:0 0 0.5rem;padding-left:130px;">${s.note}</p>`;
+            });
+            html += `</div>`;
+
+            // Missing skills
+            if (result.missingSkills && result.missingSkills.length > 0) {
+                html += `<div class="skill-section"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-crosshairs" style="color:#f59e0b;margin-right:0.4rem;"></i> Skills to Acquire</h3>`;
+                result.missingSkills.forEach(s => {
+                    const color = s.urgency === 'high' ? '#ef4444' : s.urgency === 'medium' ? '#f59e0b' : '#10b981';
+                    html += `<div style="display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.75rem;">
+                        <span style="font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:4px;font-weight:600;background:rgba(${s.urgency === 'high' ? '239,68,68' : s.urgency === 'medium' ? '245,158,11' : '16,185,129'},0.1);color:${color};text-transform:uppercase;">${s.urgency}</span>
+                        <div><strong style="font-size:0.9rem;">${s.name}</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin:0.2rem 0 0;line-height:1.5;">${s.reason}</p></div>
+                    </div>`;
+                });
+                html += `</div>`;
+            }
+
+            // Roadmap
+            if (result.roadmap && result.roadmap.length > 0) {
+                html += `<div class="skill-section"><h3 style="margin:0 0 1.25rem;font-size:1rem;"><i class="fa-solid fa-road" style="color:#8b5cf6;margin-right:0.4rem;"></i> 6-Month Upskill Roadmap</h3>`;
+                result.roadmap.forEach(r => {
+                    html += `<div class="roadmap-step">
+                        <span class="roadmap-week">${r.week}</span>
+                        <div>
+                            <strong style="font-size:0.9rem;">${r.focus}</strong>
+                            <p style="font-size:0.82rem;color:var(--text-secondary);margin:0.2rem 0;line-height:1.5;">${r.action}</p>
+                            <span style="font-size:0.75rem;color:var(--primary-color);"><i class="fa-solid fa-clock"></i> ${r.timeCommitment}</span>
+                        </div>
+                    </div>`;
+                });
+                html += `</div>`;
+            }
+
+            html += `<div style="text-align:center;margin-top:1rem;"><button class="btn small-btn ghost-btn" onclick="analyzeSkills()"><i class="fa-solid fa-rotate"></i> Regenerate</button></div>`;
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

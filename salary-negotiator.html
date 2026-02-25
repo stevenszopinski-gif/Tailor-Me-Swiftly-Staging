@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Practice salary negotiation with an AI HR rep. Build confidence before your real negotiation.">
+    <meta name="description" content="Practice salary negotiation with a voice-to-voice AI HR rep. Speak naturally and hear the HR rep respond in real-time.">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Salary Negotiator – TailorMeSwiftly</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
@@ -24,12 +24,25 @@
         .chat-msg.hr .role { color: #ef4444; }
         .chat-msg.user .role { color: #10b981; }
         .chat-msg.coach .role { color: #6366f1; }
+        .voice-controls { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem; }
+        .mic-btn { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--panel-border); background: var(--glass-bg); color: var(--text-primary); font-size: 1.8rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .mic-btn:hover { border-color: var(--primary-color); transform: scale(1.05); }
+        .mic-btn.listening { border-color: #ef4444; background: rgba(239,68,68,0.1); animation: pulse 1.5s ease-in-out infinite; }
+        .mic-btn.speaking { border-color: #22c55e; background: rgba(34,197,94,0.1); }
+        .voice-status { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); min-height: 1.2em; }
+        .voice-status.listening { color: #ef4444; }
+        .voice-status.speaking { color: #22c55e; }
+        .voice-status.processing { color: #f59e0b; }
+        .mode-toggle { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; }
+        .mode-btn { padding: 0.4rem 1rem; border: 1px solid var(--panel-border); border-radius: 999px; font-size: 0.82rem; cursor: pointer; background: none; color: var(--text-secondary); font-family: inherit; transition: all 0.2s; }
+        .mode-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
         .chat-input-bar { display: flex; gap: 0.5rem; }
         .chat-input-bar input { flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--panel-border); border-radius: 12px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
         .chat-input-bar input:focus { outline: none; border-color: var(--primary-color); }
         .salary-setup { text-align: center; }
         .salary-setup input { padding: 0.5rem 1rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; font-size: 1rem; width: 150px; text-align: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); } 50% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } }
     </style>
 </head>
 
@@ -64,7 +77,7 @@
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
         <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-sack-dollar" style="color:#22c55e;margin-right:0.5rem;"></i>Salary Negotiator</h1>
-        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Practice negotiating with a stubborn AI HR rep</p>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Voice-to-voice negotiation practice with a stubborn AI HR rep</p>
 
         <div id="salary-setup" class="salary-setup">
             <p style="color:var(--text-secondary);margin-bottom:1rem;">What salary are you targeting?</p>
@@ -78,15 +91,32 @@
                     <input id="initial-offer" type="text" placeholder="$95,000" value="">
                 </div>
             </div>
-            <button class="btn primary-btn" onclick="startNegotiation()"><i class="fa-solid fa-sack-dollar"></i> Start Negotiation</button>
+            <button class="btn primary-btn" onclick="startNegotiation()"><i class="fa-solid fa-microphone"></i> Start Voice Negotiation</button>
+            <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:0.75rem;">Uses your microphone for speech input and browser TTS for the HR rep's voice</p>
         </div>
 
         <div id="chat-area" style="display:none;">
-            <div class="chat-container" id="chat-container"></div>
-            <div class="chat-input-bar">
-                <input id="chat-input" placeholder="Type your response..." onkeydown="if(event.key==='Enter')sendMessage()">
-                <button class="btn primary-btn" onclick="sendMessage()" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="mode-voice" onclick="setMode('voice')"><i class="fa-solid fa-microphone"></i> Voice</button>
+                <button class="mode-btn" id="mode-text" onclick="setMode('text')"><i class="fa-solid fa-keyboard"></i> Text</button>
             </div>
+            <div class="chat-container" id="chat-container"></div>
+
+            <!-- Voice mode controls -->
+            <div class="voice-controls" id="voice-controls">
+                <div class="voice-status" id="voice-status">Tap to speak</div>
+                <button class="mic-btn" id="mic-btn" onclick="toggleListening()">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                <p style="font-size:0.75rem;color:var(--text-secondary);margin:0;">Hold to speak, release to send</p>
+            </div>
+
+            <!-- Text mode controls -->
+            <div class="chat-input-bar" id="text-controls" style="display:none;">
+                <input id="chat-input" placeholder="Type your response..." onkeydown="if(event.key==='Enter')sendTextMessage()">
+                <button class="btn primary-btn" onclick="sendTextMessage()" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+
             <div style="text-align:center;margin-top:1rem;">
                 <button class="btn small-btn ghost-btn" onclick="getCoachTip()"><i class="fa-solid fa-lightbulb"></i> Get Coach Tip</button>
                 <button class="btn small-btn ghost-btn" onclick="endNegotiation()"><i class="fa-solid fa-flag-checkered"></i> End & Get Score</button>
@@ -107,6 +137,139 @@
         let chatHistory = [];
         let targetSalary = '';
         let initialOffer = '';
+        let recognition = null;
+        let isListening = false;
+        let currentMode = 'voice';
+        let isSpeaking = false;
+
+        // Setup speech recognition
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                let finalTranscript = '';
+                let interimTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+                if (interimTranscript) {
+                    setVoiceStatus('listening', `"${interimTranscript}..."`);
+                }
+                if (finalTranscript) {
+                    stopListening();
+                    sendVoiceMessage(finalTranscript.trim());
+                }
+            };
+
+            recognition.onerror = (e) => {
+                if (e.error !== 'aborted') {
+                    setVoiceStatus('', 'Could not hear you. Tap to try again.');
+                }
+                stopListening();
+            };
+
+            recognition.onend = () => {
+                if (isListening) {
+                    // Auto-restart if still in listening mode
+                    try { recognition.start(); } catch(e) {}
+                }
+            };
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('mode-voice').classList.toggle('active', mode === 'voice');
+            document.getElementById('mode-text').classList.toggle('active', mode === 'text');
+            document.getElementById('voice-controls').style.display = mode === 'voice' ? 'flex' : 'none';
+            document.getElementById('text-controls').style.display = mode === 'text' ? 'flex' : 'none';
+        }
+
+        function setVoiceStatus(state, text) {
+            const el = document.getElementById('voice-status');
+            el.className = `voice-status ${state}`;
+            el.textContent = text || '';
+        }
+
+        function speakText(text) {
+            return new Promise((resolve) => {
+                if (!('speechSynthesis' in window)) { resolve(); return; }
+
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+                isSpeaking = true;
+
+                const micBtn = document.getElementById('mic-btn');
+                micBtn.classList.add('speaking');
+                micBtn.classList.remove('listening');
+                setVoiceStatus('speaking', 'HR Rep is speaking...');
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.0;
+                utterance.pitch = 0.9;
+
+                // Try to find a good voice
+                const voices = speechSynthesis.getVoices();
+                const preferred = voices.find(v => v.name.includes('Daniel') || v.name.includes('Google UK English Male') || (v.lang === 'en-US' && v.name.includes('Male')));
+                if (preferred) utterance.voice = preferred;
+
+                utterance.onend = () => {
+                    isSpeaking = false;
+                    micBtn.classList.remove('speaking');
+                    setVoiceStatus('', 'Tap to speak');
+                    resolve();
+                };
+                utterance.onerror = () => {
+                    isSpeaking = false;
+                    micBtn.classList.remove('speaking');
+                    resolve();
+                };
+
+                speechSynthesis.speak(utterance);
+            });
+        }
+
+        function toggleListening() {
+            if (isSpeaking) {
+                speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('mic-btn').classList.remove('speaking');
+                setVoiceStatus('', 'Tap to speak');
+                return;
+            }
+            if (isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            if (!recognition) {
+                alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
+                setMode('text');
+                return;
+            }
+            isListening = true;
+            const micBtn = document.getElementById('mic-btn');
+            micBtn.classList.add('listening');
+            setVoiceStatus('listening', 'Listening...');
+            try { recognition.start(); } catch(e) {}
+        }
+
+        function stopListening() {
+            isListening = false;
+            const micBtn = document.getElementById('mic-btn');
+            micBtn.classList.remove('listening');
+            try { recognition.stop(); } catch(e) {}
+        }
 
         function addMessage(role, text) {
             const container = document.getElementById('chat-container');
@@ -125,7 +288,10 @@
             document.getElementById('salary-setup').style.display = 'none';
             document.getElementById('chat-area').style.display = 'block';
 
-            addMessage('coach', `Negotiation starting. The HR rep will offer around <strong>${initialOffer}</strong>. Your goal: <strong>${targetSalary}</strong>. Stay calm, be specific, and back up your asks with data.`);
+            // Load voices
+            if ('speechSynthesis' in window) speechSynthesis.getVoices();
+
+            addMessage('coach', `Negotiation starting. The HR rep will offer around <strong>${initialOffer}</strong>. Your goal: <strong>${targetSalary}</strong>. ${currentMode === 'voice' ? 'Tap the mic to speak.' : 'Type your responses.'}`);
 
             const systemMsg = `You are a stubborn but professional HR representative at ${outputs.targetCompany || 'a company'}. You're negotiating salary for the role described in the job description. Your initial offer is ${initialOffer}. You should:
 - Start by presenting the offer enthusiastically
@@ -139,11 +305,12 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
 
             chatHistory = [{ role: 'user', parts: [{ text: systemMsg }] }];
 
-            await getHRResponse('Start the negotiation by presenting the initial offer.');
+            await getHRResponse('Start the negotiation by presenting the initial offer.', true);
         }
 
-        async function getHRResponse(userText) {
+        async function getHRResponse(userText, speak = true) {
             chatHistory.push({ role: 'user', parts: [{ text: userText }] });
+            setVoiceStatus('processing', 'HR Rep is thinking...');
 
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
@@ -159,12 +326,25 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
                 const response = data.candidates[0].content.parts[0].text.trim();
                 chatHistory.push({ role: 'model', parts: [{ text: response }] });
                 addMessage('hr', response);
+
+                // Speak the response
+                if (speak && currentMode === 'voice') {
+                    await speakText(response);
+                }
             } catch (e) {
                 addMessage('coach', `Connection error: ${e.message}. Try again.`);
+                setVoiceStatus('', 'Tap to speak');
             }
         }
 
-        async function sendMessage() {
+        async function sendVoiceMessage(text) {
+            if (!text) return;
+            addMessage('user', text);
+            setVoiceStatus('processing', 'HR Rep is thinking...');
+            await getHRResponse(text, true);
+        }
+
+        async function sendTextMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             if (!text) return;
@@ -176,7 +356,7 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
             sendBtn.disabled = true;
             sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
-            await getHRResponse(text);
+            await getHRResponse(text, currentMode === 'voice');
 
             sendBtn.disabled = false;
             sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
@@ -206,6 +386,10 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
         }
 
         async function endNegotiation() {
+            // Stop any ongoing speech/listening
+            if (isSpeaking) speechSynthesis.cancel();
+            stopListening();
+
             addMessage('coach', '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing your negotiation...');
 
             const convo = chatHistory.map(m => `${m.role === 'model' ? 'HR' : 'Candidate'}: ${m.parts[0].text}`).join('\n');
@@ -222,12 +406,13 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
 
                 if (error) throw new Error(error.message);
                 const feedback = data.candidates[0].content.parts[0].text.trim();
-                // Remove the "analyzing" message
                 const container = document.getElementById('chat-container');
                 container.lastChild.remove();
                 addMessage('coach', `<strong><i class="fa-solid fa-flag-checkered"></i> Negotiation Complete!</strong><br><br>${feedback.replace(/\n/g, '<br>')}`);
 
-                document.querySelector('.chat-input-bar').style.display = 'none';
+                document.getElementById('voice-controls').style.display = 'none';
+                document.getElementById('text-controls').style.display = 'none';
+                document.querySelector('.mode-toggle').style.display = 'none';
             } catch (e) {
                 addMessage('coach', `Could not analyze: ${e.message}`);
             }

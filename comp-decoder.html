@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI decodes your total compensation package — base, equity, benefits, and cost of living — to reveal the true value of any offer.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Compensation Decoder – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .offer-form { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+        .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+        .form-group input, .form-group select { padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
+        .value-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .true-value { font-size: 2.5rem; font-weight: 800; font-family: 'Outfit', sans-serif; text-align: center; margin: 0.5rem 0; }
+        .breakdown-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        .breakdown-row:last-child { border-bottom: none; }
+        .warning-box { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 1rem; margin-top: 1rem; }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-scale-balanced" style="color:#10b981;margin-right:0.5rem;"></i>Compensation Decoder</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Decode the true value of any offer — base, equity, benefits & cost of living</p>
+
+        <div class="offer-form">
+            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-receipt" style="color:#10b981;margin-right:0.4rem;"></i> Enter Offer Details</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Base Salary</label>
+                    <input id="offer-base" placeholder="$120,000">
+                </div>
+                <div class="form-group">
+                    <label>Signing Bonus</label>
+                    <input id="offer-signing" placeholder="$10,000">
+                </div>
+                <div class="form-group">
+                    <label>Equity / RSUs (Total Grant)</label>
+                    <input id="offer-equity" placeholder="$50,000 over 4 years">
+                </div>
+                <div class="form-group">
+                    <label>Vesting Schedule</label>
+                    <select id="offer-vesting">
+                        <option value="4yr-1yr-cliff">4yr / 1yr cliff (standard)</option>
+                        <option value="4yr-no-cliff">4yr / no cliff</option>
+                        <option value="3yr">3yr vesting</option>
+                        <option value="immediate">Immediate</option>
+                        <option value="unknown">Unknown / N/A</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>401k Match</label>
+                    <input id="offer-401k" placeholder="e.g., 4% match">
+                </div>
+                <div class="form-group">
+                    <label>Annual Bonus Target</label>
+                    <input id="offer-bonus" placeholder="e.g., 15%">
+                </div>
+                <div class="form-group">
+                    <label>Location / City</label>
+                    <input id="offer-location" placeholder="e.g., San Francisco, CA">
+                </div>
+                <div class="form-group">
+                    <label>Company Stage</label>
+                    <select id="offer-stage">
+                        <option value="public">Public Company</option>
+                        <option value="late-stage">Late-Stage Startup</option>
+                        <option value="series-b-c">Series B/C</option>
+                        <option value="seed-a">Seed / Series A</option>
+                        <option value="pre-revenue">Pre-Revenue</option>
+                    </select>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:1.25rem;">
+                <button class="btn primary-btn" onclick="decodeComp()"><i class="fa-solid fa-scale-balanced"></i> Decode Compensation</button>
+            </div>
+        </div>
+
+        <div id="comp-output"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+
+        async function decodeComp() {
+            const container = document.getElementById('comp-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Analyzing your compensation package...</p>';
+
+            const offerDetails = {
+                base: document.getElementById('offer-base').value || '$120,000',
+                signing: document.getElementById('offer-signing').value || '$0',
+                equity: document.getElementById('offer-equity').value || 'None',
+                vesting: document.getElementById('offer-vesting').value,
+                match401k: document.getElementById('offer-401k').value || 'Unknown',
+                bonus: document.getElementById('offer-bonus').value || 'None',
+                location: document.getElementById('offer-location').value || 'Unknown',
+                stage: document.getElementById('offer-stage').value
+            };
+
+            const systemPrompt = `You are a compensation analyst and financial advisor. Analyze the job offer and calculate the TRUE total compensation value, factoring in cost of living, equity risk, and benefits.
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "trueAnnualValue": "$XXX,XXX",
+    "trueValueScore": number (0-100, where 100 = exceptional offer),
+    "breakdown": [
+        { "item": "Base Salary", "value": "$XXX", "adjusted": "$XXX (after COL)" },
+        { "item": "Equity (Annual)", "value": "$XXX", "adjusted": "$XXX (risk-adjusted)" },
+        { "item": "Signing Bonus (Annual)", "value": "$XXX", "adjusted": "$XXX" },
+        { "item": "401k Match", "value": "$XXX", "adjusted": "$XXX" },
+        { "item": "Annual Bonus", "value": "$XXX", "adjusted": "$XXX (probability-weighted)" }
+    ],
+    "colAdjustment": "Explanation of cost of living impact (e.g., 'SF is 1.4x national average')",
+    "equityWarnings": ["Any warnings about the equity structure"],
+    "hiddenCosts": ["Hidden costs like healthcare premiums, commute, etc."],
+    "verdict": "2-3 sentence honest assessment of this offer",
+    "negotiationLeverage": "1-2 sentence advice on which components to negotiate"
+}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: `Offer Details:\n${JSON.stringify(offerDetails, null, 2)}\n\nJob Description:\n${outputs?.jobText?.substring(0, 500) || 'Not available'}\n\nCompany: ${outputs?.targetCompany || 'Unknown'}` }] }],
+                        generationConfig: { temperature: 0.5 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderComp(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Analysis failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="decodeComp()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderComp(result) {
+            const container = document.getElementById('comp-output');
+            const score = result.trueValueScore;
+            const color = score >= 75 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
+
+            let html = `<div class="value-card">
+                <h3 style="text-align:center;margin:0 0 0.5rem;font-size:0.9rem;color:var(--text-secondary);">True Annual Compensation Value</h3>
+                <div class="true-value" style="color:${color};">${result.trueAnnualValue}</div>
+                <p style="text-align:center;font-size:0.85rem;color:var(--text-secondary);margin:0;">Score: <strong style="color:${color};">${score}/100</strong></p>
+            </div>`;
+
+            html += `<div class="value-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-ol" style="color:#10b981;margin-right:0.4rem;"></i> Breakdown</h3>`;
+            result.breakdown.forEach(b => {
+                html += `<div class="breakdown-row"><span>${b.item}</span><span style="text-align:right;"><strong>${b.value}</strong><br><span style="font-size:0.78rem;color:var(--text-secondary);">${b.adjusted}</span></span></div>`;
+            });
+            html += `<div style="margin-top:1rem;padding:0.75rem;background:rgba(99,102,241,0.05);border-radius:8px;font-size:0.85rem;color:var(--text-secondary);"><i class="fa-solid fa-location-dot" style="color:#6366f1;margin-right:0.3rem;"></i> ${result.colAdjustment}</div></div>`;
+
+            if (result.equityWarnings && result.equityWarnings.length > 0) {
+                html += `<div class="warning-box"><h3 style="margin:0 0 0.5rem;font-size:0.95rem;color:#ef4444;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:0.4rem;"></i> Equity Warnings</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                result.equityWarnings.forEach(w => { html += `<li>${w}</li>`; });
+                html += `</ul></div>`;
+            }
+
+            if (result.hiddenCosts && result.hiddenCosts.length > 0) {
+                html += `<div class="value-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-eye-slash" style="color:#f59e0b;margin-right:0.4rem;"></i> Hidden Costs</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                result.hiddenCosts.forEach(c => { html += `<li>${c}</li>`; });
+                html += `</ul></div>`;
+            }
+
+            html += `<div class="value-card" style="text-align:center;"><p style="font-size:0.95rem;margin:0 0 0.75rem;line-height:1.6;">${result.verdict}</p><p style="font-size:0.85rem;color:var(--primary-color);margin:0;"><i class="fa-solid fa-handshake"></i> ${result.negotiationLeverage}</p></div>`;
+
+            html += `<div style="text-align:center;margin-top:1rem;"><button class="btn small-btn ghost-btn" onclick="decodeComp()"><i class="fa-solid fa-rotate"></i> Re-analyze</button></div>`;
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

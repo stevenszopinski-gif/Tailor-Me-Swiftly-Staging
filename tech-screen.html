@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI generates a custom technical challenge based on the job description. Practice in a sandbox IDE with AI code review.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Trial By Fire – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .challenge-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .difficulty-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
+        .difficulty-badge.easy { background: rgba(16,185,129,0.1); color: #10b981; }
+        .difficulty-badge.medium { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .difficulty-badge.hard { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .ide-container { border: 1px solid var(--panel-border); border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; }
+        .ide-header { background: rgba(0,0,0,0.3); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .ide-header span { font-size: 0.8rem; font-weight: 600; }
+        .ide-textarea { width: 100%; min-height: 300px; padding: 1rem; border: none; background: #1e1e2e; color: #cdd6f4; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6; resize: vertical; outline: none; box-sizing: border-box; }
+        .timer-bar { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 10px; margin-bottom: 1rem; }
+        .timer-display { font-size: 1.3rem; font-weight: 700; font-family: 'Outfit', monospace; }
+        .timer-display.warning { color: #f59e0b; }
+        .timer-display.danger { color: #ef4444; }
+        .review-section { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; }
+        .review-metric { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .review-metric:last-child { border-bottom: none; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-fire" style="color:#ef4444;margin-right:0.5rem;"></i>Trial By Fire</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Custom technical challenge designed to mimic this company's actual interview</p>
+
+        <div id="challenge-output">
+            <div style="text-align:center;padding:3rem;">
+                <p style="color:var(--text-secondary);margin-bottom:1.5rem;">AI will generate a 30-minute challenge tailored to this specific role and company.</p>
+                <button class="btn primary-btn" onclick="generateChallenge()"><i class="fa-solid fa-fire"></i> Generate Challenge</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        let challengeData = null;
+        let timerInterval = null;
+        let timeRemaining = 1800; // 30 minutes
+
+        async function generateChallenge() {
+            const container = document.getElementById('challenge-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Designing your custom challenge...</p>';
+
+            const systemPrompt = `You are a technical interviewer at the target company. Based on the job description, generate a custom 30-minute technical challenge that mimics the actual work the candidate would do at this company.
+
+For engineering roles: coding challenge
+For PM roles: product case study
+For marketing roles: data analysis or campaign design
+For design roles: design critique or UX challenge
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "challengeType": "coding"|"case-study"|"data-analysis"|"design"|"system-design",
+    "title": "Challenge title",
+    "difficulty": "easy"|"medium"|"hard",
+    "timeLimit": 30,
+    "context": "2-3 sentence scenario that mirrors real work at this company",
+    "requirements": ["Requirement 1", "Requirement 2", "Requirement 3"],
+    "starterCode": "Starter code or template (use \\n for newlines). For non-coding challenges, provide a structured template.",
+    "hints": ["Hint 1 (hidden until requested)", "Hint 2", "Hint 3"],
+    "evaluationCriteria": ["What the reviewer looks for #1", "#2", "#3", "#4"],
+    "sampleSolution": "A brief outline of the ideal approach (not full code)"
+}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: `Job Description:\n${outputs?.jobText || 'Software engineering role'}\n\nCompany: ${outputs?.targetCompany || 'Unknown'}` }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                challengeData = JSON.parse(text);
+                renderChallenge(challengeData);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateChallenge()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderChallenge(ch) {
+            const container = document.getElementById('challenge-output');
+            let html = `<div class="challenge-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                    <h3 style="margin:0;font-size:1.1rem;">${ch.title}</h3>
+                    <span class="difficulty-badge ${ch.difficulty}">${ch.difficulty}</span>
+                </div>
+                <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.6;margin:0 0 1rem;">${ch.context}</p>
+                <h4 style="font-size:0.9rem;margin:0 0 0.5rem;">Requirements:</h4>
+                <ul style="margin:0 0 1rem;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+            ch.requirements.forEach(r => { html += `<li>${r}</li>`; });
+            html += `</ul>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                    <button class="btn small-btn primary-btn" onclick="startTimer()"><i class="fa-solid fa-play"></i> Start Timer</button>`;
+            ch.hints.forEach((h, i) => {
+                html += `<button class="btn small-btn ghost-btn" onclick="this.innerHTML='${h.replace(/'/g, "\\'")}';this.disabled=true;this.style.borderColor='var(--primary-color)';"><i class="fa-solid fa-lightbulb"></i> Hint ${i + 1}</button>`;
+            });
+            html += `</div></div>`;
+
+            html += `<div class="timer-bar" id="timer-bar" style="display:none;">
+                <span style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-clock" style="color:var(--primary-color);margin-right:0.3rem;"></i> Time Remaining</span>
+                <span class="timer-display" id="timer-display">30:00</span>
+            </div>`;
+
+            html += `<div class="ide-container">
+                <div class="ide-header">
+                    <span><i class="fa-solid fa-code" style="color:#10b981;margin-right:0.3rem;"></i> Solution Editor</span>
+                    <span style="font-size:0.75rem;color:var(--text-secondary);">${ch.challengeType}</span>
+                </div>
+                <textarea class="ide-textarea" id="code-editor" spellcheck="false">${ch.starterCode.replace(/\\n/g, '\n')}</textarea>
+            </div>`;
+
+            html += `<div style="display:flex;gap:0.75rem;justify-content:center;margin-bottom:1.5rem;">
+                <button class="btn primary-btn" onclick="submitSolution()"><i class="fa-solid fa-paper-plane"></i> Submit for Review</button>
+                <button class="btn ghost-btn" onclick="generateChallenge()"><i class="fa-solid fa-rotate"></i> New Challenge</button>
+            </div>`;
+
+            html += `<div id="review-output"></div>`;
+
+            container.innerHTML = html;
+        }
+
+        function startTimer() {
+            document.getElementById('timer-bar').style.display = 'flex';
+            timeRemaining = 1800;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                const mins = Math.floor(timeRemaining / 60);
+                const secs = timeRemaining % 60;
+                const display = document.getElementById('timer-display');
+                display.textContent = `${mins}:${String(secs).padStart(2, '0')}`;
+                display.className = `timer-display${timeRemaining <= 300 ? ' danger' : timeRemaining <= 600 ? ' warning' : ''}`;
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "TIME'S UP!";
+                }
+            }, 1000);
+        }
+
+        async function submitSolution() {
+            const code = document.getElementById('code-editor').value;
+            const review = document.getElementById('review-output');
+            review.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> AI is reviewing your solution...</p>';
+            clearInterval(timerInterval);
+
+            const elapsed = 1800 - timeRemaining;
+            const mins = Math.floor(elapsed / 60);
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: `You are a senior technical interviewer reviewing a candidate's submission. The challenge was: "${challengeData.title}". Requirements: ${challengeData.requirements.join(', ')}. Evaluation criteria: ${challengeData.evaluationCriteria.join(', ')}. Time taken: ${mins} minutes. Give honest, constructive feedback.
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "overallScore": number (0-100),
+    "grade": "Strong Hire"|"Hire"|"Lean Hire"|"Lean No Hire"|"No Hire",
+    "metrics": [
+        { "name": "Metric name", "score": number (0-10), "feedback": "Brief feedback" }
+    ],
+    "strengths": ["What they did well"],
+    "improvements": ["What to improve"],
+    "interviewerNotes": "2-3 sentence summary as if writing interviewer feedback"
+}` }] },
+                        contents: [{ parts: [{ text: `Challenge: ${challengeData.title}\n\nCandidate's Solution:\n${code}` }] }],
+                        generationConfig: { temperature: 0.5 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderReview(result);
+            } catch (e) {
+                review.innerHTML = `<p style="color:var(--error-color);text-align:center;">Review failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="submitSolution()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderReview(result) {
+            const container = document.getElementById('review-output');
+            const score = result.overallScore;
+            const color = score >= 75 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
+            const gradeColor = result.grade.includes('No') ? '#ef4444' : result.grade.includes('Lean') ? '#f59e0b' : '#10b981';
+
+            let html = `<div class="review-section">
+                <div style="text-align:center;margin-bottom:1.5rem;">
+                    <div style="font-size:2.5rem;font-weight:800;color:${color};">${score}/100</div>
+                    <div style="font-size:1.1rem;font-weight:700;color:${gradeColor};margin-top:0.25rem;">${result.grade}</div>
+                </div>`;
+
+            html += `<h4 style="font-size:0.9rem;margin:0 0 0.75rem;">Detailed Metrics</h4>`;
+            result.metrics.forEach(m => {
+                const mColor = m.score >= 7 ? '#10b981' : m.score >= 5 ? '#f59e0b' : '#ef4444';
+                html += `<div class="review-metric"><div><strong style="font-size:0.9rem;">${m.name}</strong><p style="font-size:0.78rem;color:var(--text-secondary);margin:0.2rem 0 0;">${m.feedback}</p></div><span style="font-weight:700;color:${mColor};font-size:1rem;">${m.score}/10</span></div>`;
+            });
+
+            if (result.strengths && result.strengths.length > 0) {
+                html += `<div style="margin-top:1.25rem;"><h4 style="font-size:0.9rem;margin:0 0 0.5rem;color:#10b981;"><i class="fa-solid fa-check-circle"></i> Strengths</h4><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                result.strengths.forEach(s => { html += `<li>${s}</li>`; });
+                html += `</ul></div>`;
+            }
+
+            if (result.improvements && result.improvements.length > 0) {
+                html += `<div style="margin-top:1rem;"><h4 style="font-size:0.9rem;margin:0 0 0.5rem;color:#f59e0b;"><i class="fa-solid fa-arrow-up-right-dots"></i> Areas to Improve</h4><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                result.improvements.forEach(s => { html += `<li>${s}</li>`; });
+                html += `</ul></div>`;
+            }
+
+            html += `<div style="margin-top:1.25rem;padding:1rem;background:rgba(99,102,241,0.05);border-radius:8px;">
+                <h4 style="font-size:0.85rem;margin:0 0 0.5rem;color:#6366f1;"><i class="fa-solid fa-clipboard-check"></i> Interviewer Notes</h4>
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;line-height:1.6;font-style:italic;">"${result.interviewerNotes}"</p>
+            </div></div>`;
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Turn rejections into networking opportunities. AI drafts professional feedback request emails that keep doors open.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Rejection Reverser – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .email-output { background: #fff; color: #111; border-radius: 8px; padding: 2rem; min-height: 200px; outline: none; line-height: 1.75; font-family: Georgia, serif; }
+        [data-theme="dark"] .email-output { background: rgba(255,255,255,0.04); color: var(--text-primary); border: 1px solid var(--panel-border); }
+        .scenario-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .scenario-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 1px solid var(--panel-border); border-radius: 10px; cursor: pointer; margin-bottom: 0.5rem; transition: all 0.2s; }
+        .scenario-option:hover { border-color: var(--primary-color); background: rgba(99,102,241,0.05); }
+        .scenario-option.selected { border-color: var(--primary-color); background: rgba(99,102,241,0.1); }
+        .scenario-option input[type="radio"] { accent-color: var(--primary-color); }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-rotate-left" style="color:#8b5cf6;margin-right:0.5rem;"></i>Rejection Reverser</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Turn rejections into networking gold with a professional feedback request</p>
+
+        <div class="scenario-card">
+            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-check" style="color:#8b5cf6;margin-right:0.4rem;"></i> What happened?</h3>
+            <label class="scenario-option" onclick="this.querySelector('input').checked=true;document.querySelectorAll('.scenario-option').forEach(o=>o.classList.remove('selected'));this.classList.add('selected');">
+                <input type="radio" name="scenario" value="no-response" checked> <div><strong>Ghosted after applying</strong><br><span style="font-size:0.8rem;color:var(--text-secondary);">Applied but never heard back</span></div>
+            </label>
+            <label class="scenario-option" onclick="this.querySelector('input').checked=true;document.querySelectorAll('.scenario-option').forEach(o=>o.classList.remove('selected'));this.classList.add('selected');">
+                <input type="radio" name="scenario" value="after-screen"> <div><strong>Rejected after phone screen</strong><br><span style="font-size:0.8rem;color:var(--text-secondary);">Had a phone/video screen, then rejected</span></div>
+            </label>
+            <label class="scenario-option" onclick="this.querySelector('input').checked=true;document.querySelectorAll('.scenario-option').forEach(o=>o.classList.remove('selected'));this.classList.add('selected');">
+                <input type="radio" name="scenario" value="after-interview"> <div><strong>Rejected after interview(s)</strong><br><span style="font-size:0.8rem;color:var(--text-secondary);">Made it to interviews but didn't get the offer</span></div>
+            </label>
+            <label class="scenario-option" onclick="this.querySelector('input').checked=true;document.querySelectorAll('.scenario-option').forEach(o=>o.classList.remove('selected'));this.classList.add('selected');">
+                <input type="radio" name="scenario" value="after-final"> <div><strong>Rejected after final round</strong><br><span style="font-size:0.8rem;color:var(--text-secondary);">Made it to the final round and lost</span></div>
+            </label>
+        </div>
+
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <button class="btn primary-btn" onclick="generateResponse()"><i class="fa-solid fa-rotate-left"></i> Generate Response</button>
+        </div>
+
+        <div id="response-output"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        async function generateResponse() {
+            const scenario = document.querySelector('input[name="scenario"]:checked').value;
+            const container = document.getElementById('response-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Crafting your bridge-building response...</p>';
+
+            const scenarioMap = {
+                'no-response': 'The candidate applied but was ghosted (no response)',
+                'after-screen': 'The candidate was rejected after a phone/video screen',
+                'after-interview': 'The candidate was rejected after one or more interviews',
+                'after-final': 'The candidate was rejected after the final round interview'
+            };
+
+            const systemPrompt = `You are an expert at turning rejections into networking opportunities. Write a professional, bridge-building email that:
+1. Graciously acknowledges the rejection
+2. Asks for specific, actionable feedback (without being pushy)
+3. Expresses continued interest in the company for future opportunities
+4. Leaves a memorable, positive impression
+
+Scenario: ${scenarioMap[scenario]}
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "subject": "Email subject line",
+    "emailHtml": "The complete email in clean HTML (p tags). Professional but warm tone. Under 200 words.",
+    "strategy": "1-2 sentence explanation of the psychological strategy used",
+    "followUpTiming": "When to follow up if no response (e.g., '7 days')",
+    "linkedinAction": "Suggested LinkedIn follow-up action"
+}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: `Company: ${outputs?.targetCompany || 'Unknown'}\nRole: ${outputs?.jobText?.substring(0, 300) || 'Not specified'}\nCandidate Name: ${outputs?.applicantName || 'the candidate'}` }] }],
+                        generationConfig: { temperature: 0.7 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderResponse(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateResponse()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderResponse(result) {
+            const container = document.getElementById('response-output');
+            let html = `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:1rem;margin-bottom:1rem;">
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;"><i class="fa-solid fa-brain" style="color:#8b5cf6;margin-right:0.3rem;"></i> <strong>Strategy:</strong> ${result.strategy}</p>
+            </div>`;
+
+            html += `<div style="margin-bottom:0.5rem;font-size:0.85rem;"><strong>Subject:</strong> ${result.subject}</div>`;
+            html += `<div class="email-output" id="email-text" contenteditable="true">${result.emailHtml}</div>`;
+
+            html += `<div style="display:flex;gap:0.6rem;margin-top:1rem;flex-wrap:wrap;justify-content:center;">
+                <button class="btn small-btn ghost-btn" onclick="navigator.clipboard.writeText(document.getElementById('email-text').innerText);this.innerHTML='<i class=\\'fa-solid fa-check\\'></i> Copied';setTimeout(()=>this.innerHTML='<i class=\\'fa-regular fa-copy\\'></i> Copy',1500)"><i class="fa-regular fa-copy"></i> Copy</button>
+                <button class="btn small-btn ghost-btn" onclick="generateResponse()"><i class="fa-solid fa-rotate"></i> Regenerate</button>
+            </div>`;
+
+            html += `<div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;">
+                    <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-solid fa-clock" style="color:#f59e0b;margin-right:0.3rem;"></i> Follow Up</h4>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.followUpTiming}</p>
+                </div>
+                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;">
+                    <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-brands fa-linkedin" style="color:#0077b5;margin-right:0.3rem;"></i> LinkedIn Action</h4>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.linkedinAction}</p>
+                </div>
+            </div>`;
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>

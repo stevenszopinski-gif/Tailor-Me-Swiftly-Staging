@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI generates intelligent, probing questions to ask during your interview. Interrogate the company like a high-value consultant.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Reverse Interview – TailorMeSwiftly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="templates.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
+    <style>
+        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .question-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
+        .q-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; margin-bottom: 0.75rem; }
+        .q-category.weakness { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .q-category.culture { background: rgba(99,102,241,0.1); color: #6366f1; }
+        .q-category.growth { background: rgba(16,185,129,0.1); color: #10b981; }
+        .q-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 0.75rem; }
+        .q-intel { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid var(--primary-color); }
+        .q-intel strong { color: var(--text-primary); }
+        .q-why { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.75rem; font-style: italic; }
+        .copy-q-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: 1px solid var(--panel-border); color: var(--text-secondary); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; cursor: pointer; }
+        .copy-q-btn:hover { color: var(--text-primary); border-color: var(--primary-color); }
+    </style>
+</head>
+
+<body>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="result-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-magnifying-glass-arrow-right" style="color:#8b5cf6;margin-right:0.5rem;"></i>Reverse Interview</h1>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Interrogate the company like a high-value consultant, not a desperate applicant</p>
+
+        <div id="questions-output">
+            <div style="text-align:center;padding:3rem;">
+                <p style="color:var(--text-secondary);margin-bottom:1.5rem;">AI will analyze the company and generate intelligent, probing questions you should ask.</p>
+                <button class="btn primary-btn" onclick="generateQuestions()"><i class="fa-solid fa-magnifying-glass-arrow-right"></i> Generate Reverse Interview Questions</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script src="results.js?v=6"></script>
+    <script>
+        initResultTheme();
+        initResultAuth();
+        const outputs = loadOutputs();
+        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+
+        function copyQuestion(btn, text) {
+            navigator.clipboard.writeText(text);
+            const orig = btn.innerHTML;
+            btn.innerHTML = 'Copied!';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        }
+
+        async function generateQuestions() {
+            const container = document.getElementById('questions-output');
+            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Researching the company and crafting probing questions...</p>';
+
+            const systemPrompt = `You are an elite career strategist who helps candidates flip the interview dynamic. Analyze the target company and job description to find weaknesses, recent challenges, and areas of concern. Then generate exactly 5 highly intelligent, slightly probing questions the candidate should ask during the interview.
+
+Each question should demonstrate deep research and position the candidate as a "high-value consultant" rather than a "desperate applicant."
+
+Categories:
+- "weakness" — questions that probe company weaknesses or challenges
+- "culture" — questions that reveal true company culture (not the marketing version)
+- "growth" — questions about career growth, team dynamics, and strategic direction
+
+Return EXACTLY this JSON (no markdown, no code fences):
+{
+    "companyIntel": "2-3 sentence summary of key findings about the company",
+    "questions": [
+        {
+            "category": "weakness"|"culture"|"growth",
+            "question": "The exact question to ask",
+            "intel": "The background intel that inspired this question (what you found)",
+            "whyItWorks": "Why this question elevates the candidate"
+        }
+    ]
+}`;
+
+            const userPrompt = `Resume:\n${outputs?.resumeText || 'No resume'}\n\nJob Description:\n${outputs?.jobText || 'No JD'}\n\nCompany: ${outputs?.targetCompany || 'Unknown'}`;
+
+            try {
+                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        model: 'gemini-3-flash-preview',
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        generationConfig: { temperature: 0.8 }
+                    }
+                });
+
+                if (error) throw new Error(error.message);
+                let text = data.candidates[0].content.parts[0].text.trim();
+                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+                const result = JSON.parse(text);
+                renderQuestions(result);
+            } catch (e) {
+                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateQuestions()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+            }
+        }
+
+        function renderQuestions(result) {
+            const container = document.getElementById('questions-output');
+            let html = '';
+
+            if (result.companyIntel) {
+                html += `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">
+                    <h3 style="margin:0 0 0.5rem;font-size:0.95rem;"><i class="fa-solid fa-satellite-dish" style="color:#8b5cf6;margin-right:0.4rem;"></i> Company Intel</h3>
+                    <p style="font-size:0.9rem;color:var(--text-secondary);margin:0;line-height:1.6;">${result.companyIntel}</p>
+                </div>`;
+            }
+
+            result.questions.forEach((q, i) => {
+                html += `<div class="question-card">
+                    <button class="copy-q-btn" onclick="copyQuestion(this, '${q.question.replace(/'/g, "\\'")}')"><i class="fa-regular fa-copy"></i> Copy</button>
+                    <span class="q-category ${q.category}">${q.category === 'weakness' ? 'Probing Weakness' : q.category === 'culture' ? 'Culture Check' : 'Growth Signal'}</span>
+                    <div class="q-text">"${q.question}"</div>
+                    <div class="q-intel"><strong>Intel:</strong> ${q.intel}</div>
+                    <div class="q-why"><i class="fa-solid fa-lightbulb" style="color:#f59e0b;margin-right:0.3rem;"></i> ${q.whyItWorks}</div>
+                </div>`;
+            });
+
+            html += `<div style="text-align:center;margin-top:1.5rem;">
+                <button class="btn small-btn ghost-btn" onclick="generateQuestions()"><i class="fa-solid fa-rotate"></i> Regenerate</button>
+            </div>`;
+
+            container.innerHTML = html;
+        }
+    </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+
+</html>
