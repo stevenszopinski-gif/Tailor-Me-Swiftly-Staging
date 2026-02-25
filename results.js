@@ -72,6 +72,15 @@ function _gemCacheHash(str) {
             if (!res.error && res.data?.error?.status === 'EDGE_ERROR') {
                 return { data: null, error: { message: res.data.error.message || 'Edge function error' } };
             }
+            // Detect Gemini API errors not wrapped as EDGE_ERROR (e.g. model not found)
+            if (!res.error && res.data?.error) {
+                return { data: null, error: { message: res.data.error.message || 'Gemini API error' } };
+            }
+            // Validate that the response has usable text content
+            if (!res.error && res.data && !res.data.candidates?.[0]?.content?.parts?.[0]) {
+                const reason = res.data.promptFeedback?.blockReason || 'No response from Gemini (empty candidates)';
+                return { data: null, error: { message: reason } };
+            }
 
             // Cache store on success
             if (!res.error && res.data?.candidates?.[0]) {

@@ -136,7 +136,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
                     body: {
-                        model: 'gemini-2.5-flash-preview-05-20',
+                        model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         contents: [{ parts: [{ text: userPrompt }] }],
                         generationConfig: { temperature: 0.8 },
