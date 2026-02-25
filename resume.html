@@ -301,6 +301,14 @@
             line-height: 1.4;
         }
 
+        /* Prevent the thumbnails from shrinking/growing dynamically */
+        .template-preview .resume-output {
+            --r-font-family: initial !important;
+            --r-spacing: 1.65 !important;
+            --r-text-color: #333 !important;
+            --r-h2-color: inherit !important;
+        }
+
         .template-preview * {
             box-sizing: border-box;
         }
