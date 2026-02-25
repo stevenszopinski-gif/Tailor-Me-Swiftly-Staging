@@ -52,15 +52,16 @@ function _gemCacheHash(str) {
 
             // Auth recovery: if call failed due to expired session,
             // try refreshing the session first, then retry
-            if (res.error?.message?.includes('non-2xx') && !opts._retried) {
+            const isNon2xx = res.error?.message?.includes('non-2xx');
+            const isAuthEdgeError = !res.error && res.data?.error?.status === 'EDGE_ERROR'
+                && /unauthorized|expired|auth/i.test(res.data.error.message || '');
+
+            if ((isNon2xx || isAuthEdgeError) && !opts._retried) {
                 try {
-                    // Attempt to refresh the session
                     const { data: refreshData } = await window.supabaseClient.auth.refreshSession();
                     if (refreshData?.session) {
-                        // Session refreshed — retry the call
                         res = await _invoke(fn, { ...opts, _retried: true });
                     } else {
-                        // Refresh failed — sign out stale tokens and retry once
                         await window.supabaseClient.auth.signOut({ scope: 'local' });
                         res = await _invoke(fn, { ...opts, _retried: true });
                     }
