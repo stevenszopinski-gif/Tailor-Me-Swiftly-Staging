@@ -95,10 +95,13 @@ Deno.serve(async (req) => {
             headers: { ...corsHeaders, 'Content-Type': 'application/json', 'X-Cache': 'MISS' },
             status: 200,
         })
-    } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
+    } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : String(error);
+        // Return 200 so Supabase client passes through the error details
+        // (non-200 causes "Edge Function returned a non-2xx status code" with no info)
+        return new Response(JSON.stringify({ error: { message: msg, status: 'EDGE_ERROR' } }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-            status: 400,
+            status: 200,
         })
     }
 })

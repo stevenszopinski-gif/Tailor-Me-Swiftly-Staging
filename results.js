@@ -3,6 +3,80 @@
 
 const THEME_STORAGE = 'ats_theme_preference';
 
+// ───────────────────────────────────────────────
+// GEMINI CALL CACHING (client-side, sessionStorage)
+// Transparently intercepts all gemini-proxy calls.
+// Cache key = hash of request body (system prompt + user prompt).
+// Automatically invalidates when resume/job changes.
+// ───────────────────────────────────────────────
+function _gemCacheHash(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) {
+        h = ((h << 5) - h) + str.charCodeAt(i);
+        h |= 0;
+    }
+    return Math.abs(h).toString(36);
+}
+
+(function initGeminiCache() {
+    const poll = setInterval(() => {
+        if (!window.supabaseClient?.functions?.invoke || window._gemCacheReady) return;
+        window._gemCacheReady = true;
+        clearInterval(poll);
+
+        const _invoke = window.supabaseClient.functions.invoke.bind(window.supabaseClient.functions);
+
+        window.supabaseClient.functions.invoke = async function (fn, opts) {
+            if (fn !== 'gemini-proxy') return _invoke(fn, opts);
+
+            const body = opts?.body || {};
+            // Skip caching if the call already uses server-side caching
+            if (body.cacheKey) return _invoke(fn, opts);
+
+            // Build a fingerprint from system prompt + user content (first 300 chars each)
+            const sys = (body.systemInstruction?.parts?.[0]?.text || '').slice(0, 300);
+            const usr = (body.contents?.[0]?.parts?.[0]?.text || '').slice(0, 300);
+            const key = 'tms_gc_' + _gemCacheHash(sys + '|' + usr);
+
+            // Cache check
+            try {
+                const hit = sessionStorage.getItem(key);
+                if (hit) {
+                    console.log('[Gemini Cache] HIT', key);
+                    return { data: JSON.parse(hit), error: null };
+                }
+            } catch {}
+
+            // API call
+            const res = await _invoke(fn, opts);
+
+            // Detect edge function errors returned as 200 (error wrapped in data)
+            if (!res.error && res.data?.error?.status === 'EDGE_ERROR') {
+                return { data: null, error: { message: res.data.error.message || 'Edge function error' } };
+            }
+
+            // Cache store on success
+            if (!res.error && res.data?.candidates?.[0]) {
+                try {
+                    sessionStorage.setItem(key, JSON.stringify(res.data));
+                    console.log('[Gemini Cache] STORED', key);
+                } catch (e) {
+                    // sessionStorage full — evict oldest tool caches
+                    if (e.name === 'QuotaExceededError') {
+                        for (let i = 0; i < sessionStorage.length; i++) {
+                            const k = sessionStorage.key(i);
+                            if (k?.startsWith('tms_gc_')) { sessionStorage.removeItem(k); break; }
+                        }
+                        try { sessionStorage.setItem(key, JSON.stringify(res.data)); } catch {}
+                    }
+                }
+            }
+
+            return res;
+        };
+    }, 50);
+})();
+
 function loadOutputs() {
     try {
         const raw = sessionStorage.getItem('tms_outputs');
