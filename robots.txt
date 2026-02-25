@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /supabase/
+Disallow: /node_modules/
+Disallow: /react-upgrade/
+Sitemap: https://tailormeswiftly.com/sitemap.xml

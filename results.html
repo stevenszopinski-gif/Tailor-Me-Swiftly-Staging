@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your AI-tailored application is ready. View your optimized resume, cover letter, mock interview questions, and outreach email.">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Your Results – TailorMeSwiftly</title>
     <link rel="icon"
@@ -203,10 +204,65 @@
             min-width: 180px;
         }
 
-        /* Output grid */
+        /* Cultural Alignment Card */
+        .card-culture .card-icon {
+            background: linear-gradient(135deg, #f472b6, #db2777);
+        }
+
+        .culture-details {
+            display: none;
+            width: 100%;
+            margin-top: 1.5rem;
+            text-align: left;
+            background: rgba(244, 114, 182, 0.05);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .culture-details.visible {
+            display: block;
+        }
+
+        .culture-tag {
+            display: inline-block;
+            background: rgba(244, 114, 182, 0.1);
+            color: #f472b6;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .suggestion-chip {
+            display: inline-block;
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin: 0.2rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Output grid - Update to 5 columns for new card or keep 4/2 layout */
         .output-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.25rem;
             margin-bottom: 2.5rem;
         }
@@ -387,6 +443,12 @@
             </div>
         </header>
 
+        <!-- Ad Unit -->
+        <div style="text-align:center;margin:0 auto 1.5rem;max-width:728px;">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7832382680038641" data-ad-slot="auto" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
         <div class="results-hub">
             <div class="result-header"
                 style="flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;">
@@ -433,6 +495,20 @@
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
                         on
                         click</span>
+                </a>
+                <a class="output-card card-culture" id="culture-card">
+                    <div class="card-icon"><i class="fa-solid fa-heart-pulse" style="color:#fff;"></i></div>
+                    <h3>Cultural Fit</h3>
+                    <p id="culture-summary">Analyzing company vibe...</p>
+                    <div id="culture-details" class="culture-details">
+                        <div id="culture-tone" class="culture-tag"></div>
+                        <div id="culture-analysis"
+                            style="font-size: 0.85rem; margin-bottom: 0.75rem; color: var(--text-secondary);"></div>
+                        <div
+                            style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-primary);">
+                            Coach's Tips:</div>
+                        <div id="culture-suggestions"></div>
+                    </div>
                 </a>
                 <a href="outreach.html" class="output-card card-email">
                     <div class="card-icon"><i class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
@@ -523,10 +599,39 @@
 
             // Save to Supabase for history
             saveGenerationToSupabase(outputs).catch(e => console.error('History save failed:', e));
+
+            // Cultural Fit Display
+            if (outputs.culturalFit) {
+                const cf = outputs.culturalFit;
+                document.getElementById('culture-summary').textContent = `Match: ${cf.alignmentScore}% — ${cf.tone}`;
+                document.getElementById('culture-tone').textContent = cf.tone;
+                document.getElementById('culture-analysis').textContent = cf.analysis;
+
+                const suggs = document.getElementById('culture-suggestions');
+                suggs.innerHTML = '';
+                (cf.topSuggestions || []).forEach(s => {
+                    const span = document.createElement('span');
+                    span.className = 'suggestion-chip';
+                    span.textContent = s;
+                    suggs.appendChild(span);
+                });
+
+                document.getElementById('culture-card').onclick = () => {
+                    document.getElementById('culture-details').classList.toggle('visible');
+                };
+            } else {
+                document.getElementById('culture-card').style.opacity = '0.5';
+                document.getElementById('culture-summary').textContent = 'Cultural analysis pending...';
+            }
         }
 
         // Skills selector removed
     </script>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
 </body>
 
 </html>
