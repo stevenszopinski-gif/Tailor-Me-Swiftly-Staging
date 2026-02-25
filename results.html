@@ -551,7 +551,7 @@
         }
 
         .roast-inner {
-            background: var(--panel-bg);
+            background: var(--bg-color);
             border: 1px solid var(--panel-border);
             border-radius: 20px;
             padding: 2rem;
@@ -560,6 +560,7 @@
             max-height: 80vh;
             overflow-y: auto;
             text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
         .roast-line {
@@ -1101,32 +1102,36 @@
             saveGenerationToSupabase(outputs).catch(e => console.error('History save failed:', e));
 
             // Populate modalities data
+            const roastLinesContainer = document.getElementById('roast-lines');
             if (outputs.roastLines && outputs.roastLines.length > 0) {
-                const container = document.getElementById('roast-lines');
                 outputs.roastLines.forEach(line => {
                     const div = document.createElement('div');
                     div.className = 'roast-line';
                     div.textContent = line;
-                    container.appendChild(div);
+                    roastLinesContainer.appendChild(div);
                 });
+            } else {
+                roastLinesContainer.innerHTML = '<div style="padding: 2rem; color: var(--text-secondary);"><i class="fa-solid fa-battery-empty" style="font-size:2rem;margin-bottom:1rem;opacity:0.5;"></i><p>No roast data available. This application might have been generated before this feature was added, or no major weak spots were detected.</p></div>';
             }
 
+            const redflagContainer = document.getElementById('redflag-lines');
             if (outputs.redFlags && outputs.redFlags.length > 0) {
-                const container = document.getElementById('redflag-lines');
                 outputs.redFlags.forEach(f => {
                     const div = document.createElement('div');
                     div.className = `redflag-item ${f.severity}`;
                     div.innerHTML = `<div><i class="fa-solid ${f.severity === 'critical' ? 'fa-circle-xmark' : 'fa-circle-exclamation'}" style="color:${f.severity === 'critical' ? '#ef4444' : '#f59e0b'};margin-top:2px;"></i></div><div><strong>${f.flag}</strong><div class="redflag-fix"><i class="fa-solid fa-lightbulb"></i> ${f.fix}</div></div>`;
-                    container.appendChild(div);
+                    redflagContainer.appendChild(div);
                 });
+            } else {
+                redflagContainer.innerHTML = '<div style="padding: 2rem; color: var(--text-secondary);"><i class="fa-solid fa-shield-check" style="font-size:2rem;margin-bottom:1rem;color:var(--success-color);opacity:0.8;"></i><p>No red flags detected! Your original resume was free of major issues, or this is a legacy application.</p></div>';
             }
 
-            if (outputs.burnoutCheck) {
+            const burnoutContainer = document.getElementById('burnout-content');
+            if (outputs.burnoutCheck && outputs.burnoutCheck.flightRiskScore !== undefined) {
                 const bc = outputs.burnoutCheck;
                 const score = bc.flightRiskScore || 0;
                 const color = score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
                 const label = score >= 70 ? 'High Risk' : score >= 40 ? 'Moderate' : 'Low Risk';
-                const container = document.getElementById('burnout-content');
                 let html = `<div style="text-align:left;"><strong>Flight Risk Score</strong><div class="burnout-bar"><div class="burnout-fill" style="width:${score}%;background:${color};"></div></div><div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-secondary);"><span>${score}%</span><span>${label}</span></div>`;
                 if (bc.toxicPhrases && bc.toxicPhrases.length > 0) {
                     html += `<div style="margin-top:1rem;"><strong style="font-size:0.85rem;">Toxic Phrases Found:</strong><div style="margin-top:0.5rem;">`;
@@ -1136,7 +1141,9 @@
                 html += `<div style="margin-top:1rem;"><strong style="font-size:0.85rem;">Overemployment Fit:</strong> <span style="color:${bc.overemploymentFit === 'high' ? '#10b981' : bc.overemploymentFit === 'medium' ? '#f59e0b' : '#ef4444'};font-weight:600;text-transform:uppercase;">${bc.overemploymentFit || 'unknown'}</span></div>`;
                 if (bc.analysis) html += `<p style="margin-top:1rem;font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">${bc.analysis}</p>`;
                 html += `</div>`;
-                container.innerHTML = html;
+                burnoutContainer.innerHTML = html;
+            } else {
+                burnoutContainer.innerHTML = '<div style="padding: 2rem; color: var(--text-secondary);"><i class="fa-solid fa-temperature-empty" style="font-size:2rem;margin-bottom:1rem;opacity:0.5;"></i><p>Burnout metrics are not available for this application. Please try generating a new resume to see this analysis.</p></div>';
             }
         }
     </script>
