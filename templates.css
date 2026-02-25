@@ -5,12 +5,12 @@
 /* Reusable base settings if needed, though they inherit from #resume-output */
 
 /* 1. The Executive */
-.theme-executive {
+.resume-output.rich-output-area.theme-executive {
     font-family: 'Georgia', serif;
     color: var(--text-primary);
 }
 
-.theme-executive h1 {
+.resume-output.rich-output-area.theme-executive h1 {
     text-transform: uppercase;
     letter-spacing: 2px;
     border-top: 3px solid var(--r-accent, #c9a84c);
@@ -20,7 +20,7 @@
     font-size: 2.2rem;
 }
 
-.theme-executive h1+p {
+.resume-output.rich-output-area.theme-executive h1+p {
     text-align: center;
     font-style: italic;
     border-bottom: 1px solid #ccc;
@@ -28,7 +28,7 @@
     margin-bottom: 20px;
 }
 
-.theme-executive h2 {
+.resume-output.rich-output-area.theme-executive h2 {
     background: var(--r-accent, #c9a84c);
     color: #fff;
     text-align: center;
@@ -38,12 +38,12 @@
 }
 
 /* 2. Modern Split (Asymmetrical left border mimicking a layout) */
-.theme-modern-split {
+.resume-output.rich-output-area.theme-modern-split {
     border-left: 20px solid var(--r-accent, #2563eb);
     padding-left: 36px !important;
 }
 
-.theme-modern-split h1 {
+.resume-output.rich-output-area.theme-modern-split h1 {
     text-align: left;
     color: var(--r-accent, #2563eb);
     font-weight: 800;
@@ -51,7 +51,7 @@
     margin-bottom: 0;
 }
 
-.theme-modern-split h2 {
+.resume-output.rich-output-area.theme-modern-split h2 {
     border-bottom: 2px solid var(--r-accent, #2563eb);
     display: inline-block;
     padding-right: 50px;
@@ -59,19 +59,19 @@
 }
 
 /* 3. The Timeline */
-.theme-timeline ul {
+.resume-output.rich-output-area.theme-timeline ul {
     border-left: 2px solid var(--r-accent, #0d9488);
     list-style-type: none;
     padding-left: 20px;
     position: relative;
 }
 
-.theme-timeline ul li {
+.resume-output.rich-output-area.theme-timeline ul li {
     position: relative;
     margin-bottom: 12px;
 }
 
-.theme-timeline ul li::before {
+.resume-output.rich-output-area.theme-timeline ul li::before {
     content: '';
     position: absolute;
     left: -26px;
@@ -82,13 +82,13 @@
     border-radius: 50%;
 }
 
-.theme-timeline h2 {
+.resume-output.rich-output-area.theme-timeline h2 {
     color: var(--r-accent, #0d9488);
     border-bottom: 1px dashed var(--r-accent, #0d9488);
 }
 
 /* 4. Minimalist Grid */
-.theme-minimalist-grid h1 {
+.resume-output.rich-output-area.theme-minimalist-grid h1 {
     text-align: right;
     font-weight: 200;
     font-size: 3rem;
@@ -96,12 +96,12 @@
     padding-bottom: 10px;
 }
 
-.theme-minimalist-grid h1+p {
+.resume-output.rich-output-area.theme-minimalist-grid h1+p {
     text-align: right;
     opacity: 0.7;
 }
 
-.theme-minimalist-grid h2 {
+.resume-output.rich-output-area.theme-minimalist-grid h2 {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 4px;
@@ -110,19 +110,19 @@
     margin-top: 2rem;
 }
 
-.theme-minimalist-grid p>strong {
+.resume-output.rich-output-area.theme-minimalist-grid p>strong {
     font-weight: 500;
     font-size: 1.1rem;
     color: #111;
 }
 
 /* 5. The Infographic */
-.theme-infographic h1 {
+.resume-output.rich-output-area.theme-infographic h1 {
     color: var(--r-accent, #0d9488);
     font-weight: 900;
 }
 
-.theme-infographic h2 {
+.resume-output.rich-output-area.theme-infographic h2 {
     background: var(--r-accent, #0d9488);
     color: white;
     padding: 6px 15px;
@@ -132,7 +132,7 @@
     margin-top: 1.5rem;
 }
 
-.theme-infographic li {
+.resume-output.rich-output-area.theme-infographic li {
     background: rgba(0, 0, 0, 0.03);
     padding: 8px 12px;
     border-radius: 8px;
@@ -141,18 +141,18 @@
     border-left: 4px solid var(--r-accent, #0d9488);
 }
 
-.theme-infographic ul {
+.resume-output.rich-output-area.theme-infographic ul {
     padding-left: 0;
 }
 
 /* 6. Brutalist */
-.theme-brutalist {
+.resume-output.rich-output-area.theme-brutalist {
     font-family: 'Courier New', Courier, monospace;
     color: #000;
     border: 6px solid #000;
 }
 
-.theme-brutalist h1 {
+.resume-output.rich-output-area.theme-brutalist h1 {
     font-weight: 900;
     text-transform: uppercase;
     font-size: 3.5rem;
@@ -160,7 +160,7 @@
     padding-bottom: 10px;
 }
 
-.theme-brutalist h2 {
+.resume-output.rich-output-area.theme-brutalist h2 {
     background: #000;
     color: #fff;
     display: inline-block;
@@ -170,45 +170,45 @@
 }
 
 /* 7. Academic (CV Style) */
-.theme-academic {
+.resume-output.rich-output-area.theme-academic {
     font-family: 'Garamond', serif;
     line-height: 1.4;
 }
 
-.theme-academic h1 {
+.resume-output.rich-output-area.theme-academic h1 {
     font-size: 2rem;
     border-bottom: 2px double #000;
 }
 
-.theme-academic h2 {
+.resume-output.rich-output-area.theme-academic h2 {
     font-variant: small-caps;
     text-transform: lowercase;
     font-size: 1.4rem;
     border-bottom: 1px solid #ccc;
 }
 
-.theme-academic p {
+.resume-output.rich-output-area.theme-academic p {
     margin-bottom: 0.4rem;
 }
 
-.theme-academic ul {
+.resume-output.rich-output-area.theme-academic ul {
     margin-bottom: 0.8rem;
 }
 
 /* 8. Tech Sidebar mimicking */
-.theme-tech-sidebar h1 {
+.resume-output.rich-output-area.theme-tech-sidebar h1 {
     color: var(--r-accent, #8b5cf6);
     text-align: left;
     margin-bottom: 0;
 }
 
-.theme-tech-sidebar h1+p {
+.resume-output.rich-output-area.theme-tech-sidebar h1+p {
     text-align: left;
     padding-left: 5px;
     border-left: 3px solid var(--r-accent, #8b5cf6);
 }
 
-.theme-tech-sidebar h2 {
+.resume-output.rich-output-area.theme-tech-sidebar h2 {
     background: rgba(139, 92, 246, 0.1);
     border-left: 3px solid var(--r-accent, #8b5cf6);
     padding: 4px 10px;
@@ -216,23 +216,23 @@
     color: #333;
 }
 
-.theme-tech-sidebar li {
+.resume-output.rich-output-area.theme-tech-sidebar li {
     list-style-type: square;
     color: #444;
 }
 
 /* 9. Elegant */
-.theme-elegant {
+.resume-output.rich-output-area.theme-elegant {
     font-weight: 300;
 }
 
-.theme-elegant h1 {
+.resume-output.rich-output-area.theme-elegant h1 {
     font-weight: 300;
     letter-spacing: 5px;
     font-size: 2.2rem;
 }
 
-.theme-elegant h2 {
+.resume-output.rich-output-area.theme-elegant h2 {
     font-weight: 400;
     text-align: center;
     border-top: 1px solid #eee;
@@ -245,23 +245,23 @@
 }
 
 /* 10. Startup */
-.theme-startup {
+.resume-output.rich-output-area.theme-startup {
     font-family: 'Outfit', sans-serif;
 }
 
-.theme-startup h1 {
+.resume-output.rich-output-area.theme-startup h1 {
     background: linear-gradient(90deg, var(--r-accent, #0ea5e9), #a855f7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
 }
 
-.theme-startup h2 {
+.resume-output.rich-output-area.theme-startup h2 {
     color: var(--r-accent, #0ea5e9);
     border-bottom: 2px solid rgba(14, 165, 233, 0.2);
 }
 
-.theme-startup p>strong {
+.resume-output.rich-output-area.theme-startup p>strong {
     background: rgba(14, 165, 233, 0.1);
     padding: 2px 6px;
     border-radius: 4px;
@@ -269,7 +269,7 @@
 }
 
 /* 11. Classic Two-Tone */
-.theme-two-tone h1 {
+.resume-output.rich-output-area.theme-two-tone h1 {
     background: var(--r-accent, #c2704f);
     color: #fff;
     margin: -48px -56px 20px !important;
@@ -278,51 +278,51 @@
     text-align: center;
 }
 
-.theme-two-tone h1+p {
+.resume-output.rich-output-area.theme-two-tone h1+p {
     text-align: center;
     margin-top: -15px;
     margin-bottom: 30px;
     font-weight: 600;
 }
 
-.theme-two-tone h2 {
+.resume-output.rich-output-area.theme-two-tone h2 {
     color: var(--r-accent, #c2704f);
     border-bottom: 2px solid var(--r-accent, #c2704f);
 }
 
 /* 12. Compact Matrix */
-.theme-matrix {
+.resume-output.rich-output-area.theme-matrix {
     font-size: 0.85rem;
     line-height: 1.3;
 }
 
-.theme-matrix h1 {
+.resume-output.rich-output-area.theme-matrix h1 {
     font-size: 1.6rem;
     margin-bottom: 0;
 }
 
-.theme-matrix h2 {
+.resume-output.rich-output-area.theme-matrix h2 {
     font-size: 1.1rem;
     border-bottom: 1px dashed var(--r-accent, #16a34a);
     margin-top: 0.8rem;
 }
 
-.theme-matrix ul {
+.resume-output.rich-output-area.theme-matrix ul {
     margin-bottom: 0.5rem;
 }
 
-.theme-matrix li {
+.resume-output.rich-output-area.theme-matrix li {
     margin-bottom: 0.2rem;
 }
 
 /* 13. Gallery */
-.theme-gallery {
+.resume-output.rich-output-area.theme-gallery {
     padding-left: 100px !important;
     position: relative;
     border-left: 1px solid #ccc;
 }
 
-.theme-gallery h1 {
+.resume-output.rich-output-area.theme-gallery h1 {
     position: absolute;
     left: -140px;
     top: 250px;
@@ -334,49 +334,49 @@
     border: none;
 }
 
-.theme-gallery h2 {
+.resume-output.rich-output-area.theme-gallery h2 {
     color: var(--r-accent, #c084fc);
     border-bottom: 2px solid #eee;
 }
 
 /* 14. Newsletter (CSS Columns) */
-.theme-newsletter {
+.resume-output.rich-output-area.theme-newsletter {
     column-count: 2;
     column-gap: 40px;
     column-rule: 1px solid #ddd;
 }
 
-.theme-newsletter h1,
-.theme-newsletter h1+p {
+.resume-output.rich-output-area.theme-newsletter h1,
+.resume-output.rich-output-area.theme-newsletter h1+p {
     column-span: all;
     text-align: center;
 }
 
-.theme-newsletter h1 {
+.resume-output.rich-output-area.theme-newsletter h1 {
     border-bottom: 4px solid var(--r-accent, #b8942e);
     border-top: 4px solid var(--r-accent, #b8942e);
 }
 
-.theme-newsletter h2 {
+.resume-output.rich-output-area.theme-newsletter h2 {
     color: var(--r-accent, #b8942e);
     border-bottom: 1px solid var(--r-accent, #b8942e);
     break-after: avoid;
 }
 
 /* 15. Terminal */
-.theme-terminal {
+.resume-output.rich-output-area.theme-terminal {
     background: #0d1117 !important;
     color: #d1d5db !important;
     font-family: 'Courier New', Courier, monospace;
 }
 
-.theme-terminal h1 {
+.resume-output.rich-output-area.theme-terminal h1 {
     color: var(--r-accent, #22c55e);
     text-align: left;
     border-bottom: 1px dashed var(--r-accent, #22c55e);
 }
 
-.theme-terminal h1::before {
+.resume-output.rich-output-area.theme-terminal h1::before {
     content: 'admin@tms:~$ sudo whoami\\A';
     white-space: pre-wrap;
     font-size: 0.9rem;
@@ -385,23 +385,23 @@
     margin-bottom: 10px;
 }
 
-.theme-terminal h2 {
+.resume-output.rich-output-area.theme-terminal h2 {
     color: var(--r-accent, #22c55e);
     border: none;
     margin-top: 2rem;
 }
 
-.theme-terminal h2::before {
+.resume-output.rich-output-area.theme-terminal h2::before {
     content: 'root@candidate:~# cat ';
     color: #3b82f6;
     font-size: 0.9rem;
 }
 
-.theme-terminal li {
+.resume-output.rich-output-area.theme-terminal li {
     list-style-type: none;
 }
 
-.theme-terminal li::before {
+.resume-output.rich-output-area.theme-terminal li::before {
     content: '> ';
     color: var(--r-accent, #22c55e);
     font-weight: bold;
