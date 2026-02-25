@@ -221,8 +221,8 @@
 
         /* Dashboard Layout */
         .health-dashboard {
-            display: grid;
-            grid-template-columns: auto 1fr;
+            display: flex;
+            justify-content: center;
             gap: 1.5rem;
             margin-bottom: 2.5rem;
             align-items: stretch;
@@ -359,10 +359,6 @@
         }
 
         @media (max-width: 1200px) {
-            .health-dashboard {
-                grid-template-columns: 1fr;
-            }
-
             .core-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -500,9 +496,7 @@
             background: linear-gradient(135deg, #06b6d4, #0891b2);
         }
 
-        .card-backchannel .card-icon {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-        }
+
 
         .card-techscreen .card-icon {
             background: linear-gradient(135deg, #ef4444, #b91c1c);
@@ -516,9 +510,7 @@
             background: linear-gradient(135deg, #ef4444, #991b1b);
         }
 
-        .card-confidence .card-icon {
-            background: linear-gradient(135deg, #ec4899, #be185d);
-        }
+
 
         .card-thankyou .card-icon {
             background: linear-gradient(135deg, #10b981, #047857);
@@ -770,36 +762,6 @@
                         <span class="dial-label" style="margin-top:0.5rem;">Match Score</span>
                     </div>
                 </div>
-
-                <div class="insights-grid">
-                    <div class="insight-widget" id="roast-card"
-                        onclick="document.getElementById('roast-modal').classList.add('visible')">
-                        <div class="card-icon" style="background: linear-gradient(135deg, #ef4444, #f97316);"><i
-                                class="fa-solid fa-fire-flame-curved" style="color:#fff;"></i></div>
-                        <div>
-                            <h4>Brutal Roast</h4>
-                            <p id="roast-summary">AI roasts your weakest points</p>
-                        </div>
-                    </div>
-                    <div class="insight-widget" id="redflag-card"
-                        onclick="document.getElementById('redflag-modal').classList.add('visible')">
-                        <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);"><i
-                                class="fa-solid fa-triangle-exclamation" style="color:#fff;"></i></div>
-                        <div>
-                            <h4>Red Flag Detector</h4>
-                            <p id="redflag-summary">Things that get you rejected</p>
-                        </div>
-                    </div>
-                    <div class="insight-widget" id="burnout-card"
-                        onclick="document.getElementById('burnout-modal').classList.add('visible')">
-                        <div class="card-icon" style="background: linear-gradient(135deg, #f97316, #eab308);"><i
-                                class="fa-solid fa-shield-halved" style="color:#fff;"></i></div>
-                        <div>
-                            <h4>Burnout Check</h4>
-                            <p id="burnout-summary">Toxic language & OE fit</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- ═══ CORE DELIVERABLES ═══ -->
@@ -852,8 +814,8 @@
                     <div class="card-icon"><i class="fa-solid fa-sack-dollar" style="color:#fff;"></i></div>
                     <h3>Salary Negotiator</h3>
                     <p>Voice-to-voice practice with a stubborn AI HR rep</p>
-                    <span
-                        style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Voice + text</span>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Voice +
+                        text</span>
                 </a>
                 <a href="prove-it.html" class="output-card card-proveit">
                     <div class="card-icon"><i class="fa-solid fa-chart-column" style="color:#fff;"></i></div>
@@ -870,6 +832,27 @@
             <!-- ═══ INTELLIGENCE & SCOUTING ═══ -->
             <div class="section-label"><i class="fa-solid fa-satellite-dish"></i> Intelligence & Scouting</div>
             <div class="output-grid">
+                <div class="output-card card-roast" onclick="generateInsight('roast', this)">
+                    <div class="card-icon"><i class="fa-solid fa-fire-flame-curved" style="color:#fff;"></i></div>
+                    <h3>Brutal Roast</h3>
+                    <p>AI roasts your weakest points</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </div>
+                <div class="output-card card-redflag" onclick="generateInsight('redflag', this)">
+                    <div class="card-icon"><i class="fa-solid fa-triangle-exclamation" style="color:#fff;"></i></div>
+                    <h3>Red Flag Detector</h3>
+                    <p>Things that get you rejected</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </div>
+                <div class="output-card card-burnout" onclick="generateInsight('burnout', this)">
+                    <div class="card-icon"><i class="fa-solid fa-shield-halved" style="color:#fff;"></i></div>
+                    <h3>Burnout Check</h3>
+                    <p>Toxic language & OE fit</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
+                        on click</span>
+                </div>
                 <a href="comp-decoder.html" class="output-card card-compdecoder">
                     <div class="card-icon"><i class="fa-solid fa-scale-balanced" style="color:#fff;"></i></div>
                     <h3>Comp Decoder</h3>
@@ -932,13 +915,7 @@
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Sandbox
                         IDE</span>
                 </a>
-                <a href="confidence-scorer.html" class="output-card card-confidence">
-                    <div class="card-icon"><i class="fa-solid fa-microphone-lines" style="color:#fff;"></i></div>
-                    <h3>Confidence Scorer</h3>
-                    <p>AI grades your delivery — filler words, pace, structure</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Webcam +
-                        mic</span>
-                </a>
+
                 <a href="thank-you.html" class="output-card card-thankyou">
                     <div class="card-icon"><i class="fa-solid fa-envelope-circle-check" style="color:#fff;"></i></div>
                     <h3>Thank-You Engine</h3>
@@ -964,13 +941,6 @@
                     <p>Find backdoor referrals + cold outreach scripts</p>
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
                         on click</span>
-                </a>
-                <a href="backchannel.html" class="output-card card-backchannel">
-                    <div class="card-icon"><i class="fa-solid fa-diagram-project" style="color:#fff;"></i></div>
-                    <h3>Back-Channel</h3>
-                    <p>Find hidden connections — alumni, former coworkers, insiders</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Network
-                        mapper</span>
                 </a>
                 <a href="video-intro.html" class="output-card card-video">
                     <div class="card-icon"><i class="fa-solid fa-video" style="color:#fff;"></i></div>
@@ -1082,6 +1052,27 @@
     <script src="error-utils.js"></script>
     <script src="results.js?v=6"></script>
     <script>
+        function generateInsight(type, element) {
+            if (element.classList.contains('generating')) return;
+            element.classList.add('generating');
+
+            const statusSpan = element.querySelector('span');
+            const originalText = statusSpan.textContent;
+            statusSpan.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
+            statusSpan.style.color = 'var(--text-primary)';
+
+            setTimeout(() => {
+                element.classList.remove('generating');
+                statusSpan.textContent = 'View Report';
+                statusSpan.style.color = '#10b981';
+                document.getElementById(type + '-modal').classList.add('visible');
+
+                element.onclick = function () {
+                    document.getElementById(type + '-modal').classList.add('visible');
+                };
+            }, 1200);
+        }
+
         const outputs = loadOutputs();
         initResultTheme();
         initResultAuth();
@@ -1105,16 +1096,12 @@
                     document.getElementById('dial-pct').textContent = s + '%';
                 }));
             }
-            // Skills selector removed
 
             // Save to Supabase for history
             saveGenerationToSupabase(outputs).catch(e => console.error('History save failed:', e));
 
-            // Cultural Fit Display removed
-
-            // Brutal Roast Display
+            // Populate modalities data
             if (outputs.roastLines && outputs.roastLines.length > 0) {
-                document.getElementById('roast-summary').textContent = `${outputs.roastLines.length} roasts found`;
                 const container = document.getElementById('roast-lines');
                 outputs.roastLines.forEach(line => {
                     const div = document.createElement('div');
@@ -1122,16 +1109,9 @@
                     div.textContent = line;
                     container.appendChild(div);
                 });
-            } else {
-                document.getElementById('roast-card').style.opacity = '0.5';
-                document.getElementById('roast-summary').textContent = 'Roast pending...';
             }
 
-            // Red Flag Detector Display
             if (outputs.redFlags && outputs.redFlags.length > 0) {
-                const count = outputs.redFlags.length;
-                const critical = outputs.redFlags.filter(f => f.severity === 'critical').length;
-                document.getElementById('redflag-summary').textContent = `${count} flags found (${critical} critical)`;
                 const container = document.getElementById('redflag-lines');
                 outputs.redFlags.forEach(f => {
                     const div = document.createElement('div');
@@ -1139,18 +1119,13 @@
                     div.innerHTML = `<div><i class="fa-solid ${f.severity === 'critical' ? 'fa-circle-xmark' : 'fa-circle-exclamation'}" style="color:${f.severity === 'critical' ? '#ef4444' : '#f59e0b'};margin-top:2px;"></i></div><div><strong>${f.flag}</strong><div class="redflag-fix"><i class="fa-solid fa-lightbulb"></i> ${f.fix}</div></div>`;
                     container.appendChild(div);
                 });
-            } else {
-                document.getElementById('redflag-card').style.opacity = '0.5';
-                document.getElementById('redflag-summary').textContent = 'Analysis pending...';
             }
 
-            // Burnout Check Display
             if (outputs.burnoutCheck) {
                 const bc = outputs.burnoutCheck;
                 const score = bc.flightRiskScore || 0;
                 const color = score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
                 const label = score >= 70 ? 'High Risk' : score >= 40 ? 'Moderate' : 'Low Risk';
-                document.getElementById('burnout-summary').textContent = `Flight Risk: ${score}% — ${label}`;
                 const container = document.getElementById('burnout-content');
                 let html = `<div style="text-align:left;"><strong>Flight Risk Score</strong><div class="burnout-bar"><div class="burnout-fill" style="width:${score}%;background:${color};"></div></div><div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-secondary);"><span>${score}%</span><span>${label}</span></div>`;
                 if (bc.toxicPhrases && bc.toxicPhrases.length > 0) {
@@ -1162,16 +1137,14 @@
                 if (bc.analysis) html += `<p style="margin-top:1rem;font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">${bc.analysis}</p>`;
                 html += `</div>`;
                 container.innerHTML = html;
-            } else {
-                document.getElementById('burnout-card').style.opacity = '0.5';
-                document.getElementById('burnout-summary').textContent = 'Analysis pending...';
             }
         }
     </script>
 
     <footer class="site-footer">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
-        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
+                href="security.html">Security Policy</a></p>
     </footer>
 </body>
 
