@@ -94,20 +94,30 @@
             const container = document.getElementById('tactics-output');
             container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Generating guerrilla strategy...</p>';
 
-            const systemPrompt = `You are an aggressive job hunting strategist. Based on the target company and role, generate customized "guerrilla tactics" to bypass the ATS and get noticed directly by decision makers.
+            const systemPrompt = `You are an aggressive job hunting strategist with access to Google Search. Based on the target company and role, generate customized "guerrilla tactics" to bypass the ATS and get noticed directly by decision makers.
+
+CRITICAL: Use Google Search to find the ACTUAL decision maker for this role:
+1. Search for the real person who manages the team/department for this role at this company (e.g., "VP of Engineering at [Company] site:linkedin.com")
+2. Find their actual full name, not just a title
+3. Determine the company's email format by searching (e.g., "[Company] email format" or checking Hunter.io results)
+4. Construct their likely real email address using the format + their name
 
 For each tactic, include:
 - A specific, actionable strategy tailored to THIS company and role
 - Estimated effort level
-- A ready-to-use script or deliverable
-
-Include the likely email format for the company (e.g., first.last@company.com) and identify the likely hiring manager title.
+- A ready-to-use script or deliverable addressed to the decision maker BY NAME
 
 Return EXACTLY this JSON (no markdown, no code fences):
 {
     "company": "Company name",
-    "likelyHiringManager": "VP of Engineering (or relevant title)",
+    "decisionMaker": {
+        "name": "Jane Smith (the actual person's full name — search for it)",
+        "title": "VP of Engineering (their actual title)",
+        "linkedinSearch": "The LinkedIn search URL or query used to find them",
+        "confidence": "high"|"medium"|"low"
+    },
     "emailFormat": "first.last@company.com",
+    "constructedEmail": "jane.smith@company.com (built from their real name + email format)",
     "tactics": [
         {
             "title": "Tactic name",
@@ -115,7 +125,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             "effort": "high"|"medium"|"low",
             "impact": "high"|"medium"|"low",
             "timeEstimate": "e.g., 2-3 hours",
-            "script": "Ready-to-use email/message script or deliverable description"
+            "script": "Ready-to-use email/message script addressed to the decision maker BY NAME"
         }
     ],
     "warningNote": "A brief ethical/professional disclaimer"
@@ -126,10 +136,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
                     body: {
-                        model: 'gemini-3-flash-preview',
+                        model: 'gemini-2.5-flash-preview-05-20',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         contents: [{ parts: [{ text: userPrompt }] }],
-                        generationConfig: { temperature: 0.8 }
+                        generationConfig: { temperature: 0.8 },
+                        tools: [{ googleSearch: {} }]
                     }
                 });
 
@@ -147,10 +158,22 @@ Return EXACTLY this JSON (no markdown, no code fences):
             const container = document.getElementById('tactics-output');
             let html = '';
 
-            html += `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;margin-bottom:1.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;text-align:center;">`;
+            const dm = result.decisionMaker || {};
+            const confidenceColor = dm.confidence === 'high' ? '#10b981' : dm.confidence === 'medium' ? '#f59e0b' : '#ef4444';
+
+            html += `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">`;
+            html += `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;text-align:center;margin-bottom:1rem;">`;
             html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Target</div><strong>${result.company}</strong></div>`;
-            html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Decision Maker</div><strong>${result.likelyHiringManager}</strong></div>`;
-            html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Email Format</div><strong style="color:var(--primary-color);">${result.emailFormat}</strong></div>`;
+            html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Decision Maker</div><strong>${dm.name || 'Unknown'}</strong><div style="font-size:0.75rem;color:var(--text-secondary);">${dm.title || ''}</div></div>`;
+            html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Likely Email</div><strong style="color:var(--primary-color);">${result.constructedEmail || result.emailFormat}</strong></div>`;
+            html += `</div>`;
+
+            html += `<div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;align-items:center;">`;
+            html += `<span style="font-size:0.7rem;padding:0.2rem 0.5rem;border-radius:4px;background:rgba(${dm.confidence === 'high' ? '16,185,129' : dm.confidence === 'medium' ? '245,158,11' : '239,68,68'},0.1);color:${confidenceColor};font-weight:600;text-transform:uppercase;letter-spacing:0.05em;"><i class="fa-solid fa-circle-check"></i> ${dm.confidence || 'low'} confidence</span>`;
+            html += `<span style="font-size:0.75rem;color:var(--text-secondary);">Format: ${result.emailFormat}</span>`;
+            if (dm.linkedinSearch) html += `<a href="https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent((dm.name || '') + ' ' + result.company)}" target="_blank" style="font-size:0.75rem;color:var(--primary-color);text-decoration:none;"><i class="fa-brands fa-linkedin"></i> Verify on LinkedIn</a>`;
+            if (result.constructedEmail) html += `<button class="copy-btn" style="position:static;font-size:0.7rem;" onclick="copyText(this, '${result.constructedEmail}')"><i class="fa-regular fa-copy"></i> Copy Email</button>`;
+            html += `</div>`;
             html += `</div>`;
 
             result.tactics.forEach((t, i) => {

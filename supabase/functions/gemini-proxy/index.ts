@@ -11,7 +11,7 @@ Deno.serve(async (req) => {
     }
 
     try {
-        const { systemInstruction, contents, generationConfig, model, cacheKey, cacheTtlSeconds } = await req.json()
+        const { systemInstruction, contents, generationConfig, model, cacheKey, cacheTtlSeconds, tools } = await req.json()
         const TARGET_MODEL = model || "gemini-3-flash-preview";
 
         // ── Cache check ──
@@ -54,6 +54,10 @@ Deno.serve(async (req) => {
 
         if (systemInstruction) {
             googleReqBody.systemInstruction = systemInstruction;
+        }
+
+        if (tools) {
+            googleReqBody.tools = tools;
         }
 
         const response = await fetch(url, {
