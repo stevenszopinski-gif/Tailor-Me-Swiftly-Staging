@@ -1569,10 +1569,17 @@ function showATSResults(data) {
     // Searchability
     const searchEl = document.getElementById('ats-searchability-checks');
     if (searchEl) {
-        searchEl.innerHTML = (data.searchability || []).map(s => {
+        const searchFixable = (data.searchability || []).filter(s => s.status !== 'pass').length;
+        const searchFixAllBar = searchFixable > 0
+            ? `<div class="ats-fix-all-bar"><span class="ats-fix-all-progress"></span><button class="ats-fix-all-btn" onclick="fixAllATSIssues()"><i class="fa-solid fa-wand-magic-sparkles"></i> Fix All (${searchFixable})</button></div>`
+            : '';
+        searchEl.innerHTML = searchFixAllBar + (data.searchability || []).map(s => {
             const icon = s.status === 'pass' ? 'fa-circle-check pass' : s.status === 'warn' ? 'fa-triangle-exclamation warn' : 'fa-circle-xmark fail';
             const details = (s.details || []).map(d => `<div class="check-detail">${s.status === 'pass' ? '<i class="fa-solid fa-check" style="color:#16a34a;margin-right:4px;font-size:0.7rem;"></i>' : '<i class="fa-solid fa-xmark" style="color:#dc2626;margin-right:4px;font-size:0.7rem;"></i>'}${d}</div>`).join('');
-            return `<div class="ats-check-row"><i class="fa-solid ${icon} check-icon"></i><div><div class="check-label">${s.label}</div>${details}</div></div>`;
+            const fixBtn = s.status !== 'pass'
+                ? `<button class="ats-fix-btn" data-issue-label="${s.label}" data-issue-details="${(s.details || []).join('; ').replace(/"/g, '&quot;')}" data-issue-section="searchability" onclick="fixATSIssue('${s.label.replace(/'/g, "\\'")}', this.dataset.issueDetails, 'searchability', this.closest('.ats-check-row'), this)"><i class="fa-solid fa-wrench" style="font-size:0.65rem;"></i> Fix</button>`
+                : '';
+            return `<div class="ats-check-row"><i class="fa-solid ${icon} check-icon"></i><div style="flex:1;"><div class="check-label">${s.label}</div>${details}</div>${fixBtn}</div>`;
         }).join('');
     }
 
@@ -1609,9 +1616,16 @@ function showATSResults(data) {
     // Recruiter Tips
     const tipsEl = document.getElementById('ats-recruiter-tips-checks');
     if (tipsEl) {
-        tipsEl.innerHTML = (data.recruiterTips || []).map(t => {
+        const tipFixable = (data.recruiterTips || []).filter(t => t.status !== 'pass').length;
+        const tipFixAllBar = tipFixable > 0
+            ? `<div class="ats-fix-all-bar"><span class="ats-fix-all-progress"></span><button class="ats-fix-all-btn" onclick="fixAllATSIssues()"><i class="fa-solid fa-wand-magic-sparkles"></i> Fix All (${tipFixable})</button></div>`
+            : '';
+        tipsEl.innerHTML = tipFixAllBar + (data.recruiterTips || []).map(t => {
             const icon = t.status === 'pass' ? 'fa-circle-check pass' : t.status === 'warn' ? 'fa-triangle-exclamation warn' : 'fa-circle-xmark fail';
-            return `<div class="ats-check-row"><i class="fa-solid ${icon} check-icon"></i><div><div class="check-label">${t.label}</div><div class="check-detail">${t.detail}</div></div></div>`;
+            const fixBtn = t.status !== 'pass'
+                ? `<button class="ats-fix-btn" data-issue-label="${t.label}" data-issue-details="${(t.detail || '').replace(/"/g, '&quot;')}" data-issue-section="recruiterTips" onclick="fixATSIssue('${t.label.replace(/'/g, "\\'")}', this.dataset.issueDetails, 'recruiterTips', this.closest('.ats-check-row'), this)"><i class="fa-solid fa-wrench" style="font-size:0.65rem;"></i> Fix</button>`
+                : '';
+            return `<div class="ats-check-row"><i class="fa-solid ${icon} check-icon"></i><div style="flex:1;"><div class="check-label">${t.label}</div><div class="check-detail">${t.detail}</div></div>${fixBtn}</div>`;
         }).join('');
     }
 
@@ -1666,6 +1680,122 @@ function renderSkillsTable(tableId, skills) {
             <td class="skill-count">${s.jdCount}</td>
         </tr>
     `).join('');
+}
+
+// ═══════════════════════════════════════════
+// ATS FIX IT (Individual Issue Fix)
+// ═══════════════════════════════════════════
+
+async function fixATSIssue(issueLabel, issueDetails, section, rowEl, btnEl) {
+    if (!window.supabaseClient) { alert('Not ready. Please refresh the page.'); return false; }
+    if (btnEl.classList.contains('fixing') || btnEl.classList.contains('fixed')) return false;
+
+    btnEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="font-size:0.7rem;"></i> Fixing…';
+    btnEl.classList.add('fixing');
+    btnEl.disabled = true;
+
+    const systemPrompt = `You are an expert resume editor. You will receive a resume, a job description, and a specific ATS issue to fix.
+
+Your task: Rewrite the resume to fix ONLY the identified issue. Make the MINIMUM changes necessary. Do NOT restructure the entire resume. Do NOT add fabricated information.
+
+RULES:
+- Return ONLY the corrected resume text. No explanations, no markdown fences, no commentary.
+- Preserve all existing content that is not related to the issue.
+- If the issue is about missing information (e.g., missing phone number), add a placeholder like [Your Phone Number] rather than inventing data.
+- Keep the same overall structure and section order.
+- If fixing action verbs or tone, only modify the specific bullet points that need it.
+- If fixing measurable results, add realistic metric placeholders like [X%] where numbers are missing.`;
+
+    const userPrompt = `RESUME:\n${state.resumeText}\n\nJOB DESCRIPTION:\n${state.jobText}\n\nISSUE TO FIX:\nSection: ${section === 'searchability' ? 'Searchability' : 'Recruiter Tips'}\nCheck: ${issueLabel}\nProblem: ${issueDetails}\n\nReturn the corrected resume text below:`;
+
+    try {
+        const { data, error } = await withTimeout(
+            window.supabaseClient.functions.invoke('gemini-proxy', {
+                body: {
+                    model: 'gemini-3-flash-preview',
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    generationConfig: { temperature: 0.1 }
+                }
+            }),
+            30000
+        );
+
+        if (error) throw new Error(error.message);
+        if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) throw new Error('No response from AI.');
+
+        let fixedText = data.candidates[0].content.parts[0].text.trim();
+        fixedText = fixedText.replace(/^```(?:text|plain)?\s*/i, '').replace(/\s*```$/i, '');
+
+        state.resumeText = fixedText;
+        if (el.baseResumeRaw) el.baseResumeRaw.value = fixedText;
+        state.lastATSKey = null;
+
+        const iconEl = rowEl.querySelector('.check-icon');
+        if (iconEl) iconEl.className = 'fa-solid fa-circle-check check-icon pass';
+        rowEl.classList.add('just-fixed');
+
+        btnEl.innerHTML = '<i class="fa-solid fa-check" style="font-size:0.7rem;"></i> Fixed';
+        btnEl.classList.remove('fixing');
+        btnEl.classList.add('fixed');
+
+        if (state.atsData && section === 'searchability') {
+            const item = (state.atsData.searchability || []).find(s => s.label === issueLabel);
+            if (item) item.status = 'pass';
+        }
+        if (state.atsData && section === 'recruiterTips') {
+            const item = (state.atsData.recruiterTips || []).find(t => t.label === issueLabel);
+            if (item) item.status = 'pass';
+        }
+        updateATSNavCounts();
+        return true;
+
+    } catch (e) {
+        console.error('Fix issue error:', e);
+        btnEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="font-size:0.7rem;color:#dc2626;"></i> Retry';
+        btnEl.classList.remove('fixing');
+        btnEl.disabled = false;
+        return false;
+    }
+}
+
+async function fixAllATSIssues() {
+    const fixBtns = Array.from(document.querySelectorAll('.ats-fix-btn:not(.fixed):not(.fixing)'));
+    if (fixBtns.length === 0) return;
+
+    const fixAllBtns = document.querySelectorAll('.ats-fix-all-btn');
+    const progressEls = document.querySelectorAll('.ats-fix-all-progress');
+
+    fixAllBtns.forEach(b => { b.disabled = true; b.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Fixing…'; });
+
+    let completed = 0;
+    const total = fixBtns.length;
+
+    for (const btn of fixBtns) {
+        progressEls.forEach(p => p.textContent = `Fixing ${completed + 1} of ${total}…`);
+
+        const rowEl = btn.closest('.ats-check-row');
+        const label = btn.dataset.issueLabel;
+        const details = btn.dataset.issueDetails;
+        const section = btn.dataset.issueSection;
+
+        await fixATSIssue(label, details, section, rowEl, btn);
+        completed++;
+
+        if (completed < total) await new Promise(r => setTimeout(r, 500));
+    }
+
+    fixAllBtns.forEach(b => { b.innerHTML = '<i class="fa-solid fa-check"></i> All Fixed'; b.disabled = true; });
+    progressEls.forEach(p => p.textContent = `${completed} issues fixed`);
+}
+
+function updateATSNavCounts() {
+    if (!state.atsData) return;
+    const searchIssues = (state.atsData.searchability || []).filter(s => s.status !== 'pass').length;
+    const tipIssues = (state.atsData.recruiterTips || []).filter(t => t.status !== 'pass').length;
+    const navCount = (id, count) => { const navEl = document.getElementById(id); if (navEl) navEl.textContent = count > 0 ? `${count} issues` : 'OK'; };
+    navCount('nav-count-search', searchIssues);
+    navCount('nav-count-tips', tipIssues);
 }
 
 // Hook it into init reliably
