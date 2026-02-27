@@ -237,11 +237,7 @@
                                                 <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
                         <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-bullhorn"></i> Release Notes
-                        </a>
-                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
-                            <i class="fa-solid fa-table-columns"></i> Application Tracker
-                        </a>                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
-                        <button class="dropdown-item" id="logout-btn">
+                        </a>                        <button class="dropdown-item" id="logout-btn">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
                         </button>
                     </div>
@@ -297,10 +293,22 @@
         // ── Release notes data ──
         const releases = [
             {
+                version: 'v5.1.0',
+                title: 'Dashboard & Navigation Overhaul',
+                date: 'Feb 27, 2026',
+                current: true,
+                items: [
+                    '<strong>New Dashboard:</strong> Logged-in users now land on a dedicated Dashboard with quick stats, a mini Kanban board, and one-click access to Career Command Center tools.',
+                    '<strong>Clickable Kanban Cards:</strong> Each application card on the Dashboard links directly to its results page&mdash;no more hunting through the full tracker.',
+                    '<strong>Streamlined Navigation:</strong> Removed the Application Tracker link from the avatar dropdown. The Dashboard now serves as the central hub with a &ldquo;Full Tracker&rdquo; CTA for the Kanban board.',
+                    '<strong>Smart Redirects:</strong> Logged-in users visiting the landing page are automatically redirected to the Dashboard. Post-login flows now route to the Dashboard instead of the app page.',
+                    '<strong>Tool Reorganization:</strong> Shadow Jobs, Toxic Culture Radar, and Referral Mapper moved from the global Career Command Center to the application-specific Outreach &amp; Edge section where they belong.'
+                ]
+            },
+            {
                 version: 'v5.0.0',
                 title: 'Mega Expansion: 11 New AI Tools + Voice Negotiator',
                 date: 'Feb 24, 2026',
-                current: true,
                 items: [
                     '<strong>Auto-App Agent:</strong> Set your job criteria (title, salary, work style, location) and let AI scan for matching jobs, generating tailored cover letter openers for each match.',
                     '<strong>Reverse Interview Generator:</strong> AI analyzes the target company and generates 5 probing questions to ask your interviewer&mdash;complete with intel background and strategy for each.',
