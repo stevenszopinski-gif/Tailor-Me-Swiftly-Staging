@@ -366,6 +366,9 @@
         initResultTheme();
         initResultAuth();
 
+        (async function() {
+        if (!(await guardToolAccess())) return;
+
         let outputs = loadOutputs();
         const card = document.getElementById('email-card');
 
@@ -588,6 +591,7 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
         function escapeHtml(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
+        })();
     </script>
 
     <footer class="site-footer">

@@ -210,6 +210,9 @@
         initResultTheme();
         initResultAuth();
 
+        (async function() {
+        if (!(await guardToolAccess())) return;
+
         const outputs = loadOutputs();
 
         async function callGeminiForCover(systemPrompt, userPrompt) {
@@ -381,6 +384,7 @@ Clean semantic HTML only. No markdown formatting.`;
         }
         new MutationObserver(updateWordCount).observe(coverEl, { childList: true, subtree: true, characterData: true });
         coverEl.addEventListener('input', updateWordCount);
+        })();
     </script>
 
     <footer class="site-footer">

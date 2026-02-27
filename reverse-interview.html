@@ -77,8 +77,11 @@
     <script>
         initResultTheme();
         initResultAuth();
+
+        (async function() {
+        if (!(await guardToolAccess())) return;
         const outputs = loadOutputs();
-        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+        if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
 
         function copyQuestion(btn, text) {
             navigator.clipboard.writeText(text);
@@ -130,6 +133,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                 if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
                 const result = JSON.parse(text);
                 renderQuestions(result);
+                incrementToolUsage();
             } catch (e) {
                 container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateQuestions()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
             }
@@ -162,6 +166,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
+        })();
     </script>
 
     <footer class="site-footer">

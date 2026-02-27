@@ -102,8 +102,11 @@
     <script>
         initResultTheme();
         initResultAuth();
+
+        (async function() {
+        if (!(await guardToolAccess())) return;
         const outputs = loadOutputs();
-        if (!outputs) showSessionExpired(document.querySelector('.result-page'));
+        if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
 
         let variants = [];
 
@@ -206,6 +209,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
+        })();
     </script>
 
     <footer class="site-footer">

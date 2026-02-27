@@ -93,6 +93,9 @@
     <script>
         initResultTheme();
         initResultAuth();
+
+        (async function() {
+        if (!(await guardToolAccess())) return;
         const outputs = loadOutputs();
 
         // Load tracked companies from localStorage
@@ -212,6 +215,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
+        })();
     </script>
 
     <footer class="site-footer">

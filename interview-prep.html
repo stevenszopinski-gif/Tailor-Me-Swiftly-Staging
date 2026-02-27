@@ -660,13 +660,13 @@
         initResultTheme();
         initResultAuth();
 
-        let outputs = loadOutputs();
-        let currentQ = 0;
-        let questions = [];
-        let visitedQs = new Set();
-        let mediaRecorder;
-        let audioChunks = [];
-        let flashcardMode = false;
+        let outputs, currentQ = 0, questions = [], visitedQs = new Set(),
+            mediaRecorder, audioChunks = [], flashcardMode = false;
+
+        (async function() {
+        if (!(await guardToolAccess())) return;
+
+        outputs = loadOutputs();
         let reviewedCards = new Set();
 
         // Chat conversation state
@@ -1448,6 +1448,7 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Regenerate';
         });
+        })();
     </script>
 
     <footer class="site-footer">

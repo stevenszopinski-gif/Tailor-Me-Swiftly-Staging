@@ -4,6 +4,170 @@
 const THEME_STORAGE = 'ats_theme_preference';
 
 // ───────────────────────────────────────────────
+// TOOL ACCESS TIERS & GATING
+// ───────────────────────────────────────────────
+
+const TOOL_TIERS = {
+    // Free — always accessible
+    'resume':            'free',
+    'results':           'free',
+    'history':           'free',
+
+    // Premium-only
+    'interview-prep':    'premium',
+    'salary-negotiator': 'premium',
+    'cover-letter':      'premium',
+    'pain-letter':       'premium',
+    'hook-generator':    'premium',
+    'outreach':          'premium',
+    'toxic-radar':       'premium',
+    'comp-decoder':      'premium',
+    'shadow-jobs':       'premium',
+    'guerrilla-tactics': 'premium',
+    'referral-mapper':   'premium',
+    'auto-app':          'premium',
+    'thank-you':         'premium',
+
+    // Teaser — 1 free use, then locked
+    'ghosting-predictor': 'teaser',
+    'linkedin-sync':      'teaser',
+    'video-intro':        'teaser',
+    'skills-tracker':     'teaser',
+    'day-in-life':        'teaser',
+    'reverse-interview':  'teaser',
+    'rejection-reverser': 'teaser',
+    'prove-it':           'teaser',
+    'tech-screen':        'teaser',
+    'cold-email':         'teaser',
+    'career-pivot':       'teaser'
+};
+
+function toolSlugFromPage(filenameOrSlug) {
+    return (filenameOrSlug || '').replace(/\.html$/, '').replace(/^\//, '');
+}
+
+function currentToolSlug() {
+    const path = window.location.pathname;
+    const filename = path.split('/').pop() || '';
+    return toolSlugFromPage(filename);
+}
+
+async function checkToolAccess(slug) {
+    const tier = TOOL_TIERS[slug] || 'free';
+    if (tier === 'free') return { allowed: true };
+
+    const user = await waitForSupabaseAuth();
+    if (!user) return { allowed: false, reason: 'not_authenticated' };
+
+    const { data: profile } = await window.supabaseClient
+        .from('user_profiles')
+        .select('plan, tool_usage')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+    if (!profile) return { allowed: true };
+    if (profile.plan === 'premium') return { allowed: true };
+
+    if (tier === 'premium') return { allowed: false, reason: 'premium' };
+
+    if (tier === 'teaser') {
+        const usage = profile.tool_usage || {};
+        const count = usage[slug] || 0;
+        if (count >= 1) return { allowed: false, reason: 'teaser_exhausted' };
+        return { allowed: true };
+    }
+
+    return { allowed: true };
+}
+
+async function incrementToolUsage(slug) {
+    if (!slug) slug = currentToolSlug();
+    const user = await waitForSupabaseAuth();
+    if (!user) return;
+
+    const { data: profile } = await window.supabaseClient
+        .from('user_profiles')
+        .select('tool_usage')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+    const usage = profile?.tool_usage || {};
+    usage[slug] = (usage[slug] || 0) + 1;
+
+    await window.supabaseClient
+        .from('user_profiles')
+        .update({ tool_usage: usage })
+        .eq('user_id', user.id);
+}
+
+function showToolUpgradeModal(reason) {
+    document.getElementById('tool-upgrade-modal')?.remove();
+
+    const isPremiumLock = (reason === 'premium');
+    const title = isPremiumLock ? 'Premium Feature' : 'Free Trial Used';
+    const message = isPremiumLock
+        ? 'This tool is available exclusively for Premium members.<br>Upgrade for unlimited access to all tools.'
+        : 'You\'ve used your free trial of this tool.<br>Upgrade to Premium for unlimited access.';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'tool-upgrade-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+    overlay.innerHTML = `
+        <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;padding:2rem;max-width:420px;width:90%;text-align:center;">
+            <i class="fa-solid fa-crown" style="font-size:2.5rem;color:#f59e0b;margin-bottom:1rem;display:block;"></i>
+            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">${title}</h2>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
+                ${message}
+            </p>
+            <button class="btn primary-btn" onclick="toolCreateCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
+                <i class="fa-solid fa-bolt"></i> Upgrade to Premium
+            </button>
+            <button class="btn ghost-btn" onclick="this.closest('#tool-upgrade-modal').remove();window.location.href='results.html';" style="width:100%;min-height:44px;">
+                Back to Dashboard
+            </button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+async function toolCreateCheckout() {
+    if (!window.supabaseClient) return;
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+    if (!session) { alert('Please sign in first.'); return; }
+
+    try {
+        const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
+            body: {
+                userId: session.user.id,
+                email: session.user.email,
+                returnUrl: window.location.origin + '/results.html'
+            }
+        });
+        if (error) throw error;
+        if (data?.url) window.location.href = data.url;
+    } catch (e) {
+        console.error('Checkout error:', e);
+        alert('Unable to start checkout. Please try again.');
+    }
+}
+
+async function guardToolAccess(slug) {
+    if (!slug) slug = currentToolSlug();
+    const result = await checkToolAccess(slug);
+    if (!result.allowed) {
+        if (result.reason === 'not_authenticated') {
+            window.location.href = 'login.html';
+            return false;
+        }
+        showToolUpgradeModal(result.reason);
+        return false;
+    }
+    return true;
+}
+
+// ───────────────────────────────────────────────
 // GEMINI CALL CACHING (client-side, sessionStorage)
 // Transparently intercepts all gemini-proxy calls.
 // Cache key = hash of request body (system prompt + user prompt).
