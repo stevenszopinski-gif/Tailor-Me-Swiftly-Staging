@@ -120,9 +120,17 @@
         (async function() {
         if (!(await guardToolAccess())) return;
         const outputs = loadOutputs();
-        if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
+        let resumeText = outputs?.resumeText || getResumeText();
+
+        if (!resumeText) {
+            renderResumePrompt(document.getElementById('pivot-output'), (text) => {
+                resumeText = text;
+                document.getElementById('pivot-output').innerHTML = '';
+            });
+        }
 
         async function generatePivot() {
+            if (!resumeText) { alert('Please paste your resume first.'); return; }
             const container = document.getElementById('pivot-output');
             container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Translating your experience...</p>';
 
@@ -150,7 +158,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
     "tips": ["3-5 general tips for making this specific career pivot"]
 }`;
 
-            const userPrompt = `Resume:\n${outputs.resumeText}\n\nTarget Job Description:\n${outputs.jobText}`;
+            const userPrompt = `Resume:\n${resumeText}\n\nTarget Job Description:\n${getJobText() || 'Not provided'}`;
 
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {

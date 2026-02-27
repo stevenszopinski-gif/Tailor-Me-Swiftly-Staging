@@ -790,29 +790,42 @@
         </div>
 
         <div class="results-hub">
-            <div class="result-header"
-                style="flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;">
-                <h1 class="result-title" style="font-size: 2.5rem; margin: 0; text-align: center;"><i
-                        class="fa-solid fa-rocket" style="color: var(--primary-color); margin-right: 0.5rem;"></i>You're
-                    Now Ready to Apply</h1>
-                <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 0;">Everything tailored for <strong
-                        id="hero-company">your target role</strong></p>
+            <!-- ═══ NO-SESSION CTA ═══ -->
+            <div id="no-app-cta" style="display:none;text-align:center;margin-bottom:2.5rem;">
+                <h1 style="font-size:2rem;font-weight:700;margin-bottom:0.5rem;"><i class="fa-solid fa-rocket" style="color:var(--primary-color);margin-right:0.5rem;"></i>Your Job Search Dashboard</h1>
+                <p style="color:var(--text-secondary);font-size:1rem;margin-bottom:1.5rem;">Paste a job description + your resume to generate tailored documents</p>
+                <a href="app.html" class="btn primary-btn" style="font-size:1.1rem;padding:0.9rem 2.5rem;"><i class="fa-solid fa-plus"></i> Start New Application</a>
             </div>
 
-            <div class="health-dashboard">
-                <div class="score-card">
-                    <div class="score-dial-wrap" id="score-dial-wrap" style="display:none;">
-                        <svg viewBox="0 0 36 36">
-                            <circle class="dial-bg" cx="18" cy="18" r="15.9155" />
-                            <circle id="dial-arc" class="dial-arc" cx="18" cy="18" r="15.9155" stroke-dasharray="0 100"
-                                stroke="#10b981" />
-                            <text x="18" y="17" class="dial-pct" id="dial-pct">0%</text>
-                            <text x="18" y="22" class="dial-sub">ATS Score</text>
-                        </svg>
-                        <span class="dial-label" style="margin-top:0.5rem;">Match Score</span>
+            <!-- ═══ ACTIVE APPLICATION HERO ═══ -->
+            <div id="active-app-hero" style="display:none;">
+                <div class="result-header"
+                    style="flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;">
+                    <h1 class="result-title" style="font-size: 2.5rem; margin: 0; text-align: center;"><i
+                            class="fa-solid fa-rocket" style="color: var(--primary-color); margin-right: 0.5rem;"></i>You're
+                        Now Ready to Apply</h1>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin: 0;">Everything tailored for <strong
+                            id="hero-company">your target role</strong></p>
+                </div>
+
+                <div class="health-dashboard">
+                    <div class="score-card">
+                        <div class="score-dial-wrap" id="score-dial-wrap" style="display:none;">
+                            <svg viewBox="0 0 36 36">
+                                <circle class="dial-bg" cx="18" cy="18" r="15.9155" />
+                                <circle id="dial-arc" class="dial-arc" cx="18" cy="18" r="15.9155" stroke-dasharray="0 100"
+                                    stroke="#10b981" />
+                                <text x="18" y="17" class="dial-pct" id="dial-pct">0%</text>
+                                <text x="18" y="22" class="dial-sub">ATS Score</text>
+                            </svg>
+                            <span class="dial-label" style="margin-top:0.5rem;">Match Score</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- ═══ APPLICATION TOOLS (requires session) ═══ -->
+            <div id="application-section" style="display:none;">
 
             <!-- ═══ CORE DELIVERABLES ═══ -->
             <div class="section-label"><i class="fa-solid fa-star"></i> Core Deliverables</div>
@@ -910,26 +923,12 @@
                     <span
                         style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Calculator</span>
                 </a>
-                <a href="skills-tracker.html" class="output-card card-skilltrack">
-                    <div class="card-icon"><i class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
-                    <h3>Skills Tracker</h3>
-                    <p>See which skills are rising and decaying + roadmap</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
-                        on click</span>
-                </a>
                 <a href="ghosting-predictor.html" class="output-card card-ghosting">
                     <div class="card-icon"><i class="fa-solid fa-ghost" style="color:#fff;"></i></div>
                     <h3>Ghosting Predictor</h3>
                     <p>Is this a ghost job? AI analyzes the posting signals</p>
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
                         on click</span>
-                </a>
-                <a href="toxic-radar.html" class="output-card card-toxicradar">
-                    <div class="card-icon"><i class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
-                    <h3>Toxic Culture Radar</h3>
-                    <p>Toxicity score, layoff risk, and Glassdoor estimate</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Company
-                        scan</span>
                 </a>
                 <a href="reverse-interview.html" class="output-card card-reverseint">
                     <div class="card-icon"><i class="fa-solid fa-magnifying-glass-arrow-right" style="color:#fff;"></i>
@@ -938,13 +937,6 @@
                     <p>Probing questions that make you look like a consultant</p>
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
                         on click</span>
-                </a>
-                <a href="shadow-jobs.html" class="output-card card-shadowjob">
-                    <div class="card-icon"><i class="fa-solid fa-eye" style="color:#fff;"></i></div>
-                    <h3>Shadow Jobs</h3>
-                    <p>Monitor company career pages before jobs hit LinkedIn</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Setup
-                        tracker</span>
                 </a>
             </div>
 
@@ -978,13 +970,6 @@
             <!-- ═══ OUTREACH & EDGE ═══ -->
             <div class="section-label"><i class="fa-solid fa-rocket"></i> Outreach & Edge</div>
             <div class="output-grid">
-                <a href="referral-mapper.html" class="output-card card-referral">
-                    <div class="card-icon"><i class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
-                    <h3>Referral Mapper</h3>
-                    <p>Find backdoor referrals + cold outreach scripts</p>
-                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
-                        on click</span>
-                </a>
                 <a href="video-intro.html" class="output-card card-video">
                     <div class="card-icon"><i class="fa-solid fa-video" style="color:#fff;"></i></div>
                     <h3>Video Intro</h3>
@@ -999,6 +984,44 @@
                     <p>Bypass the ATS — reach decision makers directly</p>
                     <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Generates
                         on click</span>
+                </a>
+            </div>
+
+            </div> <!-- /application-section -->
+
+            <!-- ═══ CAREER COMMAND CENTER (always visible) ═══ -->
+            <div class="section-label"><i class="fa-solid fa-compass"></i> Career Command Center</div>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin:-0.5rem 0 1.25rem;">Standalone tools that work with just your resume — no job description needed</p>
+            <div class="output-grid">
+                <a href="career-pivot.html" class="output-card" style="border-color:rgba(20,184,166,0.2);">
+                    <div class="card-icon" style="background:linear-gradient(135deg, #14b8a6, #0d9488);"><i class="fa-solid fa-shuffle" style="color:#fff;"></i></div>
+                    <h3>Career Pivot</h3>
+                    <p>Translate your experience into a new industry's language</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Resume only</span>
+                </a>
+                <a href="shadow-jobs.html" class="output-card card-shadowjob">
+                    <div class="card-icon"><i class="fa-solid fa-eye" style="color:#fff;"></i></div>
+                    <h3>Shadow Jobs</h3>
+                    <p>Monitor company career pages before jobs hit LinkedIn</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Standalone tracker</span>
+                </a>
+                <a href="skills-tracker.html" class="output-card card-skilltrack">
+                    <div class="card-icon"><i class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
+                    <h3>Skills Tracker</h3>
+                    <p>See which skills are rising and decaying + 6-month roadmap</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Resume only</span>
+                </a>
+                <a href="toxic-radar.html" class="output-card card-toxicradar">
+                    <div class="card-icon"><i class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
+                    <h3>Toxic Culture Radar</h3>
+                    <p>Toxicity score, layoff risk, and Glassdoor estimate</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Company name only</span>
+                </a>
+                <a href="referral-mapper.html" class="output-card card-referral">
+                    <div class="card-icon"><i class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
+                    <h3>Referral Mapper</h3>
+                    <p>Find backdoor referrals + cold outreach scripts</p>
+                    <span style="font-size:0.7rem;color:var(--accent-color);margin-top:0.25rem;display:block;">Resume + company</span>
                 </a>
             </div>
 
@@ -1120,10 +1143,14 @@
         initResultTheme();
         initResultAuth();
 
-        if (!outputs) {
-            document.querySelector('.results-hub').innerHTML = '';
-            showSessionExpired(document.querySelector('.results-hub') || document.body);
-        } else {
+        const hasSession = !!outputs;
+
+        if (hasSession) {
+            // Show active application hero + application tools
+            document.getElementById('active-app-hero').style.display = 'block';
+            document.getElementById('no-app-cta').style.display = 'none';
+            document.getElementById('application-section').style.display = 'block';
+
             // Populate meta chips
             if (outputs.targetCompany) {
                 document.getElementById('hero-company').textContent = outputs.targetCompany;
@@ -1187,6 +1214,11 @@
             } else {
                 burnoutContainer.innerHTML = '<div style="padding: 2rem; color: var(--text-secondary);"><i class="fa-solid fa-temperature-empty" style="font-size:2rem;margin-bottom:1rem;opacity:0.5;"></i><p>Burnout metrics are not available for this application. Please try generating a new resume to see this analysis.</p></div>';
             }
+        } else {
+            // No session — show CTA, hide application tools
+            document.getElementById('no-app-cta').style.display = 'block';
+            document.getElementById('active-app-hero').style.display = 'none';
+            document.getElementById('application-section').style.display = 'none';
         }
 
         // ── Premium gating: badge cards and intercept clicks ──

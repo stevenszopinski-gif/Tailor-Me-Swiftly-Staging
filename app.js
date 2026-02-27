@@ -548,8 +548,7 @@ Keep real metrics. Max 5 jobs, 3 education, 15 skills. NEVER invent email, phone
         }
 
         // Save to localStorage as last resume
-        localStorage.setItem('tms_last_resume', responseText);
-        localStorage.setItem('tms_last_resume_name', 'LinkedIn Profile');
+        try { localStorage.setItem('tms_last_resume', JSON.stringify({ text: responseText, name: 'LinkedIn Profile' })); } catch(e) {}
 
         statusEl.innerHTML = '<span class="success-text"><i class="fa-solid fa-check-circle"></i> Profile imported! Review the extracted text below, then click Next.</span>';
         checkStep1();

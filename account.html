@@ -567,6 +567,20 @@
             </button>
         </div>
 
+        <!-- Master Resume -->
+        <div class="account-section">
+            <div class="section-title"><i class="fa-solid fa-file-lines"></i> Master Resume</div>
+            <p style="font-size:0.85rem;color:var(--text-secondary);margin:0 0 0.75rem;">Paste your full resume here so standalone tools (Career Pivot, Skills Tracker, etc.) can use it without re-uploading each time.</p>
+            <textarea id="account-resume" class="prefs-textarea" style="min-height:200px;"
+                placeholder="Paste your full resume text here..."></textarea>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+                <button class="save-btn" id="save-resume-btn">
+                    <i class="fa-solid fa-check"></i> Save Resume
+                </button>
+                <span id="resume-status" style="font-size:0.78rem;color:var(--text-secondary);"></span>
+            </div>
+        </div>
+
         <!-- Appearance -->
         <div class="account-section">
             <div class="section-title"><i class="fa-solid fa-palette"></i> Appearance</div>
@@ -720,6 +734,31 @@
                 localStorage.setItem(PREFS_KEY, document.getElementById('account-prefs').value.trim());
                 this.innerHTML = '<i class="fa-solid fa-check"></i> Saved!';
                 setTimeout(() => { this.innerHTML = '<i class="fa-solid fa-check"></i> Save Preferences'; }, 2000);
+            });
+
+            // Master resume
+            try {
+                const stored = localStorage.getItem('tms_last_resume');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    document.getElementById('account-resume').value = parsed?.text || (typeof parsed === 'string' ? parsed : '');
+                    document.getElementById('resume-status').textContent = 'Saved resume loaded';
+                }
+            } catch (e) {
+                const raw = localStorage.getItem('tms_last_resume');
+                if (raw) document.getElementById('account-resume').value = raw;
+            }
+            document.getElementById('save-resume-btn').addEventListener('click', function () {
+                const text = document.getElementById('account-resume').value.trim();
+                if (!text) {
+                    localStorage.removeItem('tms_last_resume');
+                    document.getElementById('resume-status').textContent = 'Resume cleared';
+                } else {
+                    localStorage.setItem('tms_last_resume', JSON.stringify({ text, name: 'Master Resume' }));
+                    document.getElementById('resume-status').textContent = 'Saved!';
+                }
+                this.innerHTML = '<i class="fa-solid fa-check"></i> Saved!';
+                setTimeout(() => { this.innerHTML = '<i class="fa-solid fa-check"></i> Save Resume'; }, 2000);
             });
 
             // Theme toggle

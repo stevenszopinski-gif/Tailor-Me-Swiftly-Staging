@@ -86,9 +86,20 @@
         (async function() {
         if (!(await guardToolAccess())) return;
         const outputs = loadOutputs();
-        if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
+        let resumeText = outputs?.resumeText || getResumeText();
+
+        if (!resumeText) {
+            renderResumePrompt(document.getElementById('skills-output'), (text) => {
+                resumeText = text;
+                document.getElementById('skills-output').innerHTML = `<div style="text-align:center;padding:3rem;">
+                    <p style="color:var(--text-secondary);margin-bottom:1.5rem;">AI analyzes your resume against current market trends to identify skill gaps and opportunities.</p>
+                    <button class="btn primary-btn" onclick="analyzeSkills()"><i class="fa-solid fa-chart-line"></i> Analyze My Skills</button>
+                </div>`;
+            });
+        }
 
         async function analyzeSkills() {
+            if (!resumeText) { alert('Please paste your resume first.'); return; }
             const container = document.getElementById('skills-output');
             container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Analyzing your skills against market trends...</p>';
 
@@ -130,7 +141,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                     body: {
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
-                        contents: [{ parts: [{ text: `Resume:\n${outputs?.resumeText || 'No resume'}\n\nTarget Job Description:\n${outputs?.jobText || 'Not provided'}\n\nCompany: ${outputs?.targetCompany || 'Unknown'}` }] }],
+                        contents: [{ parts: [{ text: `Resume:\n${resumeText}\n\nTarget Job Description:\n${getJobText() || 'General market analysis'}\n\nCompany: ${getCompanyName() || 'General market'}` }] }],
                         generationConfig: { temperature: 0.7 }
                     }
                 });

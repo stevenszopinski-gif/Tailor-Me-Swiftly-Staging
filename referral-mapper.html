@@ -76,7 +76,17 @@
         (async function() {
         if (!(await guardToolAccess())) return;
         const outputs = loadOutputs();
-        if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
+        let resumeText = outputs?.resumeText || getResumeText();
+
+        // Add company name context bar for standalone use
+        renderContextBar(document.querySelector('.result-page'));
+
+        if (!resumeText) {
+            renderResumePrompt(document.getElementById('referral-output'), (text) => {
+                resumeText = text;
+                document.getElementById('referral-output').innerHTML = `<div style="text-align:center;padding:3rem;"><p style="color:var(--text-secondary);margin-bottom:1.5rem;">Referrals are 10x more effective than cold applications.</p><button class="btn primary-btn" onclick="generateReferral()"><i class="fa-solid fa-people-arrows"></i> Build Referral Strategy</button></div>`;
+            });
+        }
 
         function copyText(btn, text) {
             navigator.clipboard.writeText(text);
@@ -86,6 +96,9 @@
         }
 
         async function generateReferral() {
+            const companyName = document.getElementById('context-company')?.value?.trim() || getCompanyName() || '';
+            if (!resumeText) { alert('Please paste your resume first.'); return; }
+            if (!companyName) { alert('Please enter a company name above.'); return; }
             const container = document.getElementById('referral-output');
             container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Building your referral strategy...</p>';
 
@@ -107,7 +120,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
     "tips": ["2-3 networking tips specific to this company/industry"]
 }`;
 
-            const userPrompt = `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}\n\nCompany: ${outputs.targetCompany || 'Unknown'}`;
+            const userPrompt = `Resume:\n${resumeText}\n\nJob Description:\n${getJobText() || 'Not provided'}\n\nCompany: ${companyName}`;
 
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {

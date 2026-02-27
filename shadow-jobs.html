@@ -100,13 +100,15 @@
         (async function() {
         if (!(await guardToolAccess())) return;
         const outputs = loadOutputs();
+        let resumeText = outputs?.resumeText || getResumeText();
 
         // Load tracked companies from localStorage
         let trackedCompanies = JSON.parse(localStorage.getItem('tms_shadow_companies') || '[]');
 
-        // Auto-add target company
-        if (outputs?.targetCompany && !trackedCompanies.find(c => c.name === outputs.targetCompany)) {
-            trackedCompanies.push({ name: outputs.targetCompany, url: '', added: new Date().toISOString() });
+        // Auto-add target company from session or helper
+        const targetCo = outputs?.targetCompany || getCompanyName();
+        if (targetCo && !trackedCompanies.find(c => c.name === targetCo)) {
+            trackedCompanies.push({ name: targetCo, url: '', added: new Date().toISOString() });
             saveCompanies();
         }
 
@@ -181,7 +183,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
     ]
 }`;
 
-            const userPrompt = `My Resume:\n${outputs?.resumeText || 'No resume available'}\n\nCompanies to scan:\n${companyList}`;
+            const userPrompt = `My Resume:\n${resumeText || 'No resume available - match broadly based on company industry'}\n\nCompanies to scan:\n${companyList}`;
 
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {

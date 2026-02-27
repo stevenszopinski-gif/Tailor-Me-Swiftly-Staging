@@ -326,6 +326,65 @@ function loadOutputs() {
     return null;
 }
 
+// ── Standalone tool helpers ──
+// These allow global/standalone tools to work without full session data.
+
+function getResumeText() {
+    // 1. Try active session data
+    const outputs = loadOutputs();
+    if (outputs?.resumeText) return outputs.resumeText;
+    // 2. Try master resume from localStorage (saved during app.html flow)
+    try {
+        const stored = localStorage.getItem('tms_last_resume');
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed?.text) return parsed.text;
+            if (typeof parsed === 'string' && parsed.trim()) return parsed;
+        }
+    } catch (e) {
+        // LinkedIn import may store raw string (not JSON)
+        const raw = localStorage.getItem('tms_last_resume');
+        if (raw && raw.trim()) return raw;
+    }
+    return null;
+}
+
+function getCompanyName() {
+    const outputs = loadOutputs();
+    return outputs?.targetCompany || null;
+}
+
+function getJobText() {
+    const outputs = loadOutputs();
+    return outputs?.jobText || null;
+}
+
+function renderResumePrompt(container, onSubmit) {
+    container.innerHTML = `
+        <div style="text-align:center;padding:2rem;">
+            <i class="fa-solid fa-file-circle-plus" style="font-size:2.5rem;color:var(--primary-color);margin-bottom:1rem;display:block;"></i>
+            <h2 style="margin-bottom:0.5rem;">Paste Your Resume</h2>
+            <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.9rem;">This tool needs your resume to work. Paste it below, or <a href="app.html" style="color:var(--primary-color);">run a full application</a> first.</p>
+            <textarea id="global-resume-paste" style="width:100%;min-height:200px;padding:1rem;border:1px solid var(--panel-border);border-radius:12px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;resize:vertical;margin-bottom:1rem;" placeholder="Paste your resume text here..."></textarea>
+            <button class="btn primary-btn" id="global-resume-submit"><i class="fa-solid fa-check"></i> Use This Resume</button>
+        </div>`;
+    document.getElementById('global-resume-submit').addEventListener('click', () => {
+        const text = document.getElementById('global-resume-paste').value.trim();
+        if (!text) return;
+        try { localStorage.setItem('tms_last_resume', JSON.stringify({ text, name: 'Pasted Resume' })); } catch(e) {}
+        if (onSubmit) onSubmit(text);
+    });
+}
+
+function renderContextBar(container) {
+    const company = getCompanyName() || '';
+    const bar = document.createElement('div');
+    bar.style.cssText = 'display:flex;gap:0.75rem;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;padding:0.75rem 1rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;';
+    bar.innerHTML = `<label style="font-size:0.85rem;color:var(--text-secondary);white-space:nowrap;"><i class="fa-solid fa-building"></i> Company:</label>
+        <input type="text" id="context-company" value="${company}" placeholder="Enter company name" style="flex:1;min-width:180px;padding:0.4rem 0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.85rem;">`;
+    container.insertBefore(bar, container.firstChild);
+}
+
 // Load a generation from the DB and hydrate sessionStorage so pages work normally.
 // Returns the outputs object, or null if not found/not authed.
 async function loadGenerationFromDb(genId) {
