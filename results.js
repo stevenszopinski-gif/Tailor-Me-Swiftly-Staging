@@ -100,14 +100,64 @@ async function incrementToolUsage(slug) {
         .eq('user_id', user.id);
 }
 
-function showToolUpgradeModal(reason) {
+const TOOL_PREVIEWS = {
+    'interview-prep':    { icon: 'fa-comments',       name: 'AI Mock Interview',      desc: '10 tailored questions with AI voice interviewer, real-time scoring, and detailed feedback on your answers.' },
+    'salary-negotiator': { icon: 'fa-sack-dollar',     name: 'Salary Negotiator',      desc: 'Practice salary conversations voice-to-voice with an AI HR rep trained on real negotiation tactics.' },
+    'cover-letter':      { icon: 'fa-envelope-open-text', name: 'Cover Letter Generator', desc: 'AI-crafted cover letters that weave your experience into a compelling narrative for each specific role.' },
+    'pain-letter':       { icon: 'fa-heart-crack',     name: 'Pain Letter',            desc: 'Research the company\'s challenges and generate a letter that shows you understand their pain points.' },
+    'hook-generator':    { icon: 'fa-magnet',          name: 'Hook Generator',         desc: 'Attention-grabbing opening lines for cold outreach, cover letters, and LinkedIn messages.' },
+    'outreach':          { icon: 'fa-paper-plane',     name: 'Intro Email',            desc: 'Personalized outreach emails with company intel, the right tone, and a clear call to action.' },
+    'toxic-radar':       { icon: 'fa-biohazard',       name: 'Toxic Culture Radar',    desc: 'Toxicity score, layoff risk analysis, and Glassdoor sentiment — know before you go.' },
+    'comp-decoder':      { icon: 'fa-scale-balanced',  name: 'Comp Decoder',           desc: 'Decode the true value of an offer with cost-of-living adjustments, equity breakdown, and benefits analysis.' },
+    'shadow-jobs':       { icon: 'fa-eye',             name: 'Shadow Jobs',            desc: 'Monitor company career pages for early-stage openings before they hit job boards.' },
+    'guerrilla-tactics': { icon: 'fa-user-ninja',      name: 'Guerrilla Tactics',      desc: 'Unconventional strategies to bypass ATS filters and get your resume directly to decision makers.' },
+    'referral-mapper':   { icon: 'fa-people-arrows',   name: 'Referral Mapper',        desc: 'Find backdoor referral paths into your target company with ready-to-send outreach scripts.' },
+    'auto-app':          { icon: 'fa-robot',           name: 'Auto-App Agent',         desc: 'AI scans job boards, finds matching roles, and generates tailored applications automatically.' },
+    'thank-you':         { icon: 'fa-envelope-circle-check', name: 'Thank-You Engine', desc: '3 variants of the perfect post-interview follow-up, personalized to your conversation.' },
+    'ghosting-predictor':{ icon: 'fa-ghost',           name: 'Ghosting Predictor',     desc: 'Detect ghost jobs and stale listings instantly so you don\'t waste time on dead-end applications.' },
+    'linkedin-sync':     { icon: 'fa-linkedin',        name: 'LinkedIn Sync',          desc: 'Pull your LinkedIn profile and auto-populate resume fields for faster tailoring.' },
+    'video-intro':       { icon: 'fa-video',           name: 'Video Intro',            desc: '60-second video intro script with built-in teleprompter — make a memorable first impression.' },
+    'skills-tracker':    { icon: 'fa-chart-line',      name: 'Skills Tracker',         desc: 'See which of your skills are rising in demand vs decaying, with market trend data.' },
+    'day-in-life':       { icon: 'fa-sun',             name: 'Day in the Life',        desc: 'Realistic simulation of a typical day in the role — meetings, tasks, and culture.' },
+    'reverse-interview': { icon: 'fa-magnifying-glass-arrow-right', name: 'Reverse Interview', desc: 'Smart, probing questions to ask your interviewer that reveal what it\'s really like inside.' },
+    'rejection-reverser':{ icon: 'fa-rotate-left',     name: 'Rejection Reverser',     desc: 'Turn a rejection into a networking opportunity with AI-drafted follow-up messages.' },
+    'prove-it':          { icon: 'fa-chart-column',    name: 'Prove It',               desc: 'Transform vague resume bullets into quantified, metric-driven accomplishments.' },
+    'tech-screen':       { icon: 'fa-fire',            name: 'Trial By Fire',          desc: 'Custom coding challenges with a built-in IDE, tailored to the exact role you\'re applying for.' },
+    'career-pivot':      { icon: 'fa-shuffle',         name: 'Career Pivot Advisor',   desc: 'AI-powered roadmap for switching industries — transferable skills, gap analysis, and action steps.' }
+};
+
+function showToolUpgradeModal(reason, slug) {
     document.getElementById('tool-upgrade-modal')?.remove();
+    if (!slug) slug = currentToolSlug();
 
     const isPremiumLock = (reason === 'premium');
     const title = isPremiumLock ? 'Premium Feature' : 'Free Trial Used';
-    const message = isPremiumLock
-        ? 'This tool is available exclusively for Premium members.<br>Upgrade for unlimited access to all tools.'
-        : 'You\'ve used your free trial of this tool.<br>Upgrade to Premium for unlimited access.';
+    const preview = TOOL_PREVIEWS[slug];
+
+    // Build tool preview block
+    let previewHtml = '';
+    if (preview) {
+        previewHtml = `
+            <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.15);border-radius:12px;padding:1rem;margin-bottom:1.25rem;text-align:left;">
+                <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;">
+                    <i class="fa-solid ${preview.icon}" style="color:#f59e0b;font-size:1.1rem;"></i>
+                    <strong style="color:var(--text-primary);font-size:0.95rem;">${preview.name}</strong>
+                </div>
+                <p style="color:var(--text-secondary);font-size:0.82rem;line-height:1.55;margin:0;">${preview.desc}</p>
+            </div>`;
+    }
+
+    // Build highlights list
+    const highlights = `
+        <div style="text-align:left;margin-bottom:1.25rem;">
+            <p style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">Premium includes:</p>
+            <div style="display:flex;flex-direction:column;gap:0.3rem;">
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Unlimited generations</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>All 24 AI-powered tools</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Voice interviews & negotiation</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Company intelligence suite</span>
+            </div>
+        </div>`;
 
     const overlay = document.createElement('div');
     overlay.id = 'tool-upgrade-modal';
@@ -115,18 +165,18 @@ function showToolUpgradeModal(reason) {
     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
     overlay.innerHTML = `
-        <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;padding:2rem;max-width:420px;width:90%;text-align:center;">
+        <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;padding:2rem;max-width:440px;width:90%;text-align:center;">
             <i class="fa-solid fa-crown" style="font-size:2.5rem;color:#f59e0b;margin-bottom:1rem;display:block;"></i>
-            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">${title}</h2>
-            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
-                ${message}
-            </p>
+            <h2 style="margin:0 0 1rem;font-size:1.3rem;color:var(--text-primary);">${title}</h2>
+            ${previewHtml}
+            ${highlights}
             <button class="btn primary-btn" onclick="toolCreateCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
-                <i class="fa-solid fa-bolt"></i> Upgrade to Premium
+                <i class="fa-solid fa-bolt"></i> Upgrade to Premium — $9.99/mo
             </button>
             <button class="btn ghost-btn" onclick="this.closest('#tool-upgrade-modal').remove();window.location.href='results.html';" style="width:100%;min-height:44px;">
                 Back to Dashboard
             </button>
+            <a href="pricing.html" style="display:block;margin-top:0.75rem;font-size:0.8rem;color:var(--text-secondary);text-decoration:none;">See full feature comparison &rarr;</a>
         </div>
     `;
     document.body.appendChild(overlay);
@@ -161,7 +211,7 @@ async function guardToolAccess(slug) {
             window.location.href = 'login.html';
             return false;
         }
-        showToolUpgradeModal(result.reason);
+        showToolUpgradeModal(result.reason, slug);
         return false;
     }
     return true;

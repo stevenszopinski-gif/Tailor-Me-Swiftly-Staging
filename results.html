@@ -1220,7 +1220,7 @@
 
                     card.addEventListener('click', (e) => {
                         e.preventDefault();
-                        showToolUpgradeModal('premium');
+                        showToolUpgradeModal('premium', slug);
                     });
                 } else if (tier === 'teaser') {
                     const count = usage[slug] || 0;
@@ -1233,7 +1233,7 @@
 
                         card.addEventListener('click', (e) => {
                             e.preventDefault();
-                            showToolUpgradeModal('teaser_exhausted');
+                            showToolUpgradeModal('teaser_exhausted', slug);
                         });
                     }
                 }

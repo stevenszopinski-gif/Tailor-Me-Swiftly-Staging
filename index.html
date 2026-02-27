@@ -647,6 +647,22 @@
             align-items: center;
             gap: 0.75rem;
             transition: transform 0.15s, border-color 0.15s;
+            position: relative;
+        }
+
+        .hp-premium-tag {
+            position: absolute;
+            top: 0.4rem;
+            right: 0.5rem;
+            font-size: 0.55rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+            line-height: 1;
         }
 
         .hp-tool-card:hover {
@@ -707,6 +723,150 @@
         }
 
         /* Responsive */
+        /* ═══ PRICING SECTION ═══ */
+        .hp-pricing {
+            padding: 3rem 0 2rem;
+        }
+
+        .hp-pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .hp-plan-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 2rem 1.75rem;
+            position: relative;
+        }
+
+        .hp-plan-card.featured {
+            border-color: rgba(245, 158, 11, 0.4);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(139, 92, 246, 0.05));
+        }
+
+        .hp-plan-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+        }
+
+        .hp-plan-card h4 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .hp-plan-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .hp-plan-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .hp-plan-sub {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+        }
+
+        .hp-plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem;
+        }
+
+        .hp-plan-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0;
+        }
+
+        .hp-plan-features li i {
+            flex-shrink: 0;
+            margin-top: 0.15rem;
+            font-size: 0.75rem;
+        }
+
+        .hp-plan-features li i.fa-check {
+            color: #10b981;
+        }
+
+        .hp-plan-features li i.fa-xmark {
+            color: #6b7280;
+        }
+
+        .hp-plan-cta {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .hp-plan-cta.outline {
+            color: var(--text-primary);
+            border: 1px solid var(--panel-border);
+            background: transparent;
+        }
+
+        .hp-plan-cta.outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .hp-plan-cta.gold {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+        }
+
+        .hp-plan-cta.gold:hover {
+            filter: brightness(1.08);
+        }
+
+        .hp-pricing-note {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .hp-pricing-note a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .hp-pricing-note a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .hp-steps {
                 grid-template-columns: 1fr;
@@ -736,6 +896,10 @@
             }
 
             .hp-diff-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hp-pricing-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -776,6 +940,10 @@
                 <h1>TailorMeSwiftly.com</h1>
             </div>
             <div class="header-actions" style="display: flex; gap: 0.25rem; align-items: center;">
+                <a href="pricing.html" title="Pricing"
+                    style="text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.6rem; border-radius: 8px; transition: color 0.2s;">
+                    <i class="fa-solid fa-gem"></i> Pricing
+                </a>
                 <a href="updates.html" title="Release Notes"
                     style="text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.6rem; border-radius: 8px; transition: color 0.2s;">
                     <i class="fa-solid fa-bullhorn"></i> Updates
@@ -1384,6 +1552,7 @@
                             <h5>Cover Letter</h5>
                             <p>Tailored narrative for every role</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);"><i
@@ -1392,6 +1561,7 @@
                             <h5>Intro Email</h5>
                             <p>Outreach draft with company intel</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i
@@ -1424,6 +1594,7 @@
                             <h5>Prove It</h5>
                             <p>Turn vague bullets into metrics</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i
@@ -1432,6 +1603,7 @@
                             <h5>Video Intro</h5>
                             <p>60s script + teleprompter</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                 </div>
             </div>
@@ -1451,6 +1623,7 @@
                             <h5>Toxic Culture Radar</h5>
                             <p>Toxicity score + layoff risk</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);"><i
@@ -1459,6 +1632,7 @@
                             <h5>Ghosting Predictor</h5>
                             <p>Detect ghost jobs instantly</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#f97316,#eab308);"><i
@@ -1475,6 +1649,7 @@
                             <h5>Comp Decoder</h5>
                             <p>True offer value with COL</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#6366f1,#818cf8);"><i
@@ -1483,6 +1658,7 @@
                             <h5>Day in the Life</h5>
                             <p>Realistic day simulation</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2);"><i
@@ -1491,6 +1667,7 @@
                             <h5>Skills Tracker</h5>
                             <p>Rising vs decaying skills</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                 </div>
             </div>
@@ -1510,6 +1687,7 @@
                             <h5>Mock Interview</h5>
                             <p>10 questions + AI voice + feedback</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#22c55e,#10b981);"><i
@@ -1518,6 +1696,7 @@
                             <h5>Salary Negotiator</h5>
                             <p>Voice-to-voice with AI HR rep</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
 
                     <div class="hp-tool-card">
@@ -1527,6 +1706,7 @@
                             <h5>Trial By Fire</h5>
                             <p>Custom coding challenge + IDE</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);"><i
@@ -1535,6 +1715,7 @@
                             <h5>Reverse Interview</h5>
                             <p>Probing questions for them</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#047857);"><i
@@ -1543,6 +1724,7 @@
                             <h5>Thank-You Engine</h5>
                             <p>3 variants of perfect follow-up</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                 </div>
             </div>
@@ -1562,6 +1744,7 @@
                             <h5>Auto-App Agent</h5>
                             <p>AI finds + tailors matching jobs</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#475569,#64748b);"><i
@@ -1570,6 +1753,7 @@
                             <h5>Shadow Jobs</h5>
                             <p>Monitor career pages early</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#059669);"><i
@@ -1578,6 +1762,7 @@
                             <h5>Referral Mapper</h5>
                             <p>Backdoor referrals + scripts</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
 
                     <div class="hp-tool-card">
@@ -1587,6 +1772,7 @@
                             <h5>Guerrilla Tactics</h5>
                             <p>Bypass ATS, reach decision makers</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                     <div class="hp-tool-card">
                         <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);"><i
@@ -1595,9 +1781,57 @@
                             <h5>Rejection Reverser</h5>
                             <p>Turn rejections into networking</p>
                         </div>
+                        <span class="hp-premium-tag">PRO</span>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- ═══════ PRICING SECTION ═══════ -->
+        <section class="hp-pricing">
+            <div class="hp-section-head">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Start for free. Upgrade when you're ready to unlock every tool.</p>
+            </div>
+
+            <div class="hp-pricing-grid">
+                <!-- Free Plan -->
+                <div class="hp-plan-card">
+                    <h4>Free</h4>
+                    <div class="hp-plan-price">$0 <span>/ month</span></div>
+                    <p class="hp-plan-sub">5 generations per month</p>
+                    <ul class="hp-plan-features">
+                        <li><i class="fa-solid fa-check"></i> ATS Resume Tailoring</li>
+                        <li><i class="fa-solid fa-check"></i> Match Score & Keyword Optimization</li>
+                        <li><i class="fa-solid fa-check"></i> Recruiter Heatmap</li>
+                        <li><i class="fa-solid fa-check"></i> Brutal Roast & Red Flag Detector</li>
+                        <li><i class="fa-solid fa-check"></i> Burnout Check</li>
+                        <li><i class="fa-solid fa-check"></i> Application Tracker (Kanban)</li>
+                        <li><i class="fa-solid fa-xmark"></i> Premium tools locked</li>
+                    </ul>
+                    <a href="login.html" class="hp-plan-cta outline">Get Started Free</a>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="hp-plan-card featured">
+                    <span class="hp-plan-badge">Most Popular</span>
+                    <h4>Premium</h4>
+                    <div class="hp-plan-price">$9.99 <span>/ month</span></div>
+                    <p class="hp-plan-sub">Unlimited generations + all 24 tools</p>
+                    <ul class="hp-plan-features">
+                        <li><i class="fa-solid fa-check"></i> Everything in Free</li>
+                        <li><i class="fa-solid fa-check"></i> AI Mock Interview with Voice</li>
+                        <li><i class="fa-solid fa-check"></i> Salary Negotiator (Voice-to-Voice)</li>
+                        <li><i class="fa-solid fa-check"></i> Cover Letters & Outreach Emails</li>
+                        <li><i class="fa-solid fa-check"></i> Company Intelligence (Toxic Radar, Comp Decoder)</li>
+                        <li><i class="fa-solid fa-check"></i> Career Strategy (Shadow Jobs, Guerrilla Tactics)</li>
+                        <li><i class="fa-solid fa-check"></i> Auto-App Agent & Referral Mapper</li>
+                    </ul>
+                    <a href="login.html" class="hp-plan-cta gold">Upgrade to Premium</a>
+                </div>
+            </div>
+
+            <p class="hp-pricing-note"><a href="pricing.html">See full feature comparison &rarr;</a></p>
         </section>
 
         <!-- ═══════ BOTTOM CTA ═══════ -->
@@ -1668,7 +1902,7 @@
     <!-- Site Footer -->
     <footer class="site-footer">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
-        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
+        <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
                 href="security.html">Security Policy</a></p>
     </footer>
 
