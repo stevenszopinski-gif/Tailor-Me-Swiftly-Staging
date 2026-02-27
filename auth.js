@@ -87,7 +87,7 @@
             const { error } = await window.supabaseClient.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: new URL('app.html', window.location.href).href
+                    redirectTo: new URL('results.html', window.location.href).href
                 }
             });
 
@@ -181,11 +181,11 @@
             const isLanding = path.includes('index.html') || path === '/';
 
             if (session && isLoginSignup && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
-                // Only redirect from login/signup pages — let landing page stay accessible
-                window.location.href = 'app.html';
+                window.location.href = 'results.html';
             } else if (session && isLanding) {
-                // Logged-in user on landing page — update UI but don't redirect
-                updateUIForUser(session.user);
+                // Logged-in user on landing page — redirect to dashboard
+                window.location.href = 'results.html';
+                return;
             } else if (!session && isApp) {
                 window.location.href = 'index.html';
             } else if (session) {
