@@ -416,7 +416,15 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
                 addMessage('coach', `Could not analyze: ${e.message}`);
             }
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.startNegotiation = startNegotiation;
+    window.setMode = setMode;
+    window.toggleListening = toggleListening;
+    window.sendTextMessage = sendTextMessage;
+    window.getCoachTip = getCoachTip;
+    window.endNegotiation = endNegotiation;
+})();
     </script>
 
     <footer class="site-footer">

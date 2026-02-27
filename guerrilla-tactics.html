@@ -208,7 +208,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.generateTactics = generateTactics;
+    window.copyText = copyText;
+})();
     </script>
 
     <footer class="site-footer">

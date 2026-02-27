@@ -221,7 +221,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.scanJobs = scanJobs;
+    window.removeExclusion = removeExclusion;
+})();
     </script>
 
     <footer class="site-footer">

@@ -276,7 +276,12 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.generateChallenge = generateChallenge;
+    window.startTimer = startTimer;
+    window.submitSolution = submitSolution;
+})();
     </script>
 
     <footer class="site-footer">

@@ -220,7 +220,10 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.decodeComp = decodeComp;
+})();
     </script>
 
     <footer class="site-footer">

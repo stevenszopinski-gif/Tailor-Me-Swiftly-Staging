@@ -165,7 +165,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
                 improved.innerHTML = `<span style="color:var(--error-color);">Failed: ${e.message}</span>`;
             }
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.analyzeBullets = analyzeBullets;
+    window.rewriteBullet = rewriteBullet;
+})();
     </script>
 
     <footer class="site-footer">

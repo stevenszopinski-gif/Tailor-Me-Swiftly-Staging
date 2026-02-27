@@ -124,7 +124,10 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             document.getElementById('pain-output').innerHTML = `<div class="pain-output" id="pain-text" contenteditable="true">${result.letterHtml}</div><p style="text-align:center;font-size:0.8rem;color:var(--text-secondary);margin-top:1rem;font-style:italic;"><i class="fa-solid fa-brain"></i> ${result.whyItWorks}</p>`;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.generatePainLetter = generatePainLetter;
+})();
     </script>
 
     <footer class="site-footer">

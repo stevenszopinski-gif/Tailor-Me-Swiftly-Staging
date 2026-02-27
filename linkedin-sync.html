@@ -151,7 +151,11 @@ Return EXACTLY this JSON structure (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.generateLinkedIn = generateLinkedIn;
+    window.copyText = copyText;
+})();
     </script>
 
     <footer class="site-footer">

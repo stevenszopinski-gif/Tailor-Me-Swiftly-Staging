@@ -199,7 +199,10 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.analyzeSkills = analyzeSkills;
+})();
     </script>
 
     <footer class="site-footer">

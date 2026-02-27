@@ -215,7 +215,12 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.addCompany = addCompany;
+    window.scanNow = scanNow;
+    window.removeCompany = removeCompany;
+})();
     </script>
 
     <footer class="site-footer">

@@ -209,7 +209,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.generateThankYou = generateThankYou;
+    window.showVariant = showVariant;
+})();
     </script>
 
     <footer class="site-footer">

@@ -217,7 +217,14 @@ Write it in first person, conversational tone. Mark natural pause points with [p
             a.click();
             document.body.removeChild(a);
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.generateScript = generateScript;
+    window.startRecording = startRecording;
+    window.stopRecording = stopRecording;
+    window.downloadVideo = downloadVideo;
+    window.openTeleprompter = openTeleprompter;
+})();
     </script>
 
     <footer class="site-footer">

@@ -591,7 +591,13 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
         function escapeHtml(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.fetchCompanyIntel = fetchCompanyIntel;
+    window.applyRefinement = applyRefinement;
+    window.generateEmailOnDemand = generateEmailOnDemand;
+    window.insertIntel = insertIntel;
+})();
     </script>
 
     <footer class="site-footer">

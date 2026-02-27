@@ -156,7 +156,10 @@ Return EXACTLY this JSON (no markdown, no code fences):
             html += `<div style="text-align:center;margin-top:1.5rem;"><button class="btn ghost-btn" onclick="generateHooks()"><i class="fa-solid fa-rotate"></i> Generate 3 More</button></div>`;
             container.innerHTML = html;
         }
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.generateHooks = generateHooks;
+})();
     </script>
 
     <footer class="site-footer">

@@ -1448,7 +1448,21 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Regenerate';
         });
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.toggleFlashcardMode = toggleFlashcardMode;
+    window.applyRefinement = applyRefinement;
+    window.generateOnDemand = generateOnDemand;
+    window.hearQuestionAt = hearQuestionAt;
+    window.toggleChatAnswer = toggleChatAnswer;
+    window.startChatRecording = startChatRecording;
+    window.submitTextResponse = submitTextResponse;
+    window.tryAgain = tryAgain;
+    window.showCompletion = showCompletion;
+    window.advanceToNext = advanceToNext;
+    window.stopChatRecording = stopChatRecording;
+    window.flipCard = flipCard;
+})();
     </script>
 
     <footer class="site-footer">

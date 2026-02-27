@@ -384,7 +384,11 @@ Clean semantic HTML only. No markdown formatting.`;
         }
         new MutationObserver(updateWordCount).observe(coverEl, { childList: true, subtree: true, characterData: true });
         coverEl.addEventListener('input', updateWordCount);
-        })();
+        
+    // Expose functions to global scope for onclick handlers
+    window.applyRefinement = applyRefinement;
+    window.generateCoverOnDemand = generateCoverOnDemand;
+})();
     </script>
 
     <footer class="site-footer">
