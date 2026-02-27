@@ -177,6 +177,7 @@
 
             const path = window.location.pathname;
             const isApp = path.includes('app.html');
+            const isDashboard = path.includes('dashboard.html');
             const isLoginSignup = path.includes('login.html') || path.includes('signup.html');
             const isLanding = path.includes('index.html') || path === '/';
 
@@ -186,7 +187,7 @@
                 // Logged-in user on landing page — redirect to dashboard
                 window.location.href = 'dashboard.html';
                 return;
-            } else if (!session && isApp) {
+            } else if (!session && (isApp || isDashboard)) {
                 window.location.href = 'index.html';
             } else if (session) {
                 updateUIForUser(session.user);

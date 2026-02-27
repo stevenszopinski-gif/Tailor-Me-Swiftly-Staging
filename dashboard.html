@@ -499,7 +499,13 @@
         ];
 
         async function loadDashboard() {
-            const user = await waitForSupabaseAuth();
+            let user = await waitForSupabaseAuth();
+            // On OAuth redirect (hash contains access_token), session may not be ready yet.
+            // Retry once after a short delay to give Supabase time to process hash tokens.
+            if (!user && window.location.hash.includes('access_token')) {
+                await new Promise(r => setTimeout(r, 1500));
+                user = await waitForSupabaseAuth();
+            }
             if (!user) {
                 document.getElementById('dash-kanban-content').innerHTML =
                     '<div style="text-align:center;padding:2rem;"><a href="login.html" class="btn primary-btn">Sign In to View Applications</a></div>';
