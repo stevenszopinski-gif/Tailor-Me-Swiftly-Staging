@@ -52,16 +52,12 @@ function currentToolSlug() {
     return toolSlugFromPage(filename);
 }
 
-const ADMIN_EMAILS = ['stevenszopinski@gmail.com'];
-
 async function checkToolAccess(slug) {
     const tier = TOOL_TIERS[slug] || 'free';
     if (tier === 'free') return { allowed: true };
 
     const user = await waitForSupabaseAuth();
     if (!user) return { allowed: false, reason: 'not_authenticated' };
-
-    if (ADMIN_EMAILS.includes(user.email)) return { allowed: true };
 
     const { data: profile } = await window.supabaseClient
         .from('user_profiles')

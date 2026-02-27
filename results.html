@@ -1195,8 +1195,6 @@
             const user = await waitForSupabaseAuth();
             if (!user) return;
 
-            if (ADMIN_EMAILS.includes(user.email)) return;
-
             const { data: profile } = await window.supabaseClient
                 .from('user_profiles')
                 .select('plan, tool_usage')
