@@ -694,6 +694,60 @@
             line-height: 1.3;
         }
 
+        /* ═══ FREE TOOL PREVIEW CARDS ═══ */
+        .hp-free-tool {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .hp-free-tool:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent, var(--primary-color));
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .hp-free-tool-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .hp-free-tool-header h5 { margin: 0; font-size: 0.95rem; font-weight: 700; }
+        .hp-free-tool-preview {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--panel-border);
+            border-radius: 10px;
+            padding: 0.85rem;
+            margin-bottom: 0.85rem;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+        [data-theme="light"] .hp-free-tool-preview { background: rgba(0,0,0,0.02); }
+        .hp-preview-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .hp-preview-item { margin-bottom: 0.35rem; }
+        .hp-preview-bullet {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            margin-bottom: 0.3rem;
+            padding-left: 0.5rem;
+            border-left: 2px solid var(--panel-border);
+        }
+        .hp-free-tool-cta {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent, var(--primary-color));
+        }
+        .hp-free-tool:hover .hp-free-tool-cta { text-decoration: underline; }
+
         /* ═══ STATS BAR ═══ */
         .hp-stats {
             display: flex;
@@ -1076,49 +1130,98 @@
                 <h2>Free Career Tools — No Job Description Needed</h2>
                 <p>Sign in and start using these tools instantly — no job posting required.</p>
             </div>
-            <div class="hp-cat-grid">
-                <a href="career-pivot.html" class="hp-tool-card" style="text-decoration:none;color:inherit;">
-                    <div class="hp-tool-icon" style="background:linear-gradient(135deg,#14b8a6,#0d9488);"><i class="fa-solid fa-shuffle" style="color:#fff;"></i></div>
-                    <div>
-                        <h5>Career Pivot</h5>
-                        <p>Translate your experience into a new industry</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;max-width:1000px;margin:0 auto;">
+
+                <!-- Career Pivot -->
+                <div class="hp-free-tool" style="--accent:#14b8a6;" onclick="location.href='career-pivot.html'">
+                    <div class="hp-free-tool-header">
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#14b8a6,#0d9488);"><i class="fa-solid fa-shuffle" style="color:#fff;"></i></div>
+                        <div><h5>Career Pivot</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Translate your experience into a new industry</p></div>
                     </div>
-                </a>
-                <a href="shadow-jobs.html" class="hp-tool-card" style="text-decoration:none;color:inherit;">
-                    <div class="hp-tool-icon" style="background:linear-gradient(135deg,#475569,#64748b);"><i class="fa-solid fa-eye" style="color:#fff;"></i></div>
-                    <div>
-                        <h5>Shadow Jobs</h5>
-                        <p>Monitor career pages before LinkedIn</p>
+                    <div class="hp-free-tool-preview">
+                        <div class="hp-preview-label">Example output</div>
+                        <div class="hp-preview-item"><span style="color:#14b8a6;font-weight:600;">Product Manager</span> <i class="fa-solid fa-arrow-right" style="font-size:0.65rem;color:var(--text-secondary);"></i> <span style="color:#f59e0b;font-weight:600;">UX Researcher</span></div>
+                        <div class="hp-preview-bullet">"Led cross-functional teams" &rarr; "Facilitated user research sprints across 4 product verticals"</div>
+                        <div class="hp-preview-bullet">"Managed product roadmap" &rarr; "Synthesized user insights into actionable design recommendations"</div>
                     </div>
-                </a>
-                <a href="skills-tracker.html" class="hp-tool-card" style="text-decoration:none;color:inherit;">
-                    <div class="hp-tool-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2);"><i class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
-                    <div>
-                        <h5>Skills Tracker</h5>
-                        <p>Rising & decaying skills + 6-month roadmap</p>
+                    <div class="hp-free-tool-cta">Try Career Pivot <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Shadow Jobs -->
+                <div class="hp-free-tool" style="--accent:#64748b;" onclick="location.href='shadow-jobs.html'">
+                    <div class="hp-free-tool-header">
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#475569,#64748b);"><i class="fa-solid fa-eye" style="color:#fff;"></i></div>
+                        <div><h5>Shadow Jobs</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Monitor career pages before LinkedIn</p></div>
                     </div>
-                </a>
-                <a href="toxic-radar.html" class="hp-tool-card" style="text-decoration:none;color:inherit;">
-                    <div class="hp-tool-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
-                    <div>
-                        <h5>Toxic Culture Radar</h5>
-                        <p>Toxicity score & layoff risk analysis</p>
+                    <div class="hp-free-tool-preview">
+                        <div class="hp-preview-label">Example output</div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Stripe</span> &mdash; Sr. Product Designer <span style="color:#10b981;font-weight:700;">92% match</span></div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Notion</span> &mdash; Growth Marketing Lead <span style="color:#f59e0b;font-weight:700;">78% match</span></div>
+                        <div class="hp-preview-bullet">Found on careers page 3 days before LinkedIn posting</div>
                     </div>
-                </a>
-                <a href="referral-mapper.html" class="hp-tool-card" style="text-decoration:none;color:inherit;">
-                    <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#059669);"><i class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
-                    <div>
-                        <h5>Referral Mapper</h5>
-                        <p>Backdoor referrals + cold outreach scripts</p>
+                    <div class="hp-free-tool-cta">Try Shadow Jobs <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Skills Tracker -->
+                <div class="hp-free-tool" style="--accent:#06b6d4;" onclick="location.href='skills-tracker.html'">
+                    <div class="hp-free-tool-header">
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2);"><i class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
+                        <div><h5>Skills Tracker</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Rising & decaying skills + 6-month roadmap</p></div>
                     </div>
-                </a>
-                <a href="auto-app.html" class="hp-tool-card" style="text-decoration:none;color:inherit;">
-                    <div class="hp-tool-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i class="fa-solid fa-robot" style="color:#fff;"></i></div>
-                    <div>
-                        <h5>Auto-App Agent</h5>
-                        <p>AI finds + tailors matching jobs for you</p>
+                    <div class="hp-free-tool-preview">
+                        <div class="hp-preview-label">Example output</div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-arrow-up"></i></span> AI/ML Ops &mdash; <span style="color:#10b981;font-weight:700;">94% demand</span> <span style="color:#10b981;font-size:0.75rem;">rising</span></div>
+                        <div class="hp-preview-item"><span style="color:#ef4444;"><i class="fa-solid fa-arrow-down"></i></span> jQuery &mdash; <span style="color:#ef4444;font-weight:700;">12% demand</span> <span style="color:#ef4444;font-size:0.75rem;">decaying</span></div>
+                        <div class="hp-preview-bullet">Personalized 6-month upskill roadmap with weekly milestones</div>
                     </div>
-                </a>
+                    <div class="hp-free-tool-cta">Try Skills Tracker <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Toxic Culture Radar -->
+                <div class="hp-free-tool" style="--accent:#ef4444;" onclick="location.href='toxic-radar.html'">
+                    <div class="hp-free-tool-header">
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
+                        <div><h5>Toxic Culture Radar</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Toxicity score & layoff risk analysis</p></div>
+                    </div>
+                    <div class="hp-free-tool-preview">
+                        <div class="hp-preview-label">Example output</div>
+                        <div style="text-align:center;margin-bottom:0.5rem;"><span style="font-size:1.8rem;font-weight:800;color:#f59e0b;">62%</span> <span style="color:#f59e0b;font-weight:600;">Proceed with Caution</span></div>
+                        <div class="hp-preview-item"><span style="color:#ef4444;"><i class="fa-solid fa-flag"></i></span> "Fast-paced, wear many hats" &mdash; overwork signal</div>
+                        <div class="hp-preview-item"><span style="color:#f59e0b;"><i class="fa-solid fa-scissors"></i></span> Layoff risk: <strong>moderate</strong> &mdash; 2 rounds in 18 months</div>
+                    </div>
+                    <div class="hp-free-tool-cta">Try Toxic Radar <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Referral Mapper -->
+                <div class="hp-free-tool" style="--accent:#10b981;" onclick="location.href='referral-mapper.html'">
+                    <div class="hp-free-tool-header">
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#059669);"><i class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
+                        <div><h5>Referral Mapper</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Backdoor referrals + cold outreach scripts</p></div>
+                    </div>
+                    <div class="hp-free-tool-preview">
+                        <div class="hp-preview-label">Example output</div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-user-plus"></i></span> Connection request (under 300 chars, ready to paste)</div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-reply"></i></span> Follow-up message after they accept</div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-mug-hot"></i></span> Coffee chat script for informational interview</div>
+                    </div>
+                    <div class="hp-free-tool-cta">Try Referral Mapper <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Auto-App Agent -->
+                <div class="hp-free-tool" style="--accent:#6366f1;" onclick="location.href='auto-app.html'">
+                    <div class="hp-free-tool-header">
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i class="fa-solid fa-robot" style="color:#fff;"></i></div>
+                        <div><h5>Auto-App Agent</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">AI finds + tailors matching jobs for you</p></div>
+                    </div>
+                    <div class="hp-free-tool-preview">
+                        <div class="hp-preview-label">Example output</div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Senior Frontend Engineer</span> at Vercel &mdash; <span style="color:#10b981;font-weight:700;">95% match</span></div>
+                        <div class="hp-preview-bullet">"Your React + TypeScript experience and Vercel OSS contributions make this a strong fit..."</div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Staff Engineer</span> at Linear &mdash; <span style="color:#10b981;font-weight:700;">88% match</span></div>
+                    </div>
+                    <div class="hp-free-tool-cta">Try Auto-App Agent <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+
             </div>
         </section>
 
