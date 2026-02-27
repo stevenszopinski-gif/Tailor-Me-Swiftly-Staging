@@ -449,29 +449,11 @@
                 <p>Translate your experience into a new industry's language</p>
                 <span class="dash-tool-tag">Resume only</span>
             </a>
-            <a href="shadow-jobs.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #475569, #64748b);"><i class="fa-solid fa-eye"></i></div>
-                <h3>Shadow Jobs</h3>
-                <p>Monitor company career pages before jobs hit LinkedIn</p>
-                <span class="dash-tool-tag">Standalone tracker</span>
-            </a>
             <a href="skills-tracker.html" class="dash-tool-card">
                 <div class="dash-tool-icon" style="background:linear-gradient(135deg, #06b6d4, #0891b2);"><i class="fa-solid fa-chart-line"></i></div>
                 <h3>Skills Tracker</h3>
                 <p>See which skills are rising and decaying + 6-month roadmap</p>
                 <span class="dash-tool-tag">Resume only</span>
-            </a>
-            <a href="toxic-radar.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #ef4444, #991b1b);"><i class="fa-solid fa-biohazard"></i></div>
-                <h3>Toxic Culture Radar</h3>
-                <p>Toxicity score, layoff risk, and Glassdoor estimate</p>
-                <span class="dash-tool-tag">Company name only</span>
-            </a>
-            <a href="referral-mapper.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-people-arrows"></i></div>
-                <h3>Referral Mapper</h3>
-                <p>Find backdoor referrals + cold outreach scripts</p>
-                <span class="dash-tool-tag">Resume + company</span>
             </a>
             <a href="auto-app.html" class="dash-tool-card">
                 <div class="dash-tool-icon" style="background:linear-gradient(135deg, #6366f1, #4f46e5);"><i class="fa-solid fa-robot"></i></div>
@@ -515,7 +497,7 @@
             try {
                 const { data, error } = await window.supabaseClient
                     .from('generations')
-                    .select('id, target_company, match_score, created_at, application_status, company_primary_color, resume_html, cover_letter_html, interview_qa, email_text')
+                    .select('id, target_company, match_score, created_at, application_status, company_primary_color')
                     .eq('user_id', user.id)
                     .order('created_at', { ascending: false });
 
@@ -532,7 +514,7 @@
             } catch (e) {
                 console.error('Dashboard load error:', e);
                 document.getElementById('dash-kanban-content').innerHTML =
-                    '<div style="text-align:center;padding:2rem;color:var(--text-secondary);"><p>Error loading applications. <button class="btn ghost-btn" onclick="location.reload()">Retry</button></p></div>';
+                    `<div style="text-align:center;padding:2rem;color:var(--text-secondary);"><p>Error loading applications. <button class="btn ghost-btn" onclick="location.reload()">Retry</button></p><p style="font-size:0.7rem;opacity:0.5;margin-top:0.5rem;">${e.message || e}</p></div>`;
             }
         }
 
