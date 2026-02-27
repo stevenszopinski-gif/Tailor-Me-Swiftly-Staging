@@ -782,6 +782,16 @@
         </div>
 
         <div class="results-hub">
+            <!-- ═══ APPLICATION PICKER ═══ -->
+            <div id="app-picker" style="display:none;max-width:500px;margin:0 auto 1.5rem;text-align:center;">
+                <div style="display:flex;align-items:center;gap:0.5rem;justify-content:center;">
+                    <select id="app-picker-select" style="flex:1;max-width:380px;padding:0.5rem 0.75rem;border:1px solid var(--panel-border);border-radius:8px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.85rem;cursor:pointer;">
+                        <option value="">Select a past application...</option>
+                    </select>
+                    <a href="app.html" class="btn primary-btn" style="padding:0.5rem 0.85rem;font-size:0.82rem;white-space:nowrap;"><i class="fa-solid fa-plus"></i> New</a>
+                </div>
+            </div>
+
             <!-- ═══ NO-SESSION CTA ═══ -->
             <div id="no-app-cta" style="display:none;text-align:center;margin-bottom:2.5rem;">
                 <h1 style="font-size:2rem;font-weight:700;margin-bottom:0.5rem;"><i class="fa-solid fa-rocket" style="color:var(--primary-color);margin-right:0.5rem;"></i>Your Job Search Dashboard</h1>
@@ -1140,6 +1150,60 @@
         const outputs = loadOutputs();
         initResultTheme();
         initResultAuth();
+
+        // ── Application Picker ──
+        (async function loadAppPicker() {
+            const user = await waitForSupabaseAuth();
+            if (!user) return;
+            const { data: gens } = await window.supabaseClient
+                .from('generations')
+                .select('id, target_company, match_score, created_at')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false })
+                .limit(50);
+            if (!gens || gens.length === 0) return;
+            const picker = document.getElementById('app-picker');
+            const select = document.getElementById('app-picker-select');
+            picker.style.display = 'block';
+            const currentId = outputs?.generationId || null;
+            gens.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g.id;
+                const date = new Date(g.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const company = g.target_company || 'Untitled';
+                const score = g.match_score ? ` (${g.match_score}%)` : '';
+                opt.textContent = `${company}${score} — ${date}`;
+                if (g.id === currentId) opt.selected = true;
+                select.appendChild(opt);
+            });
+            select.addEventListener('change', async function() {
+                const genId = this.value;
+                if (!genId) return;
+                const { data } = await window.supabaseClient
+                    .from('generations')
+                    .select('*')
+                    .eq('id', genId)
+                    .single();
+                if (!data) return;
+                const payload = {
+                    generationId: data.id,
+                    resumeHtml: data.resume_html || '',
+                    coverHtml: data.cover_letter_html || null,
+                    interviewQa: data.interview_qa || null,
+                    emailText: data.email_text || null,
+                    applicantName: data.applicant_name || '',
+                    targetCompany: data.target_company || '',
+                    matchScore: data.match_score || null,
+                    missingKeywords: data.missing_keywords || [],
+                    companyPrimaryColor: data.company_primary_color || '#1a1a2e',
+                    resumeText: data.resume_text || '',
+                    jobText: data.job_text || data.job_description || ''
+                };
+                sessionStorage.setItem('tms_outputs', JSON.stringify(payload));
+                localStorage.setItem('tms_last_gen_id', data.id);
+                location.reload();
+            });
+        })();
 
         const hasSession = !!outputs;
 
