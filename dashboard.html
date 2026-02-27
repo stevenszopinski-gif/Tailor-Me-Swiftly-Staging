@@ -480,24 +480,16 @@
             { status: 'Rejected', icon: 'fa-circle-xmark' }
         ];
 
-        async function loadDashboard() {
-            let user = await waitForSupabaseAuth();
-            // On OAuth redirect (hash contains access_token), session may not be ready yet.
-            // Retry once after a short delay to give Supabase time to process hash tokens.
-            if (!user && window.location.hash.includes('access_token')) {
-                await new Promise(r => setTimeout(r, 1500));
-                user = await waitForSupabaseAuth();
-            }
-            if (!user) {
-                document.getElementById('dash-kanban-content').innerHTML =
-                    '<div style="text-align:center;padding:2rem;"><a href="login.html" class="btn primary-btn">Sign In to View Applications</a></div>';
-                return;
-            }
+        function showNotSignedIn() {
+            document.getElementById('dash-kanban-content').innerHTML =
+                '<div style="text-align:center;padding:2rem;"><a href="login.html" class="btn primary-btn">Sign In to View Applications</a></div>';
+        }
 
+        async function loadDashboard(user) {
             try {
                 const { data, error } = await window.supabaseClient
                     .from('generations')
-                    .select('id, target_company, match_score, created_at, application_status, company_primary_color')
+                    .select('*')
                     .eq('user_id', user.id)
                     .order('created_at', { ascending: false });
 
@@ -596,7 +588,39 @@
             container.appendChild(board);
         }
 
-        loadDashboard();
+        // ── Auth Bootstrap (matches history.html's proven pattern) ──
+        (async function waitAndLoad() {
+            // 1. Wait for supabaseClient to be created by auth.js
+            if (!window.supabaseClient) {
+                await new Promise(resolve => {
+                    let tries = 0;
+                    const poll = setInterval(() => {
+                        if (window.supabaseClient || ++tries > 80) { clearInterval(poll); resolve(); }
+                    }, 100);
+                });
+            }
+            if (!window.supabaseClient) { showNotSignedIn(); return; }
+
+            // 2. Try cached session first
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (session) {
+                loadDashboard(session.user);
+                return;
+            }
+
+            // 3. Session not hydrated yet — wait for auth state change
+            const { data: { subscription } } = window.supabaseClient.auth.onAuthStateChange((event, sess) => {
+                subscription.unsubscribe();
+                if (sess) {
+                    loadDashboard(sess.user);
+                } else {
+                    showNotSignedIn();
+                }
+            });
+
+            // Safety timeout — if no auth event fires within 4s, show not signed in
+            setTimeout(() => { subscription.unsubscribe(); showNotSignedIn(); }, 4000);
+        })();
     </script>
 </body>
 
