@@ -44,7 +44,10 @@
                     <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                     <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
                     <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
+                        <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                            <i class="fa-solid fa-user-gear"></i> Account
+                        </a>
+                                                <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'"><i class="fa-solid fa-sliders"></i> Preferences</button>
                         <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
                         <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-table-columns"></i> Application Tracker</a>
                         <button class="dropdown-item theme-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i> Theme</button>

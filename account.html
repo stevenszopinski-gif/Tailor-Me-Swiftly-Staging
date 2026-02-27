@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your TailorMeSwiftly account, subscription, preferences, and settings.">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Account - TailorMeSwiftly.com</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
+        crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .account-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .account-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        /* Profile */
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .profile-info h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0 0 0.2rem;
+            color: var(--text-primary);
+        }
+
+        .profile-email {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .profile-meta {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Plan */
+        .plan-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .plan-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .plan-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.7rem;
+            border-radius: 8px;
+        }
+
+        .plan-badge.free {
+            color: var(--text-secondary);
+            border: 1px solid var(--panel-border);
+        }
+
+        .plan-badge.premium {
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        .plan-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .plan-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .plan-btn.gold {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+        }
+
+        .plan-btn.gold:hover {
+            filter: brightness(1.08);
+        }
+
+        .plan-btn.outline {
+            color: var(--text-primary);
+            border: 1px solid var(--panel-border);
+            background: transparent;
+        }
+
+        .plan-btn.outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Usage meter */
+        .usage-meter {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--panel-border);
+        }
+
+        .usage-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .usage-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: var(--panel-border);
+            overflow: hidden;
+        }
+
+        .usage-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .usage-fill.warn {
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+        }
+
+        /* Tool usage chips */
+        .tool-usage-section {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--panel-border);
+        }
+
+        .tool-usage-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .tool-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tool-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            padding: 0.3rem 0.65rem;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            color: var(--text-secondary);
+        }
+
+        .tool-chip.used {
+            border-color: rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.06);
+        }
+
+        .tool-chip.available {
+            border-color: rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.06);
+        }
+
+        /* Preferences */
+        .prefs-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--panel-border);
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        .prefs-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .save-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: var(--primary-color);
+            color: #fff;
+            transition: filter 0.2s;
+        }
+
+        .save-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Theme row */
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-row p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary-color);
+        }
+
+        /* Danger zone */
+        .danger-zone {
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+
+        .danger-zone .section-title i {
+            color: #ef4444;
+        }
+
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .danger-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Delete confirmation modal */
+        .confirm-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .confirm-box {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .confirm-box h3 {
+            color: #ef4444;
+            margin: 0 0 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .confirm-box p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .confirm-input {
+            width: 100%;
+            padding: 0.65rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .confirm-input:focus {
+            outline: none;
+            border-color: #ef4444;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .confirm-actions button {
+            flex: 1;
+            padding: 0.65rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+        }
+
+        .confirm-cancel {
+            background: transparent;
+            border: 1px solid var(--panel-border) !important;
+            color: var(--text-primary);
+        }
+
+        .confirm-delete {
+            background: #ef4444;
+            color: #fff;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .confirm-delete.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .plan-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body data-theme="light">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.5rem;">
+                    <i class="fa-solid fa-bolt" style="color:var(--primary-color);font-size:1.5rem;"></i>
+                    <span style="font-weight:700;font-size:1.1rem;">TailorMeSwiftly.com</span>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:0.5rem;align-items:center;">
+                <div id="user-profile" class="user-profile"
+                    style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" src="" alt="Avatar"
+                        style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
+                        onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting"
+                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <a href="account.html" class="dropdown-item"
+                            style="text-decoration:none;color:inherit;">
+                            <i class="fa-solid fa-user-gear"></i> Account
+                        </a>
+                        <button class="dropdown-item" id="open-prefs" onclick="location.href='app.html'">
+                            <i class="fa-solid fa-sliders"></i> Preferences
+                        </button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                            <i class="fa-solid fa-bullhorn"></i> Release Notes
+                        </a>
+                        <a href="history.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                            <i class="fa-solid fa-table-columns"></i> Application Tracker
+                        </a>
+                        <a href="auto-app.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                            <i class="fa-solid fa-robot"></i> Auto-App Agent
+                        </a>
+                        <button class="dropdown-item theme-btn" id="theme-toggle">
+                            <i class="fa-solid fa-moon"></i> Theme
+                        </button>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="account-wrap">
+        <!-- Profile -->
+        <div class="account-section">
+            <div class="section-title"><i class="fa-solid fa-user"></i> Profile</div>
+            <div class="profile-card">
+                <img id="account-avatar" class="profile-avatar" src="" alt="Avatar">
+                <div class="profile-info">
+                    <h2 id="account-name">Loading...</h2>
+                    <p class="profile-email" id="account-email"></p>
+                    <p class="profile-meta" id="account-since"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan & Usage -->
+        <div class="account-section">
+            <div class="section-title"><i class="fa-solid fa-gem"></i> Plan & Usage</div>
+            <div class="plan-row">
+                <div class="plan-info">
+                    <span class="plan-badge free" id="plan-badge">Free</span>
+                    <span class="plan-desc" id="plan-desc">5 generations per month</span>
+                </div>
+                <button class="plan-btn gold" id="plan-action-btn">
+                    <i class="fa-solid fa-bolt"></i> Upgrade to Premium
+                </button>
+            </div>
+
+            <div class="usage-meter" id="usage-meter">
+                <div class="usage-label">
+                    <span><span id="usage-count">0</span> / 5 generations used</span>
+                    <span id="usage-reset"></span>
+                </div>
+                <div class="usage-bar">
+                    <div class="usage-fill" id="usage-fill"></div>
+                </div>
+            </div>
+
+            <div class="tool-usage-section" id="tool-usage-section">
+                <p class="tool-usage-title">Teaser Tool Usage (1 free try each)</p>
+                <div class="tool-chips" id="tool-chips"></div>
+            </div>
+        </div>
+
+        <!-- Writing Preferences -->
+        <div class="account-section">
+            <div class="section-title"><i class="fa-solid fa-pen-nib"></i> Writing Preferences</div>
+            <textarea id="account-prefs" class="prefs-textarea"
+                placeholder="E.g. Use British English, keep it strictly under 1 page, focus on leadership, use a professional but friendly tone..."></textarea>
+            <button class="save-btn" id="save-prefs-btn">
+                <i class="fa-solid fa-check"></i> Save Preferences
+            </button>
+        </div>
+
+        <!-- Appearance -->
+        <div class="account-section">
+            <div class="section-title"><i class="fa-solid fa-palette"></i> Appearance</div>
+            <div class="setting-row">
+                <p>Switch between light and dark mode</p>
+                <button class="theme-toggle" id="account-theme-btn">
+                    <i class="fa-solid fa-moon"></i> <span id="theme-label">Dark Mode</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="account-section danger-zone">
+            <div class="section-title"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</div>
+            <p class="danger-desc">Permanently delete your account and all associated data. This action cannot be undone.</p>
+            <button class="delete-btn" id="delete-account-btn">
+                <i class="fa-solid fa-trash"></i> Delete Account
+            </button>
+        </div>
+
+        <a href="results.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+        <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a
+                href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script>
+        // Theme persistence
+        const THEME_KEY = 'ats_theme_preference';
+        const saved = localStorage.getItem(THEME_KEY);
+        if (saved) document.body.setAttribute('data-theme', saved);
+
+        const PREFS_KEY = 'ats_user_writing_preferences';
+
+        const TEASER_TOOLS = {
+            'ghosting-predictor': 'Ghosting Predictor',
+            'video-intro': 'Video Intro',
+            'skills-tracker': 'Skills Tracker',
+            'day-in-life': 'Day in the Life',
+            'reverse-interview': 'Reverse Interview',
+            'rejection-reverser': 'Rejection Reverser',
+            'prove-it': 'Prove It',
+            'tech-screen': 'Trial By Fire',
+            'career-pivot': 'Career Pivot'
+        };
+
+        function waitForAuth() {
+            return new Promise((resolve) => {
+                const check = setInterval(() => {
+                    if (window.supabaseClient) {
+                        clearInterval(check);
+                        window.supabaseClient.auth.getUser().then(({ data: { user } }) => {
+                            if (!user) { window.location.href = 'login.html'; return; }
+                            resolve(user);
+                        });
+                    }
+                }, 100);
+            });
+        }
+
+        (async function initAccount() {
+            const user = await waitForAuth();
+
+            // Profile section
+            document.getElementById('account-avatar').src =
+                user.user_metadata?.avatar_url ||
+                'https://ui-avatars.com/api/?background=10b981&color=fff&name=' + encodeURIComponent(user.email);
+            document.getElementById('account-name').textContent =
+                user.user_metadata?.full_name || user.email.split('@')[0];
+            document.getElementById('account-email').textContent = user.email;
+            document.getElementById('account-since').textContent =
+                'Member since ' + new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+            // Fetch profile
+            const { data: profile } = await window.supabaseClient
+                .from('user_profiles')
+                .select('plan, generation_count, generation_reset_at, tool_usage, stripe_customer_id')
+                .eq('user_id', user.id)
+                .maybeSingle();
+
+            const plan = profile?.plan || 'free';
+            const isPremium = plan === 'premium';
+
+            // Plan section
+            const badge = document.getElementById('plan-badge');
+            const desc = document.getElementById('plan-desc');
+            const btn = document.getElementById('plan-action-btn');
+            const meter = document.getElementById('usage-meter');
+
+            if (isPremium) {
+                badge.textContent = 'Premium';
+                badge.className = 'plan-badge premium';
+                desc.textContent = 'Unlimited generations + all 24 tools';
+                btn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Manage Subscription';
+                btn.className = 'plan-btn outline';
+                btn.onclick = openPortal;
+                meter.style.display = 'none';
+            } else {
+                const count = profile?.generation_count || 0;
+                const pct = Math.min((count / 5) * 100, 100);
+                document.getElementById('usage-count').textContent = count;
+                const fill = document.getElementById('usage-fill');
+                fill.style.width = pct + '%';
+                if (count >= 4) fill.classList.add('warn');
+
+                if (profile?.generation_reset_at) {
+                    const reset = new Date(profile.generation_reset_at);
+                    reset.setMonth(reset.getMonth() + 1);
+                    const days = Math.max(0, Math.ceil((reset - new Date()) / 86400000));
+                    document.getElementById('usage-reset').textContent = 'Resets in ' + days + ' day' + (days !== 1 ? 's' : '');
+                }
+
+                btn.onclick = startCheckout;
+            }
+
+            // Tool usage chips
+            const usage = profile?.tool_usage || {};
+            const chipsContainer = document.getElementById('tool-chips');
+
+            if (isPremium) {
+                document.getElementById('tool-usage-section').style.display = 'none';
+            } else {
+                let chipsHtml = '';
+                for (const [slug, name] of Object.entries(TEASER_TOOLS)) {
+                    const count = usage[slug] || 0;
+                    const cls = count >= 1 ? 'used' : 'available';
+                    const label = count >= 1 ? 'Used' : 'Available';
+                    chipsHtml += `<span class="tool-chip ${cls}"><i class="fa-solid fa-${count >= 1 ? 'lock' : 'unlock'}"></i> ${name} &middot; ${label}</span>`;
+                }
+                chipsContainer.innerHTML = chipsHtml;
+            }
+
+            // Writing preferences
+            document.getElementById('account-prefs').value = localStorage.getItem(PREFS_KEY) || '';
+            document.getElementById('save-prefs-btn').addEventListener('click', function () {
+                localStorage.setItem(PREFS_KEY, document.getElementById('account-prefs').value.trim());
+                this.innerHTML = '<i class="fa-solid fa-check"></i> Saved!';
+                setTimeout(() => { this.innerHTML = '<i class="fa-solid fa-check"></i> Save Preferences'; }, 2000);
+            });
+
+            // Theme toggle
+            updateThemeButton();
+            document.getElementById('account-theme-btn').addEventListener('click', function () {
+                const current = document.body.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.body.setAttribute('data-theme', next);
+                localStorage.setItem(THEME_KEY, next);
+                updateThemeButton();
+            });
+
+            // Delete account
+            document.getElementById('delete-account-btn').addEventListener('click', showDeleteConfirm);
+        })();
+
+        function updateThemeButton() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.getElementById('account-theme-btn').innerHTML =
+                isDark ? '<i class="fa-solid fa-sun"></i> <span>Light Mode</span>'
+                    : '<i class="fa-solid fa-moon"></i> <span>Dark Mode</span>';
+        }
+
+        async function startCheckout() {
+            if (!window.supabaseClient) return;
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) { alert('Please sign in first.'); return; }
+            try {
+                const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
+                    body: { returnUrl: window.location.origin + '/account.html' }
+                });
+                if (error) throw error;
+                if (data?.url) window.location.href = data.url;
+            } catch (e) {
+                alert('Unable to start checkout. Please try again.');
+            }
+        }
+
+        async function openPortal() {
+            if (!window.supabaseClient) return;
+            const btn = document.getElementById('plan-action-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Opening...';
+            btn.disabled = true;
+            try {
+                const { data, error } = await window.supabaseClient.functions.invoke('create-portal-session', {
+                    body: { returnUrl: window.location.origin + '/account.html' }
+                });
+                if (error) throw error;
+                if (data?.url) window.location.href = data.url;
+            } catch (e) {
+                alert('Unable to open billing portal. Please try again.');
+                btn.innerHTML = '<i class="fa-solid fa-credit-card"></i> Manage Subscription';
+                btn.disabled = false;
+            }
+        }
+
+        function showDeleteConfirm() {
+            const existing = document.getElementById('delete-confirm-overlay');
+            if (existing) existing.remove();
+
+            const overlay = document.createElement('div');
+            overlay.id = 'delete-confirm-overlay';
+            overlay.className = 'confirm-overlay';
+            overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+            overlay.innerHTML = `
+                <div class="confirm-box">
+                    <h3><i class="fa-solid fa-triangle-exclamation"></i> Delete Account</h3>
+                    <p>This will permanently delete your account, all generated content, and cancel any active subscription. This cannot be undone.</p>
+                    <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.75rem;">Type <strong>DELETE</strong> to confirm:</p>
+                    <input type="text" class="confirm-input" id="delete-confirm-input" placeholder="DELETE" autocomplete="off">
+                    <div class="confirm-actions">
+                        <button class="confirm-cancel" onclick="this.closest('.confirm-overlay').remove()">Cancel</button>
+                        <button class="confirm-delete" id="confirm-delete-btn" disabled>Delete Forever</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            const input = document.getElementById('delete-confirm-input');
+            const deleteBtn = document.getElementById('confirm-delete-btn');
+            input.addEventListener('input', () => {
+                if (input.value.trim() === 'DELETE') {
+                    deleteBtn.classList.add('active');
+                    deleteBtn.disabled = false;
+                } else {
+                    deleteBtn.classList.remove('active');
+                    deleteBtn.disabled = true;
+                }
+            });
+            deleteBtn.addEventListener('click', executeDelete);
+        }
+
+        async function executeDelete() {
+            const btn = document.getElementById('confirm-delete-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
+            btn.disabled = true;
+
+            try {
+                const { error } = await window.supabaseClient.functions.invoke('delete-account');
+                if (error) throw error;
+                await window.supabaseClient.auth.signOut({ scope: 'global' });
+                window.location.href = 'index.html';
+            } catch (e) {
+                alert('Failed to delete account: ' + e.message);
+                btn.innerHTML = 'Delete Forever';
+                btn.disabled = false;
+                btn.classList.add('active');
+            }
+        }
+    </script>
+</body>
+
+</html>
