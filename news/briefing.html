@@ -461,7 +461,11 @@
         <footer class="site-footer" role="contentinfo"></footer>
     </div>
 
-    <script>window.TMS_PATH_PREFIX = '../';</script>
+    <script>
+        window.TMS_PATH_PREFIX = '../';
+        // Early JWT alert interceptor — must run before any library loads
+        (function () { var o = window.alert; window.alert = function (m) { if (m && String(m).includes('JWT')) { console.warn('[JWT Intercept]', m); return; } return o.apply(this, arguments); }; })();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
@@ -490,11 +494,10 @@
             const data = await resp.json().catch(() => ({}));
             if (!resp.ok) {
                 const errMsg = data?.message || data?.error?.message || data?.error || `Edge function error (${resp.status})`;
-                if (resp.status === 401 || String(errMsg).includes('JWT') || String(errMsg).includes('token') || String(errMsg).includes('Auth')) {
-                    alert('Session expired. Please log in again.');
+                if (resp.status === 401 || /jwt|token|expires|unauthorized|auth/i.test(String(errMsg))) {
                     try { window.supabaseClient.auth.signOut({ scope: 'local' }); } catch (e) { }
                     window.location.href = '../login.html';
-                    return null; // Prevents throw that alerts the raw message later
+                    return new Promise(() => { }); // Halt execution while browser redirects
                 }
                 throw new Error(errMsg);
             }
@@ -927,16 +930,25 @@ FORMAT — use this EXACT HTML structure:
             } catch (e) {
                 console.error('Briefing error:', e);
                 const msg = e.message || '';
-                if (msg.includes('JWT') || msg.includes('token') || msg.includes('Auth')) {
-                    alert('Session expired or corrupted. Please log in again.');
-                    // Force a logout locally in case the token is corrupted
+                if (/jwt|token|expires|unauthorized|auth/i.test(msg)) {
                     if (window.supabaseClient) window.supabaseClient.auth.signOut({ scope: 'local' }).catch(() => { });
                     window.location.href = '../login.html';
                     return;
                 }
+
                 document.getElementById('loading-section').style.display = 'none';
                 document.getElementById('input-section').style.display = 'block';
-                alert(msg || 'Failed to generate briefing. Please try again.');
+
+                // Display error inline instead of an alert
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-text';
+                errorDiv.style.marginTop = '1rem';
+                errorDiv.style.textAlign = 'center';
+                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg || 'Failed to generate briefing. Please try again.'}`;
+
+                const existingErr = document.querySelector('#input-section .error-text');
+                if (existingErr) existingErr.remove();
+                document.getElementById('input-section').appendChild(errorDiv);
             }
         }
 
@@ -1073,69 +1085,29 @@ FORMAT — use this EXACT HTML structure:
             return content.textContent.replace(/\[.*?\]/g, '').trim();
         }
 
-        // Pick two distinct voices for the two-host podcast
-        let podcastVoices = { host: null, cohost: null };
-        function initVoices() {
-            const voices = speechSynthesis.getVoices();
-            if (!voices.length) return;
-            // Prefer English neural/enhanced voices
-            const en = voices.filter(v => v.lang.startsWith('en'));
-            const males = en.filter(v => /male|guy|andrew|david|james|mark|daniel/i.test(v.name));
-            const females = en.filter(v => /female|zira|emma|jenny|samantha|karen|susan/i.test(v.name));
-            podcastVoices.host = males[0] || en[0] || voices[0];
-            podcastVoices.cohost = females[0] || en[1] || voices[1] || voices[0];
-        }
-        if (typeof speechSynthesis !== 'undefined') {
-            speechSynthesis.onvoiceschanged = initVoices;
-            initVoices();
-        }
+        // ── Podcast Audio Playback ──
+        function playAudioUrl(url) {
+            const audioContainer = document.getElementById('audio-container');
+            const audioEl = document.getElementById('briefing-audio');
+            audioEl.src = url;
+            audioContainer.style.display = 'block';
+            audioEl.play().catch(() => { /* autoplay blocked, user can click play */ });
 
-        let podcastPlaying = false;
-        let podcastQueue = [];
-        let currentUtterance = null;
-
-        function stopPodcast() {
-            podcastPlaying = false;
-            podcastQueue = [];
-            speechSynthesis.cancel();
             const btn = document.getElementById('listen-btn');
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
         }
 
-        function speakSegments(segments) {
-            podcastPlaying = true;
-            podcastQueue = [...segments];
+        function stopPodcast() {
+            const audioEl = document.getElementById('briefing-audio');
+            if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; }
             const btn = document.getElementById('listen-btn');
-            btn.innerHTML = '<i class="fa-solid fa-stop"></i> Stop';
             btn.disabled = false;
-            btn.onclick = () => { stopPodcast(); btn.onclick = listenToBriefing; };
-            speakNext();
-        }
-
-        function speakNext() {
-            if (!podcastPlaying || !podcastQueue.length) {
-                stopPodcast();
-                const btn = document.getElementById('listen-btn');
-                btn.onclick = listenToBriefing;
-                return;
-            }
-            const seg = podcastQueue.shift();
-            const utt = new SpeechSynthesisUtterance(seg.text);
-            utt.voice = seg.speaker === 1 ? podcastVoices.host : podcastVoices.cohost;
-            utt.rate = 1.0;
-            utt.pitch = seg.speaker === 1 ? 1.0 : 1.1;
-            utt.onend = () => speakNext();
-            utt.onerror = () => speakNext();
-            currentUtterance = utt;
-            speechSynthesis.speak(utt);
+            btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
         }
 
         async function listenToBriefing() {
             const btn = document.getElementById('listen-btn');
-
-            if (podcastPlaying) { stopPodcast(); btn.onclick = listenToBriefing; return; }
-
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
 
@@ -1143,7 +1115,7 @@ FORMAT — use this EXACT HTML structure:
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) throw new Error('Please sign in to use audio playback.');
 
-                // Check for cached transcript (up to 7 days old)
+                // Check for cached audio URL (up to 7 days old)
                 if (currentBriefingDate) {
                     const { data: row } = await window.supabaseClient
                         .from('daily_briefings')
@@ -1152,47 +1124,47 @@ FORMAT — use this EXACT HTML structure:
                         .eq('briefing_date', currentBriefingDate)
                         .single();
 
-                    if (row?.audio_url) {
-                        const ageMs = Date.now() - new Date(row.created_at).getTime();
-                        const sevenDays = 7 * 24 * 60 * 60 * 1000;
-                        if (ageMs < sevenDays) {
-                            try {
-                                const cached = JSON.parse(row.audio_url);
-                                if (cached.segments) { speakSegments(cached.segments); return; }
-                            } catch (e) { /* not valid JSON, regenerate */ }
-                        }
+                    if (row?.audio_url && row.audio_url.startsWith('http')) {
+                        playAudioUrl(row.audio_url);
+                        return;
                     }
                 }
 
-                // Generate two-host podcast transcript
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating podcast...';
+                // Generate podcast via Podcastfy (Gemini + ElevenLabs TTS)
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating podcast<span id="podcast-dots">.</span>';
+                // Animate dots while waiting
+                const dotsInterval = setInterval(() => {
+                    const dots = document.getElementById('podcast-dots');
+                    if (dots) dots.textContent = dots.textContent.length >= 3 ? '.' : dots.textContent + '.';
+                }, 800);
+
                 const briefingText = extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to convert.');
 
-                const ttsData = await invokeEdge('elevenlabs-tts', { text: briefingText.substring(0, 6000) });
-                if (ttsData?.error) throw new Error(ttsData.error);
-                if (!ttsData?.segments?.length) throw new Error('No podcast segments generated.');
+                const result = await invokeEdge('elevenlabs-tts', { text: briefingText.substring(0, 8000) });
+                clearInterval(dotsInterval);
 
-                // Cache the transcript (much smaller than audio)
+                if (result?.error) throw new Error(result.error);
+                if (!result?.audioUrl) throw new Error('No audio generated. Please try again.');
+
+                // Cache the audio URL
                 if (currentBriefingDate) {
                     try {
                         await window.supabaseClient
                             .from('daily_briefings')
-                            .update({ audio_url: JSON.stringify({ segments: ttsData.segments }) })
+                            .update({ audio_url: result.audioUrl })
                             .eq('user_id', session.user.id)
                             .eq('briefing_date', currentBriefingDate);
                     } catch (cacheErr) {
-                        console.warn('Failed to cache podcast:', cacheErr);
+                        console.warn('Failed to cache podcast URL:', cacheErr);
                     }
                 }
 
-                // Play with browser TTS using two voices
-                speakSegments(ttsData.segments);
+                playAudioUrl(result.audioUrl);
             } catch (e) {
                 console.error('Podcast error:', e);
                 const msg = e.message || '';
-                if (msg.includes('JWT') || msg.includes('token') || msg.includes('Auth')) {
-                    alert('Session expired or corrupted. Please log in again.');
+                if (/jwt|token|expires|unauthorized|auth/i.test(msg)) {
                     if (window.supabaseClient) window.supabaseClient.auth.signOut({ scope: 'local' }).catch(() => { });
                     window.location.href = '../login.html';
                     return;
