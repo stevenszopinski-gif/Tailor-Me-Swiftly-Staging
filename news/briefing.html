@@ -887,29 +887,17 @@ FORMAT — use this EXACT HTML structure:
 
         function subscribePodcast(app) {
             const feedUrl = getPodcastFeedUrl();
-            const encodedFeed = encodeURIComponent(feedUrl);
-            let url;
-            switch (app) {
-                case 'apple':
-                    // Apple Podcasts uses pcast:// protocol or the iTunes subscribe URL
-                    url = 'podcast://' + feedUrl.replace(/^https?:\/\//, '');
-                    break;
-                case 'spotify':
-                    // Spotify doesn't have a direct RSS subscribe URL — copy feed and guide the user
-                    navigator.clipboard.writeText(feedUrl).then(() => {
-                        alert('Feed URL copied! In Spotify:\n1. Open Spotify\n2. Go to Your Library\n3. Tap the + button → Add a Podcast by URL\n4. Paste the feed URL');
-                    }).catch(() => {
-                        prompt('Copy this feed URL and paste it in Spotify → Your Library → Add a Podcast by URL:', feedUrl);
-                    });
-                    return;
-                case 'pocketcasts':
-                    // Pocket Casts subscribe via feed URL
-                    url = 'https://pca.st/feed/' + encodedFeed;
-                    break;
-                default:
-                    url = feedUrl;
-            }
-            window.open(url, '_blank');
+            const instructions = {
+                apple: { name: 'Apple Podcasts', steps: '1. Open Apple Podcasts\n2. Go to Library → Shows\n3. Tap the + icon → "Follow a Show by URL"\n4. Paste the feed URL' },
+                spotify: { name: 'Spotify', steps: '1. Open Spotify\n2. Go to Your Library\n3. Tap the + button → "Add a Podcast by URL"\n4. Paste the feed URL' },
+                pocketcasts: { name: 'Pocket Casts', steps: '1. Open Pocket Casts\n2. Tap Discover → search icon\n3. Tap "Add by URL" at the bottom\n4. Paste the feed URL' }
+            };
+            const info = instructions[app];
+            navigator.clipboard.writeText(feedUrl).then(() => {
+                alert('Feed URL copied!\n\nTo add in ' + info.name + ':\n' + info.steps);
+            }).catch(() => {
+                prompt('Copy this feed URL and add it in ' + info.name + ':\n\n' + info.steps, feedUrl);
+            });
         }
 
         function copyPodcastUrl() {
