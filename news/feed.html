@@ -88,7 +88,110 @@
     <script src="../brand-config.js"></script>
     <script src="../auth.js?v=10"></script>
     <script src="../components.js"></script>
+    <style>
+        .time-group { margin-bottom: 2rem; }
+        .time-group-header {
+            display: flex; align-items: center; gap: 0.6rem;
+            margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .time-group-header h3 {
+            margin: 0; font-size: 0.95rem; font-weight: 600;
+            color: var(--text-primary);
+        }
+        .time-group-count {
+            font-size: 0.72rem; font-weight: 600;
+            background: var(--primary-color); color: #fff;
+            padding: 0.15rem 0.5rem; border-radius: 10px;
+        }
+        .briefing-feed-card {
+            padding: 1rem 1.25rem; margin-bottom: 0.6rem;
+            border: 1px solid var(--panel-border); border-radius: 12px;
+            cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s;
+            background: var(--panel-bg);
+        }
+        .briefing-feed-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .briefing-feed-card .card-top {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; gap: 1rem; margin-bottom: 0.4rem;
+        }
+        .briefing-feed-card .card-date {
+            margin: 0; font-size: 1rem; font-weight: 600;
+        }
+        .briefing-feed-card .card-meta {
+            font-size: 0.78rem; color: var(--text-secondary);
+            white-space: nowrap; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .briefing-feed-card .card-tags {
+            display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.4rem;
+        }
+        .briefing-feed-card .card-preview {
+            font-size: 0.86rem; color: var(--text-secondary);
+            line-height: 1.55; margin: 0;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+    </style>
     <script>
+        function getTimePeriod(dateStr) {
+            const date = new Date(dateStr + 'T00:00:00');
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const diff = Math.floor((today - date) / 86400000);
+
+            if (diff === 0) return 'Today';
+            if (diff === 1) return 'Yesterday';
+
+            // This week (same ISO week)
+            const dayOfWeek = today.getDay() || 7; // Mon=1..Sun=7
+            if (diff < dayOfWeek) return 'This Week';
+            if (diff < dayOfWeek + 7) return 'Last Week';
+
+            // Same month
+            if (date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()) {
+                return 'Earlier This Month';
+            }
+
+            // Named month
+            return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        }
+
+        function getPreview(b) {
+            // Try briefing_html first (strip tags), fall back to briefing_text
+            let text = (b.briefing_html || b.briefing_text || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+            // Skip "No briefing generated" placeholder
+            if (!text || text.length < 30 || /^no briefing generated/i.test(text)) {
+                const interests = (b.interests || []).join(', ');
+                return interests ? `Briefing about ${interests}` : 'Briefing generated';
+            }
+            return text.substring(0, 180).trim() + (text.length > 180 ? '...' : '');
+        }
+
+        function renderCard(b) {
+            const date = new Date(b.briefing_date + 'T00:00:00');
+            const dateStr = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            const interests = (b.interests || []).slice(0, 4).map(i =>
+                `<span class="interest-tag">${i}</span>`
+            ).join('');
+            const extra = (b.interests || []).length > 4 ? `<span class="interest-tag">+${b.interests.length - 4}</span>` : '';
+            const sourceCount = b.sources ? b.sources.length : 0;
+            const preview = getPreview(b);
+
+            return `<div class="briefing-feed-card" onclick="showBriefing('${b.id}')">
+                <div class="card-top">
+                    <h4 class="card-date">${dateStr}</h4>
+                    <div class="card-meta">
+                        ${sourceCount ? `<span><i class="fa-solid fa-link"></i> ${sourceCount}</span>` : ''}
+                    </div>
+                </div>
+                ${interests ? `<div class="card-tags">${interests}${extra}</div>` : ''}
+                <p class="card-preview">${preview}</p>
+            </div>`;
+        }
+
         async function loadBriefings() {
             if (!window.supabaseClient) {
                 setTimeout(loadBriefings, 500);
@@ -103,7 +206,7 @@
                 .select('*')
                 .eq('user_id', session.user.id)
                 .order('briefing_date', { ascending: false })
-                .limit(30);
+                .limit(200);
 
             document.getElementById('feed-skeleton').style.display = 'none';
 
@@ -112,29 +215,30 @@
                 return;
             }
 
+            // Group by time period
+            const groups = new Map();
+            for (const b of briefings) {
+                const period = getTimePeriod(b.briefing_date);
+                if (!groups.has(period)) groups.set(period, []);
+                groups.get(period).push(b);
+            }
+
             const listEl = document.getElementById('feed-list');
             listEl.style.display = 'block';
 
-            listEl.innerHTML = briefings.map(b => {
-                const date = new Date(b.briefing_date + 'T00:00:00');
-                const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                const interests = (b.interests || []).map(i => `<span class="interest-tag">${i}</span>`).join('');
-                const sourceCount = b.sources ? b.sources.length : 0;
-                const preview = (b.briefing_text || '').substring(0, 200) + '...';
-
-                return `
-                    <div class="briefing-card" onclick="showBriefing('${b.id}')" style="cursor:pointer;">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:0.5rem;">
-                            <h3 style="margin:0;font-size:1.05rem;">${dateStr}</h3>
-                            <span style="font-size:0.78rem;color:var(--text-secondary);white-space:nowrap;">${sourceCount} sources</span>
-                        </div>
-                        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.5rem;">${interests}</div>
-                        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;margin:0;">${preview}</p>
-                    </div>`;
-            }).join('');
+            let html = '';
+            for (const [period, items] of groups) {
+                html += `<div class="time-group">
+                    <div class="time-group-header">
+                        <h3>${period}</h3>
+                        <span class="time-group-count">${items.length}</span>
+                    </div>
+                    ${items.map(renderCard).join('')}
+                </div>`;
+            }
+            listEl.innerHTML = html;
         }
 
-        // Store briefings for detail view
         let _briefings = {};
 
         async function showBriefing(id) {
@@ -142,16 +246,12 @@
                 const { data } = await window.supabaseClient.from('daily_briefings').select('*').eq('id', id).single();
                 if (data) _briefings[id] = data;
             }
-
             const b = _briefings[id];
             if (!b) return;
-
-            // Navigate to briefing detail (reuse briefing.html with view mode)
             sessionStorage.setItem('ttn_view_briefing', JSON.stringify(b));
             window.location.href = 'briefing.html?view=' + id;
         }
 
-        // Init
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => setTimeout(loadBriefings, 1000));
         } else {
