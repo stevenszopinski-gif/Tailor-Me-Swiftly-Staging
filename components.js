@@ -1,11 +1,11 @@
 /**
- * Shared UI Components for TailorMeSwiftly.com
+ * Shared UI Components for GAG Multi-Domain Platform
  *
  * Centralizes the avatar dropdown menu and footer so changes
  * propagate across all pages without manual edits.
  *
  * Usage:
- *   Include <script src="components.js"></script> after auth.js.
+ *   Include <script src="components.js"></script> after brand-config.js and auth.js.
  *   Components auto-initialize on DOMContentLoaded.
  *
  * For pages in subdirectories (e.g. /blog/), set:
@@ -14,10 +14,18 @@
  */
 (function () {
     const P = window.TMS_PATH_PREFIX || '';
+    const brand = window.TMS_BRAND || { id: 'tms', name: 'TailorMeSwiftly', domain: 'tailormeswiftly.com' };
 
     // ── Avatar Dropdown Menu Items ──
-    // Single source of truth for the dropdown menu
     function getDropdownItems() {
+        if (brand.navItems) {
+            return brand.navItems.map(item => ({
+                href: P + item.href,
+                icon: item.icon,
+                label: item.label
+            }));
+        }
+        // Fallback (TMS default)
         return [
             { href: P + 'account.html', icon: 'fa-user-gear', label: 'Account' },
             { href: P + 'dashboard.html', icon: 'fa-compass', label: 'Dashboard' },
@@ -32,11 +40,6 @@
         const dropdown = document.getElementById('avatar-dropdown');
         if (!dropdown) return;
 
-        // Check if already has items (skip if page has custom dropdown)
-        const existingLinks = dropdown.querySelectorAll('.dropdown-item');
-        const hasLogout = dropdown.querySelector('#logout-btn');
-
-        // Build menu items
         const items = getDropdownItems();
         let html = items.map(item =>
             `<a href="${item.href}" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid ${item.icon}"></i> ${item.label}</a>`
@@ -53,16 +56,20 @@
         const footer = document.querySelector('footer.site-footer');
         if (!footer) return;
 
+        const links = brand.footerLinks || [
+            { href: 'pricing.html', label: 'Pricing' },
+            { href: 'blog.html', label: 'Blog' },
+            { href: 'help.html', label: 'Help' },
+            { href: 'terms.html', label: 'Terms & Conditions' },
+            { href: 'privacy.html', label: 'Privacy Policy' },
+            { href: 'security.html', label: 'Security Policy' }
+        ];
+
+        const linksHtml = links.map(l => `<a href="${P}${l.href}">${l.label}</a>`).join(' | ');
+
         footer.innerHTML = `
-            <p>&copy; ${new Date().getFullYear()} TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
-            <p>
-                <a href="${P}pricing.html">Pricing</a> |
-                <a href="${P}blog.html">Blog</a> |
-                <a href="${P}help.html">Help</a> |
-                <a href="${P}terms.html">Terms & Conditions</a> |
-                <a href="${P}privacy.html">Privacy Policy</a> |
-                <a href="${P}security.html">Security Policy</a>
-            </p>`;
+            <p>&copy; ${new Date().getFullYear()} ${brand.domain || 'TailorMeSwiftly.com'}. This service is mostly free to use and supported by advertising.</p>
+            <p>${linksHtml}</p>`;
     }
 
     // Auto-init when DOM is ready

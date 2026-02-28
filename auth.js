@@ -103,7 +103,7 @@
             const { error } = await window.supabaseClient.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: new URL('dashboard.html', window.location.href).href
+                    redirectTo: new URL((window.TMS_BRAND?.homePath || 'dashboard.html'), window.location.href).href
                 }
             });
 
@@ -198,11 +198,12 @@
             const isLoginSignup = path.includes('login.html') || path.includes('signup.html');
             const isLanding = path.includes('index.html') || path === '/';
 
+            const _home = window.TMS_BRAND?.homePath || 'dashboard.html';
             if (session && isLoginSignup && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
-                window.location.href = 'dashboard.html';
+                window.location.href = _home;
             } else if (session && isLanding) {
                 // Logged-in user on landing page — redirect to dashboard
-                window.location.href = 'dashboard.html';
+                window.location.href = _home;
                 return;
             } else if (!session && isApp) {
                 window.location.href = 'index.html';
@@ -247,7 +248,7 @@
                 <div class="confirm-box">
                     <div class="upgrade-modal-icon"><i class="fa-solid fa-crown"></i></div>
                     <h3>Unlock Premium Access</h3>
-                    <p>Upgrade to TailorMeSwiftly Premium to access <strong>${featureName}</strong> and 20+ other high-performance career tools.</p>
+                    <p>Upgrade to ${window.TMS_BRAND?.name || 'TailorMeSwiftly'} Premium to access <strong>${featureName}</strong> and all premium features.</p>
                     <div class="confirm-actions">
                         <button class="confirm-cancel" onclick="document.getElementById('upgrade-modal').remove()">Maybe Later</button>
                         <a href="account.html" class="plan-btn gold" style="text-decoration:none; display:flex; align-items:center; justify-content:center; flex:1; border-radius:10px; font-weight:600;">Upgrade Now</a>
@@ -325,7 +326,7 @@
 
     // --- Global Theme Logic --- //
     window.initTheme = function () {
-        const THEME_STORAGE = 'ats_theme_preference';
+        const THEME_STORAGE = window.TMS_BRAND?.themeStorageKey || 'ats_theme_preference';
         const savedTheme = localStorage.getItem(THEME_STORAGE) || 'light';
 
         document.body.setAttribute('data-theme', savedTheme);
