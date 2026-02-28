@@ -88,11 +88,13 @@
 
             gridHtml += '<a href="' + href + '" class="app-grid-item' + (isActive ? ' active' : '') + (isPlaceholder ? ' coming-soon' : '') + '"' +
                 (isPlaceholder ? ' title="Coming Soon"' : '') + ' style="' + itemStyle + '">' +
+                '<div style="position:relative;display:inline-block;">' +
                 '<div class="app-grid-icon" style="background:' + p.primaryColor + ';width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;">' +
                 '<i class="fa-solid ' + p.icon + '"></i>' +
                 '</div>' +
+                (isPlaceholder ? '<span class="app-grid-badge" style="position:absolute;top:-0.4rem;right:-0.8rem;font-size:0.55rem;font-weight:700;text-transform:uppercase;background:var(--panel-border);color:var(--text-secondary);padding:0.1rem 0.35rem;border-radius:4px;">Soon</span>' : '') +
+                '</div>' +
                 '<span>' + p.shortName + '</span>' +
-                (isPlaceholder ? '<span class="app-grid-badge" style="position:absolute;top:0.25rem;right:0;font-size:0.55rem;font-weight:700;text-transform:uppercase;background:var(--panel-border);color:var(--text-secondary);padding:0.1rem 0.35rem;border-radius:4px;">Soon</span>' : '') +
                 '</a>';
         });
         gridHtml += '</div>';
