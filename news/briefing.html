@@ -337,8 +337,6 @@
     <script src="../billing.js?v=1"></script>
     <script src="../components.js"></script>
     <script>
-        const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
         let extractedInterests = [];
         let currentBriefingDate = null; // tracks which briefing is displayed
         let tmsApplications = [];
@@ -589,23 +587,17 @@ RULES:
 
 Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup funding"]`;
 
-                const res = await fetch(SUPABASE_URL + '/functions/v1/gemini-proxy', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + session.access_token,
-                        'apikey': SUPABASE_KEY
-                    },
-                    body: JSON.stringify({
+                const extractRes = await window.supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
                         contents: [{ parts: [{ text: text.substring(0, 8000) }] }],
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         generationConfig: { temperature: 0.3, maxOutputTokens: 512 }
-                    })
+                    }
                 });
 
-                if (!res.ok) throw new Error('Extraction failed (HTTP ' + res.status + ')');
-                const data = await res.json();
-                if (data.error) throw new Error(data.error.message || 'AI extraction failed');
+                if (extractRes.error) throw new Error(extractRes.error.message || 'Extraction failed');
+                const data = extractRes.data;
+                if (data?.error) throw new Error(data.error.message || 'AI extraction failed');
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
                 const extractParts = data.candidates?.[0]?.content?.parts || [];
                 const extractPart = extractParts.find(p => !p.thought) || extractParts[extractParts.length - 1];
@@ -741,23 +733,17 @@ FORMAT — use this EXACT HTML structure:
 
                 const userPrompt = `Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
 
-                const geminiRes = await fetch(SUPABASE_URL + '/functions/v1/gemini-proxy', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token,
-                        'apikey': SUPABASE_KEY
-                    },
-                    body: JSON.stringify({
+                const geminiRes = await window.supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
                         contents: [{ parts: [{ text: userPrompt }] }],
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-                    })
+                    }
                 });
 
-                if (!geminiRes.ok) throw new Error('Briefing generation failed (HTTP ' + geminiRes.status + ')');
-                const geminiData = await geminiRes.json();
-                if (geminiData.error) throw new Error(geminiData.error.message || 'AI generation failed');
+                if (geminiRes.error) throw new Error(geminiRes.error.message || 'Briefing generation failed');
+                const geminiData = geminiRes.data;
+                if (geminiData?.error) throw new Error(geminiData.error.message || 'AI generation failed');
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
                 const geminiParts = geminiData.candidates?.[0]?.content?.parts || [];
                 const briefingPart = geminiParts.find(p => !p.thought) || geminiParts[geminiParts.length - 1];
