@@ -480,17 +480,47 @@
 
         // Edge Function helper — bypasses sb_publishable_ key issue with supabaseClient.functions.invoke()
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
+
+        async function getFreshToken() {
+            // Try cached session first
+            let { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (session) {
+                // Check if token expires within 60s — if so, force refresh
+                const exp = JSON.parse(atob(session.access_token.split('.')[1])).exp;
+                if (exp * 1000 - Date.now() < 60000) {
+                    const { data } = await window.supabaseClient.auth.refreshSession();
+                    if (data?.session) session = data.session;
+                }
+            }
+            return session;
+        }
+
         async function invokeEdge(fnName, body) {
-            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            let session = await getFreshToken();
             if (!session) {
                 window.location.href = '../login.html';
                 throw new Error('Not authenticated — please log in.');
             }
-            const resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
+
+            let resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
                 body: JSON.stringify(body)
             });
+
+            // On 401, try one refresh + retry before giving up
+            if (resp.status === 401) {
+                const { data } = await window.supabaseClient.auth.refreshSession();
+                if (data?.session) {
+                    session = data.session;
+                    resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                        body: JSON.stringify(body)
+                    });
+                }
+            }
+
             const data = await resp.json().catch(() => ({}));
             if (!resp.ok) {
                 const errMsg = data?.message || data?.error?.message || data?.error || `Edge function error (${resp.status})`;
