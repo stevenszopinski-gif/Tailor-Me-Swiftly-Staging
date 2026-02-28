@@ -80,35 +80,39 @@
         <div class="industry-select">
             <div>
                 <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Current Industry</label>
-                <select id="current-industry">
-                    <option value="">Auto-detect from resume</option>
-                    <option>Education / Teaching</option>
-                    <option>Military / Government</option>
-                    <option>Healthcare / Medical</option>
-                    <option>Retail / Hospitality</option>
-                    <option>Finance / Banking</option>
-                    <option>Manufacturing / Engineering</option>
-                    <option>Marketing / Advertising</option>
-                    <option>Legal / Law</option>
-                    <option>Nonprofit / NGO</option>
-                    <option>Other</option>
-                </select>
+                <input type="text" id="current-industry" list="current-industries" placeholder="Type or select..." style="padding:0.5rem 1rem;border:1px solid var(--panel-border);border-radius:8px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;width:100%;">
+                <datalist id="current-industries">
+                    <option value="Education / Teaching">
+                    <option value="Military / Government">
+                    <option value="Healthcare / Medical">
+                    <option value="Retail / Hospitality">
+                    <option value="Finance / Banking">
+                    <option value="Manufacturing / Engineering">
+                    <option value="Marketing / Advertising">
+                    <option value="Legal / Law">
+                    <option value="Nonprofit / NGO">
+                    <option value="Technology / Software">
+                    <option value="Data / Analytics">
+                    <option value="Sales / Business Development">
+                </datalist>
             </div>
             <div>
                 <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Target Industry</label>
-                <select id="target-industry">
-                    <option value="">Auto-detect from job description</option>
-                    <option>Technology / Software</option>
-                    <option>Finance / FinTech</option>
-                    <option>Healthcare / BioTech</option>
-                    <option>Marketing / Digital</option>
-                    <option>Consulting / Strategy</option>
-                    <option>Product Management</option>
-                    <option>Data / Analytics</option>
-                    <option>Operations / Supply Chain</option>
-                    <option>Sales / Business Development</option>
-                    <option>Other</option>
-                </select>
+                <input type="text" id="target-industry" list="target-industries" placeholder="Type or select..." style="padding:0.5rem 1rem;border:1px solid var(--panel-border);border-radius:8px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;width:100%;">
+                <datalist id="target-industries">
+                    <option value="Technology / Software">
+                    <option value="Finance / FinTech">
+                    <option value="Healthcare / BioTech">
+                    <option value="Marketing / Digital">
+                    <option value="Consulting / Strategy">
+                    <option value="Product Management">
+                    <option value="Data / Analytics">
+                    <option value="Operations / Supply Chain">
+                    <option value="Sales / Business Development">
+                    <option value="Education / EdTech">
+                    <option value="AI / Machine Learning">
+                    <option value="Cybersecurity">
+                </datalist>
             </div>
         </div>
 

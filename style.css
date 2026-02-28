@@ -243,48 +243,109 @@ body {
     box-shadow: 0 4px 15px var(--accent-glow);
 }
 
-/* ── Product Switcher ── */
+/* ── Product Switcher (Google-style App Grid) ── */
 .product-switcher {
+    position: relative;
     display: flex;
-    gap: 0.4rem;
-    padding: 0.35rem;
-    background: var(--glass-bg);
-    border: 1px solid var(--panel-border);
-    border-radius: 9999px;
     align-items: center;
 }
 
-.product-tab {
+.app-grid-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.45rem 1.1rem;
-    border-radius: 9999px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
     color: var(--text-secondary);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
 }
 
-.product-tab:hover {
+.app-grid-btn:hover {
+    background: var(--glass-bg);
     color: var(--text-primary);
-    background: var(--panel-bg);
 }
 
-.product-tab.active {
-    color: var(--tab-color, var(--primary-color));
-    background: var(--panel-bg);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-    font-weight: 600;
+.app-grid-popup {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background: var(--dropdown-bg, var(--panel-bg));
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    padding: 1rem;
+    min-width: 240px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    z-index: 300;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    animation: modalFade 0.15s ease-out;
 }
 
-.product-tab.coming-soon {
-    opacity: 0.5;
+.app-grid-popup.hidden {
+    display: none;
+}
+
+.app-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 0.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-align: center;
+    transition: background 0.15s;
+    position: relative;
+}
+
+.app-grid-item:hover {
+    background: var(--glass-bg);
+}
+
+.app-grid-item.active .app-grid-icon {
+    box-shadow: 0 0 0 2px var(--panel-bg), 0 0 0 4px currentColor;
+}
+
+.app-grid-item.coming-soon {
+    opacity: 0.45;
     pointer-events: none;
 }
 
+.app-grid-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #fff;
+    transition: box-shadow 0.2s;
+}
+
+.app-grid-badge {
+    position: absolute;
+    top: 0.25rem;
+    right: 0;
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: var(--panel-border);
+    color: var(--text-secondary);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+}
+
+/* Legacy .product-tab kept for backward compat but unused */
 .product-tab i {
     font-size: 0.75rem;
 }
@@ -1449,19 +1510,8 @@ textarea:focus {
         padding-bottom: 1.5rem;
     }
 
-    .product-switcher {
-        order: -1;
-        align-self: stretch;
-        justify-content: center;
-    }
-
-    .product-tab span {
-        display: none;
-    }
-
-    .product-tab {
-        padding: 0.4rem 0.7rem;
-        font-size: 0.9rem;
+    .app-grid-popup {
+        right: -1rem;
     }
 
     .logo h1 {

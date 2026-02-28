@@ -45,7 +45,7 @@
         dropdown.innerHTML = html;
     }
 
-    // ── Product Switcher ──
+    // ── Product Switcher (Google-style app grid) ──
     function initProductSwitcher() {
         var container = document.getElementById('product-switcher');
         if (!container) return;
@@ -56,23 +56,42 @@
 
         var items = [
             { key: 'applications', product: products.applications },
-            { key: 'learn', product: products.learn },
-            { key: 'news', product: products.news }
+            { key: 'news', product: products.news },
+            { key: 'learn', product: products.learn }
         ];
 
-        container.innerHTML = items.map(function (item) {
+        // Build the grid button + popup
+        var gridHtml = '<button class="app-grid-btn" aria-label="Switch product" onclick="this.nextElementSibling.classList.toggle(\'hidden\')">' +
+            '<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect x="1" y="1" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="1" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="1" width="4.5" height="4.5" rx="1"/><rect x="1" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="1" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="14.5" width="4.5" height="4.5" rx="1"/></svg>' +
+            '</button>';
+
+        gridHtml += '<div class="app-grid-popup hidden">';
+        items.forEach(function (item) {
             var p = item.product;
             var isActive = p.id === active.id;
             var isPlaceholder = p.id === 'learn';
             var href = P + p.homePath;
-            var cls = 'product-tab' + (isActive ? ' active' : '') + (isPlaceholder ? ' coming-soon' : '');
 
-            return '<a href="' + href + '" class="' + cls + '" style="--tab-color:' + p.primaryColor + ';"' +
+            gridHtml += '<a href="' + href + '" class="app-grid-item' + (isActive ? ' active' : '') + (isPlaceholder ? ' coming-soon' : '') + '"' +
                 (isPlaceholder ? ' title="Coming Soon"' : '') + '>' +
+                '<div class="app-grid-icon" style="background:' + p.primaryColor + ';">' +
                 '<i class="fa-solid ' + p.icon + '"></i>' +
+                '</div>' +
                 '<span>' + p.shortName + '</span>' +
+                (isPlaceholder ? '<span class="app-grid-badge">Soon</span>' : '') +
                 '</a>';
-        }).join('');
+        });
+        gridHtml += '</div>';
+
+        container.innerHTML = gridHtml;
+
+        // Close popup when clicking outside
+        document.addEventListener('click', function (e) {
+            var popup = container.querySelector('.app-grid-popup');
+            if (popup && !popup.classList.contains('hidden') && !container.contains(e.target)) {
+                popup.classList.add('hidden');
+            }
+        });
     }
 
     // ── Footer ──

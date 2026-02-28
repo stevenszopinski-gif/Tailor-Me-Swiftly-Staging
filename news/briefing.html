@@ -343,9 +343,9 @@
                     .not('resume_text', 'is', null)
                     .order('created_at', { ascending: false })
                     .limit(1)
-                    .single();
+                    .maybeSingle();
 
-                if (!data?.resume_text) throw new Error('No resume found');
+                if (!data?.resume_text) throw new Error('No resume found in your TailorMeSwiftly account. Create an application first.');
 
                 await extractInterestsFromText(data.resume_text, 'resume');
                 showImportBadge('From TailorMeSwiftly resume');
