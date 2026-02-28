@@ -86,7 +86,7 @@
             document.body.appendChild(toast);
         }
         toast.textContent = msg;
-        toast.style.background = isError ? '#ef4444' : '#10b981';
+        toast.style.background = isError ? '#ef4444' : (window.TMS_BRAND?.primaryColor || '#10b981');
         toast.style.color = '#fff';
         toast.style.opacity = '1';
         clearTimeout(toast._timer);
@@ -100,10 +100,12 @@
         }
 
         try {
+            const P = window.TMS_PATH_PREFIX || '';
+            const home = P + (window.TMS_BRAND?.homePath || 'dashboard.html');
             const { error } = await window.supabaseClient.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: new URL((window.TMS_BRAND?.homePath || 'dashboard.html'), window.location.href).href
+                    redirectTo: new URL(home, window.location.href).href
                 }
             });
 
@@ -121,7 +123,8 @@
             localStorage.removeItem('tms_last_gen_id');
             sessionStorage.removeItem('tms_outputs');
             await window.supabaseClient.auth.signOut({ scope: 'global' });
-            window.location.href = 'index.html';
+            const P = window.TMS_PATH_PREFIX || '';
+            window.location.href = P + 'index.html';
         } catch (e) {
             console.error("Sign out error:", e.message);
             window._signingOut = false;
@@ -196,17 +199,13 @@
             const path = window.location.pathname;
             const isApp = path.includes('app.html');
             const isLoginSignup = path.includes('login.html') || path.includes('signup.html');
-            const isLanding = path.includes('index.html') || path === '/';
 
-            const _home = window.TMS_BRAND?.homePath || 'dashboard.html';
+            const P = window.TMS_PATH_PREFIX || '';
+            const _home = P + (window.TMS_BRAND?.homePath || 'dashboard.html');
             if (session && isLoginSignup && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
                 window.location.href = _home;
-            } else if (session && isLanding) {
-                // Logged-in user on landing page — redirect to dashboard
-                window.location.href = _home;
-                return;
             } else if (!session && isApp) {
-                window.location.href = 'index.html';
+                window.location.href = P + 'index.html';
             } else if (session) {
                 updateUIForUser(session.user);
             } else {

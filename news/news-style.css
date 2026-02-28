@@ -1,0 +1,224 @@
+/*
+ * Tailor The News — Component Styles
+ *
+ * Briefing-specific UI components. Brand colors are handled
+ * by brand-config.js setting CSS variables at runtime.
+ */
+
+/* Briefing-specific styles */
+.briefing-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+}
+
+.briefing-card:hover {
+    border-color: var(--primary-color);
+}
+
+.briefing-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.6rem;
+    background: var(--panel-bg);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.briefing-source:hover {
+    color: var(--primary-color);
+}
+
+.interest-tag {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+    color: var(--primary-color);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+}
+
+.interest-input-wrap {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.briefing-audio-player {
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
+
+/* ── Tabbed Input ── */
+.input-tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 0;
+}
+
+.input-tab {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: inherit;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+}
+
+.input-tab:hover {
+    color: var(--text-primary);
+}
+
+.input-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.input-tab i {
+    margin-right: 0.35rem;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ── Upload Zone ── */
+.upload-zone {
+    border: 2px dashed var(--panel-border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-zone:hover,
+.upload-zone.dragover {
+    border-color: var(--primary-color);
+    background: color-mix(in srgb, var(--primary-color) 4%, transparent);
+}
+
+/* ── Import Divider ── */
+.import-divider {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.import-divider::before,
+.import-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--panel-border);
+}
+
+.import-divider span {
+    padding: 0 0.75rem;
+}
+
+/* ── TMS Import Button ── */
+.tms-import-btn {
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--primary-color) 30%, transparent);
+    background: color-mix(in srgb, var(--primary-color) 6%, transparent);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.tms-import-btn:hover {
+    background: color-mix(in srgb, var(--primary-color) 12%, transparent);
+}
+
+/* ── Job Cards ── */
+.job-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.job-card:hover {
+    border-color: var(--primary-color);
+    background: color-mix(in srgb, var(--primary-color) 3%, transparent);
+}
+
+.job-card input[type="checkbox"] {
+    margin-top: 0.2rem;
+    accent-color: var(--primary-color);
+}
+
+.job-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── Editable Interest Tags ── */
+.interest-tags-wrap {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.interest-tag.editable {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.interest-tag.editable button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.interest-tag.editable button:hover {
+    opacity: 1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .input-tabs {
+        overflow-x: auto;
+    }
+    .input-tab {
+        font-size: 0.78rem;
+        padding: 0.5rem 0.7rem;
+    }
+}

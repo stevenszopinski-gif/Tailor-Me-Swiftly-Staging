@@ -1067,8 +1067,8 @@
             <i class="fa-solid fa-newspaper" style="font-size:1.8rem;color:#3b82f6;margin-bottom:0.5rem;display:block;"></i>
             <h3 style="margin:0 0 0.5rem;font-size:1.1rem;">Stay sharp between applications</h3>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;line-height:1.5;">Get daily AI-powered news briefings tailored to your career interests — powered by the same resume you just used.</p>
-            <a id="ttn-promo-link" href="https://tailorthenews.com/briefing.html" target="_blank" class="btn primary-btn" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);border:none;padding:0.7rem 1.5rem;">
-                <i class="fa-solid fa-bolt"></i> Try TailorTheNews
+            <a id="ttn-promo-link" href="news/briefing.html" class="btn primary-btn" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);border:none;padding:0.7rem 1.5rem;">
+                <i class="fa-solid fa-bolt"></i> Try Tailor The News
             </a>
         </div>
     </div> <!-- /app-container -->
@@ -1384,7 +1384,7 @@
             if (outputs.missingKeywords?.length) keywords.push(...outputs.missingKeywords.slice(0, 3));
             if (keywords.length) {
                 const link = document.getElementById('ttn-promo-link');
-                link.href = 'https://tailorthenews.com/briefing.html?interests=' + encodeURIComponent(keywords.join(','));
+                link.href = 'news/briefing.html?interests=' + encodeURIComponent(keywords.join(','));
             }
         })();
     </script>

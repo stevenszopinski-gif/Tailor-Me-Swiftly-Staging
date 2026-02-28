@@ -7,7 +7,7 @@
  * Requires: auth.js (for window.supabaseClient), brand-config.js (for window.TMS_BRAND)
  */
 (function () {
-    const brand = () => window.TMS_BRAND || { id: 'tms' };
+    const brand = () => window.TMS_BRAND?.activeProduct || window.TMS_BRAND || { id: 'tms' };
 
     /**
      * Check if the current user has premium for the current product.

@@ -227,6 +227,51 @@ body {
     box-shadow: 0 4px 15px var(--accent-glow);
 }
 
+/* ── Product Switcher ── */
+.product-switcher {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+}
+
+.product-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.product-tab:hover {
+    color: var(--text-primary);
+    background: var(--panel-bg);
+}
+
+.product-tab.active {
+    color: var(--tab-color, var(--primary-color));
+    background: var(--panel-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+}
+
+.product-tab.coming-soon {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.product-tab i {
+    font-size: 0.75rem;
+}
+
 .logo h1 {
     font-size: 1.8rem;
     font-weight: 700;
@@ -1385,6 +1430,21 @@ textarea:focus {
         gap: 1rem;
         text-align: center;
         padding-bottom: 1.5rem;
+    }
+
+    .product-switcher {
+        order: -1;
+        align-self: stretch;
+        justify-content: center;
+    }
+
+    .product-tab span {
+        display: none;
+    }
+
+    .product-tab {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.9rem;
     }
 
     .logo h1 {

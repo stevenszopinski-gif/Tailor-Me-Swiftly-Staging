@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
     <meta name="description"
-        content="TailorMeSwiftly instantly tailors your resume to any job description using AI. Free ATS optimization, cover letters, mock interviews, and outreach emails.">
+        content="TailorMeSwiftly is an AI-powered career platform. Tailor your applications, build skills, and get personalized news briefings — all in one place.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="TailorMeSwiftly">
     <meta property="og:url" content="https://tailormeswiftly.com/">
@@ -18,7 +18,7 @@
     <link rel="apple-touch-icon" href="/logo.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
-    <title>TailorMeSwiftly.com | AI Resume Tailoring, Interview Prep & Application Tracking</title>
+    <title>TailorMeSwiftly.com | AI Career Platform — Applications, Learning & News</title>
     <link rel="stylesheet" href="style.css?v=14">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
@@ -972,6 +972,53 @@
             }
         }
 
+        /* ── Product Hub Cards ── */
+        .product-hub-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 960px;
+            margin: 0 auto 2rem;
+            padding: 0 1.5rem;
+        }
+
+        .product-hub-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-color);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .product-hub-card .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .product-hub-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+
         @media (max-width: 480px) {
             .hp-hero-note {
                 flex-direction: column;
@@ -1099,24 +1146,42 @@
 
         <!-- ═══════ HERO ═══════ -->
         <section class="hp-hero">
-            <h2>Stop Applying Blind. <span class="hp-gradient">Apply Smarter.</span></h2>
+            <h2>One Platform. <span class="hp-gradient">Three Ways to Get Ahead.</span></h2>
             <p class="hp-hero-sub">
-                Other tools build resumes. TailorMeSwiftly is a 30+ tool AI career platform that handles everything
-                &mdash; from resume tailoring to salary negotiation practice to detecting toxic companies &mdash; so you
-                apply to the <em>right</em> jobs, prepared for every stage.
+                TailorMeSwiftly is an AI-powered career platform &mdash; tailor your applications, build the right skills, and stay informed with personalized news. Everything you need to land the job and grow.
             </p>
-
-            <a href="login.html" id="hero-get-started-btn" class="btn primary-btn hp-hero-cta">
-                <i class="fa-solid fa-rocket"></i> Get Started For Free
-            </a>
-            <div class="hp-hero-note">
-                <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> Mostly free to use</span>
-                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 60 seconds</span>
-                <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
-                    private</span>
-                <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
-            </div>
         </section>
+
+        <!-- ═══════ PRODUCT HUB ═══════ -->
+        <section class="product-hub-grid">
+            <a href="app.html" class="product-hub-card" style="--card-color:#10b981;text-decoration:none;color:inherit;">
+                <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i class="fa-solid fa-clipboard"></i></div>
+                <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Application</h3>
+                <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI resume tailoring, cover letters, mock interviews, salary negotiation &amp; 30+ career tools.</p>
+                <span class="btn primary-btn" style="font-size:0.85rem;width:100%;text-align:center;background:#10b981;">Get Started <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="learn/" class="product-hub-card" style="--card-color:#8b5cf6;text-decoration:none;color:inherit;">
+                <div class="card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(139,92,246,0.12);color:#8b5cf6;margin-bottom:0.5rem;">Coming Soon</span>
+                <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Learning</h3>
+                <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI-powered learning paths and skill-building plans tailored to your career goals.</p>
+                <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Learn More <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="news/feed.html" class="product-hub-card" style="--card-color:#3b82f6;text-decoration:none;color:inherit;">
+                <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i class="fa-solid fa-newspaper"></i></div>
+                <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor The News</h3>
+                <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">Personalized AI news briefings tailored to your professional interests. Stay sharp between applications.</p>
+                <span class="btn primary-btn" style="font-size:0.85rem;width:100%;text-align:center;background:#3b82f6;">Try It Free <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </section>
+
+        <div class="hp-hero-note" style="margin-bottom:2rem;">
+            <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> Mostly free to use</span>
+            <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 60 seconds</span>
+            <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
+                private</span>
+            <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
+        </div>
 
         <!-- Ad Unit -->
         <div style="text-align:center;margin:1.5rem auto;max-width:728px;">
@@ -2127,7 +2192,8 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="auth.js?v=8"></script>
+    <script src="brand-config.js"></script>
+    <script src="auth.js?v=10"></script>
     <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="app.js?v=6"></script>

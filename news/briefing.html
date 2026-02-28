@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io https://gnews.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
+    <meta name="description" content="Generate your personalized AI news briefing. Enter your interests and get a curated digest in seconds.">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <title>New Briefing | TailorMeSwiftly</title>
+    <link rel="stylesheet" href="../style.css?v=15">
+    <link rel="stylesheet" href="news-style.css?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body data-theme="light">
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container">
+        <header class="app-header" role="banner">
+            <div class="logo">
+                <a href="../index.html" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly</h1>
+                </a>
+            </div>
+            <div id="product-switcher" class="product-switcher"></div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden"></div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content" class="wizard-container glass-panel" style="max-width:800px;margin:2rem auto;padding:2rem;">
+            <div style="margin-bottom:1.5rem;">
+                <a href="feed.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> My Briefings</a>
+            </div>
+
+            <div class="step-header" style="text-align:left;margin-bottom:1.5rem;">
+                <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="font-size:1.8rem;color:var(--primary-color);"></i>
+                    <h2 style="margin:0;">New Briefing</h2>
+                </div>
+                <p>Tell us what you're interested in and we'll create a personalized news digest.</p>
+            </div>
+
+            <!-- Interest Input -->
+            <div id="input-section">
+                <!-- Tabs -->
+                <div class="input-tabs">
+                    <button class="input-tab active" data-tab="type" onclick="switchTab('type')">
+                        <i class="fa-solid fa-keyboard"></i> Type Interests
+                    </button>
+                    <button class="input-tab" data-tab="resume" onclick="switchTab('resume')">
+                        <i class="fa-solid fa-file-lines"></i> From Resume
+                    </button>
+                    <button class="input-tab" data-tab="jobs" onclick="switchTab('jobs')">
+                        <i class="fa-solid fa-briefcase"></i> From Jobs
+                    </button>
+                </div>
+
+                <!-- Tab A: Type Interests -->
+                <div id="tab-type" class="tab-content active">
+                    <label for="interests-input" style="font-weight:600;font-size:0.95rem;display:block;margin-bottom:0.5rem;">What topics interest you?</label>
+                    <textarea id="interests-input" rows="3" placeholder="e.g. AI startups, climate change, NBA, cryptocurrency, space exploration..." style="width:100%;padding:1rem;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-family:inherit;font-size:0.95rem;resize:vertical;"></textarea>
+                    <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.5rem;">Separate topics with commas. Be as specific or broad as you like.</p>
+                </div>
+
+                <!-- Tab B: From Resume -->
+                <div id="tab-resume" class="tab-content">
+                    <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your resume</p>
+
+                    <!-- TMS Import -->
+                    <div id="tms-resume-section" style="margin-bottom:1.25rem;display:none;">
+                        <button class="btn ghost-btn tms-import-btn" onclick="fetchTMSResume()" id="import-resume-btn">
+                            <i class="fa-solid fa-link"></i> Use my TailorMeSwiftly resume
+                        </button>
+                        <div class="import-divider"><span>or upload a file</span></div>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div id="drop-zone" class="upload-zone" onclick="document.getElementById('file-input').click()"
+                         ondragover="event.preventDefault();this.classList.add('dragover')"
+                         ondragleave="this.classList.remove('dragover')"
+                         ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0])">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
+                        <p style="margin:0;font-weight:500;">Drop your resume here or click to browse</p>
+                        <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-secondary);">PDF, DOCX, or TXT</p>
+                    </div>
+                    <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display:none" onchange="handleFile(this.files[0])">
+
+                    <div id="file-status" style="display:none;margin-top:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
+                        <i class="fa-solid fa-spinner fa-spin"></i> <span id="file-status-text">Parsing resume...</span>
+                    </div>
+                </div>
+
+                <!-- Tab C: From Jobs -->
+                <div id="tab-jobs" class="tab-content">
+                    <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your job applications</p>
+
+                    <div id="jobs-login-prompt" style="display:none;text-align:center;padding:1.5rem;">
+                        <i class="fa-solid fa-lock" style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
+                        <p style="color:var(--text-secondary);margin-bottom:1rem;">Log in to access your TailorMeSwiftly applications</p>
+                        <a href="../login.html" class="btn primary-btn" style="font-size:0.9rem;"><i class="fa-solid fa-right-to-bracket"></i> Log In</a>
+                    </div>
+
+                    <div id="jobs-loading" style="display:none;text-align:center;padding:1.5rem;">
+                        <i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem;color:var(--primary-color);"></i>
+                        <p style="color:var(--text-secondary);margin-top:0.5rem;">Loading your applications...</p>
+                    </div>
+
+                    <div id="jobs-empty" style="display:none;text-align:center;padding:1.5rem;">
+                        <i class="fa-solid fa-folder-open" style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
+                        <p style="color:var(--text-secondary);margin-bottom:0.5rem;">No applications found</p>
+                        <p style="color:var(--text-secondary);font-size:0.82rem;">Generate a tailored resume on <a href="../app.html" style="color:var(--primary-color);">TailorMeSwiftly.com</a> first</p>
+                    </div>
+
+                    <div id="jobs-list" style="display:none;">
+                        <div id="jobs-cards" style="display:flex;flex-direction:column;gap:0.5rem;max-height:280px;overflow-y:auto;"></div>
+                        <button class="btn primary-btn" style="margin-top:1rem;width:100%;" onclick="extractFromSelectedJobs()" id="extract-jobs-btn">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Extract Interests from Selected
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Extracted Interest Tags (shared across tabs) -->
+                <div id="interest-tags-section" style="display:none;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                        <label style="font-weight:600;font-size:0.9rem;">Extracted Interests</label>
+                        <span id="import-badge" style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(59,130,246,0.1);color:var(--primary-color);"></span>
+                    </div>
+                    <div id="interest-tags" class="interest-tags-wrap"></div>
+                    <div style="margin-top:0.5rem;">
+                        <input type="text" id="add-interest-input" placeholder="Add a topic..." style="padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;" onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
+                    </div>
+                </div>
+
+                <!-- Extraction Loading -->
+                <div id="extraction-loading" style="display:none;text-align:center;padding:1.5rem 0;">
+                    <i class="fa-solid fa-brain" style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;display:block;"></i>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;" id="extraction-status">Analyzing your resume to identify interests...</p>
+                </div>
+
+                <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                    <button id="generate-btn" class="btn primary-btn" onclick="generateBriefing()">
+                        <i class="fa-solid fa-bolt"></i> Generate Briefing
+                    </button>
+                    <span id="gen-count" style="font-size:0.82rem;color:var(--text-secondary);"></span>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-section" style="display:none;text-align:center;padding:3rem 0;">
+                <div class="spinner" style="margin:0 auto 1rem;width:48px;height:48px;border:3px solid var(--panel-border);border-top-color:var(--primary-color);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+                <p id="loading-status" style="color:var(--text-secondary);">Fetching news articles...</p>
+                <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+            </div>
+
+            <!-- Result Section -->
+            <div id="result-section" style="display:none;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+                    <h3 style="margin:0;"><i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i> Your Briefing</h3>
+                    <div style="display:flex;gap:0.5rem;">
+                        <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="listenToBriefing()" id="listen-btn">
+                            <i class="fa-solid fa-headphones"></i> Listen
+                        </button>
+                        <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="document.getElementById('result-section').style.display='none';document.getElementById('input-section').style.display='block';">
+                            <i class="fa-solid fa-rotate-left"></i> New
+                        </button>
+                    </div>
+                </div>
+
+                <div id="briefing-interests" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
+                <div id="briefing-content" style="line-height:1.7;"></div>
+
+                <div id="audio-container" style="display:none;margin-top:1.5rem;">
+                    <audio id="briefing-audio" controls class="briefing-audio-player"></audio>
+                </div>
+
+                <div id="briefing-sources" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--panel-border);">
+                    <h4 style="font-size:0.9rem;margin-bottom:0.5rem;color:var(--text-secondary);">Sources</h4>
+                    <div id="sources-list" style="display:flex;flex-wrap:wrap;gap:0.5rem;"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="site-footer" role="contentinfo"></footer>
+    </div>
+
+    <script>window.TMS_PATH_PREFIX = '../';</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="../brand-config.js"></script>
+    <script src="../auth.js?v=10"></script>
+    <script src="../billing.js?v=1"></script>
+    <script src="../components.js"></script>
+    <script>
+        const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
+        let extractedInterests = [];
+        let tmsApplications = [];
+
+        // PDF.js worker
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        // ── Tab Switching ──
+        function switchTab(tab) {
+            document.querySelectorAll('.input-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+
+            if (tab === 'jobs') loadTMSApplications();
+            if (tab === 'resume') checkTMSResumeAvailable();
+        }
+
+        // ── URL Params ──
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            const urlInterests = params.get('interests');
+            if (urlInterests) {
+                const tags = urlInterests.split(',').map(s => s.trim()).filter(Boolean);
+                if (tags.length) {
+                    extractedInterests = tags;
+                    renderInterestTags(tags);
+                    showImportBadge('Imported from TailorMeSwiftly');
+                }
+            }
+        })();
+
+        // ── Load saved interests on auth ready ──
+        document.addEventListener('auth-ready', async () => {
+            if (extractedInterests.length) return; // URL params take priority
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                const { data: profile } = await window.supabaseClient
+                    .from('user_profiles')
+                    .select('interests')
+                    .eq('user_id', session.user.id)
+                    .maybeSingle();
+                if (profile?.interests?.length) {
+                    extractedInterests = profile.interests;
+                    renderInterestTags(profile.interests);
+                    showImportBadge('From your saved profile');
+                }
+            } catch (e) { /* no saved interests */ }
+        });
+
+        // ── File Upload & Parsing ──
+        async function handleFile(file) {
+            if (!file) return;
+            const ext = file.name.split('.').pop().toLowerCase();
+            const statusEl = document.getElementById('file-status');
+            const statusText = document.getElementById('file-status-text');
+            statusEl.style.display = 'block';
+            statusText.textContent = 'Parsing ' + file.name + '...';
+
+            try {
+                let text = '';
+                if (ext === 'pdf') text = await extractTextFromPDF(file);
+                else if (ext === 'docx') text = await extractTextFromDOCX(file);
+                else if (ext === 'txt') text = await file.text();
+                else throw new Error('Unsupported file type');
+
+                if (!text.trim()) throw new Error('No text found in file');
+
+                statusText.textContent = file.name + ' parsed successfully';
+                statusEl.querySelector('i').className = 'fa-solid fa-check';
+                statusEl.querySelector('i').style.color = 'var(--primary-color)';
+
+                await extractInterestsFromText(text, 'resume');
+            } catch (e) {
+                statusText.textContent = e.message || 'Failed to parse file';
+                statusEl.querySelector('i').className = 'fa-solid fa-xmark';
+                statusEl.querySelector('i').style.color = '#ef4444';
+            }
+        }
+
+        async function extractTextFromPDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let text = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                text += content.items.map(item => item.str).join(' ') + '\n';
+            }
+            return text;
+        }
+
+        async function extractTextFromDOCX(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const result = await mammoth.extractRawText({ arrayBuffer });
+            return result.value;
+        }
+
+        // ── TMS Resume Import ──
+        async function checkTMSResumeAvailable() {
+            const section = document.getElementById('tms-resume-section');
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) { section.style.display = 'none'; return; }
+
+                const { data } = await window.supabaseClient
+                    .from('generations')
+                    .select('id')
+                    .eq('user_id', session.user.id)
+                    .not('resume_text', 'is', null)
+                    .limit(1);
+
+                section.style.display = (data?.length) ? 'block' : 'none';
+            } catch (e) { section.style.display = 'none'; }
+        }
+
+        async function fetchTMSResume() {
+            const btn = document.getElementById('import-resume-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Importing...';
+
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) throw new Error('Not logged in');
+
+                const { data } = await window.supabaseClient
+                    .from('generations')
+                    .select('resume_text')
+                    .eq('user_id', session.user.id)
+                    .not('resume_text', 'is', null)
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                    .single();
+
+                if (!data?.resume_text) throw new Error('No resume found');
+
+                await extractInterestsFromText(data.resume_text, 'resume');
+                showImportBadge('From TailorMeSwiftly resume');
+            } catch (e) {
+                alert(e.message || 'Failed to import resume');
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-link"></i> Use my TailorMeSwiftly resume';
+        }
+
+        // ── TMS Job Applications Import ──
+        async function loadTMSApplications() {
+            const loginEl = document.getElementById('jobs-login-prompt');
+            const loadingEl = document.getElementById('jobs-loading');
+            const emptyEl = document.getElementById('jobs-empty');
+            const listEl = document.getElementById('jobs-list');
+
+            loginEl.style.display = 'none';
+            emptyEl.style.display = 'none';
+            listEl.style.display = 'none';
+
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) { loginEl.style.display = 'block'; return; }
+
+                if (tmsApplications.length) { renderJobCards(); return; }
+
+                loadingEl.style.display = 'block';
+
+                const { data } = await window.supabaseClient
+                    .from('generations')
+                    .select('id, job_text, job_description, target_company, created_at')
+                    .eq('user_id', session.user.id)
+                    .not('job_text', 'is', null)
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+
+                loadingEl.style.display = 'none';
+
+                if (!data?.length) { emptyEl.style.display = 'block'; return; }
+
+                tmsApplications = data;
+                renderJobCards();
+            } catch (e) {
+                loadingEl.style.display = 'none';
+                emptyEl.style.display = 'block';
+            }
+        }
+
+        function renderJobCards() {
+            const container = document.getElementById('jobs-cards');
+            container.innerHTML = tmsApplications.map((app, i) => {
+                const company = app.target_company || 'Unknown Company';
+                const date = new Date(app.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const preview = (app.job_text || '').substring(0, 80).replace(/<[^>]+>/g, '') + '...';
+                return `<label class="job-card">
+                    <input type="checkbox" value="${i}" class="job-checkbox">
+                    <div class="job-card-content">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <strong style="font-size:0.9rem;">${company}</strong>
+                            <span style="font-size:0.75rem;color:var(--text-secondary);">${date}</span>
+                        </div>
+                        <p style="font-size:0.8rem;color:var(--text-secondary);margin:0.25rem 0 0;line-height:1.4;">${preview}</p>
+                    </div>
+                </label>`;
+            }).join('');
+            document.getElementById('jobs-list').style.display = 'block';
+        }
+
+        async function extractFromSelectedJobs() {
+            const checked = [...document.querySelectorAll('.job-checkbox:checked')].map(c => parseInt(c.value));
+            if (!checked.length) { alert('Select at least one application'); return; }
+
+            const btn = document.getElementById('extract-jobs-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Extracting...';
+
+            const combinedText = checked.map(i => {
+                const app = tmsApplications[i];
+                return `Company: ${app.target_company || 'Unknown'}\nJob Description: ${app.job_text || app.job_description || ''}`;
+            }).join('\n\n---\n\n');
+
+            await extractInterestsFromText(combinedText, 'job applications');
+            showImportBadge('From ' + checked.length + ' TailorMeSwiftly application' + (checked.length > 1 ? 's' : ''));
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Extract Interests from Selected';
+        }
+
+        // ── AI Interest Extraction ──
+        async function extractInterestsFromText(text, sourceType) {
+            const loadingEl = document.getElementById('extraction-loading');
+            const statusEl = document.getElementById('extraction-status');
+            loadingEl.style.display = 'block';
+            statusEl.textContent = `Analyzing your ${sourceType} to identify interests...`;
+
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) { window.location.href = '../login.html'; return; }
+
+                const systemPrompt = `You are an interest extraction engine. Given a ${sourceType}, extract 5-10 news topics the person would likely want to follow.
+
+RULES:
+- Return ONLY a valid JSON array of short topic strings
+- Focus on: industry sectors, technologies, skills, companies, market trends
+- Be specific enough to find relevant news (e.g. "cloud computing" not just "technology")
+- Avoid generic terms like "work" or "career"
+- No explanation, just the JSON array
+
+Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup funding"]`;
+
+                const res = await fetch(SUPABASE_URL + '/functions/v1/gemini-proxy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + session.access_token
+                    },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text.substring(0, 8000) }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        generationConfig: { temperature: 0.3, maxOutputTokens: 512 }
+                    })
+                });
+
+                if (!res.ok) throw new Error('Extraction failed');
+                const data = await res.json();
+                const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
+                // Parse JSON from response (handle markdown code blocks)
+                const jsonStr = raw.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+                const interests = JSON.parse(jsonStr);
+
+                if (!Array.isArray(interests) || !interests.length) throw new Error('No interests extracted');
+
+                extractedInterests = interests.map(s => String(s).trim()).filter(Boolean);
+                renderInterestTags(extractedInterests);
+                saveInterestsToProfile(extractedInterests);
+
+            } catch (e) {
+                console.error('Extraction error:', e);
+                alert('Could not extract interests. Try typing them manually.');
+            }
+
+            loadingEl.style.display = 'none';
+        }
+
+        // ── Interest Tags UI ──
+        function renderInterestTags(interests) {
+            const section = document.getElementById('interest-tags-section');
+            const container = document.getElementById('interest-tags');
+            section.style.display = 'block';
+            container.innerHTML = interests.map((tag, i) =>
+                `<span class="interest-tag editable">${tag} <button onclick="removeInterestTag(${i})" aria-label="Remove ${tag}">&times;</button></span>`
+            ).join('');
+
+            // Also sync to textarea for the generate function
+            document.getElementById('interests-input').value = interests.join(', ');
+        }
+
+        function removeInterestTag(index) {
+            extractedInterests.splice(index, 1);
+            renderInterestTags(extractedInterests);
+            if (!extractedInterests.length) {
+                document.getElementById('interest-tags-section').style.display = 'none';
+            }
+        }
+
+        function addInterestTag(val) {
+            val = val.trim();
+            if (!val || extractedInterests.includes(val)) return;
+            extractedInterests.push(val);
+            renderInterestTags(extractedInterests);
+        }
+
+        function showImportBadge(text) {
+            const badge = document.getElementById('import-badge');
+            badge.textContent = text;
+            badge.style.display = 'inline-block';
+        }
+
+        // ── Save/Load Interests ──
+        async function saveInterestsToProfile(interests) {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                await window.supabaseClient.from('user_profiles')
+                    .update({ interests })
+                    .eq('user_id', session.user.id);
+            } catch (e) { /* silent */ }
+        }
+
+        // ── Generate Briefing ──
+        async function generateBriefing() {
+            // Use extracted tags if available, else parse textarea
+            let interests = extractedInterests.length
+                ? [...extractedInterests]
+                : document.getElementById('interests-input').value.trim().split(',').map(s => s.trim()).filter(Boolean);
+
+            if (!interests.length) { alert('Please enter or extract some interests first.'); return; }
+
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'none';
+            document.getElementById('loading-section').style.display = 'block';
+
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) { window.location.href = '../login.html'; return; }
+                const token = session.access_token;
+
+                // Step 1: Fetch news
+                document.getElementById('loading-status').textContent = 'Fetching news articles...';
+                const newsRes = await window.supabaseClient.functions.invoke('fetch-news', {
+                    body: { interests, max: 10 }
+                });
+
+                if (newsRes.error || !newsRes.data?.articles?.length) {
+                    throw new Error('No articles found for those topics. Try broader interests.');
+                }
+
+                const articles = newsRes.data.articles;
+
+                // Step 2: Generate briefing via Gemini
+                document.getElementById('loading-status').textContent = 'Generating your personalized briefing...';
+
+                const systemPrompt = `You are a professional news analyst creating a personalized daily briefing.
+
+RULES:
+- Summarize each article in 1-2 sentences MAX of original text
+- Write 80% original analysis/commentary, 20% factual summary
+- Always cite the source name and include [Source: name] after each item
+- Focus on: why it matters, what it means for the reader, key takeaways
+- Be concise, professional, and insightful
+- Use clear section headers for different topics
+- Do NOT reproduce full article text — summarize and analyze
+- End with a "Bottom Line" section with 2-3 key takeaways
+
+FORMAT: Use HTML with <h3>, <p>, <ul>, <strong> tags. No <html> or <body> tags.`;
+
+                const articleSummaries = articles.map(a =>
+                    `Title: ${a.title}\nSource: ${a.source}\nDate: ${a.publishedAt}\nDescription: ${a.description}\nURL: ${a.url}`
+                ).join('\n\n---\n\n');
+
+                const userPrompt = `Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
+
+                const geminiRes = await fetch(SUPABASE_URL + '/functions/v1/gemini-proxy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userPrompt }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+                    })
+                });
+
+                if (!geminiRes.ok) throw new Error('Briefing generation failed');
+                const geminiData = await geminiRes.json();
+                const briefingHtml = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 'No briefing generated.';
+
+                // Step 3: Save to DB
+                await window.supabaseClient.from('daily_briefings').upsert({
+                    user_id: session.user.id,
+                    briefing_date: new Date().toISOString().split('T')[0],
+                    interests: interests,
+                    briefing_html: briefingHtml,
+                    briefing_text: briefingHtml.replace(/<[^>]+>/g, ''),
+                    sources: articles.map(a => ({ title: a.title, url: a.url, source: a.source, publishedAt: a.publishedAt })),
+                    metadata: { model: 'gemini-3-flash-preview', generated_at: new Date().toISOString() }
+                }, { onConflict: 'user_id,briefing_date' });
+
+                // Save interests to profile for next time
+                saveInterestsToProfile(interests);
+
+                // Step 4: Display result
+                showBriefing(briefingHtml, interests, articles);
+
+            } catch (e) {
+                console.error('Briefing error:', e);
+                document.getElementById('loading-section').style.display = 'none';
+                document.getElementById('input-section').style.display = 'block';
+                alert(e.message || 'Failed to generate briefing. Please try again.');
+            }
+        }
+
+        function showBriefing(html, interests, articles) {
+            document.getElementById('loading-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+
+            const tagsEl = document.getElementById('briefing-interests');
+            tagsEl.innerHTML = interests.map(i => `<span class="interest-tag">${i}</span>`).join('');
+
+            document.getElementById('briefing-content').innerHTML = html;
+
+            const srcEl = document.getElementById('sources-list');
+            srcEl.innerHTML = articles.map(a =>
+                `<a href="${a.url}" target="_blank" rel="noopener" class="briefing-source"><i class="fa-solid fa-external-link-alt"></i> ${a.source}</a>`
+            ).join('');
+        }
+
+        async function listenToBriefing() {
+            const btn = document.getElementById('listen-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Converting...';
+
+            try {
+                const text = document.getElementById('briefing-content').innerText;
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const res = await window.supabaseClient.functions.invoke('elevenlabs-tts', {
+                    body: { text: text.substring(0, 5000) }
+                });
+
+                if (res.error) throw res.error;
+
+                const audioBlob = new Blob([res.data], { type: 'audio/mpeg' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audioEl = document.getElementById('briefing-audio');
+                audioEl.src = audioUrl;
+                document.getElementById('audio-container').style.display = 'block';
+                audioEl.play();
+            } catch (e) {
+                console.error('TTS error:', e);
+                alert('Audio generation failed. This feature requires a premium subscription.');
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen';
+        }
+    </script>
+</body>
+
+</html>
