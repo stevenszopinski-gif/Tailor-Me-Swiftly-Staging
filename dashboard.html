@@ -554,7 +554,7 @@
                     items.forEach(gen => {
                         const card = document.createElement('a');
                         card.className = 'dash-card';
-                        card.href = `results.html?gen=${gen.id}`;
+                        card.href = `history.html?open=${gen.id}`;
                         card.title = gen.target_company || 'View application';
 
                         const date = new Date(gen.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });

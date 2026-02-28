@@ -694,6 +694,10 @@
                 }
 
                 renderKanban(data);
+
+                // Auto-open modal if ?open=<id> param is present (from dashboard)
+                const openId = new URLSearchParams(window.location.search).get('open');
+                if (openId) openNotesModal(openId);
             } catch (e) {
                 console.error('Load history error:', e);
                 kanbanContent.innerHTML = `<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i><h2>Error Loading Applications</h2><p>${e.message}</p><button class="btn primary-btn" onclick="location.reload()"><i class="fa-solid fa-rotate-right"></i> Retry</button></div>`;
