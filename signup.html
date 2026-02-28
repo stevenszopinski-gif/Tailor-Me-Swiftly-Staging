@@ -5,9 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Create a free TailorMeSwiftly account. AI-powered resume tailoring, cover letters, mock interviews, and job application tracking.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:url" content="https://tailormeswiftly.com/signup.html">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="canonical" href="https://tailormeswiftly.com/signup.html">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Create Account | TailorMeSwiftly.com</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=14">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
@@ -104,6 +114,25 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="auth.js?v=8"></script>
     <script src="error-utils.js"></script>
+    <script>
+        (function() {
+            const pwField = document.getElementById('password-input');
+            if (pwField) {
+                const wrap = pwField.parentElement;
+                wrap.style.position = 'relative';
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                toggle.style.cssText = 'position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:0.9rem;padding:4px;';
+                toggle.addEventListener('click', () => {
+                    const isPassword = pwField.type === 'password';
+                    pwField.type = isPassword ? 'text' : 'password';
+                    toggle.innerHTML = isPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+                });
+                wrap.appendChild(toggle);
+            }
+        })();
+    </script>
 </body>
 
 </html>

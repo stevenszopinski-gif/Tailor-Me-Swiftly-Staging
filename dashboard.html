@@ -5,13 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Your TailorMeSwiftly dashboard — track applications, start new ones, and access career tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:url" content="https://tailormeswiftly.com/dashboard.html">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="canonical" href="https://tailormeswiftly.com/dashboard.html">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Dashboard – TailorMeSwiftly</title>
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=14">
     <link rel="stylesheet" href="templates.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
@@ -492,8 +500,18 @@
                 if (error) throw error;
 
                 if (!data || data.length === 0) {
-                    document.getElementById('dash-kanban-content').innerHTML =
-                        '<div style="text-align:center;padding:2rem 1rem;color:var(--text-secondary);"><i class="fa-solid fa-folder-open" style="font-size:2rem;opacity:0.4;display:block;margin-bottom:0.75rem;"></i><p>No applications yet. Create your first one!</p></div>';
+                    document.getElementById('dash-kanban-content').innerHTML = `
+                        <div style="text-align:center;padding:2.5rem 1.5rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:16px;">
+                            <i class="fa-solid fa-rocket" style="font-size:2.5rem;color:var(--primary-color);display:block;margin-bottom:1rem;"></i>
+                            <h3 style="margin-bottom:0.5rem;font-size:1.2rem;">Welcome to TailorMeSwiftly!</h3>
+                            <p style="color:var(--text-secondary);margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;">Get started in 3 simple steps:</p>
+                            <div style="display:flex;flex-direction:column;gap:0.75rem;max-width:360px;margin:0 auto 1.5rem;text-align:left;">
+                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--primary-color);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">1</span><span style="font-size:0.9rem;">Upload your resume (PDF, DOCX, or TXT)</span></div>
+                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--primary-color);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">2</span><span style="font-size:0.9rem;">Paste a job URL or description</span></div>
+                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--primary-color);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">3</span><span style="font-size:0.9rem;">AI tailors your resume, cover letter & interview prep</span></div>
+                            </div>
+                            <a href="app.html" class="btn primary-btn" style="display:inline-flex;align-items:center;gap:0.5rem;"><i class="fa-solid fa-plus"></i> Create Your First Application</a>
+                        </div>`;
                     return;
                 }
 

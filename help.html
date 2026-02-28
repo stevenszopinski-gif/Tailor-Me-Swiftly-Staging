@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TailorMeSwiftly Help Center. Guides, FAQs, and tutorials for resume tailoring, cover letters, interview prep, and all AI career tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:url" content="https://tailormeswiftly.com/help.html">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="canonical" href="https://tailormeswiftly.com/help.html">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Help Center – TailorMeSwiftly</title>
+    <link rel="stylesheet" href="style.css?v=14">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .help-page { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+        .help-hero { text-align: center; padding: 2.5rem 1rem 2rem; }
+        .help-hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .help-hero p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 1.5rem; }
+        .help-search { max-width: 500px; margin: 0 auto; position: relative; }
+        .help-search input {
+            width: 100%; padding: 0.85rem 1rem 0.85rem 2.8rem; border-radius: 14px;
+            border: 1px solid var(--panel-border); background: var(--glass-bg);
+            color: var(--text-primary); font-size: 0.95rem; font-family: Outfit, sans-serif;
+        }
+        .help-search i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        .help-categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
+        .help-cat {
+            background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px;
+            padding: 1.5rem 1.25rem; text-align: center; cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s; text-decoration: none; color: var(--text-primary);
+        }
+        .help-cat:hover { transform: translateY(-3px); border-color: var(--primary-color); }
+        .help-cat i { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
+        .help-cat h3 { font-size: 0.95rem; font-weight: 600; margin: 0 0 0.3rem; }
+        .help-cat p { font-size: 0.78rem; color: var(--text-secondary); margin: 0; }
+        .help-section-label {
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+            color: var(--text-secondary); margin: 2rem 0 1rem; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .help-section-label::after { content: ''; flex: 1; height: 1px; background: var(--panel-border); }
+        .help-article {
+            background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 14px;
+            margin-bottom: 0.5rem; overflow: hidden;
+        }
+        .help-article-header {
+            padding: 1rem 1.25rem; cursor: pointer; display: flex; align-items: center;
+            justify-content: space-between; gap: 1rem; transition: background 0.15s;
+        }
+        .help-article-header:hover { background: rgba(255,255,255,0.03); }
+        .help-article-header h4 { font-size: 0.95rem; font-weight: 600; margin: 0; display: flex; align-items: center; gap: 0.5rem; }
+        .help-article-header .chevron { transition: transform 0.2s; color: var(--text-secondary); font-size: 0.8rem; }
+        .help-article.open .chevron { transform: rotate(180deg); }
+        .help-article-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+            padding: 0 1.25rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;
+        }
+        .help-article.open .help-article-body { max-height: 2000px; padding-bottom: 1.25rem; }
+        .help-article-body p { margin: 0.5rem 0; }
+        .help-article-body ol, .help-article-body ul { margin: 0.5rem 0; padding-left: 1.5rem; }
+        .help-article-body li { margin-bottom: 0.3rem; }
+        .help-article-body strong { color: var(--text-primary); }
+        .help-article-body code { background: rgba(0,0,0,0.2); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85rem; }
+        .help-tag { font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 999px; background: rgba(108,99,255,0.15); color: var(--primary-color); font-weight: 600; }
+        @media (max-width: 640px) {
+            .help-categories { grid-template-columns: 1fr; }
+            .help-hero h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container" style="min-height:auto;max-width:1100px;">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <a href="dashboard.html" class="btn ghost-btn" style="text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-compass"></i> Dashboard</a>
+            </div>
+        </header>
+    </div>
+
+    <div class="help-page">
+        <div class="help-hero">
+            <h1><i class="fa-solid fa-circle-question" style="color:var(--primary-color);margin-right:0.4rem;"></i>Help Center</h1>
+            <p>Find answers, guides, and tips for getting the most out of TailorMeSwiftly</p>
+            <div class="help-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="help-search-input" placeholder="Search articles..." autocomplete="off">
+            </div>
+        </div>
+
+        <!-- Quick Categories -->
+        <div class="help-categories">
+            <a href="#getting-started" class="help-cat" onclick="filterCategory('getting-started')">
+                <i class="fa-solid fa-rocket" style="color:#6c63ff;"></i>
+                <h3>Getting Started</h3>
+                <p>First steps & basics</p>
+            </a>
+            <a href="#resume-tools" class="help-cat" onclick="filterCategory('resume-tools')">
+                <i class="fa-solid fa-file-lines" style="color:#10b981;"></i>
+                <h3>Resume & Cover Letter</h3>
+                <p>Tailoring & generation</p>
+            </a>
+            <a href="#career-tools" class="help-cat" onclick="filterCategory('career-tools')">
+                <i class="fa-solid fa-compass" style="color:#f59e0b;"></i>
+                <h3>Career Tools</h3>
+                <p>Interview prep & more</p>
+            </a>
+            <a href="#account" class="help-cat" onclick="filterCategory('account')">
+                <i class="fa-solid fa-user-gear" style="color:#3b82f6;"></i>
+                <h3>Account & Billing</h3>
+                <p>Login, premium, settings</p>
+            </a>
+            <a href="#tracker" class="help-cat" onclick="filterCategory('tracker')">
+                <i class="fa-solid fa-table-columns" style="color:#8b5cf6;"></i>
+                <h3>Application Tracker</h3>
+                <p>Kanban board & notes</p>
+            </a>
+            <a href="#troubleshooting" class="help-cat" onclick="filterCategory('troubleshooting')">
+                <i class="fa-solid fa-wrench" style="color:#ef4444;"></i>
+                <h3>Troubleshooting</h3>
+                <p>Common issues & fixes</p>
+            </a>
+        </div>
+
+        <!-- Articles Container -->
+        <div id="help-articles">
+            <!-- Getting Started -->
+            <div class="help-section-label" data-cat="getting-started"><i class="fa-solid fa-rocket"></i> Getting Started</div>
+
+            <div class="help-article" data-cat="getting-started" data-keywords="start begin how upload resume first">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-play" style="color:var(--primary-color);font-size:0.7rem;"></i> How to create your first tailored resume</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <ol>
+                        <li><strong>Upload your resume</strong> — Go to <a href="app.html">the app</a> and drag & drop your resume (PDF, DOCX, or TXT) onto the upload zone, or click to browse.</li>
+                        <li><strong>Add the job description</strong> — Paste a job URL (Greenhouse, Lever, Workday supported) or paste the job description text directly.</li>
+                        <li><strong>Generate</strong> — Click "Tailor My Resume" and our AI will analyze the match, rewrite your resume for ATS optimization, generate a cover letter, prepare interview questions, and draft an intro email.</li>
+                        <li><strong>Review & download</strong> — View your results on the results page. Download as PDF or copy the HTML.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="getting-started" data-keywords="what is ats score match percentage">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-bullseye" style="color:#10b981;font-size:0.7rem;"></i> What is the ATS Match Score?</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>Your <strong>ATS Match Score</strong> (0-100%) measures how well your resume aligns with the target job description. It considers:</p>
+                    <ul>
+                        <li><strong>Keyword coverage</strong> — Do your skills, tools, and qualifications match what the employer asked for?</li>
+                        <li><strong>Experience alignment</strong> — Does your work history reflect the required responsibilities?</li>
+                        <li><strong>Missing keywords</strong> — Skills you're missing are flagged so you know what to add.</li>
+                    </ul>
+                    <p>Aim for <strong>75%+</strong> for best results. Scores below 50% mean significant mismatches.</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="getting-started" data-keywords="file format pdf docx txt supported upload type">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-file" style="color:#3b82f6;font-size:0.7rem;"></i> What file formats are supported?</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>We accept three resume formats:</p>
+                    <ul>
+                        <li><strong>PDF</strong> — Most common. We use PDF.js to extract text from all pages.</li>
+                        <li><strong>DOCX</strong> — Microsoft Word format. Parsed with Mammoth.js.</li>
+                        <li><strong>TXT</strong> — Plain text files.</li>
+                    </ul>
+                    <p>For best results, make sure your PDF is <strong>text-based</strong> (not a scanned image). If text extraction fails, try saving your resume as DOCX first.</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="getting-started" data-keywords="dashboard navigation home where find">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-compass" style="color:#8b5cf6;font-size:0.7rem;"></i> Navigating the Dashboard</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>After logging in, you land on the <strong>Dashboard</strong> — your job search command center:</p>
+                    <ul>
+                        <li><strong>Quick Stats</strong> — See total applications, applied, interviewing, and offers at a glance.</li>
+                        <li><strong>Mini Kanban</strong> — Visual pipeline of all your applications by status. Click any card to open its detail modal in the full tracker.</li>
+                        <li><strong>New Application</strong> — Click to start a new resume tailoring session.</li>
+                        <li><strong>Full Tracker</strong> — Opens the complete drag-and-drop Kanban board.</li>
+                        <li><strong>Career Command Center</strong> — Access standalone tools like Career Pivot, Skills Tracker, and Auto-App Agent.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Resume & Cover Letter -->
+            <div class="help-section-label" data-cat="resume-tools"><i class="fa-solid fa-file-lines"></i> Resume & Cover Letter</div>
+
+            <div class="help-article" data-cat="resume-tools" data-keywords="resume download pdf export save print">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-download" style="color:#10b981;font-size:0.7rem;"></i> How to download your tailored resume</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>On the <strong>Results page</strong> after generation:</p>
+                    <ol>
+                        <li>Click the <strong>"Download PDF"</strong> button above your resume preview.</li>
+                        <li>Your browser will generate a clean, ATS-friendly PDF using html2pdf.</li>
+                        <li>You can also <strong>copy the HTML</strong> to paste into Google Docs or another editor.</li>
+                    </ol>
+                    <p>All generated resumes are automatically saved to your account and accessible from the Dashboard or Application Tracker.</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="resume-tools" data-keywords="cover letter generate create write">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-envelope-open-text" style="color:#f59e0b;font-size:0.7rem;"></i> Generating a cover letter</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>A cover letter is automatically generated as part of the tailoring process. You can also:</p>
+                    <ul>
+                        <li>Navigate to the <strong>Cover Letter</strong> tool from your results page for a standalone version.</li>
+                        <li>Choose between different tones (Professional, Warm, Bold) for your thank-you emails.</li>
+                        <li>Use the <strong>Pain Letter</strong> tool to write a company-specific pain-point letter instead of a traditional cover letter.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="resume-tools" data-keywords="missing keywords skills gap add">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;font-size:0.7rem;"></i> Understanding missing keywords</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>After tailoring, you'll see a list of <strong>missing keywords</strong> — skills or qualifications the job description mentions that aren't in your resume.</p>
+                    <ul>
+                        <li>Keywords you actually have can be selected via the <strong>AI Co-Pilot</strong> — the AI will weave them into your bullet points.</li>
+                        <li>Keywords you don't have represent genuine skill gaps. Consider upskilling or addressing them in your cover letter.</li>
+                        <li>Use the <strong>Skills Tracker</strong> tool to see which skills are rising or decaying in your industry.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Career Tools -->
+            <div class="help-section-label" data-cat="career-tools"><i class="fa-solid fa-compass"></i> Career Tools</div>
+
+            <div class="help-article" data-cat="career-tools" data-keywords="interview prep practice mock questions voice">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-microphone" style="color:#6c63ff;font-size:0.7rem;"></i> Mock Interview Prep</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>Our Interview Prep tool generates tailored behavioral and technical questions based on your specific job description. Features include:</p>
+                    <ul>
+                        <li><strong>Flashcard mode</strong> — Flip cards to reveal model answers, swipe through on mobile.</li>
+                        <li><strong>Voice practice</strong> — Use your microphone to answer questions aloud, with AI-generated spoken responses via ElevenLabs.</li>
+                        <li>Questions are customized to the company, role, and skills mentioned in the JD.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="career-tools" data-keywords="salary negotiation negotiate pay compensation offer">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-comments-dollar" style="color:#10b981;font-size:0.7rem;"></i> Salary Negotiator</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>Practice negotiating with a tough AI HR representative:</p>
+                    <ul>
+                        <li><strong>Voice mode</strong> — Speak naturally using your microphone. The AI responds with spoken dialogue.</li>
+                        <li><strong>Text mode</strong> — Type your responses if you prefer text-based practice.</li>
+                        <li>Get <strong>real-time coaching tips</strong> and a performance score at the end.</li>
+                        <li>Use the <strong>Comp Decoder</strong> tool to analyze your offer's true value before negotiating.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="career-tools" data-keywords="tools list all features available premium free">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-grid-2" style="color:#f59e0b;font-size:0.7rem;"></i> Full list of available tools</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p><strong>Free tools</strong> (always available):</p>
+                    <ul>
+                        <li>Resume Tailoring & ATS Scoring</li>
+                        <li>Application Tracker (Kanban)</li>
+                        <li>Dashboard & Stats</li>
+                    </ul>
+                    <p><strong>Premium tools</strong> ($9.99/mo):</p>
+                    <ul>
+                        <li>Cover Letter Generator, Pain Letter, Thank-You Email</li>
+                        <li>Interview Prep (Voice), Salary Negotiator (Voice)</li>
+                        <li>Ghosting Predictor, Toxic Culture Radar, Comp Decoder</li>
+                        <li>Career Pivot, Skills Tracker, Auto-App Agent</li>
+                        <li>Shadow Jobs, Referral Mapper, Guerrilla Tactics</li>
+                        <li>Tech Screen, Prove-It Metrics, Day in the Life</li>
+                        <li>Reverse Interview, Rejection Reverser, Video Intro</li>
+                        <li>Hook Generator, Outreach Email, LinkedIn Sync</li>
+                    </ul>
+                    <p>Each premium tool includes <strong>1 free preview</strong> so you can try before subscribing.</p>
+                </div>
+            </div>
+
+            <!-- Account & Billing -->
+            <div class="help-section-label" data-cat="account"><i class="fa-solid fa-user-gear"></i> Account & Billing</div>
+
+            <div class="help-article" data-cat="account" data-keywords="premium upgrade subscribe price cost billing payment stripe">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-crown" style="color:#f59e0b;font-size:0.7rem;"></i> Upgrading to Premium</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>TailorMeSwiftly Premium is <strong>$9.99/month</strong> and unlocks all 20+ AI career tools with unlimited generations.</p>
+                    <ol>
+                        <li>Click any locked tool or the "Upgrade" button in the app.</li>
+                        <li>Complete checkout via <strong>Stripe</strong> (secure, PCI-compliant).</li>
+                        <li>Your account is upgraded instantly — no page refresh needed.</li>
+                    </ol>
+                    <p>Manage your subscription, update payment methods, or cancel anytime from the <a href="account.html">Account page</a>.</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="account" data-keywords="cancel subscription unsubscribe stop billing">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:0.7rem;"></i> Cancelling your subscription</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>You can cancel anytime with no fees:</p>
+                    <ol>
+                        <li>Go to <a href="account.html">Account</a> from the avatar dropdown.</li>
+                        <li>Click <strong>"Manage Subscription"</strong> to open the Stripe customer portal.</li>
+                        <li>Click <strong>"Cancel plan"</strong> in the portal.</li>
+                    </ol>
+                    <p>After cancellation, you retain premium access until the end of your billing period. Your saved applications and data are never deleted.</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="account" data-keywords="password reset forgot change login email">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-key" style="color:#3b82f6;font-size:0.7rem;"></i> Resetting your password</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>If you signed up with email and forgot your password:</p>
+                    <ol>
+                        <li>Go to the <a href="login.html">Login page</a>.</li>
+                        <li>Click <strong>"Forgot password?"</strong> below the login form.</li>
+                        <li>Enter your email address and click <strong>"Send Reset Link"</strong>.</li>
+                        <li>Check your inbox for the reset email and follow the link.</li>
+                    </ol>
+                    <p>If you signed up with Google, there's no separate password — just click "Log In with Google".</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="account" data-keywords="delete account remove data privacy">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-trash" style="color:#ef4444;font-size:0.7rem;"></i> Deleting your account</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>To permanently delete your account and all data:</p>
+                    <ol>
+                        <li>Go to <a href="account.html">Account</a>.</li>
+                        <li>Scroll to the <strong>Danger Zone</strong> section.</li>
+                        <li>Click <strong>"Delete My Account"</strong> and confirm.</li>
+                    </ol>
+                    <p>This permanently removes your profile, all saved applications, and cancels any active Stripe subscription. This action cannot be undone.</p>
+                </div>
+            </div>
+
+            <!-- Application Tracker -->
+            <div class="help-section-label" data-cat="tracker"><i class="fa-solid fa-table-columns"></i> Application Tracker</div>
+
+            <div class="help-article" data-cat="tracker" data-keywords="kanban board drag drop move status column">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-arrows-alt" style="color:#8b5cf6;font-size:0.7rem;"></i> Using the Kanban board</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>The Application Tracker is a full drag-and-drop Kanban board with five columns:</p>
+                    <ul>
+                        <li><strong>Tailored</strong> — Resume generated but not yet applied.</li>
+                        <li><strong>Applied</strong> — You've submitted the application.</li>
+                        <li><strong>Interviewing</strong> — You have an interview scheduled. Extra fields appear for interview date, contacts, and follow-ups.</li>
+                        <li><strong>Offer</strong> — You received an offer.</li>
+                        <li><strong>Rejected</strong> — Application was rejected.</li>
+                    </ul>
+                    <p><strong>Drag cards</strong> between columns to update their status. On mobile, use the dropdown selector on each card instead.</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="tracker" data-keywords="notes add write save application card">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-sticky-note" style="color:#f59e0b;font-size:0.7rem;"></i> Adding notes to applications</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>Click any card on the Kanban board to open the <strong>detail modal</strong>:</p>
+                    <ul>
+                        <li>Write free-form notes (interview dates, contact names, follow-up reminders).</li>
+                        <li>Set a <strong>reminder date</strong> — overdue reminders appear as amber banners at the top of the tracker.</li>
+                        <li>For cards in the Interviewing column, fill in structured fields for interview date, contacts, and follow-ups.</li>
+                        <li>Click <strong>"Go to Application"</strong> to view the full generated resume and tools for that application.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="help-section-label" data-cat="troubleshooting"><i class="fa-solid fa-wrench"></i> Troubleshooting</div>
+
+            <div class="help-article" data-cat="troubleshooting" data-keywords="blank empty page nothing loading error white screen">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-circle-exclamation" style="color:#ef4444;font-size:0.7rem;"></i> Page appears blank or won't load</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>If a page appears blank or stuck on a loading spinner:</p>
+                    <ol>
+                        <li><strong>Hard refresh</strong> — Press <code>Ctrl+Shift+R</code> (Windows) or <code>Cmd+Shift+R</code> (Mac).</li>
+                        <li><strong>Clear cache</strong> — Cached CSS or JS files may be outdated. Clear your browser cache or try incognito mode.</li>
+                        <li><strong>Check your connection</strong> — A stable internet connection is required for AI generation and data loading.</li>
+                        <li><strong>Try a different browser</strong> — We support Chrome, Firefox, Safari, and Edge.</li>
+                    </ol>
+                    <p>If the issue persists, check the <a href="updates.html">Release Notes</a> for known issues or contact support.</p>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="troubleshooting" data-keywords="resume parse fail extract text error upload">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-file-excel" style="color:#f59e0b;font-size:0.7rem;"></i> Resume text extraction fails</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>If your resume uploads but shows "No text found":</p>
+                    <ul>
+                        <li>Your PDF may be a <strong>scanned image</strong> rather than text-based. Open it in a PDF editor and try "Save as Text" or re-export from Word.</li>
+                        <li>Password-protected PDFs cannot be parsed. Remove the password first.</li>
+                        <li>Try saving your resume as <strong>DOCX</strong> and re-uploading — DOCX parsing is more reliable for complex layouts.</li>
+                        <li>As a last resort, paste your resume text directly into the text area using the <strong>"Paste text instead"</strong> option.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="troubleshooting" data-keywords="job url paste link not working fetch error">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-link-slash" style="color:#ef4444;font-size:0.7rem;"></i> Job URL import not working</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>Not all job URLs can be automatically fetched. If URL import fails:</p>
+                    <ul>
+                        <li>Some sites (LinkedIn, Indeed) block automated fetching. <strong>Copy and paste the job description text</strong> manually instead.</li>
+                        <li>Supported job board formats include <strong>Greenhouse, Lever, and Workday</strong> (with JSON-LD structured data).</li>
+                        <li>Make sure the URL is a direct link to the job posting, not a search results page.</li>
+                        <li>If the URL works but extracts the wrong text, paste the JD manually for best results.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="help-article" data-cat="troubleshooting" data-keywords="login sign in google oauth error can't access">
+                <div class="help-article-header" onclick="toggleArticle(this)">
+                    <h4><i class="fa-solid fa-right-to-bracket" style="color:#3b82f6;font-size:0.7rem;"></i> Can't log in or sign up</h4>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="help-article-body">
+                    <p>Common login issues and fixes:</p>
+                    <ul>
+                        <li><strong>Google login popup blocked</strong> — Allow popups for tailormeswiftly.com in your browser settings.</li>
+                        <li><strong>"Authentication not ready"</strong> — Wait a moment and try again. If it persists, hard refresh the page.</li>
+                        <li><strong>Email confirmation required</strong> — If you signed up with email, check your inbox (and spam folder) for the confirmation link. You must verify your email before logging in.</li>
+                        <li><strong>Forgot password</strong> — Click "Forgot password?" on the login page to receive a reset link.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div style="text-align:center;padding:2rem;margin-top:2rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:16px;">
+            <i class="fa-solid fa-envelope" style="font-size:1.5rem;color:var(--primary-color);display:block;margin-bottom:0.75rem;"></i>
+            <h3 style="margin-bottom:0.5rem;">Still need help?</h3>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">Can't find what you're looking for? Check our release notes or reach out.</p>
+            <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+                <a href="updates.html" class="btn ghost-btn" style="text-decoration:none;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                <a href="mailto:support@tailormeswiftly.com" class="btn primary-btn" style="text-decoration:none;"><i class="fa-solid fa-envelope"></i> Contact Support</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" style="margin-top:3rem;">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="auth.js?v=8"></script>
+    <script src="error-utils.js"></script>
+    <script>
+        function toggleArticle(header) {
+            header.closest('.help-article').classList.toggle('open');
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.help-article, .help-section-label').forEach(el => {
+                el.style.display = el.dataset.cat === cat ? '' : 'none';
+            });
+            document.getElementById('help-search-input').value = '';
+        }
+
+        document.getElementById('help-search-input').addEventListener('input', function() {
+            const q = this.value.toLowerCase().trim();
+            if (!q) {
+                document.querySelectorAll('.help-article, .help-section-label').forEach(el => el.style.display = '');
+                return;
+            }
+            document.querySelectorAll('.help-section-label').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.help-article').forEach(el => {
+                const text = (el.querySelector('h4')?.textContent || '') + ' ' + (el.dataset.keywords || '') + ' ' + (el.querySelector('.help-article-body')?.textContent || '');
+                el.style.display = text.toLowerCase().includes(q) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>

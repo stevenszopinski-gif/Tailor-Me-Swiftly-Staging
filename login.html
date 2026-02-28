@@ -5,9 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sign in to TailorMeSwiftly to access your AI-powered resume builder, cover letter generator, and interview prep tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:url" content="https://tailormeswiftly.com/login.html">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="canonical" href="https://tailormeswiftly.com/login.html">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Sign In | TailorMeSwiftly.com</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=14">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
@@ -80,7 +90,17 @@
                     </div>
                 </form>
 
-                <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-secondary);">
+                <p style="margin-top: 1rem; font-size: 0.8rem;">
+                    <a href="#" id="forgot-password-link" style="color: var(--primary-color);">Forgot password?</a>
+                </p>
+                <div id="forgot-password-form" style="display:none;margin-top:1rem;">
+                    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:0.75rem;">Enter your email and we'll send a reset link.</p>
+                    <input type="email" id="reset-email-input" placeholder="you@example.com"
+                        style="width:100%;padding:0.8rem;border-radius:8px;border:1px solid var(--panel-border);background:rgba(0,0,0,0.2);color:white;margin-bottom:0.75rem;">
+                    <button type="button" id="send-reset-btn" class="btn primary-btn" style="width:100%;">Send Reset Link</button>
+                    <div id="reset-message" style="font-size:0.85rem;margin-top:0.5rem;display:none;text-align:center;"></div>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-secondary);">
                     Don't have an account? <a href="signup.html" style="color: var(--primary-color);">Sign up here</a>.
                 </p>
             </div>
@@ -95,19 +115,61 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script>
-        // Verify Supabase library loaded
-        console.log("[Debug] Supabase script loaded, window.supabase:", !!window.supabase);
-        window.addEventListener('load', function() {
-            console.log("[Debug] Page load complete, checking window.supabase...");
-            console.log("[Debug] window.supabase available:", !!window.supabase);
-            if (window.supabase) {
-                console.log("[Debug] window.supabase.createClient available:", typeof window.supabase.createClient);
-            }
-        });
-    </script>
     <script src="auth.js?v=8"></script>
     <script src="error-utils.js"></script>
+    <script>
+        // Password toggle
+        (function() {
+            const pwField = document.getElementById('password-input');
+            if (pwField) {
+                const wrap = pwField.parentElement;
+                wrap.style.position = 'relative';
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                toggle.style.cssText = 'position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:0.9rem;padding:4px;';
+                toggle.addEventListener('click', () => {
+                    const isPassword = pwField.type === 'password';
+                    pwField.type = isPassword ? 'text' : 'password';
+                    toggle.innerHTML = isPassword ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+                });
+                wrap.appendChild(toggle);
+            }
+        })();
+
+        // Forgot password
+        document.getElementById('forgot-password-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const form = document.getElementById('forgot-password-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            const emailVal = document.getElementById('email-input').value;
+            if (emailVal) document.getElementById('reset-email-input').value = emailVal;
+        });
+
+        document.getElementById('send-reset-btn').addEventListener('click', async function() {
+            const email = document.getElementById('reset-email-input').value.trim();
+            const msgEl = document.getElementById('reset-message');
+            if (!email) { msgEl.textContent = 'Please enter your email.'; msgEl.style.color = '#ff6b6b'; msgEl.style.display = 'block'; return; }
+            if (!window.supabaseClient) { msgEl.textContent = 'Not ready yet. Please refresh.'; msgEl.style.color = '#ff6b6b'; msgEl.style.display = 'block'; return; }
+
+            this.disabled = true;
+            this.textContent = 'Sending...';
+            try {
+                const { error } = await window.supabaseClient.auth.resetPasswordForEmail(email, {
+                    redirectTo: new URL('login.html', window.location.href).href
+                });
+                if (error) throw error;
+                msgEl.innerHTML = '<i class="fa-solid fa-check-circle"></i> Reset link sent! Check your inbox.';
+                msgEl.style.color = '#10b981';
+            } catch (e) {
+                msgEl.textContent = e.message;
+                msgEl.style.color = '#ff6b6b';
+            }
+            msgEl.style.display = 'block';
+            this.disabled = false;
+            this.textContent = 'Send Reset Link';
+        });
+    </script>
 </body>
 
 </html>

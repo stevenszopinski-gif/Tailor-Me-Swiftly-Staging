@@ -3,4 +3,10 @@ Allow: /
 Disallow: /supabase/
 Disallow: /node_modules/
 Disallow: /react-upgrade/
+Disallow: /app.html
+Disallow: /dashboard.html
+Disallow: /history.html
+Disallow: /account.html
+Disallow: /results.html
+Disallow: /system_dashboard.html
 Sitemap: https://tailormeswiftly.com/sitemap.xml

@@ -77,9 +77,25 @@
         }
     };
 
+    function showToast(msg, isError) {
+        let toast = document.getElementById('tms-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'tms-toast';
+            toast.style.cssText = 'position:fixed;top:1rem;left:50%;transform:translateX(-50%);padding:0.75rem 1.5rem;border-radius:12px;font-size:0.9rem;z-index:99999;transition:opacity 0.3s;max-width:90%;text-align:center;font-family:Outfit,sans-serif;';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.background = isError ? '#ef4444' : '#10b981';
+        toast.style.color = '#fff';
+        toast.style.opacity = '1';
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 4000);
+    }
+
     window.signInWithGoogle = async function() {
         if (!window.supabaseClient) {
-            alert("Authentication not ready. Please refresh the page.");
+            showToast("Authentication not ready. Please refresh the page.", true);
             return;
         }
 
@@ -91,9 +107,9 @@
                 }
             });
 
-            if (error) alert("Login error: " + error.message);
+            if (error) showToast("Login error: " + error.message, true);
         } catch (e) {
-            alert("Error: " + e.message);
+            showToast("Error: " + e.message, true);
         }
     };
 
@@ -102,6 +118,8 @@
 
         try {
             window._signingOut = true;
+            localStorage.removeItem('tms_last_gen_id');
+            sessionStorage.removeItem('tms_outputs');
             await window.supabaseClient.auth.signOut({ scope: 'global' });
             window.location.href = 'index.html';
         } catch (e) {
@@ -115,7 +133,7 @@
         const passwordInput = document.getElementById('password-input');
 
         if (!window.supabaseClient || !emailInput || !passwordInput) {
-            alert("Not ready yet");
+            showToast("Not ready yet. Please wait a moment.", true);
             return;
         }
 
@@ -140,7 +158,7 @@
         const passwordInput = document.getElementById('password-input');
 
         if (!window.supabaseClient || !emailInput || !passwordInput) {
-            alert("Not ready yet");
+            showToast("Not ready yet. Please wait a moment.", true);
             return;
         }
 

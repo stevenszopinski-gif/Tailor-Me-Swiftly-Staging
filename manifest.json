@@ -1,0 +1,21 @@
+{
+    "name": "TailorMeSwiftly",
+    "short_name": "TMS",
+    "description": "AI-powered resume tailoring, cover letters, mock interviews, and job application tracking.",
+    "start_url": "/dashboard.html",
+    "display": "standalone",
+    "background_color": "#0a0a1a",
+    "theme_color": "#6c63ff",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

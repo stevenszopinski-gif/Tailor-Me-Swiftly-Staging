@@ -6,9 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="TailorMeSwiftly release notes and product updates. See the latest features, improvements, and bug fixes.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:url" content="https://tailormeswiftly.com/updates.html">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="canonical" href="https://tailormeswiftly.com/updates.html">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Release Notes | TailorMeSwiftly</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=14">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
@@ -293,10 +303,29 @@
         // ── Release notes data ──
         const releases = [
             {
+                version: 'v5.2.0',
+                title: 'Help Center, SEO & Polish',
+                date: 'Feb 27, 2026',
+                current: true,
+                items: [
+                    '<strong>Help Center:</strong> New help.html with 17 searchable articles across 6 categories&mdash;Getting Started, Resume &amp; Cover Letter, Career Tools, Account &amp; Billing, Application Tracker, and Troubleshooting.',
+                    '<strong>Forgot Password:</strong> Added a &ldquo;Forgot your password?&rdquo; flow to the login page with email-based reset via Supabase.',
+                    '<strong>Password Visibility Toggle:</strong> Login and signup forms now have a show/hide password eye icon.',
+                    '<strong>Toast Notifications:</strong> Replaced all native browser alert() popups with sleek, non-blocking toast messages.',
+                    '<strong>Start Over Confirmation:</strong> The &ldquo;Start Over&rdquo; button now asks for confirmation before clearing your work.',
+                    '<strong>Dashboard Onboarding:</strong> New users see a 3-step getting started guide on the Dashboard instead of an empty state.',
+                    '<strong>SEO &amp; Social Sharing:</strong> Added Open Graph and Twitter Card meta tags, canonical URLs, and expanded the sitemap from 6 to 32 URLs across all pages.',
+                    '<strong>PWA Manifest:</strong> Added manifest.json with app icons for home screen installation on mobile devices.',
+                    '<strong>Secure Account Deletion:</strong> The delete-account flow now cancels any active Stripe subscription before removing the account.',
+                    '<strong>Session Cleanup:</strong> Signing out now properly clears cached generation data to prevent cross-account data leaks.',
+                    '<strong>Debug Cleanup:</strong> Removed leftover console.log statements from production code.',
+                    '<strong>robots.txt:</strong> App pages (dashboard, history, account, results) are now blocked from search engine indexing.'
+                ]
+            },
+            {
                 version: 'v5.1.0',
                 title: 'Dashboard & Navigation Overhaul',
                 date: 'Feb 27, 2026',
-                current: true,
                 items: [
                     '<strong>New Dashboard:</strong> Logged-in users now land on a dedicated Dashboard with quick stats, a mini Kanban board, and one-click access to Career Command Center tools.',
                     '<strong>Clickable Kanban Cards:</strong> Each application card on the Dashboard links directly to its results page&mdash;no more hunting through the full tracker.',

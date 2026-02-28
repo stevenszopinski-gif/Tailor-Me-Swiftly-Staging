@@ -201,6 +201,7 @@ function attachEventListeners() {
     if (el.backTo1Btn) el.backTo1Btn.addEventListener('click', () => goToStep(1));
     if (el.backTo2Btn) el.backTo2Btn.addEventListener('click', () => goToStep(2));
     if (el.startOverBtn) el.startOverBtn.addEventListener('click', () => {
+        if (!confirm('Start over? Your current resume and job description will be cleared.')) return;
         state.resumeText = '';
         state.jobText = '';
         if (el.fileStatus) el.fileStatus.classList.add('hidden');
@@ -373,7 +374,6 @@ function goToStep(num) {
 
 // ------ STEP 1: PARSING FILES ------
 async function handleFile(file) {
-    console.log("handleFile triggered with:", file.name);
     if (el.fileName) el.fileName.textContent = file.name;
     if (el.fileStatus) el.fileStatus.classList.remove('hidden');
     if (el.parseStatus) {
@@ -384,7 +384,6 @@ async function handleFile(file) {
     try {
         let text = '';
         const ext = file.name.split('.').pop().toLowerCase();
-        console.log("File extension:", ext);
 
         if (ext === 'pdf') {
             text = await extractTextFromPDF(file);
@@ -396,7 +395,6 @@ async function handleFile(file) {
             throw new Error('Unsupported format. Use PDF, DOCX, or TXT.');
         }
 
-        console.log("Extracted text length:", text.length);
         if (!text.trim()) throw new Error('No text found in file.');
 
         state.resumeText = text;
@@ -583,12 +581,8 @@ async function extractTextFromDOCX(file) {
 // Make validation functions global for auth.js access
 function checkStep1() {
     const btn = document.getElementById('next-to-2');
-    console.log("checkStep1 called. Resume text length:", state.resumeText.length);
     if (btn) {
         btn.disabled = !state.resumeText.trim();
-        console.log("Button disabled state:", btn.disabled);
-    } else {
-        console.log("Could not find next-to-2 button");
     }
 }
 window.checkStep1 = checkStep1;
