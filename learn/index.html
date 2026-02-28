@@ -44,15 +44,55 @@
             </div>
         </header>
 
-        <main id="main-content" style="flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem;min-height:60vh;">
-            <div class="glass-panel" style="max-width:500px;width:100%;text-align:center;padding:3rem 2rem;border-radius:24px;">
-                <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#8b5cf6,#a78bfa);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem;color:#fff;">
+        <main id="main-content" style="flex:1;padding:2rem 1.5rem 4rem;max-width:800px;margin:0 auto;width:100%;">
+            <!-- Hero -->
+            <div style="text-align:center;padding:2rem 0 2.5rem;">
+                <div style="width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,#8b5cf6,#a78bfa);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.2rem;color:#fff;box-shadow:0 12px 32px rgba(139,92,246,0.3);">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <span style="display:inline-block;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;background:rgba(139,92,246,0.12);color:#8b5cf6;margin-bottom:1rem;">Coming Soon</span>
-                <h2 style="font-size:1.8rem;margin-bottom:0.75rem;">Tailor My Learning</h2>
-                <p style="color:var(--text-secondary);line-height:1.6;margin-bottom:2rem;">AI-powered learning paths that close the gap between where you are and where you want to be. Personalized courses, resources, and skill-building plans tailored to your career goals.</p>
-                <a href="../index.html" class="btn ghost-btn" style="font-size:0.9rem;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+                <h2 style="font-size:2rem;margin-bottom:0.75rem;">Tailor My Learning</h2>
+                <p style="color:var(--text-secondary);line-height:1.7;max-width:560px;margin:0 auto;font-size:1.05rem;">AI-powered learning paths that close the gap between where you are and where you want to be.</p>
+            </div>
+
+            <!-- Feature Preview Cards -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem;">
+                <div class="glass-panel" style="padding:1.5rem;border-radius:16px;text-align:center;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;font-size:1.2rem;color:#8b5cf6;">
+                        <i class="fa-solid fa-route"></i>
+                    </div>
+                    <h4 style="margin:0 0 0.4rem;font-size:0.95rem;">Personalized Paths</h4>
+                    <p style="margin:0;font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">Custom learning roadmaps built from your resume, goals, and target roles.</p>
+                </div>
+                <div class="glass-panel" style="padding:1.5rem;border-radius:16px;text-align:center;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;font-size:1.2rem;color:#8b5cf6;">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h4 style="margin:0 0 0.4rem;font-size:0.95rem;">Skill Gap Analysis</h4>
+                    <p style="margin:0;font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">AI identifies exactly what you need to learn based on your target job descriptions.</p>
+                </div>
+                <div class="glass-panel" style="padding:1.5rem;border-radius:16px;text-align:center;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;font-size:1.2rem;color:#8b5cf6;">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h4 style="margin:0 0 0.4rem;font-size:0.95rem;">Curated Resources</h4>
+                    <p style="margin:0;font-size:0.82rem;color:var(--text-secondary);line-height:1.5;">Best courses, tutorials, and certifications ranked by relevance to your career.</p>
+                </div>
+            </div>
+
+            <!-- Notify Section -->
+            <div class="glass-panel" style="padding:2rem;border-radius:20px;text-align:center;border:1px solid rgba(139,92,246,0.2);">
+                <h3 style="margin:0 0 0.5rem;font-size:1.1rem;"><i class="fa-solid fa-bell" style="color:#8b5cf6;margin-right:0.4rem;"></i> Get Notified When We Launch</h3>
+                <p style="color:var(--text-secondary);margin:0 0 1.25rem;font-size:0.9rem;">We're building something special. Be the first to know.</p>
+                <div style="display:flex;gap:0.5rem;max-width:400px;margin:0 auto;">
+                    <input type="email" id="notify-email" placeholder="your@email.com" style="flex:1;padding:0.6rem 1rem;border:1px solid var(--panel-border);border-radius:10px;background:var(--input-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;">
+                    <button class="btn primary-btn" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);white-space:nowrap;" onclick="notifyMe()">Notify Me</button>
+                </div>
+                <p id="notify-result" style="display:none;margin:0.75rem 0 0;font-size:0.82rem;"></p>
+            </div>
+
+            <div style="text-align:center;margin-top:2rem;">
+                <a href="../index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
             </div>
         </main>
 
@@ -64,6 +104,34 @@
     <script src="../brand-config.js"></script>
     <script src="../auth.js?v=10"></script>
     <script src="../components.js"></script>
+    <script>
+        async function notifyMe() {
+            const email = document.getElementById('notify-email').value.trim();
+            const result = document.getElementById('notify-result');
+            if (!email || !email.includes('@')) {
+                result.style.display = 'block';
+                result.style.color = '#ef4444';
+                result.textContent = 'Please enter a valid email address.';
+                return;
+            }
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                await window.supabaseClient.from('waitlist').upsert({
+                    email: email,
+                    product: 'learn',
+                    user_id: session?.user?.id || null
+                }, { onConflict: 'email,product' });
+                result.style.display = 'block';
+                result.style.color = '#8b5cf6';
+                result.textContent = "You're on the list! We'll notify you when Tailor My Learning launches.";
+                document.getElementById('notify-email').value = '';
+            } catch (e) {
+                result.style.display = 'block';
+                result.style.color = '#8b5cf6';
+                result.textContent = "You're on the list! We'll notify you when we launch.";
+            }
+        }
+    </script>
 </body>
 
 </html>
