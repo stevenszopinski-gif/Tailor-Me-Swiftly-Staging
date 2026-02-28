@@ -77,7 +77,7 @@
             '<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect x="1" y="1" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="1" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="1" width="4.5" height="4.5" rx="1"/><rect x="1" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="1" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="14.5" width="4.5" height="4.5" rx="1"/></svg>' +
             '</button>';
 
-        gridHtml += '<div class="app-grid-popup" style="display:none;position:absolute;top:calc(100% + 0.5rem);right:0;background:var(--dropdown-bg,var(--panel-bg));border:1px solid var(--panel-border);border-radius:16px;padding:1rem;min-width:240px;box-shadow:0 8px 32px rgba(0,0,0,0.25);z-index:300;grid-template-columns:repeat(3,1fr);gap:0.5rem;">';
+        gridHtml += '<div class="app-grid-popup" style="display:none;position:absolute;top:calc(100% + 0.5rem);right:0;background:var(--dropdown-bg,var(--panel-bg));border:1px solid var(--panel-border);border-radius:16px;padding:1.25rem 1rem 1rem;min-width:240px;box-shadow:0 8px 32px rgba(0,0,0,0.25);z-index:300;grid-template-columns:repeat(3,1fr);gap:0.5rem;overflow:visible;">';
         items.forEach(function (item) {
             var p = item.product;
             var isActive = p.id === active.id;
@@ -92,7 +92,7 @@
                 '<div class="app-grid-icon" style="background:' + p.primaryColor + ';width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;">' +
                 '<i class="fa-solid ' + p.icon + '"></i>' +
                 '</div>' +
-                (isPlaceholder ? '<span class="app-grid-badge" style="position:absolute;top:-0.4rem;right:-0.8rem;font-size:0.55rem;font-weight:700;text-transform:uppercase;background:var(--panel-border);color:var(--text-secondary);padding:0.1rem 0.35rem;border-radius:4px;">Soon</span>' : '') +
+                (isPlaceholder ? '<span class="app-grid-badge" style="position:absolute;top:-0.2rem;right:-0.3rem;font-size:0.5rem;font-weight:700;text-transform:uppercase;background:var(--text-secondary);color:#fff;padding:0.1rem 0.3rem;border-radius:4px;line-height:1;z-index:1;">Soon</span>' : '') +
                 '</div>' +
                 '<span>' + p.shortName + '</span>' +
                 '</a>';
