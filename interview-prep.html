@@ -1238,7 +1238,7 @@ Format your response exactly like this:
                         'Authorization': `Bearer ${token}`,
                         'apikey': SUPABASE_KEY
                     },
-                    body: JSON.stringify({ text: questions[qIdx].question })
+                    body: JSON.stringify({ text: questions[qIdx].question, mode: 'single' })
                 });
 
                 if (!resp.ok) {
