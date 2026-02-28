@@ -17,15 +17,43 @@ async function run() {
         await dialog.dismiss();
     });
 
-    // CRITICAL FIX: Inject authentication mocks before the page loads
-    // This physically intercepts the auth redirect loop in guardToolAccess
-    await page.addInitScript(() => {
-        window.guardToolAccess = async () => true;
-        window.checkToolAccess = async () => ({ allowed: true });
-        window.waitForSupabaseAuth = async () => ({ id: "mock-user-id", email: "mock@example.com" });
+    // Intercept results.js to append our auth bypass mocks at the end.
+    // This prevents the page's hoisted function declarations from overwriting them!
+    await page.route('**/results.js*', async route => {
+        const response = await route.fetch();
+        let body = await response.text();
+        body += `\n
+          window.guardToolAccess = async () => true;
+          window.checkToolAccess = async () => ({ allowed: true });
+          window.waitForSupabaseAuth = async () => ({ id: "mock-user-id", email: "mock@example.com" });
+          window.alert = () => {};
+      `;
+        route.fulfill({
+            response,
+            body,
+            headers: {
+                ...response.headers(),
+                'content-type': 'application/javascript'
+            }
+        });
+    });
 
-        // Stub window.alert just in case some sync script tries to call it before Playwright catches it
-        window.alert = () => { };
+    await page.route('**/auth.js*', async route => {
+        const response = await route.fetch();
+        let body = await response.text();
+        body += `\n
+          window.checkPremiumStatus = async () => true;
+          window.isPremiumUser = true;
+          window.initAuthUI = () => {};
+      `;
+        route.fulfill({
+            response,
+            body,
+            headers: {
+                ...response.headers(),
+                'content-type': 'application/javascript'
+            }
+        });
     });
 
     const mockOutputs = {
@@ -51,8 +79,8 @@ async function run() {
             sessionStorage.setItem('tms_outputs', JSON.stringify(data));
         }, mockOutputs);
 
-        await page.reload({ waitUntil: 'networkidle' });
-        await page.waitForTimeout(1000); // let animations settle
+        await page.reload({ waitUntil: 'domcontentloaded' });
+        await page.waitForTimeout(2000); // let animations settle
 
         if (evaluateFn) {
             try {

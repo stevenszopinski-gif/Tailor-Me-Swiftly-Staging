@@ -6,6 +6,17 @@
     const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
+    // Global alert interceptor to catch rogue "Invalid JWT" alerts from third-party libraries
+    const _originalAlert = window.alert;
+    window.alert = function (msg) {
+        if (msg && String(msg).includes('JWT')) {
+            console.warn('[Global Alert Catch] Suppressed JWT alert:', msg, new Error().stack);
+            try { window.supabaseClient?.auth?.signOut({ scope: 'local' }); } catch (e) { }
+            return;
+        }
+        return _originalAlert.apply(this, arguments);
+    };
+
     window.supabaseClient = null;
 
     function initSupabaseClient() {
