@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
     <meta name="description"
         content="TailorMeSwiftly is an AI-powered career platform. Tailor your applications, build skills, and get personalized news briefings — all in one place.">
     <meta property="og:type" content="website">
@@ -26,7 +27,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ─── Homepage Styles ─── */
@@ -717,20 +719,28 @@
             cursor: pointer;
             transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
+
         .hp-free-tool:hover {
             transform: translateY(-3px);
             border-color: var(--accent, var(--primary-color));
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
+
         .hp-free-tool-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 1rem;
         }
-        .hp-free-tool-header h5 { margin: 0; font-size: 0.95rem; font-weight: 700; }
+
+        .hp-free-tool-header h5 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
         .hp-free-tool-preview {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--panel-border);
             border-radius: 10px;
             padding: 0.85rem;
@@ -738,7 +748,11 @@
             font-size: 0.82rem;
             line-height: 1.6;
         }
-        [data-theme="light"] .hp-free-tool-preview { background: rgba(0,0,0,0.02); }
+
+        [data-theme="light"] .hp-free-tool-preview {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
         .hp-preview-label {
             font-size: 0.68rem;
             font-weight: 600;
@@ -747,7 +761,11 @@
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
         }
-        .hp-preview-item { margin-bottom: 0.35rem; }
+
+        .hp-preview-item {
+            margin-bottom: 0.35rem;
+        }
+
         .hp-preview-bullet {
             color: var(--text-secondary);
             font-size: 0.78rem;
@@ -755,12 +773,16 @@
             padding-left: 0.5rem;
             border-left: 2px solid var(--panel-border);
         }
+
         .hp-free-tool-cta {
             font-size: 0.82rem;
             font-weight: 600;
             color: var(--accent, var(--primary-color));
         }
-        .hp-free-tool:hover .hp-free-tool-cta { text-decoration: underline; }
+
+        .hp-free-tool:hover .hp-free-tool-cta {
+            text-decoration: underline;
+        }
 
         /* ═══ STATS BAR ═══ */
         .hp-stats {
@@ -997,7 +1019,7 @@
         .product-hub-card:hover {
             transform: translateY(-4px);
             border-color: var(--card-color);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
         .product-hub-card .card-icon {
@@ -1129,10 +1151,12 @@
                         <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-user-gear"></i> Account
                         </a>
-                                                <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
+                        <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i
+                                class="fa-solid fa-compass"></i> Dashboard</a>
                         <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
                             <i class="fa-solid fa-bullhorn"></i> Release Notes
-                        </a>                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+                        </a>
+                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
                         <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
                         </button>
@@ -1146,42 +1170,49 @@
 
         <!-- ═══════ HERO ═══════ -->
         <section class="hp-hero">
-            <h2>One Platform. <span class="hp-gradient">Three Ways to Get Ahead.</span></h2>
+            <h2>Stop getting ghosted. <span class="hp-gradient">Start getting interviews.</span></h2>
             <p class="hp-hero-sub">
-                TailorMeSwiftly is an AI-powered career platform &mdash; tailor your applications, build the right skills, and stay informed with personalized news. Everything you need to land the job and grow.
+                Upload your resume, paste a job description, and our AI tailors your file to match perfectly &mdash;
+                while generating your cover letter, mock interview, and outreach email in under 60 seconds.
             </p>
-        </section>
+            <div style="margin-top: 1.5rem; margin-bottom: 2.5rem;">
+                <a href="app.html" class="hp-hero-cta"
+                    style="background: linear-gradient(135deg, var(--accent-color), #8b5cf6); color: white;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Tailor Your First Resume &mdash; It's Free
+                </a>
+            </div>
 
-        <!-- ═══════ PRODUCT HUB ═══════ -->
-        <section class="product-hub-grid">
-            <a href="app.html" class="product-hub-card" style="--card-color:#10b981;text-decoration:none;color:inherit;">
-                <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i class="fa-solid fa-clipboard"></i></div>
-                <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Application</h3>
-                <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI resume tailoring, cover letters, mock interviews, salary negotiation &amp; 30+ career tools.</p>
-                <span class="btn primary-btn" style="font-size:0.85rem;width:100%;text-align:center;background:#10b981;">Get Started <i class="fa-solid fa-arrow-right"></i></span>
-            </a>
-            <a href="learn/" class="product-hub-card" style="--card-color:#8b5cf6;text-decoration:none;color:inherit;">
-                <div class="card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i class="fa-solid fa-graduation-cap"></i></div>
-                <span style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(139,92,246,0.12);color:#8b5cf6;margin-bottom:0.5rem;">Coming Soon</span>
-                <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Learning</h3>
-                <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI-powered learning paths and skill-building plans tailored to your career goals.</p>
-                <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Learn More <i class="fa-solid fa-arrow-right"></i></span>
-            </a>
-            <a href="news/feed.html" class="product-hub-card" style="--card-color:#3b82f6;text-decoration:none;color:inherit;">
-                <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i class="fa-solid fa-newspaper"></i></div>
-                <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor The News</h3>
-                <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">Personalized AI news briefings tailored to your professional interests. Stay sharp between applications.</p>
-                <span class="btn primary-btn" style="font-size:0.85rem;width:100%;text-align:center;background:#3b82f6;">Try It Free <i class="fa-solid fa-arrow-right"></i></span>
-            </a>
-        </section>
+            <div class="hp-hero-note" style="margin-bottom:2.5rem;">
+                <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> Mostly free to use</span>
+                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 60 seconds</span>
+                <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
+                    private</span>
+                <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
+            </div>
 
-        <div class="hp-hero-note" style="margin-bottom:2rem;">
-            <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> Mostly free to use</span>
-            <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 60 seconds</span>
-            <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
-                private</span>
-            <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
-        </div>
+            <!-- NEW SOCIAL PROOF BANNER -->
+            <div
+                style="background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; max-width: 800px; margin: 0 auto 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div style="text-align: center;">
+                    <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary);">10,000+</div>
+                    <div
+                        style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; font-weight: 600;">
+                        Resumes Tailored</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary);">60x</div>
+                    <div
+                        style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; font-weight: 600;">
+                        Faster Applications</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary);">30+</div>
+                    <div
+                        style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; font-weight: 600;">
+                        AI Career Tools</div>
+                </div>
+            </div>
+        </section>
 
         <!-- Ad Unit -->
         <div style="text-align:center;margin:1.5rem auto;max-width:728px;">
@@ -1249,19 +1280,30 @@
                 <h2>Free Career Tools — No Job Description Needed</h2>
                 <p>Sign in and start using these tools instantly — no job posting required.</p>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;max-width:1000px;margin:0 auto;">
+            <div
+                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;max-width:1000px;margin:0 auto;">
 
                 <!-- Career Pivot -->
                 <div class="hp-free-tool" style="--accent:#14b8a6;" onclick="location.href='career-pivot.html'">
                     <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#14b8a6,#0d9488);"><i class="fa-solid fa-shuffle" style="color:#fff;"></i></div>
-                        <div><h5>Career Pivot</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Translate your experience into a new industry</p></div>
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#14b8a6,#0d9488);"><i
+                                class="fa-solid fa-shuffle" style="color:#fff;"></i></div>
+                        <div>
+                            <h5>Career Pivot</h5>
+                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Translate your experience
+                                into a new industry</p>
+                        </div>
                     </div>
                     <div class="hp-free-tool-preview">
                         <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="color:#14b8a6;font-weight:600;">Product Manager</span> <i class="fa-solid fa-arrow-right" style="font-size:0.65rem;color:var(--text-secondary);"></i> <span style="color:#f59e0b;font-weight:600;">UX Researcher</span></div>
-                        <div class="hp-preview-bullet">"Led cross-functional teams" &rarr; "Facilitated user research sprints across 4 product verticals"</div>
-                        <div class="hp-preview-bullet">"Managed product roadmap" &rarr; "Synthesized user insights into actionable design recommendations"</div>
+                        <div class="hp-preview-item"><span style="color:#14b8a6;font-weight:600;">Product Manager</span>
+                            <i class="fa-solid fa-arrow-right"
+                                style="font-size:0.65rem;color:var(--text-secondary);"></i> <span
+                                style="color:#f59e0b;font-weight:600;">UX Researcher</span></div>
+                        <div class="hp-preview-bullet">"Led cross-functional teams" &rarr; "Facilitated user research
+                            sprints across 4 product verticals"</div>
+                        <div class="hp-preview-bullet">"Managed product roadmap" &rarr; "Synthesized user insights into
+                            actionable design recommendations"</div>
                     </div>
                     <div class="hp-free-tool-cta">Try Career Pivot <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
@@ -1269,13 +1311,20 @@
                 <!-- Shadow Jobs -->
                 <div class="hp-free-tool" style="--accent:#64748b;" onclick="location.href='shadow-jobs.html'">
                     <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#475569,#64748b);"><i class="fa-solid fa-eye" style="color:#fff;"></i></div>
-                        <div><h5>Shadow Jobs</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Monitor career pages before LinkedIn</p></div>
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#475569,#64748b);"><i
+                                class="fa-solid fa-eye" style="color:#fff;"></i></div>
+                        <div>
+                            <h5>Shadow Jobs</h5>
+                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Monitor career pages
+                                before LinkedIn</p>
+                        </div>
                     </div>
                     <div class="hp-free-tool-preview">
                         <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Stripe</span> &mdash; Sr. Product Designer <span style="color:#10b981;font-weight:700;">92% match</span></div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Notion</span> &mdash; Growth Marketing Lead <span style="color:#f59e0b;font-weight:700;">78% match</span></div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Stripe</span> &mdash; Sr. Product
+                            Designer <span style="color:#10b981;font-weight:700;">92% match</span></div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Notion</span> &mdash; Growth
+                            Marketing Lead <span style="color:#f59e0b;font-weight:700;">78% match</span></div>
                         <div class="hp-preview-bullet">Found on careers page 3 days before LinkedIn posting</div>
                     </div>
                     <div class="hp-free-tool-cta">Try Shadow Jobs <i class="fa-solid fa-arrow-right"></i></div>
@@ -1284,13 +1333,24 @@
                 <!-- Skills Tracker -->
                 <div class="hp-free-tool" style="--accent:#06b6d4;" onclick="location.href='skills-tracker.html'">
                     <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2);"><i class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
-                        <div><h5>Skills Tracker</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Rising & decaying skills + 6-month roadmap</p></div>
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2);"><i
+                                class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
+                        <div>
+                            <h5>Skills Tracker</h5>
+                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Rising & decaying skills +
+                                6-month roadmap</p>
+                        </div>
                     </div>
                     <div class="hp-free-tool-preview">
                         <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-arrow-up"></i></span> AI/ML Ops &mdash; <span style="color:#10b981;font-weight:700;">94% demand</span> <span style="color:#10b981;font-size:0.75rem;">rising</span></div>
-                        <div class="hp-preview-item"><span style="color:#ef4444;"><i class="fa-solid fa-arrow-down"></i></span> jQuery &mdash; <span style="color:#ef4444;font-weight:700;">12% demand</span> <span style="color:#ef4444;font-size:0.75rem;">decaying</span></div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i
+                                    class="fa-solid fa-arrow-up"></i></span> AI/ML Ops &mdash; <span
+                                style="color:#10b981;font-weight:700;">94% demand</span> <span
+                                style="color:#10b981;font-size:0.75rem;">rising</span></div>
+                        <div class="hp-preview-item"><span style="color:#ef4444;"><i
+                                    class="fa-solid fa-arrow-down"></i></span> jQuery &mdash; <span
+                                style="color:#ef4444;font-weight:700;">12% demand</span> <span
+                                style="color:#ef4444;font-size:0.75rem;">decaying</span></div>
                         <div class="hp-preview-bullet">Personalized 6-month upskill roadmap with weekly milestones</div>
                     </div>
                     <div class="hp-free-tool-cta">Try Skills Tracker <i class="fa-solid fa-arrow-right"></i></div>
@@ -1299,14 +1359,25 @@
                 <!-- Toxic Culture Radar -->
                 <div class="hp-free-tool" style="--accent:#ef4444;" onclick="location.href='toxic-radar.html'">
                     <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
-                        <div><h5>Toxic Culture Radar</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Toxicity score & layoff risk analysis</p></div>
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i
+                                class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
+                        <div>
+                            <h5>Toxic Culture Radar</h5>
+                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Toxicity score & layoff
+                                risk analysis</p>
+                        </div>
                     </div>
                     <div class="hp-free-tool-preview">
                         <div class="hp-preview-label">Example output</div>
-                        <div style="text-align:center;margin-bottom:0.5rem;"><span style="font-size:1.8rem;font-weight:800;color:#f59e0b;">62%</span> <span style="color:#f59e0b;font-weight:600;">Proceed with Caution</span></div>
-                        <div class="hp-preview-item"><span style="color:#ef4444;"><i class="fa-solid fa-flag"></i></span> "Fast-paced, wear many hats" &mdash; overwork signal</div>
-                        <div class="hp-preview-item"><span style="color:#f59e0b;"><i class="fa-solid fa-scissors"></i></span> Layoff risk: <strong>moderate</strong> &mdash; 2 rounds in 18 months</div>
+                        <div style="text-align:center;margin-bottom:0.5rem;"><span
+                                style="font-size:1.8rem;font-weight:800;color:#f59e0b;">62%</span> <span
+                                style="color:#f59e0b;font-weight:600;">Proceed with Caution</span></div>
+                        <div class="hp-preview-item"><span style="color:#ef4444;"><i
+                                    class="fa-solid fa-flag"></i></span> "Fast-paced, wear many hats" &mdash; overwork
+                            signal</div>
+                        <div class="hp-preview-item"><span style="color:#f59e0b;"><i
+                                    class="fa-solid fa-scissors"></i></span> Layoff risk: <strong>moderate</strong>
+                            &mdash; 2 rounds in 18 months</div>
                     </div>
                     <div class="hp-free-tool-cta">Try Toxic Radar <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
@@ -1314,14 +1385,24 @@
                 <!-- Referral Mapper -->
                 <div class="hp-free-tool" style="--accent:#10b981;" onclick="location.href='referral-mapper.html'">
                     <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#059669);"><i class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
-                        <div><h5>Referral Mapper</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Backdoor referrals + cold outreach scripts</p></div>
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#059669);"><i
+                                class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
+                        <div>
+                            <h5>Referral Mapper</h5>
+                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Backdoor referrals + cold
+                                outreach scripts</p>
+                        </div>
                     </div>
                     <div class="hp-free-tool-preview">
                         <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-user-plus"></i></span> Connection request (under 300 chars, ready to paste)</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-reply"></i></span> Follow-up message after they accept</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i class="fa-solid fa-mug-hot"></i></span> Coffee chat script for informational interview</div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i
+                                    class="fa-solid fa-user-plus"></i></span> Connection request (under 300 chars, ready
+                            to paste)</div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i
+                                    class="fa-solid fa-reply"></i></span> Follow-up message after they accept</div>
+                        <div class="hp-preview-item"><span style="color:#10b981;"><i
+                                    class="fa-solid fa-mug-hot"></i></span> Coffee chat script for informational
+                            interview</div>
                     </div>
                     <div class="hp-free-tool-cta">Try Referral Mapper <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
@@ -1329,14 +1410,22 @@
                 <!-- Auto-App Agent -->
                 <div class="hp-free-tool" style="--accent:#6366f1;" onclick="location.href='auto-app.html'">
                     <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i class="fa-solid fa-robot" style="color:#fff;"></i></div>
-                        <div><h5>Auto-App Agent</h5><p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">AI finds + tailors matching jobs for you</p></div>
+                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i
+                                class="fa-solid fa-robot" style="color:#fff;"></i></div>
+                        <div>
+                            <h5>Auto-App Agent</h5>
+                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">AI finds + tailors
+                                matching jobs for you</p>
+                        </div>
                     </div>
                     <div class="hp-free-tool-preview">
                         <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Senior Frontend Engineer</span> at Vercel &mdash; <span style="color:#10b981;font-weight:700;">95% match</span></div>
-                        <div class="hp-preview-bullet">"Your React + TypeScript experience and Vercel OSS contributions make this a strong fit..."</div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Staff Engineer</span> at Linear &mdash; <span style="color:#10b981;font-weight:700;">88% match</span></div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Senior Frontend Engineer</span> at
+                            Vercel &mdash; <span style="color:#10b981;font-weight:700;">95% match</span></div>
+                        <div class="hp-preview-bullet">"Your React + TypeScript experience and Vercel OSS contributions
+                            make this a strong fit..."</div>
+                        <div class="hp-preview-item"><span style="font-weight:600;">Staff Engineer</span> at Linear
+                            &mdash; <span style="color:#10b981;font-weight:700;">88% match</span></div>
                     </div>
                     <div class="hp-free-tool-cta">Try Auto-App Agent <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
@@ -2107,15 +2196,71 @@
         </section>
 
         <!-- ═══════ EMAIL CAPTURE ═══════ -->
-        <section style="text-align:center;padding:3rem 1.5rem;margin-top:2rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:16px;">
-            <h2 style="font-size:1.5rem;margin-bottom:0.5rem;"><i class="fa-solid fa-envelope" style="color:var(--primary-color);margin-right:0.4rem;"></i> Get Weekly Job Search Tips</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;">Resume hacks, interview strategies, and salary negotiation tactics — delivered to your inbox every Tuesday.</p>
-            <form id="email-capture-form" style="display:flex;gap:0.5rem;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;" onsubmit="return handleEmailCapture(event)">
-                <input type="email" id="capture-email" placeholder="you@example.com" required style="flex:1;min-width:220px;padding:0.7rem 1rem;border:1px solid var(--panel-border);border-radius:10px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.95rem;">
-                <button type="submit" class="btn primary-btn" style="padding:0.7rem 1.5rem;white-space:nowrap;"><i class="fa-solid fa-paper-plane"></i> Subscribe</button>
+        <section
+            style="text-align:center;padding:3rem 1.5rem;margin-top:2rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:16px;">
+            <h2 style="font-size:1.5rem;margin-bottom:0.5rem;"><i class="fa-solid fa-envelope"
+                    style="color:var(--primary-color);margin-right:0.4rem;"></i> Get Weekly Job Search Tips</h2>
+            <p
+                style="color:var(--text-secondary);margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;">
+                Resume hacks, interview strategies, and salary negotiation tactics — delivered to your inbox every
+                Tuesday.</p>
+            <form id="email-capture-form"
+                style="display:flex;gap:0.5rem;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;"
+                onsubmit="return handleEmailCapture(event)">
+                <input type="email" id="capture-email" placeholder="you@example.com" required
+                    style="flex:1;min-width:220px;padding:0.7rem 1rem;border:1px solid var(--panel-border);border-radius:10px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.95rem;">
+                <button type="submit" class="btn primary-btn" style="padding:0.7rem 1.5rem;white-space:nowrap;"><i
+                        class="fa-solid fa-paper-plane"></i> Subscribe</button>
             </form>
-            <p id="capture-status" style="font-size:0.82rem;margin-top:0.75rem;color:var(--text-secondary);min-height:1.2rem;"></p>
-            <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.25rem;">No spam, ever. Unsubscribe anytime.</p>
+            <p id="capture-status"
+                style="font-size:0.82rem;margin-top:0.75rem;color:var(--text-secondary);min-height:1.2rem;"></p>
+            <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.25rem;">No spam, ever. Unsubscribe
+                anytime.</p>
+        </section>
+
+        <!-- ═══════ PRODUCT HUB ═══════ -->
+        <section
+            style="padding: 3rem 0; border-top: 1px solid var(--panel-border); margin-top: 1rem; margin-bottom: 2rem;">
+            <div class="hp-section-head">
+                <h2>The Complete Career Ecosystem</h2>
+                <p>One account gives you access to our entire suite of professional tools.</p>
+            </div>
+            <div class="product-hub-grid">
+                <a href="app.html" class="product-hub-card"
+                    style="--card-color:#10b981;text-decoration:none;color:inherit;">
+                    <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i
+                            class="fa-solid fa-clipboard"></i></div>
+                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Application</h3>
+                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI resume
+                        tailoring, cover letters, mock interviews &amp; 30+ tools.</p>
+                    <span class="btn primary-btn"
+                        style="font-size:0.85rem;width:100%;text-align:center;background:#10b981;">Open App <i
+                            class="fa-solid fa-arrow-right"></i></span>
+                </a>
+                <a href="https://tailormylearning.com" class="product-hub-card"
+                    style="--card-color:#8b5cf6;text-decoration:none;color:inherit;">
+                    <div class="card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i
+                            class="fa-solid fa-graduation-cap"></i></div>
+                    <span
+                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(139,92,246,0.12);color:#8b5cf6;margin-bottom:0.5rem;">New</span>
+                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Learning</h3>
+                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI-powered
+                        learning paths to bridge your specific knowledge gaps.</p>
+                    <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Learn More <i
+                            class="fa-solid fa-arrow-right"></i></span>
+                </a>
+                <a href="https://tailorthenews.com" class="product-hub-card"
+                    style="--card-color:#3b82f6;text-decoration:none;color:inherit;">
+                    <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i
+                            class="fa-solid fa-newspaper"></i></div>
+                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor The News</h3>
+                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">
+                        Personalized AI news briefings tailored to your industry.</p>
+                    <span class="btn primary-btn"
+                        style="font-size:0.85rem;width:100%;text-align:center;background:#3b82f6;">Read Briefing <i
+                            class="fa-solid fa-arrow-right"></i></span>
+                </a>
+            </div>
         </section>
 
         <!-- ═══════ BOTTOM CTA ═══════ -->
@@ -2186,8 +2331,8 @@
     <!-- Site Footer -->
     <footer class="site-footer" role="contentinfo">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
-        <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
-                href="security.html">Security Policy</a></p>
+        <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a
+                href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
 
     <!-- Scripts -->
