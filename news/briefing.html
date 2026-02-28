@@ -647,6 +647,46 @@ FORMAT: Use HTML with <h3>, <p>, <ul>, <strong> tags. No <html> or <body> tags.`
             ).join('');
         }
 
+        // ── View Mode: load a saved briefing from feed ──
+        (async function checkViewMode() {
+            const params = new URLSearchParams(window.location.search);
+            const viewId = params.get('view');
+            if (!viewId) return;
+
+            // Try sessionStorage first (set by feed.html)
+            let briefing = null;
+            try {
+                const cached = sessionStorage.getItem('ttn_view_briefing');
+                if (cached) briefing = JSON.parse(cached);
+            } catch (e) {}
+
+            // If not cached or wrong ID, fetch from DB
+            if (!briefing || briefing.id !== viewId) {
+                // Wait for supabase
+                if (!window.supabaseClient) {
+                    await new Promise(r => {
+                        let tries = 0;
+                        const poll = setInterval(() => {
+                            if (window.supabaseClient || ++tries > 80) { clearInterval(poll); r(); }
+                        }, 100);
+                    });
+                }
+                if (!window.supabaseClient) return;
+                const { data } = await window.supabaseClient.from('daily_briefings').select('*').eq('id', viewId).single();
+                if (data) briefing = data;
+            }
+
+            if (!briefing) return;
+
+            // Display the saved briefing
+            const interests = briefing.interests || [];
+            const sources = briefing.sources || [];
+            const html = briefing.briefing_html || briefing.briefing_text || '';
+
+            document.getElementById('input-section').style.display = 'none';
+            showBriefing(html, interests, sources);
+        })();
+
         async function listenToBriefing() {
             const btn = document.getElementById('listen-btn');
             btn.disabled = true;
