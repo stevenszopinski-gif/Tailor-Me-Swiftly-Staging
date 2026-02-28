@@ -9,8 +9,8 @@
     // Global alert interceptor to catch rogue "Invalid JWT" alerts from third-party libraries
     const _originalAlert = window.alert;
     window.alert = function (msg) {
-        if (msg && String(msg).includes('JWT')) {
-            console.warn('[Global Alert Catch] Suppressed JWT alert:', msg, new Error().stack);
+        if (msg && /jwt|token|expires|unauthorized|auth/i.test(String(msg))) {
+            console.warn('[Global Alert Catch] Suppressed auth alert:', msg, new Error().stack);
             try { window.supabaseClient?.auth?.signOut({ scope: 'local' }); } catch (e) { }
             return;
         }
