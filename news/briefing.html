@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" href="/logo.png">
     <link rel="apple-touch-icon" href="/logo.png">
     <title>New Briefing | TailorMeSwiftly</title>
-    <link rel="stylesheet" href="../style.css?v=15">
+    <link rel="stylesheet" href="../style.css?v=16">
     <link rel="stylesheet" href="news-style.css?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -223,13 +223,31 @@
                         <audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>
                     </div>
                     <div id="podcast-feed-info" style="display:none;margin-top:0.75rem;padding:0.75rem;background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.15);border-radius:8px;font-size:0.82rem;">
-                        <div style="font-weight:600;margin-bottom:0.3rem;"><i class="fa-solid fa-rss" style="color:var(--primary-color);margin-right:0.3rem;"></i> Podcast Feed</div>
-                        <p style="color:var(--text-secondary);margin:0 0 0.5rem;line-height:1.5;">Copy this URL and add it to your favorite podcast app (Apple Podcasts, Spotify, Overcast, etc.) to receive your briefings as a podcast.</p>
-                        <div style="display:flex;gap:0.5rem;align-items:center;">
-                            <input type="text" id="podcast-feed-url" readonly style="flex:1;padding:0.4rem 0.75rem;border:1px solid var(--panel-border);border-radius:6px;background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:monospace;">
-                            <button class="btn ghost-btn" style="font-size:0.78rem;white-space:nowrap;" onclick="copyPodcastUrl()">
-                                <i class="fa-solid fa-copy"></i> Copy
+                        <div style="font-weight:600;margin-bottom:0.5rem;"><i class="fa-solid fa-rss" style="color:var(--primary-color);margin-right:0.3rem;"></i> Subscribe to Your Briefing Feed</div>
+                        <p style="color:var(--text-secondary);margin:0 0 0.75rem;line-height:1.5;">Get new briefings delivered automatically to your favorite podcast app.</p>
+
+                        <!-- Podcast App Buttons -->
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
+                            <button class="btn ghost-btn" onclick="subscribePodcast('apple')" style="font-size:0.78rem;padding:0.45rem 0.8rem;display:flex;align-items:center;gap:0.4rem;">
+                                <i class="fa-brands fa-apple" style="font-size:1rem;"></i> Apple Podcasts
                             </button>
+                            <button class="btn ghost-btn" onclick="subscribePodcast('spotify')" style="font-size:0.78rem;padding:0.45rem 0.8rem;display:flex;align-items:center;gap:0.4rem;">
+                                <i class="fa-brands fa-spotify" style="font-size:1rem;color:#1DB954;"></i> Spotify
+                            </button>
+                            <button class="btn ghost-btn" onclick="subscribePodcast('pocketcasts')" style="font-size:0.78rem;padding:0.45rem 0.8rem;display:flex;align-items:center;gap:0.4rem;">
+                                <i class="fa-solid fa-podcast" style="font-size:0.9rem;color:#F43E37;"></i> Pocket Casts
+                            </button>
+                        </div>
+
+                        <!-- RSS Feed URL -->
+                        <div style="border-top:1px solid var(--panel-border);padding-top:0.6rem;">
+                            <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.4rem;">Or copy the RSS feed URL:</div>
+                            <div style="display:flex;gap:0.5rem;align-items:center;">
+                                <input type="text" id="podcast-feed-url" readonly style="flex:1;padding:0.4rem 0.75rem;border:1px solid var(--panel-border);border-radius:6px;background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:monospace;">
+                                <button class="btn ghost-btn" style="font-size:0.78rem;white-space:nowrap;" onclick="copyPodcastUrl()">
+                                    <i class="fa-solid fa-copy"></i> Copy
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -518,8 +536,9 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                     })
                 });
 
-                if (!res.ok) throw new Error('Extraction failed');
+                if (!res.ok) throw new Error('Extraction failed (HTTP ' + res.status + ')');
                 const data = await res.json();
+                if (data.error) throw new Error(data.error.message || 'AI extraction failed');
                 const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '[]';
                 // Parse JSON from response (handle markdown code blocks)
                 const jsonStr = raw.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
@@ -533,7 +552,13 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
             } catch (e) {
                 console.error('Extraction error:', e);
-                alert('Could not extract interests. Try typing them manually.');
+                const msg = e.message || '';
+                if (msg.includes('Auth') || msg.includes('token')) {
+                    alert('Session expired. Please log in again.');
+                    window.location.href = '../login.html';
+                } else {
+                    alert('Could not extract interests: ' + (msg || 'Unknown error') + '. Try typing them manually.');
+                }
             }
 
             loadingEl.style.display = 'none';
@@ -766,17 +791,45 @@ FORMAT: Use HTML with <h3>, <p>, <ul>, <strong> tags. No <html> or <body> tags.`
             showBriefing(html, interests, sources);
         })();
 
+        function getPodcastFeedUrl() {
+            return window.location.origin + '/news/feed.xml';
+        }
+
         function showPodcastFeed() {
             const info = document.getElementById('podcast-feed-info');
-            if (!info.classList.contains('hidden') && info.style.display !== 'none') {
+            if (info.style.display !== 'none' && info.style.display !== '') {
                 info.style.display = 'none';
                 return;
             }
-            // Build a per-user RSS feed URL
-            const userId = window.supabaseClient?.auth?.getUser?.()?.then?.(r => r.data?.user?.id) || '';
-            const feedUrl = window.location.origin + '/news/feed.xml';
-            document.getElementById('podcast-feed-url').value = feedUrl;
+            document.getElementById('podcast-feed-url').value = getPodcastFeedUrl();
             info.style.display = 'block';
+        }
+
+        function subscribePodcast(app) {
+            const feedUrl = getPodcastFeedUrl();
+            const encodedFeed = encodeURIComponent(feedUrl);
+            let url;
+            switch (app) {
+                case 'apple':
+                    // Apple Podcasts uses pcast:// protocol or the iTunes subscribe URL
+                    url = 'podcast://' + feedUrl.replace(/^https?:\/\//, '');
+                    break;
+                case 'spotify':
+                    // Spotify doesn't have a direct RSS subscribe URL — copy feed and guide the user
+                    navigator.clipboard.writeText(feedUrl).then(() => {
+                        alert('Feed URL copied! In Spotify:\n1. Open Spotify\n2. Go to Your Library\n3. Tap the + button → Add a Podcast by URL\n4. Paste the feed URL');
+                    }).catch(() => {
+                        prompt('Copy this feed URL and paste it in Spotify → Your Library → Add a Podcast by URL:', feedUrl);
+                    });
+                    return;
+                case 'pocketcasts':
+                    // Pocket Casts subscribe via feed URL
+                    url = 'https://pca.st/feed/' + encodedFeed;
+                    break;
+                default:
+                    url = feedUrl;
+            }
+            window.open(url, '_blank');
         }
 
         function copyPodcastUrl() {

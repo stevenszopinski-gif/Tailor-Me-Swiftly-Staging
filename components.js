@@ -61,24 +61,26 @@
         ];
 
         // Build the grid button + popup
-        var gridHtml = '<button class="app-grid-btn" aria-label="Switch product" onclick="this.nextElementSibling.classList.toggle(\'hidden\')">' +
+        var gridHtml = '<button class="app-grid-btn" aria-label="Switch product" onclick="var p=this.nextElementSibling;p.style.display=p.style.display===\'none\'?\'grid\':\'none\'">' +
             '<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect x="1" y="1" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="1" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="1" width="4.5" height="4.5" rx="1"/><rect x="1" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="1" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="14.5" width="4.5" height="4.5" rx="1"/></svg>' +
             '</button>';
 
-        gridHtml += '<div class="app-grid-popup hidden">';
+        gridHtml += '<div class="app-grid-popup" style="display:none;position:absolute;top:calc(100% + 0.5rem);right:0;background:var(--dropdown-bg,var(--panel-bg));border:1px solid var(--panel-border);border-radius:16px;padding:1rem;min-width:240px;box-shadow:0 8px 32px rgba(0,0,0,0.25);z-index:300;grid-template-columns:repeat(3,1fr);gap:0.5rem;">';
         items.forEach(function (item) {
             var p = item.product;
             var isActive = p.id === active.id;
             var isPlaceholder = p.id === 'learn';
             var href = P + p.homePath;
+            var itemStyle = 'display:flex;flex-direction:column;align-items:center;gap:0.4rem;padding:0.75rem 0.5rem;border-radius:12px;text-decoration:none;color:var(--text-primary);font-size:0.72rem;font-weight:500;text-align:center;position:relative;';
+            if (isPlaceholder) itemStyle += 'opacity:0.45;pointer-events:none;';
 
             gridHtml += '<a href="' + href + '" class="app-grid-item' + (isActive ? ' active' : '') + (isPlaceholder ? ' coming-soon' : '') + '"' +
-                (isPlaceholder ? ' title="Coming Soon"' : '') + '>' +
-                '<div class="app-grid-icon" style="background:' + p.primaryColor + ';">' +
+                (isPlaceholder ? ' title="Coming Soon"' : '') + ' style="' + itemStyle + '">' +
+                '<div class="app-grid-icon" style="background:' + p.primaryColor + ';width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;">' +
                 '<i class="fa-solid ' + p.icon + '"></i>' +
                 '</div>' +
                 '<span>' + p.shortName + '</span>' +
-                (isPlaceholder ? '<span class="app-grid-badge">Soon</span>' : '') +
+                (isPlaceholder ? '<span class="app-grid-badge" style="position:absolute;top:0.25rem;right:0;font-size:0.55rem;font-weight:700;text-transform:uppercase;background:var(--panel-border);color:var(--text-secondary);padding:0.1rem 0.35rem;border-radius:4px;">Soon</span>' : '') +
                 '</a>';
         });
         gridHtml += '</div>';
@@ -88,8 +90,8 @@
         // Close popup when clicking outside
         document.addEventListener('click', function (e) {
             var popup = container.querySelector('.app-grid-popup');
-            if (popup && !popup.classList.contains('hidden') && !container.contains(e.target)) {
-                popup.classList.add('hidden');
+            if (popup && popup.style.display !== 'none' && !container.contains(e.target)) {
+                popup.style.display = 'none';
             }
         });
     }
