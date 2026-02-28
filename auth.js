@@ -295,8 +295,8 @@
 
         // Update landing page CTAs for logged-in users
         document.querySelectorAll('.hp-hero-cta').forEach(btn => {
-            btn.href = 'app.html';
-            btn.innerHTML = '<i class="fa-solid fa-arrow-right"></i> Go to App';
+            btn.href = 'dashboard.html';
+            btn.innerHTML = '<i class="fa-solid fa-arrow-right"></i> Get Started';
         });
     }
 

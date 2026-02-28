@@ -327,39 +327,28 @@
             },
             {
                 version: 'v5.3.0',
-                title: 'Blog, Referrals, Accessibility & Performance',
+                title: 'Blog, Referrals, & Accessibility',
                 date: 'Feb 28, 2026',
                 items: [
                     '<strong>Blog:</strong> 6 SEO-optimized articles covering ATS strategy, resume mistakes, cover letter tips, salary negotiation scripts, interview prep, and the hidden job market.',
                     '<strong>Referral Program:</strong> Share your referral link from the Account page. When a friend signs up and generates their first resume, you both earn 5 bonus generations.',
-                    '<strong>Email Newsletter Capture:</strong> Subscribe to weekly job search tips directly from the homepage.',
                     '<strong>Accessibility:</strong> Added skip-to-content links, focus-visible outlines on all buttons/links, ARIA labels on icon-only controls, and landmark roles across all 41 pages.',
                     '<strong>Loading Skeletons:</strong> Dashboard and Results pages now show shimmer skeleton cards instead of blank spinners while loading.',
-                    '<strong>Preconnect Hints:</strong> Added resource hints for Google Fonts, Font Awesome, and Cloudflare CDN across all pages for faster load times.',
-                    '<strong>JSON-LD Structured Data:</strong> Homepage now includes SoftwareApplication schema for richer Google search results.',
-                    '<strong>Custom 404 Page:</strong> Branded error page with helpful navigation links instead of the default GitHub Pages 404.',
-                    '<strong>RSS Feed Updated:</strong> feed.xml now includes all releases from v2.1.0 through v5.3.0.',
-                    '<strong>Content Security Policy:</strong> CSP meta tags added to all pages to prevent XSS and injection attacks.',
-                    '<strong>Shared Components:</strong> New components.js centralizes the avatar dropdown menu and footer, making future updates propagate to all pages automatically.'
+                    '<strong>Custom 404 Page:</strong> Branded error page with helpful navigation links instead of a default broken link page.'
                 ]
             },
             {
                 version: 'v5.2.0',
-                title: 'Help Center, SEO & Polish',
+                title: 'Help Center & Polish',
                 date: 'Feb 27, 2026',
                 items: [
-                    '<strong>Help Center:</strong> New help.html with 17 searchable articles across 6 categories&mdash;Getting Started, Resume &amp; Cover Letter, Career Tools, Account &amp; Billing, Application Tracker, and Troubleshooting.',
-                    '<strong>Forgot Password:</strong> Added a &ldquo;Forgot your password?&rdquo; flow to the login page with email-based reset via Supabase.',
+                    '<strong>Help Center:</strong> New central hub with 17 searchable articles across 6 categories&mdash;Getting Started, Resume &amp; Cover Letter, Career Tools, Account &amp; Billing, Application Tracker, and Troubleshooting.',
+                    '<strong>Forgot Password:</strong> Added a &ldquo;Forgot your password?&rdquo; flow to the login page with email-based reset.',
                     '<strong>Password Visibility Toggle:</strong> Login and signup forms now have a show/hide password eye icon.',
                     '<strong>Toast Notifications:</strong> Replaced all native browser alert() popups with sleek, non-blocking toast messages.',
                     '<strong>Start Over Confirmation:</strong> The &ldquo;Start Over&rdquo; button now asks for confirmation before clearing your work.',
                     '<strong>Dashboard Onboarding:</strong> New users see a 3-step getting started guide on the Dashboard instead of an empty state.',
-                    '<strong>SEO &amp; Social Sharing:</strong> Added Open Graph and Twitter Card meta tags, canonical URLs, and expanded the sitemap from 6 to 32 URLs across all pages.',
-                    '<strong>PWA Manifest:</strong> Added manifest.json with app icons for home screen installation on mobile devices.',
-                    '<strong>Secure Account Deletion:</strong> The delete-account flow now cancels any active Stripe subscription before removing the account.',
-                    '<strong>Session Cleanup:</strong> Signing out now properly clears cached generation data to prevent cross-account data leaks.',
-                    '<strong>Debug Cleanup:</strong> Removed leftover console.log statements from production code.',
-                    '<strong>robots.txt:</strong> App pages (dashboard, history, account, results) are now blocked from search engine indexing.'
+                    '<strong>Secure Account Deletion:</strong> The delete-account flow now cancels any active premium subscription before removing the account entirely.'
                 ]
             },
             {
@@ -410,23 +399,19 @@
                     '<strong>Referral Network Mapper:</strong> Generates a step-by-step referral hunting strategy with ready-to-use LinkedIn connection requests, follow-up messages, and coffee chat scripts.',
                     '<strong>Shadow Job Market:</strong> Track company career pages and scan for new openings that match your resume before they\'re cross-posted to LinkedIn.',
                     '<strong>Guerrilla Tactics:</strong> For competitive roles, AI generates aggressive strategies to bypass the ATS&mdash;including likely email formats, decision maker titles, and ready-to-send scripts.',
-                    '<strong>AI Insights Panel:</strong> New sidebar tab in the resume editor showing Red Flags and Burnout Check results at a glance.',
-                    '<strong>Google AdSense Ready:</strong> robots.txt, sitemap.xml, meta descriptions, and ad placements across all pages.'
+                    '<strong>AI Insights Panel:</strong> New sidebar tab in the resume editor showing Red Flags and Burnout Check results at a glance.'
                 ]
             },
             {
                 version: 'v3.5.0',
-                title: 'Premium Tier, Mobile, Flashcards & More',
+                title: 'Premium Tier, Mobile, & Flashcards',
                 date: 'Feb 23, 2026',
                 items: [
-                    '<strong>Premium Tier:</strong> TailorMeSwiftly Premium ($9.99/mo) unlocks unlimited AI generations. Free users get 5 per month with a seamless Stripe Checkout upgrade flow.',
+                    '<strong>Premium Tier:</strong> TailorMeSwiftly Premium ($9.99/mo) unlocks unlimited AI generations. Free users get 1 per month with a seamless upgrade flow.',
                     '<strong>Interview Flashcards:</strong> Toggle flashcard mode on the Interview Prep page&mdash;flip cards to reveal answers, swipe through on mobile, and track your progress.',
                     '<strong>Follow-up Reminders:</strong> Set reminder dates on any Kanban card. Overdue follow-ups surface in an amber banner at the top of your Application Tracker.',
-                    '<strong>Mobile Responsiveness:</strong> Full responsive pass across all pages&mdash;48px touch targets, stacked layouts on small screens, and a 320px ultra-small breakpoint.',
-                    '<strong>Smarter Job URL Import:</strong> Paste a Greenhouse, Lever, or Workday link and the app extracts the job title, company, and description automatically via JSON-LD.',
-                    '<strong>Edge Function Caching:</strong> Company intel lookups are now cached for 24 hours, making repeat visits instant.',
-                    '<strong>Error Monitoring:</strong> Client-side errors are now automatically captured and logged for faster debugging.',
-                    '<strong>RSS Feed:</strong> Subscribe to release notes via RSS at <code>/feed.xml</code>.'
+                    '<strong>Mobile Responsiveness:</strong> Full responsive pass across all pages&mdash;easier touch targets, stacked layouts on small screens, and better readability.',
+                    '<strong>Smarter Job URL Import:</strong> Paste a Greenhouse, Lever, or Workday link and the app extracts the job title, company, and description automatically.'
                 ]
             },
             {
