@@ -17,6 +17,24 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .briefing-body { line-height: 1.8; font-size: 0.92rem; }
+        .briefing-body h3 { margin: 1.5rem 0 0.6rem; font-size: 1.05rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--panel-border); }
+        .briefing-body h3:first-child { margin-top: 0; }
+        .briefing-body p { margin: 0.6rem 0; }
+        .briefing-body ul { margin: 0.5rem 0; padding-left: 1.3rem; }
+        .briefing-body li { margin-bottom: 0.4rem; }
+        .briefing-body strong { color: var(--text-primary); }
+        .briefing-cite { color: var(--primary-color); text-decoration: none; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+        .briefing-cite:hover { text-decoration: underline; }
+        .sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.6rem; }
+        .briefing-source-card { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.75rem; border: 1px solid var(--panel-border); border-radius: 10px; text-decoration: none; color: inherit; font-size: 0.82rem; transition: border-color 0.2s, background 0.2s; }
+        .briefing-source-card:hover { border-color: var(--primary-color); background: rgba(59,130,246,0.04); }
+        .briefing-source-card i { color: var(--primary-color); margin-top: 0.15rem; flex-shrink: 0; font-size: 0.75rem; }
+        .source-name { font-weight: 600; font-size: 0.82rem; margin-bottom: 0.15rem; }
+        .source-title { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        @media (max-width: 600px) { .sources-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 
 <body data-theme="light">
@@ -170,28 +188,57 @@
 
             <!-- Result Section -->
             <div id="result-section" style="display:none;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
                     <h3 style="margin:0;"><i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i> Your Briefing</h3>
-                    <div style="display:flex;gap:0.5rem;">
-                        <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="listenToBriefing()" id="listen-btn">
-                            <i class="fa-solid fa-headphones"></i> Listen
-                        </button>
+                    <div style="display:flex;gap:0.5rem;align-items:center;">
+                        <span id="briefing-read-time" style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:20px;border:1px solid var(--panel-border);"><i class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
                         <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="document.getElementById('result-section').style.display='none';document.getElementById('input-section').style.display='block';">
                             <i class="fa-solid fa-rotate-left"></i> New
                         </button>
                     </div>
                 </div>
 
-                <div id="briefing-interests" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
-                <div id="briefing-content" style="line-height:1.7;"></div>
+                <div id="briefing-interests" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;"></div>
 
-                <div id="audio-container" style="display:none;margin-top:1.5rem;">
-                    <audio id="briefing-audio" controls class="briefing-audio-player"></audio>
+                <!-- Audio Player -->
+                <div id="audio-section" style="margin-bottom:1.5rem;padding:1rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:center;gap:0.75rem;">
+                            <i class="fa-solid fa-headphones" style="font-size:1.2rem;color:var(--primary-color);"></i>
+                            <div>
+                                <div style="font-weight:600;font-size:0.9rem;">Listen to this briefing</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);">AI-generated audio narration</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <button class="btn primary-btn" style="font-size:0.82rem;padding:0.4rem 1rem;" onclick="listenToBriefing()" id="listen-btn">
+                                <i class="fa-solid fa-play"></i> Play
+                            </button>
+                            <button class="btn ghost-btn" style="font-size:0.78rem;padding:0.4rem 0.75rem;" onclick="showPodcastFeed()" title="Add to your podcast app">
+                                <i class="fa-solid fa-podcast"></i> Feed
+                            </button>
+                        </div>
+                    </div>
+                    <div id="audio-container" style="display:none;margin-top:0.75rem;">
+                        <audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>
+                    </div>
+                    <div id="podcast-feed-info" style="display:none;margin-top:0.75rem;padding:0.75rem;background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.15);border-radius:8px;font-size:0.82rem;">
+                        <div style="font-weight:600;margin-bottom:0.3rem;"><i class="fa-solid fa-rss" style="color:var(--primary-color);margin-right:0.3rem;"></i> Podcast Feed</div>
+                        <p style="color:var(--text-secondary);margin:0 0 0.5rem;line-height:1.5;">Copy this URL and add it to your favorite podcast app (Apple Podcasts, Spotify, Overcast, etc.) to receive your briefings as a podcast.</p>
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <input type="text" id="podcast-feed-url" readonly style="flex:1;padding:0.4rem 0.75rem;border:1px solid var(--panel-border);border-radius:6px;background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:monospace;">
+                            <button class="btn ghost-btn" style="font-size:0.78rem;white-space:nowrap;" onclick="copyPodcastUrl()">
+                                <i class="fa-solid fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="briefing-sources" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--panel-border);">
-                    <h4 style="font-size:0.9rem;margin-bottom:0.5rem;color:var(--text-secondary);">Sources</h4>
-                    <div id="sources-list" style="display:flex;flex-wrap:wrap;gap:0.5rem;"></div>
+                <div id="briefing-content" class="briefing-body"></div>
+
+                <div id="briefing-sources" style="margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                    <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);"><i class="fa-solid fa-link" style="margin-right:0.4rem;"></i> Sources</h4>
+                    <div id="sources-list" class="sources-grid"></div>
                 </div>
             </div>
         </main>
@@ -575,7 +622,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 RULES:
 - Summarize each article in 1-2 sentences MAX of original text
 - Write 80% original analysis/commentary, 20% factual summary
-- Always cite the source name and include [Source: name] after each item
+- Always cite the source as a clickable link: <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source]</a> after each item. Use the exact URL provided for each article.
 - Focus on: why it matters, what it means for the reader, key takeaways
 - Be concise, professional, and insightful
 - Use clear section headers for different topics
@@ -639,12 +686,44 @@ FORMAT: Use HTML with <h3>, <p>, <ul>, <strong> tags. No <html> or <body> tags.`
             const tagsEl = document.getElementById('briefing-interests');
             tagsEl.innerHTML = interests.map(i => `<span class="interest-tag">${i}</span>`).join('');
 
-            document.getElementById('briefing-content').innerHTML = html;
+            // Calculate estimated read time
+            const plainText = html.replace(/<[^>]+>/g, '');
+            const wordCount = plainText.trim().split(/\s+/).length;
+            const readMin = Math.max(1, Math.round(wordCount / 200));
+            document.getElementById('briefing-read-time').textContent = `${readMin} min read`;
+
+            // Post-process: convert plain [Source: name] text into clickable links
+            let processedHtml = html;
+            if (articles && articles.length) {
+                // Build a lookup map from source name to URL
+                const sourceMap = {};
+                articles.forEach(a => {
+                    if (a.source) sourceMap[a.source.toLowerCase()] = a.url;
+                    if (a.title) sourceMap[a.title.toLowerCase()] = a.url;
+                });
+                // Replace [Source: name] with clickable links
+                processedHtml = processedHtml.replace(/\[Source:\s*([^\]]+)\]/gi, (match, name) => {
+                    const key = name.trim().toLowerCase();
+                    const url = sourceMap[key];
+                    if (url) return `<a href="${url}" target="_blank" rel="noopener" class="briefing-cite">[${name.trim()}]</a>`;
+                    return `<span class="briefing-cite">[${name.trim()}]</span>`;
+                });
+            }
+            document.getElementById('briefing-content').innerHTML = processedHtml;
 
             const srcEl = document.getElementById('sources-list');
-            srcEl.innerHTML = articles.map(a =>
-                `<a href="${a.url}" target="_blank" rel="noopener" class="briefing-source"><i class="fa-solid fa-external-link-alt"></i> ${a.source}</a>`
-            ).join('');
+            srcEl.innerHTML = articles.map(a => {
+                const url = a.url || '#';
+                const name = a.source || a.title || 'Source';
+                const title = a.title || '';
+                return `<a href="${url}" target="_blank" rel="noopener" class="briefing-source-card">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <div>
+                        <div class="source-name">${name}</div>
+                        ${title ? `<div class="source-title">${title}</div>` : ''}
+                    </div>
+                </a>`;
+            }).join('');
         }
 
         // ── View Mode: load a saved briefing from feed ──
@@ -686,6 +765,28 @@ FORMAT: Use HTML with <h3>, <p>, <ul>, <strong> tags. No <html> or <body> tags.`
             document.getElementById('input-section').style.display = 'none';
             showBriefing(html, interests, sources);
         })();
+
+        function showPodcastFeed() {
+            const info = document.getElementById('podcast-feed-info');
+            if (!info.classList.contains('hidden') && info.style.display !== 'none') {
+                info.style.display = 'none';
+                return;
+            }
+            // Build a per-user RSS feed URL
+            const userId = window.supabaseClient?.auth?.getUser?.()?.then?.(r => r.data?.user?.id) || '';
+            const feedUrl = window.location.origin + '/news/feed.xml';
+            document.getElementById('podcast-feed-url').value = feedUrl;
+            info.style.display = 'block';
+        }
+
+        function copyPodcastUrl() {
+            const input = document.getElementById('podcast-feed-url');
+            navigator.clipboard.writeText(input.value).then(() => {
+                const btn = input.nextElementSibling;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy'; }, 2000);
+            });
+        }
 
         async function listenToBriefing() {
             const btn = document.getElementById('listen-btn');

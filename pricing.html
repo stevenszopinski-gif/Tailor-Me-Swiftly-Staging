@@ -65,6 +65,65 @@
             margin: 0 auto;
         }
 
+        /* ── Product Tab Switcher ── */
+        .product-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 2.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            padding: 0.3rem;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-tab {
+            flex: 1;
+            padding: 0.7rem 1.25rem;
+            border-radius: 11px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 2px solid transparent;
+            background: transparent;
+            color: var(--text-secondary);
+            user-select: none;
+        }
+
+        .product-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .product-tab.active[data-tab="applications"] {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+
+        .product-tab.active[data-tab="news"] {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.35);
+        }
+
+        .product-tab i {
+            margin-right: 0.4rem;
+        }
+
+        /* ── Product Sections ── */
+        .product-section {
+            display: none;
+        }
+
+        .product-section.active {
+            display: block;
+        }
+
         /* ── Plan Cards ── */
         .plan-grid {
             display: grid;
@@ -81,9 +140,14 @@
             position: relative;
         }
 
-        .plan-card.featured {
-            border-color: rgba(245, 158, 11, 0.45);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(139, 92, 246, 0.06));
+        .plan-card.featured-green {
+            border-color: rgba(16, 185, 129, 0.45);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.06));
+        }
+
+        .plan-card.featured-blue {
+            border-color: rgba(59, 130, 246, 0.45);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.06), rgba(37, 99, 235, 0.06));
         }
 
         .plan-badge {
@@ -92,12 +156,21 @@
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: #f59e0b;
-            background: rgba(245, 158, 11, 0.12);
-            border: 1px solid rgba(245, 158, 11, 0.25);
             padding: 0.2rem 0.6rem;
             border-radius: 6px;
             margin-bottom: 0.75rem;
+        }
+
+        .plan-badge.badge-green {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .plan-badge.badge-blue {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.25);
         }
 
         .plan-card h2 {
@@ -151,6 +224,10 @@
             color: #10b981;
         }
 
+        .plan-features li i.fa-check.check-blue {
+            color: #3b82f6;
+        }
+
         .plan-features li i.fa-xmark {
             color: #6b7280;
         }
@@ -177,6 +254,26 @@
         .plan-cta.outline:hover {
             border-color: var(--primary-color);
             color: var(--primary-color);
+        }
+
+        .plan-cta.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+        }
+
+        .plan-cta.green:hover {
+            filter: brightness(1.08);
+        }
+
+        .plan-cta.blue {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            border: none;
+        }
+
+        .plan-cta.blue:hover {
+            filter: brightness(1.08);
         }
 
         .plan-cta.gold {
@@ -256,6 +353,11 @@
             font-size: 0.9rem;
         }
 
+        .compare-table .check-blue {
+            color: #3b82f6;
+            font-size: 0.9rem;
+        }
+
         .compare-table .dash {
             color: #9ca3af;
         }
@@ -264,6 +366,18 @@
             font-size: 0.75rem;
             color: #f59e0b;
             font-weight: 600;
+        }
+
+        /* ── "Everything in Free" divider ── */
+        .plan-divider {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            padding: 0.6rem 0 0.3rem;
+            margin-top: 0.25rem;
+            opacity: 0.7;
         }
 
         /* ── Back Link ── */
@@ -327,6 +441,10 @@
             .compare-table tbody td {
                 padding: 0.6rem 0.75rem;
             }
+
+            .product-tabs {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -345,149 +463,311 @@
             <p>Start free with core tools. Go Premium for unlimited access to every AI-powered feature.</p>
         </div>
 
-        <!-- Plan Cards -->
-        <div class="plan-grid">
-            <!-- Free -->
-            <div class="plan-card">
-                <h2>Free</h2>
-                <div class="plan-price">$0 <span>/ month</span></div>
-                <p class="plan-sub">Basic limits across all 3 platforms</p>
-                <ul class="plan-features">
-                    <li><i class="fa-solid fa-check"></i> Tailor My Application (1 free/mo)</li>
-                    <li><i class="fa-solid fa-check"></i> Application Tracker (Kanban)</li>
-                    <li><i class="fa-solid fa-check"></i> Tailor The News (Weekly Digest)</li>
-                    <li><i class="fa-solid fa-check"></i> Basic Briefing Sources</li>
-                    <li><i class="fa-solid fa-xmark"></i> Advanced Learning Curricula</li>
-                    <li><i class="fa-solid fa-xmark"></i> AI Podcast Synthesizer</li>
-                    <li><i class="fa-solid fa-xmark"></i> Unlimited Generations</li>
-                </ul>
-                <a href="login.html" class="plan-cta outline">Get Started Free</a>
+        <!-- Product Tab Switcher -->
+        <div class="product-tabs">
+            <div class="product-tab active" data-tab="applications" onclick="switchTab('applications')">
+                <i class="fa-solid fa-file-lines"></i> Applications
             </div>
-
-            <!-- Premium -->
-            <div class="plan-card featured">
-                <span class="plan-badge">Most Popular</span>
-                <h2>Premium</h2>
-                <div class="plan-price">$9.99 <span>/ month</span></div>
-                <p class="plan-sub">Unlimited access to the entire ecosystem</p>
-                <ul class="plan-features">
-                    <li><i class="fa-solid fa-check"></i> Unlimited Resume & Cover Letters</li>
-                    <li><i class="fa-solid fa-check"></i> Tailor My Learning (Full Curricula)</li>
-                    <li><i class="fa-solid fa-check"></i> Automated Skills Tracking</li>
-                    <li><i class="fa-solid fa-check"></i> Tailor The News (Daily Briefings)</li>
-                    <li><i class="fa-solid fa-check"></i> AI Podcast Downloads (MP3)</li>
-                    <li><i class="fa-solid fa-check"></i> Competitor Intel & Shadow Jobs</li>
-                    <li><i class="fa-solid fa-check"></i> Priority API access</li>
-                </ul>
-                <a href="login.html" class="plan-cta gold">Upgrade to Premium</a>
+            <div class="product-tab" data-tab="news" onclick="switchTab('news')">
+                <i class="fa-solid fa-newspaper"></i> News
             </div>
         </div>
 
-        <!-- Feature Comparison Table -->
-        <div class="compare-section">
-            <h2>Full Feature Comparison</h2>
-            <table class="compare-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Free</th>
-                        <th>Premium</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Usage Limits -->
-                    <tr class="cat-row">
-                        <td colspan="3">Usage Limits</td>
-                    </tr>
-                    <tr>
-                        <td>Monthly Generations</td>
-                        <td>1</td>
-                        <td>Unlimited</td>
-                    </tr>
+        <!-- ═══════════════════════════════════════ -->
+        <!-- Tailor My Application                   -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="product-section active" id="section-applications">
 
-                    <!-- Tailor My Application -->
-                    <tr class="cat-row">
-                        <td colspan="3">Tailor My Application</td>
-                    </tr>
-                    <tr>
-                        <td>Resume, Cover Letters & Outreach</td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Application Tracker (Kanban)</td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Red Flag & Burnout Detectors</td>
-                        <td><span class="teaser-label">Basic</span></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Auto-App Agent</td>
-                        <td><span class="dash">&mdash;</span></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
+            <!-- Plan Cards -->
+            <div class="plan-grid">
+                <!-- Free -->
+                <div class="plan-card">
+                    <h2>Free</h2>
+                    <div class="plan-price">$0 <span>/ month</span></div>
+                    <p class="plan-sub">Get started with core job-search tools</p>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check"></i> 1 AI resume tailoring per month</li>
+                        <li><i class="fa-solid fa-check"></i> ATS compatibility score</li>
+                        <li><i class="fa-solid fa-check"></i> Keyword gap analysis</li>
+                        <li><i class="fa-solid fa-check"></i> Basic cover letter generation</li>
+                        <li><i class="fa-solid fa-check"></i> Career Pivot Translator</li>
+                        <li><i class="fa-solid fa-check"></i> Skills Tracker</li>
+                        <li><i class="fa-solid fa-check"></i> Day-in-Life Explorer</li>
+                        <li><i class="fa-solid fa-check"></i> LinkedIn Summary Sync</li>
+                    </ul>
+                    <a href="login.html" class="plan-cta outline">Get Started Free</a>
+                </div>
 
-                    <!-- Tailor My Learning -->
-                    <tr class="cat-row">
-                        <td colspan="3">Tailor My Learning</td>
-                    </tr>
-                    <tr>
-                        <td>Skills Tracker</td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Custom Learning Curricula</td>
-                        <td><span class="dash">&mdash;</span></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td>AI Video & Audio Courses</td>
-                        <td><span class="dash">&mdash;</span></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Interview Prep & Flashcards</td>
-                        <td><span class="dash">&mdash;</span></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
+                <!-- Premium -->
+                <div class="plan-card featured-green">
+                    <span class="plan-badge badge-green">Most Popular</span>
+                    <h2>Premium</h2>
+                    <div class="plan-price">$9.99 <span>/ month</span></div>
+                    <p class="plan-sub">Everything in Free, plus the full arsenal</p>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check"></i> Unlimited AI resume tailoring</li>
+                        <li><i class="fa-solid fa-check"></i> Smart interview prep with mock Q&A</li>
+                        <li><i class="fa-solid fa-check"></i> Salary Negotiator with market data</li>
+                        <li><i class="fa-solid fa-check"></i> Toxic Workplace Radar</li>
+                        <li><i class="fa-solid fa-check"></i> Guerrilla Job Tactics</li>
+                        <li><i class="fa-solid fa-check"></i> Rejection Reverser playbooks</li>
+                        <li><i class="fa-solid fa-check"></i> Cold Email & Outreach Generator</li>
+                        <li><i class="fa-solid fa-check"></i> Shadow Job Market Scanner</li>
+                        <li><i class="fa-solid fa-check"></i> Referral Network Mapper</li>
+                        <li><i class="fa-solid fa-check"></i> Priority AI processing</li>
+                        <li><i class="fa-solid fa-check"></i> Resume version history</li>
+                    </ul>
+                    <a href="login.html" class="plan-cta green">Upgrade to Premium</a>
+                </div>
+            </div>
 
-                    <!-- Tailor The News -->
-                    <tr class="cat-row">
-                        <td colspan="3">Tailor The News</td>
-                    </tr>
-                    <tr>
-                        <td>Personalized Briefing Frequency</td>
-                        <td>Weekly</td>
-                        <td>Daily</td>
-                    </tr>
-                    <tr>
-                        <td>Total Content Sources</td>
-                        <td>10 curated feeds</td>
-                        <td>Unlimited + Custom Feeds</td>
-                    </tr>
-                    <tr>
-                        <td>AI Podcast Generator</td>
-                        <td><span class="dash">&mdash;</span></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Competitor & Shadow Job Intel</td>
-                        <td><span class="dash">&mdash;</span></td>
-                        <td><i class="fa-solid fa-check check"></i></td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- Feature Comparison Table -->
+            <div class="compare-section">
+                <h2>Tailor My Application &mdash; Full Comparison</h2>
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Free</th>
+                            <th>Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cat-row">
+                            <td colspan="3">Core Tools</td>
+                        </tr>
+                        <tr>
+                            <td>AI Resume Tailoring</td>
+                            <td>1 / month</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>ATS Compatibility Score</td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Keyword Gap Analysis</td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Basic Cover Letter Generation</td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Career Pivot Translator</td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Skills Tracker</td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Day-in-Life Explorer</td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>LinkedIn Summary Sync</td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+
+                        <tr class="cat-row">
+                            <td colspan="3">Premium Tools</td>
+                        </tr>
+                        <tr>
+                            <td>Smart Interview Prep with Mock Q&A</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Salary Negotiator with Market Data</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Toxic Workplace Radar</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Guerrilla Job Tactics</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Rejection Reverser Playbooks</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Cold Email & Outreach Generator</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Shadow Job Market Scanner</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Referral Network Mapper</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Priority AI Processing</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Resume Version History</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 2.5rem;">
+                <a href="login.html" class="plan-cta green"
+                    style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 12px; text-decoration: none;">
+                    Get Started Now
+                </a>
+            </div>
         </div>
 
-        <div style="text-align: center; margin-top: 2.5rem;">
-            <a href="login.html" class="plan-cta gold"
-                style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 12px; text-decoration: none;">
-                Get Started Now
-            </a>
+        <!-- ═══════════════════════════════════════ -->
+        <!-- Tailor The News                         -->
+        <!-- ═══════════════════════════════════════ -->
+        <div class="product-section" id="section-news">
+
+            <!-- Plan Cards -->
+            <div class="plan-grid">
+                <!-- Free -->
+                <div class="plan-card">
+                    <h2>Free</h2>
+                    <div class="plan-price">$0 <span>/ month</span></div>
+                    <p class="plan-sub">Stay informed with a weekly AI briefing</p>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check check-blue"></i> 1 AI briefing per week</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> 3 interest topics</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Basic news digest</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Web article sources</li>
+                    </ul>
+                    <a href="login.html" class="plan-cta outline">Get Started Free</a>
+                </div>
+
+                <!-- Premium -->
+                <div class="plan-card featured-blue">
+                    <span class="plan-badge badge-blue">Best Value</span>
+                    <h2>Premium</h2>
+                    <div class="plan-price">$4.99 <span>/ month</span></div>
+                    <p class="plan-sub">Everything in Free, plus daily AI briefings</p>
+                    <ul class="plan-features">
+                        <li><i class="fa-solid fa-check check-blue"></i> Unlimited daily briefings</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Up to 15 interest topics</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> AI podcast audio briefings</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Podcast RSS feed for your app</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Resume-based interest extraction</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Job application news alignment</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Briefing frequency control</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Priority AI processing</li>
+                        <li><i class="fa-solid fa-check check-blue"></i> Briefing archive & search</li>
+                    </ul>
+                    <a href="login.html" class="plan-cta blue">Upgrade to Premium</a>
+                </div>
+            </div>
+
+            <!-- Feature Comparison Table -->
+            <div class="compare-section">
+                <h2>Tailor The News &mdash; Full Comparison</h2>
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Free</th>
+                            <th>Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cat-row">
+                            <td colspan="3">Core Briefings</td>
+                        </tr>
+                        <tr>
+                            <td>AI Briefing Frequency</td>
+                            <td>1 / week</td>
+                            <td>Unlimited daily</td>
+                        </tr>
+                        <tr>
+                            <td>Interest Topics</td>
+                            <td>3</td>
+                            <td>Up to 15</td>
+                        </tr>
+                        <tr>
+                            <td>Basic News Digest</td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Web Article Sources</td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+
+                        <tr class="cat-row">
+                            <td colspan="3">Premium Features</td>
+                        </tr>
+                        <tr>
+                            <td>AI Podcast Audio Briefings</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Podcast RSS Feed for Your App</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Resume-Based Interest Extraction</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Job Application News Alignment</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Briefing Frequency Control</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Priority AI Processing</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Briefing Archive & Search</td>
+                            <td><span class="dash">&mdash;</span></td>
+                            <td><i class="fa-solid fa-check check-blue"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 2.5rem;">
+                <a href="login.html" class="plan-cta blue"
+                    style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 12px; text-decoration: none;">
+                    Get Started Now
+                </a>
+            </div>
         </div>
 
         <div style="text-align: center;">
@@ -499,6 +779,18 @@
         // Theme persistence
         const saved = localStorage.getItem('tms_theme');
         if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+        // Product tab switcher
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.product-tab').forEach(function (el) {
+                el.classList.toggle('active', el.getAttribute('data-tab') === tab);
+            });
+            // Update sections
+            document.querySelectorAll('.product-section').forEach(function (el) {
+                el.classList.toggle('active', el.id === 'section-' + tab);
+            });
+        }
     </script>
 </body>
 

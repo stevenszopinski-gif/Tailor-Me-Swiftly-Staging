@@ -292,6 +292,21 @@
             font-size: 0.75rem;
         }
 
+        .dash-card-ctx-link {
+            display: block;
+            font-size: 0.7rem;
+            margin-top: 0.3rem;
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.15s;
+        }
+
+        .dash-card-ctx-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
         /* ─── Career Command Center Grid ─── */
         .dash-tools-grid {
             display: grid;
@@ -465,31 +480,14 @@
         <div class="dash-section-label"><i class="fa-solid fa-newspaper"></i> Tailor The News</div>
         <p style="color:var(--text-secondary);font-size:0.88rem;margin:-0.5rem 0 1.25rem;">Your personalized daily
             digests and AI podcasts</p>
-        <div
+        <div id="dash-news-content"
             style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
-            <a href="news-detail.html" class="dash-card"
-                style="display:block;padding:1.25rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;text-decoration:none;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
-                    <span style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;">
-                        <span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;"></span>
-                        Today's Tech Briefing
-                    </span>
-                    <span style="font-size:0.75rem;color:var(--text-secondary);">Today</span>
-                </div>
-                <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.4;">
-                    Top stories in AI Agents, React 19, and Product Management trends.
-                </div>
-                <div
-                    style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;background:rgba(59,130,246,0.1);color:#3b82f6;padding:0.25rem 0.6rem;border-radius:999px;">
-                    <i class="fa-solid fa-headphones"></i> Podcast Ready
-                </div>
-            </a>
-            <a href="news.html"
-                style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px dashed var(--panel-border);border-radius:12px;color:var(--text-secondary);text-decoration:none;font-size:0.95rem;padding:1.25rem;transition:all 0.2s;min-height:120px;"
-                onmouseover="this.style.borderColor='var(--primary-color)';this.style.color='var(--primary-color)';"
-                onmouseout="this.style.borderColor='var(--panel-border)';this.style.color='var(--text-secondary)';">
-                <i class="fa-solid fa-arrow-right" style="margin-right:0.5rem;"></i> View All Briefings
-            </a>
+            <!-- Skeleton while loading -->
+            <div class="skeleton-card" style="min-height:120px;">
+                <div class="skeleton skeleton-line long"></div>
+                <div class="skeleton skeleton-line medium"></div>
+                <div class="skeleton skeleton-line short"></div>
+            </div>
         </div>
 
         <!-- Application Tracker -->
@@ -533,20 +531,6 @@
                 <h3>Skills Tracker</h3>
                 <p>See which skills are rising and decaying + 6-month roadmap</p>
                 <span class="dash-tool-tag">Resume only</span>
-            </a>
-            <a href="toxic-radar.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #ef4444, #dc2626);"><i
-                        class="fa-solid fa-radiation"></i></div>
-                <h3>Toxic Radar <span class="premium-badge">Pro</span></h3>
-                <p>Detect red flags and cultural mismatches early</p>
-                <span class="dash-tool-tag">Company recon</span>
-            </a>
-            <a href="guerrilla-tactics.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #4b5563, #1f2937);"><i
-                        class="fa-solid fa-mask"></i></div>
-                <h3>Guerrilla Tactics <span class="premium-badge">Pro</span></h3>
-                <p>Unconventional strategies to bypass the ATS entirely</p>
-                <span class="dash-tool-tag">Networking</span>
             </a>
             <a href="salary-negotiator.html" class="dash-tool-card">
                 <div class="dash-tool-icon" style="background:linear-gradient(135deg, #10b981, #059669);"><i
@@ -681,12 +665,20 @@
                         const dotColor = gen.company_primary_color || '#6366f1';
                         const company = gen.target_company || 'Untitled';
 
+                        let ctxLink = '';
+                        if (col.status === 'Offer') {
+                            ctxLink = `<a href="salary-negotiator.html" class="dash-card-ctx-link" style="color:#10b981;" onclick="event.stopPropagation();">Negotiate salary &rarr;</a>`;
+                        } else if (col.status === 'Rejected') {
+                            ctxLink = `<a href="rejection-reverser.html" class="dash-card-ctx-link" style="color:#ef4444;" onclick="event.stopPropagation();">Bounce back &rarr;</a>`;
+                        }
+
                         card.innerHTML = `
                             <div class="dash-card-top">
                                 <span class="dash-card-company"><span class="company-dot" style="background:${dotColor};"></span>${company}</span>
                                 <span class="dash-card-date">${date}</span>
                             </div>
                             ${score ? `<div class="dash-card-score" style="background:${scoreBg};color:${scoreColor};"><i class="fa-solid fa-bullseye"></i> ${score}%</div>` : ''}
+                            ${ctxLink}
                         `;
 
                         cards.appendChild(card);
@@ -699,6 +691,74 @@
             const container = document.getElementById('dash-kanban-content');
             container.innerHTML = '';
             container.appendChild(board);
+        }
+
+        async function loadNewsBriefings(user) {
+            const container = document.getElementById('dash-news-content');
+            try {
+                const { data, error } = await window.supabaseClient
+                    .from('daily_briefings')
+                    .select('id, title, summary, has_podcast, created_at')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+
+                if (error) throw error;
+
+                let html = '';
+
+                if (data && data.length > 0) {
+                    const b = data[0];
+                    const dateStr = new Date(b.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const isToday = new Date(b.created_at).toDateString() === new Date().toDateString();
+                    const dateLabel = isToday ? 'Today' : dateStr;
+                    const podcastBadge = b.has_podcast
+                        ? `<div style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;background:rgba(59,130,246,0.1);color:#3b82f6;padding:0.25rem 0.6rem;border-radius:999px;"><i class="fa-solid fa-headphones"></i> Podcast Ready</div>`
+                        : '';
+
+                    html += `
+                        <a href="news/feed.html?id=${b.id}" class="dash-card" style="display:block;padding:1.25rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;text-decoration:none;">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
+                                <span style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;">
+                                    <span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;"></span>
+                                    ${b.title || 'Latest Briefing'}
+                                </span>
+                                <span style="font-size:0.75rem;color:var(--text-secondary);">${dateLabel}</span>
+                            </div>
+                            <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.4;">
+                                ${b.summary || 'Your latest AI-curated news briefing.'}
+                            </div>
+                            ${podcastBadge}
+                        </a>`;
+                } else {
+                    html += `
+                        <a href="news/briefing.html" class="dash-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;background:var(--glass-bg);border:1px dashed var(--panel-border);border-radius:12px;text-decoration:none;text-align:center;min-height:120px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--primary-color)';" onmouseout="this.style.borderColor='var(--panel-border)';">
+                            <i class="fa-solid fa-bolt" style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
+                            <span style="font-weight:600;color:var(--text-primary);font-size:0.95rem;">Get your first AI news briefing</span>
+                            <span style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;">Personalized to your career interests</span>
+                        </a>`;
+                }
+
+                html += `
+                    <div style="display:flex;gap:0.75rem;flex-direction:column;justify-content:center;">
+                        <a href="news/feed.html" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px dashed var(--panel-border);border-radius:12px;color:var(--text-secondary);text-decoration:none;font-size:0.95rem;padding:1.25rem;transition:all 0.2s;flex:1;" onmouseover="this.style.borderColor='var(--primary-color)';this.style.color='var(--primary-color)';" onmouseout="this.style.borderColor='var(--panel-border)';this.style.color='var(--text-secondary)';">
+                            <i class="fa-solid fa-arrow-right" style="margin-right:0.5rem;"></i> View All Briefings
+                        </a>
+                        <a href="news/briefing.html" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px dashed var(--panel-border);border-radius:12px;color:var(--text-secondary);text-decoration:none;font-size:0.95rem;padding:1.25rem;transition:all 0.2s;flex:1;" onmouseover="this.style.borderColor='var(--primary-color)';this.style.color='var(--primary-color)';" onmouseout="this.style.borderColor='var(--panel-border)';this.style.color='var(--text-secondary)';">
+                            <i class="fa-solid fa-plus" style="margin-right:0.5rem;"></i> New Briefing
+                        </a>
+                    </div>`;
+
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('News briefings load error:', e);
+                container.innerHTML = `
+                    <a href="news/briefing.html" class="dash-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;background:var(--glass-bg);border:1px dashed var(--panel-border);border-radius:12px;text-decoration:none;text-align:center;min-height:120px;">
+                        <i class="fa-solid fa-bolt" style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
+                        <span style="font-weight:600;color:var(--text-primary);font-size:0.95rem;">Get your first AI news briefing</span>
+                        <span style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;">Personalized to your career interests</span>
+                    </a>`;
+            }
         }
 
         // ── Auth Bootstrap (matches history.html's proven pattern) ──
@@ -718,6 +778,7 @@
             const { data: { session } } = await window.supabaseClient.auth.getSession();
             if (session) {
                 loadDashboard(session.user);
+                loadNewsBriefings(session.user);
                 return;
             }
 
@@ -726,6 +787,7 @@
                 subscription.unsubscribe();
                 if (sess) {
                     loadDashboard(sess.user);
+                    loadNewsBriefings(sess.user);
                 } else {
                     showNotSignedIn();
                 }
