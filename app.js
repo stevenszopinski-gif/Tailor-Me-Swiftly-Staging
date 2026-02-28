@@ -195,10 +195,6 @@ function attachEventListeners() {
         if (state.jobText.trim()) goToStep(3);
     });
     if (el.nextTo4Btn) el.nextTo4Btn.addEventListener('click', () => {
-        if (!window.isPremiumUser) {
-            window.showUpgradeModal("Resume Tailoring & Cover Letter Generation");
-            return;
-        }
         goToStep(4);
         processGeneration();
     });
@@ -865,8 +861,8 @@ async function checkGenerationLimit() {
         return true;
     }
 
-    // Free tier: 5 generations/month
-    if (profile.generation_count >= 5) return false;
+    // Free tier: 1 generation/month
+    if (profile.generation_count >= 1) return false;
     return true;
 }
 
@@ -903,7 +899,7 @@ function showUpgradeModal() {
             <i class="fa-solid fa-crown" style="font-size:2.5rem;color:#f59e0b;margin-bottom:1rem;display:block;"></i>
             <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Free Limit Reached</h2>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
-                You've used your 5 free generations this month.<br>
+                You've used your free generation this month.<br>
                 Upgrade to Premium for <strong>unlimited</strong> generations.
             </p>
             <button class="btn primary-btn" onclick="createCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
@@ -932,7 +928,7 @@ function showLoginPrompt() {
             <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Account Required</h2>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
                 You need a free account to generate documents and run analyses. 
-                <br>Sign up to get 5 free generations every month!
+                <br>Sign up to get 1 free generation every month!
             </p>
             <button class="btn primary-btn" onclick="window.location.href='signup.html'" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
                 <i class="fa-solid fa-user-plus"></i> Create Free Account

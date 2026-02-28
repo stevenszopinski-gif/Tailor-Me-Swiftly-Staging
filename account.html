@@ -534,7 +534,7 @@
             <div class="plan-row">
                 <div class="plan-info">
                     <span class="plan-badge free" id="plan-badge">Free</span>
-                    <span class="plan-desc" id="plan-desc">5 generations per month</span>
+                    <span class="plan-desc" id="plan-desc">1 free generation per month</span>
                 </div>
                 <button class="plan-btn gold" id="plan-action-btn">
                     <i class="fa-solid fa-bolt"></i> Upgrade to Premium
@@ -543,7 +543,7 @@
 
             <div class="usage-meter" id="usage-meter">
                 <div class="usage-label">
-                    <span><span id="usage-count">0</span> / 5 generations used</span>
+                    <span><span id="usage-count">0</span> / 1 generation used</span>
                     <span id="usage-reset"></span>
                 </div>
                 <div class="usage-bar">
@@ -710,11 +710,11 @@
                 meter.style.display = 'none';
             } else {
                 const count = profile?.generation_count || 0;
-                const pct = Math.min((count / 5) * 100, 100);
+                const pct = Math.min((count / 1) * 100, 100);
                 document.getElementById('usage-count').textContent = count;
                 const fill = document.getElementById('usage-fill');
                 fill.style.width = pct + '%';
-                if (count >= 4) fill.classList.add('warn');
+                if (count >= 1) fill.classList.add('warn');
 
                 if (profile?.generation_reset_at) {
                     const reset = new Date(profile.generation_reset_at);
