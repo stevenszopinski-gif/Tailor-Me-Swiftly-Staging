@@ -47,12 +47,20 @@
 
     // ── Product Switcher (Google-style app grid) ──
     function initProductSwitcher() {
-        var container = document.getElementById('product-switcher');
-        if (!container) return;
-
         var products = brand.products;
         var active = brand.activeProduct;
         if (!products || !active) return;
+
+        // Find the header-actions area to place the grid button next to the avatar
+        var headerActions = document.querySelector('.header-actions');
+        var placeholder = document.getElementById('product-switcher');
+
+        // Hide the original placeholder in the middle of the header
+        if (placeholder) placeholder.style.display = 'none';
+
+        // If no header-actions found, fall back to placeholder
+        var container = headerActions || placeholder;
+        if (!container) return;
 
         var items = [
             { key: 'applications', product: products.applications },
@@ -61,6 +69,10 @@
         ];
 
         // Build the grid button + popup
+        var wrapper = document.createElement('div');
+        wrapper.className = 'product-switcher';
+        wrapper.style.cssText = 'position:relative;display:flex;align-items:center;';
+
         var gridHtml = '<button class="app-grid-btn" aria-label="Switch product" onclick="var p=this.nextElementSibling;p.style.display=p.style.display===\'none\'?\'grid\':\'none\'">' +
             '<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect x="1" y="1" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="1" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="1" width="4.5" height="4.5" rx="1"/><rect x="1" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="7.75" width="4.5" height="4.5" rx="1"/><rect x="1" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="7.75" y="14.5" width="4.5" height="4.5" rx="1"/><rect x="14.5" y="14.5" width="4.5" height="4.5" rx="1"/></svg>' +
             '</button>';
@@ -85,12 +97,20 @@
         });
         gridHtml += '</div>';
 
-        container.innerHTML = gridHtml;
+        wrapper.innerHTML = gridHtml;
+
+        // Insert as first child of header-actions (before login btn / avatar)
+        if (headerActions) {
+            headerActions.insertBefore(wrapper, headerActions.firstChild);
+        } else if (placeholder) {
+            placeholder.style.display = '';
+            placeholder.innerHTML = gridHtml;
+        }
 
         // Close popup when clicking outside
         document.addEventListener('click', function (e) {
-            var popup = container.querySelector('.app-grid-popup');
-            if (popup && popup.style.display !== 'none' && !container.contains(e.target)) {
+            var popup = wrapper.querySelector('.app-grid-popup');
+            if (popup && popup.style.display !== 'none' && !wrapper.contains(e.target)) {
                 popup.style.display = 'none';
             }
         });
