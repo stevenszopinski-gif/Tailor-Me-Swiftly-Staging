@@ -482,14 +482,21 @@
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
 
         async function getFreshToken() {
-            // Try cached session first
             let { data: { session } } = await window.supabaseClient.auth.getSession();
             if (session) {
-                // Check if token expires within 60s — if so, force refresh
-                const exp = JSON.parse(atob(session.access_token.split('.')[1])).exp;
-                if (exp * 1000 - Date.now() < 60000) {
-                    const { data } = await window.supabaseClient.auth.refreshSession();
-                    if (data?.session) session = data.session;
+                try {
+                    const exp = JSON.parse(atob(session.access_token.split('.')[1])).exp;
+                    if (exp * 1000 - Date.now() < 60000) {
+                        // Token expiring soon — try refresh, but keep old session if it fails
+                        try {
+                            const { data } = await window.supabaseClient.auth.refreshSession();
+                            if (data?.session) session = data.session;
+                        } catch (refreshErr) {
+                            console.warn('[auth] Token refresh failed, using existing session:', refreshErr.message);
+                        }
+                    }
+                } catch (parseErr) {
+                    console.warn('[auth] Could not parse token exp, using as-is');
                 }
             }
             return session;
@@ -510,24 +517,27 @@
 
             // On 401, try one refresh + retry before giving up
             if (resp.status === 401) {
-                const { data } = await window.supabaseClient.auth.refreshSession();
-                if (data?.session) {
-                    session = data.session;
-                    resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-                        body: JSON.stringify(body)
-                    });
+                try {
+                    const { data } = await window.supabaseClient.auth.refreshSession();
+                    if (data?.session) {
+                        session = data.session;
+                        resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                            body: JSON.stringify(body)
+                        });
+                    }
+                } catch (refreshErr) {
+                    console.warn('[auth] Refresh failed during 401 retry:', refreshErr.message);
                 }
             }
 
             const data = await resp.json().catch(() => ({}));
             if (!resp.ok) {
                 const errMsg = data?.message || data?.error?.message || data?.error || `Edge function error (${resp.status})`;
-                if (resp.status === 401 || /jwt|token|expires|unauthorized|auth/i.test(String(errMsg))) {
-                    try { window.supabaseClient.auth.signOut({ scope: 'local' }); } catch (e) { }
-                    window.location.href = '../login.html';
-                    return new Promise(() => { }); // Halt execution while browser redirects
+                // Only redirect on actual 401 after retry exhaustion
+                if (resp.status === 401) {
+                    throw new Error('Session expired. Please refresh the page and try again.');
                 }
                 throw new Error(errMsg);
             }
@@ -883,7 +893,9 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) { window.location.href = '../login.html'; return; }
+                if (!session) {
+                    throw new Error('Please log in to generate a briefing.');
+                }
 
                 // Step 1: Fetch news
                 document.getElementById('loading-status').textContent = 'Fetching news articles...';
@@ -959,22 +971,17 @@ FORMAT — use this EXACT HTML structure:
 
             } catch (e) {
                 console.error('Briefing error:', e);
-                const msg = e.message || '';
-                if (/jwt|token|expires|unauthorized|auth/i.test(msg)) {
-                    if (window.supabaseClient) window.supabaseClient.auth.signOut({ scope: 'local' }).catch(() => { });
-                    window.location.href = '../login.html';
-                    return;
-                }
+                const msg = e.message || 'Failed to generate briefing. Please try again.';
 
                 document.getElementById('loading-section').style.display = 'none';
                 document.getElementById('input-section').style.display = 'block';
 
-                // Display error inline instead of an alert
+                // Display error inline instead of redirecting
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-text';
                 errorDiv.style.marginTop = '1rem';
                 errorDiv.style.textAlign = 'center';
-                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg || 'Failed to generate briefing. Please try again.'}`;
+                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
 
                 const existingErr = document.querySelector('#input-section .error-text');
                 if (existingErr) existingErr.remove();
