@@ -687,7 +687,6 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) { window.location.href = '../login.html'; return; }
-                const token = session.access_token;
 
                 // Step 1: Fetch news
                 document.getElementById('loading-status').textContent = 'Fetching news articles...';
