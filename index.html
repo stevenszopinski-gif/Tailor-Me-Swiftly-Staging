@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -41,14 +41,14 @@
         /* Hero */
         .hp-hero {
             text-align: center;
-            padding: 2rem 0 3.5rem;
+            padding: 4rem 0 3rem;
         }
 
         .hp-hero h2 {
-            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-size: clamp(2.2rem, 5.5vw, 3.6rem);
             font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1.25rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
@@ -60,10 +60,10 @@
         }
 
         .hp-hero-sub {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
             line-height: 1.7;
-            max-width: 640px;
+            max-width: 580px;
             margin: 0 auto 2.5rem;
         }
 
@@ -85,7 +85,7 @@
         }
 
         .hp-hero-note {
-            margin-top: 1rem;
+            margin-top: 1.25rem;
             font-size: 0.85rem;
             color: var(--text-secondary);
             display: flex;
@@ -100,7 +100,7 @@
             gap: 0.4rem;
         }
 
-        /* How it works */
+        /* Section Headings */
         .hp-section-head {
             text-align: center;
             margin-bottom: 2.5rem;
@@ -118,18 +118,19 @@
             margin: 0 auto;
         }
 
+        /* How It Works — 3-step */
         .hp-steps {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            padding: 3rem 0;
+            padding: 1rem 0 2rem;
             position: relative;
         }
 
         .hp-steps::before {
             content: '';
             position: absolute;
-            top: calc(3rem + 28px);
+            top: calc(1rem + 28px);
             left: 16.66%;
             right: 16.66%;
             height: 2px;
@@ -169,455 +170,43 @@
             line-height: 1.5;
         }
 
-        /* ═══════ PARALLAX FEATURE SECTIONS ═══════ */
-        .hp-feature-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            padding: 4rem 0;
-            border-top: 1px solid var(--panel-border);
-        }
-
-        .hp-feature-section:first-child {
-            border-top: none;
-        }
-
-        .hp-feature-section.reverse {
-            direction: rtl;
-        }
-
-        .hp-feature-section.reverse>* {
-            direction: ltr;
-        }
-
-        .hp-feat-text {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .hp-feat-text .hp-feat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-        }
-
-        .hp-feat-text h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .hp-feat-text p {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .hp-feat-text ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .hp-feat-text ul li {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.92rem;
-            color: var(--text-secondary);
-        }
-
-        .hp-feat-text ul li i {
-            color: var(--primary-color);
-            font-size: 0.8rem;
-        }
-
-        /* Mockup screenshot frame */
-        .hp-mockup {
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--panel-border);
-            background: var(--panel-bg);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-        }
-
-        .hp-mockup-bar {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.06);
-            border-bottom: 1px solid var(--panel-border);
-        }
-
-        [data-theme="dark"] .hp-mockup-bar {
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .hp-mockup-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .hp-mockup-body {
-            padding: 1.25rem;
-            font-size: 0.8rem;
-            min-height: 220px;
-        }
-
-        /* -- Resume mockup -- */
-        .mock-resume-header {
-            height: 10px;
-            width: 50%;
-            background: var(--primary-color);
-            border-radius: 4px;
-            margin-bottom: 6px;
-        }
-
-        .mock-resume-sub {
-            height: 6px;
-            width: 35%;
-            background: var(--text-secondary);
-            border-radius: 3px;
-            margin-bottom: 16px;
-            opacity: 0.3;
-        }
-
-        .mock-section-title {
-            height: 7px;
-            width: 30%;
-            background: var(--text-primary);
-            border-radius: 3px;
-            margin-bottom: 8px;
-            opacity: 0.5;
-        }
-
-        .mock-bullet {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 5px;
-        }
-
-        .mock-bullet-dot {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: var(--text-secondary);
-            opacity: 0.4;
-            flex-shrink: 0;
-        }
-
-        .mock-bullet-line {
-            height: 5px;
-            border-radius: 3px;
-            background: var(--text-secondary);
-            opacity: 0.15;
-        }
-
-        .mock-bullet-line.highlighted {
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.3), rgba(139, 92, 246, 0.3));
-            opacity: 1;
-        }
-
-        .mock-keyword {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            margin: 2px;
-        }
-
-        .mock-keyword.green {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-        }
-
-        .mock-keyword.red {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-        }
-
-        .mock-keyword.blue {
-            background: rgba(59, 130, 246, 0.15);
-            color: #3b82f6;
-        }
-
-        /* -- Interview mockup -- */
-        .mock-q-card {
-            background: rgba(16, 185, 129, 0.06);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .mock-q-card .mock-q-num {
-            font-size: 0.65rem;
-            color: var(--primary-color);
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .mock-q-card .mock-q-text {
-            font-size: 0.78rem;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .mock-q-controls {
-            display: flex;
-            gap: 8px;
-        }
-
-        .mock-q-btn {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.6rem;
-            font-weight: 600;
-        }
-
-        .mock-q-btn.play {
-            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
-            color: #fff;
-        }
-
-        .mock-q-btn.record {
-            background: rgba(239, 68, 68, 0.12);
-            color: #ef4444;
-        }
-
-        /* -- Intel mockup -- */
-        .mock-intel-item {
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            padding: 10px;
-            border-radius: 8px;
-            background: rgba(16, 185, 129, 0.04);
-            border: 1px solid rgba(16, 185, 129, 0.1);
-            margin-bottom: 8px;
-        }
-
-        .mock-intel-item i {
-            color: var(--accent-color);
-            margin-top: 2px;
-        }
-
-        .mock-intel-item .mock-headline {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-        }
-
-        .mock-intel-item .mock-snippet {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .mock-intel-item .mock-insert-btn {
-            margin-left: auto;
-            flex-shrink: 0;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.55rem;
-            font-weight: 700;
-            background: rgba(16, 185, 129, 0.12);
-            color: var(--primary-color);
-            align-self: center;
-        }
-
-        /* -- Kanban mockup -- */
-        .mock-kanban {
-            display: flex;
-            gap: 8px;
-        }
-
-        .mock-kanban-col {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .mock-kanban-col-header {
-            font-size: 0.6rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-            padding-bottom: 4px;
-            border-bottom: 2px solid var(--panel-border);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
-        }
-
-        .mock-kanban-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 6px;
-            padding: 6px 8px;
-            margin-bottom: 6px;
-            font-size: 0.6rem;
-        }
-
-        .mock-kanban-card .mock-card-company {
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-        }
-
-        .mock-kanban-card .mock-card-score {
-            font-size: 0.5rem;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .mock-kanban-card.has-notes {
-            border-left: 3px solid #f59e0b;
-        }
-
-        /* -- History mockup -- */
-        .mock-history-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            margin-bottom: 8px;
-        }
-
-        .mock-history-row .mock-hist-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .mock-history-row .mock-hist-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .mock-history-row .mock-hist-info strong {
-            display: block;
-            font-size: 0.75rem;
-        }
-
-        .mock-history-row .mock-hist-info span {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-        }
-
-        .mock-history-row .mock-hist-btn {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.55rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
-            color: #fff;
-            flex-shrink: 0;
-        }
-
-        /* Bottom CTA */
-        .hp-bottom-cta {
-            text-align: center;
-            padding: 4rem 2rem;
-            margin: 0 -1.5rem 3rem;
-            border-radius: 24px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(139, 92, 246, 0.08));
-            border: 1px solid var(--panel-border);
-        }
-
-        .hp-bottom-cta h2 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            margin-bottom: 0.75rem;
-        }
-
-        .hp-bottom-cta p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1.05rem;
-        }
-
-        /* ═══ DIFFERENTIATOR SECTION ═══ */
-        .hp-diff-grid {
+        /* ── Product Hub Cards ── */
+        .product-hub-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            padding: 2rem 0 3rem;
+            max-width: 960px;
+            margin: 0 auto 2rem;
         }
 
-        .hp-diff-card {
+        .product-hub-card {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
-            padding: 1.75rem;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .hp-diff-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
+        .product-hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
-        .hp-diff-card:nth-child(1)::before {
-            background: linear-gradient(90deg, #ef4444, #f97316);
-        }
-
-        .hp-diff-card:nth-child(2)::before {
-            background: linear-gradient(90deg, #f59e0b, #eab308);
-        }
-
-        .hp-diff-card:nth-child(3)::before {
-            background: linear-gradient(90deg, #10b981, #06b6d4);
-        }
-
-        .hp-diff-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .hp-diff-card h4 {
-            font-size: 1.1rem;
-            margin: 0 0 0.75rem;
-        }
-
-        .hp-diff-card p {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin: 0;
+        .product-hub-card .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: white;
         }
 
         /* ═══ CATEGORIZED TOOLKIT ═══ */
@@ -710,253 +299,28 @@
             line-height: 1.3;
         }
 
-        /* ═══ FREE TOOL PREVIEW CARDS ═══ */
-        .hp-free-tool {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 16px;
-            padding: 1.25rem;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .hp-free-tool:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent, var(--primary-color));
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-
-        .hp-free-tool-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .hp-free-tool-header h5 {
-            margin: 0;
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-
-        .hp-free-tool-preview {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--panel-border);
-            border-radius: 10px;
-            padding: 0.85rem;
-            margin-bottom: 0.85rem;
-            font-size: 0.82rem;
-            line-height: 1.6;
-        }
-
-        [data-theme="light"] .hp-free-tool-preview {
-            background: rgba(0, 0, 0, 0.02);
-        }
-
-        .hp-preview-label {
-            font-size: 0.68rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .hp-preview-item {
-            margin-bottom: 0.35rem;
-        }
-
-        .hp-preview-bullet {
-            color: var(--text-secondary);
-            font-size: 0.78rem;
-            margin-bottom: 0.3rem;
-            padding-left: 0.5rem;
-            border-left: 2px solid var(--panel-border);
-        }
-
-        .hp-free-tool-cta {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--accent, var(--primary-color));
-        }
-
-        .hp-free-tool:hover .hp-free-tool-cta {
-            text-decoration: underline;
-        }
-
-        /* ═══ STATS BAR ═══ */
-        .hp-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            padding: 2.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .hp-stat {
+        /* Bottom CTA */
+        .hp-bottom-cta {
             text-align: center;
-        }
-
-        .hp-stat-num {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hp-stat-label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.2rem;
-        }
-
-        /* Responsive */
-        /* ═══ PRICING SECTION ═══ */
-        .hp-pricing {
-            padding: 3rem 0 2rem;
-        }
-
-        .hp-pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            max-width: 820px;
-            margin: 0 auto;
-        }
-
-        .hp-plan-card {
-            background: var(--glass-bg);
+            padding: 4rem 2rem;
+            margin: 0 -1.5rem 3rem;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(139, 92, 246, 0.08));
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
-            padding: 2rem 1.75rem;
-            position: relative;
         }
 
-        .hp-plan-card.featured {
-            border-color: rgba(245, 158, 11, 0.4);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(139, 92, 246, 0.05));
-        }
-
-        .hp-plan-badge {
-            display: inline-block;
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #f59e0b;
-            background: rgba(245, 158, 11, 0.12);
-            border: 1px solid rgba(245, 158, 11, 0.25);
-            padding: 0.2rem 0.6rem;
-            border-radius: 6px;
+        .hp-bottom-cta h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
             margin-bottom: 0.75rem;
         }
 
-        .hp-plan-card h4 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            color: var(--text-primary);
-        }
-
-        .hp-plan-price {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .hp-plan-price span {
-            font-size: 0.9rem;
-            font-weight: 400;
+        .hp-bottom-cta p {
             color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
         }
 
-        .hp-plan-sub {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.25rem;
-        }
-
-        .hp-plan-features {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.5rem;
-        }
-
-        .hp-plan-features li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            padding: 0.3rem 0;
-        }
-
-        .hp-plan-features li i {
-            flex-shrink: 0;
-            margin-top: 0.15rem;
-            font-size: 0.75rem;
-        }
-
-        .hp-plan-features li i.fa-check {
-            color: #10b981;
-        }
-
-        .hp-plan-features li i.fa-xmark {
-            color: #6b7280;
-        }
-
-        .hp-plan-cta {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 0.7rem 1rem;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .hp-plan-cta.outline {
-            color: var(--text-primary);
-            border: 1px solid var(--panel-border);
-            background: transparent;
-        }
-
-        .hp-plan-cta.outline:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .hp-plan-cta.gold {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #fff;
-            border: none;
-        }
-
-        .hp-plan-cta.gold:hover {
-            filter: brightness(1.08);
-        }
-
-        .hp-pricing-note {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .hp-pricing-note a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .hp-pricing-note a:hover {
-            text-decoration: underline;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .hp-steps {
                 grid-template-columns: 1fr;
@@ -967,74 +331,10 @@
                 display: none;
             }
 
-            .hp-feature-section {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                padding: 2.5rem 0;
-            }
-
-            .hp-feature-section.reverse {
-                direction: ltr;
-            }
-
-            .hp-feat-text h3 {
-                font-size: 1.25rem;
-            }
-
             .hp-hero h2 {
                 font-size: 1.8rem;
             }
 
-            .hp-diff-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hp-pricing-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ── Product Hub Cards ── */
-        .product-hub-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 960px;
-            margin: 0 auto 2rem;
-            padding: 0 1.5rem;
-        }
-
-        .product-hub-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 20px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .product-hub-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--card-color);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        .product-hub-card .card-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        @media (max-width: 768px) {
             .product-hub-grid {
                 grid-template-columns: 1fr;
                 max-width: 400px;
@@ -1046,18 +346,6 @@
                 flex-direction: column;
                 align-items: center;
                 gap: 0.5rem;
-            }
-
-            .mock-kanban {
-                flex-wrap: wrap;
-            }
-
-            .mock-kanban-col {
-                min-width: 45%;
-            }
-
-            .hp-stats {
-                gap: 1.5rem;
             }
         }
     </style>
@@ -1166,125 +454,92 @@
 
         <!-- ═══════ HERO ═══════ -->
         <section class="hp-hero">
-            <h2>Land Offers Faster. Upskill Smarter. Stay Informed. <span class="hp-gradient">All in One
-                    Platform.</span></h2>
-            <p
-                style="font-size:1.25rem;color:var(--text-secondary);margin-bottom:2rem;max-width:650px;margin-left:auto;margin-right:auto;">
-                Automate your job search, accelerate your skill development, and stay ahead of your industry &mdash; all
-                powered by a single AI ecosystem.</p>
-            <div style="margin-top: 1.5rem; margin-bottom: 2.5rem;">
+            <h2>Every Career Move.<br><span class="hp-gradient">Tailored.</span></h2>
+            <p class="hp-hero-sub">Paste any job description. Our AI tailors your resume, cover letter, and interview
+                prep in 60 seconds &mdash; not hours.</p>
+            <div style="margin-bottom: 1rem;">
                 <a href="login.html" class="hp-hero-cta"
                     style="background: linear-gradient(135deg, var(--accent-color), #8b5cf6); color: white;">
-                    <i class="fa-solid fa-rocket"></i> Get Started For Free
+                    <i class="fa-solid fa-rocket"></i> Get Started Free
                 </a>
             </div>
-
-            <!-- ═══════ STATS BAR (Moved here for early trust) ═══════ -->
-            <div class="hp-stats"
-                style="padding: 1rem 0 2rem; border-bottom: 1px solid var(--panel-border); margin-bottom: 2rem;">
-                <div class="hp-stat">
-                    <div class="hp-stat-num">30+</div>
-                    <div class="hp-stat-label">AI-Powered Tools</div>
-                </div>
-                <div class="hp-stat">
-                    <div class="hp-stat-num">60s</div>
-                    <div class="hp-stat-label">Average Generation Time</div>
-                </div>
-                <div class="hp-stat">
-                    <div class="hp-stat-num">0</div>
-                    <div class="hp-stat-label">Data Sold to Third Parties</div>
-                </div>
-            </div>
-
-            <div class="hp-hero-note" style="margin-bottom:2.5rem;">
-                <span><i class="fa-solid fa-check" style="color: var(--success-color);"></i> Mostly free to use</span>
-                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> Results in under 60 seconds</span>
+            <div class="hp-hero-note">
+                <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
+                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> 30+ AI tools included</span>
                 <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
                     private</span>
-                <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
             </div>
-
-            <!-- ═══════ PRODUCT HUB ═══════ -->
-            <section style="padding: 1rem 0 3rem; text-align: left;">
-                <div class="hp-section-head">
-                    <h2>The Complete Career Ecosystem</h2>
-                    <p>One account gives you access to our entire suite of professional tools.</p>
-                </div>
-                <div class="product-hub-grid">
-                    <a href="app.html" class="product-hub-card"
-                        style="--card-color:#10b981;text-decoration:none;color:inherit;text-align:left;">
-                        <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i
-                                class="fa-solid fa-clipboard"></i></div>
-                        <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Application</h3>
-                        <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI
-                            resume tailoring, cover letters, mock interviews, and 30+ tools to land your next role.</p>
-                        <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Learn More
-                            <i class="fa-solid fa-arrow-right"></i></span>
-                    </a>
-                    <a href="learning.html" class="product-hub-card"
-                        style="--card-color:#8b5cf6;text-decoration:none;color:inherit;text-align:left;opacity:0.8;">
-                        <div class="card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i
-                                class="fa-solid fa-graduation-cap"></i></div>
-                        <span
-                            style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(139,92,246,0.12);color:#8b5cf6;margin-bottom:0.5rem;">Coming
-                            Soon</span>
-                        <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Learning</h3>
-                        <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">Stop
-                            taking generic courses. Our AI builds a hyper-personalized curriculum based on exactly what
-                            you already know and what you need to learn next.</p>
-                        <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Join
-                            Waitlist
-                            <i class="fa-solid fa-arrow-right"></i></span>
-                    </a>
-                    <a href="news.html" class="product-hub-card"
-                        style="--card-color:#3b82f6;text-decoration:none;color:inherit;text-align:left;">
-                        <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i
-                                class="fa-solid fa-newspaper"></i></div>
-                        <span
-                            style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(59,130,246,0.12);color:#3b82f6;margin-bottom:0.5rem;">New</span>
-                        <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor The News</h3>
-                        <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">
-                            Stop doomscrolling generic feeds. Get 5-minute, highly technical, actionable daily
-                            intelligence briefings curated specifically for your precise industry, job title, and goals.
-                        </p>
-                        <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Learn More
-                            <i class="fa-solid fa-arrow-right"></i></span>
-                    </a>
-                </div>
-            </section>
         </section>
 
-        <!-- ═══════ DEDICATED NEWS SECTION ═══════ -->
-        <section
-            style="padding: 4rem 2rem; background: rgba(59, 130, 246, 0.05); border-top: 1px solid rgba(59, 130, 246, 0.1); border-bottom: 1px solid rgba(59, 130, 246, 0.1); margin: 0 -1.5rem 3rem;">
-            <div
-                style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; align-items: center;">
-                <div style="flex: 1; text-align: left; width: 100%;">
-                    <div
-                        style="display:inline-block;padding:0.3rem 0.8rem;border-radius:16px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(59,130,246,0.15);color:#3b82f6;margin-bottom:1rem;">
-                        <i class="fa-solid fa-newspaper" style="margin-right:0.4rem;"></i> Tailor The News
-                    </div>
-                    <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Your Daily <span
-                            style="color:#3b82f6;">AI Intelligence Briefing</span></h2>
-                    <p
-                        style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem; max-width: 600px;">
-                        Stay ahead of industry trends without the noise. Our AI scrapes thousands of articles,
-                        newsletters, and tweets to create a hyper-personalized daily digest.
-                    </p>
-                    <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                        <li style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem;"><i
-                                class="fa-solid fa-check-circle" style="color: #3b82f6;"></i> Highly technical,
-                            industry-specific curation</li>
-                        <li style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem;"><i
-                                class="fa-solid fa-podcast" style="color: #3b82f6;"></i> Listen to your briefings via
-                            AI-generated podcasts</li>
-                        <li style="display: flex; align-items: center; gap: 0.75rem;"><i class="fa-solid fa-clock"
-                                style="color: #3b82f6;"></i> Digest hours of reading into a 5-minute summary</li>
-                    </ul>
-                    <a href="news.html" class="btn primary-btn"
-                        style="background: linear-gradient(135deg, #3b82f6, #2563eb); font-size: 1rem; padding: 0.6rem 1.25rem;">Explore
-                        Tailor The News <i class="fa-solid fa-arrow-right"></i></a>
+        <!-- ═══════ HOW IT WORKS ═══════ -->
+        <section style="padding: 3rem 0; border-top: 1px solid var(--panel-border);">
+            <div class="hp-section-head">
+                <h2>How It Works</h2>
+                <p>Three steps. Sixty seconds. One tailored application.</p>
+            </div>
+            <div class="hp-steps">
+                <div class="hp-step">
+                    <div class="hp-step-num">1</div>
+                    <h4>Paste a Job Description</h4>
+                    <p>Drop in any job posting URL or text. Our AI reads the role like a recruiter would.</p>
                 </div>
+                <div class="hp-step">
+                    <div class="hp-step-num">2</div>
+                    <h4>AI Tailors Everything</h4>
+                    <p>Resume, cover letter, interview prep &mdash; all optimized for that specific role in seconds.</p>
+                </div>
+                <div class="hp-step">
+                    <div class="hp-step-num">3</div>
+                    <h4>Apply with Confidence</h4>
+                    <p>Download ATS-optimized documents. Track your application. Prepare for the interview.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════ PRODUCT HUB ═══════ -->
+        <section style="padding: 3rem 0; border-top: 1px solid var(--panel-border);">
+            <div class="hp-section-head">
+                <h2>One Platform. Three Ways to Get Ahead.</h2>
+                <p>One account gives you access to our entire suite of professional tools.</p>
+            </div>
+            <div class="product-hub-grid">
+                <a href="app.html" class="product-hub-card"
+                    style="--card-color:#10b981;text-decoration:none;color:inherit;text-align:left;">
+                    <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i
+                            class="fa-solid fa-clipboard"></i></div>
+                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Application</h3>
+                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI
+                        resume tailoring, cover letters, mock interviews, and 30+ tools to land your next role.</p>
+                    <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Learn More
+                        <i class="fa-solid fa-arrow-right"></i></span>
+                </a>
+                <a href="learning.html" class="product-hub-card"
+                    style="--card-color:#8b5cf6;text-decoration:none;color:inherit;text-align:left;opacity:0.8;">
+                    <div class="card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i
+                            class="fa-solid fa-graduation-cap"></i></div>
+                    <span
+                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(139,92,246,0.12);color:#8b5cf6;margin-bottom:0.5rem;">Coming
+                        Soon</span>
+                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Learning</h3>
+                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI
+                        builds a hyper-personalized curriculum based on what you already know and what you need next.</p>
+                    <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Join
+                        Waitlist
+                        <i class="fa-solid fa-arrow-right"></i></span>
+                </a>
+                <a href="news.html" class="product-hub-card"
+                    style="--card-color:#3b82f6;text-decoration:none;color:inherit;text-align:left;">
+                    <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i
+                            class="fa-solid fa-newspaper"></i></div>
+                    <span
+                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(59,130,246,0.12);color:#3b82f6;margin-bottom:0.5rem;">New</span>
+                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor The News</h3>
+                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">
+                        5-minute daily intelligence briefings curated for your industry, role, and goals. Listen as a
+                        podcast.</p>
+                    <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;">Learn More
+                        <i class="fa-solid fa-arrow-right"></i></span>
+                </a>
             </div>
         </section>
 
@@ -1295,315 +550,11 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
-
-        <!-- ═══════ FREE CAREER TOOLS ═══════ -->
-        <section style="padding: 2rem 0 3rem;">
-            <div class="hp-section-head">
-                <h2>Instant Upgrades. No Account Required.</h2>
-                <p>Try these free platform tools instantly — no job posting or login required.</p>
-            </div>
-            <div
-                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;max-width:1000px;margin:0 auto;">
-
-                <!-- Career Pivot -->
-                <div class="hp-free-tool" style="--accent:#14b8a6;" onclick="location.href='career-pivot.html'">
-                    <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#14b8a6,#0d9488);"><i
-                                class="fa-solid fa-shuffle" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Career Pivot</h5>
-                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Translate your experience
-                                into a new industry</p>
-                        </div>
-                    </div>
-                    <div class="hp-free-tool-preview">
-                        <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="color:#14b8a6;font-weight:600;">Product Manager</span>
-                            <i class="fa-solid fa-arrow-right"
-                                style="font-size:0.65rem;color:var(--text-secondary);"></i> <span
-                                style="color:#f59e0b;font-weight:600;">UX Researcher</span>
-                        </div>
-                        <div class="hp-preview-bullet">"Led cross-functional teams" &rarr; "Facilitated user research
-                            sprints across 4 product verticals"</div>
-                        <div class="hp-preview-bullet">"Managed product roadmap" &rarr; "Synthesized user insights into
-                            actionable design recommendations"</div>
-                    </div>
-                    <div class="hp-free-tool-cta">Try Career Pivot <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-
-                <!-- Shadow Jobs -->
-                <div class="hp-free-tool" style="--accent:#64748b;" onclick="location.href='shadow-jobs.html'">
-                    <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#475569,#64748b);"><i
-                                class="fa-solid fa-eye" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Shadow Jobs</h5>
-                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Monitor career pages
-                                before LinkedIn</p>
-                        </div>
-                    </div>
-                    <div class="hp-free-tool-preview">
-                        <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Stripe</span> &mdash; Sr. Product
-                            Designer <span style="color:#10b981;font-weight:700;">92% match</span></div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Notion</span> &mdash; Growth
-                            Marketing Lead <span style="color:#f59e0b;font-weight:700;">78% match</span></div>
-                        <div class="hp-preview-bullet">Found on careers page 3 days before LinkedIn posting</div>
-                    </div>
-                    <div class="hp-free-tool-cta">Try Shadow Jobs <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-
-                <!-- Skills Tracker -->
-                <div class="hp-free-tool" style="--accent:#06b6d4;" onclick="location.href='skills-tracker.html'">
-                    <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#06b6d4,#0891b2);"><i
-                                class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Skills Tracker</h5>
-                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Rising & decaying skills +
-                                6-month roadmap</p>
-                        </div>
-                    </div>
-                    <div class="hp-free-tool-preview">
-                        <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i
-                                    class="fa-solid fa-arrow-up"></i></span> AI/ML Ops &mdash; <span
-                                style="color:#10b981;font-weight:700;">94% demand</span> <span
-                                style="color:#10b981;font-size:0.75rem;">rising</span></div>
-                        <div class="hp-preview-item"><span style="color:#ef4444;"><i
-                                    class="fa-solid fa-arrow-down"></i></span> jQuery &mdash; <span
-                                style="color:#ef4444;font-weight:700;">12% demand</span> <span
-                                style="color:#ef4444;font-size:0.75rem;">decaying</span></div>
-                        <div class="hp-preview-bullet">Personalized 6-month upskill roadmap with weekly milestones</div>
-                    </div>
-                    <div class="hp-free-tool-cta">Try Skills Tracker <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-
-                <!-- Toxic Culture Radar -->
-                <div class="hp-free-tool" style="--accent:#ef4444;" onclick="location.href='toxic-radar.html'">
-                    <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i
-                                class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Toxic Culture Radar</h5>
-                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Toxicity score & layoff
-                                risk analysis</p>
-                        </div>
-                    </div>
-                    <div class="hp-free-tool-preview">
-                        <div class="hp-preview-label">Example output</div>
-                        <div style="text-align:center;margin-bottom:0.5rem;"><span
-                                style="font-size:1.8rem;font-weight:800;color:#f59e0b;">62%</span> <span
-                                style="color:#f59e0b;font-weight:600;">Proceed with Caution</span></div>
-                        <div class="hp-preview-item"><span style="color:#ef4444;"><i
-                                    class="fa-solid fa-flag"></i></span> "Fast-paced, wear many hats" &mdash; overwork
-                            signal</div>
-                        <div class="hp-preview-item"><span style="color:#f59e0b;"><i
-                                    class="fa-solid fa-scissors"></i></span> Layoff risk: <strong>moderate</strong>
-                            &mdash; 2 rounds in 18 months</div>
-                    </div>
-                    <div class="hp-free-tool-cta">Try Toxic Radar <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-
-                <!-- Referral Mapper -->
-                <div class="hp-free-tool" style="--accent:#10b981;" onclick="location.href='referral-mapper.html'">
-                    <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#10b981,#059669);"><i
-                                class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Referral Mapper</h5>
-                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">Backdoor referrals + cold
-                                outreach scripts</p>
-                        </div>
-                    </div>
-                    <div class="hp-free-tool-preview">
-                        <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i
-                                    class="fa-solid fa-user-plus"></i></span> Connection request (under 300 chars, ready
-                            to paste)</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i
-                                    class="fa-solid fa-reply"></i></span> Follow-up message after they accept</div>
-                        <div class="hp-preview-item"><span style="color:#10b981;"><i
-                                    class="fa-solid fa-mug-hot"></i></span> Coffee chat script for informational
-                            interview</div>
-                    </div>
-                    <div class="hp-free-tool-cta">Try Referral Mapper <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-
-                <!-- Auto-App Agent -->
-                <div class="hp-free-tool" style="--accent:#6366f1;" onclick="location.href='auto-app.html'">
-                    <div class="hp-free-tool-header">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);"><i
-                                class="fa-solid fa-robot" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Auto-App Agent</h5>
-                            <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">AI finds + tailors
-                                matching jobs for you</p>
-                        </div>
-                    </div>
-                    <div class="hp-free-tool-preview">
-                        <div class="hp-preview-label">Example output</div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Senior Frontend Engineer</span> at
-                            Vercel &mdash; <span style="color:#10b981;font-weight:700;">95% match</span></div>
-                        <div class="hp-preview-bullet">"Your React + TypeScript experience and Vercel OSS contributions
-                            make this a strong fit..."</div>
-                        <div class="hp-preview-item"><span style="font-weight:600;">Staff Engineer</span> at Linear
-                            &mdash; <span style="color:#10b981;font-weight:700;">88% match</span></div>
-                    </div>
-                    <div class="hp-free-tool-cta">Try Auto-App Agent <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- ═══════ FEATURE DEEP-DIVES (Parallax alternating) ═══════ -->
-        <section style="padding: 2rem 0 0;">
-            <div class="hp-section-head">
-                <h2>One AI. Infinite Career Possibilities.</h2>
-                <p>Your entire career trajectory, powered by a single intelligent platform.</p>
-            </div>
-
-            <!-- 1. AI That Learns You -->
-            <div class="hp-feature-section">
-                <div class="hp-feat-text">
-                    <div class="hp-feat-icon" style="background: rgba(139,92,246,0.1); color: #8b5cf6;">
-                        <i class="fa-solid fa-brain"></i>
-                    </div>
-                    <h3>Infinite Possibilities. One Unified Profile.</h3>
-                    <p>Upload your resume once. Our AI extracts your core experiences, skills, and unique strengths into
-                        a centralized <strong>Career Vault</strong>. Every tool you use—from the Resume Builder to the
-                        Interview Simulator—draws from this single source of truth.</p>
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Never retype your work history again</li>
-                        <li><i class="fa-solid fa-check"></i> AI remembers your specific career goals</li>
-                        <li><i class="fa-solid fa-check"></i> Guaranteed consistent narrative across all assets</li>
-                    </ul>
-                </div>
-                <div class="hp-mockup"
-                    style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(139,92,246,0.05), rgba(139,92,246,0.1)); padding: 2rem;">
-                    <div
-                        style="background:var(--panel-bg); border-radius:12px; padding:1.5rem; border:1px solid var(--panel-border); box-shadow:0 10px 30px rgba(0,0,0,0.1); width:100%;">
-                        <div
-                            style="display:flex; gap:10px; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--panel-border); padding-bottom:10px;">
-                            <div
-                                style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#a78bfa);display:flex;align-items:center;justify-content:center;">
-                                <i class="fa-solid fa-user-astronaut" style="color:#fff;"></i>
-                            </div>
-                            <div>
-                                <div style="font-weight:700;font-size:0.9rem;">Global Career Context</div>
-                                <div style="font-size:0.75rem;color:var(--text-secondary);">Syncing across 3 apps...
-                                </div>
-                            </div>
-                        </div>
-                        <div style="font-size:0.8rem; line-height:1.6; color:var(--text-secondary);">
-                            <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span><i
-                                        class="fa-solid fa-file-contract" style="color:#10b981;"></i> Application
-                                    Profile:</span> <strong>98% Complete</strong></div>
-                            <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span><i
-                                        class="fa-solid fa-book-open" style="color:#8b5cf6;"></i> Known Skills:</span>
-                                <strong>14 Technologies</strong>
-                            </div>
-                            <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span><i
-                                        class="fa-solid fa-rss" style="color:#3b82f6;"></i> News Preferences:</span>
-                                <strong>AI, Saas, Fintech</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. Reclaim Your Time -->
-            <div class="hp-feature-section reverse">
-                <div class="hp-feat-text">
-                    <div class="hp-feat-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">
-                        <i class="fa-solid fa-hourglass-half"></i>
-                    </div>
-                    <h3>Reclaim Hundreds of Hours</h3>
-                    <p>Why spend 40 hours on a generic Udemy course when you only need to learn the next 2 steps? Why
-                        spend 2 hours tailoring a resume that can be done in 60 seconds? We ruthlessly optimize your
-                        time.</p>
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Generate tailored applications instantly</li>
-                        <li><i class="fa-solid fa-check"></i> Skip what you already know in learning mode</li>
-                        <li><i class="fa-solid fa-check"></i> Get 5-minute actionable daily briefings</li>
-                    </ul>
-                </div>
-                <div class="hp-mockup"
-                    style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(16,185,129,0.05), rgba(16,185,129,0.1)); padding: 2rem;">
-                    <div
-                        style="background:var(--panel-bg); border-radius:12px; padding:1.5rem; border:1px solid var(--panel-border); box-shadow:0 10px 30px rgba(0,0,0,0.1); width:100%; text-align:center;">
-                        <div style="font-size:2.5rem;font-weight:800;color:#10b981;margin-bottom:10px;">210+</div>
-                        <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">Hours saved this month
-                        </div>
-                        <div style="height:4px;background:rgba(16,185,129,0.2);border-radius:2px;margin:15px 0;">
-                            <div style="width:85%;height:100%;background:#10b981;border-radius:2px;"></div>
-                        </div>
-                        <div
-                            style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-secondary);">
-                            <span>Manual Path: 240h</span>
-                            <span style="color:#10b981;font-weight:600;">TMS Path: 30h</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. Application Tracker Dashboard -->
-            <div class="hp-feature-section">
-                <div class="hp-feat-text">
-                    <div class="hp-feat-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">
-                        <i class="fa-solid fa-table-columns"></i>
-                    </div>
-                    <h3>Application Tracker Dashboard</h3>
-                    <p>Track your job applications in a drag-and-drop Kanban board. Every resume, cover letter, and
-                        interview prep session is automatically saved to your Tailor My Application dashboard.</p>
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Drag cards between status columns</li>
-                        <li><i class="fa-solid fa-check"></i> Add notes, dates, and interview details</li>
-                        <li><i class="fa-solid fa-check"></i> One-click restore for any past application</li>
-                    </ul>
-                </div>
-                <div class="hp-mockup"
-                    style="display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(59,130,246,0.05), rgba(59,130,246,0.1)); padding: 2rem;">
-                    <div
-                        style="background:var(--panel-bg); border-radius:12px; padding:1rem; border:1px solid var(--panel-border); box-shadow:0 10px 30px rgba(0,0,0,0.1); width:100%;">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                            <div style="background:rgba(16,185,129,0.08);border-radius:8px;padding:10px;">
-                                <div
-                                    style="font-size:0.6rem;text-transform:uppercase;color:#10b981;font-weight:700;margin-bottom:4px;">
-                                    Interviewing</div>
-                                <div style="font-size:0.8rem;font-weight:600;">Acme Corp</div>
-                                <div style="font-size:0.65rem;color:var(--text-secondary);margin-top:2px;">Round 2 on
-                                    Thursday</div>
-                            </div>
-                            <div style="background:rgba(59,130,246,0.08);border-radius:8px;padding:10px;">
-                                <div
-                                    style="font-size:0.6rem;text-transform:uppercase;color:#3b82f6;font-weight:700;margin-bottom:4px;">
-                                    Applied</div>
-                                <div style="font-size:0.8rem;font-weight:600;">Globex Inc</div>
-                                <div style="font-size:0.65rem;color:var(--text-secondary);margin-top:2px;">Waiting to
-                                    hear back</div>
-                            </div>
-                            <div
-                                style="background:rgba(139,92,246,0.08);border-radius:8px;padding:10px;grid-column:span 2;">
-                                <div
-                                    style="font-size:0.6rem;text-transform:uppercase;color:#8b5cf6;font-weight:700;margin-bottom:4px;">
-                                    Recent Output</div>
-                                <div style="font-size:0.8rem;font-weight:600;">Senior Engineer Cover Letter</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            </div>
-
-        </section>
-
         <!-- ═══════ CATEGORIZED TOOLKIT ═══════ -->
-        <section style="padding: 2rem 0 3rem;" id="career-command-center">
+        <section style="padding: 3rem 0;" id="career-command-center">
             <div class="hp-section-head">
                 <h2>Your Complete Career Command Center</h2>
-                <p>From application to offer, we've got every stage covered. What is your goal today?</p>
+                <p>From application to offer, every stage covered. What is your goal today?</p>
             </div>
 
             <!-- Tabs -->
@@ -1881,7 +832,6 @@
                     <h3>Career Growth</h3>
                     <span>Continuous upskilling and trajectory planning</span>
                 </div>
-                <!-- Add tools here in the future -->
                 <div style="text-align: center; padding: 2rem 0; color: var(--text-secondary);">
                     <i class="fa-solid fa-seedling"
                         style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color); opacity: 0.5;"></i>
@@ -1891,14 +841,10 @@
 
         </section>
 
-
-
-
         <!-- ═══════ BOTTOM CTA ═══════ -->
-        <section class="hp-bottom-cta" style="margin-top: 2rem;">
-            <h2>Ready to Accelerate Your Career?</h2>
-            <p>Automate your job search, accelerate your skill development, and stay ahead of your industry &mdash; all
-                with one free account.</p>
+        <section class="hp-bottom-cta" style="margin-top: 1rem;">
+            <h2>Ready to Land Your Next Role?</h2>
+            <p>Join thousands of job seekers who stopped applying the hard way.</p>
             <a href="login.html" class="btn primary-btn hp-hero-cta" style="font-size: 1.1rem;">
                 <i class="fa-solid fa-rocket"></i> Create Your Free Account
             </a>
