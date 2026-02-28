@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
+    <meta name="description" content="Your personalized news briefing history. Review past briefings and track your interests.">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <title>My Briefings | TailorMeSwiftly</title>
+    <link rel="stylesheet" href="../style.css?v=15">
+    <link rel="stylesheet" href="news-style.css?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body data-theme="light">
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container">
+        <header class="app-header" role="banner">
+            <div class="logo">
+                <a href="../index.html" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly</h1>
+                </a>
+            </div>
+            <div id="product-switcher" class="product-switcher"></div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden"></div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content" class="wizard-container glass-panel" style="max-width:800px;margin:2rem auto;padding:2rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+                <div>
+                    <h2 style="margin:0;display:flex;align-items:center;gap:0.5rem;">
+                        <i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i> My Briefings
+                    </h2>
+                    <p style="color:var(--text-secondary);margin-top:0.3rem;">Your personalized news digest history.</p>
+                </div>
+                <a href="briefing.html" class="btn primary-btn"><i class="fa-solid fa-bolt"></i> New Briefing</a>
+            </div>
+
+            <!-- Skeleton loading -->
+            <div id="feed-skeleton">
+                <div class="skeleton-card" style="margin-bottom:1rem;">
+                    <div class="skeleton skeleton-line long"></div>
+                    <div class="skeleton skeleton-line medium"></div>
+                    <div class="skeleton skeleton-line short"></div>
+                </div>
+                <div class="skeleton-card" style="margin-bottom:1rem;">
+                    <div class="skeleton skeleton-line long"></div>
+                    <div class="skeleton skeleton-line medium"></div>
+                    <div class="skeleton skeleton-line short"></div>
+                </div>
+            </div>
+
+            <!-- Empty state -->
+            <div id="feed-empty" style="display:none;text-align:center;padding:3rem 1rem;">
+                <i class="fa-solid fa-newspaper" style="font-size:3rem;color:var(--panel-border);margin-bottom:1rem;display:block;"></i>
+                <h3 style="margin-bottom:0.5rem;">No briefings yet</h3>
+                <p style="color:var(--text-secondary);margin-bottom:1.5rem;">Generate your first personalized news briefing to get started.</p>
+                <a href="briefing.html" class="btn primary-btn"><i class="fa-solid fa-bolt"></i> Create Your First Briefing</a>
+            </div>
+
+            <!-- Briefing list -->
+            <div id="feed-list" style="display:none;"></div>
+        </main>
+
+        <footer class="site-footer" role="contentinfo"></footer>
+    </div>
+
+    <script>window.TMS_PATH_PREFIX = '../';</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="../brand-config.js"></script>
+    <script src="../auth.js?v=10"></script>
+    <script src="../components.js"></script>
+    <script>
+        async function loadBriefings() {
+            if (!window.supabaseClient) {
+                setTimeout(loadBriefings, 500);
+                return;
+            }
+
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) { window.location.href = '../login.html'; return; }
+
+            const { data: briefings, error } = await window.supabaseClient
+                .from('daily_briefings')
+                .select('*')
+                .eq('user_id', session.user.id)
+                .order('briefing_date', { ascending: false })
+                .limit(30);
+
+            document.getElementById('feed-skeleton').style.display = 'none';
+
+            if (!briefings || briefings.length === 0) {
+                document.getElementById('feed-empty').style.display = 'block';
+                return;
+            }
+
+            const listEl = document.getElementById('feed-list');
+            listEl.style.display = 'block';
+
+            listEl.innerHTML = briefings.map(b => {
+                const date = new Date(b.briefing_date + 'T00:00:00');
+                const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                const interests = (b.interests || []).map(i => `<span class="interest-tag">${i}</span>`).join('');
+                const sourceCount = b.sources ? b.sources.length : 0;
+                const preview = (b.briefing_text || '').substring(0, 200) + '...';
+
+                return `
+                    <div class="briefing-card" onclick="showBriefing('${b.id}')" style="cursor:pointer;">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:0.5rem;">
+                            <h3 style="margin:0;font-size:1.05rem;">${dateStr}</h3>
+                            <span style="font-size:0.78rem;color:var(--text-secondary);white-space:nowrap;">${sourceCount} sources</span>
+                        </div>
+                        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.5rem;">${interests}</div>
+                        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.5;margin:0;">${preview}</p>
+                    </div>`;
+            }).join('');
+        }
+
+        // Store briefings for detail view
+        let _briefings = {};
+
+        async function showBriefing(id) {
+            if (!_briefings[id]) {
+                const { data } = await window.supabaseClient.from('daily_briefings').select('*').eq('id', id).single();
+                if (data) _briefings[id] = data;
+            }
+
+            const b = _briefings[id];
+            if (!b) return;
+
+            // Navigate to briefing detail (reuse briefing.html with view mode)
+            sessionStorage.setItem('ttn_view_briefing', JSON.stringify(b));
+            window.location.href = 'briefing.html?view=' + id;
+        }
+
+        // Init
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => setTimeout(loadBriefings, 1000));
+        } else {
+            setTimeout(loadBriefings, 1000);
+        }
+    </script>
+</body>
+
+</html>
