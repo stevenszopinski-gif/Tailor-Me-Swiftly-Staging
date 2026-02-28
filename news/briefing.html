@@ -341,6 +341,21 @@
         let currentBriefingDate = null; // tracks which briefing is displayed
         let tmsApplications = [];
 
+        // Edge Function helper — bypasses sb_publishable_ key issue with supabaseClient.functions.invoke()
+        const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
+        async function invokeEdge(fnName, body) {
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) throw new Error('Not authenticated — please log in.');
+            const resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                body: JSON.stringify(body)
+            });
+            const data = await resp.json();
+            if (!resp.ok) throw new Error(data?.message || data?.error?.message || `Edge function error (${resp.status})`);
+            return data;
+        }
+
         // PDF.js worker
         if (typeof pdfjsLib !== 'undefined') {
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -587,16 +602,11 @@ RULES:
 
 Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup funding"]`;
 
-                const extractRes = await window.supabaseClient.functions.invoke('gemini-proxy', {
-                    body: {
-                        contents: [{ parts: [{ text: text.substring(0, 8000) }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        generationConfig: { temperature: 0.3, maxOutputTokens: 512 }
-                    }
+                const data = await invokeEdge('gemini-proxy', {
+                    contents: [{ parts: [{ text: text.substring(0, 8000) }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    generationConfig: { temperature: 0.3, maxOutputTokens: 512 }
                 });
-
-                if (extractRes.error) throw new Error(extractRes.error.message || 'Extraction failed');
-                const data = extractRes.data;
                 if (data?.error) throw new Error(data.error.message || 'AI extraction failed');
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
                 const extractParts = data.candidates?.[0]?.content?.parts || [];
@@ -690,15 +700,13 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
                 // Step 1: Fetch news
                 document.getElementById('loading-status').textContent = 'Fetching news articles...';
-                const newsRes = await window.supabaseClient.functions.invoke('fetch-news', {
-                    body: { interests, max: 10 }
-                });
+                const newsData = await invokeEdge('fetch-news', { interests, max: 10 });
 
-                if (newsRes.error || !newsRes.data?.articles?.length) {
+                if (!newsData?.articles?.length) {
                     throw new Error('No articles found for those topics. Try broader interests.');
                 }
 
-                const articles = newsRes.data.articles;
+                const articles = newsData.articles;
 
                 // Step 2: Generate briefing via Gemini
                 document.getElementById('loading-status').textContent = 'Generating your personalized briefing...';
@@ -732,16 +740,11 @@ FORMAT — use this EXACT HTML structure:
 
                 const userPrompt = `Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
 
-                const geminiRes = await window.supabaseClient.functions.invoke('gemini-proxy', {
-                    body: {
-                        contents: [{ parts: [{ text: userPrompt }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-                    }
+                const geminiData = await invokeEdge('gemini-proxy', {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
                 });
-
-                if (geminiRes.error) throw new Error(geminiRes.error.message || 'Briefing generation failed');
-                const geminiData = geminiRes.data;
                 if (geminiData?.error) throw new Error(geminiData.error.message || 'AI generation failed');
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
                 const geminiParts = geminiData.candidates?.[0]?.content?.parts || [];
@@ -1004,23 +1007,16 @@ FORMAT — use this EXACT HTML structure:
                 const briefingText = extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to convert.');
 
-                const res = await window.supabaseClient.functions.invoke('elevenlabs-tts', {
-                    body: { text: briefingText.substring(0, 6000) }
-                });
-
-                // Parse response — always JSON now
-                let data = res.data;
-                if (data instanceof Blob) data = JSON.parse(await data.text());
-                if (typeof data === 'string') data = JSON.parse(data);
-                if (data?.error) throw new Error(data.error);
-                if (!data?.segments?.length) throw new Error('No podcast segments generated.');
+                const ttsData = await invokeEdge('elevenlabs-tts', { text: briefingText.substring(0, 6000) });
+                if (ttsData?.error) throw new Error(ttsData.error);
+                if (!ttsData?.segments?.length) throw new Error('No podcast segments generated.');
 
                 // Cache the transcript (much smaller than audio)
                 if (currentBriefingDate) {
                     try {
                         await window.supabaseClient
                             .from('daily_briefings')
-                            .update({ audio_url: JSON.stringify({ segments: data.segments }) })
+                            .update({ audio_url: JSON.stringify({ segments: ttsData.segments }) })
                             .eq('user_id', session.user.id)
                             .eq('briefing_date', currentBriefingDate);
                     } catch (cacheErr) {
@@ -1029,7 +1025,7 @@ FORMAT — use this EXACT HTML structure:
                 }
 
                 // Play with browser TTS using two voices
-                speakSegments(data.segments);
+                speakSegments(ttsData.segments);
             } catch (e) {
                 console.error('Podcast error:', e);
                 alert(e.message || 'Podcast generation failed. Please try again.');
