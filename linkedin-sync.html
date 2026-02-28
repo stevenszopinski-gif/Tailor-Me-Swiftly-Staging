@@ -47,6 +47,7 @@
                     <h1>TailorMeSwiftly.com</h1>
                 </a>
             </div>
+            <div id="product-switcher" class="product-switcher"></div>
             <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
                 <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
                     <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
@@ -76,7 +77,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="auth.js?v=8"></script>
+    <script src="brand-config.js"></script>
+    <script src="auth.js?v=10"></script>
     <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="results.js?v=8"></script>
