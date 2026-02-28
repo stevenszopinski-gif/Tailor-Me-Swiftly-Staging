@@ -338,6 +338,7 @@
     <script src="../components.js"></script>
     <script>
         const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
         let extractedInterests = [];
         let currentBriefingDate = null; // tracks which briefing is displayed
         let tmsApplications = [];
@@ -592,7 +593,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + session.access_token
+                        'Authorization': 'Bearer ' + session.access_token,
+                        'apikey': SUPABASE_KEY
                     },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: text.substring(0, 8000) }] }],
@@ -740,7 +742,8 @@ FORMAT — use this EXACT HTML structure:
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
+                        'Authorization': 'Bearer ' + token,
+                        'apikey': SUPABASE_KEY
                     },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: userPrompt }] }],
@@ -910,36 +913,72 @@ FORMAT — use this EXACT HTML structure:
         function extractBriefingText() {
             const content = document.getElementById('briefing-content');
             if (!content || !content.textContent.trim()) return '';
-            // Strip HTML tags and source citations, return plain text for Gemini
             return content.textContent.replace(/\[.*?\]/g, '').trim();
         }
 
-        function playAudioBlob(blob) {
-            const audioUrl = URL.createObjectURL(blob);
-            const audioEl = document.getElementById('briefing-audio');
-            audioEl.src = audioUrl;
-            document.getElementById('audio-container').style.display = 'block';
-            audioEl.play();
+        // Pick two distinct voices for the two-host podcast
+        let podcastVoices = { host: null, cohost: null };
+        function initVoices() {
+            const voices = speechSynthesis.getVoices();
+            if (!voices.length) return;
+            // Prefer English neural/enhanced voices
+            const en = voices.filter(v => v.lang.startsWith('en'));
+            const males = en.filter(v => /male|guy|andrew|david|james|mark|daniel/i.test(v.name));
+            const females = en.filter(v => /female|zira|emma|jenny|samantha|karen|susan/i.test(v.name));
+            podcastVoices.host = males[0] || en[0] || voices[0];
+            podcastVoices.cohost = females[0] || en[1] || voices[1] || voices[0];
+        }
+        if (typeof speechSynthesis !== 'undefined') {
+            speechSynthesis.onvoiceschanged = initVoices;
+            initVoices();
         }
 
-        function base64ToBlob(b64, type) {
-            const bin = atob(b64);
-            const arr = new Uint8Array(bin.length);
-            for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-            return new Blob([arr], { type });
+        let podcastPlaying = false;
+        let podcastQueue = [];
+        let currentUtterance = null;
+
+        function stopPodcast() {
+            podcastPlaying = false;
+            podcastQueue = [];
+            speechSynthesis.cancel();
+            const btn = document.getElementById('listen-btn');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
         }
 
-        function blobToBase64(blob) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-            });
+        function speakSegments(segments) {
+            podcastPlaying = true;
+            podcastQueue = [...segments];
+            const btn = document.getElementById('listen-btn');
+            btn.innerHTML = '<i class="fa-solid fa-stop"></i> Stop';
+            btn.disabled = false;
+            btn.onclick = () => { stopPodcast(); btn.onclick = listenToBriefing; };
+            speakNext();
+        }
+
+        function speakNext() {
+            if (!podcastPlaying || !podcastQueue.length) {
+                stopPodcast();
+                const btn = document.getElementById('listen-btn');
+                btn.onclick = listenToBriefing;
+                return;
+            }
+            const seg = podcastQueue.shift();
+            const utt = new SpeechSynthesisUtterance(seg.text);
+            utt.voice = seg.speaker === 1 ? podcastVoices.host : podcastVoices.cohost;
+            utt.rate = 1.0;
+            utt.pitch = seg.speaker === 1 ? 1.0 : 1.1;
+            utt.onend = () => speakNext();
+            utt.onerror = () => speakNext();
+            currentUtterance = utt;
+            speechSynthesis.speak(utt);
         }
 
         async function listenToBriefing() {
             const btn = document.getElementById('listen-btn');
+
+            if (podcastPlaying) { stopPodcast(); btn.onclick = listenToBriefing; return; }
+
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
 
@@ -947,7 +986,7 @@ FORMAT — use this EXACT HTML structure:
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) throw new Error('Please sign in to use audio playback.');
 
-                // Check for cached podcast (up to 7 days old)
+                // Check for cached transcript (up to 7 days old)
                 if (currentBriefingDate) {
                     const { data: row } = await window.supabaseClient
                         .from('daily_briefings')
@@ -960,77 +999,48 @@ FORMAT — use this EXACT HTML structure:
                         const ageMs = Date.now() - new Date(row.created_at).getTime();
                         const sevenDays = 7 * 24 * 60 * 60 * 1000;
                         if (ageMs < sevenDays) {
-                            playAudioBlob(base64ToBlob(row.audio_url, 'audio/mpeg'));
-                            btn.disabled = false;
-                            btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
-                            return;
+                            try {
+                                const cached = JSON.parse(row.audio_url);
+                                if (cached.segments) { speakSegments(cached.segments); return; }
+                            } catch (e) { /* not valid JSON, regenerate */ }
                         }
                     }
                 }
 
-                // No cache — generate two-host podcast
+                // Generate two-host podcast transcript
                 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating podcast...';
                 const briefingText = extractBriefingText();
-                if (!briefingText) throw new Error('No briefing content to convert.');
+                if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to convert.');
 
                 const res = await window.supabaseClient.functions.invoke('elevenlabs-tts', {
                     body: { text: briefingText.substring(0, 6000) }
                 });
 
-                if (res.error) throw res.error;
+                // Parse response — always JSON now
+                let data = res.data;
+                if (data instanceof Blob) data = JSON.parse(await data.text());
+                if (typeof data === 'string') data = JSON.parse(data);
+                if (data?.error) throw new Error(data.error);
+                if (!data?.segments?.length) throw new Error('No podcast segments generated.');
 
-                // Function returns 200 for both success (binary) and error (JSON)
-                // Check if we got a JSON error response
-                let audioBlob;
-                if (res.data instanceof Blob) {
-                    // Could be binary audio OR a JSON error wrapped in a Blob
-                    if (res.data.type === 'application/json' || res.data.size < 200) {
-                        try {
-                            const text = await res.data.text();
-                            const json = JSON.parse(text);
-                            if (json.error) throw new Error(json.error);
-                        } catch (e) {
-                            if (e.message && !e.message.includes('JSON')) throw e;
-                        }
-                    }
-                    audioBlob = res.data;
-                } else if (res.data instanceof ArrayBuffer) {
-                    audioBlob = new Blob([res.data], { type: 'audio/mpeg' });
-                } else if (typeof res.data === 'object' && res.data?.error) {
-                    throw new Error(res.data.error);
-                } else if (typeof res.data === 'string') {
-                    try {
-                        const json = JSON.parse(res.data);
-                        if (json.error) throw new Error(json.error);
-                    } catch (e) {
-                        if (e.message && !e.message.includes('JSON')) throw e;
-                    }
-                    audioBlob = new Blob([res.data], { type: 'audio/mpeg' });
-                } else {
-                    throw new Error('Unexpected response format from podcast service.');
-                }
-
-                if (audioBlob.size < 200) throw new Error('Generated audio is empty. Please try again.');
-
-                playAudioBlob(audioBlob);
-
-                // Cache the podcast as base64 in daily_briefings.audio_url
+                // Cache the transcript (much smaller than audio)
                 if (currentBriefingDate) {
                     try {
-                        const b64 = await blobToBase64(audioBlob);
                         await window.supabaseClient
                             .from('daily_briefings')
-                            .update({ audio_url: b64 })
+                            .update({ audio_url: JSON.stringify({ segments: data.segments }) })
                             .eq('user_id', session.user.id)
                             .eq('briefing_date', currentBriefingDate);
                     } catch (cacheErr) {
                         console.warn('Failed to cache podcast:', cacheErr);
                     }
                 }
+
+                // Play with browser TTS using two voices
+                speakSegments(data.segments);
             } catch (e) {
                 console.error('Podcast error:', e);
                 alert(e.message || 'Podcast generation failed. Please try again.');
-            } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
             }
