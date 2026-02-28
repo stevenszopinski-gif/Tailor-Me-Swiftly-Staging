@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
+    <meta name="description" content="Page not found — TailorMeSwiftly.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <title>404 — Page Not Found | TailorMeSwiftly</title>
+    <link rel="stylesheet" href="style.css?v=14">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <style>
+        .error-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .error-code {
+            font-size: clamp(5rem, 15vw, 10rem);
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-message {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .error-sub {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 450px;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .error-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .error-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .error-links a:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container">
+        <header class="app-header" role="banner">
+            <div class="logo">
+                <a href="index.html"
+                    style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly.com</h1>
+                </a>
+            </div>
+        </header>
+
+        <main id="main-content" class="error-page">
+            <div class="error-code">404</div>
+            <div class="error-message">This page got ghosted</div>
+            <p class="error-sub">The page you're looking for doesn't exist or has been moved. Unlike your dream job, this one's definitely gone.</p>
+            <div class="error-actions">
+                <a href="index.html" class="btn primary-btn"><i class="fa-solid fa-house"></i> Back to Home</a>
+                <a href="help.html" class="btn ghost-btn"><i class="fa-solid fa-circle-question"></i> Help Center</a>
+            </div>
+            <div class="error-links">
+                <a href="dashboard.html"><i class="fa-solid fa-compass"></i> Dashboard</a>
+                <a href="app.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Resume Builder</a>
+                <a href="updates.html"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+            </div>
+        </main>
+
+        <footer class="site-footer" role="contentinfo">
+            <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+            <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
+                    href="security.html">Security Policy</a></p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
     <meta name="description"
         content="TailorMeSwiftly release notes and product updates. See the latest features, improvements, and bug fixes.">
     <meta property="og:type" content="website">
@@ -19,7 +20,10 @@
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Release Notes | TailorMeSwiftly</title>
     <link rel="stylesheet" href="style.css?v=14">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
@@ -217,6 +221,7 @@
 </head>
 
 <body data-theme="light">
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <!-- Background Elements -->
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
@@ -224,7 +229,7 @@
 
     <div class="app-container">
         <!-- Header -->
-        <header class="app-header">
+        <header class="app-header" role="banner">
             <div class="logo">
                 <a href="index.html"
                     style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
@@ -235,7 +240,7 @@
             <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
                 <div id="user-profile"
                     style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                    <img id="user-avatar" src="" alt="Avatar"
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
                         style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                     <span id="user-greeting"
@@ -247,7 +252,7 @@
                                                 <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
                         <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-bullhorn"></i> Release Notes
-                        </a>                        <button class="dropdown-item" id="logout-btn">
+                        </a>                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
                         </button>
                     </div>
@@ -255,7 +260,7 @@
             </div>
         </header>
 
-        <main class="wizard-container glass-panel" style="max-width: 800px; margin: 3rem auto; padding: 2.5rem;">
+        <main id="main-content" class="wizard-container glass-panel" style="max-width: 800px; margin: 3rem auto; padding: 2.5rem;">
 
             <div style="margin-bottom: 1.5rem;">
                 <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i
@@ -288,7 +293,7 @@
 
         </main>
 
-        <footer class="site-footer">
+        <footer class="site-footer" role="contentinfo">
             <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
             <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
                     href="security.html">Security Policy</a></p>
@@ -297,16 +302,35 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="auth.js?v=8"></script>
+    <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script>
 
         // ── Release notes data ──
         const releases = [
             {
+                version: 'v5.3.0',
+                title: 'Blog, Referrals, Accessibility & Performance',
+                date: 'Feb 28, 2026',
+                current: true,
+                items: [
+                    '<strong>Blog:</strong> 6 SEO-optimized articles covering ATS strategy, resume mistakes, cover letter tips, salary negotiation scripts, interview prep, and the hidden job market.',
+                    '<strong>Referral Program:</strong> Share your referral link from the Account page. When a friend signs up and generates their first resume, you both earn 5 bonus generations.',
+                    '<strong>Email Newsletter Capture:</strong> Subscribe to weekly job search tips directly from the homepage.',
+                    '<strong>Accessibility:</strong> Added skip-to-content links, focus-visible outlines on all buttons/links, ARIA labels on icon-only controls, and landmark roles across all 41 pages.',
+                    '<strong>Loading Skeletons:</strong> Dashboard and Results pages now show shimmer skeleton cards instead of blank spinners while loading.',
+                    '<strong>Preconnect Hints:</strong> Added resource hints for Google Fonts, Font Awesome, and Cloudflare CDN across all pages for faster load times.',
+                    '<strong>JSON-LD Structured Data:</strong> Homepage now includes SoftwareApplication schema for richer Google search results.',
+                    '<strong>Custom 404 Page:</strong> Branded error page with helpful navigation links instead of the default GitHub Pages 404.',
+                    '<strong>RSS Feed Updated:</strong> feed.xml now includes all releases from v2.1.0 through v5.3.0.',
+                    '<strong>Content Security Policy:</strong> CSP meta tags added to all pages to prevent XSS and injection attacks.',
+                    '<strong>Shared Components:</strong> New components.js centralizes the avatar dropdown menu and footer, making future updates propagate to all pages automatically.'
+                ]
+            },
+            {
                 version: 'v5.2.0',
                 title: 'Help Center, SEO & Polish',
                 date: 'Feb 27, 2026',
-                current: true,
                 items: [
                     '<strong>Help Center:</strong> New help.html with 17 searchable articles across 6 categories&mdash;Getting Started, Resume &amp; Cover Letter, Career Tools, Account &amp; Billing, Application Tracker, and Troubleshooting.',
                     '<strong>Forgot Password:</strong> Added a &ldquo;Forgot your password?&rdquo; flow to the login page with email-based reset via Supabase.',

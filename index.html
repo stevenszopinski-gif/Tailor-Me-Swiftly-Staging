@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
     <meta name="description"
         content="TailorMeSwiftly instantly tailors your resume to any job description using AI. Free ATS optimization, cover letters, mock interviews, and outreach emails.">
     <meta property="og:type" content="website">
@@ -22,7 +23,10 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ─── Homepage Styles ─── */
@@ -988,9 +992,53 @@
             }
         }
     </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "TailorMeSwiftly",
+        "url": "https://tailormeswiftly.com",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "AI-powered resume tailoring tool that instantly optimizes your resume for any job description. Includes ATS optimization, cover letter generation, mock interviews, and 30+ career tools.",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "name": "Free",
+                "description": "5 AI generations per month"
+            },
+            {
+                "@type": "Offer",
+                "price": "9.99",
+                "priceCurrency": "USD",
+                "name": "Premium",
+                "description": "Unlimited AI generations",
+                "billingIncrement": "P1M"
+            }
+        ],
+        "featureList": [
+            "AI Resume Tailoring",
+            "ATS Score Optimization",
+            "Cover Letter Generation",
+            "Mock Interview Prep",
+            "Application Tracking",
+            "Salary Negotiation Practice",
+            "Company Culture Analysis",
+            "Skills Gap Analysis"
+        ],
+        "screenshot": "https://tailormeswiftly.com/logo.png",
+        "creator": {
+            "@type": "Organization",
+            "name": "TailorMeSwiftly"
+        }
+    }
+    </script>
 </head>
 
 <body data-theme="light">
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <!-- Background Elements -->
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
@@ -998,7 +1046,7 @@
 
     <div class="app-container" style="min-height: auto;">
         <!-- Header -->
-        <header class="app-header">
+        <header class="app-header" role="banner">
             <div class="logo">
                 <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
                 <h1>TailorMeSwiftly.com</h1>
@@ -1024,7 +1072,7 @@
 
                 <div id="user-profile" class="user-profile"
                     style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
-                    <img id="user-avatar" src="" alt="Profile"
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Profile"
                         style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                     <span id="user-greeting"
@@ -1038,7 +1086,7 @@
                         <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
                             <i class="fa-solid fa-bullhorn"></i> Release Notes
                         </a>                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
-                        <button class="dropdown-item" id="logout-btn">
+                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
                         </button>
                     </div>
@@ -1047,7 +1095,7 @@
         </header>
     </div>
 
-    <main class="hp-main">
+    <main id="main-content" class="hp-main">
 
         <!-- ═══════ HERO ═══════ -->
         <section class="hp-hero">
@@ -1993,6 +2041,18 @@
             <p class="hp-pricing-note"><a href="pricing.html">See full feature comparison &rarr;</a></p>
         </section>
 
+        <!-- ═══════ EMAIL CAPTURE ═══════ -->
+        <section style="text-align:center;padding:3rem 1.5rem;margin-top:2rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:16px;">
+            <h2 style="font-size:1.5rem;margin-bottom:0.5rem;"><i class="fa-solid fa-envelope" style="color:var(--primary-color);margin-right:0.4rem;"></i> Get Weekly Job Search Tips</h2>
+            <p style="color:var(--text-secondary);margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;">Resume hacks, interview strategies, and salary negotiation tactics — delivered to your inbox every Tuesday.</p>
+            <form id="email-capture-form" style="display:flex;gap:0.5rem;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;" onsubmit="return handleEmailCapture(event)">
+                <input type="email" id="capture-email" placeholder="you@example.com" required style="flex:1;min-width:220px;padding:0.7rem 1rem;border:1px solid var(--panel-border);border-radius:10px;background:rgba(255,255,255,0.05);color:var(--text-primary);font-family:inherit;font-size:0.95rem;">
+                <button type="submit" class="btn primary-btn" style="padding:0.7rem 1.5rem;white-space:nowrap;"><i class="fa-solid fa-paper-plane"></i> Subscribe</button>
+            </form>
+            <p id="capture-status" style="font-size:0.82rem;margin-top:0.75rem;color:var(--text-secondary);min-height:1.2rem;"></p>
+            <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.25rem;">No spam, ever. Unsubscribe anytime.</p>
+        </section>
+
         <!-- ═══════ BOTTOM CTA ═══════ -->
         <section class="hp-bottom-cta" style="margin-top: 2rem;">
             <h2>Ready to Land Your Next Role?</h2>
@@ -2059,7 +2119,7 @@
     </div>
 
     <!-- Site Footer -->
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
                 href="security.html">Security Policy</a></p>
@@ -2068,8 +2128,37 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="auth.js?v=8"></script>
+    <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="app.js?v=6"></script>
+    <script>
+        async function handleEmailCapture(e) {
+            e.preventDefault();
+            const email = document.getElementById('capture-email').value.trim();
+            const status = document.getElementById('capture-status');
+            const btn = e.target.querySelector('button[type="submit"]');
+            if (!email) return false;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subscribing...';
+            try {
+                if (!window.supabaseClient) throw new Error('Service unavailable');
+                const { error } = await window.supabaseClient.from('email_subscribers').upsert(
+                    { email, source: 'homepage', subscribed_at: new Date().toISOString() },
+                    { onConflict: 'email' }
+                );
+                if (error) throw error;
+                status.style.color = 'var(--success-color, #10b981)';
+                status.textContent = 'You\'re in! Check your inbox on Tuesday.';
+                e.target.style.display = 'none';
+            } catch (err) {
+                status.style.color = '#ef4444';
+                status.textContent = 'Something went wrong. Please try again.';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Subscribe';
+            }
+            return false;
+        }
+    </script>
 </body>
 
 </html>

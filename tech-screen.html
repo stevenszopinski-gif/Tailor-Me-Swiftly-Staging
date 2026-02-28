@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
     <meta name="description" content="AI generates a custom technical challenge based on the job description. Practice in a sandbox IDE with AI code review.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="TailorMeSwiftly">
@@ -17,7 +18,10 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Trial By Fire – TailorMeSwiftly</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=14">
     <link rel="stylesheet" href="templates.css">
@@ -44,8 +48,9 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <div class="app-container" style="min-height: auto;">
-        <header class="app-header">
+        <header class="app-header" role="banner">
             <div class="logo">
                 <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
                     <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
@@ -54,21 +59,21 @@
             </div>
             <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
                 <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                    <img id="user-avatar" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                     <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
                     <div id="avatar-dropdown" class="avatar-dropdown hidden">
                         <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-user-gear"></i> Account
                         </a>
                                                 <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
-                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>                        <button class="dropdown-item" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
                     </div>
                 </div>
             </div>
         </header>
     </div>
 
-    <div class="result-page">
+    <div id="main-content" class="result-page">
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
@@ -85,6 +90,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="auth.js?v=8"></script>
+    <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="results.js?v=8"></script>
     <script>
@@ -292,7 +298,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 })();
     </script>
 
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>

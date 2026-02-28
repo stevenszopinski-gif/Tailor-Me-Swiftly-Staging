@@ -192,4 +192,46 @@
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
+    <url>
+        <loc>https://tailormeswiftly.com/blog.html</loc>
+        <lastmod>2026-02-28</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/blog/beat-ats-2026.html</loc>
+        <lastmod>2026-02-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/blog/resume-mistakes.html</loc>
+        <lastmod>2026-02-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/blog/cover-letter-ai.html</loc>
+        <lastmod>2026-02-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/blog/salary-negotiation.html</loc>
+        <lastmod>2026-02-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/blog/interview-prep.html</loc>
+        <lastmod>2026-02-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/blog/hidden-job-market.html</loc>
+        <lastmod>2026-02-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
 </urlset>

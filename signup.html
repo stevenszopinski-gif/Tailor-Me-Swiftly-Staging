@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
     <meta name="description" content="Create a free TailorMeSwiftly account. AI-powered resume tailoring, cover letters, mock interviews, and job application tracking.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="TailorMeSwiftly">
@@ -18,7 +19,10 @@
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Create Account | TailorMeSwiftly.com</title>
     <link rel="stylesheet" href="style.css?v=14">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
         crossorigin="anonymous"></script>
@@ -26,13 +30,14 @@
 
 <body data-theme="light"
     style="display: flex; flex-direction: column; min-height: 100vh; justify-content: space-between;">
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <!-- Background Elements -->
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
     <div class="bg-shape shape-3"></div>
 
     <div class="app-container">
-        <header class="app-header">
+        <header class="app-header" role="banner">
             <div class="logo">
                 <a href="index.html"
                     style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: inherit;">
@@ -45,7 +50,7 @@
             </div>
         </header>
 
-        <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+        <main id="main-content" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
             <div class="glass-panel"
                 style="max-width: 400px; width: 100%; text-align: center; padding: 3rem 2rem; border-radius: 24px;">
                 <h2 style="font-size: 2rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-user-plus"
@@ -105,7 +110,7 @@
     </div>
 
     <!-- Site Footer -->
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
@@ -113,8 +118,15 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="auth.js?v=8"></script>
+    <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script>
+        // Save referral code from URL
+        (function() {
+            const ref = new URLSearchParams(window.location.search).get('ref');
+            if (ref) sessionStorage.setItem('tms_referral', ref);
+        })();
+
         (function() {
             const pwField = document.getElementById('password-input');
             if (pwField) {

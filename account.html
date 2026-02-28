@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
     <meta name="description" content="Manage your TailorMeSwiftly account, subscription, preferences, and settings.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="TailorMeSwiftly">
@@ -474,12 +475,13 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
     <div class="bg-shape shape-3"></div>
 
-    <div class="app-container" style="min-height: auto;">
-        <header class="app-header">
+    <div id="main-content" class="app-container" style="min-height: auto;">
+        <header class="app-header" role="banner">
             <div class="logo">
                 <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.5rem;">
                     <i class="fa-solid fa-bolt" style="color:var(--primary-color);font-size:1.5rem;"></i>
@@ -489,7 +491,7 @@
             <div class="header-actions" style="display:flex;gap:0.5rem;align-items:center;">
                 <div id="user-profile" class="user-profile"
                     style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                    <img id="user-avatar" src="" alt="Avatar"
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
                         style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                     <span id="user-greeting"
@@ -503,7 +505,7 @@
                         <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-bullhorn"></i> Release Notes
                         </a>                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
-                        <button class="dropdown-item" id="logout-btn">
+                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
                         </button>
                     </div>
@@ -590,6 +592,20 @@
             </div>
         </div>
 
+        <!-- Referral Program -->
+        <div class="account-section" id="referral-section">
+            <div class="section-title"><i class="fa-solid fa-gift" style="color:var(--accent-color);"></i> Invite Friends, Get Rewards</div>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin:0.5rem 0 1rem;">Share your referral link. When a friend signs up and generates their first resume, you both get 5 extra free generations.</p>
+            <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+                <input type="text" id="referral-link" readonly style="flex:1;min-width:200px;padding:0.6rem 0.8rem;border:1px solid var(--panel-border);border-radius:8px;background:rgba(255,255,255,0.03);color:var(--text-primary);font-family:monospace;font-size:0.82rem;">
+                <button class="btn primary-btn" id="copy-referral-btn" style="padding:0.6rem 1rem;white-space:nowrap;" onclick="copyReferralLink()"><i class="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <div style="display:flex;gap:1.5rem;margin-top:1rem;font-size:0.85rem;color:var(--text-secondary);">
+                <span><i class="fa-solid fa-user-plus" style="color:var(--accent-color);margin-right:0.3rem;"></i> <strong id="referral-count">0</strong> referrals</span>
+                <span><i class="fa-solid fa-bolt" style="color:#f59e0b;margin-right:0.3rem;"></i> <strong id="referral-bonus">0</strong> bonus generations earned</span>
+            </div>
+        </div>
+
         <!-- Danger Zone -->
         <div class="account-section danger-zone">
             <div class="section-title"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</div>
@@ -602,7 +618,7 @@
         <a href="dashboard.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
     </div>
 
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a
                 href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
@@ -610,6 +626,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="auth.js?v=8"></script>
+    <script src="components.js"></script>
     <script>
         // Theme persistence
         const THEME_KEY = 'ats_theme_preference';
@@ -770,9 +787,31 @@
                 updateThemeButton();
             });
 
+            // Referral program
+            const refCode = user.id.slice(0, 8);
+            document.getElementById('referral-link').value = 'https://tailormeswiftly.com/signup.html?ref=' + refCode;
+            try {
+                const { data: refData } = await window.supabaseClient
+                    .from('referrals')
+                    .select('id')
+                    .eq('referrer_id', user.id);
+                const count = refData?.length || 0;
+                document.getElementById('referral-count').textContent = count;
+                document.getElementById('referral-bonus').textContent = count * 5;
+            } catch (e) { /* referrals table may not exist yet */ }
+
             // Delete account
             document.getElementById('delete-account-btn').addEventListener('click', showDeleteConfirm);
         })();
+
+        function copyReferralLink() {
+            const input = document.getElementById('referral-link');
+            navigator.clipboard.writeText(input.value).then(() => {
+                const btn = document.getElementById('copy-referral-btn');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy'; }, 2000);
+            });
+        }
 
         function updateThemeButton() {
             const isDark = document.body.getAttribute('data-theme') === 'dark';

@@ -195,6 +195,10 @@ function attachEventListeners() {
         if (state.jobText.trim()) goToStep(3);
     });
     if (el.nextTo4Btn) el.nextTo4Btn.addEventListener('click', () => {
+        if (!window.isPremiumUser) {
+            window.showUpgradeModal("Resume Tailoring & Cover Letter Generation");
+            return;
+        }
         goToStep(4);
         processGeneration();
     });
@@ -546,7 +550,7 @@ Keep real metrics. Max 5 jobs, 3 education, 15 skills. NEVER invent email, phone
         }
 
         // Save to localStorage as last resume
-        try { localStorage.setItem('tms_last_resume', JSON.stringify({ text: responseText, name: 'LinkedIn Profile' })); } catch(e) {}
+        try { localStorage.setItem('tms_last_resume', JSON.stringify({ text: responseText, name: 'LinkedIn Profile' })); } catch (e) { }
 
         statusEl.innerHTML = '<span class="success-text"><i class="fa-solid fa-check-circle"></i> Profile imported! Review the extracted text below, then click Next.</span>';
         checkStep1();

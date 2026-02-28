@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Your TailorMeSwiftly dashboard — track applications, start new ones, and access career tools.">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
+    <meta name="description"
+        content="Your TailorMeSwiftly dashboard — track applications, start new ones, and access career tools.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="TailorMeSwiftly">
     <meta property="og:url" content="https://tailormeswiftly.com/dashboard.html">
@@ -17,7 +19,10 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
     <title>Dashboard – TailorMeSwiftly</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=14">
     <link rel="stylesheet" href="templates.css">
@@ -203,11 +208,25 @@
         }
 
         /* Per-column accent colors */
-        .dash-col[data-status="Tailored"] .dash-col-title i { color: #8b5cf6; }
-        .dash-col[data-status="Applied"] .dash-col-title i { color: #3b82f6; }
-        .dash-col[data-status="Interviewing"] .dash-col-title i { color: #f59e0b; }
-        .dash-col[data-status="Offer"] .dash-col-title i { color: #10b981; }
-        .dash-col[data-status="Rejected"] .dash-col-title i { color: #ef4444; }
+        .dash-col[data-status="Tailored"] .dash-col-title i {
+            color: #8b5cf6;
+        }
+
+        .dash-col[data-status="Applied"] .dash-col-title i {
+            color: #3b82f6;
+        }
+
+        .dash-col[data-status="Interviewing"] .dash-col-title i {
+            color: #f59e0b;
+        }
+
+        .dash-col[data-status="Offer"] .dash-col-title i {
+            color: #10b981;
+        }
+
+        .dash-col[data-status="Rejected"] .dash-col-title i {
+            color: #ef4444;
+        }
 
         /* ─── Mini Card ─── */
         .dash-card {
@@ -358,12 +377,13 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
     <div class="bg-shape shape-3"></div>
 
-    <div class="app-container" style="min-height:auto;max-width:1100px;">
-        <header class="app-header">
+    <div id="main-content" class="app-container" style="min-height:auto;max-width:1100px;">
+        <header class="app-header" role="banner">
             <div class="logo">
                 <a href="index.html"
                     style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
@@ -374,7 +394,7 @@
             <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
                 <div id="user-profile"
                     style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                    <img id="user-avatar" src="" alt="Avatar"
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
                         style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                     <span id="user-greeting"
@@ -383,11 +403,13 @@
                         <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-user-gear"></i> Account
                         </a>
-                        <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
+                        <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i
+                                class="fa-solid fa-compass"></i> Dashboard</a>
                         <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
                             <i class="fa-solid fa-bullhorn"></i> Release Notes
-                        </a>                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
-                        <button class="dropdown-item" id="logout-btn">
+                        </a>
+                        <div style="height:1px;background:var(--panel-border);margin:0.3rem 0;"></div>
+                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
                         </button>
                     </div>
@@ -406,11 +428,14 @@
     <div class="dash-page">
         <!-- Welcome -->
         <div class="dash-welcome">
-            <h1><i class="fa-solid fa-compass" style="color:var(--primary-color);margin-right:0.4rem;"></i>Dashboard</h1>
+            <h1><i class="fa-solid fa-compass" style="color:var(--primary-color);margin-right:0.4rem;"></i>Dashboard
+            </h1>
             <p id="welcome-message">Your job search command center</p>
             <div class="dash-cta-row">
-                <a href="app.html" class="dash-cta dash-cta-primary"><i class="fa-solid fa-plus"></i> New Application</a>
-                <a href="history.html" class="dash-cta dash-cta-secondary"><i class="fa-solid fa-table-columns"></i> Full Tracker</a>
+                <a href="app.html" class="dash-cta dash-cta-primary"><i class="fa-solid fa-plus"></i> New
+                    Application</a>
+                <a href="history.html" class="dash-cta dash-cta-secondary"><i class="fa-solid fa-table-columns"></i>
+                    Full Tracker</a>
             </div>
         </div>
 
@@ -437,30 +462,56 @@
         <!-- Application Tracker -->
         <div class="dash-section-label"><i class="fa-solid fa-table-columns"></i> Application Tracker</div>
         <div id="dash-kanban-content">
-            <div style="text-align:center;padding:2rem;color:var(--text-secondary);">
-                <i class="fa-solid fa-spinner fa-spin" style="font-size:1.2rem;"></i>
-                <p style="margin-top:0.75rem;">Loading applications...</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;padding:0.5rem 0;">
+                <div class="skeleton-card"><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line medium"></div></div>
+                <div class="skeleton-card"><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line medium"></div></div>
+                <div class="skeleton-card"><div class="skeleton skeleton-line long"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line medium"></div></div>
             </div>
         </div>
 
         <!-- Career Command Center -->
         <div class="dash-section-label"><i class="fa-solid fa-compass"></i> Career Command Center</div>
-        <p style="color:var(--text-secondary);font-size:0.88rem;margin:-0.5rem 0 1.25rem;">Standalone tools that work with just your resume — no job description needed</p>
+        <p style="color:var(--text-secondary);font-size:0.88rem;margin:-0.5rem 0 1.25rem;">Standalone tools that work
+            with just your resume — no job description needed</p>
         <div class="dash-tools-grid">
             <a href="career-pivot.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #14b8a6, #0d9488);"><i class="fa-solid fa-shuffle"></i></div>
+                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #14b8a6, #0d9488);"><i
+                        class="fa-solid fa-shuffle"></i></div>
                 <h3>Career Pivot</h3>
                 <p>Translate your experience into a new industry's language</p>
                 <span class="dash-tool-tag">Resume only</span>
             </a>
             <a href="skills-tracker.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #06b6d4, #0891b2);"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #06b6d4, #0891b2);"><i
+                        class="fa-solid fa-chart-line"></i></div>
                 <h3>Skills Tracker</h3>
                 <p>See which skills are rising and decaying + 6-month roadmap</p>
                 <span class="dash-tool-tag">Resume only</span>
             </a>
+            <a href="toxic-radar.html" class="dash-tool-card">
+                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #ef4444, #dc2626);"><i
+                        class="fa-solid fa-radiation"></i></div>
+                <h3>Toxic Radar <span class="premium-badge">Pro</span></h3>
+                <p>Detect red flags and cultural mismatches early</p>
+                <span class="dash-tool-tag">Company recon</span>
+            </a>
+            <a href="guerrilla-tactics.html" class="dash-tool-card">
+                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #4b5563, #1f2937);"><i
+                        class="fa-solid fa-mask"></i></div>
+                <h3>Guerrilla Tactics <span class="premium-badge">Pro</span></h3>
+                <p>Unconventional strategies to bypass the ATS entirely</p>
+                <span class="dash-tool-tag">Networking</span>
+            </a>
+            <a href="salary-negotiator.html" class="dash-tool-card">
+                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #10b981, #059669);"><i
+                        class="fa-solid fa-sack-dollar"></i></div>
+                <h3>Salary Negotiator <span class="premium-badge">Pro</span></h3>
+                <p>AI-powered scripts to maximize your total comp</p>
+                <span class="dash-tool-tag">Closing</span>
+            </a>
             <a href="auto-app.html" class="dash-tool-card">
-                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #6366f1, #4f46e5);"><i class="fa-solid fa-robot"></i></div>
+                <div class="dash-tool-icon" style="background:linear-gradient(135deg, #6366f1, #4f46e5);"><i
+                        class="fa-solid fa-robot"></i></div>
                 <h3>Auto-App Agent</h3>
                 <p>AI finds matching jobs and tailors cover letter openers</p>
                 <span class="dash-tool-tag">Standalone agent</span>
@@ -470,6 +521,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="auth.js?v=8"></script>
+    <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="results.js?v=8"></script>
     <script>
@@ -635,6 +687,16 @@
             // Safety timeout — if no auth event fires within 4s, show not signed in
             setTimeout(() => { subscription.unsubscribe(); showNotSignedIn(); }, 4000);
         })();
+        // Premium tool guard
+        document.querySelector('.dash-tools-grid').addEventListener('click', (e) => {
+            const card = e.target.closest('.dash-tool-card');
+            if (card && card.querySelector('.premium-badge') && !window.isPremiumUser) {
+                e.preventDefault();
+                const toolName = card.querySelector('h3').textContent.replace(' Pro', '');
+                window.showUpgradeModal(toolName);
+            }
+        });
+
     </script>
 </body>
 

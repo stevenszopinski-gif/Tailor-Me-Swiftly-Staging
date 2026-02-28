@@ -5,8 +5,109 @@
     <link>https://tailormeswiftly.com</link>
     <description>Latest updates and new features for TailorMeSwiftly.com — the AI-powered resume tailoring tool.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Feb 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 28 Feb 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://tailormeswiftly.com/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>v5.3.0 — Blog, Referrals, Accessibility &amp; Performance</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v5.3.0</guid>
+      <pubDate>Sat, 28 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Blog:</strong> 6 SEO-optimized articles covering ATS strategy, resume mistakes, cover letter tips, salary negotiation, interview prep, and the hidden job market.</li>
+          <li><strong>Referral Program:</strong> Share your referral link from the Account page. You both earn 5 bonus generations.</li>
+          <li><strong>Accessibility:</strong> Skip-to-content links, focus-visible outlines, ARIA labels, and landmark roles across all pages.</li>
+          <li><strong>Loading Skeletons:</strong> Shimmer skeleton cards on Dashboard and Results pages.</li>
+          <li><strong>CSP:</strong> Content Security Policy meta tags on all pages.</li>
+          <li><strong>Shared Components:</strong> Centralized header/footer via components.js.</li>
+        </ul>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>v5.2.0 — Help Center, SEO &amp; Polish</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v5.2.0</guid>
+      <pubDate>Thu, 27 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Help Center:</strong> New help.html with 17 searchable articles across 6 categories — Getting Started, Resume & Cover Letter, Career Tools, Account & Billing, Application Tracker, and Troubleshooting.</li>
+          <li><strong>Forgot Password:</strong> Added a "Forgot your password?" flow to the login page with email-based reset via Supabase.</li>
+          <li><strong>Password Visibility Toggle:</strong> Login and signup forms now have a show/hide password eye icon.</li>
+          <li><strong>Toast Notifications:</strong> Replaced all native browser alert() popups with sleek, non-blocking toast messages.</li>
+          <li><strong>Start Over Confirmation:</strong> The "Start Over" button now asks for confirmation before clearing your work.</li>
+          <li><strong>Dashboard Onboarding:</strong> New users see a 3-step getting started guide on the Dashboard instead of an empty state.</li>
+          <li><strong>SEO & Social Sharing:</strong> Added Open Graph and Twitter Card meta tags, canonical URLs, and expanded the sitemap from 6 to 32 URLs across all pages.</li>
+          <li><strong>PWA Manifest:</strong> Added manifest.json with app icons for home screen installation on mobile devices.</li>
+          <li><strong>Secure Account Deletion:</strong> The delete-account flow now cancels any active Stripe subscription before removing the account.</li>
+          <li><strong>Session Cleanup:</strong> Signing out now properly clears cached generation data to prevent cross-account data leaks.</li>
+          <li><strong>Debug Cleanup:</strong> Removed leftover console.log statements from production code.</li>
+          <li><strong>robots.txt:</strong> App pages (dashboard, history, account, results) are now blocked from search engine indexing.</li>
+        </ul>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>v5.1.0 — Dashboard &amp; Navigation Overhaul</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v5.1.0</guid>
+      <pubDate>Thu, 27 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>New Dashboard:</strong> Logged-in users now land on a dedicated Dashboard with quick stats, a mini Kanban board, and one-click access to Career Command Center tools.</li>
+          <li><strong>Clickable Kanban Cards:</strong> Each application card on the Dashboard links directly to its results page — no more hunting through the full tracker.</li>
+          <li><strong>Streamlined Navigation:</strong> Removed the Application Tracker link from the avatar dropdown. The Dashboard now serves as the central hub.</li>
+          <li><strong>Smart Redirects:</strong> Logged-in users visiting the landing page are automatically redirected to the Dashboard.</li>
+          <li><strong>Tool Reorganization:</strong> Shadow Jobs, Toxic Culture Radar, and Referral Mapper moved from the global Career Command Center to the application-specific Outreach & Edge section.</li>
+        </ul>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>v5.0.0 — Mega Expansion: 11 New AI Tools + Voice Negotiator</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v5.0.0</guid>
+      <pubDate>Tue, 24 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Auto-App Agent:</strong> Set your job criteria and let AI scan for matching jobs, generating tailored cover letter openers for each match.</li>
+          <li><strong>Reverse Interview Generator:</strong> AI generates 5 probing questions to ask your interviewer with intel background and strategy.</li>
+          <li><strong>Ghosting Predictor:</strong> AI gives a Ghosting Probability Score (0–100%) with actionable advice on whether to apply.</li>
+          <li><strong>Compensation Decoder:</strong> AI calculates the true annual value of an offer with COL adjustments and equity risk warnings.</li>
+          <li><strong>Skills Obsolescence Tracker:</strong> Identifies which of your skills are rising, stable, or decaying in demand.</li>
+          <li><strong>Trial By Fire Tech Screen:</strong> Custom 30-minute coding challenge with built-in IDE, timer, hints, and AI code review.</li>
+          <li><strong>Rejection Reverser:</strong> Turn rejections into networking opportunities with bridge-building feedback request emails.</li>
+          <li><strong>Toxic Culture Radar:</strong> Scans the company for toxicity signals, layoff history, and JD red flags.</li>
+          <li><strong>Thank-You Engine:</strong> Generate 3 variants of a post-interview thank-you email in seconds.</li>
+          <li><strong>Voice-to-Voice Salary Negotiator:</strong> Full voice-to-voice experience with AI HR rep using your microphone.</li>
+          <li><strong>Homepage Expansion:</strong> Updated toolkit grid now showcases 30+ features.</li>
+        </ul>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>v4.0.0 — Career Toolkit Expansion</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v4.0.0</guid>
+      <pubDate>Tue, 24 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Brutal Roast Mode:</strong> AI delivers a brutally honest, shareable roast of your resume's weakest points.</li>
+          <li><strong>Red Flag Detector:</strong> Scans your resume for cliche jargon, unexplained gaps, vague metrics, and exaggerated claims.</li>
+          <li><strong>Recruiter Heatmap:</strong> Visual heatmap highlighting which phrases attract recruiter attention.</li>
+          <li><strong>Burnout & Overemployment Check:</strong> Scans the JD for toxic corporate speak and generates a Flight Risk Score.</li>
+          <li><strong>AI Salary Negotiator:</strong> Interactive chat simulator where you practice negotiating with a stubborn AI HR rep.</li>
+          <li><strong>Prove It Metric Extractor:</strong> Finds vague bullet points and rewrites them with hard data.</li>
+          <li><strong>Day in the Life Simulator:</strong> AI generates a realistic hour-by-hour day in the role.</li>
+          <li><strong>Video Intro Script & Teleprompter:</strong> AI writes a 60-second video intro script with built-in webcam teleprompter.</li>
+          <li><strong>Referral Network Mapper:</strong> Step-by-step referral hunting strategy with ready-to-use LinkedIn messages.</li>
+          <li><strong>Shadow Job Market:</strong> Track company career pages for new openings before they hit LinkedIn.</li>
+          <li><strong>Guerrilla Tactics:</strong> Aggressive strategies to bypass the ATS with email formats and ready-to-send scripts.</li>
+          <li><strong>AI Insights Panel:</strong> New sidebar tab in the resume editor showing Red Flags and Burnout Check results.</li>
+        </ul>
+      ]]></description>
+    </item>
 
     <item>
       <title>v3.5.0 — Premium Tier, Mobile, Flashcards &amp; More</title>
@@ -90,7 +191,7 @@
           <li><strong>Dark Resume Preset:</strong> New high-contrast "Dark" theme for maximum readability.</li>
           <li><strong>Results Grid Layout:</strong> All 4 outputs now display in a single row.</li>
           <li><strong>Updated Homepage:</strong> Cleaner header design with TailorMeSwiftly.com branding above the animation.</li>
-          <li><strong>Removed LinkedIn Optimization:</strong> Streamlined feature set to focus on core strengths.</li>
+          <li><strong>Streamlined Feature Set:</strong> Focused on core strengths for a more cohesive experience.</li>
           <li><strong>Enhanced Loading Experience:</strong> Improved funny quotes display.</li>
           <li><strong>Messaging Refresh:</strong> Updated homepage copy to highlight lightning-fast results.</li>
         </ul>

@@ -2,7 +2,7 @@
 // Handles Supabase initialization and authentication state
 
 // Wrap everything in error handling
-(function() {
+(function () {
     const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
@@ -51,7 +51,7 @@
     }
 
     window.initAuthUI_ready = false;
-    window.initAuthUI = function() {
+    window.initAuthUI = function () {
         if (window.initAuthUI_ready) return;
         window.initAuthUI_ready = true;
 
@@ -93,7 +93,7 @@
         toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 4000);
     }
 
-    window.signInWithGoogle = async function() {
+    window.signInWithGoogle = async function () {
         if (!window.supabaseClient) {
             showToast("Authentication not ready. Please refresh the page.", true);
             return;
@@ -113,7 +113,7 @@
         }
     };
 
-    window.signOut = async function() {
+    window.signOut = async function () {
         if (!window.supabaseClient) return;
 
         try {
@@ -128,7 +128,7 @@
         }
     };
 
-    window.handleEmailLogin = async function() {
+    window.handleEmailLogin = async function () {
         const emailInput = document.getElementById('email-input');
         const passwordInput = document.getElementById('password-input');
 
@@ -153,7 +153,7 @@
         }
     };
 
-    window.handleEmailSignup = async function() {
+    window.handleEmailSignup = async function () {
         const emailInput = document.getElementById('email-input');
         const passwordInput = document.getElementById('password-input');
 
@@ -214,6 +214,50 @@
         });
     }
 
+
+    window.isPremiumUser = false;
+
+    async function checkPremiumStatus(userId) {
+        if (!window.supabaseClient) return false;
+        try {
+            const { data, error } = await window.supabaseClient
+                .from('user_profiles')
+                .select('plan')
+                .eq('user_id', userId)
+                .maybeSingle();
+
+            if (data && data.plan === 'premium') {
+                window.isPremiumUser = true;
+                return true;
+            }
+        } catch (e) {
+            console.error("[Auth] Premium check failed:", e);
+        }
+        window.isPremiumUser = false;
+        return false;
+    }
+
+    window.showUpgradeModal = function (featureName = "this premium feature") {
+        let modal = document.getElementById('upgrade-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'upgrade-modal';
+            modal.className = 'confirm-overlay'; // Reusing confirmation overlay styles
+            modal.innerHTML = `
+                <div class="confirm-box">
+                    <div class="upgrade-modal-icon"><i class="fa-solid fa-crown"></i></div>
+                    <h3>Unlock Premium Access</h3>
+                    <p>Upgrade to TailorMeSwiftly Premium to access <strong>${featureName}</strong> and 20+ other high-performance career tools.</p>
+                    <div class="confirm-actions">
+                        <button class="confirm-cancel" onclick="document.getElementById('upgrade-modal').remove()">Maybe Later</button>
+                        <a href="account.html" class="plan-btn gold" style="text-decoration:none; display:flex; align-items:center; justify-content:center; flex:1; border-radius:10px; font-weight:600;">Upgrade Now</a>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    };
+
     function updateUIForUser(user) {
         const loginBtn = document.getElementById('login-btn');
         const userProfile = document.getElementById('user-profile');
@@ -239,6 +283,9 @@
         if (welcome && firstName) {
             welcome.textContent = `Hello, ${firstName}`;
         }
+
+        // Check premium status
+        checkPremiumStatus(user.id);
 
         const dropZone = document.getElementById('drop-zone');
         if (dropZone) {
@@ -277,7 +324,7 @@
     window.updateUIForLoggedOut = updateUIForLoggedOut;
 
     // --- Global Theme Logic --- //
-    window.initTheme = function() {
+    window.initTheme = function () {
         const THEME_STORAGE = 'ats_theme_preference';
         const savedTheme = localStorage.getItem(THEME_STORAGE) || 'light';
 
@@ -308,7 +355,7 @@
     };
 
     // --- Analytics --- //
-    window.trackPageView = async function() {
+    window.trackPageView = async function () {
         if (!window.supabaseClient) return;
         try {
             const path = window.location.pathname;
