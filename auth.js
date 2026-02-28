@@ -56,14 +56,16 @@
         window.initAuthUI_ready = true;
 
         const googleBtn = document.getElementById('google-login-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-
         if (googleBtn) {
             googleBtn.addEventListener('click', signInWithGoogle);
         }
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', signOut);
-        }
+
+        // Use event delegation for logout button since it may be recreated by components.js
+        document.body.addEventListener('click', function (e) {
+            if (e.target.closest('#logout-btn')) {
+                window.signOut();
+            }
+        });
 
         // Email auth setup
         const emailLoginBtn = document.getElementById('email-login-btn');
