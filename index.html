@@ -976,12 +976,18 @@
                     style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem;">
                     Tool description goes here.</p>
                 <div id="tp-modal-example"
-                    style="display:none;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:0.82rem;line-height:1.6;">
-                    <div
-                        style="font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.3rem;"></i> Example Output
+                    style="display:none;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:1rem;overflow:hidden;position:relative;">
+                    <div id="tp-modal-text-wrap" style="padding:1rem;">
+                        <div
+                            style="font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.5rem;">
+                            <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.3rem;"></i> Example Output
+                        </div>
+                        <div id="tp-modal-example-text"
+                            style="color:var(--text-secondary);font-style:italic;font-size:0.82rem;line-height:1.6;">
+                        </div>
                     </div>
-                    <div id="tp-modal-example-text" style="color:var(--text-secondary);font-style:italic;"></div>
+                    <img id="tp-modal-example-img" src="" alt="Tool Preview"
+                        style="display:none;width:100%;height:auto;display:block;">
                 </div>
                 <div
                     style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
@@ -1051,22 +1057,22 @@
     <script>
         // Tool Previews Logic
         const TOOL_INFO = {
-            'ATS Resume': { desc: 'AI tailors your resume to match any job description. Optimizes keywords, formatting, and content for ATS scanners, with 15+ professional templates.', example: '"Managed team projects" becomes "Led cross-functional team of 8 engineers, delivering 3 product launches on time and 12% under budget, improving sprint velocity by 23%."' },
-            'Cover Letter': { desc: 'Generates a compelling, tailored cover letter that weaves your experience into a narrative matching the role. Pulls from company research for personalization.', example: '"Your mission to democratize AI education resonates deeply with my 5 years building accessible learning platforms at EdTech Corp, where I grew user engagement by 340%..."' },
+            'ATS Resume': { desc: 'AI tailors your resume to match any job description. Optimizes keywords, formatting, and content for ATS scanners, with 15+ professional templates.', image: 'app-mockup.png' },
+            'Cover Letter': { desc: 'Generates a compelling, tailored cover letter that weaves your experience into a narrative matching the role. Pulls from company research for personalization.', image: 'tool-cover-letter.png' },
             'Intro Email': { desc: 'Drafts a cold outreach email using company intelligence, recent news, and mutual connections to maximize response rates.', example: '"Hi Sarah — I noticed Acme just raised Series B and is scaling the data platform team. Having built similar pipelines at Scale AI that processed 2M daily events, I\'d love to explore how I could help..."' },
             'Recruiter Heatmap': { desc: 'Visualizes which parts of your resume recruiters focus on first and which sections get skipped. Highlights attention hotspots and cold zones.', example: 'Your skills section gets 8 seconds of attention (top 20%), but your summary gets skipped. Your most recent role captures 45% of total reading time.' },
             'Brutal Roast': { desc: 'An honest, no-holds-barred AI critique of your resume. Identifies weak spots, cliches, red flags, and missed opportunities that other tools miss.', example: '"Responsible for various tasks" — this tells me nothing. You\'re basically saying you showed up to work. Replace with specific achievements and metrics or delete entirely.' },
             'Red Flag Detector': { desc: 'Scans your resume for elements that commonly trigger automatic rejections — format issues, keyword gaps, experience mismatches, and ATS-breaking formatting.', example: '3 red flags found: (1) PDF uses two-column layout — 40% of ATS systems misparse this. (2) Missing 4 of 6 required skills from JD. (3) Employment gap not addressed.' },
             'Prove It': { desc: 'Transforms vague, generic bullet points into quantified, metrics-driven achievements that demonstrate real impact.', example: '"Improved customer satisfaction" becomes "Increased NPS score from 32 to 67 (+109%) by redesigning the onboarding flow, reducing support tickets by 45% in Q3 2025."' },
             'Video Intro': { desc: 'Creates a 60-second video introduction script with teleprompter mode. Tailored to the company and role, designed for LinkedIn or direct recruiter outreach.', example: '"Hi, I\'m Alex — a product manager who\'s shipped 3 zero-to-one products at startups and helped scale ARR from $2M to $18M. I\'m excited about Stripe\'s embedded finance vision because..."' },
-            'Toxic Culture Radar': { desc: 'Analyzes company reviews, news, and job posting language to generate a toxicity score and layoff risk assessment before you invest time applying.', example: 'Toxicity Score: 7.2/10. Red flags: 3 rounds of layoffs in 18 months, Glassdoor rating dropped from 4.1 to 2.8, "fast-paced" appears 11 times in JD (burnout signal).' },
+            'Toxic Culture Radar': { desc: 'Analyzes company reviews, news, and job posting language to generate a toxicity score and layoff risk assessment before you invest time applying.', image: 'tool-toxic.png' },
             'Ghosting Predictor': { desc: 'Detects ghost job postings — roles that have been open too long, reposted repeatedly, or show other signals of not being actively filled.', example: 'Ghost probability: 78%. This role was first posted 94 days ago, reposted 3 times with identical text, and the hiring manager left the company 2 weeks ago per LinkedIn.' },
             'Burnout Check': { desc: 'Analyzes job descriptions for toxic language patterns, unrealistic expectations, and work-life imbalance signals. Assesses overemployment compatibility.', example: 'Burnout Risk: High. "Must thrive in ambiguity" + "wear many hats" + "startup mentality" + no PTO mentioned = classic burnout cocktail. OE compatibility: Low (on-site required).' },
-            'Comp Decoder': { desc: 'Decodes total compensation packages including equity, benefits, and cost-of-living adjustments to reveal the true value of any offer.', example: '$150K base + $40K RSUs + $10K signing = $200K nominal. After SF cost-of-living adjustment: equivalent to $127K in Austin. Stock vesting cliff means Year 1 actual: $160K.' },
+            'Comp Decoder': { desc: 'Decodes total compensation packages including equity, benefits, and cost-of-living adjustments to reveal the true value of any offer.', image: 'tool-comp.png' },
             'Day in the Life': { desc: 'Simulates a realistic day in the target role using company data, team structure, and role requirements so you know what you\'re signing up for.', example: '8:30 AM: Standup with 6-person squad. 9-11: Deep work on feature specs. 11: Stakeholder alignment meeting. 1 PM: User research debrief. 3 PM: Sprint planning...' },
             'Skills Tracker': { desc: 'Maps your skills against market demand trends. Shows which of your skills are rising in value, which are declining, and what gaps to close.', example: 'Rising: Python (+34% YoY demand), System Design (+28%). Stable: SQL, AWS. Declining: jQuery (-41%), PHP (-19%). Gap to close: Kubernetes (required in 67% of target roles).' },
             'Mock Interview': { desc: 'AI-powered mock interview with 10 role-specific questions, voice interaction, and detailed feedback on content, delivery, and confidence.', example: 'Q: "Tell me about a time you disagreed with your manager." Your answer scored 6/10. Feedback: Good STAR structure but missed the resolution. Add the specific outcome and what you learned.' },
-            'Salary Negotiator': { desc: 'Practice salary negotiations voice-to-voice with an AI HR representative trained on real negotiation tactics. Get coached on strategy and counter-offers.', example: 'AI HR: "We can offer $145K." You: "Based on my research..." Coach tip: You anchored too low. Market data shows $160-175K for this role in your region. Counter with $170K.' },
+            'Salary Negotiator': { desc: 'Practice salary negotiations voice-to-voice with an AI HR representative trained on real negotiation tactics. Get coached on strategy and counter-offers.', image: 'tool-salary.png' },
             'Trial By Fire': { desc: 'Generates a custom coding challenge or case study matching the actual interview format of your target company, with a built-in IDE and timer.', example: 'Google-style challenge: "Design a URL shortener that handles 10M daily redirects." Time: 45 min. Includes: system design canvas, code editor, and AI evaluation rubric.' },
             'Reverse Interview': { desc: 'Generates insightful questions to ask your interviewer based on company research, recent news, and the specific role — helping you evaluate them.', example: '"I noticed Acme acquired DataCo last quarter. How is the integration affecting the product roadmap for the team I\'d join?" — shows research + strategic thinking.' },
             'Thank-You Engine': { desc: 'Creates 3 variants of the perfect post-interview follow-up email: professional, warm, and strategic. Personalized to your conversation topics.', example: 'Variant 2 (Strategic): "Our discussion about migrating to microservices reminded me of a similar project where I reduced deployment time by 80%. I\'d love to bring that experience to your team..."' },
@@ -1088,10 +1094,21 @@
                 document.getElementById('tp-modal-desc').innerText = info ? info.desc : card.querySelector('p').innerText;
 
                 const exampleEl = document.getElementById('tp-modal-example');
+                const textWrap = document.getElementById('tp-modal-text-wrap');
                 const exampleText = document.getElementById('tp-modal-example-text');
-                if (info && info.example) {
-                    exampleText.textContent = info.example;
+                const exampleImg = document.getElementById('tp-modal-example-img');
+
+                if (info && (info.example || info.image)) {
                     exampleEl.style.display = 'block';
+                    if (info.image) {
+                        exampleImg.src = info.image;
+                        exampleImg.style.display = 'block';
+                        textWrap.style.display = 'none';
+                    } else {
+                        exampleImg.style.display = 'none';
+                        exampleText.textContent = info.example;
+                        textWrap.style.display = 'block';
+                    }
                 } else {
                     exampleEl.style.display = 'none';
                 }
