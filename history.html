@@ -786,7 +786,7 @@
             card.dataset.company = companyName;
             card.dataset.interviewMeta = gen.interview_meta ? JSON.stringify(gen.interview_meta) : '{}';
 
-            card.addEventListener('click', () => window.location.href = `results.html?gen=${gen.id}`);
+            card.addEventListener('click', () => openNotesModal(gen.id));
 
             card.innerHTML = `
                 <div class="kcard-top">
