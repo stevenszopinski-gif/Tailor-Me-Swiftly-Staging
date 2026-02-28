@@ -11,34 +11,23 @@ async function run() {
         colorScheme: 'light'
     });
 
-    // ── App Screenshot (results.html with mock generated results) ──
-    await page.goto('http://localhost:8081/results.html', { waitUntil: 'networkidle' });
+    // ── App Screenshot (app.html showing the resume tool wizard) ──
+    await page.goto('http://localhost:8081/app.html', { waitUntil: 'networkidle' });
     await page.waitForTimeout(1000);
     await page.evaluate(() => {
-        // Hide the no-session CTA and skeleton
-        const noCta = document.getElementById('no-app-cta');
-        if (noCta) noCta.style.display = 'none';
-        const skeleton = document.getElementById('results-skeleton');
-        if (skeleton) skeleton.style.display = 'none';
+        // Set welcome message
+        const welcome = document.getElementById('welcome-message');
+        if (welcome) welcome.textContent = 'Hello, Steven';
 
-        // Show the hero section with mock data
-        const hero = document.getElementById('active-app-hero');
-        if (hero) {
-            hero.style.display = 'block';
-            const company = document.getElementById('hero-company');
-            if (company) company.textContent = 'Stripe — Senior Software Engineer';
-            // Show and animate the score dial
-            const dialWrap = document.getElementById('score-dial-wrap');
-            if (dialWrap) dialWrap.style.display = 'flex';
-            const arc = document.getElementById('dial-arc');
-            if (arc) arc.setAttribute('stroke-dasharray', '92 100');
-            const pct = document.getElementById('dial-pct');
-            if (pct) pct.textContent = '92%';
-        }
+        // Show file-status as successfully parsed
+        const fileStatus = document.getElementById('file-status');
+        if (fileStatus) fileStatus.classList.remove('hidden');
+        const fileName = document.getElementById('file-name');
+        if (fileName) fileName.textContent = 'Steven_Szopinski_Resume.pdf';
 
-        // Show the application tools section
-        const appSection = document.getElementById('application-section');
-        if (appSection) appSection.style.display = 'block';
+        // Enable the Next Step button
+        const nextBtn = document.getElementById('next-to-2');
+        if (nextBtn) nextBtn.disabled = false;
     });
     await page.waitForTimeout(500);
     await page.screenshot({ path: 'app-mockup.png' });
