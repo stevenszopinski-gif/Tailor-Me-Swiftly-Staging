@@ -979,18 +979,38 @@ FORMAT — use this EXACT HTML structure:
 
                 if (res.error) throw res.error;
 
+                // Function returns 200 for both success (binary) and error (JSON)
+                // Check if we got a JSON error response
                 let audioBlob;
                 if (res.data instanceof Blob) {
+                    // Could be binary audio OR a JSON error wrapped in a Blob
+                    if (res.data.type === 'application/json' || res.data.size < 200) {
+                        try {
+                            const text = await res.data.text();
+                            const json = JSON.parse(text);
+                            if (json.error) throw new Error(json.error);
+                        } catch (e) {
+                            if (e.message && !e.message.includes('JSON')) throw e;
+                        }
+                    }
                     audioBlob = res.data;
                 } else if (res.data instanceof ArrayBuffer) {
                     audioBlob = new Blob([res.data], { type: 'audio/mpeg' });
+                } else if (typeof res.data === 'object' && res.data?.error) {
+                    throw new Error(res.data.error);
                 } else if (typeof res.data === 'string') {
-                    audioBlob = base64ToBlob(btoa(res.data), 'audio/mpeg');
+                    try {
+                        const json = JSON.parse(res.data);
+                        if (json.error) throw new Error(json.error);
+                    } catch (e) {
+                        if (e.message && !e.message.includes('JSON')) throw e;
+                    }
+                    audioBlob = new Blob([res.data], { type: 'audio/mpeg' });
                 } else {
                     throw new Error('Unexpected response format from podcast service.');
                 }
 
-                if (audioBlob.size < 100) throw new Error('Generated audio is empty. Please try again.');
+                if (audioBlob.size < 200) throw new Error('Generated audio is empty. Please try again.');
 
                 playAudioBlob(audioBlob);
 
