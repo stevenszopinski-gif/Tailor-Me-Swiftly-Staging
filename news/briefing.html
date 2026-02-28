@@ -339,6 +339,7 @@
     <script>
         const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
         let extractedInterests = [];
+        let currentBriefingDate = null; // tracks which briefing is displayed
         let tmsApplications = [];
 
         // PDF.js worker
@@ -763,6 +764,8 @@ FORMAT — use this EXACT HTML structure:
                     metadata: { model: 'gemini-3-flash-preview', generated_at: new Date().toISOString() }
                 }, { onConflict: 'user_id,briefing_date' });
 
+                currentBriefingDate = new Date().toISOString().split('T')[0];
+
                 // Save interests to profile for next time
                 saveInterestsToProfile(interests);
 
@@ -855,6 +858,8 @@ FORMAT — use this EXACT HTML structure:
 
             if (!briefing) return;
 
+            currentBriefingDate = briefing.briefing_date;
+
             // Display the saved briefing
             const interests = briefing.interests || [];
             const sources = briefing.sources || [];
@@ -939,17 +944,64 @@ FORMAT — use this EXACT HTML structure:
             return script;
         }
 
+        function playAudioBlob(blob) {
+            const audioUrl = URL.createObjectURL(blob);
+            const audioEl = document.getElementById('briefing-audio');
+            audioEl.src = audioUrl;
+            document.getElementById('audio-container').style.display = 'block';
+            audioEl.play();
+        }
+
+        function base64ToBlob(b64, type) {
+            const bin = atob(b64);
+            const arr = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+            return new Blob([arr], { type });
+        }
+
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
         async function listenToBriefing() {
             const btn = document.getElementById('listen-btn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
 
             try {
-                const audioText = extractAudioText();
-                if (!audioText) throw new Error('No briefing content to read.');
-
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) throw new Error('Please sign in to use audio playback.');
+
+                // Check for cached audio (up to 7 days old)
+                if (currentBriefingDate) {
+                    const { data: row } = await window.supabaseClient
+                        .from('daily_briefings')
+                        .select('audio_url, created_at')
+                        .eq('user_id', session.user.id)
+                        .eq('briefing_date', currentBriefingDate)
+                        .single();
+
+                    if (row?.audio_url) {
+                        const ageMs = Date.now() - new Date(row.created_at).getTime();
+                        const sevenDays = 7 * 24 * 60 * 60 * 1000;
+                        if (ageMs < sevenDays) {
+                            playAudioBlob(base64ToBlob(row.audio_url, 'audio/mpeg'));
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+                            return;
+                        }
+                    }
+                }
+
+                // No cache — generate via ElevenLabs
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating audio...';
+                const audioText = extractAudioText();
+                if (!audioText) throw new Error('No briefing content to read.');
 
                 const res = await window.supabaseClient.functions.invoke('elevenlabs-tts', {
                     body: { text: audioText.substring(0, 3000) }
@@ -957,12 +1009,36 @@ FORMAT — use this EXACT HTML structure:
 
                 if (res.error) throw res.error;
 
-                const audioBlob = new Blob([res.data], { type: 'audio/mpeg' });
-                const audioUrl = URL.createObjectURL(audioBlob);
-                const audioEl = document.getElementById('briefing-audio');
-                audioEl.src = audioUrl;
-                document.getElementById('audio-container').style.display = 'block';
-                audioEl.play();
+                // supabase-js may return ArrayBuffer, Blob, or string depending on version
+                let audioBlob;
+                if (res.data instanceof Blob) {
+                    audioBlob = res.data;
+                } else if (res.data instanceof ArrayBuffer) {
+                    audioBlob = new Blob([res.data], { type: 'audio/mpeg' });
+                } else if (typeof res.data === 'string') {
+                    // Might be base64 encoded or raw binary string
+                    audioBlob = base64ToBlob(btoa(res.data), 'audio/mpeg');
+                } else {
+                    throw new Error('Unexpected response format from TTS service.');
+                }
+
+                if (audioBlob.size < 100) throw new Error('Generated audio is empty. Please try again.');
+
+                playAudioBlob(audioBlob);
+
+                // Cache the audio as base64 in daily_briefings.audio_url
+                if (currentBriefingDate) {
+                    try {
+                        const b64 = await blobToBase64(audioBlob);
+                        await window.supabaseClient
+                            .from('daily_briefings')
+                            .update({ audio_url: b64 })
+                            .eq('user_id', session.user.id)
+                            .eq('briefing_date', currentBriefingDate);
+                    } catch (cacheErr) {
+                        console.warn('Failed to cache audio:', cacheErr);
+                    }
+                }
             } catch (e) {
                 console.error('TTS error:', e);
                 alert(e.message || 'Audio generation failed. This feature requires a premium subscription.');
