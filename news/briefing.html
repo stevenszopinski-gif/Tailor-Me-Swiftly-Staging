@@ -470,7 +470,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="../brand-config.js"></script>
-    <script src="../auth.js?v=10"></script>
+    <script src="../auth.js?v=11"></script>
     <script src="../billing.js?v=1"></script>
     <script src="../components.js"></script>
     <script>
@@ -482,10 +482,10 @@
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
 
         async function invokeEdge(fnName, body) {
-            // Get cached session — never call refreshSession() as it corrupts
-            // the session state with the sb_publishable_ key
-            const { data: { session } } = await window.supabaseClient.auth.getSession();
-            if (!session) {
+            // Read token directly from localStorage — getSession() triggers
+            // refresh attempts that corrupt the session with sb_publishable_ key
+            const token = window._getAccessToken ? window._getAccessToken() : null;
+            if (!token) {
                 throw new Error('Please log in to continue.');
             }
 
@@ -493,7 +493,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session.access_token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(body)
             });

@@ -26,7 +26,7 @@
 
             const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
                 auth: {
-                    autoRefreshToken: false,  // Disable — refresh fails with sb_publishable_ key and corrupts session
+                    autoRefreshToken: true,
                     persistSession: true
                 }
             });
@@ -37,15 +37,18 @@
 
             // Monkey-patch functions.invoke to use direct fetch with user's JWT
             // The sb_publishable_ key is incompatible with Edge Functions gateway
+            // Read token from localStorage directly — getSession() triggers refresh
+            // attempts that corrupt the session with the sb_publishable_ key
             const EDGE_BASE = SUPABASE_URL + '/functions/v1';
+            const STORAGE_KEY = 'sb-gwmpdgjvcjzndbloctla-auth-token';
             client.functions.invoke = async function (fnName, opts) {
-                const { data: { session } } = await client.auth.getSession();
-                if (!session) throw new Error('Not authenticated');
+                const token = _getAccessToken();
+                if (!token) throw new Error('Not authenticated');
                 const resp = await fetch(EDGE_BASE + '/' + fnName, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + session.access_token
+                        'Authorization': 'Bearer ' + token
                     },
                     body: JSON.stringify(opts?.body || {})
                 });
@@ -56,6 +59,17 @@
                 }
                 return { data: json, error: null };
             };
+
+            // Safe token reader — reads directly from localStorage, never triggers refresh
+            function _getAccessToken() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return null;
+                    const parsed = JSON.parse(raw);
+                    return parsed?.access_token || parsed?.currentSession?.access_token || null;
+                } catch { return null; }
+            }
+            window._getAccessToken = _getAccessToken;
 
             // Dispatch auth-ready event
             document.dispatchEvent(new Event('auth-ready'));
