@@ -51,7 +51,7 @@
                     </h2>
                     <p style="color:var(--text-secondary);margin-top:0.3rem;">Your personalized news digest history.</p>
                 </div>
-                <a href="briefing.html" class="btn primary-btn"><i class="fa-solid fa-bolt"></i> New Briefing</a>
+                <a href="briefing.html" id="new-briefing-btn" class="btn primary-btn" style="display:none;"><i class="fa-solid fa-bolt"></i> New Briefing</a>
             </div>
 
             <!-- Skeleton loading -->
@@ -224,6 +224,7 @@
 
             if (!briefings || briefings.length === 0) {
                 document.getElementById('feed-empty').style.display = 'block';
+                document.getElementById('new-briefing-btn').style.display = '';
                 return;
             }
 
