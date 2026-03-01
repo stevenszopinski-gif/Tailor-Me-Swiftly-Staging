@@ -862,7 +862,7 @@
             if (prefs) prefs.style.display = tab === 'preferences' ? '' : 'none';
         }
 
-        // Edge Function helper — direct session + fetch (same pattern as interview-prep.html)
+        // Edge Function helper — always refresh token before calling
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
         const EDGE_API_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
@@ -871,35 +871,53 @@
                 throw new Error('Your session has expired. Please refresh the page and sign in again.');
             }
 
-            // Get token from cached session
             let token = null;
-            try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
-                token = session?.access_token || null;
-            } catch (e) { /* silent */ }
 
-            // Check if token is expired or expiring soon — refresh if so
-            if (token) {
-                try {
-                    const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-                    const payload = JSON.parse(atob(b64));
-                    if (payload.exp * 1000 < Date.now() + 60000) {
-                        const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
-                        if (refreshed?.session?.access_token) token = refreshed.session.access_token;
-                    }
-                } catch (e) { /* non-JWT token, use as-is */ }
+            // Strategy 1: Force refresh to guarantee a fresh token
+            try {
+                const { data, error } = await window.supabaseClient.auth.refreshSession();
+                if (error) console.warn('[invokeEdge] refreshSession error:', error.message);
+                token = data?.session?.access_token || null;
+                if (token) console.log('[invokeEdge] Got fresh token via refreshSession');
+            } catch (e) {
+                console.warn('[invokeEdge] refreshSession threw:', e.message);
             }
 
-            // No token at all — try refresh as last resort
+            // Strategy 2: Fall back to cached session (SDK may have auto-refreshed)
             if (!token) {
                 try {
-                    const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
-                    token = refreshed?.session?.access_token || null;
+                    const { data: { session } } = await window.supabaseClient.auth.getSession();
+                    token = session?.access_token || null;
+                    if (token) console.log('[invokeEdge] Got token via getSession (cached)');
+                } catch (e) {
+                    console.warn('[invokeEdge] getSession threw:', e.message);
+                }
+            }
+
+            // Strategy 3: Read directly from localStorage
+            if (!token) {
+                try {
+                    const raw = localStorage.getItem('sb-gwmpdgjvcjzndbloctla-auth-token');
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        token = parsed?.access_token || parsed?.currentSession?.access_token || null;
+                        if (token) console.log('[invokeEdge] Got token from localStorage');
+                    }
                 } catch (e) { /* silent */ }
             }
 
             if (!token) {
                 throw new Error('Your session has expired. Please refresh the page and sign in again.');
+            }
+
+            // Log token diagnostics
+            try {
+                const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+                const payload = JSON.parse(atob(b64));
+                const expiresIn = Math.round((payload.exp * 1000 - Date.now()) / 1000);
+                console.log(`[invokeEdge] Calling ${fnName} — token expires in ${expiresIn}s, sub: ${payload.sub?.substring(0, 8)}...`);
+            } catch (e) {
+                console.log(`[invokeEdge] Calling ${fnName} — token is not a standard JWT`);
             }
 
             const resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
@@ -915,6 +933,7 @@
             if (!resp.ok) {
                 const errBody = await resp.json().catch(() => ({}));
                 const errMsg = errBody?.message || errBody?.msg || errBody?.error?.message || errBody?.error || `Edge function error (${resp.status})`;
+                console.error(`[invokeEdge] ${fnName} failed: ${resp.status} — ${errMsg}`);
                 throw new Error(errMsg);
             }
 
