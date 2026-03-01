@@ -862,33 +862,51 @@
             if (prefs) prefs.style.display = tab === 'preferences' ? '' : 'none';
         }
 
-        // Edge Function helper — delegates to supabaseClient.functions.invoke() (same auth path as all other pages)
+        // Edge Function helper — direct session + fetch (same pattern as interview-prep.html)
+        const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
+        const EDGE_API_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
+
         async function invokeEdge(fnName, body) {
             if (!window.supabaseClient) {
                 throw new Error('Your session has expired. Please refresh the page and sign in again.');
             }
-            let result;
+
+            // Get token directly from session (same approach that works for RLS queries)
+            let token = null;
             try {
-                result = await window.supabaseClient.functions.invoke(fnName, { body });
-            } catch (e) {
-                // SDK invoke can throw if _getFreshToken fails — refresh and retry once
-                console.warn('[invokeEdge] SDK threw, refreshing session:', e.message);
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                token = session?.access_token || null;
+            } catch (e) { /* silent */ }
+
+            // If no token, try refreshing session
+            if (!token) {
                 try {
-                    await window.supabaseClient.auth.refreshSession();
-                    result = await window.supabaseClient.functions.invoke(fnName, { body });
-                } catch (retryErr) {
-                    throw new Error('Your session has expired. Please refresh the page and sign in again.');
-                }
+                    const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
+                    token = refreshed?.session?.access_token || null;
+                } catch (e) { /* silent */ }
             }
-            const { data, error } = result;
-            if (error) {
-                const msg = error.message || 'Edge function error';
-                if (msg.includes('Not authenticated') || msg.toLowerCase().includes('jwt')) {
-                    throw new Error('Your session has expired. Please refresh the page and sign in again.');
-                }
-                throw new Error(msg);
+
+            if (!token) {
+                throw new Error('Your session has expired. Please refresh the page and sign in again.');
             }
-            return data;
+
+            const resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    'apikey': EDGE_API_KEY
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (!resp.ok) {
+                const errBody = await resp.json().catch(() => ({}));
+                const errMsg = errBody?.message || errBody?.msg || errBody?.error?.message || errBody?.error || `Edge function error (${resp.status})`;
+                throw new Error(errMsg);
+            }
+
+            return await resp.json().catch(() => ({}));
         }
 
         // PDF.js worker

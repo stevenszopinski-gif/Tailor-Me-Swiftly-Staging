@@ -44,7 +44,9 @@
             // Check if a JWT is expired (refresh 30s before actual expiry)
             function _isTokenExpired(token) {
                 try {
-                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    // JWT uses base64url encoding — convert to standard base64 for atob()
+                    const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+                    const payload = JSON.parse(atob(b64));
                     return payload.exp * 1000 < Date.now() + 30000;
                 } catch { return true; }
             }
