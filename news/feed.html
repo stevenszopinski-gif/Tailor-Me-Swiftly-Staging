@@ -265,10 +265,13 @@
             if (!confirm('Delete this briefing?')) return;
             const card = btnEl.closest('.briefing-feed-card');
             try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) throw new Error('Not logged in');
                 const { error } = await window.supabaseClient
                     .from('daily_briefings')
                     .delete()
-                    .eq('id', id);
+                    .eq('id', id)
+                    .eq('user_id', session.user.id);
                 if (error) throw error;
                 // Remove card from DOM
                 if (card) {
