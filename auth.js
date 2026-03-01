@@ -6,13 +6,12 @@
     const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
-    // Global alert interceptor to catch rogue "Invalid JWT" alerts from third-party libraries
+    // Global alert interceptor to suppress rogue "Invalid JWT" alerts from Supabase internals
     const _originalAlert = window.alert;
     window.alert = function (msg) {
-        if (msg && /jwt|token|expires|unauthorized|auth/i.test(String(msg))) {
-            console.warn('[Global Alert Catch] Suppressed auth alert:', msg, new Error().stack);
-            try { window.supabaseClient?.auth?.signOut({ scope: 'local' }); } catch (e) { }
-            return;
+        if (msg && /^invalid jwt/i.test(String(msg).trim())) {
+            console.warn('[Global Alert Catch] Suppressed JWT alert:', msg);
+            return; // Just suppress — do NOT sign out
         }
         return _originalAlert.apply(this, arguments);
     };
@@ -30,6 +29,31 @@
 
             window.supabaseClient = client;
             console.log("[Auth] Supabase client ready");
+
+            // Monkey-patch functions.invoke to use direct fetch with user's JWT
+            // The sb_publishable_ key is incompatible with Edge Functions gateway
+            const EDGE_BASE = SUPABASE_URL + '/functions/v1';
+            client.functions.invoke = async function (fnName, opts) {
+                const { data: { session } } = await client.auth.getSession();
+                if (!session) throw new Error('Not authenticated');
+                const resp = await fetch(EDGE_BASE + '/' + fnName, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + session.access_token
+                    },
+                    body: JSON.stringify(opts?.body || {})
+                });
+                const json = await resp.json().catch(() => ({}));
+                if (!resp.ok) {
+                    const errMsg = json?.message || json?.error?.message || json?.error || 'Edge function error (' + resp.status + ')';
+                    return { data: null, error: { message: errMsg } };
+                }
+                return { data: json, error: null };
+            };
+
+            // Dispatch auth-ready event
+            document.dispatchEvent(new Event('auth-ready'));
 
             // Set up auth listener
             setTimeout(() => setupAuthStateListener(), 100);

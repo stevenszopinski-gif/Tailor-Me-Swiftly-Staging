@@ -698,9 +698,9 @@
             try {
                 const { data, error } = await window.supabaseClient
                     .from('daily_briefings')
-                    .select('id, title, summary, has_podcast, created_at')
+                    .select('id, briefing_date, interests, briefing_text, audio_url')
                     .eq('user_id', user.id)
-                    .order('created_at', { ascending: false })
+                    .order('briefing_date', { ascending: false })
                     .limit(1);
 
                 if (error) throw error;
@@ -709,24 +709,27 @@
 
                 if (data && data.length > 0) {
                     const b = data[0];
-                    const dateStr = new Date(b.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                    const isToday = new Date(b.created_at).toDateString() === new Date().toDateString();
+                    const date = new Date(b.briefing_date + 'T00:00:00');
+                    const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const isToday = date.toDateString() === new Date().toDateString();
                     const dateLabel = isToday ? 'Today' : dateStr;
-                    const podcastBadge = b.has_podcast
+                    const interests = (b.interests || []).slice(0, 3).join(', ');
+                    const preview = (b.briefing_text || '').replace(/\s+/g, ' ').trim().substring(0, 120);
+                    const podcastBadge = b.audio_url
                         ? `<div style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;background:rgba(59,130,246,0.1);color:#3b82f6;padding:0.25rem 0.6rem;border-radius:999px;"><i class="fa-solid fa-headphones"></i> Podcast Ready</div>`
                         : '';
 
                     html += `
-                        <a href="news/feed.html?id=${b.id}" class="dash-card" style="display:block;padding:1.25rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;text-decoration:none;">
+                        <a href="news/briefing.html?view=${b.id}" class="dash-card" style="display:block;padding:1.25rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;text-decoration:none;">
                             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
                                 <span style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;">
                                     <span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;"></span>
-                                    ${b.title || 'Latest Briefing'}
+                                    ${interests || 'Latest Briefing'}
                                 </span>
                                 <span style="font-size:0.75rem;color:var(--text-secondary);">${dateLabel}</span>
                             </div>
                             <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.4;">
-                                ${b.summary || 'Your latest AI-curated news briefing.'}
+                                ${preview || 'Your latest AI-curated news briefing.'}${preview.length >= 120 ? '...' : ''}
                             </div>
                             ${podcastBadge}
                         </a>`;
