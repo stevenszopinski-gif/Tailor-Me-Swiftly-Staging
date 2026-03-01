@@ -208,18 +208,19 @@
 
     window.signOut = async function () {
         window._signingOut = true;
-        // Always clear local state first
-        localStorage.removeItem('tms_last_gen_id');
-        localStorage.removeItem('sb-gwmpdgjvcjzndbloctla-auth-token');
-        sessionStorage.removeItem('tms_outputs');
-        // Try server-side revocation but don't block on failure
+        // Nuke ALL Supabase and app state from storage
+        for (const key of Object.keys(localStorage)) {
+            if (key.startsWith('sb-') || key.startsWith('tms_')) {
+                localStorage.removeItem(key);
+            }
+        }
+        sessionStorage.clear();
+        // Tell the SDK to clean up its in-memory state
         try {
             if (window.supabaseClient) {
                 await window.supabaseClient.auth.signOut({ scope: 'local' });
             }
-        } catch (e) {
-            console.warn("Sign out cleanup:", e.message);
-        }
+        } catch (e) { /* ignore */ }
         // Always redirect
         const P = window.TMS_PATH_PREFIX || '';
         window.location.href = P + 'index.html';
