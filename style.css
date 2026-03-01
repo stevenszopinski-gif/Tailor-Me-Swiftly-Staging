@@ -513,7 +513,6 @@ body {
 /* Steps Content */
 .wizard-body {
     position: relative;
-    flex: 1;
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
