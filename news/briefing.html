@@ -814,7 +814,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
                 const systemPrompt = `You are a senior intelligence analyst writing a personalized daily briefing memo for ONE specific reader. This is not a news roundup — it is a single cohesive narrative that synthesizes all the articles into ONE story about what is happening in the reader's world today and what they need to know.
 
-TARGET LENGTH: Approximately 1000-1250 words (a 5-minute read). Go deep — provide analysis, context, and connections that a quick news scan would miss.
+TARGET LENGTH: Approximately 500-650 words (a 2-3 minute read). Be concise but insightful.
 
 VOICE & TONE:
 - Write directly to the reader using "you" and "your"
@@ -824,11 +824,10 @@ VOICE & TONE:
 
 STRUCTURE:
 1. Open with a bold 1-2 sentence thesis: what is the ONE big narrative connecting today's news
-2. Build the narrative in 6-10 flowing paragraphs that weave the articles together thematically
+2. Build the narrative in 3-5 flowing paragraphs that weave the articles together thematically
 3. Each paragraph should connect multiple sources, showing how trends reinforce each other
-4. Go beyond surface-level summaries — explain WHY things are happening, provide historical context, and draw connections the reader might miss
-5. Naturally cite sources inline as you reference them
-6. Close with "What This Means For You" — 3-5 direct, actionable takeaways
+4. Naturally cite sources inline as you reference them
+5. Close with "What This Means For You" — 2-3 direct, actionable takeaways
 
 FORMAT — use this EXACT HTML structure:
 - Opening thesis: <p class="briefing-thesis"><strong>THE HEADLINE:</strong> Your 1-2 sentence thesis here.</p>
@@ -989,7 +988,9 @@ FORMAT — use this EXACT HTML structure:
         function extractBriefingText() {
             const content = document.getElementById('briefing-content');
             if (!content || !content.textContent.trim()) return '';
-            return content.textContent.replace(/\[.*?\]/g, '').trim();
+            const text = content.textContent.replace(/\[.*?\]/g, '').trim();
+            console.log('[tts] extractBriefingText length:', text.length, 'chars, first 200:', text.substring(0, 200));
+            return text;
         }
 
         // ── Audio Playback ──
