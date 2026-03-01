@@ -552,24 +552,40 @@ function initResultTheme() {
 }
 
 function showSessionExpired(container) {
+    container.innerHTML = `
+        <div style="text-align:center;padding:4rem 2rem;">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;color:var(--primary-color);margin-bottom:1rem;display:block;"></i>
+            <p style="color:var(--text-secondary);">Restoring your previous session...</p>
+        </div>`;
+
     // Try to restore from the generations DB before showing expired
     const genId = resolveGenerationId();
     if (genId) {
-        container.innerHTML = `
-            <div style="text-align:center;padding:4rem 2rem;">
-                <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;color:var(--primary-color);margin-bottom:1rem;display:block;"></i>
-                <p style="color:var(--text-secondary);">Restoring your previous session...</p>
-            </div>`;
         loadGenerationFromDb(genId).then(outputs => {
-            if (outputs) {
-                // Data restored to sessionStorage — reload page so it picks up the data
-                location.reload();
-            } else {
-                _renderExpired(container);
-            }
-        }).catch(() => _renderExpired(container));
+            if (outputs) { location.reload(); } else { _tryLatestGeneration(container); }
+        }).catch(() => _tryLatestGeneration(container));
         return;
     }
+    _tryLatestGeneration(container);
+}
+
+async function _tryLatestGeneration(container) {
+    // Fallback: load the user's most recent generation from DB
+    try {
+        const user = await waitForSupabaseAuth();
+        if (!user) { _renderExpired(container); return; }
+        const { data } = await window.supabaseClient
+            .from('generations')
+            .select('id')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+        if (data?.id) {
+            const outputs = await loadGenerationFromDb(data.id);
+            if (outputs) { location.reload(); return; }
+        }
+    } catch (e) { /* fall through */ }
     _renderExpired(container);
 }
 
