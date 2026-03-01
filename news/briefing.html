@@ -386,64 +386,19 @@
                     style="margin-bottom:1.5rem;padding:1rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;">
                     <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
                         <div style="display:flex;align-items:center;gap:0.75rem;">
-                            <i class="fa-solid fa-headphones" style="font-size:1.2rem;color:var(--primary-color);"></i>
+                            <i class="fa-solid fa-microphone-lines" style="font-size:1.2rem;color:var(--primary-color);"></i>
                             <div>
                                 <div style="font-weight:600;font-size:0.9rem;">Listen to this briefing</div>
-                                <div style="font-size:0.75rem;color:var(--text-secondary);">AI-generated audio narration
-                                </div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);">AI-narrated news briefing</div>
                             </div>
                         </div>
-                        <div style="display:flex;gap:0.5rem;align-items:center;">
-                            <button class="btn primary-btn" style="font-size:0.82rem;padding:0.4rem 1rem;"
-                                onclick="listenToBriefing()" id="listen-btn">
-                                <i class="fa-solid fa-headphones"></i> Listen to Podcast
-                            </button>
-                            <button class="btn ghost-btn" style="font-size:0.78rem;padding:0.4rem 0.75rem;"
-                                onclick="showPodcastFeed()" title="Add to your podcast app">
-                                <i class="fa-solid fa-podcast"></i> Feed
-                            </button>
-                        </div>
+                        <button class="btn primary-btn" style="font-size:0.82rem;padding:0.4rem 1rem;"
+                            onclick="listenToBriefing()" id="listen-btn">
+                            <i class="fa-solid fa-play"></i> Listen
+                        </button>
                     </div>
                     <div id="audio-container" style="display:none;margin-top:0.75rem;">
                         <audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>
-                    </div>
-                    <div id="podcast-feed-info"
-                        style="display:none;margin-top:0.75rem;padding:0.75rem;background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.15);border-radius:8px;font-size:0.82rem;">
-                        <div style="font-weight:600;margin-bottom:0.5rem;"><i class="fa-solid fa-rss"
-                                style="color:var(--primary-color);margin-right:0.3rem;"></i> Subscribe to Your Briefing
-                            Feed</div>
-                        <p style="color:var(--text-secondary);margin:0 0 0.75rem;line-height:1.5;">Get new briefings
-                            delivered automatically to your favorite podcast app.</p>
-
-                        <!-- Podcast App Buttons -->
-                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-                            <button class="btn ghost-btn" onclick="subscribePodcast('apple')"
-                                style="font-size:0.78rem;padding:0.45rem 0.8rem;display:flex;align-items:center;gap:0.4rem;">
-                                <i class="fa-brands fa-apple" style="font-size:1rem;"></i> Apple Podcasts
-                            </button>
-                            <button class="btn ghost-btn" onclick="subscribePodcast('spotify')"
-                                style="font-size:0.78rem;padding:0.45rem 0.8rem;display:flex;align-items:center;gap:0.4rem;">
-                                <i class="fa-brands fa-spotify" style="font-size:1rem;color:#1DB954;"></i> Spotify
-                            </button>
-                            <button class="btn ghost-btn" onclick="subscribePodcast('pocketcasts')"
-                                style="font-size:0.78rem;padding:0.45rem 0.8rem;display:flex;align-items:center;gap:0.4rem;">
-                                <i class="fa-solid fa-podcast" style="font-size:0.9rem;color:#F43E37;"></i> Pocket Casts
-                            </button>
-                        </div>
-
-                        <!-- RSS Feed URL -->
-                        <div style="border-top:1px solid var(--panel-border);padding-top:0.6rem;">
-                            <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.4rem;">Or copy the
-                                RSS feed URL:</div>
-                            <div style="display:flex;gap:0.5rem;align-items:center;">
-                                <input type="text" id="podcast-feed-url" readonly
-                                    style="flex:1;padding:0.4rem 0.75rem;border:1px solid var(--panel-border);border-radius:6px;background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:monospace;">
-                                <button class="btn ghost-btn" style="font-size:0.78rem;white-space:nowrap;"
-                                    onclick="copyPodcastUrl()">
-                                    <i class="fa-solid fa-copy"></i> Copy
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -1025,56 +980,17 @@ FORMAT — use this EXACT HTML structure:
             showBriefing(html, interests, sources);
         })();
 
-        function getPodcastFeedUrl() {
-            return window.location.origin + '/news/feed.xml';
-        }
-
-        function showPodcastFeed() {
-            const info = document.getElementById('podcast-feed-info');
-            if (info.style.display !== 'none' && info.style.display !== '') {
-                info.style.display = 'none';
-                return;
-            }
-            document.getElementById('podcast-feed-url').value = getPodcastFeedUrl();
-            info.style.display = 'block';
-        }
-
-        function subscribePodcast(app) {
-            const feedUrl = getPodcastFeedUrl();
-            const instructions = {
-                apple: { name: 'Apple Podcasts', steps: '1. Open Apple Podcasts\n2. Go to Library → Shows\n3. Tap the + icon → "Follow a Show by URL"\n4. Paste the feed URL' },
-                spotify: { name: 'Spotify', steps: '1. Open Spotify\n2. Go to Your Library\n3. Tap the + button → "Add a Podcast by URL"\n4. Paste the feed URL' },
-                pocketcasts: { name: 'Pocket Casts', steps: '1. Open Pocket Casts\n2. Tap Discover → search icon\n3. Tap "Add by URL" at the bottom\n4. Paste the feed URL' }
-            };
-            const info = instructions[app];
-            navigator.clipboard.writeText(feedUrl).then(() => {
-                alert('Feed URL copied!\n\nTo add in ' + info.name + ':\n' + info.steps);
-            }).catch(() => {
-                prompt('Copy this feed URL and add it in ' + info.name + ':\n\n' + info.steps, feedUrl);
-            });
-        }
-
-        function copyPodcastUrl() {
-            const input = document.getElementById('podcast-feed-url');
-            navigator.clipboard.writeText(input.value).then(() => {
-                const btn = input.nextElementSibling;
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-                setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-copy"></i> Copy'; }, 2000);
-            });
-        }
-
         function extractBriefingText() {
             const content = document.getElementById('briefing-content');
             if (!content || !content.textContent.trim()) return '';
             return content.textContent.replace(/\[.*?\]/g, '').trim();
         }
 
-        // ── Podcast Audio Playback ──
+        // ── Audio Playback ──
         function playAudioUrl(url) {
             const audioContainer = document.getElementById('audio-container');
             const audioEl = document.getElementById('briefing-audio');
 
-            // Error handler for failed audio loads
             audioEl.onerror = function () {
                 console.error('Audio load failed:', url);
                 audioContainer.innerHTML = '<div style="padding:0.75rem;color:var(--text-secondary);font-size:0.85rem;">' +
@@ -1084,19 +1000,11 @@ FORMAT — use this EXACT HTML structure:
 
             audioEl.src = url;
             audioContainer.style.display = 'block';
-            audioEl.play().catch(() => { /* autoplay blocked, user can click play */ });
+            audioEl.play().catch(() => { /* autoplay blocked */ });
 
             const btn = document.getElementById('listen-btn');
             btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
-        }
-
-        function stopPodcast() {
-            const audioEl = document.getElementById('briefing-audio');
-            if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; }
-            const btn = document.getElementById('listen-btn');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
+            btn.innerHTML = '<i class="fa-solid fa-play"></i> Listen';
         }
 
         async function listenToBriefing() {
@@ -1106,13 +1014,13 @@ FORMAT — use this EXACT HTML structure:
 
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) throw new Error('Please sign in to use audio playback.');
+                if (!session) throw new Error('Please sign in to use audio.');
 
-                // Check for cached audio URL (up to 7 days old)
+                // Check for cached audio URL
                 if (currentBriefingDate) {
                     const { data: row } = await window.supabaseClient
                         .from('daily_briefings')
-                        .select('audio_url, created_at')
+                        .select('audio_url')
                         .eq('user_id', session.user.id)
                         .eq('briefing_date', currentBriefingDate)
                         .single();
@@ -1123,22 +1031,20 @@ FORMAT — use this EXACT HTML structure:
                     }
                 }
 
-                // Generate podcast via Podcastfy (Gemini + ElevenLabs TTS)
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating podcast<span id="podcast-dots">.</span>';
-                // Animate dots while waiting
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating audio<span id="tts-dots">.</span>';
                 const dotsInterval = setInterval(() => {
-                    const dots = document.getElementById('podcast-dots');
+                    const dots = document.getElementById('tts-dots');
                     if (dots) dots.textContent = dots.textContent.length >= 3 ? '.' : dots.textContent + '.';
                 }, 800);
 
                 const briefingText = extractBriefingText();
-                if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to convert.');
+                if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
 
-                const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 8000) });
+                const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 12000) });
                 clearInterval(dotsInterval);
 
                 if (result?.error) throw new Error(result.error);
-                console.log('[podcast] Result:', JSON.stringify(result));
+                console.log('[tts] Result:', JSON.stringify(result));
                 if (!result?.audioUrl) throw new Error('No audio generated. Please try again.');
 
                 // Cache the audio URL
@@ -1150,16 +1056,16 @@ FORMAT — use this EXACT HTML structure:
                             .eq('user_id', session.user.id)
                             .eq('briefing_date', currentBriefingDate);
                     } catch (cacheErr) {
-                        console.warn('Failed to cache podcast URL:', cacheErr);
+                        console.warn('Failed to cache audio URL:', cacheErr);
                     }
                 }
 
                 playAudioUrl(result.audioUrl);
             } catch (e) {
-                console.error('Podcast error:', e);
-                alert(e.message || 'Podcast generation failed. Please try again.');
+                console.error('TTS error:', e);
+                alert(e.message || 'Audio generation failed. Please try again.');
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
+                btn.innerHTML = '<i class="fa-solid fa-play"></i> Listen';
             }
         }
     </script>
