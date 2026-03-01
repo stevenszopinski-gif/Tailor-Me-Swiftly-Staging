@@ -723,19 +723,6 @@
 
     <script>
         window.TMS_PATH_PREFIX = '../';
-        // Early JWT alert interceptor — must run before any library loads
-        (function () {
-            var o = window.alert;
-            window.alert = function (m) {
-                if (m && (String(m).toLowerCase().includes('jwt') || String(m).toLowerCase().includes('token') || String(m).includes('Session expired'))) {
-                    console.warn('[JWT Intercept]', m);
-                    sessionStorage.setItem('tms_redirect', window.location.href);
-                    window.location.href = '../login.html?expired=true';
-                    return;
-                }
-                return o.apply(this, arguments);
-            };
-        })();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -784,11 +771,11 @@
         // Edge Function helper — bypasses sb_publishable_ key issue with supabaseClient.functions.invoke()
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
 
-        async function invokeEdge(fnName, body) {
+        async function invokeEdge(fnName, body, _isRetry) {
             // Use the global fresh-token helper from auth.js (refreshes if expired)
             const token = window._getFreshToken ? await window._getFreshToken() : (window._getAccessToken ? window._getAccessToken() : null);
             if (!token) {
-                throw new Error('Please log in to continue.');
+                throw new Error('Your session has expired. Please refresh the page and sign in again.');
             }
 
             const resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
@@ -804,12 +791,25 @@
             const data = await resp.json().catch(() => ({}));
             if (!resp.ok) {
                 const errMsg = data?.message || data?.error?.message || data?.error || `Edge function error (${resp.status})`;
-                if (resp.status === 401 || errMsg.toLowerCase().includes('jwt') || errMsg.toLowerCase().includes('token')) {
-                    console.warn('[invokeEdge] Auth invalid, redirecting directly', errMsg);
-                    sessionStorage.setItem('tms_redirect', window.location.href);
-                    window.location.href = '../login.html?expired=true';
-                    // Return a never-resolving promise so execution stops here without throwing unhandled exceptions
-                    return new Promise(() => { });
+                const isAuthErr = resp.status === 401 || errMsg.toLowerCase().includes('jwt') || errMsg.toLowerCase().includes('token');
+
+                // On auth error, try refreshing the session and retrying once
+                if (isAuthErr && !_isRetry) {
+                    console.warn('[invokeEdge] Auth error, attempting token refresh and retry...', errMsg);
+                    try {
+                        const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
+                        if (refreshed?.session?.access_token) {
+                            console.log('[invokeEdge] Token refreshed, retrying request');
+                            return invokeEdge(fnName, body, true);
+                        }
+                    } catch (refreshErr) {
+                        console.warn('[invokeEdge] Token refresh failed:', refreshErr.message);
+                    }
+                }
+
+                // If retry also failed or non-auth error, throw (no redirect)
+                if (isAuthErr) {
+                    throw new Error('Your session has expired. Please refresh the page and sign in again.');
                 }
                 throw new Error(errMsg);
             }
@@ -849,18 +849,23 @@
         // ── Load saved interests on auth ready ──
         // Single config: if user has saved interests, auto-generate with those
         document.addEventListener('auth-ready', async () => {
+            console.log('[auth-ready] fired, extractedInterests:', extractedInterests.length);
             if (extractedInterests.length) return; // URL params take priority
             const params = new URLSearchParams(window.location.search);
             const viewMode = !!params.get('view');
             const editMode = params.get('edit') === 'true';
+            console.log('[auth-ready] viewMode:', viewMode, 'editMode:', editMode);
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) return;
-                const { data: profile } = await window.supabaseClient
+                if (!session) { console.warn('[auth-ready] No session'); return; }
+                console.log('[auth-ready] Session found for', session.user.email);
+                const { data: profile, error: profileErr } = await window.supabaseClient
                     .from('user_profiles')
                     .select('interests, metadata, email_delivery')
                     .eq('user_id', session.user.id)
                     .maybeSingle();
+                if (profileErr) console.error('[auth-ready] Profile query error:', profileErr.message);
+                console.log('[auth-ready] Profile interests:', profile?.interests?.length || 0);
                 // Always restore saved preferences (even on ?view= pages)
                 if (profile?.metadata) {
                     if (profile.metadata.preferred_tone) {
@@ -922,13 +927,16 @@
                     } else {
                         // Check for existing briefing today before generating a new one
                         const today = new Date().toISOString().split('T')[0];
-                        const { data: todayBriefing } = await window.supabaseClient
+                        console.log('[auth-ready] Checking for today\'s briefing:', today);
+                        const { data: todayBriefing, error: briefingErr } = await window.supabaseClient
                             .from('daily_briefings')
                             .select('id, briefing_date, briefing_html, briefing_text, interests, sources, audio_url')
                             .eq('user_id', session.user.id)
                             .eq('briefing_date', today)
                             .maybeSingle();
 
+                        if (briefingErr) console.error('[auth-ready] Briefing query error:', briefingErr.message);
+                        console.log('[auth-ready] Today\'s briefing found:', !!todayBriefing?.briefing_html, 'audio:', !!todayBriefing?.audio_url);
                         if (todayBriefing?.briefing_html) {
                             // Show existing briefing instead of regenerating
                             currentBriefingDate = todayBriefing.briefing_date;
@@ -959,7 +967,7 @@
                 }
                 // Load recommended interests (always, even if generating)
                 loadRecommendedInterests();
-            } catch (e) { /* no saved interests */ }
+            } catch (e) { console.error('[auth-ready] Error in handler:', e.message || e); }
         });
 
         // ── File Upload & Parsing ──
@@ -1670,12 +1678,6 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             const qaThread = document.getElementById('qa-thread');
             if (qaThread) qaThread.innerHTML = '';
 
-            // Clear edit/view mode params
-            const url = new URL(window.location);
-            url.searchParams.delete('edit');
-            url.searchParams.delete('view');
-            history.replaceState(null, '', url);
-
             // Sync tags UI for the Edit screen later (use extractedInterests, not expanded)
             renderInterestTags(extractedInterests);
 
@@ -1907,6 +1909,12 @@ FORMAT — use this EXACT HTML:
 
                 // Step 4: Display result
                 showBriefing(briefingHtml, interests, articles);
+
+                // Clear edit/view mode params only after successful generation
+                const url = new URL(window.location);
+                url.searchParams.delete('edit');
+                url.searchParams.delete('view');
+                history.replaceState(null, '', url);
 
             } catch (e) {
                 console.error('Briefing error:', e);
