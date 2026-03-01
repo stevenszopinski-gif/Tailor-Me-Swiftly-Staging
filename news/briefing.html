@@ -1194,7 +1194,34 @@
                     extractedInterests = profile.interests;
                     renderInterestTags(profile.interests);
                 }
-                // If viewing a saved briefing, stop here (don't auto-generate)
+                // Always load 7-day briefing cache (needed for date strip)
+                if (profile?.interests?.length && !editMode) {
+                    const today = new Date().toISOString().split('T')[0];
+                    const sevenDaysAgo = new Date();
+                    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+                    const cutoff = sevenDaysAgo.toISOString().split('T')[0];
+
+                    console.log('[auth-ready] Loading 7-day briefings from', cutoff, 'to', today);
+                    const { data: briefings, error: briefingErr } = await window.supabaseClient
+                        .from('daily_briefings')
+                        .select('id, briefing_date, briefing_html, briefing_text, interests, sources, audio_url')
+                        .eq('user_id', session.user.id)
+                        .gte('briefing_date', cutoff)
+                        .order('briefing_date', { ascending: false });
+
+                    if (briefingErr) console.error('[auth-ready] Briefing query error:', briefingErr.message);
+
+                    briefingCache = {};
+                    if (briefings?.length) {
+                        briefings.forEach(b => {
+                            if (b.briefing_html) briefingCache[b.briefing_date] = b;
+                        });
+                    }
+                    console.log('[auth-ready] Cached', Object.keys(briefingCache).length, 'briefings');
+                }
+
+                // If viewing a saved briefing by ID, let the view handler show it
+                // but still render the date strip (cache was loaded above)
                 if (viewMode) {
                     loadRecommendedInterests();
                     return;
@@ -1203,37 +1230,13 @@
                     if (editMode) {
                         editInterests();
                     } else {
-                        // Fetch last 7 days of briefings
-                        const today = new Date().toISOString().split('T')[0];
-                        const sevenDaysAgo = new Date();
-                        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
-                        const cutoff = sevenDaysAgo.toISOString().split('T')[0];
-
-                        console.log('[auth-ready] Loading 7-day briefings from', cutoff, 'to', today);
-                        const { data: briefings, error: briefingErr } = await window.supabaseClient
-                            .from('daily_briefings')
-                            .select('id, briefing_date, briefing_html, briefing_text, interests, sources, audio_url')
-                            .eq('user_id', session.user.id)
-                            .gte('briefing_date', cutoff)
-                            .order('briefing_date', { ascending: false });
-
-                        if (briefingErr) console.error('[auth-ready] Briefing query error:', briefingErr.message);
-
-                        // Cache briefings by date
-                        briefingCache = {};
-                        if (briefings?.length) {
-                            briefings.forEach(b => {
-                                if (b.briefing_html) briefingCache[b.briefing_date] = b;
-                            });
-                        }
-                        console.log('[auth-ready] Cached', Object.keys(briefingCache).length, 'briefings');
-
                         // Show result section with date strip
                         document.getElementById('input-section').style.display = 'none';
                         document.getElementById('result-section').style.display = 'block';
                         const stepHeader = document.querySelector('.step-header');
                         if (stepHeader) stepHeader.style.display = 'none';
 
+                        const today = new Date().toISOString().split('T')[0];
                         // Auto-select: today if has briefing, otherwise most recent
                         const activeDate = briefingCache[today] ? today : (Object.keys(briefingCache)[0] || today);
                         showBriefingForDate(activeDate);
@@ -2614,18 +2617,34 @@ FORMAT — use this EXACT HTML:
             if (!briefing) return;
 
             currentBriefingDate = briefing.briefing_date;
+            // Add to cache so date strip shows it
+            if (briefing.briefing_html) {
+                briefingCache[briefing.briefing_date] = briefing;
+            }
 
             // Hide the "Today's Briefing" header — this is a saved briefing, not a new one
             const stepHeader = document.querySelector('.step-header');
             if (stepHeader) stepHeader.style.display = 'none';
             document.title = 'Your Briefing | TailorMeSwiftly';
 
-            // Display the saved briefing
+            // Display the saved briefing with date strip
             const interests = briefing.interests || [];
             const sources = briefing.sources || [];
             const html = briefing.briefing_html || briefing.briefing_text || '';
 
             document.getElementById('input-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+            renderDateStrip(briefing.briefing_date);
+
+            // Update heading for the viewed date
+            const heading = document.getElementById('briefing-date-heading');
+            if (heading) {
+                const today = new Date().toISOString().split('T')[0];
+                const dateObj = new Date(briefing.briefing_date + 'T12:00:00');
+                const label = briefing.briefing_date === today ? "Today's Briefing" : dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                heading.innerHTML = `<i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i> ${label}`;
+            }
+
             showBriefing(html, interests, sources);
         })();
 
