@@ -158,7 +158,7 @@
                     Secure by Design
                 </div>
                 <h1>Security & Data Storage Policy</h1>
-                <p>Last Updated: February 2026</p>
+                <p>Last Updated: March 2026</p>
             </div>
 
             <div class="legal-content">
@@ -199,15 +199,24 @@
                     as the device you are using. If you are on a public or shared computer, we recommend signing out or
                     clearing your browsing data after use.</p>
 
-                <h2>4. Third-Party AI Processing</h2>
-                <p>We use third-party AI APIs (such as Google Gemini and ElevenLabs) strictly to process the text
-                    required to generate your tailored documents and interview prep. We access these services through
-                    paid API tiers whose terms of service state that data submitted via the API is not used to train
-                    their models. For full details, please review
-                    <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Google's API Terms</a> and
-                    <a href="https://elevenlabs.io/terms-of-service" target="_blank" rel="noopener">ElevenLabs' Terms of Service</a>.</p>
+                <h2>4. News Briefing & Podcast Data</h2>
+                <ul>
+                    <li><strong>Briefing content</strong> (text, interests, sources) is stored in our encrypted Supabase database, associated with your user ID.</li>
+                    <li><strong>Podcast audio files</strong> are stored in Supabase Storage with public access URLs for RSS feed delivery. We retain the last 10 audio files per user; older files are automatically purged.</li>
+                    <li><strong>RSS podcast feeds</strong> are served at user-specific URLs. These feeds contain your briefing audio and metadata but do not expose your email or account information.</li>
+                </ul>
 
-                <h2>5. Security Audits & Updates</h2>
+                <h2>5. Third-Party AI Processing</h2>
+                <p>We use third-party APIs strictly to process text and generate content:</p>
+                <ul>
+                    <li><strong>Google Gemini API:</strong> Generates tailored documents, interview prep, and news briefing summaries. <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener" style="color:var(--primary-color);">API Terms</a>.</li>
+                    <li><strong>Inworld AI:</strong> Generates text-to-speech narration for podcast briefings. <a href="https://inworld.ai/terms-of-service" target="_blank" rel="noopener" style="color:var(--primary-color);">Terms</a>.</li>
+                    <li><strong>GNews API:</strong> Fetches publicly available news articles. No personal data is sent beyond your interest keywords.</li>
+                    <li><strong>Resend:</strong> Delivers email briefings. Your email address is shared only for delivery purposes.</li>
+                </ul>
+                <p>We access AI services through paid API tiers whose terms state that data submitted is not used to train their models.</p>
+
+                <h2>6. Security Audits & Updates</h2>
                 <p>We regularly audit our dependencies, update our Supabase client libraries, and monitor our edge
                     functions to ensure we are protected against the latest security vulnerabilities.</p>
 

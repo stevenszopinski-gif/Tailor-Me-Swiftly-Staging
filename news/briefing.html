@@ -11,7 +11,7 @@
     <meta property="og:site_name" content="TailorMeSwiftly">
     <link rel="icon" type="image/png" href="/logo.png">
     <link rel="apple-touch-icon" href="/logo.png">
-    <title>New Briefing | TailorMeSwiftly</title>
+    <title>Today's Briefing | TailorMeSwiftly</title>
     <link rel="stylesheet" href="../style.css?v=16">
     <link rel="stylesheet" href="news-style.css?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +20,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .settings-tab {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: inherit;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .settings-tab:hover { color: var(--text-primary); background: rgba(59,130,246,0.05); }
+        .settings-tab.active {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        .settings-tab i { margin-right: 0.4rem; }
+
+        .tone-preview {
+            margin-top: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: color-mix(in srgb, var(--primary-color) 4%, transparent);
+            border: 1px solid color-mix(in srgb, var(--primary-color) 12%, transparent);
+            border-radius: 10px;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .tone-preview strong { color: var(--text-primary); font-style: normal; }
+
         .briefing-body {
             line-height: 1.8;
             font-size: 0.95rem;
@@ -170,6 +204,49 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .rec-chip {
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            background: var(--panel-bg);
+            color: var(--text-secondary);
+            border: 1px solid var(--panel-border);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .rec-chip:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+        }
+        .rec-chip.added {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .qa-msg {
+            padding: 0.6rem 0.9rem;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            max-width: 85%;
+        }
+        .qa-msg.user {
+            background: var(--primary-color);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .qa-msg.assistant {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
     </style>
 </head>
 
@@ -213,17 +290,31 @@
             <div class="step-header" style="text-align:left;margin-bottom:1.5rem;">
                 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
                     <i class="fa-solid fa-wand-magic-sparkles" style="font-size:1.8rem;color:var(--primary-color);"></i>
-                    <h2 style="margin:0;">New Briefing</h2>
+                    <h2 style="margin:0;">Today's Briefing</h2>
                 </div>
                 <p>Tell us what you're interested in and we'll create a personalized news digest.</p>
             </div>
 
             <!-- Interest Input -->
             <div id="input-section">
-                <!-- Tabs -->
-                <div class="input-tabs">
+                <!-- Settings-mode top-level tabs (hidden on new-briefing flow) -->
+                <div id="settings-tabs" style="display:none;margin-bottom:1.5rem;">
+                    <div style="display:flex;gap:0.5rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;padding:0.3rem;">
+                        <button class="settings-tab active" data-stab="interests" onclick="switchSettingsTab('interests')">
+                            <i class="fa-solid fa-tags"></i> Interests
+                        </button>
+                        <button class="settings-tab" data-stab="preferences" onclick="switchSettingsTab('preferences')">
+                            <i class="fa-solid fa-sliders"></i> Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interests panel (contains source tabs + tags + recommended) -->
+                <div id="settings-panel-interests">
+                <!-- Source sub-tabs -->
+                <div class="input-tabs" id="source-tabs">
                     <button class="input-tab active" data-tab="type" onclick="switchTab('type')">
-                        <i class="fa-solid fa-keyboard"></i> Type Interests
+                        <i class="fa-solid fa-tags"></i> My Interests
                     </button>
                     <button class="input-tab" data-tab="resume" onclick="switchTab('resume')">
                         <i class="fa-solid fa-file-lines"></i> From Resume
@@ -233,17 +324,8 @@
                     </button>
                 </div>
 
-                <!-- Tab A: Type Interests -->
+                <!-- Tab A: Type Interests (tags-only, no textarea) -->
                 <div id="tab-type" class="news-tab-content active" style="margin-bottom: 0;">
-                    <label for="interests-input"
-                        style="font-weight:600;font-size:0.95rem;display:block;margin-bottom:0.4rem;">What topics
-                        interest you?</label>
-                    <textarea id="interests-input" rows="3"
-                        placeholder="e.g. AI startups, climate change, NBA, cryptocurrency, space exploration..."
-                        style="width:100%;padding:0.75rem 1rem;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-family:inherit;font-size:0.95rem;resize:vertical;"></textarea>
-                    <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.4rem;margin-bottom:0;">Separate
-                        topics with
-                        commas. Be as specific or broad as you like.</p>
                 </div>
 
                 <!-- Tab B: From Resume -->
@@ -321,7 +403,7 @@
                 <div id="interest-tags-section"
                     style="display:none;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-                        <label style="font-weight:600;font-size:0.9rem;">Extracted Interests</label>
+                        <label id="interest-tags-label" style="font-weight:600;font-size:0.9rem;">Your Interests</label>
                         <span id="import-badge"
                             style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(59,130,246,0.1);color:var(--primary-color);"></span>
                     </div>
@@ -333,6 +415,14 @@
                     </div>
                 </div>
 
+                <!-- Recommended Interests -->
+                <div id="recommended-interests" style="margin-top:1rem;display:none;">
+                    <div style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">
+                        <i class="fa-solid fa-lightbulb" style="margin-right:0.3rem;color:var(--primary-color);"></i> Suggested Topics
+                    </div>
+                    <div id="recommended-chips" class="interest-tags-wrap" style="gap:0.4rem;"></div>
+                </div>
+
                 <!-- Extraction Loading -->
                 <div id="extraction-loading" style="display:none;text-align:center;padding:1.5rem 0;">
                     <i class="fa-solid fa-brain"
@@ -340,19 +430,24 @@
                     <p style="color:var(--text-secondary);font-size:0.9rem;" id="extraction-status">Analyzing your
                         resume to identify interests...</p>
                 </div>
+                </div><!-- /settings-panel-interests -->
 
-                <div
+                <!-- Tone + Generate bar (shown on new-briefing flow, hidden in settings mode) -->
+                <div id="tone-generate-bar"
                     style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;background:var(--panel-bg);padding:1rem;border-radius:12px;border:1px solid var(--panel-border);">
                     <div style="flex:1;min-width:200px;">
                         <label for="briefing-tone"
                             style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;color:var(--text-secondary);">Briefing
                             Tone & Style</label>
                         <select id="briefing-tone"
-                            style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;">
-                            <option value="npr">🎙️ NPR Morning Host (Audio-friendly)</option>
+                            style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;"
+                            onchange="updateTonePreview('tone-preview-main', this.value)">
+                            <option value="npr">🎙️ Public Radio Host (Audio-friendly)</option>
+                            <option value="morning-brew">☕ Morning Brew (Witty & Conversational)</option>
                             <option value="executive">📊 Executive Summary (Concise & Bulleted)</option>
                             <option value="deep-dive">🧠 Deep Dive (Analytical & Thorough)</option>
                         </select>
+                        <div id="tone-preview-main" class="tone-preview"></div>
                     </div>
                     <div>
                         <button id="generate-btn" class="btn primary-btn" onclick="generateBriefing()"
@@ -360,6 +455,142 @@
                             <i class="fa-solid fa-bolt"></i> Generate Briefing
                         </button>
                     </div>
+                </div>
+
+                <!-- Preferences panel (shown via Settings tab in settings mode) -->
+                <div id="settings-panel-preferences" style="display:none;">
+
+                <!-- Settings panels -->
+                <div id="briefing-settings" style="margin-top:0.75rem;display:none;">
+
+                    <!-- Tone & Style -->
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                        <label for="briefing-tone-setting" style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;"><i class="fa-solid fa-microphone-lines" style="margin-right:0.4rem;color:var(--primary-color);"></i> Tone & Style</label>
+                        <select id="briefing-tone-setting"
+                            style="width:100%;padding:0.5rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.88rem;"
+                            onchange="document.getElementById('briefing-tone').value=this.value;updateTonePreview('tone-preview-settings', this.value);">
+                            <option value="npr">Public Radio Host (Audio-friendly)</option>
+                            <option value="morning-brew">Morning Brew (Witty & Conversational)</option>
+                            <option value="executive">Executive Summary (Concise & Bulleted)</option>
+                            <option value="deep-dive">Deep Dive (Analytical & Thorough)</option>
+                        </select>
+                        <div id="tone-preview-settings" class="tone-preview"></div>
+                    </div>
+
+                    <!-- Auto-Generate Daily -->
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;margin-bottom:0.75rem;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                            <div>
+                                <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-clock" style="margin-right:0.4rem;color:var(--primary-color);"></i> Auto-Generate Daily</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);">Automatically generate a fresh briefing & podcast every morning</div>
+                            </div>
+                            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                <input type="checkbox" id="auto-generate-toggle" onchange="saveSettingToggle('auto_generate', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Email Delivery -->
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                            <div>
+                                <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-envelope" style="margin-right:0.4rem;color:var(--primary-color);"></i> Daily Email Briefing</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);">Also receive your briefing in your inbox</div>
+                            </div>
+                            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                <input type="checkbox" id="email-delivery-toggle" onchange="saveEmailPrefs()" style="width:18px;height:18px;accent-color:var(--primary-color);">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Source Preferences -->
+                    <div style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;"><i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences</div>
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;">
+                        <div style="margin-bottom:0.75rem;">
+                            <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Preferred Sources</label>
+                            <div id="whitelist-tags" class="interest-tags-wrap" style="min-height:24px;margin-bottom:0.4rem;"></div>
+                            <input type="text" id="whitelist-input" placeholder="e.g. Reuters, BBC..."
+                                style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
+                                onkeydown="if(event.key==='Enter'){addSourcePref('whitelist',this.value);this.value='';}">
+                        </div>
+                        <div>
+                            <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Blocked Sources</label>
+                            <div id="blacklist-tags" class="interest-tags-wrap" style="min-height:24px;margin-bottom:0.4rem;"></div>
+                            <input type="text" id="blacklist-input" placeholder="e.g. Daily Mail..."
+                                style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
+                                onkeydown="if(event.key==='Enter'){addSourcePref('blacklist',this.value);this.value='';}">
+                        </div>
+                    </div>
+
+                    <!-- Jargon Translator -->
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div>
+                                <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-language" style="margin-right:0.4rem;color:var(--primary-color);"></i> Plain English Mode</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);">Simplify technical, financial, and legal jargon</div>
+                            </div>
+                            <input type="checkbox" id="jargon-toggle" onchange="saveSettingToggle('jargon_simplify', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
+                        </div>
+                    </div>
+
+                    <!-- Sentiment Controls -->
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i class="fa-solid fa-face-smile" style="margin-right:0.4rem;color:var(--primary-color);"></i> Framing & Perspective</div>
+                        <label style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;cursor:pointer;">
+                            <input type="checkbox" id="silver-lining-toggle" onchange="saveSettingToggle('silver_lining', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
+                            <div>
+                                <div style="font-size:0.82rem;font-weight:500;">Silver Lining Mode</div>
+                                <div style="font-size:0.72rem;color:var(--text-secondary);">Focus on constructive angles and opportunities</div>
+                            </div>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;">
+                            <input type="checkbox" id="opposing-views-toggle" onchange="saveSettingToggle('opposing_views', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
+                            <div>
+                                <div style="font-size:0.82rem;font-weight:500;">Opposing Views</div>
+                                <div style="font-size:0.72rem;color:var(--text-secondary);">Show how different sources cover the same story</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Topic Muting -->
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i class="fa-solid fa-bell-slash" style="margin-right:0.4rem;color:var(--primary-color);"></i> Muted Topics</div>
+                        <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;">Temporarily hide topics from your briefings</div>
+                        <div id="muted-tags" class="interest-tags-wrap" style="min-height:24px;margin-bottom:0.4rem;"></div>
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <input type="text" id="mute-topic-input" placeholder="e.g. elections"
+                                style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:140px;"
+                                onkeydown="if(event.key==='Enter')addMutedTopic()">
+                            <select id="mute-duration" style="padding:0.35rem 0.5rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.8rem;">
+                                <option value="1">1 day</option>
+                                <option value="3">3 days</option>
+                                <option value="7" selected>7 days</option>
+                                <option value="14">14 days</option>
+                                <option value="30">30 days</option>
+                            </select>
+                            <button class="btn ghost-btn" style="font-size:0.78rem;padding:0.35rem 0.6rem;" onclick="addMutedTopic()">Mute</button>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i class="fa-solid fa-location-dot" style="margin-right:0.4rem;color:var(--primary-color);"></i> Location</div>
+                        <input type="text" id="user-location" placeholder="e.g. San Francisco, CA"
+                            style="width:100%;padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;box-sizing:border-box;"
+                            onblur="saveSettingToggle('location', this.value)">
+                        <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.3rem;">Adds local news to your briefing</div>
+                    </div>
+                </div>
+                </div><!-- /settings-panel-preferences -->
+
+                <!-- Edit-mode action bar (hidden by default, shown by editInterests()) -->
+                <div id="edit-actions-bar" style="display:none;margin-top:1.5rem;gap:0.75rem;flex-wrap:wrap;">
+                    <button class="btn primary-btn" onclick="generateBriefing()" style="padding:0.6rem 1.5rem;">
+                        <i class="fa-solid fa-bolt"></i> Update & Regenerate
+                    </button>
+                    <button class="btn ghost-btn" onclick="cancelEditInterests()" style="padding:0.6rem 1.25rem;">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Briefing
+                    </button>
                 </div>
             </div>
 
@@ -382,14 +613,14 @@
             <div id="result-section" style="display:none;">
                 <div
                     style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
-                    <h3 style="margin:0;"><i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i> What
-                        You Need to Know</h3>
+                    <h3 style="margin:0;"><i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i>
+                        Today's Briefing</h3>
                     <div style="display:flex;gap:0.5rem;align-items:center;">
                         <span id="briefing-read-time"
                             style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:20px;border:1px solid var(--panel-border);"><i
                                 class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
                         <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="editInterests()">
-                            <i class="fa-solid fa-pen"></i> Edit Interests
+                            <i class="fa-solid fa-sliders"></i> Briefing Settings
                         </button>
                     </div>
                 </div>
@@ -428,14 +659,6 @@
                                 style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
                                 <i class="fa-solid fa-podcast"></i> Apple Podcasts
                             </a>
-                            <a id="sub-spotify" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
-                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
-                                <i class="fa-brands fa-spotify"></i> Spotify
-                            </a>
-                            <a id="sub-pocketcasts" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
-                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
-                                <i class="fa-solid fa-rss"></i> Pocket Casts
-                            </a>
                             <button onclick="copyPodcastFeedUrl()" class="btn ghost-btn"
                                 style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
                                 <i class="fa-solid fa-copy"></i> Copy RSS
@@ -451,6 +674,38 @@
                     <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);"><i
                             class="fa-solid fa-link" style="margin-right:0.4rem;"></i> Sources</h4>
                     <div id="sources-list" class="sources-grid"></div>
+                </div>
+
+                <!-- Saved Articles -->
+                <details id="saved-articles-section" style="margin-top:1.5rem;">
+                    <summary style="cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-secondary);padding:0.5rem 0;">
+                        <i class="fa-solid fa-bookmark" style="margin-right:0.4rem;color:var(--primary-color);"></i> Saved Articles <span id="saved-count" style="font-size:0.75rem;opacity:0.7;"></span>
+                    </summary>
+                    <div id="saved-articles-list" style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.5rem;"></div>
+                </details>
+
+                <!-- Follow-up Q&A -->
+                <div id="qa-section" style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                    <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
+                        <i class="fa-solid fa-comments" style="margin-right:0.4rem;color:var(--primary-color);"></i> Ask About This Briefing
+                    </h4>
+                    <div id="qa-thread" style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:0.75rem;max-height:400px;overflow-y:auto;"></div>
+                    <div style="display:flex;gap:0.5rem;">
+                        <input type="text" id="qa-input" placeholder="Ask a question about today's news..."
+                            style="flex:1;padding:0.6rem 0.75rem;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;font-family:inherit;"
+                            onkeydown="if(event.key==='Enter')askFollowUp()">
+                        <button class="btn primary-btn" style="padding:0.6rem 1rem;" onclick="askFollowUp()" id="qa-send-btn">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Briefing History (Last 3 Days) -->
+                <div id="briefing-history" style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);display:none;">
+                    <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
+                        <i class="fa-solid fa-clock-rotate-left" style="margin-right:0.4rem;color:var(--primary-color);"></i> Recent Briefings
+                    </h4>
+                    <div id="history-list" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
                 </div>
             </div>
         </main>
@@ -485,6 +740,38 @@
         let extractedInterests = [];
         let currentBriefingDate = null; // tracks which briefing is displayed
         let tmsApplications = [];
+
+        // ── Tone Preview Examples ──
+        const toneExamples = {
+            'npr': '<strong>Example:</strong> "Good morning. Let\'s start with what\'s moving markets today. The Federal Reserve signaled a pause on rate hikes, and investors are cautiously optimistic. Here\'s what that means for your portfolio..."',
+            'morning-brew': '<strong>Example:</strong> "The Fed just hit the brakes on rate hikes and Wall Street is throwing a party. Meanwhile, your savings account is side-eyeing the whole situation. Let\'s break down who actually wins here..."',
+            'executive': '<strong>Example:</strong> "<strong>Fed holds rates steady</strong> — signaling potential cuts in Q3. <strong>Impact:</strong> Bond yields fell 12bps; tech sector rallied 2.1%. <strong>Action:</strong> Review fixed-income allocation..."',
+            'deep-dive': '<strong>Example:</strong> "The Federal Reserve\'s decision to maintain the federal funds rate at 5.25-5.50% marks the third consecutive hold, reflecting a nuanced shift in the FOMC\'s assessment of core PCE inflation trajectories..."'
+        };
+
+        function updateTonePreview(targetId, value) {
+            const el = document.getElementById(targetId);
+            if (el) el.innerHTML = toneExamples[value] || '';
+        }
+
+        // Initialize previews on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTonePreview('tone-preview-main', 'npr');
+            updateTonePreview('tone-preview-settings', 'npr');
+        });
+
+        // ── Settings-page tab switcher ──
+        function switchSettingsTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.settings-tab').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.stab === tab);
+            });
+            // Toggle panels
+            const interests = document.getElementById('settings-panel-interests');
+            const prefs = document.getElementById('settings-panel-preferences');
+            if (interests) interests.style.display = tab === 'interests' ? '' : 'none';
+            if (prefs) prefs.style.display = tab === 'preferences' ? '' : 'none';
+        }
 
         // Edge Function helper — bypasses sb_publishable_ key issue with supabaseClient.functions.invoke()
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
@@ -555,22 +842,98 @@
         // Single config: if user has saved interests, auto-generate with those
         document.addEventListener('auth-ready', async () => {
             if (extractedInterests.length) return; // URL params take priority
+            const params = new URLSearchParams(window.location.search);
             // Skip auto-generate if viewing a saved briefing
-            if (new URLSearchParams(window.location.search).get('view')) return;
+            if (params.get('view')) return;
+            // Skip auto-generate if user is editing interests
+            const editMode = params.get('edit') === 'true';
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) return;
                 const { data: profile } = await window.supabaseClient
                     .from('user_profiles')
-                    .select('interests')
+                    .select('interests, metadata, email_delivery')
                     .eq('user_id', session.user.id)
                     .maybeSingle();
+                // Restore saved preferences
+                if (profile?.metadata) {
+                    if (profile.metadata.preferred_tone) {
+                        const toneSelect = document.getElementById('briefing-tone');
+                        if (toneSelect) toneSelect.value = profile.metadata.preferred_tone;
+                    }
+                    if (profile.metadata.source_whitelist?.length) {
+                        sourceWhitelist = profile.metadata.source_whitelist;
+                        renderSourceTags('whitelist');
+                    }
+                    if (profile.metadata.source_blacklist?.length) {
+                        sourceBlacklist = profile.metadata.source_blacklist;
+                        renderSourceTags('blacklist');
+                    }
+                    if (profile.metadata.jargon_simplify) {
+                        const jt = document.getElementById('jargon-toggle');
+                        if (jt) jt.checked = true;
+                    }
+                    if (profile.metadata.silver_lining) {
+                        const sl = document.getElementById('silver-lining-toggle');
+                        if (sl) sl.checked = true;
+                    }
+                    if (profile.metadata.opposing_views) {
+                        const ov = document.getElementById('opposing-views-toggle');
+                        if (ov) ov.checked = true;
+                    }
+                    if (profile.metadata.muted_topics?.length) {
+                        mutedTopics = profile.metadata.muted_topics.filter(m => new Date(m.expires) > new Date());
+                        renderMutedTags();
+                    }
+                    if (profile.metadata.location) {
+                        const loc = document.getElementById('user-location');
+                        if (loc) loc.value = profile.metadata.location;
+                    }
+                }
+                // Restore auto-generate toggle
+                if (profile?.metadata?.auto_generate) {
+                    const ag = document.getElementById('auto-generate-toggle');
+                    if (ag) ag.checked = true;
+                }
+                // Restore email delivery prefs
+                if (profile?.email_delivery != null) {
+                    const toggle = document.getElementById('email-delivery-toggle');
+                    if (toggle) toggle.checked = profile.email_delivery;
+                }
                 if (profile?.interests?.length) {
                     extractedInterests = profile.interests;
                     renderInterestTags(profile.interests);
-                    // Auto-generate with saved config
-                    generateBriefing();
+                    if (editMode) {
+                        editInterests();
+                    } else {
+                        // Check for existing briefing today before generating a new one
+                        const today = new Date().toISOString().split('T')[0];
+                        const { data: todayBriefing } = await window.supabaseClient
+                            .from('daily_briefings')
+                            .select('id, briefing_date, briefing_html, briefing_text, interests, sources, audio_url')
+                            .eq('user_id', session.user.id)
+                            .eq('briefing_date', today)
+                            .maybeSingle();
+
+                        if (todayBriefing?.briefing_html) {
+                            // Show existing briefing instead of regenerating
+                            currentBriefingDate = todayBriefing.briefing_date;
+                            document.getElementById('input-section').style.display = 'none';
+                            showBriefing(
+                                todayBriefing.briefing_html,
+                                todayBriefing.interests || profile.interests,
+                                todayBriefing.sources || []
+                            );
+                        } else {
+                            generateBriefing();
+                        }
+                    }
+                } else if (editMode) {
+                    // No saved interests but in edit mode — still show edit UI
+                    editInterests();
                 }
+                // Load recommended interests (always, even if generating)
+                loadRecommendedInterests();
             } catch (e) { /* no saved interests */ }
         });
 
@@ -819,8 +1182,6 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 `<span class="interest-tag editable">${tag} <button onclick="removeInterestTag(${i})" aria-label="Remove ${tag}">&times;</button></span>`
             ).join('');
 
-            // Also sync to textarea for the generate function
-            document.getElementById('interests-input').value = interests.join(', ');
         }
 
         function removeInterestTag(index) {
@@ -833,7 +1194,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
         function addInterestTag(val) {
             val = val.trim();
-            if (!val || extractedInterests.includes(val)) return;
+            if (!val || extractedInterests.some(i => i.toLowerCase() === val.toLowerCase())) return;
             extractedInterests.push(val);
             renderInterestTags(extractedInterests);
         }
@@ -855,38 +1216,438 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             } catch (e) { /* silent */ }
         }
 
+        // ── Email Delivery Preferences ──
+        async function saveEmailPrefs() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                const enabled = document.getElementById('email-delivery-toggle').checked;
+                await window.supabaseClient.from('user_profiles')
+                    .update({ email_delivery: enabled })
+                    .eq('user_id', session.user.id);
+            } catch (e) { console.error('Save email prefs error:', e); }
+        }
+
+        // ── Generic Setting Toggle (reusable) ──
+        async function saveSettingToggle(key, value) {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                const { data: prof } = await window.supabaseClient.from('user_profiles')
+                    .select('metadata').eq('user_id', session.user.id).maybeSingle();
+                const meta = prof?.metadata || {};
+                meta[key] = value;
+                await window.supabaseClient.from('user_profiles')
+                    .update({ metadata: meta }).eq('user_id', session.user.id);
+            } catch (e) { /* silent */ }
+        }
+
+        // ── Recommended Interests ──
+        const TRENDING_TOPICS = ['AI & Machine Learning', 'Climate Tech', 'Crypto & Web3',
+            'Cybersecurity', 'Electric Vehicles', 'Federal Reserve', 'Fintech',
+            'Healthcare Innovation', 'NBA', 'Politics', 'Space', 'Startups & VC'];
+
+        async function loadRecommendedInterests() {
+            const container = document.getElementById('recommended-chips');
+            const section = document.getElementById('recommended-interests');
+            if (!container) return;
+
+            let chips = [];
+
+            // Personalized: from user's active job applications
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (session) {
+                    const { data: apps } = await window.supabaseClient
+                        .from('generations')
+                        .select('target_company')
+                        .eq('user_id', session.user.id)
+                        .in('application_status', ['applied', 'interviewing'])
+                        .not('target_company', 'is', null)
+                        .order('created_at', { ascending: false })
+                        .limit(5);
+                    if (apps?.length) {
+                        const companies = apps.map(a => a.target_company).filter(Boolean);
+                        const unique = companies.filter(c => !extractedInterests.some(i => i.toLowerCase() === c.toLowerCase()));
+                        chips.push(...unique.slice(0, 3));
+                    }
+                }
+            } catch (e) { /* silent */ }
+
+            // Trending — exclude already-selected interests
+            const trendingFiltered = TRENDING_TOPICS.filter(t =>
+                !extractedInterests.some(i => i.toLowerCase() === t.toLowerCase()) &&
+                !chips.some(c => c.toLowerCase() === t.toLowerCase())
+            );
+            chips.push(...trendingFiltered);
+
+            if (!chips.length) { section.style.display = 'none'; return; }
+
+            container.innerHTML = chips.slice(0, 12).map(topic => {
+                const safe = topic.replace(/'/g, "\\'");
+                return `<button class="rec-chip" onclick="addRecommendedInterest(this,'${safe}')">${topic}</button>`;
+            }).join('');
+            section.style.display = 'block';
+        }
+
+        function addRecommendedInterest(btn, topic) {
+            addInterestTag(topic);
+            btn.classList.add('added');
+            btn.textContent = '\u2713 ' + topic;
+        }
+
+        // ── Muted Topics (Burnout Filter) ──
+        let mutedTopics = [];
+
+        function addMutedTopic() {
+            const input = document.getElementById('mute-topic-input');
+            const topic = input.value.trim();
+            if (!topic) return;
+            const days = parseInt(document.getElementById('mute-duration').value) || 7;
+            const expires = new Date(Date.now() + days * 86400000).toISOString();
+            mutedTopics = mutedTopics.filter(m => m.topic.toLowerCase() !== topic.toLowerCase());
+            mutedTopics.push({ topic, expires });
+            input.value = '';
+            renderMutedTags();
+            saveMutedTopics();
+        }
+
+        function removeMutedTopic(index) {
+            mutedTopics.splice(index, 1);
+            renderMutedTags();
+            saveMutedTopics();
+        }
+
+        function renderMutedTags() {
+            mutedTopics = mutedTopics.filter(m => new Date(m.expires) > new Date());
+            const container = document.getElementById('muted-tags');
+            if (!container) return;
+            container.innerHTML = mutedTopics.map((m, i) => {
+                const daysLeft = Math.ceil((new Date(m.expires) - Date.now()) / 86400000);
+                return `<span class="interest-tag editable" style="background:rgba(239,68,68,0.08);color:#ef4444;border-color:rgba(239,68,68,0.2);">${m.topic} <span style="font-size:0.7rem;opacity:0.7;">(${daysLeft}d)</span> <button onclick="removeMutedTopic(${i})" aria-label="Unmute">&times;</button></span>`;
+            }).join('');
+        }
+
+        async function saveMutedTopics() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                const { data: prof } = await window.supabaseClient.from('user_profiles')
+                    .select('metadata').eq('user_id', session.user.id).maybeSingle();
+                const meta = prof?.metadata || {};
+                meta.muted_topics = mutedTopics;
+                await window.supabaseClient.from('user_profiles')
+                    .update({ metadata: meta }).eq('user_id', session.user.id);
+            } catch (e) { /* silent */ }
+        }
+
+        // ── Follow-up Q&A ──
+        let qaHistory = [];
+
+        async function askFollowUp() {
+            const input = document.getElementById('qa-input');
+            const question = input.value.trim();
+            if (!question) return;
+            input.value = '';
+
+            const thread = document.getElementById('qa-thread');
+            thread.innerHTML += `<div class="qa-msg user">${question.replace(/</g, '&lt;')}</div>`;
+            const loadingId = 'qa-loading-' + Date.now();
+            thread.innerHTML += `<div class="qa-msg assistant" id="${loadingId}"><i class="fa-solid fa-spinner fa-spin"></i> Thinking...</div>`;
+            thread.scrollTop = thread.scrollHeight;
+
+            try {
+                const briefingContext = document.getElementById('briefing-content')?.innerHTML?.replace(/<[^>]+>/g, '') || '';
+                qaHistory.push({ role: 'user', parts: [{ text: question }] });
+
+                const contents = [
+                    { role: 'user', parts: [{ text: `Here is the news briefing for context:\n\n${briefingContext.substring(0, 6000)}` }] },
+                    { role: 'model', parts: [{ text: 'I have the briefing context. What would you like to know?' }] },
+                    ...qaHistory
+                ];
+
+                const data = await invokeEdge('gemini-proxy', {
+                    contents,
+                    systemInstruction: { parts: [{ text: 'You are a helpful news analyst. Answer questions about the provided news briefing concisely and accurately. If the answer is not in the briefing, say so. Use 2-4 sentences max. Format with HTML: <p>, <strong>.' }] },
+                    generationConfig: { temperature: 0.4, maxOutputTokens: 512, thinkingConfig: { thinkingBudget: 0 } }
+                });
+
+                const parts = data.candidates?.[0]?.content?.parts || [];
+                const answer = parts.filter(p => !p.thought && p.text).map(p => p.text).join('') || 'I could not find an answer.';
+                qaHistory.push({ role: 'model', parts: [{ text: answer }] });
+
+                document.getElementById(loadingId).innerHTML = answer;
+            } catch (e) {
+                document.getElementById(loadingId).innerHTML = `<span style="color:#ef4444;">Error: ${e.message}</span>`;
+            }
+            thread.scrollTop = thread.scrollHeight;
+        }
+
+        // ── Source Preferences ──
+        let sourceWhitelist = [];
+        let sourceBlacklist = [];
+
+        function renderSourceTags(type) {
+            const list = type === 'whitelist' ? sourceWhitelist : sourceBlacklist;
+            const container = document.getElementById(type + '-tags');
+            container.innerHTML = list.map((s, i) =>
+                `<span class="interest-tag editable">${s} <button onclick="removeSourcePref('${type}',${i})" aria-label="Remove ${s}">&times;</button></span>`
+            ).join('');
+        }
+
+        function addSourcePref(type, val) {
+            val = val.trim();
+            if (!val) return;
+            const list = type === 'whitelist' ? sourceWhitelist : sourceBlacklist;
+            if (list.includes(val)) return;
+            list.push(val);
+            renderSourceTags(type);
+            saveSourcePrefs();
+        }
+
+        function removeSourcePref(type, index) {
+            const list = type === 'whitelist' ? sourceWhitelist : sourceBlacklist;
+            list.splice(index, 1);
+            renderSourceTags(type);
+            saveSourcePrefs();
+        }
+
+        async function saveSourcePrefs() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                const { data: prof } = await window.supabaseClient.from('user_profiles').select('metadata').eq('user_id', session.user.id).maybeSingle();
+                const meta = prof?.metadata || {};
+                meta.source_whitelist = sourceWhitelist;
+                meta.source_blacklist = sourceBlacklist;
+                await window.supabaseClient.from('user_profiles').update({ metadata: meta }).eq('user_id', session.user.id);
+            } catch (e) { /* silent */ }
+        }
+
         // ── Generate & Edit Briefing Flow ──
-        function editInterests() {
+        async function editInterests() {
+            // Set URL param so page reloads don't auto-generate
+            const url = new URL(window.location);
+            url.searchParams.set('edit', 'true');
+            url.searchParams.delete('view');
+            history.replaceState(null, '', url);
+
             // Hide result, show input
             document.getElementById('result-section').style.display = 'none';
             document.getElementById('input-section').style.display = 'block';
 
-            // Sync the tags UI and textarea with whatever the user currently sees or last generated
-            renderInterestTags(extractedInterests || []);
+            // Show and update header for edit mode
+            const stepHeader = document.querySelector('.step-header');
+            if (stepHeader) stepHeader.style.display = '';
+            const headerIcon = document.querySelector('.step-header i');
+            if (headerIcon) headerIcon.className = 'fa-solid fa-sliders';
+            const header = document.querySelector('.step-header h2');
+            if (header) header.textContent = 'Briefing Settings';
+            const desc = document.querySelector('.step-header p');
+            if (desc) desc.textContent = 'Manage your interests, tone, and delivery preferences.';
+            document.title = 'Briefing Settings | TailorMeSwiftly';
 
-            // Switch to Type Interests tab by default when editing so they clearly see the text box
+            // If no interests loaded yet, try loading from latest briefing or profile
+            if (!extractedInterests?.length) {
+                try {
+                    const { data: { session } } = await window.supabaseClient.auth.getSession();
+                    if (session) {
+                        // Try user_profiles first
+                        const { data: prof } = await window.supabaseClient.from('user_profiles')
+                            .select('interests').eq('user_id', session.user.id).maybeSingle();
+                        if (prof?.interests?.length) {
+                            extractedInterests = prof.interests;
+                        } else {
+                            // Fall back to latest daily_briefings row
+                            const { data: latest } = await window.supabaseClient.from('daily_briefings')
+                                .select('interests').eq('user_id', session.user.id)
+                                .order('briefing_date', { ascending: false }).limit(1).maybeSingle();
+                            if (latest?.interests?.length) {
+                                extractedInterests = latest.interests;
+                            }
+                        }
+                    }
+                } catch (e) { /* silent */ }
+            }
+
+            // Sync the tags UI with current interests
+            if (extractedInterests?.length) {
+                renderInterestTags(extractedInterests);
+            }
+
+            // Show the tags section prominently
+            const tagsSection = document.getElementById('interest-tags-section');
+            if (tagsSection) tagsSection.style.display = 'block';
+
+            // Show settings-mode top-level tabs, default to Interests
+            const settingsTabs = document.getElementById('settings-tabs');
+            if (settingsTabs) settingsTabs.style.display = '';
+            switchSettingsTab('interests');
+
+            // Keep source sub-tabs visible, default to My Interests
             switchTab('type');
+
+            // Hide tone/generate bar — settings page uses the Settings tab
+            const toneBar = document.getElementById('tone-generate-bar');
+            if (toneBar) toneBar.style.display = 'none';
+            // Show settings panels (visible when Settings tab is active)
+            const settings = document.getElementById('briefing-settings');
+            if (settings) settings.style.display = '';
+            // Sync tone setting selector with main tone selector
+            const toneSetting = document.getElementById('briefing-tone-setting');
+            const toneMain = document.getElementById('briefing-tone');
+            if (toneSetting && toneMain) {
+                toneSetting.value = toneMain.value;
+                updateTonePreview('tone-preview-settings', toneMain.value);
+            }
+
+            // Show edit-mode action bar
+            const editBar = document.getElementById('edit-actions-bar');
+            if (editBar) editBar.style.display = 'flex';
+
+            // Refresh recommended chips (filters out current interests)
+            loadRecommendedInterests();
+
+            // Focus the add-interest input
+            setTimeout(() => {
+                const addInput = document.getElementById('add-interest-input');
+                if (addInput) addInput.focus();
+            }, 100);
+        }
+
+        function cancelEditInterests() {
+            // Remove edit param
+            const url = new URL(window.location);
+            url.searchParams.delete('edit');
+            history.replaceState(null, '', url);
+
+            // Hide input, show result
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'block';
+
+            // Hide the step header again (briefing is showing)
+            const stepHeader = document.querySelector('.step-header');
+            if (stepHeader) stepHeader.style.display = 'none';
+            document.title = 'Your Briefing | TailorMeSwiftly';
+
+            // Restore hidden elements for next time
+            restoreNewBriefingUI();
+        }
+
+        function restoreNewBriefingUI() {
+            // Hide settings-mode tabs, show both panels for normal flow
+            const settingsTabs = document.getElementById('settings-tabs');
+            if (settingsTabs) settingsTabs.style.display = 'none';
+            const interestsPanel = document.getElementById('settings-panel-interests');
+            if (interestsPanel) interestsPanel.style.display = '';
+            const prefsPanel = document.getElementById('settings-panel-preferences');
+            if (prefsPanel) prefsPanel.style.display = 'none';
+
+            const sourceTabs = document.getElementById('source-tabs');
+            if (sourceTabs) sourceTabs.style.display = '';
+            const toneBar = document.getElementById('tone-generate-bar');
+            if (toneBar) toneBar.style.display = '';
+            // Sync tone from settings selector back to main selector
+            const toneSetting = document.getElementById('briefing-tone-setting');
+            const toneMain = document.getElementById('briefing-tone');
+            if (toneSetting && toneMain) toneMain.value = toneSetting.value;
+            const settings = document.getElementById('briefing-settings');
+            if (settings) settings.style.display = 'none';
+            const editBar = document.getElementById('edit-actions-bar');
+            if (editBar) editBar.style.display = 'none';
+            const headerIcon = document.querySelector('.step-header i');
+            if (headerIcon) headerIcon.className = 'fa-solid fa-wand-magic-sparkles';
+            const header = document.querySelector('.step-header h2');
+            if (header) header.textContent = "Today's Briefing";
+            const desc = document.querySelector('.step-header p');
+            if (desc) desc.textContent = 'Tell us what you\'re interested in and we\'ll create a personalized news digest.';
         }
 
         async function generateBriefing() {
-            // Unify interests: Textarea is the absolute source of truth if they are on Tab A,
-            // otherwise `extractedInterests` is the source of truth if they just extracted.
-            const typeTabActive = document.getElementById('tab-type').classList.contains('active');
-            let interests = [];
+            // Restore new-briefing UI if returning from edit mode
+            restoreNewBriefingUI();
 
-            if (typeTabActive) {
-                const textVal = document.getElementById('interests-input').value.trim();
-                interests = textVal ? textVal.split(',').map(s => s.trim()).filter(Boolean) : [];
-                // Sync back to tags
-                extractedInterests = [...interests];
-            } else {
-                interests = [...extractedInterests];
+            // Save interests to profile immediately
+            if (extractedInterests.length) {
+                saveInterestsToProfile(extractedInterests);
             }
+
+            let interests = [...extractedInterests];
 
             if (!interests.length) { alert('Please enter or extract some interests first.'); return; }
 
-            // Sync tags UI for the Edit screen later
-            renderInterestTags(interests);
+            // Get user's first name for personalized briefing
+            let userName = '';
+            // Auto-add company names from active job applications
+            try {
+                const { data: { session: s } } = await window.supabaseClient.auth.getSession();
+                if (s) {
+                    const fullName = s.user?.user_metadata?.full_name || '';
+                    userName = fullName.split(' ')[0] || '';
+                    const { data: apps } = await window.supabaseClient
+                        .from('generations')
+                        .select('target_company')
+                        .eq('user_id', s.user.id)
+                        .in('application_status', ['applied', 'interviewing'])
+                        .not('target_company', 'is', null);
+                    if (apps?.length) {
+                        const companies = apps.map(a => a.target_company).filter(Boolean);
+                        const unique = companies.filter(c => !interests.some(i => i.toLowerCase() === c.toLowerCase()));
+                        if (unique.length) {
+                            interests = [...interests, ...unique];
+                            window._appCompanies = unique; // track which were auto-added
+                        }
+                    }
+                }
+            } catch (e) { /* silent */ }
+
+            // Auto-add niche industry keywords from resume
+            try {
+                const { data: { session: s2 } } = await window.supabaseClient.auth.getSession();
+                if (s2) {
+                    const { data: resumeData } = await window.supabaseClient
+                        .from('generations')
+                        .select('resume_text')
+                        .eq('user_id', s2.user.id)
+                        .not('resume_text', 'is', null)
+                        .order('created_at', { ascending: false })
+                        .limit(1)
+                        .maybeSingle();
+                    if (resumeData?.resume_text) {
+                        const techKeywords = resumeData.resume_text.match(/\b[A-Z][a-z]+(?:\s[A-Z][a-z]+)+\b/g) || [];
+                        const unique = [...new Set(techKeywords)]
+                            .filter(k => k.length > 5 && !interests.some(i => i.toLowerCase() === k.toLowerCase()))
+                            .slice(0, 3);
+                        interests.push(...unique);
+                    }
+                }
+            } catch (e) { /* silent */ }
+
+            // Filter out muted topics
+            const activeMuted = mutedTopics.filter(m => new Date(m.expires) > new Date());
+            if (activeMuted.length) {
+                const mutedSet = new Set(activeMuted.map(m => m.topic.toLowerCase()));
+                interests = interests.filter(i => !mutedSet.has(i.toLowerCase()));
+            }
+
+            // Add location-based news
+            const userLocation = document.getElementById('user-location')?.value?.trim();
+            if (userLocation) {
+                interests.push(userLocation + ' local news');
+            }
+
+            // Reset Q&A for new briefing
+            qaHistory = [];
+            const qaThread = document.getElementById('qa-thread');
+            if (qaThread) qaThread.innerHTML = '';
+
+            // Clear edit mode param
+            const url = new URL(window.location);
+            url.searchParams.delete('edit');
+            history.replaceState(null, '', url);
+
+            // Sync tags UI for the Edit screen later (use extractedInterests, not expanded)
+            renderInterestTags(extractedInterests);
 
             document.getElementById('input-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'none';
@@ -900,7 +1661,11 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
                 // Step 1: Fetch news
                 document.getElementById('loading-status').textContent = 'Fetching news articles...';
-                const newsData = await invokeEdge('fetch-news', { interests, max: 10, skipCache: true });
+                const newsData = await invokeEdge('fetch-news', {
+                    interests, max: 15, skipCache: true,
+                    sourceWhitelist: sourceWhitelist.length ? sourceWhitelist : undefined,
+                    sourceBlacklist: sourceBlacklist.length ? sourceBlacklist : undefined
+                });
 
                 if (!newsData?.articles?.length) {
                     throw new Error('No articles found for those topics. Try different or broader interests.');
@@ -912,6 +1677,14 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 document.getElementById('loading-status').textContent = 'Generating your personalized briefing...';
 
                 const tone = document.getElementById('briefing-tone')?.value || 'npr';
+                // Persist tone preference
+                try {
+                    const uid = session.user.id;
+                    const { data: prof } = await window.supabaseClient.from('user_profiles').select('metadata').eq('user_id', uid).maybeSingle();
+                    const meta = prof?.metadata || {};
+                    meta.preferred_tone = tone;
+                    await window.supabaseClient.from('user_profiles').update({ metadata: meta }).eq('user_id', uid);
+                } catch (e) { /* silent */ }
                 let systemPrompt = '';
 
                 if (tone === 'executive') {
@@ -938,6 +1711,39 @@ STRUCTURE & FORMAT (use exactly this HTML):
 <ul><li><strong>[Topic/Company]:</strong> 1 sentence summary. <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source]</a></li></ul>
 <h3>Action Items:</h3>
 <ul><li><strong>Verb-first action:</strong> What the user needs to do based on this intelligence.</li></ul>`;
+                } else if (tone === 'morning-brew') {
+                    systemPrompt = `You are a sharp, witty newsletter writer in the style of Morning Brew — conversational, punchy, and just the right amount of irreverent. You make complex news feel approachable without dumbing it down.
+
+CRITICAL INSTRUCTION (Knowles' Andragogical Principles):
+You MUST tailor this briefing specifically to the user's role and interests using adult learning principles:
+1. Relevance: Tell them exactly why each story hits their desk — make it personal.
+2. Problem-Centric: Frame news as "here's what you need to watch out for" or "here's your edge."
+3. Immediate Value: Every story should make them feel smarter in their next meeting.
+
+TARGET LENGTH: 400-550 words (2-3 minute read).
+
+VOICE & TONE:
+- Conversational and clever — like a smart friend catching you up over coffee
+- Use short, punchy sentences. Drop in a one-liner or playful metaphor when it fits naturally
+- Bold key facts, names, and numbers for scannability
+- Address the reader as "you" — make it feel personal
+- Keep it breezy but substantive. No fluff, no filler
+- Occasional parenthetical asides are welcome (they add personality)
+
+STRUCTURE (use ALL sections in this order):
+1. OPENER — A punchy 1-2 sentence hook. Think headline energy meets conversation starter.
+2. THE BIG STORY — 2-3 short paragraphs on the day's biggest story. Why it matters to them specifically. Use analogies and context to make it click.
+3. QUICK HITS — 3-4 bite-sized news items. Each gets a bold lead-in and 1-2 sentences. Tie to their interests.
+4. THE BOTTOM LINE — 2-3 actionable takeaways. What to watch, what to do, what to think about.
+
+FORMAT — use this EXACT HTML:
+- Opener: <p class="briefing-thesis"><strong>GOOD MORNING:</strong> Your punchy hook here.</p>
+- Section headers: <h3>The Big Story:</h3>, <h3>Quick Hits:</h3>, <h3>The Bottom Line:</h3>
+- Body: <p>Short paragraphs. Use <strong>bold</strong> for key facts. Cite sources with <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source Name]</a>.</p>
+- Quick hits: <ul><li><strong>Bold lead-in:</strong> One-two sentence summary with citation.</li></ul>
+- Bottom line: <ul><li>Actionable insight starting with a verb.</li></ul>
+- Use the exact article URL provided for each source link
+- No <html>, <body>, or <head> tags`;
                 } else if (tone === 'deep-dive') {
                     systemPrompt = `You are an expert industry analyst writing an in-depth intelligence brief.
 
@@ -963,8 +1769,8 @@ STRUCTURE & FORMAT (use exactly this HTML):
 <h3>Strategic Recommendations:</h3>
 <ul><li><strong>Long-term view:</strong> What the user should plan for over the next 6-12 months based on this data.</li></ul>`;
                 } else {
-                    // Default NPR
-                    systemPrompt = `You are an NPR morning briefing host — warm, smart, and conversational. You're writing a script that will be READ ALOUD by a TTS voice AND displayed as a visual article. It must sound natural spoken AND look great on screen.
+                    // Default Public Radio Voice
+                    systemPrompt = `You are a public radio morning briefing host — warm, smart, and conversational. You're writing a script that will be READ ALOUD by a TTS voice AND displayed as a visual article. It must sound natural spoken AND look great on screen.
 
 CRITICAL INSTRUCTION (Knowles' Andragogical Principles):
 You MUST tailor this briefing specifically to the user's role and interests using adult learning principles:
@@ -976,7 +1782,7 @@ You MUST tailor this briefing specifically to the user's role and interests usin
 TARGET LENGTH: 500-650 words (2-3 minute read / ~3 min audio).
 
 VOICE & TONE:
-- Write exactly how an NPR host talks: natural transitions, conversational phrasing, smooth cadence
+- Write exactly how a public radio host talks: natural transitions, conversational phrasing, smooth cadence
 - Address the listener directly — "you", "your", "here's what you need to know"
 - Use short, spoken-rhythm sentences. Vary length for flow. Avoid walls of text.
 - Sound like you're talking TO someone, not reading AT them
@@ -1000,11 +1806,27 @@ FORMAT — use this EXACT HTML:
 - CRITICAL: Write so every sentence sounds natural when read aloud. No jargon, no awkward constructions, no run-on sentences.`;
                 }
 
+                // Universal instructions
+                systemPrompt += '\n\nIMPORTANT: Do NOT include any title, heading, or <h1>/<h2> at the beginning of your output. The page already displays "Today\'s Briefing" as the title. Start directly with the briefing-thesis paragraph.';
+                systemPrompt += `\n\nCRITICAL — INTEREST COVERAGE: The reader has ${interests.length} interests: ${interests.join(', ')}. You MUST cover a variety of these interests across the briefing — do not focus on just one or two topics. Aim to touch on at least ${Math.min(interests.length, 4)} different interest areas. Spread your coverage across the provided articles so the reader sees news relevant to multiple parts of their professional life.`;
+
+                // Append optional modifiers to system prompt
+                if (document.getElementById('jargon-toggle')?.checked) {
+                    systemPrompt += '\n\nADDITIONAL INSTRUCTION — PLAIN ENGLISH: Use plain, everyday English throughout. Replace all technical jargon, financial terminology, legal language, and acronyms with simple explanations. Assume the reader has no specialized knowledge.';
+                }
+                if (document.getElementById('silver-lining-toggle')?.checked) {
+                    systemPrompt += '\n\nADDITIONAL INSTRUCTION — SILVER LINING: For each story, emphasize the constructive angle, opportunities, or silver linings. Acknowledge the challenge briefly but pivot to what is promising, what solutions are emerging, and what positive action the reader can take.';
+                }
+                if (document.getElementById('opposing-views-toggle')?.checked) {
+                    systemPrompt += '\n\nADDITIONAL INSTRUCTION — OPPOSING VIEWS: For the 2-3 biggest stories, briefly present how different perspectives interpret the news. Use phrases like "One perspective sees this as... while another argues..." to maintain neutrality.';
+                }
+
                 const articleSummaries = articles.map(a =>
                     `Title: ${a.title}\nSource: ${a.source}\nDate: ${a.publishedAt}\nDescription: ${a.description}\nURL: ${a.url}`
                 ).join('\n\n---\n\n');
 
-                const userPrompt = `Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
+                const nameClause = userName ? `The reader's name is ${userName}. Address them by name in your opening line. ` : '';
+                const userPrompt = `${nameClause}Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
 
                 const geminiData = await invokeEdge('gemini-proxy', {
                     contents: [{ parts: [{ text: userPrompt }] }],
@@ -1036,8 +1858,8 @@ FORMAT — use this EXACT HTML:
                 currentBriefingDate = new Date().toISOString().split('T')[0];
                 _skipCachedAudio = false; // Reset so fresh audio can be cached
 
-                // Save interests to profile for next time
-                saveInterestsToProfile(interests);
+                // Save only user's explicit interests (not auto-added companies/resume keywords/location)
+                saveInterestsToProfile(extractedInterests);
 
                 // Step 4: Display result
                 showBriefing(briefingHtml, interests, articles);
@@ -1066,8 +1888,17 @@ FORMAT — use this EXACT HTML:
             document.getElementById('loading-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'block';
 
+            // Hide the "Today's Briefing" header — the briefing is already generated
+            const stepHeader = document.querySelector('.step-header');
+            if (stepHeader) stepHeader.style.display = 'none';
+            document.title = 'Your Briefing | TailorMeSwiftly';
+
             const tagsEl = document.getElementById('briefing-interests');
-            tagsEl.innerHTML = interests.map(i => `<span class="interest-tag">${i}</span>`).join('');
+            const appCompanies = (window._appCompanies || []).map(c => c.toLowerCase());
+            tagsEl.innerHTML = interests.map(i => {
+                const isApp = appCompanies.includes(i.toLowerCase());
+                return `<span class="interest-tag${isApp ? ' app-tag' : ''}">${isApp ? '<i class="fa-solid fa-briefcase" style="font-size:0.65rem;margin-right:0.25rem;opacity:0.7;"></i>' : ''}${i}</span>`;
+            }).join('');
 
             // Calculate estimated read time
             const plainText = html.replace(/<[^>]+>/g, '');
@@ -1075,8 +1906,10 @@ FORMAT — use this EXACT HTML:
             const readMin = Math.max(1, Math.round(wordCount / 200));
             document.getElementById('briefing-read-time').textContent = `${readMin} min read`;
 
-            // Post-process: convert plain [Source: name] text into clickable links
-            let processedHtml = html;
+            // Post-process: strip any leading h1/h2 title the AI may have generated
+            let processedHtml = html.replace(/^\s*<h[12][^>]*>.*?<\/h[12]>\s*/i, '');
+            // Also strip markdown-style headers at the very start
+            processedHtml = processedHtml.replace(/^\s*#{1,2}\s+.+\n*/i, '');
             if (articles && articles.length) {
                 // Build a lookup map from source name to URL
                 const sourceMap = {};
@@ -1093,21 +1926,298 @@ FORMAT — use this EXACT HTML:
                 });
             }
             document.getElementById('briefing-content').innerHTML = processedHtml;
+            injectTellMeMoreButtons();
             setupPodcastSubscribe();
+            markBookmarkedSources();
+            loadSavedArticles();
+            loadBriefingHistory();
 
             const srcEl = document.getElementById('sources-list');
-            srcEl.innerHTML = articles.map(a => {
+            srcEl.innerHTML = articles.map((a, idx) => {
                 const url = a.url || '#';
                 const name = a.source || a.title || 'Source';
                 const title = a.title || '';
-                return `<a href="${url}" target="_blank" rel="noopener" class="briefing-source-card">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    <div>
-                        <div class="source-name">${name}</div>
-                        ${title ? `<div class="source-title">${title}</div>` : ''}
-                    </div>
-                </a>`;
+                const safeUrl = (a.url || '').replace(/'/g, "\\'");
+                const safeTitle = (a.title || '').replace(/'/g, "\\'");
+                const safeName = (a.source || '').replace(/'/g, "\\'");
+                return `<div class="briefing-source-card-wrap" style="position:relative;">
+                    <a href="${url}" target="_blank" rel="noopener" class="briefing-source-card" style="flex:1;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <div>
+                            <div class="source-name">${name}</div>
+                            ${title ? `<div class="source-title">${title}</div>` : ''}
+                        </div>
+                    </a>
+                    <button class="bookmark-btn" onclick="event.stopPropagation();toggleBookmark('${safeUrl}','${safeTitle}','${safeName}',this)" title="Bookmark this article"
+                        style="position:absolute;top:0.5rem;right:0.5rem;background:none;border:none;cursor:pointer;color:var(--text-secondary);font-size:0.9rem;padding:0.2rem;">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+                </div>`;
             }).join('');
+        }
+
+        // ── "Tell Me More" Deep Dive ──
+        function injectTellMeMoreButtons() {
+            const content = document.getElementById('briefing-content');
+            if (!content) return;
+            // Find all <li> elements inside the briefing content
+            const items = content.querySelectorAll('ul li');
+            items.forEach((li, idx) => {
+                // Skip takeaway/action items — only add to news items
+                const parentH3 = li.closest('ul')?.previousElementSibling;
+                if (parentH3?.tagName === 'H3') {
+                    const headerText = parentH3.textContent.toLowerCase();
+                    if (headerText.includes('takeaway') || headerText.includes('action') || headerText.includes('bottom line') || headerText.includes('recommendation')) return;
+                }
+                const btn = document.createElement('button');
+                btn.className = 'tell-me-more-btn';
+                btn.style.cssText = 'background:none;border:1px solid var(--panel-border);border-radius:6px;padding:0.2rem 0.5rem;font-size:0.72rem;color:var(--primary-color);cursor:pointer;margin-top:0.4rem;display:inline-block;font-family:inherit;';
+                btn.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus" style="margin-right:0.25rem;"></i>Tell Me More';
+                btn.onclick = () => expandDeepDive(li, btn);
+
+                const catchUpBtn = document.createElement('button');
+                catchUpBtn.className = 'tell-me-more-btn';
+                catchUpBtn.style.cssText = 'background:none;border:1px solid var(--panel-border);border-radius:6px;padding:0.2rem 0.5rem;font-size:0.72rem;color:var(--primary-color);cursor:pointer;margin-top:0.4rem;display:inline-block;font-family:inherit;margin-left:0.4rem;';
+                catchUpBtn.innerHTML = '<i class="fa-solid fa-clock-rotate-left" style="margin-right:0.25rem;"></i>Catch Me Up';
+                catchUpBtn.onclick = () => expandCatchUp(li, catchUpBtn);
+
+                li.appendChild(document.createElement('br'));
+                li.appendChild(btn);
+                li.appendChild(catchUpBtn);
+            });
+        }
+
+        async function expandDeepDive(liEl, btn) {
+            // Check if already expanded
+            if (liEl.querySelector('.deep-dive-card')) {
+                liEl.querySelector('.deep-dive-card').remove();
+                btn.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus" style="margin-right:0.25rem;"></i>Tell Me More';
+                return;
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:0.25rem;"></i>Loading...';
+            btn.disabled = true;
+
+            try {
+                const storyText = liEl.textContent.replace('Tell Me More', '').replace('Loading...', '').trim();
+                const interests = extractedInterests.join(', ');
+
+                const data = await invokeEdge('gemini-proxy', {
+                    contents: [{ parts: [{ text: `Provide a detailed deep-dive analysis of this news story for someone interested in ${interests}:\n\n"${storyText}"\n\nInclude: background context, why this matters, what to watch next, and any second-order effects. Write 150-250 words in clear, engaging prose. Use HTML formatting with <p> tags and <strong> for emphasis. No headers.` }] }],
+                    systemInstruction: { parts: [{ text: 'You are an expert news analyst providing concise deep-dive context on breaking stories. Write in clear, engaging prose.' }] },
+                    generationConfig: { temperature: 0.5, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 0 } }
+                });
+
+                const parts = data.candidates?.[0]?.content?.parts || [];
+                const deepDiveHtml = parts.filter(p => !p.thought && p.text).map(p => p.text).join('') || 'Unable to generate analysis.';
+
+                const card = document.createElement('div');
+                card.className = 'deep-dive-card';
+                card.style.cssText = 'margin-top:0.75rem;padding:0.75rem 1rem;background:color-mix(in srgb, var(--primary-color) 4%, transparent);border:1px solid color-mix(in srgb, var(--primary-color) 15%, transparent);border-radius:10px;font-size:0.85rem;line-height:1.7;';
+                card.innerHTML = `<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.4rem;">Deep Dive</div>${deepDiveHtml}`;
+                liEl.appendChild(card);
+
+                btn.innerHTML = '<i class="fa-solid fa-chevron-up" style="margin-right:0.25rem;"></i>Collapse';
+            } catch (e) {
+                console.error('Deep dive error:', e);
+                btn.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus" style="margin-right:0.25rem;"></i>Tell Me More';
+            }
+            btn.disabled = false;
+        }
+
+        async function expandCatchUp(liEl, btn) {
+            if (liEl.querySelector('.catch-up-card')) {
+                liEl.querySelector('.catch-up-card').remove();
+                btn.innerHTML = '<i class="fa-solid fa-clock-rotate-left" style="margin-right:0.25rem;"></i>Catch Me Up';
+                return;
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:0.25rem;"></i>Loading...';
+            btn.disabled = true;
+
+            try {
+                const storyText = liEl.textContent.replace(/Tell Me More|Catch Me Up|Loading\.\.\.|Collapse|Hide Timeline/g, '').trim();
+
+                const data = await invokeEdge('gemini-proxy', {
+                    contents: [{ parts: [{ text: `Provide a reverse-chronological timeline for this news story:\n\n"${storyText}"\n\nReturn exactly this HTML structure:\n<div class="timeline-events"><div class="timeline-event"><strong>[Date/Time Period]</strong><p>[What happened]</p></div></div>\n<div class="why-now"><strong>Why It Matters Now</strong><p>[2-3 sentence summary of current significance]</p></div>\n\nInclude 3-5 key events. Be concise — one sentence per event.` }] }],
+                    systemInstruction: { parts: [{ text: 'You are a news context expert. Provide concise reverse-chronological timelines to help readers catch up on running stories. Output only valid HTML, no markdown.' }] },
+                    generationConfig: { temperature: 0.4, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 0 } }
+                });
+
+                const parts = data.candidates?.[0]?.content?.parts || [];
+                const timelineHtml = parts.filter(p => !p.thought && p.text).map(p => p.text).join('') || 'Unable to generate timeline.';
+
+                const card = document.createElement('div');
+                card.className = 'catch-up-card';
+                card.style.cssText = 'margin-top:0.75rem;padding:0.75rem 1rem;background:color-mix(in srgb, var(--primary-color) 3%, transparent);border:1px solid color-mix(in srgb, var(--primary-color) 12%, transparent);border-radius:10px;font-size:0.85rem;line-height:1.7;';
+                card.innerHTML = `<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.5rem;"><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.3rem;"></i>Story Timeline</div>${timelineHtml}`;
+
+                // Style timeline events
+                card.querySelectorAll('.timeline-event').forEach(ev => {
+                    ev.style.cssText = 'padding-left:1rem;border-left:2px solid var(--primary-color);margin-bottom:0.6rem;';
+                });
+                const whyNow = card.querySelector('.why-now');
+                if (whyNow) whyNow.style.cssText = 'margin-top:0.75rem;padding:0.6rem 0.8rem;background:color-mix(in srgb, var(--primary-color) 6%, transparent);border-radius:8px;';
+
+                liEl.appendChild(card);
+                btn.innerHTML = '<i class="fa-solid fa-chevron-up" style="margin-right:0.25rem;"></i>Hide Timeline';
+            } catch (e) {
+                console.error('Catch-up error:', e);
+                btn.innerHTML = '<i class="fa-solid fa-clock-rotate-left" style="margin-right:0.25rem;"></i>Catch Me Up';
+            }
+            btn.disabled = false;
+        }
+
+        // ── Bookmarks ──
+        async function toggleBookmark(articleUrl, articleTitle, sourceName, btnEl) {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) { alert('Please log in to bookmark articles.'); return; }
+
+                const icon = btnEl.querySelector('i');
+
+                // Check if already bookmarked
+                const { data: existing } = await window.supabaseClient
+                    .from('saved_articles')
+                    .select('id')
+                    .eq('user_id', session.user.id)
+                    .eq('article_url', articleUrl)
+                    .maybeSingle();
+
+                if (existing) {
+                    // Remove bookmark
+                    await window.supabaseClient.from('saved_articles').delete().eq('id', existing.id);
+                    icon.className = 'fa-regular fa-bookmark';
+                    btnEl.style.color = 'var(--text-secondary)';
+                } else {
+                    // Add bookmark
+                    await window.supabaseClient.from('saved_articles').insert({
+                        user_id: session.user.id,
+                        article_url: articleUrl,
+                        article_title: articleTitle,
+                        source_name: sourceName
+                    });
+                    icon.className = 'fa-solid fa-bookmark';
+                    btnEl.style.color = 'var(--primary-color)';
+                }
+            } catch (e) {
+                console.error('Bookmark error:', e);
+            }
+        }
+
+        // Mark bookmarked articles on load
+        async function markBookmarkedSources() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                const { data: saved } = await window.supabaseClient
+                    .from('saved_articles')
+                    .select('article_url')
+                    .eq('user_id', session.user.id);
+                if (!saved?.length) return;
+                const urls = new Set(saved.map(s => s.article_url));
+                document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                    const wrap = btn.closest('.briefing-source-card-wrap');
+                    const link = wrap?.querySelector('a');
+                    if (link && urls.has(link.href)) {
+                        btn.querySelector('i').className = 'fa-solid fa-bookmark';
+                        btn.style.color = 'var(--primary-color)';
+                    }
+                });
+            } catch (e) { /* silent */ }
+        }
+
+        // ── Saved Articles ──
+        async function loadSavedArticles() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+                const { data: saved } = await window.supabaseClient
+                    .from('saved_articles')
+                    .select('*')
+                    .eq('user_id', session.user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(50);
+                if (!saved?.length) {
+                    document.getElementById('saved-count').textContent = '';
+                    document.getElementById('saved-articles-list').innerHTML = '<p style="font-size:0.82rem;color:var(--text-secondary);padding:0.5rem;">No saved articles yet. Click the bookmark icon on any source to save it.</p>';
+                    return;
+                }
+                document.getElementById('saved-count').textContent = `(${saved.length})`;
+                document.getElementById('saved-articles-list').innerHTML = saved.map(s => {
+                    const date = new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    return `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;border:1px solid var(--panel-border);border-radius:8px;font-size:0.82rem;">
+                        <a href="${s.article_url}" target="_blank" rel="noopener" style="flex:1;color:inherit;text-decoration:none;">
+                            <div style="font-weight:600;">${s.article_title || 'Untitled'}</div>
+                            <div style="font-size:0.75rem;color:var(--text-secondary);">${s.source_name || ''} &middot; ${date}</div>
+                        </a>
+                        <button onclick="removeSavedArticle('${s.id}',this)" style="background:none;border:none;cursor:pointer;color:var(--text-secondary);font-size:0.8rem;padding:0.2rem;" title="Remove">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>`;
+                }).join('');
+            } catch (e) { console.error('Load saved error:', e); }
+        }
+
+        async function removeSavedArticle(id, btnEl) {
+            try {
+                await window.supabaseClient.from('saved_articles').delete().eq('id', id);
+                btnEl.closest('div[style]').remove();
+                // Update count
+                const countEl = document.getElementById('saved-count');
+                const list = document.getElementById('saved-articles-list');
+                const remaining = list.querySelectorAll('div[style]').length;
+                countEl.textContent = remaining ? `(${remaining})` : '';
+            } catch (e) { console.error('Remove saved error:', e); }
+        }
+
+        // ── Briefing History (Last 3 Days) ──
+        async function loadBriefingHistory() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const today = new Date().toISOString().split('T')[0];
+                const threeDaysAgo = new Date();
+                threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+                const cutoff = threeDaysAgo.toISOString().split('T')[0];
+
+                const { data: briefings } = await window.supabaseClient
+                    .from('daily_briefings')
+                    .select('id, briefing_date, interests, audio_url')
+                    .eq('user_id', session.user.id)
+                    .gte('briefing_date', cutoff)
+                    .order('briefing_date', { ascending: false })
+                    .limit(4);
+
+                if (!briefings?.length) return;
+
+                // Filter out today's briefing (already displayed)
+                const past = briefings.filter(b => b.briefing_date !== today);
+                if (!past.length) return;
+
+                const historyEl = document.getElementById('briefing-history');
+                const listEl = document.getElementById('history-list');
+                if (!historyEl || !listEl) return;
+
+                listEl.innerHTML = past.map(b => {
+                    const dateObj = new Date(b.briefing_date + 'T12:00:00Z');
+                    const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: 'UTC' });
+                    const interests = (b.interests || []).slice(0, 3).join(', ');
+                    const hasAudio = b.audio_url && b.audio_url.startsWith('http');
+                    return `<a href="briefing.html?view=${b.id}" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;text-decoration:none;color:var(--text-primary);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--primary-color)'" onmouseout="this.style.borderColor='var(--panel-border)'">
+                        <i class="fa-solid fa-newspaper" style="font-size:1rem;color:var(--primary-color);opacity:0.7;"></i>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-size:0.85rem;font-weight:600;">${dateStr}</div>
+                            <div style="font-size:0.75rem;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${interests || 'Briefing'}</div>
+                        </div>
+                        ${hasAudio ? '<i class="fa-solid fa-headphones" style="font-size:0.8rem;color:var(--text-secondary);opacity:0.6;" title="Audio available"></i>' : ''}
+                        <i class="fa-solid fa-chevron-right" style="font-size:0.7rem;color:var(--text-secondary);opacity:0.5;"></i>
+                    </a>`;
+                }).join('');
+
+                historyEl.style.display = '';
+            } catch (e) { console.warn('History load failed:', e); }
         }
 
         // ── Podcast Subscribe Links ──
@@ -1130,8 +2240,6 @@ FORMAT — use this EXACT HTML:
                 const feedUrl = `https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/podcast-feed?uid=${session.user.id}`;
 
                 document.getElementById('sub-apple').href = `podcast://${feedUrl.replace('https://', '')}`;
-                document.getElementById('sub-spotify').href = `https://open.spotify.com/show/import?url=${encodeURIComponent(feedUrl)}`;
-                document.getElementById('sub-pocketcasts').href = `https://pca.st/feed/${encodeURIComponent(feedUrl)}`;
 
                 window._podcastFeedUrl = feedUrl;
                 document.getElementById('podcast-subscribe').style.display = 'block';
@@ -1181,6 +2289,11 @@ FORMAT — use this EXACT HTML:
             if (!briefing) return;
 
             currentBriefingDate = briefing.briefing_date;
+
+            // Hide the "Today's Briefing" header — this is a saved briefing, not a new one
+            const stepHeader = document.querySelector('.step-header');
+            if (stepHeader) stepHeader.style.display = 'none';
+            document.title = 'Your Briefing | TailorMeSwiftly';
 
             // Display the saved briefing
             const interests = briefing.interests || [];
@@ -1282,8 +2395,11 @@ FORMAT — use this EXACT HTML:
                     if (dots) dots.textContent = dots.textContent.length >= 3 ? '.' : dots.textContent + '.';
                 }, 800);
 
-                const briefingText = currentText || extractBriefingText();
+                let briefingText = currentText || extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
+                // Add spoken intro
+                const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                briefingText = `Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
 
                 const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 5000) });
                 clearInterval(dotsInterval);

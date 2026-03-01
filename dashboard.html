@@ -720,19 +720,24 @@
                         : '';
 
                     html += `
-                        <a href="news/briefing.html?view=${b.id}" class="dash-card" style="display:block;padding:1.25rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;text-decoration:none;">
-                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;">
-                                <span style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;">
-                                    <span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;"></span>
-                                    ${interests || 'Latest Briefing'}
-                                </span>
-                                <span style="font-size:0.75rem;color:var(--text-secondary);">${dateLabel}</span>
-                            </div>
-                            <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.4;">
-                                ${preview || 'Your latest AI-curated news briefing.'}${preview.length >= 120 ? '...' : ''}
-                            </div>
-                            ${podcastBadge}
-                        </a>`;
+                        <div class="dash-card" style="position:relative;padding:1.25rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;">
+                            <a href="news/briefing.html?edit=true" title="Briefing Settings" style="position:absolute;top:0.75rem;right:0.75rem;color:var(--text-secondary);font-size:0.85rem;transition:color 0.2s;" onmouseover="this.style.color='var(--primary-color)'" onmouseout="this.style.color='var(--text-secondary)'">
+                                <i class="fa-solid fa-gear"></i>
+                            </a>
+                            <a href="news/briefing.html?view=${b.id}" style="display:block;text-decoration:none;">
+                                <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.75rem;">
+                                    <span style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;">
+                                        <i class="fa-solid fa-newspaper" style="color:#3b82f6;font-size:0.85rem;"></i>
+                                        Today's Briefing
+                                    </span>
+                                    <span style="font-size:0.75rem;color:var(--text-secondary);margin-left:auto;padding-right:1.5rem;">${dateLabel}</span>
+                                </div>
+                                <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.4;">
+                                    ${preview || 'Your latest AI-curated news briefing.'}${preview.length >= 120 ? '...' : ''}
+                                </div>
+                                ${podcastBadge}
+                            </a>
+                        </div>`;
                 } else {
                     html += `
                         <a href="news/briefing.html" class="dash-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;background:var(--glass-bg);border:1px dashed var(--panel-border);border-radius:12px;text-decoration:none;text-align:center;min-height:120px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--primary-color)';" onmouseout="this.style.borderColor='var(--panel-border)';">
@@ -742,15 +747,6 @@
                         </a>`;
                 }
 
-                html += `
-                    <div style="display:flex;gap:0.75rem;flex-direction:column;justify-content:center;">
-                        <a href="news/briefing.html" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px dashed var(--panel-border);border-radius:12px;color:var(--text-secondary);text-decoration:none;font-size:0.95rem;padding:1.25rem;transition:all 0.2s;flex:1;" onmouseover="this.style.borderColor='var(--primary-color)';this.style.color='var(--primary-color)';" onmouseout="this.style.borderColor='var(--panel-border)';this.style.color='var(--text-secondary)';">
-                            <i class="fa-solid fa-arrow-right" style="margin-right:0.5rem;"></i> View All Briefings
-                        </a>
-                        <a href="news/briefing.html" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.02);border:1px dashed var(--panel-border);border-radius:12px;color:var(--text-secondary);text-decoration:none;font-size:0.95rem;padding:1.25rem;transition:all 0.2s;flex:1;" onmouseover="this.style.borderColor='var(--primary-color)';this.style.color='var(--primary-color)';" onmouseout="this.style.borderColor='var(--panel-border)';this.style.color='var(--text-secondary)';">
-                            <i class="fa-solid fa-plus" style="margin-right:0.5rem;"></i> New Briefing
-                        </a>
-                    </div>`;
 
                 container.innerHTML = html;
             } catch (e) {

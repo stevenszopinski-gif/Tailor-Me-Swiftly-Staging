@@ -59,7 +59,7 @@
             accentGlow: 'rgba(59, 130, 246, 0.5)',
             icon: 'fa-newspaper',
             basePath: 'news/',
-            homePath: 'news/feed.html',
+            homePath: 'news/briefing.html',
             appPath: 'news/briefing.html'
         }
     };

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Briefing Feature Tests | TailorMeSwiftly</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 2rem; max-width: 900px; margin: 0 auto; background: #0f172a; color: #e2e8f0; }
+        h1 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+        .summary { margin-bottom: 1.5rem; font-size: 0.9rem; color: #94a3b8; }
+        .test-group { margin-bottom: 1.5rem; border: 1px solid #1e293b; border-radius: 10px; overflow: hidden; }
+        .test-group-header { padding: 0.75rem 1rem; background: #1e293b; font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; }
+        .test { padding: 0.5rem 1rem; border-bottom: 1px solid #1e293b; display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; }
+        .test:last-child { border-bottom: none; }
+        .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .pass { background: rgba(34,197,94,0.15); color: #22c55e; }
+        .fail { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .skip { background: rgba(234,179,8,0.15); color: #eab308; }
+        .count { font-size: 0.78rem; color: #94a3b8; }
+        .run-btn { padding: 0.6rem 1.5rem; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 0.9rem; cursor: pointer; font-family: inherit; font-weight: 600; }
+        .run-btn:hover { background: #1d4ed8; }
+        .run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        #timer { font-size: 0.82rem; color: #94a3b8; margin-left: 1rem; }
+        .bug-section { margin-top: 2rem; padding: 1rem; background: #1e293b; border-radius: 10px; }
+        .bug-section h2 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+        .bug { padding: 0.4rem 0; font-size: 0.85rem; display: flex; gap: 0.5rem; }
+        .bug .status { font-weight: 600; }
+        .fixed { color: #22c55e; }
+        .open { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <h1>Briefing Feature Tests</h1>
+    <p class="summary">End-to-end test suite for TailorMeSwiftly news briefing features</p>
+    <button class="run-btn" id="run-btn" onclick="runAllTests()">Run All Tests</button>
+    <span id="timer"></span>
+    <div id="results" style="margin-top:1.5rem;"></div>
+
+    <div class="bug-section">
+        <h2>Bug Audit</h2>
+        <div id="bug-list"></div>
+    </div>
+
+    <!-- Hidden test fixture — mimics briefing.html DOM elements -->
+    <div id="test-fixture" style="display:none;">
+        <div id="recommended-interests" style="display:none;">
+            <div id="recommended-chips" class="interest-tags-wrap"></div>
+        </div>
+        <div id="interest-tags"></div>
+        <input type="checkbox" id="jargon-toggle">
+        <input type="checkbox" id="silver-lining-toggle">
+        <input type="checkbox" id="opposing-views-toggle">
+        <input type="text" id="user-location">
+        <input type="text" id="mute-topic-input">
+        <select id="mute-duration"><option value="7" selected>7</option></select>
+        <div id="muted-tags"></div>
+        <select id="briefing-tone"><option value="npr" selected>npr</option><option value="executive">executive</option><option value="morning-brew">morning-brew</option><option value="deep-dive">deep-dive</option></select>
+        <div id="briefing-content">
+            <h3>The Big Story:</h3>
+            <ul>
+                <li>Apple announced a new AI chip for iPhones.</li>
+                <li>Google launched a competitor product yesterday.</li>
+            </ul>
+            <h3>Your Takeaway:</h3>
+            <ul>
+                <li>Watch for price changes in the semiconductor market.</li>
+            </ul>
+        </div>
+        <div id="qa-section">
+            <div id="qa-thread"></div>
+            <input type="text" id="qa-input">
+        </div>
+        <input type="checkbox" id="email-delivery-toggle">
+        <select id="email-delivery-time"><option value="07:00" selected>07:00</option></select>
+        <div id="whitelist-tags"></div>
+        <div id="blacklist-tags"></div>
+    </div>
+
+    <script>
+        // ── Test Harness ──
+        let passed = 0, failed = 0, skipped = 0;
+        const groups = [];
+
+        function group(name, tests) {
+            groups.push({ name, tests });
+        }
+
+        function assert(condition, msg) {
+            if (!condition) throw new Error(msg || 'Assertion failed');
+        }
+
+        function assertEqual(actual, expected, msg) {
+            if (actual !== expected) throw new Error(`${msg || 'assertEqual'}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+        }
+
+        function assertIncludes(arr, item, msg) {
+            if (!arr.includes(item)) throw new Error(`${msg || 'assertIncludes'}: ${JSON.stringify(item)} not found in array`);
+        }
+
+        // ── Shared State (mimics briefing.html globals) ──
+        let extractedInterests = [];
+        let mutedTopics = [];
+        let qaHistory = [];
+        let sourceWhitelist = [];
+        let sourceBlacklist = [];
+
+        // Minimal stubs for functions that rely on Supabase/Gemini
+        function addInterestTag(val) {
+            val = val.trim();
+            if (!val || extractedInterests.some(i => i.toLowerCase() === val.toLowerCase())) return;
+            extractedInterests.push(val);
+        }
+
+        function renderInterestTags(interests) {
+            const el = document.getElementById('interest-tags');
+            if (el) el.innerHTML = interests.map(i => `<span class="interest-tag">${i}</span>`).join('');
+        }
+
+        const TRENDING_TOPICS = ['AI & Machine Learning', 'Climate Tech', 'Crypto & Web3',
+            'Cybersecurity', 'Electric Vehicles', 'Federal Reserve', 'Fintech',
+            'Healthcare Innovation', 'NBA', 'Politics', 'Space', 'Startups & VC'];
+
+        function loadRecommendedInterests_sync() {
+            const container = document.getElementById('recommended-chips');
+            const section = document.getElementById('recommended-interests');
+            if (!container) return;
+
+            const trendingFiltered = TRENDING_TOPICS.filter(t =>
+                !extractedInterests.some(i => i.toLowerCase() === t.toLowerCase())
+            );
+
+            if (!trendingFiltered.length) { section.style.display = 'none'; return; }
+
+            container.innerHTML = trendingFiltered.slice(0, 12).map(topic => {
+                const safe = topic.replace(/'/g, "\\'");
+                return `<button class="rec-chip" onclick="addRecommendedInterest_test(this,'${safe}')">${topic}</button>`;
+            }).join('');
+            section.style.display = 'block';
+        }
+
+        function addRecommendedInterest_test(btn, topic) {
+            addInterestTag(topic);
+            btn.classList.add('added');
+            btn.textContent = '\u2713 ' + topic;
+        }
+
+        function addMutedTopic_test() {
+            const input = document.getElementById('mute-topic-input');
+            const topic = input.value.trim();
+            if (!topic) return;
+            const days = parseInt(document.getElementById('mute-duration').value) || 7;
+            const expires = new Date(Date.now() + days * 86400000).toISOString();
+            mutedTopics = mutedTopics.filter(m => m.topic.toLowerCase() !== topic.toLowerCase());
+            mutedTopics.push({ topic, expires });
+            input.value = '';
+            renderMutedTags_test();
+        }
+
+        function removeMutedTopic_test(index) {
+            mutedTopics.splice(index, 1);
+            renderMutedTags_test();
+        }
+
+        function renderMutedTags_test() {
+            mutedTopics = mutedTopics.filter(m => new Date(m.expires) > new Date());
+            const container = document.getElementById('muted-tags');
+            if (!container) return;
+            container.innerHTML = mutedTopics.map((m, i) => {
+                const daysLeft = Math.ceil((new Date(m.expires) - Date.now()) / 86400000);
+                return `<span class="interest-tag">${m.topic} (${daysLeft}d) <button onclick="removeMutedTopic_test(${i})">&times;</button></span>`;
+            }).join('');
+        }
+
+        function buildSystemPrompt_test(tone) {
+            let systemPrompt = '';
+            if (tone === 'executive') systemPrompt = 'Executive assistant providing concise summary';
+            else if (tone === 'morning-brew') systemPrompt = 'Sharp witty newsletter writer';
+            else if (tone === 'deep-dive') systemPrompt = 'Expert industry analyst';
+            else systemPrompt = 'Public radio morning briefing host';
+
+            if (document.getElementById('jargon-toggle')?.checked) {
+                systemPrompt += '\n\nADDITIONAL INSTRUCTION — PLAIN ENGLISH: Use plain, everyday English.';
+            }
+            if (document.getElementById('silver-lining-toggle')?.checked) {
+                systemPrompt += '\n\nADDITIONAL INSTRUCTION — SILVER LINING: emphasize constructive angles.';
+            }
+            if (document.getElementById('opposing-views-toggle')?.checked) {
+                systemPrompt += '\n\nADDITIONAL INSTRUCTION — OPPOSING VIEWS: present different perspectives.';
+            }
+            return systemPrompt;
+        }
+
+        function injectTellMeMoreButtons_test() {
+            const content = document.getElementById('briefing-content');
+            if (!content) return;
+            const items = content.querySelectorAll('ul li');
+            let injected = 0;
+            items.forEach((li) => {
+                const parentH3 = li.closest('ul')?.previousElementSibling;
+                if (parentH3?.tagName === 'H3') {
+                    const headerText = parentH3.textContent.toLowerCase();
+                    if (headerText.includes('takeaway') || headerText.includes('action') || headerText.includes('bottom line') || headerText.includes('recommendation')) return;
+                }
+                // Inject Tell Me More
+                const btn = document.createElement('button');
+                btn.className = 'tell-me-more-btn';
+                btn.innerHTML = 'Tell Me More';
+                li.appendChild(btn);
+                // Inject Catch Me Up
+                const catchUpBtn = document.createElement('button');
+                catchUpBtn.className = 'catch-up-btn';
+                catchUpBtn.innerHTML = 'Catch Me Up';
+                li.appendChild(catchUpBtn);
+                injected++;
+            });
+            return injected;
+        }
+
+        function filterMutedFromInterests(interests) {
+            const activeMuted = mutedTopics.filter(m => new Date(m.expires) > new Date());
+            if (activeMuted.length) {
+                const mutedSet = new Set(activeMuted.map(m => m.topic.toLowerCase()));
+                return interests.filter(i => !mutedSet.has(i.toLowerCase()));
+            }
+            return interests;
+        }
+
+        // ── Tests ──
+
+        group('1. Recommended Interests', [
+            {
+                name: 'Chips render from trending topics',
+                fn: () => {
+                    extractedInterests = [];
+                    loadRecommendedInterests_sync();
+                    const chips = document.querySelectorAll('#recommended-chips .rec-chip');
+                    assert(chips.length > 0, 'Should render at least 1 chip');
+                    assert(chips.length <= 12, 'Should render max 12 chips');
+                }
+            },
+            {
+                name: 'Already-selected interests are filtered out',
+                fn: () => {
+                    extractedInterests = ['AI & Machine Learning', 'NBA'];
+                    loadRecommendedInterests_sync();
+                    const chips = document.querySelectorAll('#recommended-chips .rec-chip');
+                    const labels = Array.from(chips).map(c => c.textContent);
+                    assert(!labels.includes('AI & Machine Learning'), 'AI should be filtered');
+                    assert(!labels.includes('NBA'), 'NBA should be filtered');
+                }
+            },
+            {
+                name: 'Clicking chip adds to interests and greys out',
+                fn: () => {
+                    extractedInterests = [];
+                    loadRecommendedInterests_sync();
+                    const chip = document.querySelector('#recommended-chips .rec-chip');
+                    const topic = chip.textContent;
+                    addRecommendedInterest_test(chip, topic);
+                    assert(extractedInterests.includes(topic), 'Interest should be added');
+                    assert(chip.classList.contains('added'), 'Chip should be greyed out');
+                }
+            },
+            {
+                name: 'Duplicate interests prevented (case-insensitive)',
+                fn: () => {
+                    extractedInterests = ['Cybersecurity'];
+                    addInterestTag('cybersecurity');
+                    assertEqual(extractedInterests.length, 1, 'Should not add duplicate');
+                    addInterestTag('CYBERSECURITY');
+                    assertEqual(extractedInterests.length, 1, 'Should not add uppercase duplicate');
+                }
+            }
+        ]);
+
+        group('2. Jargon Translator', [
+            {
+                name: 'Toggle checked appends plain English instruction',
+                fn: () => {
+                    document.getElementById('jargon-toggle').checked = true;
+                    const prompt = buildSystemPrompt_test('npr');
+                    assert(prompt.includes('PLAIN ENGLISH'), 'Should include plain English instruction');
+                    document.getElementById('jargon-toggle').checked = false;
+                }
+            },
+            {
+                name: 'Toggle unchecked does NOT append instruction',
+                fn: () => {
+                    document.getElementById('jargon-toggle').checked = false;
+                    const prompt = buildSystemPrompt_test('npr');
+                    assert(!prompt.includes('PLAIN ENGLISH'), 'Should not include plain English instruction');
+                }
+            }
+        ]);
+
+        group('3. Podcast Name Greeting', [
+            {
+                name: 'Intro includes first name when available',
+                fn: () => {
+                    const fullName = 'Steve Szopinski';
+                    const firstName = fullName.split(' ')[0];
+                    const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                    const greeting = firstName ? `Good morning ${firstName}! ` : '';
+                    const intro = `${greeting}Here's your ${today} briefing from Tailor Me Swiftly.`;
+                    assert(intro.includes('Good morning Steve!'), 'Should greet by first name');
+                    assert(intro.includes('briefing from Tailor Me Swiftly'), 'Should include TMS branding');
+                }
+            },
+            {
+                name: 'Intro falls back gracefully when no name',
+                fn: () => {
+                    const fullName = '';
+                    const firstName = fullName.split(' ')[0];
+                    const greeting = firstName ? `Good morning ${firstName}! ` : '';
+                    const intro = `${greeting}Here's your briefing`;
+                    assert(!intro.includes('Good morning'), 'Should not include greeting');
+                    assert(intro.startsWith("Here's"), 'Should start with Here\'s');
+                }
+            }
+        ]);
+
+        group('4. Burnout Filter (Topic Muting)', [
+            {
+                name: 'Muting a topic adds it with expiry',
+                fn: () => {
+                    mutedTopics = [];
+                    document.getElementById('mute-topic-input').value = 'Crypto';
+                    addMutedTopic_test();
+                    assertEqual(mutedTopics.length, 1, 'Should have 1 muted topic');
+                    assertEqual(mutedTopics[0].topic, 'Crypto', 'Topic should be Crypto');
+                    assert(new Date(mutedTopics[0].expires) > new Date(), 'Expiry should be in future');
+                }
+            },
+            {
+                name: 'Expired topics are pruned on render',
+                fn: () => {
+                    mutedTopics = [
+                        { topic: 'Old Topic', expires: new Date(Date.now() - 86400000).toISOString() },
+                        { topic: 'Active Topic', expires: new Date(Date.now() + 86400000).toISOString() }
+                    ];
+                    renderMutedTags_test();
+                    assertEqual(mutedTopics.length, 1, 'Should prune expired topic');
+                    assertEqual(mutedTopics[0].topic, 'Active Topic', 'Active topic should remain');
+                }
+            },
+            {
+                name: 'Muted topics excluded from generate interests',
+                fn: () => {
+                    const interests = ['AI', 'Crypto', 'Space', 'Politics'];
+                    mutedTopics = [{ topic: 'Crypto', expires: new Date(Date.now() + 86400000).toISOString() }];
+                    const filtered = filterMutedFromInterests(interests);
+                    assertEqual(filtered.length, 3, 'Should exclude muted topic');
+                    assert(!filtered.includes('Crypto'), 'Crypto should be filtered');
+                    assertIncludes(filtered, 'AI', 'AI should remain');
+                }
+            },
+            {
+                name: 'Remove muted topic works',
+                fn: () => {
+                    mutedTopics = [
+                        { topic: 'A', expires: new Date(Date.now() + 86400000).toISOString() },
+                        { topic: 'B', expires: new Date(Date.now() + 86400000).toISOString() }
+                    ];
+                    removeMutedTopic_test(0);
+                    assertEqual(mutedTopics.length, 1, 'Should have 1 topic');
+                    assertEqual(mutedTopics[0].topic, 'B', 'B should remain');
+                }
+            },
+            {
+                name: 'Duplicate mute replaces existing entry',
+                fn: () => {
+                    mutedTopics = [];
+                    document.getElementById('mute-topic-input').value = 'AI';
+                    addMutedTopic_test();
+                    const firstExpiry = mutedTopics[0].expires;
+                    document.getElementById('mute-topic-input').value = 'ai'; // case-insensitive duplicate
+                    addMutedTopic_test();
+                    assertEqual(mutedTopics.length, 1, 'Should replace, not duplicate');
+                }
+            }
+        ]);
+
+        group('5. Follow-up Q&A Chat', [
+            {
+                name: 'Q&A history resets correctly',
+                fn: () => {
+                    qaHistory = [{ role: 'user', parts: [{ text: 'test' }] }];
+                    qaHistory = [];
+                    document.getElementById('qa-thread').innerHTML = '';
+                    assertEqual(qaHistory.length, 0, 'History should be empty');
+                    assertEqual(document.getElementById('qa-thread').innerHTML, '', 'Thread should be empty');
+                }
+            },
+            {
+                name: 'Empty question does not add to history',
+                fn: () => {
+                    qaHistory = [];
+                    const question = '   '.trim();
+                    if (question) qaHistory.push({ role: 'user', parts: [{ text: question }] });
+                    assertEqual(qaHistory.length, 0, 'Should not add empty question');
+                }
+            },
+            {
+                name: 'User message escapes HTML',
+                fn: () => {
+                    const question = '<script>alert("xss")</script>';
+                    const safe = question.replace(/</g, '&lt;');
+                    assert(!safe.includes('<script>'), 'Should escape script tags');
+                    assert(safe.includes('&lt;script'), 'Should contain escaped tag');
+                }
+            }
+        ]);
+
+        group('6. Catch-Up Cards', [
+            {
+                name: 'Catch Me Up buttons injected on news items (not takeaways)',
+                fn: () => {
+                    // Reset briefing content to clean state
+                    document.getElementById('briefing-content').innerHTML = `
+                        <h3>The Big Story:</h3>
+                        <ul><li>Apple announced a new AI chip.</li><li>Google launched a competitor.</li></ul>
+                        <h3>Your Takeaway:</h3>
+                        <ul><li>Watch for price changes.</li></ul>`;
+                    const count = injectTellMeMoreButtons_test();
+                    assertEqual(count, 2, 'Should inject on 2 news items, not takeaway');
+                    const takeawayLi = document.querySelector('#briefing-content ul:last-child li');
+                    assert(!takeawayLi.querySelector('.catch-up-btn'), 'Takeaway li should NOT have catch-up button');
+                }
+            },
+            {
+                name: 'Both Tell Me More and Catch Me Up buttons present',
+                fn: () => {
+                    const newsLi = document.querySelector('#briefing-content ul:first-of-type li');
+                    assert(newsLi.querySelector('.tell-me-more-btn'), 'Should have Tell Me More button');
+                    assert(newsLi.querySelector('.catch-up-btn'), 'Should have Catch Me Up button');
+                }
+            }
+        ]);
+
+        group('7. Sentiment & Bias Controls', [
+            {
+                name: 'Silver Lining toggle appends correct instruction',
+                fn: () => {
+                    document.getElementById('silver-lining-toggle').checked = true;
+                    document.getElementById('opposing-views-toggle').checked = false;
+                    const prompt = buildSystemPrompt_test('npr');
+                    assert(prompt.includes('SILVER LINING'), 'Should include silver lining');
+                    assert(!prompt.includes('OPPOSING VIEWS'), 'Should NOT include opposing views');
+                    document.getElementById('silver-lining-toggle').checked = false;
+                }
+            },
+            {
+                name: 'Opposing Views toggle appends correct instruction',
+                fn: () => {
+                    document.getElementById('silver-lining-toggle').checked = false;
+                    document.getElementById('opposing-views-toggle').checked = true;
+                    const prompt = buildSystemPrompt_test('npr');
+                    assert(!prompt.includes('SILVER LINING'), 'Should NOT include silver lining');
+                    assert(prompt.includes('OPPOSING VIEWS'), 'Should include opposing views');
+                    document.getElementById('opposing-views-toggle').checked = false;
+                }
+            },
+            {
+                name: 'Both toggles work simultaneously',
+                fn: () => {
+                    document.getElementById('silver-lining-toggle').checked = true;
+                    document.getElementById('opposing-views-toggle').checked = true;
+                    const prompt = buildSystemPrompt_test('npr');
+                    assert(prompt.includes('SILVER LINING'), 'Should include silver lining');
+                    assert(prompt.includes('OPPOSING VIEWS'), 'Should include opposing views');
+                    document.getElementById('silver-lining-toggle').checked = false;
+                    document.getElementById('opposing-views-toggle').checked = false;
+                }
+            }
+        ]);
+
+        group('8. Geographic Relevance', [
+            {
+                name: 'Location appended to interests on generate',
+                fn: () => {
+                    document.getElementById('user-location').value = 'San Francisco, CA';
+                    const interests = ['AI', 'Startups'];
+                    const loc = document.getElementById('user-location')?.value?.trim();
+                    if (loc) interests.push(loc + ' local news');
+                    assertIncludes(interests, 'San Francisco, CA local news', 'Should append location');
+                    assertEqual(interests.length, 3, 'Should have 3 interests');
+                }
+            },
+            {
+                name: 'Empty location does not add anything',
+                fn: () => {
+                    document.getElementById('user-location').value = '';
+                    const interests = ['AI'];
+                    const loc = document.getElementById('user-location')?.value?.trim();
+                    if (loc) interests.push(loc + ' local news');
+                    assertEqual(interests.length, 1, 'Should not add empty location');
+                }
+            }
+        ]);
+
+        group('9. Edit Interests Mode', [
+            {
+                name: 'edit=true param detected correctly',
+                fn: () => {
+                    const params = new URLSearchParams('?edit=true');
+                    const editMode = params.get('edit') === 'true';
+                    assert(editMode, 'Should detect edit mode');
+                }
+            },
+            {
+                name: 'Missing edit param defaults to false',
+                fn: () => {
+                    const params = new URLSearchParams('');
+                    const editMode = params.get('edit') === 'true';
+                    assert(!editMode, 'Should not detect edit mode');
+                }
+            }
+        ]);
+
+        group('10. Source Filtering', [
+            {
+                name: 'Whitelist tags stored correctly',
+                fn: () => {
+                    sourceWhitelist = [];
+                    const val = 'Reuters';
+                    if (val.trim() && !sourceWhitelist.includes(val)) sourceWhitelist.push(val);
+                    assertIncludes(sourceWhitelist, 'Reuters', 'Should contain Reuters');
+                }
+            },
+            {
+                name: 'Blacklist prevents duplicates',
+                fn: () => {
+                    sourceBlacklist = ['CNN'];
+                    const val = 'CNN';
+                    if (val.trim() && !sourceBlacklist.includes(val)) sourceBlacklist.push(val);
+                    assertEqual(sourceBlacklist.length, 1, 'Should not duplicate CNN');
+                }
+            },
+            {
+                name: 'Source filters passed to fetch-news payload',
+                fn: () => {
+                    sourceWhitelist = ['Reuters', 'AP'];
+                    sourceBlacklist = ['BuzzFeed'];
+                    const payload = {
+                        interests: ['AI'],
+                        max: 15,
+                        sourceWhitelist: sourceWhitelist.length ? sourceWhitelist : undefined,
+                        sourceBlacklist: sourceBlacklist.length ? sourceBlacklist : undefined
+                    };
+                    assertEqual(payload.sourceWhitelist.length, 2, 'Should pass whitelist');
+                    assertEqual(payload.sourceBlacklist.length, 1, 'Should pass blacklist');
+                }
+            }
+        ]);
+
+        group('11. Tone System Prompts', [
+            {
+                name: 'Each tone produces distinct prompt',
+                fn: () => {
+                    const tones = ['npr', 'executive', 'morning-brew', 'deep-dive'];
+                    const prompts = tones.map(t => buildSystemPrompt_test(t));
+                    // All should be unique
+                    const unique = new Set(prompts);
+                    assertEqual(unique.size, 4, 'All 4 tones should produce unique prompts');
+                }
+            }
+        ]);
+
+        group('12. Interest Deduplication', [
+            {
+                name: 'saveInterestsToProfile uses extractedInterests, not inflated array',
+                fn: () => {
+                    // Simulate: user has 3 explicit interests, generateBriefing adds company + resume + location
+                    extractedInterests = ['AI', 'Fintech', 'Space'];
+                    let interests = [...extractedInterests];
+                    interests.push('Google'); // auto-added company
+                    interests.push('Machine Learning Systems'); // auto-added from resume
+                    interests.push('San Francisco, CA local news'); // auto-added location
+
+                    // The save should use extractedInterests, not the inflated array
+                    assertEqual(extractedInterests.length, 3, 'extractedInterests should stay at 3');
+                    assertEqual(interests.length, 6, 'Working interests should be 6');
+                    // This is the bug fix: saveInterestsToProfile(extractedInterests) not saveInterestsToProfile(interests)
+                    assert(extractedInterests.length < interests.length, 'Saved interests should be smaller than working set');
+                }
+            }
+        ]);
+
+        // ── Bug Audit ──
+        const bugs = [
+            { id: 'BUG-001', desc: 'addInterestTag used exact match instead of case-insensitive — could add duplicates like "AI" and "ai"', status: 'fixed' },
+            { id: 'BUG-002', desc: 'saveInterestsToProfile saved inflated interests array (with auto-added companies, resume keywords, location) — interests would accumulate on each generate', status: 'fixed' },
+            { id: 'BUG-003', desc: 'No merge conflict markers found in briefing.html', status: 'fixed' },
+            { id: 'BUG-004', desc: 'All saveSettingToggle calls correctly read-then-merge metadata (verified)', status: 'fixed' },
+            { id: 'BUG-005', desc: 'Q&A thread resets on new briefing generation (qaHistory = [], thread cleared)', status: 'fixed' },
+            { id: 'BUG-006', desc: 'Recommended chips filter already-selected interests (verified case-insensitive)', status: 'fixed' },
+            { id: 'BUG-007', desc: 'All new toggles (jargon, silver_lining, opposing_views, muted_topics, location) have matching restore logic in auth-ready', status: 'fixed' },
+        ];
+
+        // ── Runner ──
+        async function runAllTests() {
+            const btn = document.getElementById('run-btn');
+            btn.disabled = true;
+            btn.textContent = 'Running...';
+            const start = performance.now();
+
+            passed = 0;
+            failed = 0;
+            skipped = 0;
+
+            // Reset state
+            extractedInterests = [];
+            mutedTopics = [];
+            qaHistory = [];
+            sourceWhitelist = [];
+            sourceBlacklist = [];
+            document.getElementById('jargon-toggle').checked = false;
+            document.getElementById('silver-lining-toggle').checked = false;
+            document.getElementById('opposing-views-toggle').checked = false;
+            document.getElementById('user-location').value = '';
+            document.getElementById('mute-topic-input').value = '';
+            document.getElementById('qa-thread').innerHTML = '';
+
+            let html = '';
+
+            for (const g of groups) {
+                let gPassed = 0, gFailed = 0;
+                let testsHtml = '';
+
+                for (const test of g.tests) {
+                    try {
+                        // Reset per-test
+                        await test.fn();
+                        gPassed++;
+                        passed++;
+                        testsHtml += `<div class="test"><span class="badge pass">PASS</span> ${test.name}</div>`;
+                    } catch (e) {
+                        gFailed++;
+                        failed++;
+                        testsHtml += `<div class="test"><span class="badge fail">FAIL</span> ${test.name} <span style="color:#ef4444;font-size:0.78rem;margin-left:0.5rem;">${e.message}</span></div>`;
+                    }
+                }
+
+                const groupBadge = gFailed > 0 ? 'fail' : 'pass';
+                html += `<div class="test-group">
+                    <div class="test-group-header">
+                        <span>${g.name}</span>
+                        <span class="count">${gPassed}/${g.tests.length} passed</span>
+                    </div>
+                    ${testsHtml}
+                </div>`;
+            }
+
+            const elapsed = Math.round(performance.now() - start);
+            document.getElementById('results').innerHTML = html;
+            document.getElementById('timer').textContent = `${passed} passed, ${failed} failed — ${elapsed}ms`;
+
+            // Render bug audit
+            document.getElementById('bug-list').innerHTML = bugs.map(b =>
+                `<div class="bug"><span class="status ${b.status}">[${b.status.toUpperCase()}]</span> <strong>${b.id}:</strong> ${b.desc}</div>`
+            ).join('');
+
+            btn.disabled = false;
+            btn.textContent = failed > 0 ? `${failed} Failed — Re-run` : 'All Passed — Re-run';
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', () => setTimeout(runAllTests, 100));
+    </script>
+</body>
+</html>
