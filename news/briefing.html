@@ -989,6 +989,10 @@ FORMAT — use this EXACT HTML structure:
         // ── Audio Playback ──
         function playAudioUrl(url) {
             const audioContainer = document.getElementById('audio-container');
+            if (!audioContainer) { console.error('audio-container not found'); return; }
+
+            // Re-create the audio element in case a previous error destroyed it
+            audioContainer.innerHTML = '<audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>';
             const audioEl = document.getElementById('briefing-audio');
 
             audioEl.onerror = function () {
@@ -1003,8 +1007,7 @@ FORMAT — use this EXACT HTML structure:
             audioEl.play().catch(() => { /* autoplay blocked */ });
 
             const btn = document.getElementById('listen-btn');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-play"></i> Listen';
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-play"></i> Listen'; }
         }
 
         async function listenToBriefing() {
