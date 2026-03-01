@@ -100,7 +100,8 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
+                            'Authorization': 'Bearer ' + token,
+                            'apikey': token
                         },
                         body: JSON.stringify(opts?.body || {})
                     });

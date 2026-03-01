@@ -1227,15 +1227,16 @@ Format your response exactly like this:
 
             try {
                 const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
-                const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
                 const { data: { session } } = await supabaseClient.auth.getSession();
-                const token = session?.access_token || SUPABASE_KEY;
+                const token = session?.access_token;
+                if (!token) throw new Error('Not authenticated');
 
                 const resp = await fetch(`${SUPABASE_URL}/functions/v1/elevenlabs-tts`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`,
+                        'apikey': token
                     },
                     body: JSON.stringify({ text: questions[qIdx].question, mode: 'single' })
                 });
