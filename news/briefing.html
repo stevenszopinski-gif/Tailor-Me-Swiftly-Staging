@@ -871,14 +871,26 @@
                 throw new Error('Your session has expired. Please refresh the page and sign in again.');
             }
 
-            // Get token directly from session (same approach that works for RLS queries)
+            // Get token from cached session
             let token = null;
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 token = session?.access_token || null;
             } catch (e) { /* silent */ }
 
-            // If no token, try refreshing session
+            // Check if token is expired or expiring soon — refresh if so
+            if (token) {
+                try {
+                    const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+                    const payload = JSON.parse(atob(b64));
+                    if (payload.exp * 1000 < Date.now() + 60000) {
+                        const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
+                        if (refreshed?.session?.access_token) token = refreshed.session.access_token;
+                    }
+                } catch (e) { /* non-JWT token, use as-is */ }
+            }
+
+            // No token at all — try refresh as last resort
             if (!token) {
                 try {
                     const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
