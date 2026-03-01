@@ -373,7 +373,7 @@
                                 class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
                         <button class="btn ghost-btn" style="font-size:0.82rem;"
                             onclick="document.getElementById('result-section').style.display='none';document.getElementById('input-section').style.display='block';">
-                            <i class="fa-solid fa-rotate-left"></i> New
+                            <i class="fa-solid fa-pen"></i> Edit Interests
                         </button>
                     </div>
                 </div>
@@ -510,8 +510,11 @@
         })();
 
         // ── Load saved interests on auth ready ──
+        // Single config: if user has saved interests, auto-generate with those
         document.addEventListener('auth-ready', async () => {
             if (extractedInterests.length) return; // URL params take priority
+            // Skip auto-generate if viewing a saved briefing
+            if (new URLSearchParams(window.location.search).get('view')) return;
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) return;
@@ -523,7 +526,8 @@
                 if (profile?.interests?.length) {
                     extractedInterests = profile.interests;
                     renderInterestTags(profile.interests);
-                    showImportBadge('From your saved profile');
+                    // Auto-generate with saved config
+                    generateBriefing();
                 }
             } catch (e) { /* no saved interests */ }
         });

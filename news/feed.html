@@ -134,6 +134,15 @@
             display: -webkit-box; -webkit-line-clamp: 2;
             -webkit-box-orient: vertical; overflow: hidden;
         }
+        .card-delete {
+            background: none; border: none; cursor: pointer;
+            color: var(--text-secondary); font-size: 0.78rem;
+            padding: 0.2rem 0.5rem; border-radius: 6px;
+            transition: color 0.15s, background 0.15s;
+            opacity: 0;
+        }
+        .briefing-feed-card:hover .card-delete { opacity: 1; }
+        .card-delete:hover { color: #e74c3c; background: rgba(231,76,60,0.08); }
     </style>
     <script>
         function getTimePeriod(dateStr) {
@@ -180,11 +189,14 @@
             const sourceCount = b.sources ? b.sources.length : 0;
             const preview = getPreview(b);
 
-            return `<div class="briefing-feed-card" onclick="showBriefing('${b.id}')">
+            return `<div class="briefing-feed-card" onclick="showBriefing('${b.id}')" data-id="${b.id}">
                 <div class="card-top">
                     <h4 class="card-date">${dateStr}</h4>
                     <div class="card-meta">
                         ${sourceCount ? `<span><i class="fa-solid fa-link"></i> ${sourceCount}</span>` : ''}
+                        <button class="card-delete" onclick="event.stopPropagation();deleteBriefing('${b.id}',this)" title="Delete briefing">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </div>
                 </div>
                 ${interests ? `<div class="card-tags">${interests}${extra}</div>` : ''}
@@ -250,6 +262,32 @@
             if (!b) return;
             sessionStorage.setItem('ttn_view_briefing', JSON.stringify(b));
             window.location.href = 'briefing.html?view=' + id;
+        }
+
+        async function deleteBriefing(id, btnEl) {
+            if (!confirm('Delete this briefing?')) return;
+            const card = btnEl.closest('.briefing-feed-card');
+            try {
+                const { error } = await window.supabaseClient
+                    .from('daily_briefings')
+                    .delete()
+                    .eq('id', id);
+                if (error) throw error;
+                // Remove card from DOM
+                if (card) {
+                    const group = card.closest('.time-group');
+                    card.remove();
+                    // Remove empty group
+                    if (group && !group.querySelector('.briefing-feed-card')) group.remove();
+                    // Show empty state if no cards left
+                    if (!document.querySelector('.briefing-feed-card')) {
+                        document.getElementById('feed-list').style.display = 'none';
+                        document.getElementById('feed-empty').style.display = 'block';
+                    }
+                }
+            } catch (e) {
+                alert('Failed to delete: ' + (e.message || 'Unknown error'));
+            }
         }
 
         if (document.readyState === 'loading') {
