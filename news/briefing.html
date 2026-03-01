@@ -843,9 +843,7 @@
         document.addEventListener('auth-ready', async () => {
             if (extractedInterests.length) return; // URL params take priority
             const params = new URLSearchParams(window.location.search);
-            // Skip auto-generate if viewing a saved briefing
-            if (params.get('view')) return;
-            // Skip auto-generate if user is editing interests
+            const viewMode = !!params.get('view');
             const editMode = params.get('edit') === 'true';
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
@@ -855,7 +853,7 @@
                     .select('interests, metadata, email_delivery')
                     .eq('user_id', session.user.id)
                     .maybeSingle();
-                // Restore saved preferences
+                // Always restore saved preferences (even on ?view= pages)
                 if (profile?.metadata) {
                     if (profile.metadata.preferred_tone) {
                         const toneSelect = document.getElementById('briefing-tone');
@@ -900,9 +898,17 @@
                     const toggle = document.getElementById('email-delivery-toggle');
                     if (toggle) toggle.checked = profile.email_delivery;
                 }
+                // Always populate extractedInterests from profile
                 if (profile?.interests?.length) {
                     extractedInterests = profile.interests;
                     renderInterestTags(profile.interests);
+                }
+                // If viewing a saved briefing, stop here (don't auto-generate)
+                if (viewMode) {
+                    loadRecommendedInterests();
+                    return;
+                }
+                if (profile?.interests?.length) {
                     if (editMode) {
                         editInterests();
                     } else {
@@ -1564,6 +1570,14 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
         }
 
         async function generateBriefing() {
+            // Check interests before making any UI changes
+            let interests = [...extractedInterests];
+            if (!interests.length) { alert('Please enter or extract some interests first.'); return; }
+
+            // Disable generate buttons to prevent double-clicks
+            const btns = document.querySelectorAll('[onclick="generateBriefing()"]');
+            btns.forEach(b => { b.disabled = true; b.style.opacity = '0.6'; });
+
             // Restore new-briefing UI if returning from edit mode
             restoreNewBriefingUI();
 
@@ -1571,10 +1585,6 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             if (extractedInterests.length) {
                 saveInterestsToProfile(extractedInterests);
             }
-
-            let interests = [...extractedInterests];
-
-            if (!interests.length) { alert('Please enter or extract some interests first.'); return; }
 
             // Get user's first name for personalized briefing
             let userName = '';
@@ -1641,9 +1651,10 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             const qaThread = document.getElementById('qa-thread');
             if (qaThread) qaThread.innerHTML = '';
 
-            // Clear edit mode param
+            // Clear edit/view mode params
             const url = new URL(window.location);
             url.searchParams.delete('edit');
+            url.searchParams.delete('view');
             history.replaceState(null, '', url);
 
             // Sync tags UI for the Edit screen later (use extractedInterests, not expanded)
@@ -1652,6 +1663,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             document.getElementById('input-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'none';
             document.getElementById('loading-section').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
@@ -1870,17 +1882,20 @@ FORMAT — use this EXACT HTML:
 
                 document.getElementById('loading-section').style.display = 'none';
                 document.getElementById('input-section').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                // Display error inline instead of redirecting
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'error-text';
-                errorDiv.style.marginTop = '1rem';
-                errorDiv.style.textAlign = 'center';
-                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
-
+                // Display error prominently at the top of input section
                 const existingErr = document.querySelector('#input-section .error-text');
                 if (existingErr) existingErr.remove();
-                document.getElementById('input-section').appendChild(errorDiv);
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-text';
+                errorDiv.style.cssText = 'margin-bottom:1rem;padding:1rem;text-align:center;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color:#ef4444;';
+                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}<br><button class="btn ghost-btn" style="margin-top:0.75rem;font-size:0.82rem;" onclick="this.parentElement.remove();editInterests();"><i class="fa-solid fa-arrow-left"></i> Back to Settings</button>`;
+                document.getElementById('input-section').prepend(errorDiv);
+            } finally {
+                // Re-enable generate buttons
+                const btns = document.querySelectorAll('[onclick="generateBriefing()"]');
+                btns.forEach(b => { b.disabled = false; b.style.opacity = ''; });
             }
         }
 
