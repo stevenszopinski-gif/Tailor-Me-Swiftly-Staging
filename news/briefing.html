@@ -1103,17 +1103,30 @@ FORMAT — use this EXACT HTML:
                 if (!session) throw new Error('Please sign in to use audio.');
 
                 // Check for cached audio URL (skip if previous cached URL failed)
+                // Also validate the cached audio matches current briefing content
+                const currentText = extractBriefingText();
                 if (currentBriefingDate && !_skipCachedAudio) {
                     const { data: row } = await window.supabaseClient
                         .from('daily_briefings')
-                        .select('audio_url')
+                        .select('audio_url, briefing_text')
                         .eq('user_id', session.user.id)
                         .eq('briefing_date', currentBriefingDate)
                         .single();
 
                     if (row?.audio_url && row.audio_url.startsWith('http')) {
-                        playAudioUrl(row.audio_url);
-                        return;
+                        // Verify cached audio is for the current briefing text (not stale from old content)
+                        const storedText = (row.briefing_text || '').substring(0, 100);
+                        const displayText = (currentText || '').substring(0, 100);
+                        if (storedText && displayText && storedText === displayText) {
+                            playAudioUrl(row.audio_url);
+                            return;
+                        }
+                        // Text mismatch — cached audio is stale, clear it
+                        console.log('[tts] Cached audio is stale (text mismatch), regenerating');
+                        await window.supabaseClient.from('daily_briefings')
+                            .update({ audio_url: null })
+                            .eq('user_id', session.user.id)
+                            .eq('briefing_date', currentBriefingDate);
                     }
                 }
 
@@ -1123,7 +1136,7 @@ FORMAT — use this EXACT HTML:
                     if (dots) dots.textContent = dots.textContent.length >= 3 ? '.' : dots.textContent + '.';
                 }, 800);
 
-                const briefingText = extractBriefingText();
+                const briefingText = currentText || extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
 
                 const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 5000) });
