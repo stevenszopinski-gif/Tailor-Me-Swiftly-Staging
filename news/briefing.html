@@ -470,7 +470,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="../brand-config.js"></script>
-    <script src="../auth.js?v=11"></script>
+    <script src="../auth.js?v=12"></script>
     <script src="../billing.js?v=1"></script>
     <script src="../components.js"></script>
     <script>
@@ -493,7 +493,8 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'apikey': 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8'
                 },
                 body: JSON.stringify(body)
             });

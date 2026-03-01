@@ -49,7 +49,8 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
+                            'Authorization': 'Bearer ' + token,
+                            'apikey': SUPABASE_KEY
                         },
                         body: JSON.stringify(opts?.body || {})
                     });
