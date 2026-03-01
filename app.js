@@ -1046,7 +1046,7 @@ OUTPUT FORMAT: Exactly 2 fenced code blocks in order. NO other text.
                     model: state.model,
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: userPrompt }] }],
-                    generationConfig: { temperature: 0.7 }
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
                 }
             }),
             90000 // 90 second timeout for main generation
@@ -1237,7 +1237,7 @@ async function processRefinement() {
                 model: state.model,
                 systemInstruction: { parts: [{ text: systemPrompt }] },
                 contents: contents,
-                generationConfig: { temperature: 0.7 }
+                generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
             }
         });
 
@@ -1328,7 +1328,7 @@ Output a JSON array like this (ONLY the JSON, no markdown, no extra text):
                 model: state.model,
                 systemInstruction: { parts: [{ text: systemPrompt }] },
                 contents: [{ parts: [{ text: userPrompt }] }],
-                generationConfig: { temperature: 0.7 }
+                generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
             }
         });
         if (error) throw new Error(error.message);
@@ -1380,7 +1380,7 @@ Output ONLY the email text (no HTML, no markdown, just plain text).`;
                 model: state.model,
                 systemInstruction: { parts: [{ text: systemPrompt }] },
                 contents: [{ parts: [{ text: userPrompt }] }],
-                generationConfig: { temperature: 0.8 }
+                generationConfig: { temperature: 0.8, maxOutputTokens: 1024 }
             }
         });
         if (error) throw new Error(error.message);
@@ -1423,7 +1423,7 @@ Output ONLY the plain text (no HTML, no markdown, no quotes).`;
                 model: state.model,
                 systemInstruction: { parts: [{ text: systemPrompt }] },
                 contents: [{ parts: [{ text: `Resume:\n${state.resumeText}` }] }],
-                generationConfig: { temperature: 0.75 }
+                generationConfig: { temperature: 0.75, maxOutputTokens: 1024 }
             }
         });
         if (error) throw new Error(error.message);
@@ -1578,7 +1578,7 @@ Be thorough and accurate. Check actual content, don't guess.`;
                     model: 'gemini-3-flash-preview',
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: `Resume:\n${state.resumeText}\n\nJob Description:\n${state.jobText}` }] }],
-                    generationConfig: { temperature: 0.1 }
+                    generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
                 }
             }),
             45000
@@ -1776,7 +1776,7 @@ RULES:
                     model: 'gemini-3-flash-preview',
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: userPrompt }] }],
-                    generationConfig: { temperature: 0.1 }
+                    generationConfig: { temperature: 0.1, maxOutputTokens: 4096 }
                 }
             }),
             30000

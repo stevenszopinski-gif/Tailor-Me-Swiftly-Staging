@@ -812,30 +812,30 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 // Step 2: Generate briefing via Gemini
                 document.getElementById('loading-status').textContent = 'Generating your personalized briefing...';
 
-                const systemPrompt = `You are a senior intelligence analyst writing a personalized daily briefing memo for ONE specific reader. This is not a news roundup — it is a single cohesive narrative that synthesizes all the articles into ONE story about what is happening in the reader's world today and what they need to know.
+                const systemPrompt = `You are an NPR-style news briefing host writing a personalized daily digest for ONE specific reader. Make it feel like Morning Brief meets The Skimm — punchy, smart, and scannable.
 
-TARGET LENGTH: Approximately 500-650 words (a 2-3 minute read). Be concise but insightful.
+TARGET LENGTH: 500-650 words (2-3 minute read).
 
 VOICE & TONE:
 - Write directly to the reader using "you" and "your"
-- Authoritative but conversational, like a trusted advisor
-- Every sentence should feel personally relevant to someone in their field
-- No filler — every word must earn its place
+- Conversational but authoritative — like a sharp friend who reads everything
+- Short, punchy sentences. No filler.
+- Use bold text to highlight key names, numbers, and takeaways
 
-STRUCTURE:
-1. Open with a bold 1-2 sentence thesis: what is the ONE big narrative connecting today's news
-2. Build the narrative in 3-5 flowing paragraphs that weave the articles together thematically
-3. Each paragraph should connect multiple sources, showing how trends reinforce each other
-4. Naturally cite sources inline as you reference them
-5. Close with "What This Means For You" — 2-3 direct, actionable takeaways
+STRUCTURE (use ALL of these sections):
+1. THE HEADLINE — One bold sentence capturing today's biggest story
+2. THE BIG STORY — 2-3 short paragraphs on the main narrative. Keep paragraphs to 2-3 sentences max.
+3. WHAT ELSE IS HAPPENING — Bullet-point format: 2-4 quick-hit items from remaining articles. Each bullet is 1-2 sentences with a bold lead-in.
+4. BOTTOM LINE — 2-3 punchy, actionable takeaways in bullet form
 
-FORMAT — use this EXACT HTML structure:
-- Opening thesis: <p class="briefing-thesis"><strong>THE HEADLINE:</strong> Your 1-2 sentence thesis here.</p>
-- Body paragraphs: <p>Flowing narrative text with inline citations like <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source Name]</a>.</p>
-- Closing section: <h3>What This Means For You</h3> then <ul><li>Direct actionable takeaway written in second person</li></ul>
+FORMAT — use this EXACT HTML:
+- Thesis: <p class="briefing-thesis"><strong>THE HEADLINE:</strong> Bold one-sentence thesis.</p>
+- Section headers: <h3>The Big Story</h3>, <h3>What Else Is Happening</h3>, <h3>Bottom Line</h3>
+- Body: <p>Short paragraphs (2-3 sentences max). Use <strong>bold</strong> for key facts. Cite with <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source Name]</a>.</p>
+- Quick hits: <ul><li><strong>Bold lead-in:</strong> One-two sentence summary with citation.</li></ul>
+- Bottom line: <ul><li>Direct, actionable takeaway in second person</li></ul>
 - Use the exact article URL provided for each source link
-- No <html>, <body>, or <head> tags
-- Do NOT use section headers to separate articles — weave them into one narrative`;
+- No <html>, <body>, or <head> tags`;
 
                 const articleSummaries = articles.map(a =>
                     `Title: ${a.title}\nSource: ${a.source}\nDate: ${a.publishedAt}\nDescription: ${a.description}\nURL: ${a.url}`
@@ -846,7 +846,7 @@ FORMAT — use this EXACT HTML structure:
                 const geminiData = await invokeEdge('gemini-proxy', {
                     contents: [{ parts: [{ text: userPrompt }] }],
                     systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { temperature: 0.7, maxOutputTokens: 16384, thinkingConfig: { thinkingBudget: 2048 } }
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096, thinkingConfig: { thinkingBudget: 1024 } }
                 });
                 if (geminiData?.error) throw new Error(geminiData.error.message || 'AI generation failed');
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
@@ -1066,7 +1066,7 @@ FORMAT — use this EXACT HTML structure:
                 const briefingText = extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
 
-                const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 12000) });
+                const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 5000) });
                 clearInterval(dotsInterval);
 
                 if (result?.error) throw new Error(result.error);
