@@ -1125,7 +1125,7 @@ FORMAT — use this EXACT HTML structure:
                 const briefingText = extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to convert.');
 
-                const result = await invokeEdge('elevenlabs-tts', { text: briefingText.substring(0, 8000) });
+                const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 8000) });
                 clearInterval(dotsInterval);
 
                 if (result?.error) throw new Error(result.error);
