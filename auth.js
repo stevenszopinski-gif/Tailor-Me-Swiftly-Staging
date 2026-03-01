@@ -41,11 +41,11 @@
             // property itself to always return our custom implementation.
             const EDGE_BASE = SUPABASE_URL + '/functions/v1';
             const STORAGE_KEY = 'sb-gwmpdgjvcjzndbloctla-auth-token';
-            // Check if a JWT is expired (with 30s buffer)
+            // Check if a JWT is expired (refresh 30s before actual expiry)
             function _isTokenExpired(token) {
                 try {
                     const payload = JSON.parse(atob(token.split('.')[1]));
-                    return payload.exp * 1000 < Date.now() - 30000;
+                    return payload.exp * 1000 < Date.now() + 30000;
                 } catch { return true; }
             }
 

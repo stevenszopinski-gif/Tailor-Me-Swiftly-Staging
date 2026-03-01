@@ -33,13 +33,21 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .settings-tab:hover { color: var(--text-primary); background: rgba(59,130,246,0.05); }
+
+        .settings-tab:hover {
+            color: var(--text-primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
         .settings-tab.active {
             background: var(--primary-color);
             color: #fff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
         }
-        .settings-tab i { margin-right: 0.4rem; }
+
+        .settings-tab i {
+            margin-right: 0.4rem;
+        }
 
         .tone-preview {
             margin-top: 0.5rem;
@@ -52,7 +60,11 @@
             color: var(--text-secondary);
             font-style: italic;
         }
-        .tone-preview strong { color: var(--text-primary); font-style: normal; }
+
+        .tone-preview strong {
+            color: var(--text-primary);
+            font-style: normal;
+        }
 
         .briefing-body {
             line-height: 1.8;
@@ -218,11 +230,13 @@
             transition: all 0.2s;
             font-family: inherit;
         }
+
         .rec-chip:hover {
             border-color: var(--primary-color);
             color: var(--primary-color);
             background: color-mix(in srgb, var(--primary-color) 8%, transparent);
         }
+
         .rec-chip.added {
             opacity: 0.4;
             pointer-events: none;
@@ -235,12 +249,14 @@
             line-height: 1.6;
             max-width: 85%;
         }
+
         .qa-msg.user {
             background: var(--primary-color);
             color: #fff;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
         }
+
         .qa-msg.assistant {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
@@ -299,8 +315,10 @@
             <div id="input-section">
                 <!-- Settings-mode top-level tabs (hidden on new-briefing flow) -->
                 <div id="settings-tabs" style="display:none;margin-bottom:1.5rem;">
-                    <div style="display:flex;gap:0.5rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;padding:0.3rem;">
-                        <button class="settings-tab active" data-stab="interests" onclick="switchSettingsTab('interests')">
+                    <div
+                        style="display:flex;gap:0.5rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;padding:0.3rem;">
+                        <button class="settings-tab active" data-stab="interests"
+                            onclick="switchSettingsTab('interests')">
                             <i class="fa-solid fa-tags"></i> Interests
                         </button>
                         <button class="settings-tab" data-stab="preferences" onclick="switchSettingsTab('preferences')">
@@ -311,125 +329,136 @@
 
                 <!-- Interests panel (contains source tabs + tags + recommended) -->
                 <div id="settings-panel-interests">
-                <!-- Source sub-tabs -->
-                <div class="input-tabs" id="source-tabs">
-                    <button class="input-tab active" data-tab="type" onclick="switchTab('type')">
-                        <i class="fa-solid fa-tags"></i> My Interests
-                    </button>
-                    <button class="input-tab" data-tab="resume" onclick="switchTab('resume')">
-                        <i class="fa-solid fa-file-lines"></i> From Resume
-                    </button>
-                    <button class="input-tab" data-tab="jobs" onclick="switchTab('jobs')">
-                        <i class="fa-solid fa-briefcase"></i> From Jobs
-                    </button>
-                </div>
-
-                <!-- Tab A: Type Interests (tags-only, no textarea) -->
-                <div id="tab-type" class="news-tab-content active" style="margin-bottom: 0;">
-                </div>
-
-                <!-- Tab B: From Resume -->
-                <div id="tab-resume" class="news-tab-content">
-                    <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your
-                        resume</p>
-
-                    <!-- TMS Import -->
-                    <div id="tms-resume-section" style="margin-bottom:1.25rem;display:none;">
-                        <button class="btn ghost-btn tms-import-btn" onclick="fetchTMSResume()" id="import-resume-btn">
-                            <i class="fa-solid fa-link"></i> Use my TailorMeSwiftly resume
+                    <!-- Source sub-tabs -->
+                    <div class="input-tabs" id="source-tabs">
+                        <button class="input-tab active" data-tab="type" onclick="switchTab('type')">
+                            <i class="fa-solid fa-tags"></i> My Interests
                         </button>
-                        <div class="import-divider"><span>or upload a file</span></div>
+                        <button class="input-tab" data-tab="resume" onclick="switchTab('resume')">
+                            <i class="fa-solid fa-file-lines"></i> From Resume
+                        </button>
+                        <button class="input-tab" data-tab="jobs" onclick="switchTab('jobs')">
+                            <i class="fa-solid fa-briefcase"></i> From Jobs
+                        </button>
                     </div>
 
-                    <!-- File Upload -->
-                    <div id="drop-zone" class="upload-zone" onclick="document.getElementById('file-input').click()"
-                        ondragover="event.preventDefault();this.classList.add('dragover')"
-                        ondragleave="this.classList.remove('dragover')"
-                        ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0])">
-                        <i class="fa-solid fa-cloud-arrow-up"
-                            style="font-size:2rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
-                        <p style="margin:0;font-weight:500;">Drop your resume here or click to browse</p>
-                        <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-secondary);">PDF, DOCX, or TXT
-                        </p>
-                    </div>
-                    <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display:none"
-                        onchange="handleFile(this.files[0])">
-
-                    <div id="file-status"
-                        style="display:none;margin-top:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
-                        <i class="fa-solid fa-spinner fa-spin"></i> <span id="file-status-text">Parsing resume...</span>
-                    </div>
-                </div>
-
-                <!-- Tab C: From Jobs -->
-                <div id="tab-jobs" class="news-tab-content">
-                    <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your job
-                        applications</p>
-
-                    <div id="jobs-login-prompt" style="display:none;text-align:center;padding:1.5rem;">
-                        <i class="fa-solid fa-lock"
-                            style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
-                        <p style="color:var(--text-secondary);margin-bottom:1rem;">Log in to access your TailorMeSwiftly
-                            applications</p>
-                        <a href="../login.html" class="btn primary-btn" style="font-size:0.9rem;"><i
-                                class="fa-solid fa-right-to-bracket"></i> Log In</a>
+                    <!-- Tab A: Type Interests (tags-only, no textarea) -->
+                    <div id="tab-type" class="news-tab-content active" style="margin-bottom: 0;">
                     </div>
 
-                    <div id="jobs-loading" style="display:none;text-align:center;padding:1.5rem;">
-                        <i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem;color:var(--primary-color);"></i>
-                        <p style="color:var(--text-secondary);margin-top:0.5rem;">Loading your applications...</p>
-                    </div>
+                    <!-- Tab B: From Resume -->
+                    <div id="tab-resume" class="news-tab-content">
+                        <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your
+                            resume</p>
 
-                    <div id="jobs-empty" style="display:none;text-align:center;padding:1.5rem;">
-                        <i class="fa-solid fa-folder-open"
-                            style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
-                        <p style="color:var(--text-secondary);margin-bottom:0.5rem;">No applications found</p>
-                        <p style="color:var(--text-secondary);font-size:0.82rem;">Generate a tailored resume on <a
-                                href="../app.html" style="color:var(--primary-color);">TailorMeSwiftly.com</a> first</p>
-                    </div>
-
-                    <div id="jobs-list" style="display:none;">
-                        <div id="jobs-cards"
-                            style="display:flex;flex-direction:column;gap:0.5rem;max-height:280px;overflow-y:auto;">
+                        <!-- TMS Import -->
+                        <div id="tms-resume-section" style="margin-bottom:1.25rem;display:none;">
+                            <button class="btn ghost-btn tms-import-btn" onclick="fetchTMSResume()"
+                                id="import-resume-btn">
+                                <i class="fa-solid fa-link"></i> Use my TailorMeSwiftly resume
+                            </button>
+                            <div class="import-divider"><span>or upload a file</span></div>
                         </div>
-                        <button class="btn primary-btn" style="margin-top:1rem;width:100%;"
-                            onclick="extractFromSelectedJobs()" id="extract-jobs-btn">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Extract Interests from Selected
-                        </button>
-                    </div>
-                </div>
 
-                <!-- Extracted Interest Tags (shared across tabs) -->
-                <div id="interest-tags-section"
-                    style="display:none;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-                        <label id="interest-tags-label" style="font-weight:600;font-size:0.9rem;">Your Interests</label>
-                        <span id="import-badge"
-                            style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(59,130,246,0.1);color:var(--primary-color);"></span>
-                    </div>
-                    <div id="interest-tags" class="interest-tags-wrap"></div>
-                    <div style="margin-top:0.5rem;">
-                        <input type="text" id="add-interest-input" placeholder="Add a topic..."
-                            style="padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;"
-                            onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
-                    </div>
-                </div>
+                        <!-- File Upload -->
+                        <div id="drop-zone" class="upload-zone" onclick="document.getElementById('file-input').click()"
+                            ondragover="event.preventDefault();this.classList.add('dragover')"
+                            ondragleave="this.classList.remove('dragover')"
+                            ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0])">
+                            <i class="fa-solid fa-cloud-arrow-up"
+                                style="font-size:2rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
+                            <p style="margin:0;font-weight:500;">Drop your resume here or click to browse</p>
+                            <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-secondary);">PDF, DOCX, or
+                                TXT
+                            </p>
+                        </div>
+                        <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display:none"
+                            onchange="handleFile(this.files[0])">
 
-                <!-- Recommended Interests -->
-                <div id="recommended-interests" style="margin-top:1rem;display:none;">
-                    <div style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">
-                        <i class="fa-solid fa-lightbulb" style="margin-right:0.3rem;color:var(--primary-color);"></i> Suggested Topics
+                        <div id="file-status"
+                            style="display:none;margin-top:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
+                            <i class="fa-solid fa-spinner fa-spin"></i> <span id="file-status-text">Parsing
+                                resume...</span>
+                        </div>
                     </div>
-                    <div id="recommended-chips" class="interest-tags-wrap" style="gap:0.4rem;"></div>
-                </div>
 
-                <!-- Extraction Loading -->
-                <div id="extraction-loading" style="display:none;text-align:center;padding:1.5rem 0;">
-                    <i class="fa-solid fa-brain"
-                        style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;display:block;"></i>
-                    <p style="color:var(--text-secondary);font-size:0.9rem;" id="extraction-status">Analyzing your
-                        resume to identify interests...</p>
-                </div>
+                    <!-- Tab C: From Jobs -->
+                    <div id="tab-jobs" class="news-tab-content">
+                        <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your
+                            job
+                            applications</p>
+
+                        <div id="jobs-login-prompt" style="display:none;text-align:center;padding:1.5rem;">
+                            <i class="fa-solid fa-lock"
+                                style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
+                            <p style="color:var(--text-secondary);margin-bottom:1rem;">Log in to access your
+                                TailorMeSwiftly
+                                applications</p>
+                            <a href="../login.html" class="btn primary-btn" style="font-size:0.9rem;"><i
+                                    class="fa-solid fa-right-to-bracket"></i> Log In</a>
+                        </div>
+
+                        <div id="jobs-loading" style="display:none;text-align:center;padding:1.5rem;">
+                            <i class="fa-solid fa-spinner fa-spin"
+                                style="font-size:1.5rem;color:var(--primary-color);"></i>
+                            <p style="color:var(--text-secondary);margin-top:0.5rem;">Loading your applications...</p>
+                        </div>
+
+                        <div id="jobs-empty" style="display:none;text-align:center;padding:1.5rem;">
+                            <i class="fa-solid fa-folder-open"
+                                style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
+                            <p style="color:var(--text-secondary);margin-bottom:0.5rem;">No applications found</p>
+                            <p style="color:var(--text-secondary);font-size:0.82rem;">Generate a tailored resume on <a
+                                    href="../app.html" style="color:var(--primary-color);">TailorMeSwiftly.com</a> first
+                            </p>
+                        </div>
+
+                        <div id="jobs-list" style="display:none;">
+                            <div id="jobs-cards"
+                                style="display:flex;flex-direction:column;gap:0.5rem;max-height:280px;overflow-y:auto;">
+                            </div>
+                            <button class="btn primary-btn" style="margin-top:1rem;width:100%;"
+                                onclick="extractFromSelectedJobs()" id="extract-jobs-btn">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Extract Interests from Selected
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Extracted Interest Tags (shared across tabs) -->
+                    <div id="interest-tags-section"
+                        style="display:none;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                        <div
+                            style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                            <label id="interest-tags-label" style="font-weight:600;font-size:0.9rem;">Your
+                                Interests</label>
+                            <span id="import-badge"
+                                style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(59,130,246,0.1);color:var(--primary-color);"></span>
+                        </div>
+                        <div id="interest-tags" class="interest-tags-wrap"></div>
+                        <div style="margin-top:0.5rem;">
+                            <input type="text" id="add-interest-input" placeholder="Add a topic..."
+                                style="padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;"
+                                onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
+                        </div>
+                    </div>
+
+                    <!-- Recommended Interests -->
+                    <div id="recommended-interests" style="margin-top:1rem;display:none;">
+                        <div
+                            style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">
+                            <i class="fa-solid fa-lightbulb"
+                                style="margin-right:0.3rem;color:var(--primary-color);"></i> Suggested Topics
+                        </div>
+                        <div id="recommended-chips" class="interest-tags-wrap" style="gap:0.4rem;"></div>
+                    </div>
+
+                    <!-- Extraction Loading -->
+                    <div id="extraction-loading" style="display:none;text-align:center;padding:1.5rem 0;">
+                        <i class="fa-solid fa-brain"
+                            style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;display:block;"></i>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;" id="extraction-status">Analyzing your
+                            resume to identify interests...</p>
+                    </div>
                 </div><!-- /settings-panel-interests -->
 
                 <!-- Tone + Generate bar (shown on new-briefing flow, hidden in settings mode) -->
@@ -460,127 +489,181 @@
                 <!-- Preferences panel (shown via Settings tab in settings mode) -->
                 <div id="settings-panel-preferences" style="display:none;">
 
-                <!-- Settings panels -->
-                <div id="briefing-settings" style="margin-top:0.75rem;display:none;">
+                    <!-- Settings panels -->
+                    <div id="briefing-settings" style="margin-top:0.75rem;display:none;">
 
-                    <!-- Tone & Style -->
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
-                        <label for="briefing-tone-setting" style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;"><i class="fa-solid fa-microphone-lines" style="margin-right:0.4rem;color:var(--primary-color);"></i> Tone & Style</label>
-                        <select id="briefing-tone-setting"
-                            style="width:100%;padding:0.5rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.88rem;"
-                            onchange="document.getElementById('briefing-tone').value=this.value;updateTonePreview('tone-preview-settings', this.value);">
-                            <option value="npr">Public Radio Host (Audio-friendly)</option>
-                            <option value="morning-brew">Morning Brew (Witty & Conversational)</option>
-                            <option value="executive">Executive Summary (Concise & Bulleted)</option>
-                            <option value="deep-dive">Deep Dive (Analytical & Thorough)</option>
-                        </select>
-                        <div id="tone-preview-settings" class="tone-preview"></div>
-                    </div>
-
-                    <!-- Auto-Generate Daily -->
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;margin-bottom:0.75rem;">
-                        <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-                            <div>
-                                <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-clock" style="margin-right:0.4rem;color:var(--primary-color);"></i> Auto-Generate Daily</div>
-                                <div style="font-size:0.75rem;color:var(--text-secondary);">Automatically generate a fresh briefing & podcast every morning</div>
-                            </div>
-                            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
-                                <input type="checkbox" id="auto-generate-toggle" onchange="saveSettingToggle('auto_generate', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Email Delivery -->
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
-                        <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-                            <div>
-                                <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-envelope" style="margin-right:0.4rem;color:var(--primary-color);"></i> Daily Email Briefing</div>
-                                <div style="font-size:0.75rem;color:var(--text-secondary);">Also receive your briefing in your inbox</div>
-                            </div>
-                            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
-                                <input type="checkbox" id="email-delivery-toggle" onchange="saveEmailPrefs()" style="width:18px;height:18px;accent-color:var(--primary-color);">
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Source Preferences -->
-                    <div style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;"><i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences</div>
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;">
-                        <div style="margin-bottom:0.75rem;">
-                            <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Preferred Sources</label>
-                            <div id="whitelist-tags" class="interest-tags-wrap" style="min-height:24px;margin-bottom:0.4rem;"></div>
-                            <input type="text" id="whitelist-input" placeholder="e.g. Reuters, BBC..."
-                                style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
-                                onkeydown="if(event.key==='Enter'){addSourcePref('whitelist',this.value);this.value='';}">
-                        </div>
-                        <div>
-                            <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Blocked Sources</label>
-                            <div id="blacklist-tags" class="interest-tags-wrap" style="min-height:24px;margin-bottom:0.4rem;"></div>
-                            <input type="text" id="blacklist-input" placeholder="e.g. Daily Mail..."
-                                style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
-                                onkeydown="if(event.key==='Enter'){addSourcePref('blacklist',this.value);this.value='';}">
-                        </div>
-                    </div>
-
-                    <!-- Jargon Translator -->
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                        <div style="display:flex;align-items:center;justify-content:space-between;">
-                            <div>
-                                <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-language" style="margin-right:0.4rem;color:var(--primary-color);"></i> Plain English Mode</div>
-                                <div style="font-size:0.75rem;color:var(--text-secondary);">Simplify technical, financial, and legal jargon</div>
-                            </div>
-                            <input type="checkbox" id="jargon-toggle" onchange="saveSettingToggle('jargon_simplify', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
-                        </div>
-                    </div>
-
-                    <!-- Sentiment Controls -->
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i class="fa-solid fa-face-smile" style="margin-right:0.4rem;color:var(--primary-color);"></i> Framing & Perspective</div>
-                        <label style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;cursor:pointer;">
-                            <input type="checkbox" id="silver-lining-toggle" onchange="saveSettingToggle('silver_lining', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
-                            <div>
-                                <div style="font-size:0.82rem;font-weight:500;">Silver Lining Mode</div>
-                                <div style="font-size:0.72rem;color:var(--text-secondary);">Focus on constructive angles and opportunities</div>
-                            </div>
-                        </label>
-                        <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;">
-                            <input type="checkbox" id="opposing-views-toggle" onchange="saveSettingToggle('opposing_views', this.checked)" style="width:18px;height:18px;accent-color:var(--primary-color);">
-                            <div>
-                                <div style="font-size:0.82rem;font-weight:500;">Opposing Views</div>
-                                <div style="font-size:0.72rem;color:var(--text-secondary);">Show how different sources cover the same story</div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- Topic Muting -->
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i class="fa-solid fa-bell-slash" style="margin-right:0.4rem;color:var(--primary-color);"></i> Muted Topics</div>
-                        <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;">Temporarily hide topics from your briefings</div>
-                        <div id="muted-tags" class="interest-tags-wrap" style="min-height:24px;margin-bottom:0.4rem;"></div>
-                        <div style="display:flex;gap:0.5rem;align-items:center;">
-                            <input type="text" id="mute-topic-input" placeholder="e.g. elections"
-                                style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:140px;"
-                                onkeydown="if(event.key==='Enter')addMutedTopic()">
-                            <select id="mute-duration" style="padding:0.35rem 0.5rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.8rem;">
-                                <option value="1">1 day</option>
-                                <option value="3">3 days</option>
-                                <option value="7" selected>7 days</option>
-                                <option value="14">14 days</option>
-                                <option value="30">30 days</option>
+                        <!-- Tone & Style -->
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                            <label for="briefing-tone-setting"
+                                style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;"><i
+                                    class="fa-solid fa-microphone-lines"
+                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Tone & Style</label>
+                            <select id="briefing-tone-setting"
+                                style="width:100%;padding:0.5rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.88rem;"
+                                onchange="document.getElementById('briefing-tone').value=this.value;updateTonePreview('tone-preview-settings', this.value);">
+                                <option value="npr">Public Radio Host (Audio-friendly)</option>
+                                <option value="morning-brew">Morning Brew (Witty & Conversational)</option>
+                                <option value="executive">Executive Summary (Concise & Bulleted)</option>
+                                <option value="deep-dive">Deep Dive (Analytical & Thorough)</option>
                             </select>
-                            <button class="btn ghost-btn" style="font-size:0.78rem;padding:0.35rem 0.6rem;" onclick="addMutedTopic()">Mute</button>
+                            <div id="tone-preview-settings" class="tone-preview"></div>
+                        </div>
+
+                        <!-- Auto-Generate Daily -->
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;margin-bottom:0.75rem;">
+                            <div
+                                style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                                <div>
+                                    <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-clock"
+                                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Auto-Generate
+                                        Daily</div>
+                                    <div style="font-size:0.75rem;color:var(--text-secondary);">Automatically generate a
+                                        fresh briefing & podcast every morning</div>
+                                </div>
+                                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                    <input type="checkbox" id="auto-generate-toggle"
+                                        onchange="saveSettingToggle('auto_generate', this.checked)"
+                                        style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Email Delivery -->
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                            <div
+                                style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                                <div>
+                                    <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-envelope"
+                                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Daily Email
+                                        Briefing</div>
+                                    <div style="font-size:0.75rem;color:var(--text-secondary);">Also receive your
+                                        briefing in your inbox</div>
+                                </div>
+                                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                    <input type="checkbox" id="email-delivery-toggle" onchange="saveEmailPrefs()"
+                                        style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Source Preferences -->
+                        <div
+                            style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;">
+                            <i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences</div>
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;">
+                            <div style="margin-bottom:0.75rem;">
+                                <label
+                                    style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Preferred
+                                    Sources</label>
+                                <div id="whitelist-tags" class="interest-tags-wrap"
+                                    style="min-height:24px;margin-bottom:0.4rem;"></div>
+                                <input type="text" id="whitelist-input" placeholder="e.g. Reuters, BBC..."
+                                    style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
+                                    onkeydown="if(event.key==='Enter'){addSourcePref('whitelist',this.value);this.value='';}">
+                            </div>
+                            <div>
+                                <label
+                                    style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Blocked
+                                    Sources</label>
+                                <div id="blacklist-tags" class="interest-tags-wrap"
+                                    style="min-height:24px;margin-bottom:0.4rem;"></div>
+                                <input type="text" id="blacklist-input" placeholder="e.g. Daily Mail..."
+                                    style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
+                                    onkeydown="if(event.key==='Enter'){addSourcePref('blacklist',this.value);this.value='';}">
+                            </div>
+                        </div>
+
+                        <!-- Jargon Translator -->
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;">
+                                <div>
+                                    <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-language"
+                                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Plain English
+                                        Mode</div>
+                                    <div style="font-size:0.75rem;color:var(--text-secondary);">Simplify technical,
+                                        financial, and legal jargon</div>
+                                </div>
+                                <input type="checkbox" id="jargon-toggle"
+                                    onchange="saveSettingToggle('jargon_simplify', this.checked)"
+                                    style="width:18px;height:18px;accent-color:var(--primary-color);">
+                            </div>
+                        </div>
+
+                        <!-- Sentiment Controls -->
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
+                                    class="fa-solid fa-face-smile"
+                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Framing & Perspective
+                            </div>
+                            <label
+                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;cursor:pointer;">
+                                <input type="checkbox" id="silver-lining-toggle"
+                                    onchange="saveSettingToggle('silver_lining', this.checked)"
+                                    style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                <div>
+                                    <div style="font-size:0.82rem;font-weight:500;">Silver Lining Mode</div>
+                                    <div style="font-size:0.72rem;color:var(--text-secondary);">Focus on constructive
+                                        angles and opportunities</div>
+                                </div>
+                            </label>
+                            <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;">
+                                <input type="checkbox" id="opposing-views-toggle"
+                                    onchange="saveSettingToggle('opposing_views', this.checked)"
+                                    style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                <div>
+                                    <div style="font-size:0.82rem;font-weight:500;">Opposing Views</div>
+                                    <div style="font-size:0.72rem;color:var(--text-secondary);">Show how different
+                                        sources cover the same story</div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Topic Muting -->
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
+                                    class="fa-solid fa-bell-slash"
+                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Muted Topics</div>
+                            <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;">Temporarily
+                                hide topics from your briefings</div>
+                            <div id="muted-tags" class="interest-tags-wrap"
+                                style="min-height:24px;margin-bottom:0.4rem;"></div>
+                            <div style="display:flex;gap:0.5rem;align-items:center;">
+                                <input type="text" id="mute-topic-input" placeholder="e.g. elections"
+                                    style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:140px;"
+                                    onkeydown="if(event.key==='Enter')addMutedTopic()">
+                                <select id="mute-duration"
+                                    style="padding:0.35rem 0.5rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.8rem;">
+                                    <option value="1">1 day</option>
+                                    <option value="3">3 days</option>
+                                    <option value="7" selected>7 days</option>
+                                    <option value="14">14 days</option>
+                                    <option value="30">30 days</option>
+                                </select>
+                                <button class="btn ghost-btn" style="font-size:0.78rem;padding:0.35rem 0.6rem;"
+                                    onclick="addMutedTopic()">Mute</button>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div
+                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
+                                    class="fa-solid fa-location-dot"
+                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Location</div>
+                            <input type="text" id="user-location" placeholder="e.g. San Francisco, CA"
+                                style="width:100%;padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;box-sizing:border-box;"
+                                onblur="saveSettingToggle('location', this.value)">
+                            <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.3rem;">Adds local
+                                news to your briefing</div>
                         </div>
                     </div>
-
-                    <!-- Location -->
-                    <div style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i class="fa-solid fa-location-dot" style="margin-right:0.4rem;color:var(--primary-color);"></i> Location</div>
-                        <input type="text" id="user-location" placeholder="e.g. San Francisco, CA"
-                            style="width:100%;padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;box-sizing:border-box;"
-                            onblur="saveSettingToggle('location', this.value)">
-                        <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.3rem;">Adds local news to your briefing</div>
-                    </div>
-                </div>
                 </div><!-- /settings-panel-preferences -->
 
                 <!-- Edit-mode action bar (hidden by default, shown by editInterests()) -->
@@ -686,32 +769,42 @@
 
                 <!-- Saved Articles -->
                 <details id="saved-articles-section" style="margin-top:1.5rem;">
-                    <summary style="cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-secondary);padding:0.5rem 0;">
-                        <i class="fa-solid fa-bookmark" style="margin-right:0.4rem;color:var(--primary-color);"></i> Saved Articles <span id="saved-count" style="font-size:0.75rem;opacity:0.7;"></span>
+                    <summary
+                        style="cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-secondary);padding:0.5rem 0;">
+                        <i class="fa-solid fa-bookmark" style="margin-right:0.4rem;color:var(--primary-color);"></i>
+                        Saved Articles <span id="saved-count" style="font-size:0.75rem;opacity:0.7;"></span>
                     </summary>
-                    <div id="saved-articles-list" style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.5rem;"></div>
+                    <div id="saved-articles-list"
+                        style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.5rem;"></div>
                 </details>
 
                 <!-- Follow-up Q&A -->
-                <div id="qa-section" style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                <div id="qa-section"
+                    style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
                     <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
-                        <i class="fa-solid fa-comments" style="margin-right:0.4rem;color:var(--primary-color);"></i> Ask About This Briefing
+                        <i class="fa-solid fa-comments" style="margin-right:0.4rem;color:var(--primary-color);"></i> Ask
+                        About This Briefing
                     </h4>
-                    <div id="qa-thread" style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:0.75rem;max-height:400px;overflow-y:auto;"></div>
+                    <div id="qa-thread"
+                        style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:0.75rem;max-height:400px;overflow-y:auto;">
+                    </div>
                     <div style="display:flex;gap:0.5rem;">
                         <input type="text" id="qa-input" placeholder="Ask a question about today's news..."
                             style="flex:1;padding:0.6rem 0.75rem;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;font-family:inherit;"
                             onkeydown="if(event.key==='Enter')askFollowUp()">
-                        <button class="btn primary-btn" style="padding:0.6rem 1rem;" onclick="askFollowUp()" id="qa-send-btn">
+                        <button class="btn primary-btn" style="padding:0.6rem 1rem;" onclick="askFollowUp()"
+                            id="qa-send-btn">
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Briefing History (Last 3 Days) -->
-                <div id="briefing-history" style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);display:none;">
+                <div id="briefing-history"
+                    style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);display:none;">
                     <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
-                        <i class="fa-solid fa-clock-rotate-left" style="margin-right:0.4rem;color:var(--primary-color);"></i> Recent Briefings
+                        <i class="fa-solid fa-clock-rotate-left"
+                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Recent Briefings
                     </h4>
                     <div id="history-list" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
                 </div>
@@ -793,17 +886,30 @@
                 const errMsg = data?.message || data?.error?.message || data?.error || `Edge function error (${resp.status})`;
                 const isAuthErr = resp.status === 401 || errMsg.toLowerCase().includes('jwt') || errMsg.toLowerCase().includes('token');
 
-                // On auth error, try refreshing the session and retrying once
+                // On auth error, try refreshing the session and retrying once with the new token directly
                 if (isAuthErr && !_isRetry) {
-                    console.warn('[invokeEdge] Auth error, attempting token refresh and retry...', errMsg);
+                    console.warn('[invokeEdge] Auth error (' + resp.status + '), refreshing token...', errMsg);
                     try {
-                        const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
+                        const { data: refreshed, error: refreshErr } = await window.supabaseClient.auth.refreshSession();
+                        if (refreshErr) console.warn('[invokeEdge] refreshSession error:', refreshErr.message);
                         if (refreshed?.session?.access_token) {
-                            console.log('[invokeEdge] Token refreshed, retrying request');
-                            return invokeEdge(fnName, body, true);
+                            console.log('[invokeEdge] Token refreshed, retrying with new token');
+                            // Use the fresh token directly (bypass _getFreshToken cache)
+                            const retryResp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${refreshed.session.access_token}`,
+                                    'apikey': 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8'
+                                },
+                                body: JSON.stringify(body)
+                            });
+                            const retryData = await retryResp.json().catch(() => ({}));
+                            if (retryResp.ok) return retryData;
+                            console.warn('[invokeEdge] Retry also failed:', retryResp.status);
                         }
-                    } catch (refreshErr) {
-                        console.warn('[invokeEdge] Token refresh failed:', refreshErr.message);
+                    } catch (refreshEx) {
+                        console.warn('[invokeEdge] Token refresh exception:', refreshEx.message);
                     }
                 }
 
