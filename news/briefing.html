@@ -1052,7 +1052,7 @@
                     if (editMode) {
                         editInterests();
                     } else {
-                        // Check for existing briefing today before generating a new one
+                        // Check for existing briefing today first, then fall back to most recent
                         const today = new Date().toISOString().split('T')[0];
                         console.log('[auth-ready] Checking for today\'s briefing:', today);
                         const { data: todayBriefing, error: briefingErr } = await window.supabaseClient
@@ -1063,28 +1063,62 @@
                             .maybeSingle();
 
                         if (briefingErr) console.error('[auth-ready] Briefing query error:', briefingErr.message);
-                        console.log('[auth-ready] Today\'s briefing found:', !!todayBriefing?.briefing_html, 'audio:', !!todayBriefing?.audio_url);
-                        if (todayBriefing?.briefing_html) {
-                            // Show existing briefing instead of regenerating
-                            currentBriefingDate = todayBriefing.briefing_date;
+
+                        // Pick the briefing to show: today's, or most recent
+                        let briefingToShow = todayBriefing?.briefing_html ? todayBriefing : null;
+                        let isOlderBriefing = false;
+
+                        if (!briefingToShow) {
+                            // No briefing today — fetch most recent one
+                            console.log('[auth-ready] No briefing today, checking for most recent...');
+                            const { data: recentBriefing, error: recentErr } = await window.supabaseClient
+                                .from('daily_briefings')
+                                .select('id, briefing_date, briefing_html, briefing_text, interests, sources, audio_url')
+                                .eq('user_id', session.user.id)
+                                .not('briefing_html', 'is', null)
+                                .order('briefing_date', { ascending: false })
+                                .limit(1)
+                                .maybeSingle();
+                            if (recentErr) console.error('[auth-ready] Recent briefing query error:', recentErr.message);
+                            if (recentBriefing?.briefing_html) {
+                                briefingToShow = recentBriefing;
+                                isOlderBriefing = true;
+                                console.log('[auth-ready] Showing most recent briefing from:', recentBriefing.briefing_date);
+                            }
+                        }
+
+                        if (briefingToShow) {
+                            currentBriefingDate = briefingToShow.briefing_date;
                             document.getElementById('input-section').style.display = 'none';
                             showBriefing(
-                                todayBriefing.briefing_html,
-                                todayBriefing.interests || profile.interests,
-                                todayBriefing.sources || []
+                                briefingToShow.briefing_html,
+                                briefingToShow.interests || profile.interests,
+                                briefingToShow.sources || []
                             );
                             // Pre-load cached audio if available
-                            if (todayBriefing.audio_url && todayBriefing.audio_url.startsWith('http')) {
+                            if (briefingToShow.audio_url && briefingToShow.audio_url.startsWith('http')) {
                                 const audioContainer = document.getElementById('audio-container');
                                 if (audioContainer) {
                                     audioContainer.innerHTML = '<audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>';
-                                    document.getElementById('briefing-audio').src = todayBriefing.audio_url;
+                                    document.getElementById('briefing-audio').src = briefingToShow.audio_url;
                                     audioContainer.style.display = 'block';
                                     const listenBtn = document.getElementById('listen-btn');
                                     if (listenBtn) listenBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
                                 }
                             }
+                            // If showing an older briefing, add a banner to generate today's
+                            if (isOlderBriefing) {
+                                const resultSection = document.getElementById('result-section');
+                                if (resultSection) {
+                                    const banner = document.createElement('div');
+                                    banner.style.cssText = 'background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(96,165,250,0.08));border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;';
+                                    const dateLabel = new Date(briefingToShow.briefing_date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                                    banner.innerHTML = `<span style="color:var(--text-secondary);font-size:0.9rem;"><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.4rem;color:#3b82f6;"></i> Showing your briefing from <strong style="color:var(--text-primary);">${dateLabel}</strong></span><button class="btn primary-btn" onclick="this.parentElement.remove();generateBriefing();" style="font-size:0.85rem;padding:0.5rem 1rem;white-space:nowrap;"><i class="fa-solid fa-bolt"></i> Generate Today's Briefing</button>`;
+                                    resultSection.insertBefore(banner, resultSection.firstChild);
+                                }
+                            }
                         } else {
+                            // No briefings at all — auto-generate
                             generateBriefing();
                         }
                     }
