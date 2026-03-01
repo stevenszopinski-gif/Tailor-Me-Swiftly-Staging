@@ -481,64 +481,26 @@
         // Edge Function helper — bypasses sb_publishable_ key issue with supabaseClient.functions.invoke()
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
 
-        async function getFreshToken() {
-            let { data: { session } } = await window.supabaseClient.auth.getSession();
-            if (session) {
-                try {
-                    const exp = JSON.parse(atob(session.access_token.split('.')[1])).exp;
-                    if (exp * 1000 - Date.now() < 60000) {
-                        // Token expiring soon — try refresh, but keep old session if it fails
-                        try {
-                            const { data } = await window.supabaseClient.auth.refreshSession();
-                            if (data?.session) session = data.session;
-                        } catch (refreshErr) {
-                            console.warn('[auth] Token refresh failed, using existing session:', refreshErr.message);
-                        }
-                    }
-                } catch (parseErr) {
-                    console.warn('[auth] Could not parse token exp, using as-is');
-                }
-            }
-            return session;
-        }
-
         async function invokeEdge(fnName, body) {
-            let session = await getFreshToken();
+            // Get cached session — never call refreshSession() as it corrupts
+            // the session state with the sb_publishable_ key
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
             if (!session) {
-                window.location.href = '../login.html';
-                throw new Error('Not authenticated — please log in.');
+                throw new Error('Please log in to continue.');
             }
 
-            let resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
+            const resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`
+                },
                 body: JSON.stringify(body)
             });
-
-            // On 401, try one refresh + retry before giving up
-            if (resp.status === 401) {
-                try {
-                    const { data } = await window.supabaseClient.auth.refreshSession();
-                    if (data?.session) {
-                        session = data.session;
-                        resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-                            body: JSON.stringify(body)
-                        });
-                    }
-                } catch (refreshErr) {
-                    console.warn('[auth] Refresh failed during 401 retry:', refreshErr.message);
-                }
-            }
 
             const data = await resp.json().catch(() => ({}));
             if (!resp.ok) {
                 const errMsg = data?.message || data?.error?.message || data?.error || `Edge function error (${resp.status})`;
-                // Only redirect on actual 401 after retry exhaustion
-                if (resp.status === 401) {
-                    throw new Error('Session expired. Please refresh the page and try again.');
-                }
                 throw new Error(errMsg);
             }
             return data;
@@ -682,14 +644,7 @@
                 await extractInterestsFromText(data.resume_text, 'resume');
                 showImportBadge('From TailorMeSwiftly resume');
             } catch (e) {
-                const msg = e.message || '';
-                if (msg.includes('JWT') || msg.includes('token') || msg.includes('Auth')) {
-                    alert('Session expired or corrupted. Please log in again.');
-                    if (window.supabaseClient) window.supabaseClient.auth.signOut({ scope: 'local' }).catch(() => { });
-                    window.location.href = '../login.html';
-                    return;
-                }
-                alert(msg || 'Failed to import resume');
+                alert(e.message || 'Failed to import resume');
             }
 
             btn.disabled = false;
@@ -784,7 +739,7 @@
 
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) { window.location.href = '../login.html'; return; }
+                if (!session) { throw new Error('Please log in to continue.'); }
 
                 const systemPrompt = `You are an interest extraction engine. Given a ${sourceType}, extract 5-10 news topics the person would likely want to follow.
 
@@ -819,15 +774,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
             } catch (e) {
                 console.error('Extraction error:', e);
-                const msg = e.message || '';
-                if (msg.includes('Auth') || msg.includes('token') || msg.includes('JWT')) {
-                    alert('Session expired or corrupted. Please log in again.');
-                    if (window.supabaseClient) window.supabaseClient.auth.signOut({ scope: 'local' }).catch(() => { });
-                    window.location.href = '../login.html';
-                    return;
-                } else {
-                    alert('Could not extract interests: ' + (msg || 'Unknown error') + '. Try typing them manually.');
-                }
+                alert('Could not extract interests: ' + (e.message || 'Unknown error') + '. Try typing them manually.');
             }
 
             loadingEl.style.display = 'none';
@@ -1200,13 +1147,7 @@ FORMAT — use this EXACT HTML structure:
                 playAudioUrl(result.audioUrl);
             } catch (e) {
                 console.error('Podcast error:', e);
-                const msg = e.message || '';
-                if (/jwt|token|expires|unauthorized|auth/i.test(msg)) {
-                    if (window.supabaseClient) window.supabaseClient.auth.signOut({ scope: 'local' }).catch(() => { });
-                    window.location.href = '../login.html';
-                    return;
-                }
-                alert(msg || 'Podcast generation failed. Please try again.');
+                alert(e.message || 'Podcast generation failed. Please try again.');
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-headphones"></i> Listen to Podcast';
             }
