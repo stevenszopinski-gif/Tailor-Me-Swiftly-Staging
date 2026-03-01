@@ -341,11 +341,25 @@
                         resume to identify interests...</p>
                 </div>
 
-                <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
-                    <button id="generate-btn" class="btn primary-btn" onclick="generateBriefing()">
-                        <i class="fa-solid fa-bolt"></i> Generate Briefing
-                    </button>
-                    <span id="gen-count" style="font-size:0.82rem;color:var(--text-secondary);"></span>
+                <div
+                    style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;background:var(--panel-bg);padding:1rem;border-radius:12px;border:1px solid var(--panel-border);">
+                    <div style="flex:1;min-width:200px;">
+                        <label for="briefing-tone"
+                            style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;color:var(--text-secondary);">Briefing
+                            Tone & Style</label>
+                        <select id="briefing-tone"
+                            style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;">
+                            <option value="npr">🎙️ Public Radio Host (Audio-friendly)</option>
+                            <option value="executive">📊 Executive Summary (Concise & Bulleted)</option>
+                            <option value="deep-dive">🧠 Deep Dive (Analytical & Thorough)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button id="generate-btn" class="btn primary-btn" onclick="generateBriefing()"
+                            style="padding:0.6rem 1.5rem;">
+                            <i class="fa-solid fa-bolt"></i> Generate Briefing
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -897,7 +911,60 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 // Step 2: Generate briefing via Gemini
                 document.getElementById('loading-status').textContent = 'Generating your personalized briefing...';
 
-                const systemPrompt = `You are an NPR morning briefing host — warm, smart, and conversational. You're writing a script that will be READ ALOUD by a TTS voice AND displayed as a visual article. It must sound natural spoken AND look great on screen.
+                const tone = document.getElementById('briefing-tone')?.value || 'npr';
+                let systemPrompt = '';
+
+                if (tone === 'executive') {
+                    systemPrompt = `You are a top-tier executive assistant providing a concise, high-signal news summary.
+
+CRITICAL INSTRUCTION (Knowles' Andragogical Principles):
+You MUST tailor this briefing specifically to the user's role and interests using adult learning principles:
+1. Relevance: Explicitly state the strategic importance of each story to their specific career/industry.
+2. Problem-Centric: Focus on risks to mitigate or opportunities to capture.
+3. Immediate Value: Provide highly actionable, bulleted takeaways.
+
+TARGET LENGTH: 300-400 words (Hyper-concise).
+
+VOICE & TONE:
+- Professional, direct, and zero-fluff.
+- Use bullet points extensively for quick scanning.
+- Bold key metrics, companies, and actionable verbs.
+
+STRUCTURE & FORMAT (use exactly this HTML):
+<p class="briefing-thesis"><strong>EXECUTIVE SUMMARY:</strong> A one-sentence bottom-line up front (BLUF) covering the most critical development today.</p>
+<h3>Strategic Impact:</h3>
+<ul><li><strong>[Topic/Company]:</strong> 1-2 sentences on the news. <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source]</a></li></ul>
+<h3>Market & Industry Updates:</h3>
+<ul><li><strong>[Topic/Company]:</strong> 1 sentence summary. <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source]</a></li></ul>
+<h3>Action Items:</h3>
+<ul><li><strong>Verb-first action:</strong> What the user needs to do based on this intelligence.</li></ul>`;
+                } else if (tone === 'deep-dive') {
+                    systemPrompt = `You are an expert industry analyst writing an in-depth intelligence brief.
+
+CRITICAL INSTRUCTION (Knowles' Andragogical Principles):
+You MUST tailor this briefing specifically to the user's role and interests using adult learning principles:
+1. Relevance: Unpack the *second-order effects* and long-term implications of the news on their specific career/industry.
+2. Experience: Assume the user is a knowledgeable professional; do not explain basic concepts. Focus on advanced analysis.
+3. Problem-Centric: Provide deep context to help them navigate complex industry shifts.
+
+TARGET LENGTH: 700-900 words (Comprehensive analysis).
+
+VOICE & TONE:
+- Analytical, authoritative, and deeply investigative.
+- Connect dots between different news stories to show macro-trends.
+- Write in well-structured paragraphs.
+
+STRUCTURE & FORMAT (use exactly this HTML):
+<p class="briefing-thesis"><strong>INTELLIGENCE BRIEF:</strong> A 2-3 sentence overview of the macro-theme tying today's news together.</p>
+<h3>Deep Analysis: The Main Story:</h3>
+<p>2-3 rigorous paragraphs analyzing the biggest news item, its background, and its specific second-order implications for the user's industry. <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source]</a></p>
+<h3>Connecting the Dots:</h3>
+<p>1-2 paragraphs synthesizing the remaining news items into a cohesive trend narrative. <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source]</a></p>
+<h3>Strategic Recommendations:</h3>
+<ul><li><strong>Long-term view:</strong> What the user should plan for over the next 6-12 months based on this data.</li></ul>`;
+                } else {
+                    // Default NPR
+                    systemPrompt = `You are an NPR morning briefing host — warm, smart, and conversational. You're writing a script that will be READ ALOUD by a TTS voice AND displayed as a visual article. It must sound natural spoken AND look great on screen.
 
 CRITICAL INSTRUCTION (Knowles' Andragogical Principles):
 You MUST tailor this briefing specifically to the user's role and interests using adult learning principles:
@@ -931,6 +998,7 @@ FORMAT — use this EXACT HTML:
 - Use the exact article URL provided for each source link
 - No <html>, <body>, or <head> tags
 - CRITICAL: Write so every sentence sounds natural when read aloud. No jargon, no awkward constructions, no run-on sentences.`;
+                }
 
                 const articleSummaries = articles.map(a =>
                     `Title: ${a.title}\nSource: ${a.source}\nDate: ${a.publishedAt}\nDescription: ${a.description}\nURL: ${a.url}`
