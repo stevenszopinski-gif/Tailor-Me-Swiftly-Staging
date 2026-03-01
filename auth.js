@@ -85,8 +85,15 @@
 
             const _customFunctions = {
                 invoke: async function (fnName, opts) {
-                    const token = await _getFreshToken();
-                    if (!token) throw new Error('Not authenticated');
+                    let token = await _getFreshToken();
+                    if (!token) {
+                        // Last-chance: force refresh before giving up
+                        try {
+                            const { data: r } = await client.auth.refreshSession();
+                            token = r?.session?.access_token || null;
+                        } catch (e) { /* silent */ }
+                        if (!token) return { data: null, error: { message: 'Not authenticated' } };
+                    }
                     const resp = await fetch(EDGE_BASE + '/' + fnName, {
                         method: 'POST',
                         headers: {

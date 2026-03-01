@@ -867,7 +867,20 @@
             if (!window.supabaseClient) {
                 throw new Error('Your session has expired. Please refresh the page and sign in again.');
             }
-            const { data, error } = await window.supabaseClient.functions.invoke(fnName, { body });
+            let result;
+            try {
+                result = await window.supabaseClient.functions.invoke(fnName, { body });
+            } catch (e) {
+                // SDK invoke can throw if _getFreshToken fails — refresh and retry once
+                console.warn('[invokeEdge] SDK threw, refreshing session:', e.message);
+                try {
+                    await window.supabaseClient.auth.refreshSession();
+                    result = await window.supabaseClient.functions.invoke(fnName, { body });
+                } catch (retryErr) {
+                    throw new Error('Your session has expired. Please refresh the page and sign in again.');
+                }
+            }
+            const { data, error } = result;
             if (error) {
                 const msg = error.message || 'Edge function error';
                 if (msg.includes('Not authenticated') || msg.toLowerCase().includes('jwt')) {
