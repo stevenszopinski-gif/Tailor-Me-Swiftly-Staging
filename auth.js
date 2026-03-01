@@ -43,7 +43,13 @@
             const STORAGE_KEY = 'sb-gwmpdgjvcjzndbloctla-auth-token';
             const _customFunctions = {
                 invoke: async function (fnName, opts) {
-                    const token = _getAccessToken();
+                    // Try SDK session first (handles token refresh), fall back to localStorage
+                    let token = null;
+                    try {
+                        const { data: { session } } = await client.auth.getSession();
+                        token = session?.access_token || null;
+                    } catch (e) { /* fall through */ }
+                    if (!token) token = _getAccessToken();
                     if (!token) throw new Error('Not authenticated');
                     const resp = await fetch(EDGE_BASE + '/' + fnName, {
                         method: 'POST',
