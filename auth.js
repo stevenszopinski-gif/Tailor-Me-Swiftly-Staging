@@ -24,7 +24,12 @@
                 return false;
             }
 
-            const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+                auth: {
+                    autoRefreshToken: false,  // Disable — refresh fails with sb_publishable_ key and corrupts session
+                    persistSession: true
+                }
+            });
             if (!client) return false;
 
             window.supabaseClient = client;
@@ -233,6 +238,10 @@
             // Don't auto-redirect back after an explicit sign-out
             if (window._signingOut) return;
 
+            // Only act on explicit auth events — ignore failed token refreshes
+            // that would falsely log the user out
+            if (event === 'TOKEN_REFRESHED' && !session) return;
+
             const path = window.location.pathname;
             const isApp = path.includes('app.html');
             const isLoginSignup = path.includes('login.html') || path.includes('signup.html');
@@ -241,12 +250,15 @@
             const _home = P + (window.TMS_BRAND?.homePath || 'dashboard.html');
             if (session && isLoginSignup && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
                 window.location.href = _home;
-            } else if (!session && isApp) {
-                window.location.href = P + 'index.html';
+            } else if (!session && event === 'SIGNED_OUT') {
+                // Only redirect/update UI on explicit sign-out
+                if (isApp) {
+                    window.location.href = P + 'index.html';
+                } else {
+                    updateUIForLoggedOut();
+                }
             } else if (session) {
                 updateUIForUser(session.user);
-            } else {
-                updateUIForLoggedOut();
             }
         });
     }
