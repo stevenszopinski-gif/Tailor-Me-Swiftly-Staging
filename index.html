@@ -48,15 +48,12 @@
             font-size: clamp(2.2rem, 5.5vw, 3.6rem);
             font-weight: 700;
             line-height: 1.1;
-            margin-bottom: 1.5rem;
             color: var(--text-primary);
+            letter-spacing: -0.03em;
         }
 
         .hp-hero h2 .hp-gradient {
-            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
         }
 
         .hp-hero-sub {
@@ -73,15 +70,17 @@
             gap: 0.6rem;
             font-size: 1.15rem;
             padding: 0.9rem 2.5rem;
-            border-radius: 50px;
+            border-radius: 4px;
             text-decoration: none;
             font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            border: 2px solid transparent;
         }
 
         .hp-hero-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px var(--accent-glow);
+            color: var(--text-primary) !important;
+            background: var(--bg-primary) !important;
+            border-color: var(--text-primary);
         }
 
         .hp-hero-note {
@@ -134,8 +133,7 @@
             left: 16.66%;
             right: 16.66%;
             height: 2px;
-            background: linear-gradient(90deg, var(--accent-color), #8b5cf6, var(--accent-color));
-            opacity: 0.3;
+            background: var(--text-primary);
         }
 
         .hp-step {
@@ -146,11 +144,9 @@
         .hp-step-num {
             width: 56px;
             height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: 700;
+            border-radius: var(--brutal-radius);
+            background: var(--text-primary);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -181,8 +177,8 @@
 
         .product-hub-card {
             background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 20px;
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
             padding: 2rem 1.5rem;
             text-align: left;
             transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
@@ -192,15 +188,15 @@
         }
 
         .product-hub-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--card-color);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transform: translate(-2px, -2px);
+            border-color: var(--text-primary);
+            box-shadow: var(--brutal-shadow);
         }
 
         .product-hub-card .card-icon {
             width: 56px;
             height: 56px;
-            border-radius: 16px;
+            border-radius: var(--brutal-radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -244,9 +240,9 @@
         }
 
         .hp-tool-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 12px;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
             padding: 1rem 1.1rem;
             display: flex;
             align-items: center;
@@ -271,14 +267,15 @@
         }
 
         .hp-tool-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary-color);
+            transform: translate(-2px, -2px);
+            border-color: var(--text-primary);
+            box-shadow: var(--brutal-shadow-hover);
         }
 
         .hp-tool-icon {
             width: 36px;
             height: 36px;
-            border-radius: 9px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -304,9 +301,9 @@
             text-align: center;
             padding: 4rem 2rem;
             margin: 0 -1.5rem 3rem;
-            border-radius: 24px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(139, 92, 246, 0.08));
-            border: 1px solid var(--panel-border);
+            border-radius: var(--brutal-radius);
+            background: var(--panel-bg);
+            border: var(--brutal-border);
         }
 
         .hp-bottom-cta h2 {
@@ -396,10 +393,7 @@
 
 <body data-theme="light">
     <a href="#main-content" class="skip-nav">Skip to main content</a>
-    <!-- Background Elements -->
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-    <div class="bg-shape shape-3"></div>
+    <!-- Generic background blobs removed for starker layout -->
 
     <div class="app-container" style="min-height: auto;">
         <!-- Header -->
@@ -459,8 +453,8 @@
                 prep in 60 seconds &mdash; not hours.</p>
             <div style="margin-bottom: 1rem;">
                 <a href="login.html" class="hp-hero-cta"
-                    style="background: linear-gradient(135deg, var(--accent-color), #8b5cf6); color: white;">
-                    <i class="fa-solid fa-rocket"></i> Get Started Free
+                    style="background: var(--text-primary); color: var(--bg-primary);">
+                    <i class="fa-solid fa-arrow-right"></i> Enter TailorMeSwiftly
                 </a>
             </div>
             <div class="hp-hero-note">
@@ -484,11 +478,13 @@
                     <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i
                             class="fa-solid fa-clipboard"></i></div>
                     <span
-                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(16,185,129,0.12);color:#10b981;margin-bottom:0.5rem;">30+ Tools</span>
+                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(16,185,129,0.12);color:#10b981;margin-bottom:0.5rem;">30+
+                        Tools</span>
                     <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Application</h3>
                     <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI
                         resume tailoring, cover letters, mock interviews, and 30+ tools to land your next role.</p>
-                    <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Learn More
+                    <span class="btn ghost-btn"
+                        style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Learn More
                         <i class="fa-solid fa-arrow-right"></i></span>
                 </a>
                 <a href="learning.html" class="product-hub-card"
@@ -496,13 +492,14 @@
                     <div class="card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i
                             class="fa-solid fa-graduation-cap"></i></div>
                     <span
-                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(139,92,246,0.12);color:#8b5cf6;margin-bottom:0.5rem;">Coming
+                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:4px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:var(--bg-primary);border:1px solid #8b5cf6;color:#8b5cf6;margin-bottom:0.5rem;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Coming
                         Soon</span>
                     <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Learning</h3>
                     <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI
                         builds a hyper-personalized curriculum based on what you already know and what you need next.
                     </p>
-                    <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Join
+                    <span class="btn ghost-btn"
+                        style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Join
                         Waitlist
                         <i class="fa-solid fa-arrow-right"></i></span>
                 </a>
@@ -511,12 +508,13 @@
                     <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i
                             class="fa-solid fa-newspaper"></i></div>
                     <span
-                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(59,130,246,0.12);color:#3b82f6;margin-bottom:0.5rem;">New</span>
+                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:4px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:var(--bg-primary);border:1px solid #3b82f6;color:#3b82f6;margin-bottom:0.5rem;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">New</span>
                     <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor The News</h3>
                     <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">
                         5-minute daily intelligence briefings curated for your industry, role, and goals. Listen as a
                         podcast.</p>
-                    <span class="btn ghost-btn" style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Learn More
+                    <span class="btn ghost-btn"
+                        style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Learn More
                         <i class="fa-solid fa-arrow-right"></i></span>
                 </a>
             </div>

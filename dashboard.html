@@ -23,7 +23,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=16">
     <link rel="stylesheet" href="templates.css">
@@ -66,7 +67,7 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            border-radius: 12px;
+            border-radius: var(--brutal-radius);
             font-size: 0.95rem;
             font-weight: 600;
             text-decoration: none;
@@ -74,19 +75,21 @@
         }
 
         .dash-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transform: translate(-1px, -1px);
+            box-shadow: var(--brutal-shadow-hover);
         }
 
         .dash-cta-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: #fff;
+            background: var(--text-primary);
+            color: var(--bg-color);
+            box-shadow: var(--brutal-shadow);
         }
 
         .dash-cta-secondary {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            border: var(--brutal-border);
             color: var(--text-primary);
+            box-shadow: var(--brutal-shadow);
         }
 
         /* ─── Stats Row ─── */
@@ -99,9 +102,10 @@
         }
 
         .dash-stat {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 14px;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
+            box-shadow: var(--brutal-shadow);
             padding: 1rem 1.5rem;
             text-align: center;
             min-width: 130px;
@@ -164,9 +168,9 @@
             min-width: 220px;
             max-width: 260px;
             flex: 1 0 220px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--panel-border);
-            border-radius: 14px;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
             padding: 0.6rem;
         }
 
@@ -191,11 +195,11 @@
         .dash-col-count {
             font-size: 0.7rem;
             font-weight: 600;
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            border: var(--brutal-border);
             color: var(--text-secondary);
             padding: 0.1rem 0.4rem;
-            border-radius: 999px;
+            border-radius: var(--brutal-radius);
             min-width: 20px;
             text-align: center;
         }
@@ -231,9 +235,9 @@
 
         /* ─── Mini Card ─── */
         .dash-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 10px;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
             padding: 0.6rem 0.7rem;
             cursor: pointer;
             transition: transform 0.12s, border-color 0.12s;
@@ -242,8 +246,9 @@
         }
 
         .dash-card:hover {
-            transform: translateY(-1px);
-            border-color: var(--primary-color);
+            transform: translate(-1px, -1px);
+            border-color: var(--text-primary);
+            box-shadow: var(--brutal-shadow-hover);
         }
 
         .dash-card-top {
@@ -281,7 +286,7 @@
             font-size: 0.68rem;
             font-weight: 600;
             padding: 0.1rem 0.4rem;
-            border-radius: 999px;
+            border-radius: var(--brutal-radius);
         }
 
         .dash-col-empty {
@@ -315,9 +320,10 @@
         }
 
         .dash-tool-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
+            box-shadow: var(--brutal-shadow);
             padding: 1.5rem 1.25rem;
             text-align: center;
             text-decoration: none;
@@ -330,20 +336,21 @@
         }
 
         .dash-tool-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.2);
-            border-color: var(--primary-color);
+            transform: translate(-2px, -2px);
+            box-shadow: var(--brutal-shadow-hover);
+            border-color: var(--text-primary);
         }
 
         .dash-tool-icon {
             width: 48px;
             height: 48px;
-            border-radius: 12px;
+            border-radius: var(--brutal-radius);
+            background: var(--text-primary) !important;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.3rem;
-            color: #fff;
+            color: var(--bg-color);
         }
 
         .dash-tool-card h3 {
@@ -478,18 +485,18 @@
 
         <!-- Tailor The News -->
         <div id="dash-news-section">
-        <div class="dash-section-label"><i class="fa-solid fa-newspaper"></i> Tailor The News</div>
-        <p style="color:var(--text-secondary);font-size:0.88rem;margin:-0.5rem 0 1.25rem;">Your personalized daily
-            digests and AI podcasts</p>
-        <div id="dash-news-content"
-            style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
-            <!-- Skeleton while loading -->
-            <div class="skeleton-card" style="min-height:120px;">
-                <div class="skeleton skeleton-line long"></div>
-                <div class="skeleton skeleton-line medium"></div>
-                <div class="skeleton skeleton-line short"></div>
+            <div class="dash-section-label"><i class="fa-solid fa-newspaper"></i> Tailor The News</div>
+            <p style="color:var(--text-secondary);font-size:0.88rem;margin:-0.5rem 0 1.25rem;">Your personalized daily
+                digests and AI podcasts</p>
+            <div id="dash-news-content"
+                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
+                <!-- Skeleton while loading -->
+                <div class="skeleton-card" style="min-height:120px;">
+                    <div class="skeleton skeleton-line long"></div>
+                    <div class="skeleton skeleton-line medium"></div>
+                    <div class="skeleton skeleton-line short"></div>
+                </div>
             </div>
-        </div>
         </div>
 
         <!-- Application Tracker -->
@@ -592,14 +599,14 @@
 
                 if (!data || data.length === 0) {
                     document.getElementById('dash-kanban-content').innerHTML = `
-                        <div style="text-align:center;padding:2.5rem 1.5rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:16px;">
-                            <i class="fa-solid fa-rocket" style="font-size:2.5rem;color:var(--primary-color);display:block;margin-bottom:1rem;"></i>
+                        <div style="text-align:center;padding:2.5rem 1.5rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);">
+                            <i class="fa-solid fa-rocket" style="font-size:2.5rem;color:var(--text-primary);display:block;margin-bottom:1rem;"></i>
                             <h3 style="margin-bottom:0.5rem;font-size:1.2rem;">Welcome to TailorMeSwiftly!</h3>
                             <p style="color:var(--text-secondary);margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;">Get started in 3 simple steps:</p>
                             <div style="display:flex;flex-direction:column;gap:0.75rem;max-width:360px;margin:0 auto 1.5rem;text-align:left;">
-                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--primary-color);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">1</span><span style="font-size:0.9rem;">Upload your resume (PDF, DOCX, or TXT)</span></div>
-                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--primary-color);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">2</span><span style="font-size:0.9rem;">Paste a job URL or description</span></div>
-                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--primary-color);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">3</span><span style="font-size:0.9rem;">AI tailors your resume, cover letter & interview prep</span></div>
+                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--text-primary);color:var(--bg-color);width:28px;height:28px;border-radius:var(--brutal-radius);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">1</span><span style="font-size:0.9rem;">Upload your resume (PDF, DOCX, or TXT)</span></div>
+                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--text-primary);color:var(--bg-color);width:28px;height:28px;border-radius:var(--brutal-radius);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">2</span><span style="font-size:0.9rem;">Paste a job URL or description</span></div>
+                                <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--text-primary);color:var(--bg-color);width:28px;height:28px;border-radius:var(--brutal-radius);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">3</span><span style="font-size:0.9rem;">AI tailors your resume, cover letter & interview prep</span></div>
                             </div>
                             <a href="app.html" class="btn primary-btn" style="display:inline-flex;align-items:center;gap:0.5rem;"><i class="fa-solid fa-plus"></i> Create Your First Application</a>
                         </div>`;
@@ -728,12 +735,12 @@
                             : '';
 
                         html += `
-                        <div class="dash-card" style="position:relative;padding:1rem 1.25rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;">
-                            ${idx === 0 ? `<a href="news/briefing.html?edit=true" title="Briefing Settings" style="position:absolute;top:0.75rem;right:0.75rem;color:var(--text-secondary);font-size:0.85rem;transition:color 0.2s;" onmouseover="this.style.color='var(--primary-color)'" onmouseout="this.style.color='var(--text-secondary)'"><i class="fa-solid fa-gear"></i></a>` : ''}
+                        <div class="dash-card" style="position:relative;padding:1rem 1.25rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);">
+                            ${idx === 0 ? `<a href="news/briefing.html?edit=true" title="Briefing Settings" style="position:absolute;top:0.75rem;right:0.75rem;color:var(--text-secondary);font-size:0.85rem;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-secondary)'"><i class="fa-solid fa-gear"></i></a>` : ''}
                             <a href="news/briefing.html?view=${b.id}" style="display:block;text-decoration:none;">
                                 <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.5rem;">
                                     <span style="font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;">
-                                        <i class="fa-solid fa-newspaper" style="color:#3b82f6;font-size:0.85rem;"></i>
+                                        <i class="fa-solid fa-newspaper" style="color:var(--text-primary);font-size:0.85rem;"></i>
                                         ${isToday ? "Today's Briefing" : dateLabel + ' Briefing'}
                                     </span>
                                     <span style="font-size:0.75rem;color:var(--text-secondary);margin-left:auto;${idx === 0 ? 'padding-right:1.5rem;' : ''}">${dateLabel}</span>
@@ -748,8 +755,8 @@
                     html += `</div>`;
                 } else {
                     html += `
-                        <a href="news/briefing.html" class="dash-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;background:var(--glass-bg);border:1px dashed var(--panel-border);border-radius:12px;text-decoration:none;text-align:center;min-height:120px;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--primary-color)';" onmouseout="this.style.borderColor='var(--panel-border)';">
-                            <i class="fa-solid fa-bolt" style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
+                        <a href="news/briefing.html" class="dash-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;background:var(--panel-bg);border:2px dashed var(--panel-border);border-radius:var(--brutal-radius);text-decoration:none;text-align:center;min-height:120px;transition:all 0.2s;box-shadow:var(--brutal-shadow);" onmouseover="this.style.borderColor='var(--text-primary)'; this.style.transform='translate(-2px, -2px)'; this.style.boxShadow='var(--brutal-shadow-hover)';" onmouseout="this.style.borderColor='var(--panel-border)'; this.style.transform='none'; this.style.boxShadow='var(--brutal-shadow)';">
+                            <i class="fa-solid fa-bolt" style="font-size:1.5rem;color:var(--text-primary);margin-bottom:0.5rem;"></i>
                             <span style="font-weight:600;color:var(--text-primary);font-size:0.95rem;">Get your first AI news briefing</span>
                             <span style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;">Personalized to your career interests</span>
                         </a>`;
@@ -760,8 +767,8 @@
             } catch (e) {
                 console.error('News briefings load error:', e);
                 container.innerHTML = `
-                    <a href="news/briefing.html" class="dash-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;background:var(--glass-bg);border:1px dashed var(--panel-border);border-radius:12px;text-decoration:none;text-align:center;min-height:120px;">
-                        <i class="fa-solid fa-bolt" style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
+                    <a href="news/briefing.html" class="dash-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;background:var(--panel-bg);border:2px dashed var(--panel-border);border-radius:var(--brutal-radius);text-decoration:none;text-align:center;min-height:120px;box-shadow:var(--brutal-shadow);">
+                        <i class="fa-solid fa-bolt" style="font-size:1.5rem;color:var(--text-primary);margin-bottom:0.5rem;"></i>
                         <span style="font-weight:600;color:var(--text-primary);font-size:0.95rem;">Get your first AI news briefing</span>
                         <span style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;">Personalized to your career interests</span>
                     </a>`;
