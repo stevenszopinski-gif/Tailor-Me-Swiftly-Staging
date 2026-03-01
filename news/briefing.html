@@ -1673,15 +1673,22 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
                 // Step 1: Fetch news
                 document.getElementById('loading-status').textContent = 'Fetching news articles...';
+                console.log('[generateBriefing] Fetching news for', interests.length, 'interests:', interests.join(', '));
                 const newsData = await invokeEdge('fetch-news', {
                     interests, max: 15, skipCache: true,
                     sourceWhitelist: sourceWhitelist.length ? sourceWhitelist : undefined,
                     sourceBlacklist: sourceBlacklist.length ? sourceBlacklist : undefined
                 });
 
+                // fetch-news returns errors with status 200 — check for error field
+                if (newsData?.error) {
+                    console.error('[generateBriefing] fetch-news error:', newsData.error);
+                    throw new Error(newsData.error);
+                }
                 if (!newsData?.articles?.length) {
                     throw new Error('No articles found for those topics. Try different or broader interests.');
                 }
+                console.log('[generateBriefing] Got', newsData.articles.length, 'articles');
 
                 const articles = newsData.articles;
 
@@ -1840,13 +1847,17 @@ FORMAT — use this EXACT HTML:
                 const nameClause = userName ? `The reader's name is ${userName}. Address them by name in your opening line. ` : '';
                 const userPrompt = `${nameClause}Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
 
+                console.log('[generateBriefing] Calling Gemini with tone:', tone);
                 const geminiData = await invokeEdge('gemini-proxy', {
                     contents: [{ parts: [{ text: userPrompt }] }],
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     generationConfig: { temperature: 0.7, maxOutputTokens: 4096, thinkingConfig: { thinkingBudget: 1024 } },
                     skipCache: true
                 });
-                if (geminiData?.error) throw new Error(geminiData.error.message || 'AI generation failed');
+                if (geminiData?.error) {
+                    console.error('[generateBriefing] Gemini error:', geminiData.error);
+                    throw new Error(geminiData.error.message || geminiData.error || 'AI generation failed');
+                }
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
                 const geminiParts = geminiData.candidates?.[0]?.content?.parts || [];
                 const finishReason = geminiData.candidates?.[0]?.finishReason;
@@ -1856,7 +1867,8 @@ FORMAT — use this EXACT HTML:
                 const briefingHtml = textParts.map(p => p.text).join('') || 'No briefing generated.';
 
                 // Step 3: Save to DB
-                await window.supabaseClient.from('daily_briefings').upsert({
+                console.log('[generateBriefing] Saving briefing to DB, HTML length:', briefingHtml.length);
+                const { error: upsertErr } = await window.supabaseClient.from('daily_briefings').upsert({
                     user_id: session.user.id,
                     briefing_date: new Date().toISOString().split('T')[0],
                     interests: interests,
@@ -1866,6 +1878,7 @@ FORMAT — use this EXACT HTML:
                     sources: articles.map(a => ({ title: a.title, url: a.url, source: a.source, publishedAt: a.publishedAt })),
                     metadata: { model: 'gemini-3-flash-preview', generated_at: new Date().toISOString() }
                 }, { onConflict: 'user_id,briefing_date' });
+                if (upsertErr) console.error('[generateBriefing] DB save error:', upsertErr.message);
 
                 currentBriefingDate = new Date().toISOString().split('T')[0];
                 _skipCachedAudio = false; // Reset so fresh audio can be cached
