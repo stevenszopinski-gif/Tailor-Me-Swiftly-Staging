@@ -732,7 +732,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 const data = await invokeEdge('gemini-proxy', {
                     contents: [{ parts: [{ text: text.substring(0, 8000) }] }],
                     systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { temperature: 0.3, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 256 } }
+                    generationConfig: { temperature: 0.3, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 0 } }
                 });
                 if (data?.error) throw new Error(data.error.message || 'AI extraction failed');
                 // Concatenate all non-thinking text parts
