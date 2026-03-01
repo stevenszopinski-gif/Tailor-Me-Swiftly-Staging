@@ -400,6 +400,24 @@
                     <div id="audio-container" style="display:none;margin-top:0.75rem;">
                         <audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>
                     </div>
+                    <!-- Podcast Subscribe -->
+                    <div id="podcast-subscribe" style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--panel-border);">
+                        <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;">Subscribe to your briefings podcast:</div>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                            <a id="sub-apple" href="#" target="_blank" rel="noopener" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                                <i class="fa-solid fa-podcast"></i> Apple Podcasts
+                            </a>
+                            <a id="sub-spotify" href="#" target="_blank" rel="noopener" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                                <i class="fa-brands fa-spotify"></i> Spotify
+                            </a>
+                            <a id="sub-pocketcasts" href="#" target="_blank" rel="noopener" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                                <i class="fa-solid fa-rss"></i> Pocket Casts
+                            </a>
+                            <button onclick="copyPodcastFeedUrl()" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
+                                <i class="fa-solid fa-copy"></i> Copy RSS
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="briefing-content" class="briefing-body"></div>
@@ -927,6 +945,7 @@ FORMAT — use this EXACT HTML:
                 });
             }
             document.getElementById('briefing-content').innerHTML = processedHtml;
+            setupPodcastSubscribe();
 
             const srcEl = document.getElementById('sources-list');
             srcEl.innerHTML = articles.map(a => {
@@ -941,6 +960,33 @@ FORMAT — use this EXACT HTML:
                     </div>
                 </a>`;
             }).join('');
+        }
+
+        // ── Podcast Subscribe Links ──
+        async function setupPodcastSubscribe() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const feedUrl = `https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/podcast-feed?uid=${session.user.id}`;
+
+                document.getElementById('sub-apple').href = `podcast://${feedUrl.replace('https://', '')}`;
+                document.getElementById('sub-spotify').href = `https://open.spotify.com/show/import?url=${encodeURIComponent(feedUrl)}`;
+                document.getElementById('sub-pocketcasts').href = `https://pca.st/feed/${encodeURIComponent(feedUrl)}`;
+
+                window._podcastFeedUrl = feedUrl;
+                document.getElementById('podcast-subscribe').style.display = 'block';
+            } catch (e) { console.warn('Subscribe setup failed:', e); }
+        }
+
+        function copyPodcastFeedUrl() {
+            if (!window._podcastFeedUrl) return;
+            navigator.clipboard.writeText(window._podcastFeedUrl).then(() => {
+                const btn = event.target.closest('button');
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                setTimeout(() => btn.innerHTML = orig, 2000);
+            }).catch(() => alert(window._podcastFeedUrl));
         }
 
         // ── View Mode: load a saved briefing from feed ──
