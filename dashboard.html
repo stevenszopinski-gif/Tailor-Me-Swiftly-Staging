@@ -477,6 +477,7 @@
         </div>
 
         <!-- Tailor The News -->
+        <div id="dash-news-section">
         <div class="dash-section-label"><i class="fa-solid fa-newspaper"></i> Tailor The News</div>
         <p style="color:var(--text-secondary);font-size:0.88rem;margin:-0.5rem 0 1.25rem;">Your personalized daily
             digests and AI podcasts</p>
@@ -488,6 +489,7 @@
                 <div class="skeleton skeleton-line medium"></div>
                 <div class="skeleton skeleton-line short"></div>
             </div>
+        </div>
         </div>
 
         <!-- Application Tracker -->
@@ -556,6 +558,12 @@
     <script src="error-utils.js"></script>
     <script src="results.js?v=8"></script>
     <script>
+        // Hide news section when accessed via product switcher (Applications)
+        if (new URLSearchParams(window.location.search).get('product') === 'apps') {
+            var ns = document.getElementById('dash-news-section');
+            if (ns) ns.style.display = 'none';
+        }
+
         initResultTheme();
         initResultAuth();
 
