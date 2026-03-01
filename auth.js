@@ -35,30 +35,33 @@
             window.supabaseClient = client;
             console.log("[Auth] Supabase client ready");
 
-            // Monkey-patch functions.invoke to use direct fetch with user's JWT
-            // The sb_publishable_ key is incompatible with Edge Functions gateway
-            // Read token from localStorage directly — getSession() triggers refresh
-            // attempts that corrupt the session with the sb_publishable_ key
+            // Override the .functions getter to return our custom invoke
+            // In Supabase JS v2, .functions is a getter that returns a NEW FunctionsClient
+            // each time, so patching the instance doesn't persist. We override the
+            // property itself to always return our custom implementation.
             const EDGE_BASE = SUPABASE_URL + '/functions/v1';
             const STORAGE_KEY = 'sb-gwmpdgjvcjzndbloctla-auth-token';
-            client.functions.invoke = async function (fnName, opts) {
-                const token = _getAccessToken();
-                if (!token) throw new Error('Not authenticated');
-                const resp = await fetch(EDGE_BASE + '/' + fnName, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify(opts?.body || {})
-                });
-                const json = await resp.json().catch(() => ({}));
-                if (!resp.ok) {
-                    const errMsg = json?.message || json?.error?.message || json?.error || 'Edge function error (' + resp.status + ')';
-                    return { data: null, error: { message: errMsg } };
+            const _customFunctions = {
+                invoke: async function (fnName, opts) {
+                    const token = _getAccessToken();
+                    if (!token) throw new Error('Not authenticated');
+                    const resp = await fetch(EDGE_BASE + '/' + fnName, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify(opts?.body || {})
+                    });
+                    const json = await resp.json().catch(() => ({}));
+                    if (!resp.ok) {
+                        const errMsg = json?.message || json?.error?.message || json?.error || 'Edge function error (' + resp.status + ')';
+                        return { data: null, error: { message: errMsg } };
+                    }
+                    return { data: json, error: null };
                 }
-                return { data: json, error: null };
             };
+            Object.defineProperty(client, 'functions', { get: () => _customFunctions });
 
             // Safe token reader — reads directly from localStorage, never triggers refresh
             function _getAccessToken() {
