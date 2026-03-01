@@ -374,8 +374,7 @@
                         <span id="briefing-read-time"
                             style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:20px;border:1px solid var(--panel-border);"><i
                                 class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
-                        <button class="btn ghost-btn" style="font-size:0.82rem;"
-                            onclick="document.getElementById('result-section').style.display='none';document.getElementById('input-section').style.display='block';">
+                        <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="editInterests()">
                             <i class="fa-solid fa-pen"></i> Edit Interests
                         </button>
                     </div>
@@ -842,14 +841,39 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             } catch (e) { /* silent */ }
         }
 
-        // ── Generate Briefing ──
+        // ── Generate & Edit Briefing Flow ──
+        function editInterests() {
+            // Hide result, show input
+            document.getElementById('result-section').style.display = 'none';
+            document.getElementById('input-section').style.display = 'block';
+
+            // Sync the tags UI with whatever the user currently sees or last generated
+            if (extractedInterests.length > 0) {
+                renderInterestTags(extractedInterests);
+                // Switch to Type Interests tab by default when editing so they clearly see the text box
+                switchTab('type');
+            }
+        }
+
         async function generateBriefing() {
-            // Use extracted tags if available, else parse textarea
-            let interests = extractedInterests.length
-                ? [...extractedInterests]
-                : document.getElementById('interests-input').value.trim().split(',').map(s => s.trim()).filter(Boolean);
+            // Unify interests: Textarea is the absolute source of truth if they are on Tab A,
+            // otherwise `extractedInterests` is the source of truth if they just extracted.
+            const typeTabActive = document.getElementById('tab-type').classList.contains('active');
+            let interests = [];
+
+            if (typeTabActive) {
+                const textVal = document.getElementById('interests-input').value.trim();
+                interests = textVal ? textVal.split(',').map(s => s.trim()).filter(Boolean) : [];
+                // Sync back to tags
+                extractedInterests = [...interests];
+            } else {
+                interests = [...extractedInterests];
+            }
 
             if (!interests.length) { alert('Please enter or extract some interests first.'); return; }
+
+            // Sync tags UI for the Edit screen later
+            renderInterestTags(interests);
 
             document.getElementById('input-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'none';
@@ -863,7 +887,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
                 // Step 1: Fetch news
                 document.getElementById('loading-status').textContent = 'Fetching news articles...';
-                const newsData = await invokeEdge('fetch-news', { interests, max: 10 });
+                const newsData = await invokeEdge('fetch-news', { interests, max: 10, skipCache: true });
 
                 if (!newsData?.articles?.length) {
                     throw new Error('No articles found for those topics. Try different or broader interests.');
@@ -918,7 +942,8 @@ FORMAT — use this EXACT HTML:
                 const geminiData = await invokeEdge('gemini-proxy', {
                     contents: [{ parts: [{ text: userPrompt }] }],
                     systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096, thinkingConfig: { thinkingBudget: 1024 } }
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096, thinkingConfig: { thinkingBudget: 1024 } },
+                    skipCache: true
                 });
                 if (geminiData?.error) throw new Error(geminiData.error.message || 'AI generation failed');
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
