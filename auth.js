@@ -57,18 +57,30 @@
                     if (session?.access_token && !_isTokenExpired(session.access_token)) {
                         return session.access_token;
                     }
-                    // 2. Token expired — force refresh
+                    // 2. Token expired or missing — force refresh
                     if (session?.refresh_token) {
-                        const { data: refreshed } = await client.auth.refreshSession();
+                        console.log('[Auth] Token expired, refreshing...');
+                        const { data: refreshed, error: refreshErr } = await client.auth.refreshSession();
+                        if (refreshErr) {
+                            console.warn('[Auth] refreshSession error:', refreshErr.message);
+                        }
                         if (refreshed?.session?.access_token) {
+                            console.log('[Auth] Token refreshed successfully');
                             return refreshed.session.access_token;
                         }
+                    }
+                    // 3. No refresh token — try reading latest from localStorage
+                    //    (SDK auto-refresh may have updated it in the background)
+                    const stored = _getAccessToken();
+                    if (stored && !_isTokenExpired(stored)) {
+                        return stored;
                     }
                 } catch (e) {
                     console.warn('[Auth] Session refresh failed:', e.message);
                 }
-                // 3. Fall back to localStorage
-                return _getAccessToken();
+                // Return null instead of a stale token — callers must handle null
+                console.warn('[Auth] No valid token available');
+                return null;
             }
 
             const _customFunctions = {
