@@ -207,19 +207,22 @@
     };
 
     window.signOut = async function () {
-        if (!window.supabaseClient) return;
-
+        window._signingOut = true;
+        // Always clear local state first
+        localStorage.removeItem('tms_last_gen_id');
+        localStorage.removeItem('sb-gwmpdgjvcjzndbloctla-auth-token');
+        sessionStorage.removeItem('tms_outputs');
+        // Try server-side revocation but don't block on failure
         try {
-            window._signingOut = true;
-            localStorage.removeItem('tms_last_gen_id');
-            sessionStorage.removeItem('tms_outputs');
-            await window.supabaseClient.auth.signOut({ scope: 'global' });
-            const P = window.TMS_PATH_PREFIX || '';
-            window.location.href = P + 'index.html';
+            if (window.supabaseClient) {
+                await window.supabaseClient.auth.signOut({ scope: 'local' });
+            }
         } catch (e) {
-            console.error("Sign out error:", e.message);
-            window._signingOut = false;
+            console.warn("Sign out cleanup:", e.message);
         }
+        // Always redirect
+        const P = window.TMS_PATH_PREFIX || '';
+        window.location.href = P + 'index.html';
     };
 
     window.handleEmailLogin = async function () {
