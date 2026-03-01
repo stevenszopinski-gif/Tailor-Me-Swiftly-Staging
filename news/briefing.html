@@ -552,7 +552,8 @@
                         <!-- Source Preferences -->
                         <div
                             style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;">
-                            <i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences</div>
+                            <i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences
+                        </div>
                         <div
                             style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;">
                             <div style="margin-bottom:0.75rem;">
@@ -861,87 +862,18 @@
             if (prefs) prefs.style.display = tab === 'preferences' ? '' : 'none';
         }
 
-        // Edge Function helper — bypasses sb_publishable_ key issue with supabaseClient.functions.invoke()
-        const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
-
-        async function invokeEdge(fnName, body, _isRetry) {
-            // Use the global fresh-token helper from auth.js (refreshes if expired)
-            let token = window._getFreshToken ? await window._getFreshToken() : null;
-
-            // If _getFreshToken returned null, try reading the SDK session directly
-            // (auto-refresh may have updated it after _getFreshToken's refresh attempt failed)
-            if (!token && window.supabaseClient) {
-                try {
-                    const { data: { session: fallbackSession } } = await window.supabaseClient.auth.getSession();
-                    token = fallbackSession?.access_token || null;
-                    if (token) console.log('[invokeEdge] Got token from SDK session fallback');
-                } catch (e) { /* ignore */ }
-            }
-
-            if (!token) {
-                console.error('[invokeEdge] No token available for', fnName);
+        // Edge Function helper — delegates to supabaseClient.functions.invoke() (same auth path as all other pages)
+        async function invokeEdge(fnName, body) {
+            if (!window.supabaseClient) {
                 throw new Error('Your session has expired. Please refresh the page and sign in again.');
             }
-
-            // Diagnostic: log token metadata (never log the full token)
-            try {
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const expiresIn = Math.round((payload.exp * 1000 - Date.now()) / 1000);
-                console.log(`[invokeEdge] ${fnName} — token expires in ${expiresIn}s, isRetry: ${!!_isRetry}`);
-            } catch (e) { /* non-JWT token */ }
-
-            const resp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                    'apikey': 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8'
-                },
-                body: JSON.stringify(body)
-            });
-
-            const data = await resp.json().catch(() => ({}));
-            if (!resp.ok) {
-                const errMsg = data?.message || data?.error?.message || data?.error || `Edge function error (${resp.status})`;
-                const isAuthErr = resp.status === 401 || errMsg.toLowerCase().includes('jwt');
-
-                // On auth error, try refreshing the session and retrying once with the new token directly
-                if (isAuthErr && !_isRetry) {
-                    console.warn(`[invokeEdge] Auth error (${resp.status}), refreshing token...`, errMsg);
-                    try {
-                        const { data: refreshed, error: refreshErr } = await window.supabaseClient.auth.refreshSession();
-                        if (refreshErr) console.warn('[invokeEdge] refreshSession error:', refreshErr.message);
-                        if (refreshed?.session?.access_token) {
-                            // Verify the refreshed token is actually different and not expired
-                            const newToken = refreshed.session.access_token;
-                            const isDifferent = newToken !== token;
-                            console.log(`[invokeEdge] Token refreshed (different: ${isDifferent}), retrying...`);
-                            // Use the fresh token directly (bypass _getFreshToken cache)
-                            const retryResp = await fetch(`${EDGE_FN_BASE}/${fnName}`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `Bearer ${newToken}`,
-                                    'apikey': 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8'
-                                },
-                                body: JSON.stringify(body)
-                            });
-                            const retryData = await retryResp.json().catch(() => ({}));
-                            if (retryResp.ok) return retryData;
-                            console.warn('[invokeEdge] Retry also failed:', retryResp.status, retryData);
-                        } else {
-                            console.warn('[invokeEdge] refreshSession returned no token');
-                        }
-                    } catch (refreshEx) {
-                        console.warn('[invokeEdge] Token refresh exception:', refreshEx.message);
-                    }
-                }
-
-                // If retry also failed or non-auth error, throw (no redirect)
-                if (isAuthErr) {
+            const { data, error } = await window.supabaseClient.functions.invoke(fnName, { body });
+            if (error) {
+                const msg = error.message || 'Edge function error';
+                if (msg.includes('Not authenticated') || msg.toLowerCase().includes('jwt')) {
                     throw new Error('Your session has expired. Please refresh the page and sign in again.');
                 }
-                throw new Error(errMsg);
+                throw new Error(msg);
             }
             return data;
         }
