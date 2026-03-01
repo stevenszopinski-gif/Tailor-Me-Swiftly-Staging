@@ -41,15 +41,39 @@
             // property itself to always return our custom implementation.
             const EDGE_BASE = SUPABASE_URL + '/functions/v1';
             const STORAGE_KEY = 'sb-gwmpdgjvcjzndbloctla-auth-token';
+            // Check if a JWT is expired (with 30s buffer)
+            function _isTokenExpired(token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    return payload.exp * 1000 < Date.now() - 30000;
+                } catch { return true; }
+            }
+
+            // Get a fresh access token, refreshing if needed
+            async function _getFreshToken() {
+                try {
+                    // 1. Try cached session
+                    const { data: { session } } = await client.auth.getSession();
+                    if (session?.access_token && !_isTokenExpired(session.access_token)) {
+                        return session.access_token;
+                    }
+                    // 2. Token expired — force refresh
+                    if (session?.refresh_token) {
+                        const { data: refreshed } = await client.auth.refreshSession();
+                        if (refreshed?.session?.access_token) {
+                            return refreshed.session.access_token;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('[Auth] Session refresh failed:', e.message);
+                }
+                // 3. Fall back to localStorage
+                return _getAccessToken();
+            }
+
             const _customFunctions = {
                 invoke: async function (fnName, opts) {
-                    // Try SDK session first (handles token refresh), fall back to localStorage
-                    let token = null;
-                    try {
-                        const { data: { session } } = await client.auth.getSession();
-                        token = session?.access_token || null;
-                    } catch (e) { /* fall through */ }
-                    if (!token) token = _getAccessToken();
+                    const token = await _getFreshToken();
                     if (!token) throw new Error('Not authenticated');
                     const resp = await fetch(EDGE_BASE + '/' + fnName, {
                         method: 'POST',
@@ -80,6 +104,7 @@
                 } catch { return null; }
             }
             window._getAccessToken = _getAccessToken;
+            window._getFreshToken = _getFreshToken;
 
             // Dispatch auth-ready event
             document.dispatchEvent(new Event('auth-ready'));
