@@ -30,8 +30,8 @@
         .briefing-body .briefing-thesis {
             font-size: 1.05rem;
             line-height: 1.6;
-            padding: 1.25rem 1.5rem;
-            margin: 0 0 1.5rem;
+            padding: 1rem 1.25rem;
+            margin: 0 0 1rem;
             background: color-mix(in srgb, var(--primary-color) 5%, transparent);
             border-left: 4px solid var(--primary-color);
             border-radius: 0 12px 12px 0;
@@ -56,7 +56,7 @@
 
         /* "What This Means For You" header */
         .briefing-body h3 {
-            margin: 2.5rem 0 1rem;
+            margin: 1.5rem 0 0.75rem;
             font-size: 1rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -160,6 +160,7 @@
             line-height: 1.4;
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -386,10 +387,12 @@
                     style="margin-bottom:1.5rem;padding:1rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;">
                     <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
                         <div style="display:flex;align-items:center;gap:0.75rem;">
-                            <i class="fa-solid fa-microphone-lines" style="font-size:1.2rem;color:var(--primary-color);"></i>
+                            <i class="fa-solid fa-microphone-lines"
+                                style="font-size:1.2rem;color:var(--primary-color);"></i>
                             <div>
                                 <div style="font-weight:600;font-size:0.9rem;">Listen to this briefing</div>
-                                <div style="font-size:0.75rem;color:var(--text-secondary);">AI-narrated news briefing</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);">AI-narrated news briefing
+                                </div>
                             </div>
                         </div>
                         <button class="btn primary-btn" style="font-size:0.82rem;padding:0.4rem 1rem;"
@@ -401,19 +404,25 @@
                         <audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>
                     </div>
                     <!-- Podcast Subscribe -->
-                    <div id="podcast-subscribe" style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--panel-border);">
-                        <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;">Subscribe to your briefings podcast:</div>
+                    <div id="podcast-subscribe"
+                        style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--panel-border);">
+                        <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;">Subscribe to
+                            your briefings podcast:</div>
                         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                            <a id="sub-apple" href="#" target="_blank" rel="noopener" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                            <a id="sub-apple" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
+                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
                                 <i class="fa-solid fa-podcast"></i> Apple Podcasts
                             </a>
-                            <a id="sub-spotify" href="#" target="_blank" rel="noopener" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                            <a id="sub-spotify" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
+                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
                                 <i class="fa-brands fa-spotify"></i> Spotify
                             </a>
-                            <a id="sub-pocketcasts" href="#" target="_blank" rel="noopener" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                            <a id="sub-pocketcasts" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
+                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
                                 <i class="fa-solid fa-rss"></i> Pocket Casts
                             </a>
-                            <button onclick="copyPodcastFeedUrl()" class="btn ghost-btn" style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
+                            <button onclick="copyPodcastFeedUrl()" class="btn ghost-btn"
+                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
                                 <i class="fa-solid fa-copy"></i> Copy RSS
                             </button>
                         </div>
@@ -741,19 +750,28 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 console.log('[extract] Raw response:', raw.substring(0, 500));
                 // Parse JSON from response (handle markdown code blocks)
                 const jsonStr = raw.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
-                // Try to find a JSON array in the response
-                const arrayMatch = jsonStr.match(/\[[\s\S]*\]/);
-                const interests = JSON.parse(arrayMatch ? arrayMatch[0] : jsonStr);
+                let interests = [];
+                try {
+                    const arrayMatch = jsonStr.match(/\[[\s\S]*?\]/);
+                    interests = JSON.parse(arrayMatch ? arrayMatch[0] : jsonStr);
+                } catch (e) {
+                    // Fallback: simply split by newlines or commas if it returned a list
+                    interests = raw.replace(/```json?\n?/g, '').replace(/```/g, '')
+                        .replace(/[\[\]"]/g, '').split(/,|\n/)
+                        .map(s => s.trim().replace(/^- /, ''))
+                        .filter(Boolean);
+                }
 
                 if (!Array.isArray(interests) || !interests.length) throw new Error('No interests extracted');
 
-                extractedInterests = interests.map(s => String(s).trim()).filter(Boolean);
+                extractedInterests = interests.map(s => String(s).trim()).filter(Boolean).slice(0, 10);
                 renderInterestTags(extractedInterests);
                 saveInterestsToProfile(extractedInterests);
 
             } catch (e) {
                 console.error('Extraction error:', e);
-                alert('Could not extract interests: ' + (e.message || 'Unknown error') + '. Try typing them manually.');
+                const statusEl = document.getElementById('extraction-status');
+                statusEl.innerHTML = `<span style="color:var(--error-color)"><i class="fa-solid fa-triangle-exclamation"></i> Could not extract interests automatically. Please type them below.</span>`;
             }
 
             loadingEl.style.display = 'none';

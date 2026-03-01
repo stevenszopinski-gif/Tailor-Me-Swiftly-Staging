@@ -52,23 +52,23 @@ const TOOLS = {
     'tool-roast.png': {
         title: 'Brutal Roast',
         html: `
-            <div style="font-family:'Outfit',sans-serif;font-size:13px;padding:8px;background:#1a1a2e;color:#e2e8f0;border-radius:8px;">
-                <div style="text-align:center;margin-bottom:12px;">
-                    <span style="font-size:28px;">🔥</span>
-                    <div style="font-size:18px;font-weight:700;color:#f87171;">Roast Score: 6.2/10</div>
-                    <div style="font-size:11px;color:#94a3b8;">"Not bad, but not memorable either."</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:13px;padding:24px;background:#ffffff;color:#333;border-radius:16px;border:1px solid #e5e7eb;box-shadow:0 10px 40px rgba(0,0,0,0.15);">
+                <div style="text-align:center;margin-bottom:20px;">
+                    <div style="font-size:32px;margin-bottom:12px;">🔥</div>
+                    <div style="font-size:18px;font-weight:700;color:#111;">Brutal Roast</div>
+                    <div style="font-size:13px;color:#666;">AI roasts your weakest points</div>
                 </div>
-                <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:10px;margin-bottom:8px;">
-                    <div style="font-size:12px;font-weight:600;color:#f87171;margin-bottom:4px;">💀 "Results-driven professional"</div>
-                    <div style="font-size:11px;color:#94a3b8;">This phrase appears on 2.3 million resumes. You are not a snowflake with this opener.</div>
+                <div style="background:rgba(239, 68, 68, 0.08);border-left:4px solid #ef4444;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;line-height:1.6;font-size:14px;color:#111;">
+                    <strong style="color:#ef4444;display:block;margin-bottom:6px;">"Results-driven professional"</strong>
+                    This phrase appears on 2.3 million resumes. You are not a snowflake with this opener. Delete it and replace it with your exact years of experience and top technical skill.
                 </div>
-                <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:10px;margin-bottom:8px;">
-                    <div style="font-size:12px;font-weight:600;color:#f87171;">💀 Bullet #3 says "helped improve efficiency"</div>
-                    <div style="font-size:11px;color:#94a3b8;">Helped? By how much? Were you the intern or the architect? Numbers or it didn't happen.</div>
+                <div style="background:rgba(239, 68, 68, 0.08);border-left:4px solid #ef4444;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;line-height:1.6;font-size:14px;color:#111;">
+                    <strong style="color:#ef4444;display:block;margin-bottom:6px;">"Helped improve system efficiency"</strong>
+                    Helped? By how much? Were you the intern getting coffee or the architect redesigning the pipeline? Numbers or it didn't happen.
                 </div>
-                <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:10px;">
-                    <div style="font-size:12px;font-weight:600;color:#4ade80;">✅ Strong: "Reduced false positives by 35%"</div>
-                    <div style="font-size:11px;color:#94a3b8;">This is what every bullet should look like. Specific, measurable, impressive.</div>
+                <div style="background:rgba(239, 68, 68, 0.08);border-left:4px solid #ef4444;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;line-height:1.6;font-size:14px;color:#111;">
+                    <strong style="color:#ef4444;display:block;margin-bottom:6px;">Listing Microsoft Word as a skill</strong>
+                    It's 2026. Knowing how to type is assumed. You're applying for an engineering role, not a data entry clerk. Reclaim this valuable vertical space.
                 </div>
             </div>`
     },
