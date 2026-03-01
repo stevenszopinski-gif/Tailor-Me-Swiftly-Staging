@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://*.google.com https://*.doubleclick.net https://gnews.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; media-src 'self' https://*.supabase.co https://*.supabase.in blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://*.google.com https://*.doubleclick.net https://gnews.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;">
     <meta name="description"
         content="Generate your personalized AI news briefing. Enter your interests and get a curated digest in seconds.">
     <meta property="og:site_name" content="TailorMeSwiftly">
@@ -1073,6 +1073,15 @@ FORMAT — use this EXACT HTML structure:
         function playAudioUrl(url) {
             const audioContainer = document.getElementById('audio-container');
             const audioEl = document.getElementById('briefing-audio');
+
+            // Error handler for failed audio loads
+            audioEl.onerror = function () {
+                console.error('Audio load failed:', url);
+                audioContainer.innerHTML = '<div style="padding:0.75rem;color:var(--text-secondary);font-size:0.85rem;">' +
+                    '<i class="fa-solid fa-exclamation-triangle" style="color:#e74c3c;margin-right:0.4rem;"></i>' +
+                    'Audio failed to load. <a href="' + url + '" target="_blank" style="color:var(--primary-color);">Try direct link</a></div>';
+            };
+
             audioEl.src = url;
             audioContainer.style.display = 'block';
             audioEl.play().catch(() => { /* autoplay blocked, user can click play */ });
@@ -1129,6 +1138,7 @@ FORMAT — use this EXACT HTML structure:
                 clearInterval(dotsInterval);
 
                 if (result?.error) throw new Error(result.error);
+                console.log('[podcast] Result:', JSON.stringify(result));
                 if (!result?.audioUrl) throw new Error('No audio generated. Please try again.');
 
                 // Cache the audio URL
