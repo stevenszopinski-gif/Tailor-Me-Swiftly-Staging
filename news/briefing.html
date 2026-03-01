@@ -804,7 +804,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 const newsData = await invokeEdge('fetch-news', { interests, max: 10 });
 
                 if (!newsData?.articles?.length) {
-                    throw new Error('No articles found for those topics. Try broader interests.');
+                    throw new Error('No articles found for those topics. Try different or broader interests.');
                 }
 
                 const articles = newsData.articles;
