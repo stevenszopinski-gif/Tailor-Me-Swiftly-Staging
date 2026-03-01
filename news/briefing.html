@@ -272,7 +272,7 @@
     <div class="bg-shape shape-2"></div>
     <div class="bg-shape shape-3"></div>
 
-    <div class="app-container">
+    <div class="app-container" style="max-width:1440px;">
         <header class="app-header" role="banner">
             <div class="logo">
                 <a href="../index.html"
@@ -295,521 +295,552 @@
             </div>
         </header>
 
-        <main id="main-content" class="wizard-container glass-panel"
-            style="max-width:800px;margin:2rem auto;padding:2rem;">
-            <div style="margin-bottom:1.5rem;">
-                <a href="../dashboard.html"
-                    style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i
-                        class="fa-solid fa-arrow-left"></i> Dashboard</a>
-            </div>
+        <main id="main-content" class="dashboard-layout"
+            style="max-width:1400px;margin:2rem auto;padding:0 2rem;display:grid;grid-template-columns:360px 1fr;gap:2.5rem;align-items:start;">
 
-            <div class="step-header" style="text-align:left;margin-bottom:1.5rem;">
-                <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
-                    <i class="fa-solid fa-wand-magic-sparkles" style="font-size:1.8rem;color:var(--primary-color);"></i>
-                    <h2 style="margin:0;">Today's Briefing</h2>
-                </div>
-                <p>Tell us what you're interested in and we'll create a personalized news digest.</p>
-            </div>
-
-            <!-- Interest Input -->
-            <div id="input-section">
-                <!-- Settings-mode top-level tabs (hidden on new-briefing flow) -->
-                <div id="settings-tabs" style="display:none;margin-bottom:1.5rem;">
-                    <div
-                        style="display:flex;gap:0.5rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;padding:0.3rem;">
-                        <button class="settings-tab active" data-stab="interests"
-                            onclick="switchSettingsTab('interests')">
-                            <i class="fa-solid fa-tags"></i> Interests
-                        </button>
-                        <button class="settings-tab" data-stab="preferences" onclick="switchSettingsTab('preferences')">
-                            <i class="fa-solid fa-sliders"></i> Settings
-                        </button>
-                    </div>
+            <!-- LEFT CONTROL PANEL (Sidebar) -->
+            <aside class="dashboard-sidebar" style="padding:1.5rem 0;position:sticky;top:2rem;">
+                <div style="margin-bottom:1.5rem;">
+                    <a href="../dashboard.html"
+                        style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i
+                            class="fa-solid fa-arrow-left"></i> Dashboard</a>
                 </div>
 
-                <!-- Interests panel (contains source tabs + tags + recommended) -->
-                <div id="settings-panel-interests">
-                    <!-- Source sub-tabs -->
-                    <div class="input-tabs" id="source-tabs">
-                        <button class="input-tab active" data-tab="type" onclick="switchTab('type')">
-                            <i class="fa-solid fa-tags"></i> My Interests
-                        </button>
-                        <button class="input-tab" data-tab="resume" onclick="switchTab('resume')">
-                            <i class="fa-solid fa-file-lines"></i> From Resume
-                        </button>
-                        <button class="input-tab" data-tab="jobs" onclick="switchTab('jobs')">
-                            <i class="fa-solid fa-briefcase"></i> From Jobs
-                        </button>
-                    </div>
+                <div class="step-header" style="text-align:left;margin-bottom:1.5rem;">
+                    <h2 style="margin:0 0 0.5rem 0;font-size:1.4rem;font-weight:700;"><i
+                            class="fa-solid fa-wand-magic-sparkles"
+                            style="color:var(--primary-color);margin-right:0.5rem;"></i> Briefing Control</h2>
+                    <p style="font-size:0.9rem;color:var(--text-secondary);margin:0;">Set your parameters and generate
+                        your custom intelligence feed.</p>
+                </div>
 
-                    <!-- Tab A: Type Interests (tags-only, no textarea) -->
-                    <div id="tab-type" class="news-tab-content active" style="margin-bottom: 0;">
-                    </div>
-
-                    <!-- Tab B: From Resume -->
-                    <div id="tab-resume" class="news-tab-content">
-                        <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your
-                            resume</p>
-
-                        <!-- TMS Import -->
-                        <div id="tms-resume-section" style="margin-bottom:1.25rem;display:none;">
-                            <button class="btn ghost-btn tms-import-btn" onclick="fetchTMSResume()"
-                                id="import-resume-btn">
-                                <i class="fa-solid fa-link"></i> Use my TailorMeSwiftly resume
+                <!-- Interest Input -->
+                <div id="input-section">
+                    <!-- Settings-mode top-level tabs (hidden on new-briefing flow) -->
+                    <div id="settings-tabs" style="display:none;margin-bottom:1.5rem;">
+                        <div class="input-tabs"
+                            style="margin-bottom:1.5rem; border-bottom: 2px solid var(--panel-border);">
+                            <button class="input-tab settings-tab active" data-stab="interests"
+                                onclick="switchSettingsTab('interests')" style="flex:1; text-align:center;">
+                                <i class="fa-solid fa-tags"></i> Interests
                             </button>
-                            <div class="import-divider"><span>or upload a file</span></div>
-                        </div>
-
-                        <!-- File Upload -->
-                        <div id="drop-zone" class="upload-zone" onclick="document.getElementById('file-input').click()"
-                            ondragover="event.preventDefault();this.classList.add('dragover')"
-                            ondragleave="this.classList.remove('dragover')"
-                            ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0])">
-                            <i class="fa-solid fa-cloud-arrow-up"
-                                style="font-size:2rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
-                            <p style="margin:0;font-weight:500;">Drop your resume here or click to browse</p>
-                            <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-secondary);">PDF, DOCX, or
-                                TXT
-                            </p>
-                        </div>
-                        <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display:none"
-                            onchange="handleFile(this.files[0])">
-
-                        <div id="file-status"
-                            style="display:none;margin-top:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
-                            <i class="fa-solid fa-spinner fa-spin"></i> <span id="file-status-text">Parsing
-                                resume...</span>
+                            <button class="input-tab settings-tab" data-stab="preferences"
+                                onclick="switchSettingsTab('preferences')" style="flex:1; text-align:center;">
+                                <i class="fa-solid fa-sliders"></i> Settings
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Tab C: From Jobs -->
-                    <div id="tab-jobs" class="news-tab-content">
-                        <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from your
-                            job
-                            applications</p>
+                    <!-- Interests panel (contains source tabs + tags + recommended) -->
+                    <div id="settings-panel-interests">
+                        <!-- Source sub-tabs -->
+                        <div class="input-tabs" id="source-tabs">
+                            <button class="input-tab active" data-tab="type" onclick="switchTab('type')">
+                                <i class="fa-solid fa-tags"></i> My Interests
+                            </button>
+                            <button class="input-tab" data-tab="resume" onclick="switchTab('resume')">
+                                <i class="fa-solid fa-file-lines"></i> From Resume
+                            </button>
+                            <button class="input-tab" data-tab="jobs" onclick="switchTab('jobs')">
+                                <i class="fa-solid fa-briefcase"></i> From Jobs
+                            </button>
+                        </div>
 
-                        <div id="jobs-login-prompt" style="display:none;text-align:center;padding:1.5rem;">
-                            <i class="fa-solid fa-lock"
-                                style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
-                            <p style="color:var(--text-secondary);margin-bottom:1rem;">Log in to access your
-                                TailorMeSwiftly
+                        <!-- Tab A: Type Interests (tags-only, no textarea) -->
+                        <div id="tab-type" class="news-tab-content active" style="margin-bottom: 0;">
+                        </div>
+
+                        <!-- Tab B: From Resume -->
+                        <div id="tab-resume" class="news-tab-content">
+                            <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from
+                                your
+                                resume</p>
+
+                            <!-- TMS Import -->
+                            <div id="tms-resume-section" style="margin-bottom:1.25rem;display:none;">
+                                <button class="btn ghost-btn tms-import-btn" onclick="fetchTMSResume()"
+                                    id="import-resume-btn">
+                                    <i class="fa-solid fa-link"></i> Use my TailorMeSwiftly resume
+                                </button>
+                                <div class="import-divider"><span>or upload a file</span></div>
+                            </div>
+
+                            <!-- File Upload -->
+                            <div id="drop-zone" class="upload-zone"
+                                onclick="document.getElementById('file-input').click()"
+                                ondragover="event.preventDefault();this.classList.add('dragover')"
+                                ondragleave="this.classList.remove('dragover')"
+                                ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0])">
+                                <i class="fa-solid fa-cloud-arrow-up"
+                                    style="font-size:2rem;color:var(--primary-color);margin-bottom:0.5rem;"></i>
+                                <p style="margin:0;font-weight:500;">Drop your resume here or click to browse</p>
+                                <p style="margin:0.25rem 0 0;font-size:0.8rem;color:var(--text-secondary);">PDF, DOCX,
+                                    or
+                                    TXT
+                                </p>
+                            </div>
+                            <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display:none"
+                                onchange="handleFile(this.files[0])">
+
+                            <div id="file-status"
+                                style="display:none;margin-top:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
+                                <i class="fa-solid fa-spinner fa-spin"></i> <span id="file-status-text">Parsing
+                                    resume...</span>
+                            </div>
+                        </div>
+
+                        <!-- Tab C: From Jobs -->
+                        <div id="tab-jobs" class="news-tab-content">
+                            <p style="font-weight:600;font-size:0.95rem;margin-bottom:0.75rem;">Extract interests from
+                                your
+                                job
                                 applications</p>
-                            <a href="../login.html" class="btn primary-btn" style="font-size:0.9rem;"><i
-                                    class="fa-solid fa-right-to-bracket"></i> Log In</a>
-                        </div>
 
-                        <div id="jobs-loading" style="display:none;text-align:center;padding:1.5rem;">
-                            <i class="fa-solid fa-spinner fa-spin"
-                                style="font-size:1.5rem;color:var(--primary-color);"></i>
-                            <p style="color:var(--text-secondary);margin-top:0.5rem;">Loading your applications...</p>
-                        </div>
-
-                        <div id="jobs-empty" style="display:none;text-align:center;padding:1.5rem;">
-                            <i class="fa-solid fa-folder-open"
-                                style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
-                            <p style="color:var(--text-secondary);margin-bottom:0.5rem;">No applications found</p>
-                            <p style="color:var(--text-secondary);font-size:0.82rem;">Generate a tailored resume on <a
-                                    href="../app.html" style="color:var(--primary-color);">TailorMeSwiftly.com</a> first
-                            </p>
-                        </div>
-
-                        <div id="jobs-list" style="display:none;">
-                            <div id="jobs-cards"
-                                style="display:flex;flex-direction:column;gap:0.5rem;max-height:280px;overflow-y:auto;">
+                            <div id="jobs-login-prompt" style="display:none;text-align:center;padding:1.5rem;">
+                                <i class="fa-solid fa-lock"
+                                    style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
+                                <p style="color:var(--text-secondary);margin-bottom:1rem;">Log in to access your
+                                    TailorMeSwiftly
+                                    applications</p>
+                                <a href="../login.html" class="btn primary-btn" style="font-size:0.9rem;"><i
+                                        class="fa-solid fa-right-to-bracket"></i> Log In</a>
                             </div>
-                            <button class="btn primary-btn" style="margin-top:1rem;width:100%;"
-                                onclick="extractFromSelectedJobs()" id="extract-jobs-btn">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i> Extract Interests from Selected
-                            </button>
+
+                            <div id="jobs-loading" style="display:none;text-align:center;padding:1.5rem;">
+                                <i class="fa-solid fa-spinner fa-spin"
+                                    style="font-size:1.5rem;color:var(--primary-color);"></i>
+                                <p style="color:var(--text-secondary);margin-top:0.5rem;">Loading your applications...
+                                </p>
+                            </div>
+
+                            <div id="jobs-empty" style="display:none;text-align:center;padding:1.5rem;">
+                                <i class="fa-solid fa-folder-open"
+                                    style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;display:block;"></i>
+                                <p style="color:var(--text-secondary);margin-bottom:0.5rem;">No applications found</p>
+                                <p style="color:var(--text-secondary);font-size:0.82rem;">Generate a tailored resume on
+                                    <a href="../app.html" style="color:var(--primary-color);">TailorMeSwiftly.com</a>
+                                    first
+                                </p>
+                            </div>
+
+                            <div id="jobs-list" style="display:none;">
+                                <div id="jobs-cards"
+                                    style="display:flex;flex-direction:column;gap:0.5rem;max-height:280px;overflow-y:auto;">
+                                </div>
+                                <button class="btn primary-btn" style="margin-top:1rem;width:100%;"
+                                    onclick="extractFromSelectedJobs()" id="extract-jobs-btn">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Extract Interests from Selected
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Extracted Interest Tags (shared across tabs) -->
-                    <div id="interest-tags-section"
-                        style="display:none;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
-                        <div
-                            style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-                            <label id="interest-tags-label" style="font-weight:600;font-size:0.9rem;">Your
-                                Interests</label>
-                            <span id="import-badge"
-                                style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(59,130,246,0.1);color:var(--primary-color);"></span>
+                        <!-- Extracted Interest Tags (shared across tabs) -->
+                        <div id="interest-tags-section"
+                            style="display:none;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                            <div
+                                style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                                <label id="interest-tags-label" style="font-weight:600;font-size:0.9rem;">Your
+                                    Interests</label>
+                                <span id="import-badge"
+                                    style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(59,130,246,0.1);color:var(--primary-color);"></span>
+                            </div>
+                            <div id="interest-tags" class="interest-tags-wrap"></div>
+                            <div style="margin-top:0.5rem;">
+                                <input type="text" id="add-interest-input" placeholder="Add a topic..."
+                                    style="padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;"
+                                    onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
+                            </div>
                         </div>
-                        <div id="interest-tags" class="interest-tags-wrap"></div>
-                        <div style="margin-top:0.5rem;">
-                            <input type="text" id="add-interest-input" placeholder="Add a topic..."
-                                style="padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;"
-                                onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
+
+                        <!-- Recommended Interests -->
+                        <div id="recommended-interests" style="margin-top:1rem;display:none;">
+                            <div
+                                style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">
+                                <i class="fa-solid fa-lightbulb"
+                                    style="margin-right:0.3rem;color:var(--primary-color);"></i> Suggested Topics
+                            </div>
+                            <div id="recommended-chips" class="interest-tags-wrap" style="gap:0.4rem;"></div>
                         </div>
-                    </div>
 
-                    <!-- Recommended Interests -->
-                    <div id="recommended-interests" style="margin-top:1rem;display:none;">
-                        <div
-                            style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;">
-                            <i class="fa-solid fa-lightbulb"
-                                style="margin-right:0.3rem;color:var(--primary-color);"></i> Suggested Topics
+                        <!-- Extraction Loading -->
+                        <div id="extraction-loading" style="display:none;text-align:center;padding:1.5rem 0;">
+                            <i class="fa-solid fa-brain"
+                                style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;display:block;"></i>
+                            <p style="color:var(--text-secondary);font-size:0.9rem;" id="extraction-status">Analyzing
+                                your
+                                resume to identify interests...</p>
                         </div>
-                        <div id="recommended-chips" class="interest-tags-wrap" style="gap:0.4rem;"></div>
-                    </div>
+                    </div><!-- /settings-panel-interests -->
 
-                    <!-- Extraction Loading -->
-                    <div id="extraction-loading" style="display:none;text-align:center;padding:1.5rem 0;">
-                        <i class="fa-solid fa-brain"
-                            style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;display:block;"></i>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;" id="extraction-status">Analyzing your
-                            resume to identify interests...</p>
-                    </div>
-                </div><!-- /settings-panel-interests -->
-
-                <!-- Tone + Generate bar (shown on new-briefing flow, hidden in settings mode) -->
-                <div id="tone-generate-bar"
-                    style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;background:var(--panel-bg);padding:1rem;border-radius:12px;border:1px solid var(--panel-border);">
-                    <div style="flex:1;min-width:200px;">
-                        <label for="briefing-tone"
-                            style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;color:var(--text-secondary);">Briefing
-                            Tone & Style</label>
-                        <select id="briefing-tone"
-                            style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;"
-                            onchange="updateTonePreview('tone-preview-main', this.value)">
-                            <option value="npr">🎙️ Public Radio Host (Audio-friendly)</option>
-                            <option value="morning-brew">☕ Morning Brew (Witty & Conversational)</option>
-                            <option value="executive">📊 Executive Summary (Concise & Bulleted)</option>
-                            <option value="deep-dive">🧠 Deep Dive (Analytical & Thorough)</option>
-                        </select>
-                        <div id="tone-preview-main" class="tone-preview"></div>
-                    </div>
-                    <div>
-                        <button id="generate-btn" class="btn primary-btn" onclick="generateBriefing()"
-                            style="padding:0.6rem 1.5rem;">
-                            <i class="fa-solid fa-bolt"></i> Generate Briefing
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Preferences panel (shown via Settings tab in settings mode) -->
-                <div id="settings-panel-preferences" style="display:none;">
-
-                    <!-- Settings panels -->
-                    <div id="briefing-settings" style="margin-top:0.75rem;display:none;">
-
-                        <!-- Tone & Style -->
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
-                            <label for="briefing-tone-setting"
-                                style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;"><i
-                                    class="fa-solid fa-microphone-lines"
-                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Tone & Style</label>
-                            <select id="briefing-tone-setting"
-                                style="width:100%;padding:0.5rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.88rem;"
-                                onchange="document.getElementById('briefing-tone').value=this.value;updateTonePreview('tone-preview-settings', this.value);">
-                                <option value="npr">Public Radio Host (Audio-friendly)</option>
-                                <option value="morning-brew">Morning Brew (Witty & Conversational)</option>
-                                <option value="executive">Executive Summary (Concise & Bulleted)</option>
-                                <option value="deep-dive">Deep Dive (Analytical & Thorough)</option>
+                    <!-- Tone + Generate bar (shown on new-briefing flow, hidden in settings mode) -->
+                    <div id="tone-generate-bar"
+                        style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;background:var(--panel-bg);padding:1rem;border-radius:12px;border:1px solid var(--panel-border);">
+                        <div style="flex:1;min-width:200px;">
+                            <label for="briefing-tone"
+                                style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;color:var(--text-secondary);">Briefing
+                                Tone & Style</label>
+                            <select id="briefing-tone"
+                                style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;"
+                                onchange="updateTonePreview('tone-preview-main', this.value)">
+                                <option value="npr">🎙️ Public Radio Host (Audio-friendly)</option>
+                                <option value="morning-brew">☕ Morning Brew (Witty & Conversational)</option>
+                                <option value="executive">📊 Executive Summary (Concise & Bulleted)</option>
+                                <option value="deep-dive">🧠 Deep Dive (Analytical & Thorough)</option>
                             </select>
-                            <div id="tone-preview-settings" class="tone-preview"></div>
+                            <div id="tone-preview-main" class="tone-preview"></div>
                         </div>
+                        <div>
+                            <button id="generate-btn" class="btn primary-btn" onclick="generateBriefing()"
+                                style="padding:0.6rem 1.5rem;">
+                                <i class="fa-solid fa-bolt"></i> Generate Briefing
+                            </button>
+                        </div>
+                    </div>
 
-                        <!-- Auto-Generate Daily -->
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;margin-bottom:0.75rem;">
+                    <!-- Preferences panel (shown via Settings tab in settings mode) -->
+                    <div id="settings-panel-preferences" style="display:none;">
+
+                        <!-- Settings panels -->
+                        <div id="briefing-settings" style="margin-top:0.75rem;display:none;">
+
+                            <!-- Tone & Style -->
                             <div
-                                style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-                                <div>
-                                    <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-clock"
-                                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Auto-Generate
-                                        Daily</div>
-                                    <div style="font-size:0.75rem;color:var(--text-secondary);">Automatically generate a
-                                        fresh briefing & podcast every morning</div>
-                                </div>
-                                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
-                                    <input type="checkbox" id="auto-generate-toggle"
-                                        onchange="saveSettingToggle('auto_generate', this.checked)"
-                                        style="width:18px;height:18px;accent-color:var(--primary-color);">
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Email Delivery -->
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
-                            <div
-                                style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-                                <div>
-                                    <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-envelope"
-                                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Daily Email
-                                        Briefing</div>
-                                    <div style="font-size:0.75rem;color:var(--text-secondary);">Also receive your
-                                        briefing in your inbox</div>
-                                </div>
-                                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
-                                    <input type="checkbox" id="email-delivery-toggle" onchange="saveEmailPrefs()"
-                                        style="width:18px;height:18px;accent-color:var(--primary-color);">
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Source Preferences -->
-                        <div
-                            style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;">
-                            <i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences
-                        </div>
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;">
-                            <div style="margin-bottom:0.75rem;">
-                                <label
-                                    style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Preferred
-                                    Sources</label>
-                                <div id="whitelist-tags" class="interest-tags-wrap"
-                                    style="min-height:24px;margin-bottom:0.4rem;"></div>
-                                <input type="text" id="whitelist-input" placeholder="e.g. Reuters, BBC..."
-                                    style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
-                                    onkeydown="if(event.key==='Enter'){addSourcePref('whitelist',this.value);this.value='';}">
-                            </div>
-                            <div>
-                                <label
-                                    style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Blocked
-                                    Sources</label>
-                                <div id="blacklist-tags" class="interest-tags-wrap"
-                                    style="min-height:24px;margin-bottom:0.4rem;"></div>
-                                <input type="text" id="blacklist-input" placeholder="e.g. Daily Mail..."
-                                    style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
-                                    onkeydown="if(event.key==='Enter'){addSourcePref('blacklist',this.value);this.value='';}">
-                            </div>
-                        </div>
-
-                        <!-- Jargon Translator -->
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                            <div style="display:flex;align-items:center;justify-content:space-between;">
-                                <div>
-                                    <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-language"
-                                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Plain English
-                                        Mode</div>
-                                    <div style="font-size:0.75rem;color:var(--text-secondary);">Simplify technical,
-                                        financial, and legal jargon</div>
-                                </div>
-                                <input type="checkbox" id="jargon-toggle"
-                                    onchange="saveSettingToggle('jargon_simplify', this.checked)"
-                                    style="width:18px;height:18px;accent-color:var(--primary-color);">
-                            </div>
-                        </div>
-
-                        <!-- Sentiment Controls -->
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
-                                    class="fa-solid fa-face-smile"
-                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Framing & Perspective
-                            </div>
-                            <label
-                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;cursor:pointer;">
-                                <input type="checkbox" id="silver-lining-toggle"
-                                    onchange="saveSettingToggle('silver_lining', this.checked)"
-                                    style="width:18px;height:18px;accent-color:var(--primary-color);">
-                                <div>
-                                    <div style="font-size:0.82rem;font-weight:500;">Silver Lining Mode</div>
-                                    <div style="font-size:0.72rem;color:var(--text-secondary);">Focus on constructive
-                                        angles and opportunities</div>
-                                </div>
-                            </label>
-                            <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;">
-                                <input type="checkbox" id="opposing-views-toggle"
-                                    onchange="saveSettingToggle('opposing_views', this.checked)"
-                                    style="width:18px;height:18px;accent-color:var(--primary-color);">
-                                <div>
-                                    <div style="font-size:0.82rem;font-weight:500;">Opposing Views</div>
-                                    <div style="font-size:0.72rem;color:var(--text-secondary);">Show how different
-                                        sources cover the same story</div>
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Topic Muting -->
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
-                                    class="fa-solid fa-bell-slash"
-                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Muted Topics</div>
-                            <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;">Temporarily
-                                hide topics from your briefings</div>
-                            <div id="muted-tags" class="interest-tags-wrap"
-                                style="min-height:24px;margin-bottom:0.4rem;"></div>
-                            <div style="display:flex;gap:0.5rem;align-items:center;">
-                                <input type="text" id="mute-topic-input" placeholder="e.g. elections"
-                                    style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:140px;"
-                                    onkeydown="if(event.key==='Enter')addMutedTopic()">
-                                <select id="mute-duration"
-                                    style="padding:0.35rem 0.5rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.8rem;">
-                                    <option value="1">1 day</option>
-                                    <option value="3">3 days</option>
-                                    <option value="7" selected>7 days</option>
-                                    <option value="14">14 days</option>
-                                    <option value="30">30 days</option>
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                                <label for="briefing-tone-setting"
+                                    style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;"><i
+                                        class="fa-solid fa-microphone-lines"
+                                        style="margin-right:0.4rem;color:var(--primary-color);"></i> Tone &
+                                    Style</label>
+                                <select id="briefing-tone-setting"
+                                    style="width:100%;padding:0.5rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.88rem;"
+                                    onchange="document.getElementById('briefing-tone').value=this.value;updateTonePreview('tone-preview-settings', this.value);">
+                                    <option value="npr">Public Radio Host (Audio-friendly)</option>
+                                    <option value="morning-brew">Morning Brew (Witty & Conversational)</option>
+                                    <option value="executive">Executive Summary (Concise & Bulleted)</option>
+                                    <option value="deep-dive">Deep Dive (Analytical & Thorough)</option>
                                 </select>
-                                <button class="btn ghost-btn" style="font-size:0.78rem;padding:0.35rem 0.6rem;"
-                                    onclick="addMutedTopic()">Mute</button>
+                                <div id="tone-preview-settings" class="tone-preview"></div>
                             </div>
-                        </div>
 
-                        <!-- Location -->
-                        <div
-                            style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
-                            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
-                                    class="fa-solid fa-location-dot"
-                                    style="margin-right:0.4rem;color:var(--primary-color);"></i> Location</div>
-                            <input type="text" id="user-location" placeholder="e.g. San Francisco, CA"
-                                style="width:100%;padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;box-sizing:border-box;"
-                                onblur="saveSettingToggle('location', this.value)">
-                            <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.3rem;">Adds local
-                                news to your briefing</div>
-                        </div>
-                    </div>
-                </div><!-- /settings-panel-preferences -->
-
-                <!-- Edit-mode action bar (hidden by default, shown by editInterests()) -->
-                <div id="edit-actions-bar" style="display:none;margin-top:1.5rem;gap:0.75rem;flex-wrap:wrap;">
-                    <button class="btn primary-btn" onclick="generateBriefing()" style="padding:0.6rem 1.5rem;">
-                        <i class="fa-solid fa-bolt"></i> Update & Regenerate
-                    </button>
-                    <button class="btn ghost-btn" onclick="cancelEditInterests()" style="padding:0.6rem 1.25rem;">
-                        <i class="fa-solid fa-arrow-left"></i> Back to Briefing
-                    </button>
-                </div>
-            </div>
-
-            <!-- Loading State -->
-            <div id="loading-section" style="display:none;text-align:center;padding:3rem 0;">
-                <div class="spinner"
-                    style="margin:0 auto 1rem;width:48px;height:48px;border:3px solid var(--panel-border);border-top-color:var(--primary-color);border-radius:50%;animation:spin 0.8s linear infinite;">
-                </div>
-                <p id="loading-status" style="color:var(--text-secondary);">Fetching news articles...</p>
-                <style>
-                    @keyframes spin {
-                        to {
-                            transform: rotate(360deg);
-                        }
-                    }
-                </style>
-            </div>
-
-            <!-- Result Section -->
-            <div id="result-section" style="display:none;">
-                <div
-                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
-                    <h3 style="margin:0;"><i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i>
-                        Today's Briefing</h3>
-                    <div style="display:flex;gap:0.5rem;align-items:center;">
-                        <span id="briefing-read-time"
-                            style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:20px;border:1px solid var(--panel-border);"><i
-                                class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
-                        <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="editInterests()">
-                            <i class="fa-solid fa-sliders"></i> Briefing Settings
-                        </button>
-                    </div>
-                </div>
-
-                <div id="briefing-interests" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;">
-                </div>
-
-                <!-- Audio Player -->
-                <div id="audio-section"
-                    style="margin-bottom:1.5rem;padding:1rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;">
-                    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-                        <div style="display:flex;align-items:center;gap:0.75rem;">
-                            <i class="fa-solid fa-microphone-lines"
-                                style="font-size:1.2rem;color:var(--primary-color);"></i>
-                            <div>
-                                <div style="font-weight:600;font-size:0.9rem;">Listen to this briefing</div>
-                                <div style="font-size:0.75rem;color:var(--text-secondary);">AI-narrated news briefing
+                            <!-- Auto-Generate Daily -->
+                            <div
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;margin-bottom:0.75rem;">
+                                <div
+                                    style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                                    <div>
+                                        <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-clock"
+                                                style="margin-right:0.4rem;color:var(--primary-color);"></i>
+                                            Auto-Generate
+                                            Daily</div>
+                                        <div style="font-size:0.75rem;color:var(--text-secondary);">Automatically
+                                            generate a
+                                            fresh briefing & podcast every morning</div>
+                                    </div>
+                                    <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                        <input type="checkbox" id="auto-generate-toggle"
+                                            onchange="saveSettingToggle('auto_generate', this.checked)"
+                                            style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                    </label>
                                 </div>
                             </div>
+
+                            <!-- Email Delivery -->
+                            <div
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                                <div
+                                    style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                                    <div>
+                                        <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-envelope"
+                                                style="margin-right:0.4rem;color:var(--primary-color);"></i> Daily Email
+                                            Briefing</div>
+                                        <div style="font-size:0.75rem;color:var(--text-secondary);">Also receive your
+                                            briefing in your inbox</div>
+                                    </div>
+                                    <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
+                                        <input type="checkbox" id="email-delivery-toggle" onchange="saveEmailPrefs()"
+                                            style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Source Preferences -->
+                            <div
+                                style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.4rem;">
+                                <i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences
+                            </div>
+                            <div
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;">
+                                <div style="margin-bottom:0.75rem;">
+                                    <label
+                                        style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Preferred
+                                        Sources</label>
+                                    <div id="whitelist-tags" class="interest-tags-wrap"
+                                        style="min-height:24px;margin-bottom:0.4rem;"></div>
+                                    <input type="text" id="whitelist-input" placeholder="e.g. Reuters, BBC..."
+                                        style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
+                                        onkeydown="if(event.key==='Enter'){addSourcePref('whitelist',this.value);this.value='';}">
+                                </div>
+                                <div>
+                                    <label
+                                        style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Blocked
+                                        Sources</label>
+                                    <div id="blacklist-tags" class="interest-tags-wrap"
+                                        style="min-height:24px;margin-bottom:0.4rem;"></div>
+                                    <input type="text" id="blacklist-input" placeholder="e.g. Daily Mail..."
+                                        style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
+                                        onkeydown="if(event.key==='Enter'){addSourcePref('blacklist',this.value);this.value='';}">
+                                </div>
+                            </div>
+
+                            <!-- Jargon Translator -->
+                            <div
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                <div style="display:flex;align-items:center;justify-content:space-between;">
+                                    <div>
+                                        <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-language"
+                                                style="margin-right:0.4rem;color:var(--primary-color);"></i> Plain
+                                            English
+                                            Mode</div>
+                                        <div style="font-size:0.75rem;color:var(--text-secondary);">Simplify technical,
+                                            financial, and legal jargon</div>
+                                    </div>
+                                    <input type="checkbox" id="jargon-toggle"
+                                        onchange="saveSettingToggle('jargon_simplify', this.checked)"
+                                        style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                </div>
+                            </div>
+
+                            <!-- Sentiment Controls -->
+                            <div
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
+                                        class="fa-solid fa-face-smile"
+                                        style="margin-right:0.4rem;color:var(--primary-color);"></i> Framing &
+                                    Perspective
+                                </div>
+                                <label
+                                    style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;cursor:pointer;">
+                                    <input type="checkbox" id="silver-lining-toggle"
+                                        onchange="saveSettingToggle('silver_lining', this.checked)"
+                                        style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                    <div>
+                                        <div style="font-size:0.82rem;font-weight:500;">Silver Lining Mode</div>
+                                        <div style="font-size:0.72rem;color:var(--text-secondary);">Focus on
+                                            constructive
+                                            angles and opportunities</div>
+                                    </div>
+                                </label>
+                                <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;">
+                                    <input type="checkbox" id="opposing-views-toggle"
+                                        onchange="saveSettingToggle('opposing_views', this.checked)"
+                                        style="width:18px;height:18px;accent-color:var(--primary-color);">
+                                    <div>
+                                        <div style="font-size:0.82rem;font-weight:500;">Opposing Views</div>
+                                        <div style="font-size:0.72rem;color:var(--text-secondary);">Show how different
+                                            sources cover the same story</div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Topic Muting -->
+                            <div
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
+                                        class="fa-solid fa-bell-slash"
+                                        style="margin-right:0.4rem;color:var(--primary-color);"></i> Muted Topics</div>
+                                <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;">
+                                    Temporarily
+                                    hide topics from your briefings</div>
+                                <div id="muted-tags" class="interest-tags-wrap"
+                                    style="min-height:24px;margin-bottom:0.4rem;"></div>
+                                <div style="display:flex;gap:0.5rem;align-items:center;">
+                                    <input type="text" id="mute-topic-input" placeholder="e.g. elections"
+                                        style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:140px;"
+                                        onkeydown="if(event.key==='Enter')addMutedTopic()">
+                                    <select id="mute-duration"
+                                        style="padding:0.35rem 0.5rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.8rem;">
+                                        <option value="1">1 day</option>
+                                        <option value="3">3 days</option>
+                                        <option value="7" selected>7 days</option>
+                                        <option value="14">14 days</option>
+                                        <option value="30">30 days</option>
+                                    </select>
+                                    <button class="btn ghost-btn" style="font-size:0.78rem;padding:0.35rem 0.6rem;"
+                                        onclick="addMutedTopic()">Mute</button>
+                                </div>
+                            </div>
+
+                            <!-- Location -->
+                            <div
+                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
+                                        class="fa-solid fa-location-dot"
+                                        style="margin-right:0.4rem;color:var(--primary-color);"></i> Location</div>
+                                <input type="text" id="user-location" placeholder="e.g. San Francisco, CA"
+                                    style="width:100%;padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;box-sizing:border-box;"
+                                    onblur="saveSettingToggle('location', this.value)">
+                                <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.3rem;">Adds local
+                                    news to your briefing</div>
+                            </div>
                         </div>
-                        <button class="btn primary-btn" style="font-size:0.82rem;padding:0.4rem 1rem;"
-                            onclick="listenToBriefing()" id="listen-btn">
-                            <i class="fa-solid fa-play"></i> Listen
+                    </div><!-- /settings-panel-preferences -->
+
+                    <!-- Edit-mode action bar (hidden by default, shown by editInterests()) -->
+                    <div id="edit-actions-bar" style="display:none;margin-top:1.5rem;gap:0.75rem;flex-wrap:wrap;">
+                        <button class="btn primary-btn" onclick="generateBriefing()" style="padding:0.6rem 1.5rem;">
+                            <i class="fa-solid fa-bolt"></i> Update & Regenerate
+                        </button>
+                        <button class="btn ghost-btn" onclick="cancelEditInterests()" style="padding:0.6rem 1.25rem;">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Briefing
                         </button>
                     </div>
-                    <div id="audio-container" style="display:none;margin-top:0.75rem;">
-                        <audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>
+                </div>
+            </aside>
+
+            <!-- RIGHT READING PANE -->
+            <article class="dashboard-reading-pane"
+                style="min-height:75vh;padding-left:2.5rem;border-left:1px solid var(--panel-border);">
+                <!-- Initial Empty State -->
+                <div id="empty-state" style="text-align:center;padding:4rem 0;color:var(--text-secondary);opacity:0.6;">
+                    <i class="fa-regular fa-newspaper" style="font-size:3rem;margin-bottom:1rem;display:block;"></i>
+                    <p style="font-size:1.1rem;">Your briefing will appear here.</p>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading-section" style="display:none;text-align:center;padding:5rem 0;">
+                    <div class="spinner"
+                        style="margin:0 auto 1rem;width:48px;height:48px;border:3px solid var(--panel-border);border-top-color:var(--primary-color);border-radius:50%;animation:spin 0.8s linear infinite;">
                     </div>
-                    <!-- Podcast Subscribe -->
-                    <div id="podcast-subscribe"
-                        style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--panel-border);">
-                        <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;">Subscribe to
-                            your briefings podcast:</div>
-                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                            <a id="sub-apple" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
-                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
-                                <i class="fa-solid fa-podcast"></i> Apple Podcasts
-                            </a>
-                            <button id="sub-spotify" onclick="subscribeSpotify()" class="btn ghost-btn"
-                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
-                                <i class="fa-brands fa-spotify"></i> Spotify
+                    <p id="loading-status" style="color:var(--text-secondary);">Fetching news articles...</p>
+                    <style>
+                        @keyframes spin {
+                            to {
+                                transform: rotate(360deg);
+                            }
+                        }
+                    </style>
+                </div>
+
+                <!-- Result Section -->
+                <div id="result-section" style="display:none;">
+                    <!-- 7-Day Date Strip -->
+                    <div id="date-strip" style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.75rem;margin-bottom:1rem;border-bottom:1px solid var(--panel-border);scrollbar-width:none;-webkit-overflow-scrolling:touch;"></div>
+
+                    <div
+                        style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
+                        <h3 id="briefing-date-heading" style="margin:0;"><i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i>
+                            Today's Briefing</h3>
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <span id="briefing-read-time"
+                                style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:20px;border:1px solid var(--panel-border);"><i
+                                    class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
+                            <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="regenerateBriefing()">
+                                <i class="fa-solid fa-rotate"></i> Regenerate
                             </button>
-                            <a id="sub-pocketcasts" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
-                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
-                                <i class="fa-solid fa-headphones"></i> Pocket Casts
-                            </a>
-                            <button onclick="copyPodcastFeedUrl()" class="btn ghost-btn"
-                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
-                                <i class="fa-solid fa-copy"></i> Copy RSS
+                            <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="editInterests()">
+                                <i class="fa-solid fa-sliders"></i> Settings
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <div id="briefing-content" class="briefing-body"></div>
-
-                <div id="briefing-sources"
-                    style="margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
-                    <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);"><i
-                            class="fa-solid fa-link" style="margin-right:0.4rem;"></i> Sources</h4>
-                    <div id="sources-list" class="sources-grid"></div>
-                </div>
-
-                <!-- Saved Articles -->
-                <details id="saved-articles-section" style="margin-top:1.5rem;">
-                    <summary
-                        style="cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-secondary);padding:0.5rem 0;">
-                        <i class="fa-solid fa-bookmark" style="margin-right:0.4rem;color:var(--primary-color);"></i>
-                        Saved Articles <span id="saved-count" style="font-size:0.75rem;opacity:0.7;"></span>
-                    </summary>
-                    <div id="saved-articles-list"
-                        style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.5rem;"></div>
-                </details>
-
-                <!-- Follow-up Q&A -->
-                <div id="qa-section"
-                    style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
-                    <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
-                        <i class="fa-solid fa-comments" style="margin-right:0.4rem;color:var(--primary-color);"></i> Ask
-                        About This Briefing
-                    </h4>
-                    <div id="qa-thread"
-                        style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:0.75rem;max-height:400px;overflow-y:auto;">
+                    <div id="briefing-interests" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;">
                     </div>
-                    <div style="display:flex;gap:0.5rem;">
-                        <input type="text" id="qa-input" placeholder="Ask a question about today's news..."
-                            style="flex:1;padding:0.6rem 0.75rem;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;font-family:inherit;"
-                            onkeydown="if(event.key==='Enter')askFollowUp()">
-                        <button class="btn primary-btn" style="padding:0.6rem 1rem;" onclick="askFollowUp()"
-                            id="qa-send-btn">
-                            <i class="fa-solid fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
 
-                <!-- Briefing History (Last 3 Days) -->
-                <div id="briefing-history"
-                    style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);display:none;">
-                    <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
-                        <i class="fa-solid fa-clock-rotate-left"
-                            style="margin-right:0.4rem;color:var(--primary-color);"></i> Recent Briefings
-                    </h4>
-                    <div id="history-list" style="display:flex;flex-direction:column;gap:0.5rem;"></div>
-                </div>
-            </div>
+                    <!-- Audio Player -->
+                    <div id="audio-section"
+                        style="margin-bottom:1.5rem;padding:1rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;">
+                        <div
+                            style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                            <div style="display:flex;align-items:center;gap:0.75rem;">
+                                <i class="fa-solid fa-microphone-lines"
+                                    style="font-size:1.2rem;color:var(--primary-color);"></i>
+                                <div>
+                                    <div style="font-weight:600;font-size:0.9rem;">Listen to this briefing</div>
+                                    <div style="font-size:0.75rem;color:var(--text-secondary);">AI-narrated news
+                                        briefing
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn primary-btn" style="font-size:0.82rem;padding:0.4rem 1rem;"
+                                onclick="listenToBriefing()" id="listen-btn">
+                                <i class="fa-solid fa-play"></i> Listen
+                            </button>
+                        </div>
+                        <div id="audio-container" style="display:none;margin-top:0.75rem;">
+                            <audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>
+                        </div>
+                        <!-- Podcast Subscribe -->
+                        <div id="podcast-subscribe"
+                            style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--panel-border);">
+                            <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;">Subscribe
+                                to
+                                your briefings podcast:</div>
+                            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                                <a id="sub-apple" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
+                                    style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                                    <i class="fa-solid fa-podcast"></i> Apple Podcasts
+                                </a>
+                                <button id="sub-spotify" onclick="subscribeSpotify()" class="btn ghost-btn"
+                                    style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
+                                    <i class="fa-brands fa-spotify"></i> Spotify
+                                </button>
+                                <a id="sub-pocketcasts" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
+                                    style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                                    <i class="fa-solid fa-headphones"></i> Pocket Casts
+                                </a>
+                                <button onclick="copyPodcastFeedUrl()" class="btn ghost-btn"
+                                    style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
+                                    <i class="fa-solid fa-copy"></i> Copy RSS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="briefing-content" class="briefing-body"></div>
+
+                    <div id="briefing-sources"
+                        style="margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                        <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);"><i
+                                class="fa-solid fa-link" style="margin-right:0.4rem;"></i> Sources</h4>
+                        <div id="sources-list" class="sources-grid"></div>
+                    </div>
+
+                    <!-- Saved Articles -->
+                    <details id="saved-articles-section" style="margin-top:1.5rem;">
+                        <summary
+                            style="cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-secondary);padding:0.5rem 0;">
+                            <i class="fa-solid fa-bookmark" style="margin-right:0.4rem;color:var(--primary-color);"></i>
+                            Saved Articles <span id="saved-count" style="font-size:0.75rem;opacity:0.7;"></span>
+                        </summary>
+                        <div id="saved-articles-list"
+                            style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.5rem;"></div>
+                    </details>
+
+                    <!-- Follow-up Q&A -->
+                    <div id="qa-section"
+                        style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                        <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
+                            <i class="fa-solid fa-comments" style="margin-right:0.4rem;color:var(--primary-color);"></i>
+                            Ask
+                            About This Briefing
+                        </h4>
+                        <div id="qa-thread"
+                            style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:0.75rem;max-height:400px;overflow-y:auto;">
+                        </div>
+                        <div style="display:flex;gap:0.5rem;">
+                            <input type="text" id="qa-input" placeholder="Ask a question about today's news..."
+                                style="flex:1;padding:0.6rem 0.75rem;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;font-family:inherit;"
+                                onkeydown="if(event.key==='Enter')askFollowUp()">
+                            <button class="btn primary-btn" style="padding:0.6rem 1rem;" onclick="askFollowUp()"
+                                id="qa-send-btn">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- (History moved to date strip) -->
+                </div><!-- /result-section -->
+            </article>
         </main>
 
         <footer class="site-footer" role="contentinfo"></footer>
@@ -829,6 +860,7 @@
         let extractedInterests = [];
         let currentBriefingDate = null; // tracks which briefing is displayed
         let tmsApplications = [];
+        let briefingCache = {}; // keyed by YYYY-MM-DD → briefing row
 
         // ── Tone Preview Examples ──
         const toneExamples = {
@@ -864,7 +896,6 @@
 
         // Edge Function helper — always refresh token before calling
         const EDGE_FN_BASE = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1';
-        const EDGE_API_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
         async function invokeEdge(fnName, body) {
             if (!window.supabaseClient) {
@@ -927,8 +958,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                    'apikey': EDGE_API_KEY
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(body)
             });
@@ -941,6 +971,102 @@
             }
 
             return await resp.json().catch(() => ({}));
+        }
+
+        // ── 7-Day Date Strip ──
+        function renderDateStrip(activeDateStr) {
+            const strip = document.getElementById('date-strip');
+            if (!strip) return;
+            const today = new Date();
+            let pills = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                const dateStr = d.toISOString().split('T')[0];
+                const hasBriefing = !!briefingCache[dateStr];
+                const isActive = dateStr === activeDateStr;
+                const dayLabel = i === 0 ? 'Today' : d.toLocaleDateString('en-US', { weekday: 'short' });
+                const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                pills.push(`<button onclick="showBriefingForDate('${dateStr}')" style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0.15rem;padding:0.5rem 0.85rem;border-radius:12px;border:1px solid ${isActive ? 'var(--primary-color)' : 'var(--panel-border)'};background:${isActive ? 'rgba(59,130,246,0.1)' : 'var(--panel-bg)'};cursor:pointer;transition:all 0.2s;opacity:${hasBriefing || isActive ? '1' : '0.5'};" onmouseover="if(!this.classList.contains('active'))this.style.borderColor='var(--primary-color)'" onmouseout="if(!this.classList.contains('active'))this.style.borderColor='${isActive ? 'var(--primary-color)' : 'var(--panel-border)'}'">
+                    <span style="font-size:0.72rem;font-weight:600;color:${isActive ? 'var(--primary-color)' : 'var(--text-secondary)'};">${dayLabel}</span>
+                    <span style="font-size:0.82rem;font-weight:${isActive ? '700' : '500'};color:${isActive ? 'var(--primary-color)' : 'var(--text-primary)'};">${dateLabel}</span>
+                    ${hasBriefing ? `<span style="width:5px;height:5px;border-radius:50%;background:${isActive ? 'var(--primary-color)' : 'var(--text-secondary)'};margin-top:0.1rem;"></span>` : '<span style="width:5px;height:5px;margin-top:0.1rem;"></span>'}
+                </button>`);
+            }
+            strip.innerHTML = pills.join('');
+        }
+
+        function showBriefingForDate(dateStr) {
+            currentBriefingDate = dateStr;
+            renderDateStrip(dateStr);
+
+            // Update heading
+            const heading = document.getElementById('briefing-date-heading');
+            const today = new Date().toISOString().split('T')[0];
+            if (heading) {
+                const dateObj = new Date(dateStr + 'T12:00:00');
+                const label = dateStr === today ? "Today's Briefing" : dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                heading.innerHTML = `<i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i> ${label}`;
+            }
+
+            const briefing = briefingCache[dateStr];
+            if (briefing) {
+                // Show the briefing content areas
+                document.getElementById('briefing-content').style.display = '';
+                document.getElementById('audio-section').style.display = '';
+                document.getElementById('briefing-sources').style.display = '';
+                document.getElementById('briefing-interests').style.display = '';
+                // Remove any "no briefing" placeholder
+                const placeholder = document.getElementById('no-briefing-placeholder');
+                if (placeholder) placeholder.remove();
+
+                showBriefing(briefing.briefing_html, briefing.interests || extractedInterests, briefing.sources || []);
+                // Restore audio if cached
+                if (briefing.audio_url && briefing.audio_url.startsWith('http')) {
+                    const audioContainer = document.getElementById('audio-container');
+                    if (audioContainer) {
+                        audioContainer.innerHTML = '<audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>';
+                        document.getElementById('briefing-audio').src = briefing.audio_url;
+                        audioContainer.style.display = 'block';
+                        const listenBtn = document.getElementById('listen-btn');
+                        if (listenBtn) listenBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+                    }
+                } else {
+                    const audioContainer = document.getElementById('audio-container');
+                    if (audioContainer) { audioContainer.style.display = 'none'; audioContainer.innerHTML = ''; }
+                    const listenBtn = document.getElementById('listen-btn');
+                    if (listenBtn) listenBtn.innerHTML = '<i class="fa-solid fa-play"></i> Listen';
+                }
+            } else {
+                // No briefing for this date — show placeholder
+                document.getElementById('briefing-content').style.display = 'none';
+                document.getElementById('audio-section').style.display = 'none';
+                document.getElementById('briefing-sources').style.display = 'none';
+                document.getElementById('briefing-interests').style.display = 'none';
+                // Remove existing placeholder if any
+                const existing = document.getElementById('no-briefing-placeholder');
+                if (existing) existing.remove();
+
+                const dateObj = new Date(dateStr + 'T12:00:00');
+                const label = dateStr === today ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                const placeholder = document.createElement('div');
+                placeholder.id = 'no-briefing-placeholder';
+                placeholder.style.cssText = 'text-align:center;padding:3rem 1.5rem;color:var(--text-secondary);';
+                placeholder.innerHTML = `<i class="fa-solid fa-newspaper" style="font-size:2.5rem;opacity:0.3;display:block;margin-bottom:1rem;"></i>
+                    <p style="font-size:1rem;margin-bottom:1rem;">No briefing for ${label}</p>
+                    <button class="btn primary-btn" onclick="generateBriefing('${dateStr}')" style="font-size:0.9rem;"><i class="fa-solid fa-bolt"></i> Generate Briefing</button>`;
+                const content = document.getElementById('briefing-content');
+                content.parentNode.insertBefore(placeholder, content);
+            }
+        }
+
+        function regenerateBriefing() {
+            const dateStr = currentBriefingDate || new Date().toISOString().split('T')[0];
+            const dateObj = new Date(dateStr + 'T12:00:00');
+            const today = new Date().toISOString().split('T')[0];
+            const label = dateStr === today ? "today" : dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            if (!confirm(`Regenerate your briefing for ${label}? This will replace the current one.`)) return;
+            generateBriefing(dateStr);
         }
 
         // PDF.js worker
@@ -1055,75 +1181,40 @@
                     if (editMode) {
                         editInterests();
                     } else {
-                        // Check for existing briefing today first, then fall back to most recent
+                        // Fetch last 7 days of briefings
                         const today = new Date().toISOString().split('T')[0];
-                        console.log('[auth-ready] Checking for today\'s briefing:', today);
-                        const { data: todayBriefing, error: briefingErr } = await window.supabaseClient
+                        const sevenDaysAgo = new Date();
+                        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+                        const cutoff = sevenDaysAgo.toISOString().split('T')[0];
+
+                        console.log('[auth-ready] Loading 7-day briefings from', cutoff, 'to', today);
+                        const { data: briefings, error: briefingErr } = await window.supabaseClient
                             .from('daily_briefings')
                             .select('id, briefing_date, briefing_html, briefing_text, interests, sources, audio_url')
                             .eq('user_id', session.user.id)
-                            .eq('briefing_date', today)
-                            .maybeSingle();
+                            .gte('briefing_date', cutoff)
+                            .order('briefing_date', { ascending: false });
 
                         if (briefingErr) console.error('[auth-ready] Briefing query error:', briefingErr.message);
 
-                        // Pick the briefing to show: today's, or most recent
-                        let briefingToShow = todayBriefing?.briefing_html ? todayBriefing : null;
-                        let isOlderBriefing = false;
-
-                        if (!briefingToShow) {
-                            // No briefing today — fetch most recent one
-                            console.log('[auth-ready] No briefing today, checking for most recent...');
-                            const { data: recentBriefing, error: recentErr } = await window.supabaseClient
-                                .from('daily_briefings')
-                                .select('id, briefing_date, briefing_html, briefing_text, interests, sources, audio_url')
-                                .eq('user_id', session.user.id)
-                                .not('briefing_html', 'is', null)
-                                .order('briefing_date', { ascending: false })
-                                .limit(1)
-                                .maybeSingle();
-                            if (recentErr) console.error('[auth-ready] Recent briefing query error:', recentErr.message);
-                            if (recentBriefing?.briefing_html) {
-                                briefingToShow = recentBriefing;
-                                isOlderBriefing = true;
-                                console.log('[auth-ready] Showing most recent briefing from:', recentBriefing.briefing_date);
-                            }
+                        // Cache briefings by date
+                        briefingCache = {};
+                        if (briefings?.length) {
+                            briefings.forEach(b => {
+                                if (b.briefing_html) briefingCache[b.briefing_date] = b;
+                            });
                         }
+                        console.log('[auth-ready] Cached', Object.keys(briefingCache).length, 'briefings');
 
-                        if (briefingToShow) {
-                            currentBriefingDate = briefingToShow.briefing_date;
-                            document.getElementById('input-section').style.display = 'none';
-                            showBriefing(
-                                briefingToShow.briefing_html,
-                                briefingToShow.interests || profile.interests,
-                                briefingToShow.sources || []
-                            );
-                            // Pre-load cached audio if available
-                            if (briefingToShow.audio_url && briefingToShow.audio_url.startsWith('http')) {
-                                const audioContainer = document.getElementById('audio-container');
-                                if (audioContainer) {
-                                    audioContainer.innerHTML = '<audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>';
-                                    document.getElementById('briefing-audio').src = briefingToShow.audio_url;
-                                    audioContainer.style.display = 'block';
-                                    const listenBtn = document.getElementById('listen-btn');
-                                    if (listenBtn) listenBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
-                                }
-                            }
-                            // If showing an older briefing, add a banner to generate today's
-                            if (isOlderBriefing) {
-                                const resultSection = document.getElementById('result-section');
-                                if (resultSection) {
-                                    const banner = document.createElement('div');
-                                    banner.style.cssText = 'background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(96,165,250,0.08));border:1px solid rgba(59,130,246,0.25);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;';
-                                    const dateLabel = new Date(briefingToShow.briefing_date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-                                    banner.innerHTML = `<span style="color:var(--text-secondary);font-size:0.9rem;"><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.4rem;color:#3b82f6;"></i> Showing your briefing from <strong style="color:var(--text-primary);">${dateLabel}</strong></span><button class="btn primary-btn" onclick="this.parentElement.remove();generateBriefing();" style="font-size:0.85rem;padding:0.5rem 1rem;white-space:nowrap;"><i class="fa-solid fa-bolt"></i> Generate Today's Briefing</button>`;
-                                    resultSection.insertBefore(banner, resultSection.firstChild);
-                                }
-                            }
-                        } else {
-                            // No briefings at all — auto-generate
-                            generateBriefing();
-                        }
+                        // Show result section with date strip
+                        document.getElementById('input-section').style.display = 'none';
+                        document.getElementById('result-section').style.display = 'block';
+                        const stepHeader = document.querySelector('.step-header');
+                        if (stepHeader) stepHeader.style.display = 'none';
+
+                        // Auto-select: today if has briefing, otherwise most recent
+                        const activeDate = briefingCache[today] ? today : (Object.keys(briefingCache)[0] || today);
+                        showBriefingForDate(activeDate);
                     }
                 } else if (editMode) {
                     // No saved interests but in edit mode — still show edit UI
@@ -1635,9 +1726,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             url.searchParams.delete('view');
             history.replaceState(null, '', url);
 
-            // Hide result, show input
-            document.getElementById('result-section').style.display = 'none';
-            document.getElementById('input-section').style.display = 'block';
+            // In Dashboard layout, sidebar is always open, just focus it
+            document.getElementById('input-section').scrollIntoView({ behavior: 'smooth' });
 
             // Show and update header for edit mode
             const stepHeader = document.querySelector('.step-header');
@@ -1724,8 +1814,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             url.searchParams.delete('edit');
             history.replaceState(null, '', url);
 
-            // Hide input, show result
-            document.getElementById('input-section').style.display = 'none';
+            // Dashboard layout: keep sidebar visible, just show result again
             document.getElementById('result-section').style.display = 'block';
 
             // Hide the step header again (briefing is showing)
@@ -1766,7 +1855,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             if (desc) desc.textContent = 'Tell us what you\'re interested in and we\'ll create a personalized news digest.';
         }
 
-        async function generateBriefing() {
+        async function generateBriefing(targetDate) {
+            if (!targetDate) targetDate = new Date().toISOString().split('T')[0];
             // Check interests before making any UI changes
             let interests = [...extractedInterests];
             if (!interests.length) { alert('Please enter or extract some interests first.'); return; }
@@ -1856,7 +1946,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             // Sync tags UI for the Edit screen later (use extractedInterests, not expanded)
             renderInterestTags(extractedInterests);
 
-            document.getElementById('input-section').style.display = 'none';
+            // Keep sidebar visible in Command Center grid
             document.getElementById('result-section').style.display = 'none';
             document.getElementById('loading-section').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2066,7 +2156,7 @@ FORMAT — use this EXACT HTML:
                 console.log('[generateBriefing] Saving briefing to DB, HTML length:', briefingHtml.length);
                 const { error: upsertErr } = await window.supabaseClient.from('daily_briefings').upsert({
                     user_id: session.user.id,
-                    briefing_date: new Date().toISOString().split('T')[0],
+                    briefing_date: targetDate,
                     interests: interests,
                     briefing_html: briefingHtml,
                     briefing_text: briefingHtml.replace(/<[^>]+>/g, ''),
@@ -2076,7 +2166,17 @@ FORMAT — use this EXACT HTML:
                 }, { onConflict: 'user_id,briefing_date' });
                 if (upsertErr) console.error('[generateBriefing] DB save error:', upsertErr.message);
 
-                currentBriefingDate = new Date().toISOString().split('T')[0];
+                currentBriefingDate = targetDate;
+                // Update cache and re-render date strip
+                briefingCache[targetDate] = {
+                    briefing_date: targetDate,
+                    briefing_html: briefingHtml,
+                    briefing_text: briefingHtml.replace(/<[^>]+>/g, ''),
+                    interests: interests,
+                    sources: articles.map(a => ({ title: a.title, url: a.url, source: a.source, publishedAt: a.publishedAt })),
+                    audio_url: null
+                };
+                renderDateStrip(targetDate);
                 _skipCachedAudio = false; // Reset so fresh audio can be cached
 
                 // Save only user's explicit interests (not auto-added companies/resume keywords/location)
@@ -2163,7 +2263,6 @@ FORMAT — use this EXACT HTML:
             setupPodcastSubscribe();
             markBookmarkedSources();
             loadSavedArticles();
-            loadBriefingHistory();
 
             const srcEl = document.getElementById('sources-list');
             srcEl.innerHTML = articles.map((a, idx) => {
@@ -2406,54 +2505,7 @@ FORMAT — use this EXACT HTML:
             } catch (e) { console.error('Remove saved error:', e); }
         }
 
-        // ── Briefing History (Last 3 Days) ──
-        async function loadBriefingHistory() {
-            try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) return;
-
-                const today = new Date().toISOString().split('T')[0];
-                const threeDaysAgo = new Date();
-                threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-                const cutoff = threeDaysAgo.toISOString().split('T')[0];
-
-                const { data: briefings } = await window.supabaseClient
-                    .from('daily_briefings')
-                    .select('id, briefing_date, interests, audio_url')
-                    .eq('user_id', session.user.id)
-                    .gte('briefing_date', cutoff)
-                    .order('briefing_date', { ascending: false })
-                    .limit(4);
-
-                if (!briefings?.length) return;
-
-                // Filter out today's briefing (already displayed)
-                const past = briefings.filter(b => b.briefing_date !== today);
-                if (!past.length) return;
-
-                const historyEl = document.getElementById('briefing-history');
-                const listEl = document.getElementById('history-list');
-                if (!historyEl || !listEl) return;
-
-                listEl.innerHTML = past.map(b => {
-                    const dateObj = new Date(b.briefing_date + 'T12:00:00Z');
-                    const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: 'UTC' });
-                    const interests = (b.interests || []).slice(0, 3).join(', ');
-                    const hasAudio = b.audio_url && b.audio_url.startsWith('http');
-                    return `<a href="briefing.html?view=${b.id}" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;text-decoration:none;color:var(--text-primary);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--primary-color)'" onmouseout="this.style.borderColor='var(--panel-border)'">
-                        <i class="fa-solid fa-newspaper" style="font-size:1rem;color:var(--primary-color);opacity:0.7;"></i>
-                        <div style="flex:1;min-width:0;">
-                            <div style="font-size:0.85rem;font-weight:600;">${dateStr}</div>
-                            <div style="font-size:0.75rem;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${interests || 'Briefing'}</div>
-                        </div>
-                        ${hasAudio ? '<i class="fa-solid fa-headphones" style="font-size:0.8rem;color:var(--text-secondary);opacity:0.6;" title="Audio available"></i>' : ''}
-                        <i class="fa-solid fa-chevron-right" style="font-size:0.7rem;color:var(--text-secondary);opacity:0.5;"></i>
-                    </a>`;
-                }).join('');
-
-                historyEl.style.display = '';
-            } catch (e) { console.warn('History load failed:', e); }
-        }
+        // (Briefing history moved to 7-day date strip)
 
         // ── Podcast Subscribe Links ──
         async function setupPodcastSubscribe() {
