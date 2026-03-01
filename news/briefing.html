@@ -732,16 +732,18 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 const data = await invokeEdge('gemini-proxy', {
                     contents: [{ parts: [{ text: text.substring(0, 8000) }] }],
                     systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { temperature: 0.3, maxOutputTokens: 512 }
+                    generationConfig: { temperature: 0.3, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 256 } }
                 });
                 if (data?.error) throw new Error(data.error.message || 'AI extraction failed');
-                // Gemini 2.5 may return thinking parts — find the non-thinking part
+                // Concatenate all non-thinking text parts
                 const extractParts = data.candidates?.[0]?.content?.parts || [];
-                const extractPart = extractParts.find(p => !p.thought) || extractParts[extractParts.length - 1];
-                const raw = extractPart?.text || '[]';
+                const raw = extractParts.filter(p => !p.thought && p.text).map(p => p.text).join('') || '[]';
+                console.log('[extract] Raw response:', raw.substring(0, 500));
                 // Parse JSON from response (handle markdown code blocks)
                 const jsonStr = raw.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
-                const interests = JSON.parse(jsonStr);
+                // Try to find a JSON array in the response
+                const arrayMatch = jsonStr.match(/\[[\s\S]*\]/);
+                const interests = JSON.parse(arrayMatch ? arrayMatch[0] : jsonStr);
 
                 if (!Array.isArray(interests) || !interests.length) throw new Error('No interests extracted');
 
