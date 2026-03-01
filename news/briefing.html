@@ -907,7 +907,10 @@
             }
 
             if (!token) {
-                throw new Error('Your session has expired. Please refresh the page and sign in again.');
+                console.warn('[invokeEdge] No token available for', fnName);
+                sessionStorage.setItem('tms_redirect', window.location.href);
+                window.location.href = '../login.html?expired=true';
+                return new Promise(() => { });
             }
 
             // Log token diagnostics

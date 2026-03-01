@@ -164,37 +164,20 @@ body {
 }
 
 /* Background Gradients & Shapes for consumer feel */
+/* Background Gradients & Shapes for consumer feel */
+body {
+    /* Highly premium dotted grid background */
+    background-color: var(--bg-color);
+    background-image: radial-gradient(var(--panel-border) 1px, transparent 1px);
+    background-size: 24px 24px;
+    /* subtle fade out at the edges */
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
 .bg-shape {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(100px);
-    z-index: -1;
-    opacity: 0.5;
-}
-
-.shape-1 {
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, #4f46e5 0%, transparent 70%);
-    top: -200px;
-    right: -100px;
-}
-
-.shape-2 {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
-    bottom: -150px;
-    left: -100px;
-}
-
-.shape-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
-    top: 40%;
-    left: 40%;
-    opacity: 0.2;
+    display: none !important;
+    /* disabled generic blur blobs */
 }
 
 .app-container {

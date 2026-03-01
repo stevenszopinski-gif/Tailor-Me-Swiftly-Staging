@@ -7,16 +7,54 @@
 
 /* Briefing-specific styles */
 .briefing-card {
-    background: var(--glass-bg);
+    background: var(--panel-bg);
     border: 1px solid var(--panel-border);
-    border-radius: 14px;
+    border-radius: 10px;
     padding: 1.5rem;
     margin-bottom: 1rem;
-    transition: border-color 0.2s;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .briefing-card:hover {
-    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--primary-color) 40%, var(--panel-border));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Editorial Typography for Briefing Output */
+.briefing-body h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 0.4rem;
+}
+
+.briefing-body p {
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.briefing-body strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.briefing-body ul {
+    padding-left: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.briefing-body li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 0.6rem;
 }
 
 .briefing-source {
