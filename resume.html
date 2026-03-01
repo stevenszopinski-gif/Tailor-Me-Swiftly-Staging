@@ -1924,7 +1924,7 @@ Rules:
 - Maintain the same overall structure and formatting as the input`;
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                    body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: systemPrompt }] }, contents: [{ parts: [{ text: `Resume HTML:\n${currentHtml}\n\nTarget Job Description:\n${jd}` }] }], generationConfig: { temperature: 0.5 } }
+                    body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: systemPrompt }] }, contents: [{ parts: [{ text: `Resume HTML:\n${currentHtml}\n\nTarget Job Description:\n${jd}` }] }], generationConfig: { temperature: 0.5, maxOutputTokens: 4096 } }
                 });
                 if (error) throw new Error(error.message);
                 let html = data.candidates[0].content.parts[0].text.trim().replace(/^```html?\s*/i, '').replace(/\s*```$/i, '');
@@ -1965,7 +1965,7 @@ Rules:
                 btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin" style="color:var(--primary-color);width:18px;text-align:center;"></i> ${origText}`;
                 try {
                     const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                        body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `You are an elite ATS Resume Writer. ${prompt}\nRules:\n- Every bullet starts with an action verb\n- Preserve all real data — never fabricate\n- Clean semantic HTML only (h1, h2, h3, p, ul, li, strong). No full HTML document wrapper.\n- Maintain the same sections and overall structure` }] }, contents: [{ parts: [{ text: `Resume HTML:\n${currentHtml}` }] }], generationConfig: { temperature: 0.5 } }
+                        body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `You are an elite ATS Resume Writer. ${prompt}\nRules:\n- Every bullet starts with an action verb\n- Preserve all real data — never fabricate\n- Clean semantic HTML only (h1, h2, h3, p, ul, li, strong). No full HTML document wrapper.\n- Maintain the same sections and overall structure` }] }, contents: [{ parts: [{ text: `Resume HTML:\n${currentHtml}` }] }], generationConfig: { temperature: 0.5, maxOutputTokens: 4096 } }
                     });
                     if (error) throw new Error(error.message);
                     let html = data.candidates[0].content.parts[0].text.trim().replace(/^```html?\s*/i, '').replace(/\s*```$/i, '');
@@ -1997,7 +1997,7 @@ Rules:
             resumeEl.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-secondary);"><i class="fa-solid fa-spinner fa-spin"></i> Refining your resume...</div>';
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                    body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `You are an elite ATS Resume Writer. Apply the following refinement request to the resume:\nUser refinement: "${refinement}"\nRewrite the resume with strong ATS-optimized keywords and the user's request.\nEvery bullet starts with an action verb. Preserve all metrics.\nClean semantic HTML only (h1, h2, ul, li, strong). No full HTML document wrapper.` }] }, contents: [{ parts: [{ text: `Current Resume HTML:\n${outputs?.resumeHtml}\n\nJob Description:\n${outputs?.jobText}` }] }], generationConfig: { temperature: 0.7 } }
+                    body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `You are an elite ATS Resume Writer. Apply the following refinement request to the resume:\nUser refinement: "${refinement}"\nRewrite the resume with strong ATS-optimized keywords and the user's request.\nEvery bullet starts with an action verb. Preserve all metrics.\nClean semantic HTML only (h1, h2, ul, li, strong). No full HTML document wrapper.` }] }, contents: [{ parts: [{ text: `Current Resume HTML:\n${outputs?.resumeHtml}\n\nJob Description:\n${outputs?.jobText}` }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 4096 } }
                 });
                 if (error) throw new Error(error.message);
                 let html = data.candidates[0].content.parts[0].text.trim().replace(/^```html?\s*/i, '').replace(/\s*```$/i, '');
@@ -2050,7 +2050,7 @@ Return ONLY the JSON object, nothing else.`;
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: 'You are an ATS resume analysis expert. Return ONLY valid JSON.' }] },
                         contents: [{ parts: [{ text: `${prompt}\n\nResume:\n${resumeText}${jd ? '\n\nJob Description:\n' + jd : ''}` }] }],
-                        generationConfig: { temperature: 0.2 }
+                        generationConfig: { temperature: 0.2, maxOutputTokens: 1024 }
                     }
                 });
                 if (error) throw new Error(error.message);
@@ -2151,7 +2151,7 @@ Return ONLY the JSON object, nothing else.`;
                     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
                     try {
                         const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                            body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `Extract ONLY the "${meta.heading}" information from this resume/profile text. Format as clean HTML: an <h2> heading followed by <ul><li> items (or <p> for languages). Use <strong> for names/titles. If the source text has NO relevant ${meta.heading.toLowerCase()} information at all, respond with exactly: NO_DATA` }] }, contents: [{ parts: [{ text: sourceText }] }], generationConfig: { temperature: 0.1 } }
+                            body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `Extract ONLY the "${meta.heading}" information from this resume/profile text. Format as clean HTML: an <h2> heading followed by <ul><li> items (or <p> for languages). Use <strong> for names/titles. If the source text has NO relevant ${meta.heading.toLowerCase()} information at all, respond with exactly: NO_DATA` }] }, contents: [{ parts: [{ text: sourceText }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 1024 } }
                         });
                         if (!error) {
                             let html = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';

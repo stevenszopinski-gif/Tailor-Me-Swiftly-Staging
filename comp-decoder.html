@@ -187,7 +187,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         contents: [{ parts: [{ text: `Offer Details:\n${JSON.stringify(offerDetails, null, 2)}\n\nJob Description:\n${outputs?.jobText?.substring(0, 500) || 'Not available'}\n\nCompany: ${outputs?.targetCompany || 'Unknown'}` }] }],
-                        generationConfig: { temperature: 0.5 }
+                        generationConfig: { temperature: 0.5, maxOutputTokens: 2048 }
                     }
                 });
 

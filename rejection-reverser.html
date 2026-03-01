@@ -145,7 +145,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         contents: [{ parts: [{ text: `Company: ${outputs?.targetCompany || 'Unknown'}\nRole: ${outputs?.jobText?.substring(0, 300) || 'Not specified'}\nCandidate Name: ${outputs?.applicantName || 'the candidate'}` }] }],
-                        generationConfig: { temperature: 0.7 }
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
                     }
                 });
 

@@ -148,7 +148,7 @@ Write it in first person, conversational tone. Mark natural pause points with [p
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         contents: [{ parts: [{ text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}\n\nCompany: ${outputs.targetCompany || 'Unknown'}` }] }],
-                        generationConfig: { temperature: 0.75 }
+                        generationConfig: { temperature: 0.75, maxOutputTokens: 1024 }
                     }
                 });
 

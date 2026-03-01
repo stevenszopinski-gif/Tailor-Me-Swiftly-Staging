@@ -139,7 +139,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         contents: [{ parts: [{ text: userPrompt }] }],
-                        generationConfig: { temperature: 0.85 }
+                        generationConfig: { temperature: 0.85, maxOutputTokens: 1024 }
                     }
                 });
 

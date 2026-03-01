@@ -136,7 +136,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
                         contents: [{ parts: [{ text: `Job Description:\n${outputs?.jobText || 'No JD'}\n\nCompany: ${outputs?.targetCompany || 'Unknown'}` }] }],
-                        generationConfig: { temperature: 0.6 }
+                        generationConfig: { temperature: 0.6, maxOutputTokens: 1024 }
                     }
                 });
 
