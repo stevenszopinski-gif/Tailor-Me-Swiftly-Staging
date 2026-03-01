@@ -96,11 +96,11 @@
     margin-right: 0.35rem;
 }
 
-.tab-content {
+.news-tab-content {
     display: none;
 }
 
-.tab-content.active {
+.news-tab-content.active {
     display: block;
 }
 
@@ -217,6 +217,7 @@
     .input-tabs {
         overflow-x: auto;
     }
+
     .input-tab {
         font-size: 0.78rem;
         padding: 0.5rem 0.7rem;
