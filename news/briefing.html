@@ -882,11 +882,13 @@ FORMAT — use this EXACT HTML:
                     interests: interests,
                     briefing_html: briefingHtml,
                     briefing_text: briefingHtml.replace(/<[^>]+>/g, ''),
+                    audio_url: null,
                     sources: articles.map(a => ({ title: a.title, url: a.url, source: a.source, publishedAt: a.publishedAt })),
                     metadata: { model: 'gemini-3-flash-preview', generated_at: new Date().toISOString() }
                 }, { onConflict: 'user_id,briefing_date' });
 
                 currentBriefingDate = new Date().toISOString().split('T')[0];
+                _skipCachedAudio = false; // Reset so fresh audio can be cached
 
                 // Save interests to profile for next time
                 saveInterestsToProfile(interests);
@@ -965,6 +967,17 @@ FORMAT — use this EXACT HTML:
         // ── Podcast Subscribe Links ──
         async function setupPodcastSubscribe() {
             try {
+                // Wait for supabaseClient if not ready yet
+                if (!window.supabaseClient) {
+                    await new Promise(r => {
+                        let tries = 0;
+                        const poll = setInterval(() => {
+                            if (window.supabaseClient || ++tries > 50) { clearInterval(poll); r(); }
+                        }, 100);
+                    });
+                }
+                if (!window.supabaseClient) return;
+
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) return;
 
@@ -976,6 +989,7 @@ FORMAT — use this EXACT HTML:
 
                 window._podcastFeedUrl = feedUrl;
                 document.getElementById('podcast-subscribe').style.display = 'block';
+                console.log('[subscribe] Podcast subscribe links ready');
             } catch (e) { console.warn('Subscribe setup failed:', e); }
         }
 
