@@ -987,6 +987,8 @@ FORMAT — use this EXACT HTML structure:
         }
 
         // ── Audio Playback ──
+        let _skipCachedAudio = false; // set true when cached URL fails so retry generates fresh
+
         function playAudioUrl(url) {
             const audioContainer = document.getElementById('audio-container');
             if (!audioContainer) { console.error('audio-container not found'); return; }
@@ -995,11 +997,25 @@ FORMAT — use this EXACT HTML structure:
             audioContainer.innerHTML = '<audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>';
             const audioEl = document.getElementById('briefing-audio');
 
-            audioEl.onerror = function () {
+            audioEl.onerror = async function () {
                 console.error('Audio load failed:', url);
+                _skipCachedAudio = true;
+                // Clear the broken cached URL from DB
+                try {
+                    const { data: { session } } = await window.supabaseClient.auth.getSession();
+                    if (session && currentBriefingDate) {
+                        await window.supabaseClient.from('daily_briefings')
+                            .update({ audio_url: null })
+                            .eq('user_id', session.user.id)
+                            .eq('briefing_date', currentBriefingDate);
+                    }
+                } catch (e) { console.warn('Failed to clear cached URL:', e); }
+
                 audioContainer.innerHTML = '<div style="padding:0.75rem;color:var(--text-secondary);font-size:0.85rem;">' +
                     '<i class="fa-solid fa-exclamation-triangle" style="color:#e74c3c;margin-right:0.4rem;"></i>' +
-                    'Audio failed to load. <a href="' + url + '" target="_blank" style="color:var(--primary-color);">Try direct link</a></div>';
+                    'Cached audio expired. Click <b>Listen</b> to generate fresh audio.</div>';
+                const btn = document.getElementById('listen-btn');
+                if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-play"></i> Listen'; }
             };
 
             audioEl.src = url;
@@ -1007,7 +1023,7 @@ FORMAT — use this EXACT HTML structure:
             audioEl.play().catch(() => { /* autoplay blocked */ });
 
             const btn = document.getElementById('listen-btn');
-            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-play"></i> Listen'; }
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-pause"></i> Playing'; }
         }
 
         async function listenToBriefing() {
@@ -1019,8 +1035,8 @@ FORMAT — use this EXACT HTML structure:
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) throw new Error('Please sign in to use audio.');
 
-                // Check for cached audio URL
-                if (currentBriefingDate) {
+                // Check for cached audio URL (skip if previous cached URL failed)
+                if (currentBriefingDate && !_skipCachedAudio) {
                     const { data: row } = await window.supabaseClient
                         .from('daily_briefings')
                         .select('audio_url')
@@ -1051,6 +1067,7 @@ FORMAT — use this EXACT HTML structure:
                 if (!result?.audioUrl) throw new Error('No audio generated. Please try again.');
 
                 // Cache the audio URL
+                _skipCachedAudio = false;
                 if (currentBriefingDate) {
                     try {
                         await window.supabaseClient
