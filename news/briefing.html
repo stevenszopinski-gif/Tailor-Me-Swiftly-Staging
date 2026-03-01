@@ -847,13 +847,16 @@ FORMAT — use this EXACT HTML structure:
                 const geminiData = await invokeEdge('gemini-proxy', {
                     contents: [{ parts: [{ text: userPrompt }] }],
                     systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 16384, thinkingConfig: { thinkingBudget: 2048 } }
                 });
                 if (geminiData?.error) throw new Error(geminiData.error.message || 'AI generation failed');
                 // Gemini 2.5 may return thinking parts — find the non-thinking part
                 const geminiParts = geminiData.candidates?.[0]?.content?.parts || [];
-                const briefingPart = geminiParts.find(p => !p.thought) || geminiParts[geminiParts.length - 1];
-                const briefingHtml = briefingPart?.text || 'No briefing generated.';
+                const finishReason = geminiData.candidates?.[0]?.finishReason;
+                console.log('[briefing] finishReason:', finishReason, 'parts:', geminiParts.length);
+                // Concatenate all non-thinking text parts (Gemini may split output across multiple parts)
+                const textParts = geminiParts.filter(p => !p.thought && p.text);
+                const briefingHtml = textParts.map(p => p.text).join('') || 'No briefing generated.';
 
                 // Step 3: Save to DB
                 await window.supabaseClient.from('daily_briefings').upsert({
