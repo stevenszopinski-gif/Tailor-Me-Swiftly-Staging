@@ -1749,7 +1749,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             url.searchParams.delete('view');
             history.replaceState(null, '', url);
 
-            // In Dashboard layout, sidebar is always open, just focus it
+            // Show the settings sidebar and scroll to it
+            document.getElementById('input-section').style.display = 'block';
             document.getElementById('input-section').scrollIntoView({ behavior: 'smooth' });
 
             // Show and update header for edit mode
@@ -1837,7 +1838,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             url.searchParams.delete('edit');
             history.replaceState(null, '', url);
 
-            // Dashboard layout: keep sidebar visible, just show result again
+            // Hide sidebar settings, show briefing result
+            document.getElementById('input-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'block';
 
             // Hide the step header again (briefing is showing)
