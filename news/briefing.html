@@ -847,12 +847,11 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             document.getElementById('result-section').style.display = 'none';
             document.getElementById('input-section').style.display = 'block';
 
-            // Sync the tags UI with whatever the user currently sees or last generated
-            if (extractedInterests.length > 0) {
-                renderInterestTags(extractedInterests);
-                // Switch to Type Interests tab by default when editing so they clearly see the text box
-                switchTab('type');
-            }
+            // Sync the tags UI and textarea with whatever the user currently sees or last generated
+            renderInterestTags(extractedInterests || []);
+
+            // Switch to Type Interests tab by default when editing so they clearly see the text box
+            switchTab('type');
         }
 
         async function generateBriefing() {
