@@ -659,6 +659,14 @@
                                 style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
                                 <i class="fa-solid fa-podcast"></i> Apple Podcasts
                             </a>
+                            <button id="sub-spotify" onclick="subscribeSpotify()" class="btn ghost-btn"
+                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
+                                <i class="fa-brands fa-spotify"></i> Spotify
+                            </button>
+                            <a id="sub-pocketcasts" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
+                                style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
+                                <i class="fa-solid fa-headphones"></i> Pocket Casts
+                            </a>
                             <button onclick="copyPodcastFeedUrl()" class="btn ghost-btn"
                                 style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;">
                                 <i class="fa-solid fa-copy"></i> Copy RSS
@@ -930,6 +938,17 @@
                                 todayBriefing.interests || profile.interests,
                                 todayBriefing.sources || []
                             );
+                            // Pre-load cached audio if available
+                            if (todayBriefing.audio_url && todayBriefing.audio_url.startsWith('http')) {
+                                const audioContainer = document.getElementById('audio-container');
+                                if (audioContainer) {
+                                    audioContainer.innerHTML = '<audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>';
+                                    document.getElementById('briefing-audio').src = todayBriefing.audio_url;
+                                    audioContainer.style.display = 'block';
+                                    const listenBtn = document.getElementById('listen-btn');
+                                    if (listenBtn) listenBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+                                }
+                            }
                         } else {
                             generateBriefing();
                         }
@@ -2268,11 +2287,25 @@ FORMAT — use this EXACT HTML:
                 const feedUrl = `https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/podcast-feed?uid=${session.user.id}`;
 
                 document.getElementById('sub-apple').href = `podcast://${feedUrl.replace('https://', '')}`;
+                document.getElementById('sub-pocketcasts').href = `pktc://subscribe/${feedUrl}`;
 
                 window._podcastFeedUrl = feedUrl;
                 document.getElementById('podcast-subscribe').style.display = 'block';
                 console.log('[subscribe] Podcast subscribe links ready');
             } catch (e) { console.warn('Subscribe setup failed:', e); }
+        }
+
+        function subscribeSpotify() {
+            if (!window._podcastFeedUrl) return;
+            navigator.clipboard.writeText(window._podcastFeedUrl).then(() => {
+                const btn = document.getElementById('sub-spotify');
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> URL Copied!';
+                setTimeout(() => btn.innerHTML = orig, 3000);
+                alert('RSS feed URL copied!\\n\\nIn Spotify:\\n1. Go to Your Library\\n2. Tap the + button\\n3. Choose "Add a Podcast by URL"\\n4. Paste the copied URL');
+            }).catch(() => {
+                prompt('Copy this RSS feed URL and add it in Spotify > Your Library > Add Podcast by URL:', window._podcastFeedUrl);
+            });
         }
 
         function copyPodcastFeedUrl() {
@@ -2425,9 +2458,11 @@ FORMAT — use this EXACT HTML:
 
                 let briefingText = currentText || extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
-                // Add spoken intro
+                // Add spoken intro with personalized greeting
                 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-                briefingText = `Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
+                const firstName = (session.user?.user_metadata?.full_name || '').split(' ')[0] || '';
+                const greeting = firstName ? `Hello ${firstName}, let's take a look at today's briefing. ` : '';
+                briefingText = `${greeting}Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
 
                 const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 5000) });
                 clearInterval(dotsInterval);

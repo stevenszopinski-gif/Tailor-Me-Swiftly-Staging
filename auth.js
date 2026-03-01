@@ -302,7 +302,14 @@
             const P = window.TMS_PATH_PREFIX || '';
             const _home = P + (window.TMS_BRAND?.homePath || 'dashboard.html');
             if (session && isLoginSignup && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
-                window.location.href = _home;
+                // Honor saved redirect from expired-session flow
+                var savedRedirect = sessionStorage.getItem('tms_redirect');
+                if (savedRedirect) {
+                    sessionStorage.removeItem('tms_redirect');
+                    window.location.href = savedRedirect;
+                } else {
+                    window.location.href = _home;
+                }
             } else if (!session && event === 'SIGNED_OUT') {
                 // Only redirect/update UI on explicit sign-out
                 if (isApp) {
