@@ -28,7 +28,7 @@
             font-family: inherit;
             background: none;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--brutal-radius);
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.2s;
@@ -36,13 +36,15 @@
 
         .settings-tab:hover {
             color: var(--text-primary);
-            background: rgba(59, 130, 246, 0.05);
+            background: var(--panel-bg);
+            border: var(--brutal-border);
         }
 
         .settings-tab.active {
-            background: var(--primary-color);
-            color: #fff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            background: var(--text-primary);
+            color: var(--bg-color);
+            box-shadow: var(--brutal-shadow);
+            border: var(--brutal-border);
         }
 
         .settings-tab i {
@@ -52,9 +54,9 @@
         .tone-preview {
             margin-top: 0.5rem;
             padding: 0.75rem 1rem;
-            background: color-mix(in srgb, var(--primary-color) 4%, transparent);
-            border: 1px solid color-mix(in srgb, var(--primary-color) 12%, transparent);
-            border-radius: 10px;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
             font-size: 0.8rem;
             line-height: 1.6;
             color: var(--text-secondary);
@@ -78,9 +80,9 @@
             line-height: 1.6;
             padding: 1rem 1.25rem;
             margin: 0 0 1rem;
-            background: color-mix(in srgb, var(--primary-color) 5%, transparent);
-            border-left: 4px solid var(--primary-color);
-            border-radius: 0 12px 12px 0;
+            background: var(--panel-bg);
+            border-left: 4px solid var(--text-primary);
+            border-radius: var(--brutal-radius);
         }
 
         .briefing-body .briefing-thesis strong {
@@ -89,7 +91,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: var(--primary-color);
+            color: var(--text-primary);
             margin-bottom: 0.4rem;
         }
 
@@ -109,16 +111,18 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-color);
+            border-bottom: 2px solid var(--text-primary);
+            color: var(--text-primary);
         }
 
         /* Actionable takeaways */
         .briefing-body ul {
             margin: 0.75rem 0;
             padding: 1.25rem 1.5rem 1.25rem 2.25rem;
-            background: color-mix(in srgb, var(--primary-color) 4%, transparent);
-            border: 1px solid color-mix(in srgb, var(--primary-color) 15%, transparent);
-            border-radius: 12px;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
+            box-shadow: var(--brutal-shadow);
             list-style-type: none;
         }
 
@@ -139,10 +143,10 @@
             position: absolute;
             left: -0.9rem;
             top: 0.6rem;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--primary-color);
+            width: 8px;
+            height: 8px;
+            border-radius: 0px;
+            background: var(--text-primary);
         }
 
         .briefing-body strong {
@@ -150,8 +154,10 @@
         }
 
         .briefing-cite {
-            color: var(--primary-color);
-            text-decoration: none;
+            color: var(--text-primary);
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
             font-size: 0.75rem;
             font-weight: 600;
             white-space: nowrap;
@@ -174,8 +180,9 @@
             align-items: flex-start;
             gap: 0.6rem;
             padding: 0.75rem;
-            border: 1px solid var(--panel-border);
-            border-radius: 10px;
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
+            background: var(--panel-bg);
             text-decoration: none;
             color: inherit;
             font-size: 0.82rem;
@@ -183,12 +190,13 @@
         }
 
         .briefing-source-card:hover {
-            border-color: var(--primary-color);
-            background: rgba(59, 130, 246, 0.04);
+            border-color: var(--text-primary);
+            box-shadow: var(--brutal-shadow);
+            transform: translate(-1px, -1px);
         }
 
         .briefing-source-card i {
-            color: var(--primary-color);
+            color: var(--text-primary);
             margin-top: 0.15rem;
             flex-shrink: 0;
             font-size: 0.75rem;
@@ -220,7 +228,7 @@
         .rec-chip {
             display: inline-block;
             padding: 0.3rem 0.7rem;
-            border-radius: 20px;
+            border-radius: var(--brutal-radius);
             font-size: 0.78rem;
             font-weight: 500;
             background: var(--panel-bg);
@@ -232,9 +240,11 @@
         }
 
         .rec-chip:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+            background: var(--panel-bg);
+            box-shadow: var(--brutal-shadow);
+            transform: translate(-1px, -1px);
         }
 
         .rec-chip.added {
@@ -244,24 +254,24 @@
 
         .qa-msg {
             padding: 0.6rem 0.9rem;
-            border-radius: 12px;
+            border-radius: var(--brutal-radius);
             font-size: 0.88rem;
             line-height: 1.6;
             max-width: 85%;
         }
 
         .qa-msg.user {
-            background: var(--primary-color);
-            color: #fff;
+            background: var(--text-primary);
+            color: var(--bg-color);
             align-self: flex-end;
             border-bottom-right-radius: 4px;
         }
 
         .qa-msg.assistant {
             background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
+            border: var(--brutal-border);
             align-self: flex-start;
-            border-bottom-left-radius: 4px;
+            box-shadow: var(--brutal-shadow);
         }
     </style>
 </head>
@@ -286,7 +296,7 @@
                 <div id="user-profile"
                     style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
                     <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
-                        style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
+                        style="width:36px;height:36px;border-radius:var(--brutal-radius);object-fit:cover;border:var(--brutal-border);cursor:pointer;"
                         onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
                     <span id="user-greeting"
                         style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
@@ -447,8 +457,9 @@
                             <div id="interest-tags" class="interest-tags-wrap"></div>
                             <div style="margin-top:0.5rem;">
                                 <input type="text" id="add-interest-input" placeholder="Add a topic..."
-                                    style="padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;"
-                                    onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
+                                    style="padding:0.4rem 0.75rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;"
+                                    title="Add topic">
+                                onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
                             </div>
                         </div>
 
@@ -480,7 +491,7 @@
                                 style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;color:var(--text-secondary);">Briefing
                                 Tone & Style</label>
                             <select id="briefing-tone"
-                                style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;"
+                                style="width:100%;padding:0.6rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;"
                                 onchange="updateTonePreview('tone-preview-main', this.value)">
                                 <option value="npr">🎙️ Public Radio Host (Audio-friendly)</option>
                                 <option value="morning-brew">☕ Morning Brew (Witty & Conversational)</option>
@@ -505,14 +516,14 @@
 
                             <!-- Tone & Style -->
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-bottom:0.75rem;">
                                 <label for="briefing-tone-setting"
                                     style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;"><i
                                         class="fa-solid fa-microphone-lines"
                                         style="margin-right:0.4rem;color:var(--primary-color);"></i> Tone &
                                     Style</label>
                                 <select id="briefing-tone-setting"
-                                    style="width:100%;padding:0.5rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.88rem;"
+                                    style="width:100%;padding:0.5rem 0.75rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.88rem;"
                                     onchange="document.getElementById('briefing-tone').value=this.value;updateTonePreview('tone-preview-settings', this.value);">
                                     <option value="npr">Public Radio Host (Audio-friendly)</option>
                                     <option value="morning-brew">Morning Brew (Witty & Conversational)</option>
@@ -524,7 +535,7 @@
 
                             <!-- Auto-Generate Daily -->
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;margin-bottom:0.75rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-top:0.5rem;margin-bottom:0.75rem;">
                                 <div
                                     style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
                                     <div>
@@ -546,7 +557,7 @@
 
                             <!-- Email Delivery -->
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:0.75rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-bottom:0.75rem;">
                                 <div
                                     style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
                                     <div>
@@ -569,7 +580,7 @@
                                 <i class="fa-solid fa-filter" style="margin-right:0.3rem;"></i> Source Preferences
                             </div>
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.5rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-top:0.5rem;">
                                 <div style="margin-bottom:0.75rem;">
                                     <label
                                         style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.3rem;">Preferred
@@ -577,7 +588,7 @@
                                     <div id="whitelist-tags" class="interest-tags-wrap"
                                         style="min-height:24px;margin-bottom:0.4rem;"></div>
                                     <input type="text" id="whitelist-input" placeholder="e.g. Reuters, BBC..."
-                                        style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
+                                        style="padding:0.35rem 0.6rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:160px;"
                                         onkeydown="if(event.key==='Enter'){addSourcePref('whitelist',this.value);this.value='';}">
                                 </div>
                                 <div>
@@ -594,7 +605,7 @@
 
                             <!-- Jargon Translator -->
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-top:0.75rem;">
                                 <div style="display:flex;align-items:center;justify-content:space-between;">
                                     <div>
                                         <div style="font-size:0.85rem;font-weight:600;"><i class="fa-solid fa-language"
@@ -612,7 +623,7 @@
 
                             <!-- Sentiment Controls -->
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-top:0.75rem;">
                                 <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
                                         class="fa-solid fa-face-smile"
                                         style="margin-right:0.4rem;color:var(--primary-color);"></i> Framing &
@@ -644,7 +655,7 @@
 
                             <!-- Topic Muting -->
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-top:0.75rem;">
                                 <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
                                         class="fa-solid fa-bell-slash"
                                         style="margin-right:0.4rem;color:var(--primary-color);"></i> Muted Topics</div>
@@ -655,10 +666,10 @@
                                     style="min-height:24px;margin-bottom:0.4rem;"></div>
                                 <div style="display:flex;gap:0.5rem;align-items:center;">
                                     <input type="text" id="mute-topic-input" placeholder="e.g. elections"
-                                        style="padding:0.35rem 0.6rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:140px;"
+                                        style="padding:0.35rem 0.6rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.82rem;font-family:inherit;width:140px;"
                                         onkeydown="if(event.key==='Enter')addMutedTopic()">
                                     <select id="mute-duration"
-                                        style="padding:0.35rem 0.5rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.8rem;">
+                                        style="padding:0.35rem 0.5rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.8rem;">
                                         <option value="1">1 day</option>
                                         <option value="3">3 days</option>
                                         <option value="7" selected>7 days</option>
@@ -672,12 +683,12 @@
 
                             <!-- Location -->
                             <div
-                                style="padding:0.75rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-top:0.75rem;">
+                                style="padding:0.75rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);margin-top:0.75rem;">
                                 <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.4rem;"><i
                                         class="fa-solid fa-location-dot"
                                         style="margin-right:0.4rem;color:var(--primary-color);"></i> Location</div>
                                 <input type="text" id="user-location" placeholder="e.g. San Francisco, CA"
-                                    style="width:100%;padding:0.4rem 0.75rem;border-radius:8px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;box-sizing:border-box;"
+                                    style="width:100%;padding:0.4rem 0.75rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;box-sizing:border-box;"
                                     onblur="saveSettingToggle('location', this.value)">
                                 <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:0.3rem;">Adds local
                                     news to your briefing</div>
@@ -699,7 +710,7 @@
 
             <!-- RIGHT READING PANE -->
             <article class="dashboard-reading-pane"
-                style="min-height:75vh;padding-left:2.5rem;border-left:1px solid var(--panel-border);">
+                style="min-height:75vh;padding-left:2.5rem;border-left:var(--brutal-border);">
                 <!-- Initial Empty State -->
                 <div id="empty-state" style="text-align:center;padding:4rem 0;color:var(--text-secondary);opacity:0.6;">
                     <i class="fa-regular fa-newspaper" style="font-size:3rem;margin-bottom:1rem;display:block;"></i>
@@ -724,15 +735,18 @@
                 <!-- Result Section -->
                 <div id="result-section" style="display:none;">
                     <!-- 7-Day Date Strip -->
-                    <div id="date-strip" style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.75rem;margin-bottom:1rem;border-bottom:1px solid var(--panel-border);scrollbar-width:none;-webkit-overflow-scrolling:touch;"></div>
+                    <div id="date-strip"
+                        style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.75rem;margin-bottom:1rem;border-bottom:var(--brutal-border);scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+                    </div>
 
                     <div
                         style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
-                        <h3 id="briefing-date-heading" style="margin:0;"><i class="fa-solid fa-newspaper" style="color:var(--primary-color);"></i>
+                        <h3 id="briefing-date-heading" style="margin:0;"><i class="fa-solid fa-newspaper"
+                                style="color:var(--primary-color);"></i>
                             Today's Briefing</h3>
                         <div style="display:flex;gap:0.5rem;align-items:center;">
                             <span id="briefing-read-time"
-                                style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:20px;border:1px solid var(--panel-border);"><i
+                                style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:var(--brutal-radius);border:var(--brutal-border);"><i
                                     class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
                             <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="regenerateBriefing()">
                                 <i class="fa-solid fa-rotate"></i> Regenerate
@@ -748,7 +762,7 @@
 
                     <!-- Audio Player -->
                     <div id="audio-section"
-                        style="margin-bottom:1.5rem;padding:1rem;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;">
+                        style="margin-bottom:1.5rem;padding:1rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);">
                         <div
                             style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
                             <div style="display:flex;align-items:center;gap:0.75rem;">
@@ -771,7 +785,7 @@
                         </div>
                         <!-- Podcast Subscribe -->
                         <div id="podcast-subscribe"
-                            style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--panel-border);">
+                            style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:var(--brutal-border);">
                             <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;">Subscribe
                                 to
                                 your briefings podcast:</div>
@@ -799,7 +813,7 @@
                     <div id="briefing-content" class="briefing-body"></div>
 
                     <div id="briefing-sources"
-                        style="margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                        style="margin-top:2rem;padding-top:1.25rem;border-top:var(--brutal-border);">
                         <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);"><i
                                 class="fa-solid fa-link" style="margin-right:0.4rem;"></i> Sources</h4>
                         <div id="sources-list" class="sources-grid"></div>
@@ -817,8 +831,7 @@
                     </details>
 
                     <!-- Follow-up Q&A -->
-                    <div id="qa-section"
-                        style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);">
+                    <div id="qa-section" style="margin-top:1.5rem;padding-top:1.25rem;border-top:var(--brutal-border);">
                         <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);">
                             <i class="fa-solid fa-comments" style="margin-right:0.4rem;color:var(--primary-color);"></i>
                             Ask
@@ -829,7 +842,7 @@
                         </div>
                         <div style="display:flex;gap:0.5rem;">
                             <input type="text" id="qa-input" placeholder="Ask a question about today's news..."
-                                style="flex:1;padding:0.6rem 0.75rem;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;font-family:inherit;"
+                                style="flex:1;padding:0.6rem 0.75rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.9rem;font-family:inherit;"
                                 onkeydown="if(event.key==='Enter')askFollowUp()">
                             <button class="btn primary-btn" style="padding:0.6rem 1rem;" onclick="askFollowUp()"
                                 id="qa-send-btn">
@@ -988,7 +1001,7 @@
                 const isActive = dateStr === activeDateStr;
                 const dayLabel = i === 0 ? 'Today' : d.toLocaleDateString('en-US', { weekday: 'short' });
                 const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                pills.push(`<button onclick="showBriefingForDate('${dateStr}')" style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0.15rem;padding:0.5rem 0.85rem;border-radius:12px;border:1px solid ${isActive ? 'var(--primary-color)' : 'var(--panel-border)'};background:${isActive ? 'rgba(59,130,246,0.1)' : 'var(--panel-bg)'};cursor:pointer;transition:all 0.2s;opacity:${hasBriefing || isActive ? '1' : '0.5'};" onmouseover="if(!this.classList.contains('active'))this.style.borderColor='var(--primary-color)'" onmouseout="if(!this.classList.contains('active'))this.style.borderColor='${isActive ? 'var(--primary-color)' : 'var(--panel-border)'}'">
+                pills.push(`<button onclick="showBriefingForDate('${dateStr}')" style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:0.15rem;padding:0.5rem 0.85rem;border-radius:var(--brutal-radius);border:${isActive ? '2px solid var(--text-primary)' : 'var(--brutal-border)'};background:${isActive ? 'var(--panel-bg)' : 'transparent'};box-shadow:${isActive ? 'var(--brutal-shadow)' : 'none'};cursor:pointer;transition:all 0.2s;opacity:${hasBriefing || isActive ? '1' : '0.5'};" onmouseover="if(!this.classList.contains('active')) { this.style.borderColor='var(--text-primary)'; this.style.transform='translate(-1px,-1px)'; this.style.boxShadow='var(--brutal-shadow)'; }" onmouseout="if(!this.classList.contains('active')) { this.style.borderColor='${isActive ? 'var(--text-primary)' : 'var(--panel-border)'}'; this.style.transform='none'; this.style.boxShadow='${isActive ? 'var(--brutal-shadow)' : 'none'}'; }">
                     <span style="font-size:0.72rem;font-weight:600;color:${isActive ? 'var(--primary-color)' : 'var(--text-secondary)'};">${dayLabel}</span>
                     <span style="font-size:0.82rem;font-weight:${isActive ? '700' : '500'};color:${isActive ? 'var(--primary-color)' : 'var(--text-primary)'};">${dateLabel}</span>
                     ${hasBriefing ? `<span style="width:5px;height:5px;border-radius:50%;background:${isActive ? 'var(--primary-color)' : 'var(--text-secondary)'};margin-top:0.1rem;"></span>` : '<span style="width:5px;height:5px;margin-top:0.1rem;"></span>'}
@@ -1113,7 +1126,16 @@
             const editMode = params.get('edit') === 'true';
             console.log('[auth-ready] viewMode:', viewMode, 'editMode:', editMode);
             try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                // Force token refresh before any queries to avoid stale/expired JWT
+                let session = null;
+                try {
+                    const { data: refreshed } = await window.supabaseClient.auth.refreshSession();
+                    session = refreshed?.session;
+                } catch (e) { /* silent */ }
+                if (!session) {
+                    const { data: cached } = await window.supabaseClient.auth.getSession();
+                    session = cached?.session;
+                }
                 if (!session) { console.warn('[auth-ready] No session'); return; }
                 console.log('[auth-ready] Session found for', session.user.email);
                 const { data: profile, error: profileErr } = await window.supabaseClient
@@ -1456,7 +1478,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             } catch (e) {
                 console.error('Extraction error:', e);
                 const statusEl = document.getElementById('extraction-status');
-                statusEl.innerHTML = `<span style="color:var(--error-color)"><i class="fa-solid fa-triangle-exclamation"></i> Could not extract interests automatically. Please type them below.</span>`;
+                statusEl.innerHTML = `<span style="color:var(--primary-color)"><i class="fa-solid fa-triangle-exclamation"></i> Could not extract interests automatically. Please type them below.</span>`;
             }
 
             loadingEl.style.display = 'none';
@@ -1619,7 +1641,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             if (!container) return;
             container.innerHTML = mutedTopics.map((m, i) => {
                 const daysLeft = Math.ceil((new Date(m.expires) - Date.now()) / 86400000);
-                return `<span class="interest-tag editable" style="background:rgba(239,68,68,0.08);color:#ef4444;border-color:rgba(239,68,68,0.2);">${m.topic} <span style="font-size:0.7rem;opacity:0.7;">(${daysLeft}d)</span> <button onclick="removeMutedTopic(${i})" aria-label="Unmute">&times;</button></span>`;
+                return `<span class="interest-tag editable" style="background:var(--panel-bg);color:var(--text-primary);border-color:var(--text-primary);">${m.topic} <span style="font-size:0.7rem;opacity:0.7;">(${daysLeft}d)</span> <button onclick="removeMutedTopic(${i})" aria-label="Unmute">&times;</button></span>`;
             }).join('');
         }
 
@@ -2205,7 +2227,7 @@ FORMAT — use this EXACT HTML:
                 if (existingErr) existingErr.remove();
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-text';
-                errorDiv.style.cssText = 'margin-bottom:1rem;padding:1rem;text-align:center;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;color:#ef4444;';
+                errorDiv.style.cssText = 'margin-bottom:1rem;padding:1rem;text-align:center;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);color:var(--primary-color);';
                 errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}<br><button class="btn ghost-btn" style="margin-top:0.75rem;font-size:0.82rem;" onclick="this.parentElement.remove();editInterests();"><i class="fa-solid fa-arrow-left"></i> Back to Settings</button>`;
                 document.getElementById('input-section').prepend(errorDiv);
             } finally {
@@ -2348,7 +2370,7 @@ FORMAT — use this EXACT HTML:
 
                 const card = document.createElement('div');
                 card.className = 'deep-dive-card';
-                card.style.cssText = 'margin-top:0.75rem;padding:0.75rem 1rem;background:color-mix(in srgb, var(--primary-color) 4%, transparent);border:1px solid color-mix(in srgb, var(--primary-color) 15%, transparent);border-radius:10px;font-size:0.85rem;line-height:1.7;';
+                card.style.cssText = 'margin-top:0.75rem;padding:0.75rem 1rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);font-size:0.85rem;line-height:1.7;';
                 card.innerHTML = `<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.4rem;">Deep Dive</div>${deepDiveHtml}`;
                 liEl.appendChild(card);
 
@@ -2384,7 +2406,7 @@ FORMAT — use this EXACT HTML:
 
                 const card = document.createElement('div');
                 card.className = 'catch-up-card';
-                card.style.cssText = 'margin-top:0.75rem;padding:0.75rem 1rem;background:color-mix(in srgb, var(--primary-color) 3%, transparent);border:1px solid color-mix(in srgb, var(--primary-color) 12%, transparent);border-radius:10px;font-size:0.85rem;line-height:1.7;';
+                card.style.cssText = 'margin-top:0.75rem;padding:0.75rem 1rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);font-size:0.85rem;line-height:1.7;';
                 card.innerHTML = `<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.5rem;"><i class="fa-solid fa-clock-rotate-left" style="margin-right:0.3rem;"></i>Story Timeline</div>${timelineHtml}`;
 
                 // Style timeline events
@@ -2392,7 +2414,7 @@ FORMAT — use this EXACT HTML:
                     ev.style.cssText = 'padding-left:1rem;border-left:2px solid var(--primary-color);margin-bottom:0.6rem;';
                 });
                 const whyNow = card.querySelector('.why-now');
-                if (whyNow) whyNow.style.cssText = 'margin-top:0.75rem;padding:0.6rem 0.8rem;background:color-mix(in srgb, var(--primary-color) 6%, transparent);border-radius:8px;';
+                if (whyNow) whyNow.style.cssText = 'margin-top:0.75rem;padding:0.6rem 0.8rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);';
 
                 liEl.appendChild(card);
                 btn.innerHTML = '<i class="fa-solid fa-chevron-up" style="margin-right:0.25rem;"></i>Hide Timeline';
@@ -2481,7 +2503,7 @@ FORMAT — use this EXACT HTML:
                 document.getElementById('saved-count').textContent = `(${saved.length})`;
                 document.getElementById('saved-articles-list').innerHTML = saved.map(s => {
                     const date = new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                    return `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;border:1px solid var(--panel-border);border-radius:8px;font-size:0.82rem;">
+                    return `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;border:var(--brutal-border);background:var(--panel-bg);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);font-size:0.82rem;margin-bottom:0.5rem;">
                         <a href="${s.article_url}" target="_blank" rel="noopener" style="flex:1;color:inherit;text-decoration:none;">
                             <div style="font-weight:600;">${s.article_title || 'Untitled'}</div>
                             <div style="font-size:0.75rem;color:var(--text-secondary);">${s.source_name || ''} &middot; ${date}</div>
