@@ -14,8 +14,8 @@
     text-align: center !important;
     text-transform: uppercase !important;
     letter-spacing: 2px !important;
-    border-top: 3px solid var(--r-accent, #c9a84c) !important;
-    border-bottom: 3px solid var(--r-accent, #c9a84c) !important;
+    border-top: 3px solid var(--r-accent, #A6842A) !important;
+    border-bottom: 3px solid var(--r-accent, #A6842A) !important;
     padding: 10px 0 !important;
     margin-bottom: 5px !important;
     font-size: 2.2rem !important;
@@ -32,7 +32,7 @@
 }
 
 .resume-output.rich-output-area.theme-executive h2 {
-    background: var(--r-accent, #c9a84c) !important;
+    background: var(--r-accent, #A6842A) !important;
     color: #fff !important;
     text-align: center !important;
     text-transform: uppercase !important;
@@ -44,13 +44,13 @@
 
 /* 2. Modern Split (Asymmetrical left border mimicking a layout) */
 .resume-output.rich-output-area.theme-modern-split {
-    border-left: 30px solid var(--r-accent, #2563eb) !important;
+    border-left: 30px solid var(--r-accent, #5C7A8A) !important;
     padding-left: 40px !important;
 }
 
 .resume-output.rich-output-area.theme-modern-split h1 {
     text-align: left !important;
-    color: var(--r-accent, #2563eb) !important;
+    color: var(--r-accent, #5C7A8A) !important;
     font-weight: 800 !important;
     font-size: 2.8rem !important;
     margin-bottom: 0 !important;
@@ -66,7 +66,7 @@
 
 .resume-output.rich-output-area.theme-modern-split h2 {
     text-align: left !important;
-    border-bottom: 3px solid var(--r-accent, #2563eb) !important;
+    border-bottom: 3px solid var(--r-accent, #5C7A8A) !important;
     display: block !important;
     padding-bottom: 5px !important;
     margin-top: 2rem !important;
@@ -75,7 +75,7 @@
 
 /* 3. The Timeline */
 .resume-output.rich-output-area.theme-timeline ul {
-    border-left: 2px solid var(--r-accent, #0d9488) !important;
+    border-left: 2px solid var(--r-accent, #5F8A85) !important;
     list-style-type: none !important;
     padding-left: 20px !important;
     position: relative !important;
@@ -93,13 +93,13 @@
     top: 6px !important;
     width: 10px !important;
     height: 10px !important;
-    background: var(--r-accent, #0d9488) !important;
+    background: var(--r-accent, #5F8A85) !important;
     border-radius: 50% !important;
 }
 
 .resume-output.rich-output-area.theme-timeline h2 {
-    color: var(--r-accent, #0d9488) !important;
-    border-bottom: 1px dashed var(--r-accent, #0d9488) !important;
+    color: var(--r-accent, #5F8A85) !important;
+    border-bottom: 1px dashed var(--r-accent, #5F8A85) !important;
 }
 
 /* 4. Minimalist Grid */
@@ -139,12 +139,12 @@
 
 /* 5. The Infographic */
 .resume-output.rich-output-area.theme-infographic h1 {
-    color: var(--r-accent, #0d9488) !important;
+    color: var(--r-accent, #5F8A85) !important;
     font-weight: 900 !important;
 }
 
 .resume-output.rich-output-area.theme-infographic h2 {
-    background: var(--r-accent, #0d9488) !important;
+    background: var(--r-accent, #5F8A85) !important;
     color: white !important;
     padding: 6px 15px !important;
     border-radius: 30px !important;
@@ -159,7 +159,7 @@
     border-radius: 8px !important;
     margin-bottom: 8px !important;
     list-style-type: none !important;
-    border-left: 4px solid var(--r-accent, #0d9488) !important;
+    border-left: 4px solid var(--r-accent, #5F8A85) !important;
 }
 
 .resume-output.rich-output-area.theme-infographic ul {
@@ -225,7 +225,7 @@
 
 /* 8. Tech Sidebar mimicking */
 .resume-output.rich-output-area.theme-tech-sidebar h1 {
-    color: var(--r-accent, #8b5cf6) !important;
+    color: var(--r-accent, #9B8EA6) !important;
     text-align: left !important;
     margin-bottom: 0 !important;
 }
@@ -233,12 +233,12 @@
 .resume-output.rich-output-area.theme-tech-sidebar h1+p {
     text-align: left !important;
     padding-left: 5px !important;
-    border-left: 3px solid var(--r-accent, #8b5cf6) !important;
+    border-left: 3px solid var(--r-accent, #9B8EA6) !important;
 }
 
 .resume-output.rich-output-area.theme-tech-sidebar h2 {
-    background: rgba(139, 92, 246, 0.1) !important;
-    border-left: 3px solid var(--r-accent, #8b5cf6) !important;
+    background: rgba(155, 142, 166, 0.1) !important;
+    border-left: 3px solid var(--r-accent, #9B8EA6) !important;
     padding: 4px 10px !important;
     border-bottom: none !important;
     color: #333 !important;
@@ -269,7 +269,7 @@
     letter-spacing: 2px !important;
     text-transform: uppercase !important;
     font-size: 1rem !important;
-    color: var(--r-accent, #9b1b30) !important;
+    color: var(--r-accent, #8B4A42) !important;
 }
 
 /* 10. Startup */
@@ -278,7 +278,7 @@
 }
 
 .resume-output.rich-output-area.theme-startup h1 {
-    background: linear-gradient(90deg, var(--r-accent, #0ea5e9), #a855f7) !important;
+    background: linear-gradient(90deg, var(--r-accent, #7BA5B4), #a855f7) !important;
     background-clip: text !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
@@ -286,7 +286,7 @@
 }
 
 .resume-output.rich-output-area.theme-startup h2 {
-    color: var(--r-accent, #0ea5e9) !important;
+    color: var(--r-accent, #7BA5B4) !important;
     border-bottom: 2px solid rgba(14, 165, 233, 0.2) !important;
 }
 
@@ -294,12 +294,12 @@
     background: rgba(14, 165, 233, 0.1) !important;
     padding: 2px 6px !important;
     border-radius: 4px !important;
-    color: var(--r-accent, #0ea5e9) !important;
+    color: var(--r-accent, #7BA5B4) !important;
 }
 
 /* 11. Classic Two-Tone */
 .resume-output.rich-output-area.theme-two-tone h1 {
-    background: var(--r-accent, #c2704f) !important;
+    background: var(--r-accent, #B06645) !important;
     color: #fff !important;
     margin: -48px -56px 20px !important;
     /* Overrides padding on resume container */
@@ -315,8 +315,8 @@
 }
 
 .resume-output.rich-output-area.theme-two-tone h2 {
-    color: var(--r-accent, #c2704f) !important;
-    border-bottom: 2px solid var(--r-accent, #c2704f) !important;
+    color: var(--r-accent, #B06645) !important;
+    border-bottom: 2px solid var(--r-accent, #B06645) !important;
 }
 
 /* 12. Compact Matrix */
@@ -332,7 +332,7 @@
 
 .resume-output.rich-output-area.theme-matrix h2 {
     font-size: 1.1rem !important;
-    border-bottom: 1px dashed var(--r-accent, #16a34a) !important;
+    border-bottom: 1px dashed var(--r-accent, #6E7E6A) !important;
     margin-top: 0.8rem !important;
 }
 
@@ -359,12 +359,12 @@
     width: 400px !important;
     text-align: right !important;
     font-size: 3rem !important;
-    color: var(--r-accent, #c084fc) !important;
+    color: var(--r-accent, #C4B5CF) !important;
     border: none !important;
 }
 
 .resume-output.rich-output-area.theme-gallery h2 {
-    color: var(--r-accent, #c084fc) !important;
+    color: var(--r-accent, #C4B5CF) !important;
     border-bottom: 2px solid #eee !important;
 }
 
@@ -382,47 +382,47 @@
 }
 
 .resume-output.rich-output-area.theme-newsletter h1 {
-    border-bottom: 4px solid var(--r-accent, #b8942e) !important;
-    border-top: 4px solid var(--r-accent, #b8942e) !important;
+    border-bottom: 4px solid var(--r-accent, #A6842A) !important;
+    border-top: 4px solid var(--r-accent, #A6842A) !important;
 }
 
 .resume-output.rich-output-area.theme-newsletter h2 {
-    color: var(--r-accent, #b8942e) !important;
-    border-bottom: 1px solid var(--r-accent, #b8942e) !important;
+    color: var(--r-accent, #A6842A) !important;
+    border-bottom: 1px solid var(--r-accent, #A6842A) !important;
     break-after: avoid !important;
 }
 
 /* 15. Terminal */
 .resume-output.rich-output-area.theme-terminal {
-    background: #0d1117 !important;
-    color: #d1d5db !important;
+    background: #151821 !important;
+    color: #C8C4BE !important;
     font-family: 'Courier New', Courier, monospace !important;
 }
 
 .resume-output.rich-output-area.theme-terminal h1 {
-    color: var(--r-accent, #22c55e) !important;
+    color: var(--r-accent, #8A9A86) !important;
     text-align: left !important;
-    border-bottom: 1px dashed var(--r-accent, #22c55e) !important;
+    border-bottom: 1px dashed var(--r-accent, #8A9A86) !important;
 }
 
 .resume-output.rich-output-area.theme-terminal h1::before {
     content: 'admin@tms:~$ sudo whoami\\A' !important;
     white-space: pre-wrap !important;
     font-size: 0.9rem !important;
-    color: #9ca3af !important;
+    color: #6A7078 !important;
     display: block !important;
     margin-bottom: 10px !important;
 }
 
 .resume-output.rich-output-area.theme-terminal h2 {
-    color: var(--r-accent, #22c55e) !important;
+    color: var(--r-accent, #8A9A86) !important;
     border: none !important;
     margin-top: 2rem !important;
 }
 
 .resume-output.rich-output-area.theme-terminal h2::before {
     content: 'root@candidate:~# cat ' !important;
-    color: #3b82f6 !important;
+    color: #7B9AB4 !important;
     font-size: 0.9rem !important;
 }
 
@@ -432,6 +432,6 @@
 
 .resume-output.rich-output-area.theme-terminal li::before {
     content: '> ' !important;
-    color: var(--r-accent, #22c55e) !important;
+    color: var(--r-accent, #8A9A86) !important;
     font-weight: bold !important;
 }

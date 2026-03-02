@@ -70,7 +70,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-brands fa-linkedin-in" style="color:#0077b5;margin-right:0.5rem;"></i>LinkedIn Profile Sync</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-brands fa-linkedin-in" style="color:#5C7A8A;margin-right:0.5rem;"></i>LinkedIn Profile Sync</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Optimized LinkedIn content synced from your tailored resume</p>
 
         <div id="linkedin-output">
@@ -144,12 +144,12 @@ Return EXACTLY this JSON structure (no markdown, no code fences):
             const container = document.getElementById('linkedin-output');
             let html = '';
 
-            html += `<div class="section-card"><h3><i class="fa-solid fa-heading" style="color:#0077b5;"></i> Headline</h3><div class="content" id="li-headline">${profile.headline}</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-headline').innerText)"><i class="fa-regular fa-copy"></i> Copy</button></div>`;
+            html += `<div class="section-card"><h3><i class="fa-solid fa-heading" style="color:#5C7A8A;"></i> Headline</h3><div class="content" id="li-headline">${profile.headline}</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-headline').innerText)"><i class="fa-regular fa-copy"></i> Copy</button></div>`;
 
-            html += `<div class="section-card"><h3><i class="fa-solid fa-user" style="color:#0077b5;"></i> About Section</h3><div class="content" id="li-about">${profile.about.replace(/\n/g, '<br>')}</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-about').innerText)"><i class="fa-regular fa-copy"></i> Copy</button></div>`;
+            html += `<div class="section-card"><h3><i class="fa-solid fa-user" style="color:#5C7A8A;"></i> About Section</h3><div class="content" id="li-about">${profile.about.replace(/\n/g, '<br>')}</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-about').innerText)"><i class="fa-regular fa-copy"></i> Copy</button></div>`;
 
             if (profile.experienceBullets && profile.experienceBullets.length > 0) {
-                html += `<div class="section-card"><h3><i class="fa-solid fa-briefcase" style="color:#0077b5;"></i> Experience Bullets</h3>`;
+                html += `<div class="section-card"><h3><i class="fa-solid fa-briefcase" style="color:#5C7A8A;"></i> Experience Bullets</h3>`;
                 profile.experienceBullets.forEach((exp, i) => {
                     html += `<div style="margin-bottom:1rem;"><strong style="font-size:0.9rem;">${exp.title}</strong><ul style="margin:0.5rem 0 0 1.2rem;font-size:0.85rem;line-height:1.6;" id="li-exp-${i}">`;
                     exp.bullets.forEach(b => { html += `<li>${b}</li>`; });
@@ -159,9 +159,9 @@ Return EXACTLY this JSON structure (no markdown, no code fences):
             }
 
             if (profile.skills && profile.skills.length > 0) {
-                html += `<div class="section-card"><h3><i class="fa-solid fa-star" style="color:#0077b5;"></i> Featured Skills</h3><div style="display:flex;flex-wrap:wrap;gap:0.4rem;" id="li-skills">`;
+                html += `<div class="section-card"><h3><i class="fa-solid fa-star" style="color:#5C7A8A;"></i> Featured Skills</h3><div style="display:flex;flex-wrap:wrap;gap:0.4rem;" id="li-skills">`;
                 profile.skills.forEach(s => {
-                    html += `<span style="background:rgba(0,119,181,0.1);color:#0077b5;border:1px solid rgba(0,119,181,0.2);padding:0.3rem 0.7rem;border-radius:6px;font-size:0.8rem;">${s}</span>`;
+                    html += `<span style="background:rgba(0,119,181,0.1);color:#5C7A8A;border:1px solid rgba(0,119,181,0.2);padding:0.3rem 0.7rem;border-radius:6px;font-size:0.8rem;">${s}</span>`;
                 });
                 html += `</div><button class="copy-section" onclick="copyText(this, document.getElementById('li-skills').innerText)"><i class="fa-regular fa-copy"></i> Copy All</button></div>`;
             }

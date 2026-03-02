@@ -85,8 +85,8 @@
         }
 
         .tip-box {
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: rgba(123, 143, 168, 0.08);
+            border: 1px solid rgba(123, 143, 168, 0.2);
             border-radius: 10px;
             padding: 0.9rem 1.1rem;
             font-size: 0.82rem;
@@ -129,7 +129,7 @@
         }
 
         .intel-header h3 i {
-            color: #f59e0b;
+            color: #D4A574;
         }
 
         .intel-items {
@@ -143,8 +143,8 @@
             align-items: flex-start;
             gap: 0.75rem;
             padding: 0.65rem 0.8rem;
-            background: rgba(99, 102, 241, 0.04);
-            border: 1px solid rgba(99, 102, 241, 0.1);
+            background: rgba(123, 143, 168, 0.04);
+            border: 1px solid rgba(123, 143, 168, 0.1);
             border-radius: 10px;
             font-size: 0.85rem;
             line-height: 1.5;
@@ -306,7 +306,7 @@
 
     <div id="main-content" class="result-page">
         <h1 class="result-title" style="text-align:center;margin:0 0 1.25rem;font-size:1.6rem;"><i
-                class="fa-solid fa-paper-plane" style="color:#f59e0b;margin-right:0.5rem;"></i>Introduction Email</h1>
+                class="fa-solid fa-paper-plane" style="color:#D4A574;margin-right:0.5rem;"></i>Introduction Email</h1>
         <div class="result-header">
             <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
                 <button id="refine-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -500,7 +500,7 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
                 });
             }
             if (!window.supabaseClient) {
-                content.innerHTML = '<div class="intel-loading" style="color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Sign in to load company intel.</div>';
+                content.innerHTML = '<div class="intel-loading" style="color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#D4A574;"></i> Sign in to load company intel.</div>';
                 refreshBtn.disabled = false;
                 return;
             }
@@ -527,7 +527,7 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
             } catch (e) {
                 console.error('Intel fetch failed:', e);
                 content.innerHTML = `<div class="intel-loading" style="color:var(--text-secondary);">
-                    <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Couldn't load company intel.
+                    <i class="fa-solid fa-triangle-exclamation" style="color:#D4A574;"></i> Couldn't load company intel.
                     <span style="font-size:0.75rem;display:block;margin-top:0.3rem;opacity:0.6;">${escapeHtml(e.message || 'Unknown error')}</span>
                     <button class="btn small-btn ghost-btn" style="margin-top:0.5rem;font-size:0.75rem;" onclick="fetchCompanyIntel()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 </div>`;
@@ -592,8 +592,8 @@ Write a concise introduction email to the hiring manager at ${company}. Subject 
             const btn = document.querySelectorAll('.intel-insert-btn')[index];
             if (btn) {
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> Added';
-                btn.style.color = '#10b981';
-                btn.style.borderColor = '#10b981';
+                btn.style.color = '#8A9A86';
+                btn.style.borderColor = '#8A9A86';
                 setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-plus"></i> Insert'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
             }
         }

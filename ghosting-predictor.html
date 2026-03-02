@@ -35,9 +35,9 @@
         .ghost-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
         .signal-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; display: flex; gap: 1rem; align-items: flex-start; }
         .signal-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
-        .signal-icon.red { background: rgba(239,68,68,0.1); color: #ef4444; }
-        .signal-icon.yellow { background: rgba(245,158,11,0.1); color: #f59e0b; }
-        .signal-icon.green { background: rgba(16,185,129,0.1); color: #10b981; }
+        .signal-icon.red { background: rgba(196,122,110,0.1); color: #C47A6E; }
+        .signal-icon.yellow { background: rgba(212,165,116,0.1); color: #D4A574; }
+        .signal-icon.green { background: rgba(138,154,134,0.1); color: #8A9A86; }
         .recommendation-box { background: var(--glass-bg); border: 2px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
     </style>
 </head>
@@ -75,7 +75,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-ghost" style="color:#a78bfa;margin-right:0.5rem;"></i>Ghosting Predictor</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-ghost" style="color:#C4B5CF;margin-right:0.5rem;"></i>Ghosting Predictor</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Is this job posting legit or a ghost job? AI analyzes the signals.</p>
 
         <div id="ghost-output">
@@ -156,7 +156,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
         function renderGhosting(result) {
             const container = document.getElementById('ghost-output');
             const score = result.ghostingScore;
-            const color = score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
+            const color = score >= 70 ? '#C47A6E' : score >= 40 ? '#D4A574' : '#8A9A86';
 
             let html = `<div class="ghost-meter">
                 <div class="ghost-score" style="color:${color};">${score}%</div>
@@ -165,7 +165,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:0.5rem;"><i class="fa-solid fa-clock"></i> Time budget: <strong>${result.timeAdvice}</strong></p>
             </div>`;
 
-            html += '<h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-signal" style="color:#8b5cf6;margin-right:0.4rem;"></i> Signals Detected</h3>';
+            html += '<h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-signal" style="color:#9B8EA6;margin-right:0.4rem;"></i> Signals Detected</h3>';
 
             result.signals.forEach(s => {
                 const icon = s.severity === 'red' ? 'fa-circle-xmark' : s.severity === 'yellow' ? 'fa-circle-exclamation' : 'fa-circle-check';

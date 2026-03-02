@@ -70,7 +70,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-people-arrows" style="color:#10b981;margin-right:0.5rem;"></i>Referral Network Mapper</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-people-arrows" style="color:#8A9A86;margin-right:0.5rem;"></i>Referral Network Mapper</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Your strategy for finding a backdoor referral at the target company</p>
 
         <div id="referral-output">
@@ -161,9 +161,9 @@ Return EXACTLY this JSON (no markdown, no code fences):
             const container = document.getElementById('referral-output');
             let html = '';
 
-            html += `<div class="strategy-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-map" style="color:#10b981;margin-right:0.4rem;"></i> Referral Strategy for ${result.company}</h3>`;
+            html += `<div class="strategy-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-map" style="color:#8A9A86;margin-right:0.4rem;"></i> Referral Strategy for ${result.company}</h3>`;
             result.strategy.forEach((s, i) => {
-                const color = s.priority === 'high' ? '#10b981' : s.priority === 'medium' ? '#f59e0b' : '#64748b';
+                const color = s.priority === 'high' ? '#8A9A86' : s.priority === 'medium' ? '#D4A574' : '#4A505C';
                 html += `<div class="strategy-step"><div class="step-num" style="background:${color};">${i + 1}</div><div><strong style="font-size:0.9rem;">${s.step}</strong><p style="font-size:0.8rem;color:var(--text-secondary);margin:0.25rem 0 0;line-height:1.5;">${s.detail}</p></div></div>`;
             });
             html += `</div>`;
@@ -175,11 +175,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
             ];
 
             scripts.forEach((s, i) => {
-                html += `<div class="strategy-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid ${s.icon}" style="color:#10b981;margin-right:0.4rem;"></i> ${s.title}</h3><div class="script-box" id="script-${i}"><button class="copy-btn" onclick="copyText(this, document.getElementById('script-${i}').innerText)"><i class="fa-regular fa-copy"></i> Copy</button>${s.text}</div></div>`;
+                html += `<div class="strategy-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid ${s.icon}" style="color:#8A9A86;margin-right:0.4rem;"></i> ${s.title}</h3><div class="script-box" id="script-${i}"><button class="copy-btn" onclick="copyText(this, document.getElementById('script-${i}').innerText)"><i class="fa-regular fa-copy"></i> Copy</button>${s.text}</div></div>`;
             });
 
             if (result.tips && result.tips.length > 0) {
-                html += `<div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius: 4px;padding:1.25rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#10b981;margin-right:0.4rem;"></i> Pro Tips</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                html += `<div style="background:rgba(138,154,134,0.06);border:1px solid rgba(138,154,134,0.2);border-radius: 4px;padding:1.25rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#8A9A86;margin-right:0.4rem;"></i> Pro Tips</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
                 result.tips.forEach(t => { html += `<li>${t}</li>`; });
                 html += `</ul></div>`;
             }

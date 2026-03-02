@@ -89,7 +89,7 @@
                     </div>
 
                     <div id="auth-error-message"
-                        style="color: #ff6b6b; font-size: 0.85rem; display: none; text-align: center;"></div>
+                        style="color: #D99B82; font-size: 0.85rem; display: none; text-align: center;"></div>
 
                     <div style="margin-top: 0.5rem;">
                         <button type="button" id="email-login-btn" class="btn primary-btn" style="width: 100%;">Log
@@ -158,8 +158,8 @@
         document.getElementById('send-reset-btn').addEventListener('click', async function() {
             const email = document.getElementById('reset-email-input').value.trim();
             const msgEl = document.getElementById('reset-message');
-            if (!email) { msgEl.textContent = 'Please enter your email.'; msgEl.style.color = '#ff6b6b'; msgEl.style.display = 'block'; return; }
-            if (!window.supabaseClient) { msgEl.textContent = 'Not ready yet. Please refresh.'; msgEl.style.color = '#ff6b6b'; msgEl.style.display = 'block'; return; }
+            if (!email) { msgEl.textContent = 'Please enter your email.'; msgEl.style.color = '#D99B82'; msgEl.style.display = 'block'; return; }
+            if (!window.supabaseClient) { msgEl.textContent = 'Not ready yet. Please refresh.'; msgEl.style.color = '#D99B82'; msgEl.style.display = 'block'; return; }
 
             this.disabled = true;
             this.textContent = 'Sending...';
@@ -169,10 +169,10 @@
                 });
                 if (error) throw error;
                 msgEl.innerHTML = '<i class="fa-solid fa-check-circle"></i> Reset link sent! Check your inbox.';
-                msgEl.style.color = '#10b981';
+                msgEl.style.color = '#8A9A86';
             } catch (e) {
                 msgEl.textContent = e.message;
-                msgEl.style.color = '#ff6b6b';
+                msgEl.style.color = '#D99B82';
             }
             msgEl.style.display = 'block';
             this.disabled = false;

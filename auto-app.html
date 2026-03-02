@@ -33,15 +33,15 @@
         .criteria-row label { font-size: 0.85rem; font-weight: 600; min-width: 100px; }
         .criteria-row input, .criteria-row select { flex: 1; min-width: 180px; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
         .exclude-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
-        .exclude-chip { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.2); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; }
+        .exclude-chip { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(196,122,110,0.08); color: #D99B82; border: 1px solid rgba(196,122,110,0.2); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; }
         .exclude-chip button { background: none; border: none; color: inherit; cursor: pointer; font-size: 0.9rem; padding: 0; }
         .job-match { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
         .match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
         .match-score { font-weight: 700; font-size: 0.85rem; }
         .match-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
         .status-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600; }
-        .status-badge.ready { background: rgba(16,185,129,0.1); color: #10b981; }
-        .status-badge.applied { background: rgba(99,102,241,0.1); color: #6366f1; }
+        .status-badge.ready { background: rgba(138,154,134,0.1); color: #8A9A86; }
+        .status-badge.applied { background: rgba(123,143,168,0.1); color: #7B8FA8; }
     </style>
 </head>
 
@@ -78,11 +78,11 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-robot" style="color:#6366f1;margin-right:0.5rem;"></i>Auto-App Agent</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-robot" style="color:#7B8FA8;margin-right:0.5rem;"></i>Auto-App Agent</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Set your criteria. AI finds matching jobs and generates tailored applications.</p>
 
         <div class="criteria-card">
-            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-sliders" style="color:#6366f1;margin-right:0.4rem;"></i> Your Criteria</h3>
+            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-sliders" style="color:#7B8FA8;margin-right:0.4rem;"></i> Your Criteria</h3>
             <div class="criteria-row">
                 <label>Job Title</label>
                 <input id="criteria-title" placeholder="e.g., Senior React Developer">
@@ -117,8 +117,8 @@
 
         <div id="job-results"></div>
 
-        <div style="background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.2);border-radius: 4px;padding:1.25rem;margin-top:1.5rem;">
-            <h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-robot" style="color:#6366f1;margin-right:0.4rem;"></i> How Auto-App Works</h3>
+        <div style="background:rgba(123,143,168,0.06);border:1px solid rgba(123,143,168,0.2);border-radius: 4px;padding:1.25rem;margin-top:1.5rem;">
+            <h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-robot" style="color:#7B8FA8;margin-right:0.4rem;"></i> How Auto-App Works</h3>
             <ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
                 <li>Set strict criteria for your ideal role (title, salary, work style, exclusions)</li>
                 <li>AI scans job boards and matches postings against your requirements</li>
@@ -216,18 +216,18 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
         function renderJobs(data) {
             const container = document.getElementById('job-results');
-            let html = '<h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-check" style="color:#6366f1;margin-right:0.4rem;"></i> Matching Jobs Found</h3>';
+            let html = '<h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-check" style="color:#7B8FA8;margin-right:0.4rem;"></i> Matching Jobs Found</h3>';
 
             data.jobs.forEach((job, i) => {
-                const color = job.matchScore >= 85 ? '#10b981' : job.matchScore >= 70 ? '#f59e0b' : '#ef4444';
+                const color = job.matchScore >= 85 ? '#8A9A86' : job.matchScore >= 70 ? '#D4A574' : '#C47A6E';
                 html += `<div class="job-match">
                     <div class="match-header">
                         <div><strong style="font-size:1rem;">${job.title}</strong><br><span style="font-size:0.85rem;color:var(--text-secondary);">${job.company} &bull; ${job.location}</span></div>
                         <div style="text-align:right;"><span class="match-score" style="color:${color};">${job.matchScore}% match</span><br><span style="font-size:0.8rem;color:var(--text-secondary);">${job.salaryRange}</span></div>
                     </div>
                     <p style="font-size:0.85rem;color:var(--text-secondary);margin:0.5rem 0;">${job.whyMatch}</p>
-                    <div style="background:rgba(99,102,241,0.05);border:1px solid rgba(99,102,241,0.15);border-radius:8px;padding:0.75rem;margin-top:0.5rem;">
-                        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#6366f1;margin-bottom:0.3rem;">AI-Generated Cover Opener</div>
+                    <div style="background:rgba(123,143,168,0.05);border:1px solid rgba(123,143,168,0.15);border-radius:8px;padding:0.75rem;margin-top:0.5rem;">
+                        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#7B8FA8;margin-bottom:0.3rem;">AI-Generated Cover Opener</div>
                         <p style="font-size:0.85rem;margin:0;line-height:1.5;">${job.coverOpener}</p>
                     </div>
                     <div class="match-actions">

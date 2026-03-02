@@ -37,7 +37,7 @@
         .radar-signal:last-child { border-bottom: none; }
         .radar-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; }
         .layoff-timeline { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
-        .layoff-event { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.78rem; }
+        .layoff-event { background: rgba(196,122,110,0.08); border: 1px solid rgba(196,122,110,0.2); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.78rem; }
     </style>
 </head>
 
@@ -74,7 +74,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-biohazard" style="color:#ef4444;margin-right:0.5rem;"></i>Toxic Culture Radar</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-biohazard" style="color:#C47A6E;margin-right:0.5rem;"></i>Toxic Culture Radar</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Know what you're getting into before you waste hours applying</p>
 
         <div id="radar-output">
@@ -166,8 +166,8 @@ Return EXACTLY this JSON (no markdown, no code fences):
         function renderRadar(result) {
             const container = document.getElementById('radar-output');
             const score = result.toxicityScore;
-            const color = score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
-            const layoffColor = { low: '#10b981', moderate: '#f59e0b', high: '#ef4444', critical: '#dc2626' }[result.layoffRisk] || '#f59e0b';
+            const color = score >= 70 ? '#C47A6E' : score >= 40 ? '#D4A574' : '#8A9A86';
+            const layoffColor = { low: '#8A9A86', moderate: '#D4A574', high: '#C47A6E', critical: '#A85A50' }[result.layoffRisk] || '#D4A574';
 
             let html = `<div class="toxicity-meter">
                 <div class="toxicity-score" style="color:${color};">${score}%</div>
@@ -180,14 +180,14 @@ Return EXACTLY this JSON (no markdown, no code fences):
             </div>`;
 
             // Signals
-            html += `<div class="radar-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-signal" style="color:#ef4444;margin-right:0.4rem;"></i> Culture Signals</h3>`;
+            html += `<div class="radar-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-signal" style="color:#C47A6E;margin-right:0.4rem;"></i> Culture Signals</h3>`;
             const catIcons = {
                 'jd-language': 'fa-file-lines', 'layoff-history': 'fa-scissors', 'culture': 'fa-people-group',
                 'management': 'fa-user-tie', 'compensation': 'fa-money-bill', 'work-life': 'fa-scale-balanced'
             };
             result.signals.forEach(s => {
-                const sColor = s.severity === 'red' ? '#ef4444' : s.severity === 'yellow' ? '#f59e0b' : '#10b981';
-                const sBg = s.severity === 'red' ? 'rgba(239,68,68,0.1)' : s.severity === 'yellow' ? 'rgba(245,158,11,0.1)' : 'rgba(16,185,129,0.1)';
+                const sColor = s.severity === 'red' ? '#C47A6E' : s.severity === 'yellow' ? '#D4A574' : '#8A9A86';
+                const sBg = s.severity === 'red' ? 'rgba(196,122,110,0.1)' : s.severity === 'yellow' ? 'rgba(212,165,116,0.1)' : 'rgba(138,154,134,0.1)';
                 html += `<div class="radar-signal">
                     <div class="radar-icon" style="background:${sBg};color:${sColor};"><i class="fa-solid ${catIcons[s.category] || 'fa-circle'}"></i></div>
                     <div><strong style="font-size:0.9rem;">${s.signal}</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin:0.2rem 0 0;line-height:1.5;">${s.detail}</p></div>
@@ -197,7 +197,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             // Layoff events
             if (result.layoffEvents && result.layoffEvents.length > 0) {
-                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-scissors" style="color:#ef4444;margin-right:0.4rem;"></i> Layoff History</h3><div class="layoff-timeline">`;
+                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-scissors" style="color:#C47A6E;margin-right:0.4rem;"></i> Layoff History</h3><div class="layoff-timeline">`;
                 result.layoffEvents.forEach(e => { html += `<span class="layoff-event">${e}</span>`; });
                 html += `</div></div>`;
             }
@@ -205,18 +205,18 @@ Return EXACTLY this JSON (no markdown, no code fences):
             // Glassdoor estimate
             if (result.glassdoorEstimate) {
                 const ge = result.glassdoorEstimate;
-                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-star" style="color:#f59e0b;margin-right:0.4rem;"></i> Estimated Glassdoor: ${ge.rating}</h3>
+                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-star" style="color:#D4A574;margin-right:0.4rem;"></i> Estimated Glassdoor: ${ge.rating}</h3>
                 <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-                    <div style="flex:1;min-width:200px;"><h4 style="font-size:0.85rem;color:#ef4444;margin:0 0 0.4rem;">Common Complaints</h4><ul style="margin:0;padding-left:1rem;font-size:0.82rem;line-height:1.6;color:var(--text-secondary);">`;
+                    <div style="flex:1;min-width:200px;"><h4 style="font-size:0.85rem;color:#C47A6E;margin:0 0 0.4rem;">Common Complaints</h4><ul style="margin:0;padding-left:1rem;font-size:0.82rem;line-height:1.6;color:var(--text-secondary);">`;
                 ge.commonComplaints.forEach(c => { html += `<li>${c}</li>`; });
-                html += `</ul></div><div style="flex:1;min-width:200px;"><h4 style="font-size:0.85rem;color:#10b981;margin:0 0 0.4rem;">Common Praises</h4><ul style="margin:0;padding-left:1rem;font-size:0.82rem;line-height:1.6;color:var(--text-secondary);">`;
+                html += `</ul></div><div style="flex:1;min-width:200px;"><h4 style="font-size:0.85rem;color:#8A9A86;margin:0 0 0.4rem;">Common Praises</h4><ul style="margin:0;padding-left:1rem;font-size:0.82rem;line-height:1.6;color:var(--text-secondary);">`;
                 ge.commonPraises.forEach(c => { html += `<li>${c}</li>`; });
                 html += `</ul></div></div></div>`;
             }
 
             // Interview questions
             if (result.interviewQuestions && result.interviewQuestions.length > 0) {
-                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-question-circle" style="color:#6366f1;margin-right:0.4rem;"></i> Questions to Verify Culture</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.8;color:var(--text-secondary);">`;
+                html += `<div class="radar-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-question-circle" style="color:#7B8FA8;margin-right:0.4rem;"></i> Questions to Verify Culture</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.8;color:var(--text-secondary);">`;
                 result.interviewQuestions.forEach(q => { html += `<li>${q}</li>`; });
                 html += `</ul></div>`;
             }

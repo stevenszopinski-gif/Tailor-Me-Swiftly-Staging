@@ -30,18 +30,18 @@
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
         .tactic-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
         .tactic-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 4px 16px 0 0; }
-        .tactic-card.high::before { background: linear-gradient(90deg, #ef4444, #f97316); }
-        .tactic-card.medium::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
-        .tactic-card.low::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .tactic-card.high::before { background: linear-gradient(90deg, #C47A6E, #D99B82); }
+        .tactic-card.medium::before { background: linear-gradient(90deg, #D4A574, #C4A060); }
+        .tactic-card.low::before { background: linear-gradient(90deg, #8A9A86, #A8B8A4); }
         .tactic-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
         .tactic-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #fff; flex-shrink: 0; }
-        .tactic-card.high .tactic-num { background: #ef4444; }
-        .tactic-card.medium .tactic-num { background: #f59e0b; }
-        .tactic-card.low .tactic-num { background: #10b981; }
+        .tactic-card.high .tactic-num { background: #C47A6E; }
+        .tactic-card.medium .tactic-num { background: #D4A574; }
+        .tactic-card.low .tactic-num { background: #8A9A86; }
         .effort-tag { font-size: 0.65rem; padding: 0.15rem 0.4rem; border-radius: 3px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-        .effort-tag.high { background: rgba(239,68,68,0.1); color: #ef4444; }
-        .effort-tag.medium { background: rgba(245,158,11,0.1); color: #f59e0b; }
-        .effort-tag.low { background: rgba(16,185,129,0.1); color: #10b981; }
+        .effort-tag.high { background: rgba(196,122,110,0.1); color: #C47A6E; }
+        .effort-tag.medium { background: rgba(212,165,116,0.1); color: #D4A574; }
+        .effort-tag.low { background: rgba(138,154,134,0.1); color: #8A9A86; }
         .script-box { background: rgba(255,255,255,0.04); border: 1px solid var(--panel-border); border-radius: 8px; padding: 1rem; font-size: 0.85rem; line-height: 1.6; margin-top: 0.75rem; position: relative; }
         .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: 1px solid var(--panel-border); color: var(--text-secondary); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; cursor: pointer; }
         .copy-btn:hover { color: var(--text-primary); border-color: var(--primary-color); }
@@ -81,7 +81,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-user-ninja" style="color:#ef4444;margin-right:0.5rem;"></i>Guerrilla Tactics</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-user-ninja" style="color:#C47A6E;margin-right:0.5rem;"></i>Guerrilla Tactics</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Skip the front door. Aggressive strategies to get noticed by decision makers.</p>
 
         <div id="tactics-output">
@@ -180,7 +180,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             let html = '';
 
             const dm = result.decisionMaker || {};
-            const confidenceColor = dm.confidence === 'high' ? '#10b981' : dm.confidence === 'medium' ? '#f59e0b' : '#ef4444';
+            const confidenceColor = dm.confidence === 'high' ? '#8A9A86' : dm.confidence === 'medium' ? '#D4A574' : '#C47A6E';
 
             html += `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1.25rem;margin-bottom:1.5rem;">`;
             html += `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;text-align:center;margin-bottom:1rem;">`;
@@ -219,7 +219,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             });
 
             if (result.warningNote) {
-                html += `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius: 4px;padding:1rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;margin-right:0.3rem;"></i> ${result.warningNote}</div>`;
+                html += `<div style="background:rgba(212,165,116,0.06);border:1px solid rgba(212,165,116,0.2);border-radius: 4px;padding:1rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#D4A574;margin-right:0.3rem;"></i> ${result.warningNote}</div>`;
             }
 
             html += `<div style="text-align:center;margin-top:1.5rem;"><button class="btn ghost-btn" onclick="generateTactics()"><i class="fa-solid fa-rotate"></i> Regenerate Tactics</button></div>`;

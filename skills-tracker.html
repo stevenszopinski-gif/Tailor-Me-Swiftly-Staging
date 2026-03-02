@@ -36,9 +36,9 @@
         .skill-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
         .skill-pct { font-size: 0.8rem; font-weight: 700; min-width: 45px; text-align: right; }
         .trend-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600; }
-        .trend-badge.rising { background: rgba(16,185,129,0.1); color: #10b981; }
-        .trend-badge.decaying { background: rgba(239,68,68,0.1); color: #ef4444; }
-        .trend-badge.stable { background: rgba(99,102,241,0.1); color: #6366f1; }
+        .trend-badge.rising { background: rgba(138,154,134,0.1); color: #8A9A86; }
+        .trend-badge.decaying { background: rgba(196,122,110,0.1); color: #C47A6E; }
+        .trend-badge.stable { background: rgba(123,143,168,0.1); color: #7B8FA8; }
         .roadmap-step { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem; }
         .roadmap-week { background: linear-gradient(135deg, #7B8FA8, #A3C4DC); color: #fff; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; min-width: 60px; text-align: center; }
     </style>
@@ -77,7 +77,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-chart-line" style="color:#06b6d4;margin-right:0.5rem;"></i>Skills Obsolescence Tracker</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-chart-line" style="color:#7BA5B4;margin-right:0.5rem;"></i>Skills Obsolescence Tracker</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Skate to where the puck is going — see which skills are rising and decaying</p>
 
         <div id="skills-output">
@@ -177,14 +177,14 @@ Return EXACTLY this JSON (no markdown, no code fences):
             let html = '';
 
             html += `<div style="background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.2);border-radius: 4px;padding:1.25rem;margin-bottom:1.5rem;">
-                <h3 style="margin:0 0 0.5rem;font-size:0.95rem;"><i class="fa-solid fa-satellite-dish" style="color:#06b6d4;margin-right:0.4rem;"></i> Market Insight: ${result.field}</h3>
+                <h3 style="margin:0 0 0.5rem;font-size:0.95rem;"><i class="fa-solid fa-satellite-dish" style="color:#7BA5B4;margin-right:0.4rem;"></i> Market Insight: ${result.field}</h3>
                 <p style="font-size:0.9rem;color:var(--text-secondary);margin:0;line-height:1.6;">${result.marketInsight}</p>
             </div>`;
 
             // Current skills
-            html += `<div class="skill-section"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-gauge-high" style="color:#06b6d4;margin-right:0.4rem;"></i> Your Skills vs Market Demand</h3>`;
+            html += `<div class="skill-section"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-gauge-high" style="color:#7BA5B4;margin-right:0.4rem;"></i> Your Skills vs Market Demand</h3>`;
             result.skills.forEach(s => {
-                const color = s.trend === 'rising' ? '#10b981' : s.trend === 'decaying' ? '#ef4444' : '#6366f1';
+                const color = s.trend === 'rising' ? '#8A9A86' : s.trend === 'decaying' ? '#C47A6E' : '#7B8FA8';
                 html += `<div class="skill-row">
                     <span class="skill-name">${s.name}</span>
                     <div class="skill-bar"><div class="skill-fill" style="width:${s.demandPct}%;background:${color};"></div></div>
@@ -197,9 +197,9 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             // Missing skills
             if (result.missingSkills && result.missingSkills.length > 0) {
-                html += `<div class="skill-section"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-crosshairs" style="color:#f59e0b;margin-right:0.4rem;"></i> Skills to Acquire</h3>`;
+                html += `<div class="skill-section"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-crosshairs" style="color:#D4A574;margin-right:0.4rem;"></i> Skills to Acquire</h3>`;
                 result.missingSkills.forEach(s => {
-                    const color = s.urgency === 'high' ? '#ef4444' : s.urgency === 'medium' ? '#f59e0b' : '#10b981';
+                    const color = s.urgency === 'high' ? '#C47A6E' : s.urgency === 'medium' ? '#D4A574' : '#8A9A86';
                     html += `<div style="display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.75rem;">
                         <span style="font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:4px;font-weight:600;background:rgba(${s.urgency === 'high' ? '239,68,68' : s.urgency === 'medium' ? '245,158,11' : '16,185,129'},0.1);color:${color};text-transform:uppercase;">${s.urgency}</span>
                         <div><strong style="font-size:0.9rem;">${s.name}</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin:0.2rem 0 0;line-height:1.5;">${s.reason}</p></div>
@@ -210,7 +210,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             // Roadmap
             if (result.roadmap && result.roadmap.length > 0) {
-                html += `<div class="skill-section"><h3 style="margin:0 0 1.25rem;font-size:1rem;"><i class="fa-solid fa-road" style="color:#8b5cf6;margin-right:0.4rem;"></i> 6-Month Upskill Roadmap</h3>`;
+                html += `<div class="skill-section"><h3 style="margin:0 0 1.25rem;font-size:1rem;"><i class="fa-solid fa-road" style="color:#9B8EA6;margin-right:0.4rem;"></i> 6-Month Upskill Roadmap</h3>`;
                 result.roadmap.forEach(r => {
                     html += `<div class="roadmap-step">
                         <span class="roadmap-week">${r.week}</span>

@@ -30,9 +30,9 @@
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
         .question-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
         .q-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; margin-bottom: 0.75rem; }
-        .q-category.weakness { background: rgba(239,68,68,0.1); color: #ef4444; }
-        .q-category.culture { background: rgba(99,102,241,0.1); color: #6366f1; }
-        .q-category.growth { background: rgba(16,185,129,0.1); color: #10b981; }
+        .q-category.weakness { background: rgba(196,122,110,0.1); color: #C47A6E; }
+        .q-category.culture { background: rgba(123,143,168,0.1); color: #7B8FA8; }
+        .q-category.growth { background: rgba(138,154,134,0.1); color: #8A9A86; }
         .q-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 0.75rem; }
         .q-intel { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid var(--primary-color); }
         .q-intel strong { color: var(--text-primary); }
@@ -75,7 +75,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-magnifying-glass-arrow-right" style="color:#8b5cf6;margin-right:0.5rem;"></i>Reverse Interview</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-magnifying-glass-arrow-right" style="color:#9B8EA6;margin-right:0.5rem;"></i>Reverse Interview</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Interrogate the company like a high-value consultant, not a desperate applicant</p>
 
         <div id="questions-output">
@@ -162,8 +162,8 @@ Return EXACTLY this JSON (no markdown, no code fences):
             let html = '';
 
             if (result.companyIntel) {
-                html += `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius: 4px;padding:1.25rem;margin-bottom:1.5rem;">
-                    <h3 style="margin:0 0 0.5rem;font-size:0.95rem;"><i class="fa-solid fa-satellite-dish" style="color:#8b5cf6;margin-right:0.4rem;"></i> Company Intel</h3>
+                html += `<div style="background:rgba(155,142,166,0.06);border:1px solid rgba(155,142,166,0.2);border-radius: 4px;padding:1.25rem;margin-bottom:1.5rem;">
+                    <h3 style="margin:0 0 0.5rem;font-size:0.95rem;"><i class="fa-solid fa-satellite-dish" style="color:#9B8EA6;margin-right:0.4rem;"></i> Company Intel</h3>
                     <p style="font-size:0.9rem;color:var(--text-secondary);margin:0;line-height:1.6;">${result.companyIntel}</p>
                 </div>`;
             }
@@ -174,7 +174,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                     <span class="q-category ${q.category}">${q.category === 'weakness' ? 'Probing Weakness' : q.category === 'culture' ? 'Culture Check' : 'Growth Signal'}</span>
                     <div class="q-text">"${q.question}"</div>
                     <div class="q-intel"><strong>Intel:</strong> ${q.intel}</div>
-                    <div class="q-why"><i class="fa-solid fa-lightbulb" style="color:#f59e0b;margin-right:0.3rem;"></i> ${q.whyItWorks}</div>
+                    <div class="q-why"><i class="fa-solid fa-lightbulb" style="color:#D4A574;margin-right:0.3rem;"></i> ${q.whyItWorks}</div>
                 </div>`;
             });
 

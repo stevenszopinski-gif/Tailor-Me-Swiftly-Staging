@@ -91,7 +91,7 @@
 
         .kanban-column.drag-over {
             border-color: var(--primary-color);
-            background: rgba(16, 185, 129, 0.03);
+            background: rgba(138, 154, 134, 0.03);
         }
 
         .column-header {
@@ -126,23 +126,23 @@
 
         /* Per-column accent colors */
         .kanban-column[data-status="Tailored"] .column-title i {
-            color: #8b5cf6;
+            color: #9B8EA6;
         }
 
         .kanban-column[data-status="Applied"] .column-title i {
-            color: #3b82f6;
+            color: #7B9AB4;
         }
 
         .kanban-column[data-status="Interviewing"] .column-title i {
-            color: #f59e0b;
+            color: #D4A574;
         }
 
         .kanban-column[data-status="Offer"] .column-title i {
-            color: #10b981;
+            color: #8A9A86;
         }
 
         .kanban-column[data-status="Rejected"] .column-title i {
-            color: #ef4444;
+            color: #C47A6E;
         }
 
         /* ─── Card Drop Zone ─── */
@@ -231,15 +231,15 @@
             font-size: 0.65rem;
             padding: 0.15rem 0.45rem;
             border-radius: 999px;
-            background: rgba(99, 102, 241, 0.1);
-            color: #818cf8;
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: rgba(123, 143, 168, 0.1);
+            color: #A3B1C8;
+            border: 1px solid rgba(123, 143, 168, 0.2);
         }
 
         .card-badge.has {
             background: rgba(138, 154, 134, 0.12);
-            color: #34d399;
-            border-color: rgba(16, 185, 129, 0.2);
+            color: #A8B8A4;
+            border-color: rgba(138, 154, 134, 0.2);
         }
 
         .kcard-actions {
@@ -310,7 +310,7 @@
         }
 
         .kanban-card.has-notes {
-            border-left: 3px solid #f59e0b;
+            border-left: 3px solid #D4A574;
         }
 
         /* ─── Notes Modal ─── */
@@ -373,7 +373,7 @@
         }
 
         .notes-modal-header h3 i {
-            color: #f59e0b;
+            color: #D4A574;
         }
 
         .notes-modal-close {
@@ -582,8 +582,8 @@
         </div>
 
         <div id="reminder-banner"
-            style="display:none;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.35);border-radius: 4px;padding:0.85rem 1.2rem;margin:0 1.5rem 1rem;color:var(--text-primary);font-size:0.88rem;">
-            <i class="fa-solid fa-bell" style="color:#f59e0b;margin-right:0.4rem;"></i>
+            style="display:none;background:linear-gradient(135deg,rgba(212,165,116,0.12),rgba(251,191,36,0.08));border:1px solid rgba(212,165,116,0.35);border-radius: 4px;padding:0.85rem 1.2rem;margin:0 1.5rem 1rem;color:var(--text-primary);font-size:0.88rem;">
+            <i class="fa-solid fa-bell" style="color:#D4A574;margin-right:0.4rem;"></i>
             <strong>Overdue follow-ups:</strong> <span id="reminder-list"></span>
         </div>
         <div id="kanban-content">
@@ -604,22 +604,22 @@
             <div class="notes-modal-body">
                 <!-- Follow-up Reminder (always visible) -->
                 <div
-                    style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;">
+                    style="background:linear-gradient(135deg,rgba(212,165,116,0.08),rgba(251,191,36,0.08));border:1px solid rgba(212,165,116,0.25);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;">
                     <label
                         style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem;margin-bottom:0.35rem;"><i
-                            class="fa-solid fa-bell" style="color:#f59e0b;"></i>Follow-up Reminder</label>
+                            class="fa-solid fa-bell" style="color:#D4A574;"></i>Follow-up Reminder</label>
                     <input type="datetime-local" id="reminder-date"
                         style="width:100%;padding:0.45rem 0.65rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:8px;color:var(--text-primary);font-family:inherit;font-size:0.85rem;">
                 </div>
                 <div id="interview-tip"
-                    style="display:none;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(52,211,153,0.08));border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem;">
+                    style="display:none;background:linear-gradient(135deg,rgba(138,154,134,0.08),rgba(52,211,153,0.08));border:1px solid rgba(138,154,134,0.25);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem;">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem;">
                         <div style="display:flex;align-items:center;gap:0.5rem;">
-                            <i class="fa-solid fa-calendar-check" style="color:#10b981;"></i>
+                            <i class="fa-solid fa-calendar-check" style="color:#8A9A86;"></i>
                             <strong style="font-size:0.9rem;color:var(--text-primary);">Interview Details</strong>
                         </div>
                         <button class="btn primary-btn" onclick="goToInterview()"
-                            style="font-size:0.75rem;padding:0.35rem 0.75rem;background:linear-gradient(135deg,#10b981,#34d399);"><i
+                            style="font-size:0.75rem;padding:0.35rem 0.75rem;background:linear-gradient(135deg,#8A9A86,#A8B8A4);"><i
                                 class="fa-solid fa-comments"></i> Interview Prep</button>
                     </div>
                     <div style="display:flex;flex-direction:column;gap:0.7rem;">
@@ -653,7 +653,7 @@
             </div>
             <div class="notes-modal-footer" style="justify-content: space-between;">
                 <button class="btn primary-btn" id="notes-go-btn" onclick="goToApplication()"
-                    style="background:linear-gradient(135deg,#6366f1,#8b5cf6);"><i class="fa-solid fa-arrow-right"></i>
+                    style="background:linear-gradient(135deg,#7B8FA8,#9B8EA6);"><i class="fa-solid fa-arrow-right"></i>
                     Go to Application</button>
                 <div style="display:flex;gap:0.6rem;">
                     <button class="btn ghost-btn" onclick="closeNotesModal()">Cancel</button>
@@ -784,9 +784,9 @@
             const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
             const score = gen.match_score;
-            const scoreColor = score >= 75 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
-            const scoreBg = score >= 75 ? 'rgba(16,185,129,0.1)' : score >= 50 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)';
-            const companyColor = gen.company_primary_color || '#6366f1';
+            const scoreColor = score >= 75 ? '#8A9A86' : score >= 50 ? '#D4A574' : '#C47A6E';
+            const scoreBg = score >= 75 ? 'rgba(138,154,134,0.1)' : score >= 50 ? 'rgba(212,165,116,0.1)' : 'rgba(196,122,110,0.1)';
+            const companyColor = gen.company_primary_color || '#7B8FA8';
 
             const badges = [];
             if (gen.resume_html) badges.push('Resume');
@@ -819,7 +819,7 @@
                 </div>
                 ${score ? `<div class="kcard-score" style="background:${scoreBg};color:${scoreColor};"><i class="fa-solid fa-bullseye"></i> ${score}%</div>` : ''}
                 <div class="kcard-reminder" style="display:none;font-size:0.75rem;margin-bottom:0.4rem;"><i class="fa-solid fa-bell" style="margin-right:0.3rem;"></i><span></span></div>
-                <div class="kcard-interview-date" style="display:none;font-size:0.75rem;color:#10b981;margin-bottom:0.4rem;"><i class="fa-solid fa-calendar-check" style="margin-right:0.3rem;"></i><span></span></div>
+                <div class="kcard-interview-date" style="display:none;font-size:0.75rem;color:#8A9A86;margin-bottom:0.4rem;"><i class="fa-solid fa-calendar-check" style="margin-right:0.3rem;"></i><span></span></div>
                 <div class="kcard-badges">
                     ${badges.map(b => `<span class="card-badge has"><i class="fa-solid fa-check" style="font-size:0.55rem;"></i> ${b}</span>`).join('')}
                 </div>
@@ -828,7 +828,7 @@
                     <button class="btn ghost-btn kcard-btn" onclick="restoreGeneration(event, '${gen.id}')" title="Restore">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                     </button>
-                    <button class="btn ghost-btn kcard-btn" onclick="deleteGeneration(event, '${gen.id}', this)" title="Delete" style="color:#ef4444;">
+                    <button class="btn ghost-btn kcard-btn" onclick="deleteGeneration(event, '${gen.id}', this)" title="Delete" style="color:#C47A6E;">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -866,7 +866,7 @@
                     const isOverdue = rd <= now;
                     const formatted = rd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
                     reminderBadge.querySelector('span').textContent = (isOverdue ? 'Overdue: ' : 'Reminder: ') + formatted;
-                    reminderBadge.style.color = isOverdue ? '#ef4444' : '#f59e0b';
+                    reminderBadge.style.color = isOverdue ? '#C47A6E' : '#D4A574';
                     reminderBadge.style.display = 'block';
                 } else {
                     reminderBadge.style.display = 'none';
@@ -1053,7 +1053,7 @@
 
             const toast = document.createElement('div');
             toast.className = 'kanban-toast';
-            toast.style.cssText = `position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:${isError ? '#ef4444' : 'var(--primary-color)'};color:white;padding:0.6rem 1.25rem;border-radius:999px;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.3);animation:slideUp 0.3s ease-out;`;
+            toast.style.cssText = `position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:${isError ? '#C47A6E' : 'var(--primary-color)'};color:white;padding:0.6rem 1.25rem;border-radius:999px;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.3);animation:slideUp 0.3s ease-out;`;
             toast.innerHTML = `<i class="fa-solid ${isError ? 'fa-triangle-exclamation' : 'fa-check'}"></i> ${message}`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2500);
@@ -1081,7 +1081,7 @@
                     targetCompany: data.target_company || '',
                     matchScore: data.match_score || null,
                     missingKeywords: data.missing_keywords || [],
-                    companyPrimaryColor: data.company_primary_color || '#1a1a2e',
+                    companyPrimaryColor: data.company_primary_color || '#151821',
                     resumeText: data.resume_text || '',
                     jobText: data.job_text || data.job_description || ''
                 };
@@ -1276,7 +1276,7 @@
                     targetCompany: data.target_company || '',
                     matchScore: data.match_score || null,
                     missingKeywords: data.missing_keywords || [],
-                    companyPrimaryColor: data.company_primary_color || '#1a1a2e',
+                    companyPrimaryColor: data.company_primary_color || '#151821',
                     resumeText: data.resume_text || '',
                     jobText: data.job_text || data.job_description || ''
                 };

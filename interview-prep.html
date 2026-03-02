@@ -132,8 +132,8 @@
         }
 
         .chat-bubble.user {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(52, 211, 153, 0.08));
-            border: 1px solid rgba(16, 185, 129, 0.25);
+            background: linear-gradient(135deg, rgba(138, 154, 134, 0.12), rgba(52, 211, 153, 0.08));
+            border: 1px solid rgba(138, 154, 134, 0.25);
             color: var(--text-primary);
             border-bottom-right-radius: 4px;
         }
@@ -263,7 +263,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: #ef4444;
+            background: #C47A6E;
             animation: pulseRed 1.5s infinite;
             flex-shrink: 0;
         }
@@ -360,12 +360,12 @@
 
         .flashcard:hover .flashcard-front {
             border-color: var(--primary-color);
-            box-shadow: 0 2px 12px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 2px 12px rgba(138, 154, 134, 0.1);
         }
 
         .flashcard-back {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(52, 211, 153, 0.04));
-            border-color: rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, rgba(138, 154, 134, 0.06), rgba(52, 211, 153, 0.04));
+            border-color: rgba(138, 154, 134, 0.3);
             transform: rotateY(180deg);
         }
 
@@ -406,7 +406,7 @@
 
         .fc-back-label {
             font-size: 0.7rem;
-            color: #10b981;
+            color: #8A9A86;
             font-weight: 700;
             margin-bottom: 0.6rem;
             display: flex;
@@ -422,12 +422,12 @@
         }
 
         .flashcard.reviewed .flashcard-front {
-            border-color: rgba(16, 185, 129, 0.35);
-            background: linear-gradient(135deg, var(--glass-bg), rgba(16, 185, 129, 0.03));
+            border-color: rgba(138, 154, 134, 0.35);
+            background: linear-gradient(135deg, var(--glass-bg), rgba(138, 154, 134, 0.03));
         }
 
         .flashcard.reviewed .fc-badge {
-            background: rgba(16, 185, 129, 0.2);
+            background: rgba(138, 154, 134, 0.2);
         }
 
         .flashcard-counter {
@@ -512,17 +512,17 @@
         @keyframes pulseRed {
             0% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+                box-shadow: 0 0 0 0 rgba(196, 122, 110, 0.7);
             }
 
             70% {
                 transform: scale(1.1);
-                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+                box-shadow: 0 0 0 10px rgba(196, 122, 110, 0);
             }
 
             100% {
                 transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+                box-shadow: 0 0 0 0 rgba(196, 122, 110, 0);
             }
         }
     </style>
@@ -575,7 +575,7 @@
         <a href="results.html" class="result-back"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
 
         <h1 class="result-title" style="text-align:center;margin:0.75rem 0 1rem;font-size:1.6rem;"><i
-                class="fa-solid fa-comments" style="color:#10b981;margin-right:0.5rem;"></i>Mock Interview</h1>
+                class="fa-solid fa-comments" style="color:#8A9A86;margin-right:0.5rem;"></i>Mock Interview</h1>
 
         <div class="result-header" style="justify-content:center;">
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
@@ -1123,7 +1123,7 @@ Format your response exactly like this:
                             <div class="chat-recording-dot"></div>
                             <span style="color:var(--text-primary);font-weight:500;">Recording...</span>
                         </div>
-                        <button class="btn primary-btn" onclick="stopChatRecording()" style="background:#ef4444;color:white;font-size:0.88rem;">
+                        <button class="btn primary-btn" onclick="stopChatRecording()" style="background:#C47A6E;color:white;font-size:0.88rem;">
                             <i class="fa-solid fa-stop"></i> Stop
                         </button>`;
                 }

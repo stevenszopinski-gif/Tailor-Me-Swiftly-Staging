@@ -35,7 +35,7 @@
         .teleprompter-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 1.5rem; color: #fff; font-size: 1.3rem; line-height: 1.6; text-align: center; font-weight: 500; text-shadow: 0 1px 4px rgba(0,0,0,0.8); max-height: 40%; overflow: hidden; }
         .record-controls { display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
         .timer { font-size: 1.5rem; font-weight: 700; font-family: 'Outfit', monospace; text-align: center; margin-top: 0.5rem; }
-        .timer.recording { color: #ef4444; }
+        .timer.recording { color: #C47A6E; }
         .speed-control { display: flex; gap: 0.5rem; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 0.85rem; }
         .speed-control input { width: 120px; }
     </style>
@@ -74,7 +74,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-video" style="color:#8b5cf6;margin-right:0.5rem;"></i>Video Intro Script</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-video" style="color:#9B8EA6;margin-right:0.5rem;"></i>Video Intro Script</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">60-second script + built-in teleprompter with webcam</p>
 
         <div id="script-section">
@@ -84,7 +84,7 @@
         </div>
 
         <div id="teleprompter-section" style="display:none;">
-            <h3 style="text-align:center;margin-bottom:1rem;font-size:1rem;"><i class="fa-solid fa-display" style="color:#8b5cf6;margin-right:0.4rem;"></i> Teleprompter</h3>
+            <h3 style="text-align:center;margin-bottom:1rem;font-size:1rem;"><i class="fa-solid fa-display" style="color:#9B8EA6;margin-right:0.4rem;"></i> Teleprompter</h3>
             <div class="speed-control">
                 <span>Speed:</span>
                 <input type="range" id="scroll-speed" min="1" max="10" value="4">
@@ -96,7 +96,7 @@
             </div>
             <div class="timer" id="timer">0:00</div>
             <div class="record-controls">
-                <button class="btn primary-btn" id="start-btn" onclick="startRecording()"><i class="fa-solid fa-circle" style="color:#ef4444;"></i> Record</button>
+                <button class="btn primary-btn" id="start-btn" onclick="startRecording()"><i class="fa-solid fa-circle" style="color:#C47A6E;"></i> Record</button>
                 <button class="btn ghost-btn" id="stop-btn" onclick="stopRecording()" disabled><i class="fa-solid fa-stop"></i> Stop</button>
                 <button class="btn ghost-btn" id="download-vid-btn" onclick="downloadVideo()" style="display:none;"><i class="fa-solid fa-download"></i> Download</button>
             </div>
@@ -161,7 +161,7 @@ Write it in first person, conversational tone. Mark natural pause points with [p
                 const words = scriptText.split(/\s+/).length;
                 const estSeconds = Math.round(words / 2.5);
 
-                section.innerHTML = `<div class="script-card"><h3 style="margin:0 0 0.75rem;font-size:1rem;"><i class="fa-solid fa-scroll" style="color:#8b5cf6;margin-right:0.4rem;"></i> Your Script <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:400;">(${words} words, ~${estSeconds}s)</span></h3><div class="script-text" id="script-display" contenteditable="true">${scriptText.replace(/\[pause\]/g, '<span style="color:#8b5cf6;font-weight:600;">[pause]</span>')}</div><div style="display:flex;gap:0.6rem;margin-top:1rem;flex-wrap:wrap;"><button class="btn small-btn ghost-btn" onclick="navigator.clipboard.writeText(scriptText);this.innerHTML='<i class=\\'fa-solid fa-check\\'></i> Copied';setTimeout(()=>this.innerHTML='<i class=\\'fa-regular fa-copy\\'></i> Copy',1500)"><i class="fa-regular fa-copy"></i> Copy</button><button class="btn small-btn ghost-btn" onclick="generateScript()"><i class="fa-solid fa-rotate"></i> Regenerate</button><button class="btn small-btn primary-btn" onclick="openTeleprompter()"><i class="fa-solid fa-display"></i> Open Teleprompter</button></div></div>`;
+                section.innerHTML = `<div class="script-card"><h3 style="margin:0 0 0.75rem;font-size:1rem;"><i class="fa-solid fa-scroll" style="color:#9B8EA6;margin-right:0.4rem;"></i> Your Script <span style="font-size:0.75rem;color:var(--text-secondary);font-weight:400;">(${words} words, ~${estSeconds}s)</span></h3><div class="script-text" id="script-display" contenteditable="true">${scriptText.replace(/\[pause\]/g, '<span style="color:#9B8EA6;font-weight:600;">[pause]</span>')}</div><div style="display:flex;gap:0.6rem;margin-top:1rem;flex-wrap:wrap;"><button class="btn small-btn ghost-btn" onclick="navigator.clipboard.writeText(scriptText);this.innerHTML='<i class=\\'fa-solid fa-check\\'></i> Copied';setTimeout(()=>this.innerHTML='<i class=\\'fa-regular fa-copy\\'></i> Copy',1500)"><i class="fa-regular fa-copy"></i> Copy</button><button class="btn small-btn ghost-btn" onclick="generateScript()"><i class="fa-solid fa-rotate"></i> Regenerate</button><button class="btn small-btn primary-btn" onclick="openTeleprompter()"><i class="fa-solid fa-display"></i> Open Teleprompter</button></div></div>`;
                 incrementToolUsage();
             } catch (e) {
                 section.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generateScript()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;

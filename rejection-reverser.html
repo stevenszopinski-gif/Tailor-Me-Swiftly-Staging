@@ -32,8 +32,8 @@
         [data-theme="dark"] .email-output { background: rgba(255,255,255,0.04); color: var(--text-primary); border: 1px solid var(--panel-border); }
         .scenario-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; }
         .scenario-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 1px solid var(--panel-border); border-radius: 10px; cursor: pointer; margin-bottom: 0.5rem; transition: all 0.2s; }
-        .scenario-option:hover { border-color: var(--primary-color); background: rgba(99,102,241,0.05); }
-        .scenario-option.selected { border-color: var(--primary-color); background: rgba(99,102,241,0.1); }
+        .scenario-option:hover { border-color: var(--primary-color); background: rgba(123,143,168,0.05); }
+        .scenario-option.selected { border-color: var(--primary-color); background: rgba(123,143,168,0.1); }
         .scenario-option input[type="radio"] { accent-color: var(--primary-color); }
     </style>
 </head>
@@ -71,11 +71,11 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-rotate-left" style="color:#8b5cf6;margin-right:0.5rem;"></i>Rejection Reverser</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-rotate-left" style="color:#9B8EA6;margin-right:0.5rem;"></i>Rejection Reverser</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Turn rejections into networking gold with a professional feedback request</p>
 
         <div class="scenario-card">
-            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-check" style="color:#8b5cf6;margin-right:0.4rem;"></i> What happened?</h3>
+            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-check" style="color:#9B8EA6;margin-right:0.4rem;"></i> What happened?</h3>
             <label class="scenario-option" onclick="this.querySelector('input').checked=true;document.querySelectorAll('.scenario-option').forEach(o=>o.classList.remove('selected'));this.classList.add('selected');">
                 <input type="radio" name="scenario" value="no-response" checked> <div><strong>Ghosted after applying</strong><br><span style="font-size:0.8rem;color:var(--text-secondary);">Applied but never heard back</span></div>
             </label>
@@ -164,8 +164,8 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
         function renderResponse(result) {
             const container = document.getElementById('response-output');
-            let html = `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius: 4px;padding:1rem;margin-bottom:1rem;">
-                <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;"><i class="fa-solid fa-brain" style="color:#8b5cf6;margin-right:0.3rem;"></i> <strong>Strategy:</strong> ${result.strategy}</p>
+            let html = `<div style="background:rgba(155,142,166,0.06);border:1px solid rgba(155,142,166,0.2);border-radius: 4px;padding:1rem;margin-bottom:1rem;">
+                <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;"><i class="fa-solid fa-brain" style="color:#9B8EA6;margin-right:0.3rem;"></i> <strong>Strategy:</strong> ${result.strategy}</p>
             </div>`;
 
             html += `<div style="margin-bottom:0.5rem;font-size:0.85rem;"><strong>Subject:</strong> ${result.subject}</div>`;
@@ -178,11 +178,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
             html += `<div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
                 <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1rem;">
-                    <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-solid fa-clock" style="color:#f59e0b;margin-right:0.3rem;"></i> Follow Up</h4>
+                    <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-solid fa-clock" style="color:#D4A574;margin-right:0.3rem;"></i> Follow Up</h4>
                     <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.followUpTiming}</p>
                 </div>
                 <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1rem;">
-                    <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-brands fa-linkedin" style="color:#0077b5;margin-right:0.3rem;"></i> LinkedIn Action</h4>
+                    <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-brands fa-linkedin" style="color:#5C7A8A;margin-right:0.3rem;"></i> LinkedIn Action</h4>
                     <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.linkedinAction}</p>
                 </div>
             </div>`;

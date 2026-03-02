@@ -452,7 +452,7 @@
                                 <label id="interest-tags-label" style="font-weight:600;font-size:0.9rem;">Your
                                     Interests</label>
                                 <span id="import-badge"
-                                    style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(59,130,246,0.1);color:var(--primary-color);"></span>
+                                    style="display:none;font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:10px;background:rgba(123,154,180,0.1);color:var(--primary-color);"></span>
                             </div>
                             <div id="interest-tags" class="interest-tags-wrap"></div>
                             <div style="margin-top:0.5rem;">
@@ -1323,7 +1323,7 @@
             } catch (e) {
                 statusText.textContent = e.message || 'Failed to parse file';
                 statusEl.querySelector('i').className = 'fa-solid fa-xmark';
-                statusEl.querySelector('i').style.color = '#ef4444';
+                statusEl.querySelector('i').style.color = '#C47A6E';
             }
         }
 
@@ -1744,7 +1744,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
                 document.getElementById(loadingId).innerHTML = answer;
             } catch (e) {
-                document.getElementById(loadingId).innerHTML = `<span style="color:#ef4444;">Error: ${e.message}</span>`;
+                document.getElementById(loadingId).innerHTML = `<span style="color:#C47A6E;">Error: ${e.message}</span>`;
             }
             thread.scrollTop = thread.scrollHeight;
         }

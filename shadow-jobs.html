@@ -32,8 +32,8 @@
         .company-tracker .co-name { font-weight: 600; flex: 1; }
         .company-tracker .co-url { font-size: 0.75rem; color: var(--text-secondary); word-break: break-all; }
         .company-tracker .status { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; }
-        .status.active { background: rgba(16,185,129,0.1); color: #10b981; }
-        .status.pending { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .status.active { background: rgba(138,154,134,0.1); color: #8A9A86; }
+        .status.pending { background: rgba(212,165,116,0.1); color: #D4A574; }
         .add-form { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .add-form input { flex: 1; min-width: 200px; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
         .tip-box { background: rgba(71,85,105,0.08); border: 1px solid rgba(71,85,105,0.2); border-radius: 4px; padding: 1.25rem; margin-top: 1.5rem; }
@@ -73,7 +73,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-ghost" style="color:#64748b;margin-right:0.5rem;"></i>Shadow Job Market</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-ghost" style="color:#4A505C;margin-right:0.5rem;"></i>Shadow Job Market</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Monitor company career pages before jobs hit LinkedIn</p>
 
         <p style="font-size:0.9rem;margin-bottom:1rem;"><strong>Add companies to track:</strong></p>
@@ -92,7 +92,7 @@
         <div id="scan-results"></div>
 
         <div class="tip-box">
-            <h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-ghost" style="color:#64748b;margin-right:0.4rem;"></i> How Shadow Jobs Works</h3>
+            <h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-ghost" style="color:#4A505C;margin-right:0.4rem;"></i> How Shadow Jobs Works</h3>
             <ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
                 <li>Add companies you're interested in with their careers page URLs</li>
                 <li>Click "Scan" to check their career pages for new openings that match your resume</li>
@@ -222,12 +222,12 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
         function renderScanResults(data) {
             const container = document.getElementById('scan-results');
-            let html = '<h3 style="margin:1.5rem 0 1rem;font-size:1rem;"><i class="fa-solid fa-radar" style="color:#64748b;margin-right:0.4rem;"></i> Scan Results</h3>';
+            let html = '<h3 style="margin:1.5rem 0 1rem;font-size:1rem;"><i class="fa-solid fa-radar" style="color:#4A505C;margin-right:0.4rem;"></i> Scan Results</h3>';
 
             data.results.forEach(company => {
                 html += `<div style="margin-bottom:1.5rem;"><h4 style="margin:0 0 0.75rem;font-size:0.95rem;">${company.company}</h4>`;
                 company.roles.forEach(role => {
-                    const color = role.matchScore >= 85 ? '#10b981' : role.matchScore >= 70 ? '#f59e0b' : '#ef4444';
+                    const color = role.matchScore >= 85 ? '#8A9A86' : role.matchScore >= 70 ? '#D4A574' : '#C47A6E';
                     html += `<div class="company-tracker" style="flex-direction:column;align-items:stretch;gap:0.5rem;"><div style="display:flex;justify-content:space-between;align-items:center;"><strong>${role.title}</strong><span style="color:${color};font-weight:700;font-size:0.85rem;">${role.matchScore}% match</span></div><p style="font-size:0.8rem;color:var(--text-secondary);margin:0;">${role.reasoning}</p><p style="font-size:0.75rem;color:var(--primary-color);margin:0;"><i class="fa-solid fa-magnifying-glass"></i> ${role.searchTip}</p></div>`;
                 });
                 html += `</div>`;

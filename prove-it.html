@@ -29,10 +29,10 @@
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
         .bullet-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; }
-        .bullet-original { font-size: 0.9rem; color: #ef4444; text-decoration: line-through; margin-bottom: 0.75rem; opacity: 0.7; }
+        .bullet-original { font-size: 0.9rem; color: #C47A6E; text-decoration: line-through; margin-bottom: 0.75rem; opacity: 0.7; }
         .bullet-question { font-size: 0.9rem; color: var(--primary-color); margin-bottom: 0.75rem; font-weight: 500; }
         .bullet-input { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; font-size: 0.85rem; margin-bottom: 0.75rem; }
-        .bullet-improved { font-size: 0.95rem; line-height: 1.6; padding: 0.75rem; background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px; display: none; }
+        .bullet-improved { font-size: 0.95rem; line-height: 1.6; padding: 0.75rem; background: rgba(138,154,134,0.06); border: 1px solid rgba(138,154,134,0.2); border-radius: 8px; display: none; }
         .bullet-improved.visible { display: block; }
     </style>
 </head>
@@ -70,7 +70,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-chart-column" style="color:#06b6d4;margin-right:0.5rem;"></i>Prove It Metric Extractor</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-chart-column" style="color:#7BA5B4;margin-right:0.5rem;"></i>Prove It Metric Extractor</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Turn vague bullet points into quantified achievements with hard data</p>
 
         <div id="prove-output">
@@ -143,7 +143,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             result.bullets.forEach((b, i) => {
                 html += `<div class="bullet-card">
                     <div class="bullet-original">${b.original}</div>
-                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;"><i class="fa-solid fa-circle-exclamation" style="color:#f59e0b;"></i> ${b.problem}</div>
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.5rem;"><i class="fa-solid fa-circle-exclamation" style="color:#D4A574;"></i> ${b.problem}</div>
                     <div class="bullet-question"><i class="fa-solid fa-comment-dots"></i> ${b.question}</div>
                     <input class="bullet-input" id="answer-${i}" placeholder="Type your answer here..." data-idx="${i}" data-original="${encodeURIComponent(b.original)}">
                     <button class="btn small-btn primary-btn" onclick="rewriteBullet(${i})" style="margin-bottom:0.75rem;"><i class="fa-solid fa-wand-magic-sparkles"></i> Rewrite with My Data</button>
@@ -178,7 +178,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
                 if (error) throw new Error(error.message);
                 const rewritten = data.candidates[0].content.parts[0].text.trim();
-                improved.innerHTML = `<strong style="color:#10b981;"><i class="fa-solid fa-check-circle"></i> Improved:</strong> ${rewritten} <button style="background:none;border:none;color:var(--primary-color);cursor:pointer;font-size:0.8rem;" onclick="navigator.clipboard.writeText('${rewritten.replace(/'/g, "\\'")}');this.textContent='Copied!'"><i class="fa-regular fa-copy"></i> Copy</button>`;
+                improved.innerHTML = `<strong style="color:#8A9A86;"><i class="fa-solid fa-check-circle"></i> Improved:</strong> ${rewritten} <button style="background:none;border:none;color:var(--primary-color);cursor:pointer;font-size:0.8rem;" onclick="navigator.clipboard.writeText('${rewritten.replace(/'/g, "\\'")}');this.textContent='Copied!'"><i class="fa-regular fa-copy"></i> Copy</button>`;
             } catch (e) {
                 improved.innerHTML = `<span style="color:var(--error-color);">Failed: ${e.message}</span>`;
             }

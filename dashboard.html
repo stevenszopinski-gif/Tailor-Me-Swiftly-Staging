@@ -214,23 +214,23 @@
 
         /* Per-column accent colors */
         .dash-col[data-status="Tailored"] .dash-col-title i {
-            color: #8b5cf6;
+            color: #9B8EA6;
         }
 
         .dash-col[data-status="Applied"] .dash-col-title i {
-            color: #3b82f6;
+            color: #7B9AB4;
         }
 
         .dash-col[data-status="Interviewing"] .dash-col-title i {
-            color: #f59e0b;
+            color: #D4A574;
         }
 
         .dash-col[data-status="Offer"] .dash-col-title i {
-            color: #10b981;
+            color: #8A9A86;
         }
 
         .dash-col[data-status="Rejected"] .dash-col-title i {
-            color: #ef4444;
+            color: #C47A6E;
         }
 
         /* ─── Mini Card ─── */
@@ -714,16 +714,16 @@
 
                         const date = new Date(gen.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                         const score = gen.match_score;
-                        const scoreColor = score >= 75 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
-                        const scoreBg = score >= 75 ? 'rgba(16,185,129,0.1)' : score >= 50 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)';
-                        const dotColor = gen.company_primary_color || '#6366f1';
+                        const scoreColor = score >= 75 ? '#8A9A86' : score >= 50 ? '#D4A574' : '#C47A6E';
+                        const scoreBg = score >= 75 ? 'rgba(138,154,134,0.1)' : score >= 50 ? 'rgba(212,165,116,0.1)' : 'rgba(196,122,110,0.1)';
+                        const dotColor = gen.company_primary_color || '#7B8FA8';
                         const company = gen.target_company || 'Untitled';
 
                         let ctxLink = '';
                         if (col.status === 'Offer') {
-                            ctxLink = `<a href="salary-negotiator.html" class="dash-card-ctx-link" style="color:#10b981;" onclick="event.stopPropagation();">Negotiate salary &rarr;</a>`;
+                            ctxLink = `<a href="salary-negotiator.html" class="dash-card-ctx-link" style="color:#8A9A86;" onclick="event.stopPropagation();">Negotiate salary &rarr;</a>`;
                         } else if (col.status === 'Rejected') {
-                            ctxLink = `<a href="rejection-reverser.html" class="dash-card-ctx-link" style="color:#ef4444;" onclick="event.stopPropagation();">Bounce back &rarr;</a>`;
+                            ctxLink = `<a href="rejection-reverser.html" class="dash-card-ctx-link" style="color:#C47A6E;" onclick="event.stopPropagation();">Bounce back &rarr;</a>`;
                         }
 
                         card.innerHTML = `
@@ -770,7 +770,7 @@
                         const dateLabel = isToday ? 'Today' : dateStr;
                         const preview = (b.briefing_text || '').replace(/\s+/g, ' ').trim().substring(0, 100);
                         const podcastBadge = b.audio_url
-                            ? `<span style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.7rem;background:rgba(59,130,246,0.1);color:#3b82f6;padding:0.15rem 0.5rem;border-radius:999px;margin-left:0.5rem;"><i class="fa-solid fa-headphones"></i></span>`
+                            ? `<span style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.7rem;background:rgba(123,154,180,0.1);color:#7B9AB4;padding:0.15rem 0.5rem;border-radius:999px;margin-left:0.5rem;"><i class="fa-solid fa-headphones"></i></span>`
                             : '';
 
                         html += `

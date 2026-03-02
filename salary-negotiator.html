@@ -31,21 +31,21 @@
         .chat-container { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem; min-height: 300px; }
         .chat-msg { max-width: 85%; padding: 1rem; border-radius: 4px; font-size: 0.9rem; line-height: 1.6; animation: fadeIn 0.3s ease-out; }
         .chat-msg.hr { align-self: flex-start; background: var(--glass-bg); border: 1px solid var(--panel-border); border-bottom-left-radius: 4px; }
-        .chat-msg.user { align-self: flex-end; background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(52,211,153,0.1)); border: 1px solid rgba(16,185,129,0.3); border-bottom-right-radius: 4px; }
-        .chat-msg.coach { align-self: center; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 4px; font-size: 0.8rem; text-align: center; max-width: 95%; }
+        .chat-msg.user { align-self: flex-end; background: linear-gradient(135deg, rgba(138,154,134,0.15), rgba(52,211,153,0.1)); border: 1px solid rgba(138,154,134,0.3); border-bottom-right-radius: 4px; }
+        .chat-msg.coach { align-self: center; background: rgba(123,143,168,0.08); border: 1px solid rgba(123,143,168,0.2); border-radius: 4px; font-size: 0.8rem; text-align: center; max-width: 95%; }
         .chat-msg .role { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
-        .chat-msg.hr .role { color: #ef4444; }
-        .chat-msg.user .role { color: #10b981; }
-        .chat-msg.coach .role { color: #6366f1; }
+        .chat-msg.hr .role { color: #C47A6E; }
+        .chat-msg.user .role { color: #8A9A86; }
+        .chat-msg.coach .role { color: #7B8FA8; }
         .voice-controls { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem; }
         .mic-btn { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--panel-border); background: var(--glass-bg); color: var(--text-primary); font-size: 1.8rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
         .mic-btn:hover { border-color: var(--primary-color); transform: scale(1.05); }
-        .mic-btn.listening { border-color: #ef4444; background: rgba(239,68,68,0.1); animation: pulse 1.5s ease-in-out infinite; }
-        .mic-btn.speaking { border-color: #22c55e; background: rgba(34,197,94,0.1); }
+        .mic-btn.listening { border-color: #C47A6E; background: rgba(196,122,110,0.1); animation: pulse 1.5s ease-in-out infinite; }
+        .mic-btn.speaking { border-color: #8A9A86; background: rgba(34,197,94,0.1); }
         .voice-status { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); min-height: 1.2em; }
-        .voice-status.listening { color: #ef4444; }
-        .voice-status.speaking { color: #22c55e; }
-        .voice-status.processing { color: #f59e0b; }
+        .voice-status.listening { color: #C47A6E; }
+        .voice-status.speaking { color: #8A9A86; }
+        .voice-status.processing { color: #D4A574; }
         .mode-toggle { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; }
         .mode-btn { padding: 0.4rem 1rem; border: 1px solid var(--panel-border); border-radius: 999px; font-size: 0.82rem; cursor: pointer; background: none; color: var(--text-secondary); font-family: inherit; transition: all 0.2s; }
         .mode-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
@@ -55,7 +55,7 @@
         .salary-setup { text-align: center; }
         .salary-setup input { padding: 0.5rem 1rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; font-size: 1rem; width: 150px; text-align: center; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); } 50% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(196,122,110,0.3); } 50% { box-shadow: 0 0 0 15px rgba(196,122,110,0); } }
     </style>
 </head>
 
@@ -92,7 +92,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-sack-dollar" style="color:#22c55e;margin-right:0.5rem;"></i>Salary Negotiator</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-sack-dollar" style="color:#8A9A86;margin-right:0.5rem;"></i>Salary Negotiator</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Voice-to-voice negotiation practice with a stubborn AI HR rep</p>
 
         <div id="salary-setup" class="salary-setup">
@@ -396,7 +396,7 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
 
                 if (error) throw new Error(error.message);
                 const tip = data.candidates[0].content.parts[0].text.trim();
-                addMessage('coach', `<i class="fa-solid fa-lightbulb" style="color:#6366f1;"></i> ${tip}`);
+                addMessage('coach', `<i class="fa-solid fa-lightbulb" style="color:#7B8FA8;"></i> ${tip}`);
             } catch (e) {
                 addMessage('coach', 'Could not get tip. Try again.');
             }

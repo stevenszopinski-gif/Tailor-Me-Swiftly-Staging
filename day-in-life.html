@@ -30,13 +30,13 @@
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
         .timeline { position: relative; padding-left: 2rem; }
-        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #6366f1, #818cf8, var(--panel-border)); }
+        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #7B8FA8, #A3B1C8, var(--panel-border)); }
         .time-block { position: relative; margin-bottom: 1.5rem; }
-        .time-block::before { content: ''; position: absolute; left: -1.65rem; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #6366f1; border: 2px solid var(--panel-bg); }
-        .time-label { font-size: 0.75rem; font-weight: 700; color: #818cf8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; }
+        .time-block::before { content: ''; position: absolute; left: -1.65rem; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #7B8FA8; border: 2px solid var(--panel-bg); }
+        .time-label { font-size: 0.75rem; font-weight: 700; color: #A3B1C8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; }
         .time-content { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1rem; font-size: 0.9rem; line-height: 1.6; }
         .time-content strong { color: var(--text-primary); }
-        .insight-box { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.2); border-radius: 4px; padding: 1.25rem; margin-top: 2rem; }
+        .insight-box { background: rgba(123,143,168,0.06); border: 1px solid rgba(123,143,168,0.2); border-radius: 4px; padding: 1.25rem; margin-top: 2rem; }
     </style>
 </head>
 
@@ -73,7 +73,7 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-sun" style="color:#6366f1;margin-right:0.5rem;"></i>Day in the Life</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-sun" style="color:#7B8FA8;margin-right:0.5rem;"></i>Day in the Life</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">A realistic simulation of your typical day in this role</p>
 
         <div id="day-output">
@@ -150,13 +150,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
             html += `</div>`;
 
             if (result.interviewInsights && result.interviewInsights.length > 0) {
-                html += `<div class="insight-box"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#6366f1;margin-right:0.4rem;"></i> Interview Ammunition</h3><p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.75rem;">Use these insights to show you understand the daily reality:</p><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;">`;
+                html += `<div class="insight-box"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#7B8FA8;margin-right:0.4rem;"></i> Interview Ammunition</h3><p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.75rem;">Use these insights to show you understand the daily reality:</p><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;">`;
                 result.interviewInsights.forEach(i => { html += `<li>${i}</li>`; });
                 html += `</ul></div>`;
             }
 
             if (result.hiddenChallenges && result.hiddenChallenges.length > 0) {
-                html += `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius: 4px;padding:1.25rem;margin-top:1rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-eye" style="color:#f59e0b;margin-right:0.4rem;"></i> Hidden Challenges</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                html += `<div style="background:rgba(212,165,116,0.06);border:1px solid rgba(212,165,116,0.2);border-radius: 4px;padding:1.25rem;margin-top:1rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-eye" style="color:#D4A574;margin-right:0.4rem;"></i> Hidden Challenges</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
                 result.hiddenChallenges.forEach(c => { html += `<li>${c}</li>`; });
                 html += `</ul></div>`;
             }

@@ -37,7 +37,7 @@
         .true-value { font-size: 2.5rem; font-weight: 800; font-family: 'Outfit', sans-serif; text-align: center; margin: 0.5rem 0; }
         .breakdown-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
         .breakdown-row:last-child { border-bottom: none; }
-        .warning-box { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; padding: 1rem; margin-top: 1rem; }
+        .warning-box { background: rgba(196,122,110,0.06); border: 1px solid rgba(196,122,110,0.2); border-radius: 4px; padding: 1rem; margin-top: 1rem; }
         @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -75,11 +75,11 @@
         <div style="text-align:center;margin-bottom:1.5rem;">
             <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
         </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-scale-balanced" style="color:#10b981;margin-right:0.5rem;"></i>Compensation Decoder</h1>
+        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-scale-balanced" style="color:#8A9A86;margin-right:0.5rem;"></i>Compensation Decoder</h1>
         <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Decode the true value of any offer — base, equity, benefits & cost of living</p>
 
         <div class="offer-form">
-            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-receipt" style="color:#10b981;margin-right:0.4rem;"></i> Enter Offer Details</h3>
+            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-receipt" style="color:#8A9A86;margin-right:0.4rem;"></i> Enter Offer Details</h3>
             <div class="form-grid">
                 <div class="form-group">
                     <label>Base Salary</label>
@@ -206,7 +206,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
         function renderComp(result) {
             const container = document.getElementById('comp-output');
             const score = result.trueValueScore;
-            const color = score >= 75 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444';
+            const color = score >= 75 ? '#8A9A86' : score >= 50 ? '#D4A574' : '#C47A6E';
 
             let html = `<div class="value-card">
                 <h3 style="text-align:center;margin:0 0 0.5rem;font-size:0.9rem;color:var(--text-secondary);">True Annual Compensation Value</h3>
@@ -214,20 +214,20 @@ Return EXACTLY this JSON (no markdown, no code fences):
                 <p style="text-align:center;font-size:0.85rem;color:var(--text-secondary);margin:0;">Score: <strong style="color:${color};">${score}/100</strong></p>
             </div>`;
 
-            html += `<div class="value-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-ol" style="color:#10b981;margin-right:0.4rem;"></i> Breakdown</h3>`;
+            html += `<div class="value-card"><h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-ol" style="color:#8A9A86;margin-right:0.4rem;"></i> Breakdown</h3>`;
             result.breakdown.forEach(b => {
                 html += `<div class="breakdown-row"><span>${b.item}</span><span style="text-align:right;"><strong>${b.value}</strong><br><span style="font-size:0.78rem;color:var(--text-secondary);">${b.adjusted}</span></span></div>`;
             });
-            html += `<div style="margin-top:1rem;padding:0.75rem;background:rgba(99,102,241,0.05);border-radius:8px;font-size:0.85rem;color:var(--text-secondary);"><i class="fa-solid fa-location-dot" style="color:#6366f1;margin-right:0.3rem;"></i> ${result.colAdjustment}</div></div>`;
+            html += `<div style="margin-top:1rem;padding:0.75rem;background:rgba(123,143,168,0.05);border-radius:8px;font-size:0.85rem;color:var(--text-secondary);"><i class="fa-solid fa-location-dot" style="color:#7B8FA8;margin-right:0.3rem;"></i> ${result.colAdjustment}</div></div>`;
 
             if (result.equityWarnings && result.equityWarnings.length > 0) {
-                html += `<div class="warning-box"><h3 style="margin:0 0 0.5rem;font-size:0.95rem;color:#ef4444;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:0.4rem;"></i> Equity Warnings</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                html += `<div class="warning-box"><h3 style="margin:0 0 0.5rem;font-size:0.95rem;color:#C47A6E;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:0.4rem;"></i> Equity Warnings</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
                 result.equityWarnings.forEach(w => { html += `<li>${w}</li>`; });
                 html += `</ul></div>`;
             }
 
             if (result.hiddenCosts && result.hiddenCosts.length > 0) {
-                html += `<div class="value-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-eye-slash" style="color:#f59e0b;margin-right:0.4rem;"></i> Hidden Costs</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                html += `<div class="value-card"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-eye-slash" style="color:#D4A574;margin-right:0.4rem;"></i> Hidden Costs</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
                 result.hiddenCosts.forEach(c => { html += `<li>${c}</li>`; });
                 html += `</ul></div>`;
             }

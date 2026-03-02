@@ -260,16 +260,16 @@
         /* ── Heatmap Styles ── */
         .heatmap-active .hm-high {
             background: rgba(138, 154, 134, 0.18);
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
-            border-bottom: 2px solid #10b981;
+            box-shadow: 0 0 10px rgba(138, 154, 134, 0.3);
+            border-bottom: 2px solid #8A9A86;
             position: relative;
             cursor: help;
         }
 
         .heatmap-active .hm-medium {
-            background: rgba(245, 158, 11, 0.1);
-            box-shadow: 0 0 8px rgba(245, 158, 11, 0.2);
-            border-bottom: 2px solid #f59e0b;
+            background: rgba(212, 165, 116, 0.1);
+            box-shadow: 0 0 8px rgba(212, 165, 116, 0.2);
+            border-bottom: 2px solid #D4A574;
             position: relative;
             cursor: help;
         }
@@ -280,7 +280,7 @@
             bottom: 120%;
             left: 50%;
             transform: translateX(-50%);
-            background: #1e293b;
+            background: #1E222D;
             color: #fff;
             padding: 0.6rem 0.8rem;
             border-radius: 8px;
@@ -677,15 +677,15 @@
         }
 
         .ats-icon-pass {
-            color: #16a34a;
+            color: #6E7E6A;
         }
 
         .ats-icon-warn {
-            color: #eab308;
+            color: #C4A060;
         }
 
         .ats-icon-fail {
-            color: #dc2626;
+            color: #A85A50;
         }
 
         /* ═══ DOWNLOAD PANEL ═══ */
@@ -709,7 +709,7 @@
 
         .download-option:hover {
             border-color: var(--primary-color);
-            background: rgba(99, 102, 241, 0.05);
+            background: rgba(123, 143, 168, 0.05);
         }
 
         .download-option i {
@@ -817,7 +817,7 @@
         }
 
         .modal-inner {
-            background: var(--bg-color, #1a1a2e);
+            background: var(--bg-color, #151821);
             border: 1px solid var(--panel-border);
             border-radius: 4px;
             padding: 1.5rem;
@@ -985,11 +985,11 @@
                 </div>
                 <div class="panel-body">
                     <div
-                        style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(138, 154, 134, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 4px;">
+                        style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(138, 154, 134, 0.08); border: 1px solid rgba(138, 154, 134, 0.2); border-radius: 4px;">
                         <div
                             style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
                             <span style="font-size: 0.9rem; font-weight: 600;"><i class="fa-solid fa-fire"
-                                    style="color: #ef4444; margin-right: 0.4rem;"></i>Recruiter Heatmap</span>
+                                    style="color: #C47A6E; margin-right: 0.4rem;"></i>Recruiter Heatmap</span>
                             <label class="switch">
                                 <input type="checkbox" id="heatmap-toggle" onchange="toggleHeatmap()">
                                 <span class="slider round"></span>
@@ -1033,31 +1033,31 @@
                     <div class="design-group">
                         <div class="design-label"><span>COLORS</span></div>
                         <div class="color-swatch-grid" id="color-swatches">
-                            <div class="color-swatch active" data-color="#1a1a2e" style="background:#1a1a2e;"
+                            <div class="color-swatch active" data-color="#151821" style="background:#151821;"
                                 title="Navy"></div>
-                            <div class="color-swatch" data-color="#475569" style="background:#475569;" title="Slate">
+                            <div class="color-swatch" data-color="#3A3F4A" style="background:#3A3F4A;" title="Slate">
                             </div>
                             <div class="color-swatch" data-color="#2d6a4f" style="background:#2d6a4f;" title="Forest">
                             </div>
                             <div class="color-swatch" data-color="#e07a5f" style="background:#e07a5f;" title="Coral">
                             </div>
-                            <div class="color-swatch" data-color="#2563eb" style="background:#2563eb;" title="Blue">
+                            <div class="color-swatch" data-color="#5C7A8A" style="background:#5C7A8A;" title="Blue">
                             </div>
-                            <div class="color-swatch" data-color="#7c3aed" style="background:#7c3aed;" title="Purple">
+                            <div class="color-swatch" data-color="#8A7B96" style="background:#8A7B96;" title="Purple">
                             </div>
-                            <div class="color-swatch" data-color="#dc2626" style="background:#dc2626;" title="Red">
+                            <div class="color-swatch" data-color="#A85A50" style="background:#A85A50;" title="Red">
                             </div>
-                            <div class="color-swatch" data-color="#c084fc" style="background:#c084fc;" title="Lavender">
+                            <div class="color-swatch" data-color="#C4B5CF" style="background:#C4B5CF;" title="Lavender">
                             </div>
-                            <div class="color-swatch" data-color="#06b6d4" style="background:#06b6d4;" title="Cyan">
+                            <div class="color-swatch" data-color="#7BA5B4" style="background:#7BA5B4;" title="Cyan">
                             </div>
-                            <div class="color-swatch" data-color="#c9a84c" style="background:#c9a84c;" title="Gold">
+                            <div class="color-swatch" data-color="#A6842A" style="background:#A6842A;" title="Gold">
                             </div>
                         </div>
                         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
                             <button class="color-custom-link"
                                 onclick="document.getElementById('color-accent').click()">Use custom color</button>
-                            <input type="color" id="color-accent" value="#c9a84c"
+                            <input type="color" id="color-accent" value="#A6842A"
                                 style="width:0;height:0;opacity:0;position:absolute;">
                         </div>
                         <button id="company-brand-btn" class="improve-action"
@@ -1065,7 +1065,7 @@
                             <i class="fa-solid fa-building"></i> <span id="company-brand-label">Use Company Brand
                                 Color</span>
                         </button>
-                        <input type="color" id="color-text" value="#333333" hidden>
+                        <input type="color" id="color-text" value="#2A2E38" hidden>
                     </div>
 
                     <!-- Font Style -->
@@ -1191,7 +1191,7 @@
                     <div
                         style="margin-bottom:1.5rem;padding:1rem;background:rgba(244,114,182,0.05);border:1px solid rgba(244,114,182,0.2);border-radius: 4px;">
                         <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
-                                class="fa-solid fa-heart-pulse" style="color:#f472b6;margin-right:0.4rem;"></i>Cultural
+                                class="fa-solid fa-heart-pulse" style="color:#E3A8B3;margin-right:0.4rem;"></i>Cultural
                             Tone</div>
                         <div id="insight-culture-content"
                             style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5;">
@@ -1201,10 +1201,10 @@
 
                     <!-- Red Flags -->
                     <div
-                        style="margin-bottom:1.5rem;padding:1rem;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius: 4px;">
+                        style="margin-bottom:1.5rem;padding:1rem;background:rgba(196,122,110,0.05);border:1px solid rgba(196,122,110,0.15);border-radius: 4px;">
                         <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
                                 class="fa-solid fa-triangle-exclamation"
-                                style="color:#ef4444;margin-right:0.4rem;"></i>Red Flags</div>
+                                style="color:#C47A6E;margin-right:0.4rem;"></i>Red Flags</div>
                         <div id="insight-redflag-content"
                             style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5;">
                             <p>Loading red flag analysis...</p>
@@ -1213,9 +1213,9 @@
 
                     <!-- Burnout Check -->
                     <div
-                        style="padding:1rem;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);border-radius: 4px;">
+                        style="padding:1rem;background:rgba(212,165,116,0.05);border:1px solid rgba(212,165,116,0.15);border-radius: 4px;">
                         <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
-                                class="fa-solid fa-shield-halved" style="color:#f59e0b;margin-right:0.4rem;"></i>Burnout
+                                class="fa-solid fa-shield-halved" style="color:#D4A574;margin-right:0.4rem;"></i>Burnout
                             Check</div>
                         <div id="insight-burnout-content"
                             style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5;">
@@ -1234,14 +1234,14 @@
                 </div>
                 <div class="panel-body">
                     <button class="download-option" id="download-btn">
-                        <i class="fa-solid fa-file-pdf" style="color:#dc2626;"></i>
+                        <i class="fa-solid fa-file-pdf" style="color:#A85A50;"></i>
                         <div>
                             <div class="dl-label">PDF Document</div>
                             <div class="dl-desc">Best for submitting applications</div>
                         </div>
                     </button>
                     <button class="download-option" id="download-docx-btn">
-                        <i class="fa-solid fa-file-word" style="color:#2563eb;"></i>
+                        <i class="fa-solid fa-file-word" style="color:#5C7A8A;"></i>
                         <div>
                             <div class="dl-label">Word Document (.docx)</div>
                             <div class="dl-desc">Editable format for further changes</div>
@@ -1315,21 +1315,21 @@
         // TEMPLATE DATA
         // ═══════════════════════════════════════════
         const TEMPLATES = [
-            { id: 'theme-executive', name: 'Executive', bg: '#ffffff', accent: '#c9a84c', text: '#333', h1: '#1a1a2e', layout: 'executive' },
-            { id: 'theme-modern-split', name: 'Modern Split', bg: '#ffffff', accent: '#2563eb', text: '#374151', h1: '#2563eb', layout: 'modern-split' },
-            { id: 'theme-timeline', name: 'Timeline', bg: '#ffffff', accent: '#0d9488', text: '#444', h1: '#0d9488', layout: 'timeline' },
+            { id: 'theme-executive', name: 'Executive', bg: '#ffffff', accent: '#A6842A', text: '#333', h1: '#151821', layout: 'executive' },
+            { id: 'theme-modern-split', name: 'Modern Split', bg: '#ffffff', accent: '#5C7A8A', text: '#374151', h1: '#5C7A8A', layout: 'modern-split' },
+            { id: 'theme-timeline', name: 'Timeline', bg: '#ffffff', accent: '#5F8A85', text: '#444', h1: '#5F8A85', layout: 'timeline' },
             { id: 'theme-minimalist-grid', name: 'Minimalist Grid', bg: '#fafaf8', accent: '#000000', text: '#555', h1: '#111', layout: 'minimalist-grid' },
-            { id: 'theme-infographic', name: 'Infographic', bg: '#f8fafc', accent: '#0d9488', text: '#475569', h1: '#0d9488', layout: 'infographic' },
+            { id: 'theme-infographic', name: 'Infographic', bg: '#f8fafc', accent: '#5F8A85', text: '#3A3F4A', h1: '#5F8A85', layout: 'infographic' },
             { id: 'theme-brutalist', name: 'Brutalist', bg: '#ffffff', accent: '#000000', text: '#000', h1: '#000', layout: 'brutalist' },
-            { id: 'theme-academic', name: 'Academic', bg: '#ffffff', accent: '#333333', text: '#222', h1: '#111', layout: 'academic' },
-            { id: 'theme-tech-sidebar', name: 'Tech Sidebar', bg: '#f8faf5', accent: '#8b5cf6', text: '#444', h1: '#8b5cf6', layout: 'tech-sidebar' },
-            { id: 'theme-elegant', name: 'Elegant', bg: '#faf5ff', accent: '#9b1b30', text: '#333', h1: '#333', layout: 'elegant' },
-            { id: 'theme-startup', name: 'Startup', bg: '#ffffff', accent: '#0ea5e9', text: '#333', h1: '#0ea5e9', layout: 'startup' },
-            { id: 'theme-two-tone', name: 'Two Tone', bg: '#ffffff', accent: '#c2704f', text: '#333', h1: '#fff', layout: 'two-tone' },
-            { id: 'theme-matrix', name: 'Matrix', bg: '#ffffff', accent: '#16a34a', text: '#333', h1: '#111', layout: 'matrix' },
-            { id: 'theme-gallery', name: 'Gallery', bg: '#ffffff', accent: '#c084fc', text: '#4b5563', h1: '#c084fc', layout: 'gallery' },
-            { id: 'theme-newsletter', name: 'Newsletter', bg: '#ffffff', accent: '#b8942e', text: '#4a4a5a', h1: '#111', layout: 'newsletter' },
-            { id: 'theme-terminal', name: 'Terminal', bg: '#0d1117', accent: '#22c55e', text: '#d1d5db', h1: '#22c55e', layout: 'terminal' },
+            { id: 'theme-academic', name: 'Academic', bg: '#ffffff', accent: '#2A2E38', text: '#222', h1: '#111', layout: 'academic' },
+            { id: 'theme-tech-sidebar', name: 'Tech Sidebar', bg: '#f8faf5', accent: '#9B8EA6', text: '#444', h1: '#9B8EA6', layout: 'tech-sidebar' },
+            { id: 'theme-elegant', name: 'Elegant', bg: '#faf5ff', accent: '#8B4A42', text: '#333', h1: '#333', layout: 'elegant' },
+            { id: 'theme-startup', name: 'Startup', bg: '#ffffff', accent: '#7BA5B4', text: '#333', h1: '#7BA5B4', layout: 'startup' },
+            { id: 'theme-two-tone', name: 'Two Tone', bg: '#ffffff', accent: '#B06645', text: '#333', h1: '#fff', layout: 'two-tone' },
+            { id: 'theme-matrix', name: 'Matrix', bg: '#ffffff', accent: '#6E7E6A', text: '#333', h1: '#111', layout: 'matrix' },
+            { id: 'theme-gallery', name: 'Gallery', bg: '#ffffff', accent: '#C4B5CF', text: '#4b5563', h1: '#C4B5CF', layout: 'gallery' },
+            { id: 'theme-newsletter', name: 'Newsletter', bg: '#ffffff', accent: '#A6842A', text: '#4a4a5a', h1: '#111', layout: 'newsletter' },
+            { id: 'theme-terminal', name: 'Terminal', bg: '#151821', accent: '#8A9A86', text: '#C8C4BE', h1: '#8A9A86', layout: 'terminal' },
         ];
 
         const resumeEl = document.getElementById('resume-output');
@@ -1359,20 +1359,20 @@
             // Populate Insights panel
             if (outputs.culturalFit) {
                 const cf = outputs.culturalFit;
-                document.getElementById('insight-culture-content').innerHTML = `<div style="display:inline-block;background:rgba(244,114,182,0.1);color:#f472b6;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;font-weight:700;margin-bottom:0.4rem;">${cf.tone}</div><div style="margin-bottom:0.4rem;">Alignment: <strong style="color:var(--text-primary);">${cf.alignmentScore}%</strong></div><div style="margin-bottom:0.5rem;">${cf.analysis}</div>${(cf.topSuggestions || []).map(s => `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);padding:0.25rem 0.5rem;border-radius:4px;margin:0.2rem 0;font-size:0.75rem;">${s}</div>`).join('')}`;
+                document.getElementById('insight-culture-content').innerHTML = `<div style="display:inline-block;background:rgba(244,114,182,0.1);color:#E3A8B3;padding:0.15rem 0.5rem;border-radius:4px;font-size:0.7rem;font-weight:700;margin-bottom:0.4rem;">${cf.tone}</div><div style="margin-bottom:0.4rem;">Alignment: <strong style="color:var(--text-primary);">${cf.alignmentScore}%</strong></div><div style="margin-bottom:0.5rem;">${cf.analysis}</div>${(cf.topSuggestions || []).map(s => `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);padding:0.25rem 0.5rem;border-radius:4px;margin:0.2rem 0;font-size:0.75rem;">${s}</div>`).join('')}`;
             }
             if (outputs.redFlags && outputs.redFlags.length > 0) {
-                document.getElementById('insight-redflag-content').innerHTML = outputs.redFlags.map(f => `<div style="padding:0.4rem 0;border-bottom:1px solid var(--panel-border);"><div style="display:flex;align-items:center;gap:0.3rem;"><i class="fa-solid ${f.severity === 'critical' ? 'fa-circle-xmark' : 'fa-circle-exclamation'}" style="color:${f.severity === 'critical' ? '#ef4444' : '#f59e0b'};font-size:0.7rem;"></i><strong style="font-size:0.8rem;">${f.flag}</strong></div><div style="color:var(--primary-color);font-size:0.75rem;margin-top:0.2rem;"><i class="fa-solid fa-lightbulb"></i> ${f.fix}</div></div>`).join('');
+                document.getElementById('insight-redflag-content').innerHTML = outputs.redFlags.map(f => `<div style="padding:0.4rem 0;border-bottom:1px solid var(--panel-border);"><div style="display:flex;align-items:center;gap:0.3rem;"><i class="fa-solid ${f.severity === 'critical' ? 'fa-circle-xmark' : 'fa-circle-exclamation'}" style="color:${f.severity === 'critical' ? '#C47A6E' : '#D4A574'};font-size:0.7rem;"></i><strong style="font-size:0.8rem;">${f.flag}</strong></div><div style="color:var(--primary-color);font-size:0.75rem;margin-top:0.2rem;"><i class="fa-solid fa-lightbulb"></i> ${f.fix}</div></div>`).join('');
             }
             if (outputs.burnoutCheck) {
                 const bc = outputs.burnoutCheck;
                 const score = bc.flightRiskScore || 0;
-                const color = score >= 70 ? '#ef4444' : score >= 40 ? '#f59e0b' : '#10b981';
+                const color = score >= 70 ? '#C47A6E' : score >= 40 ? '#D4A574' : '#8A9A86';
                 let html = `<div style="margin-bottom:0.5rem;">Flight Risk: <strong style="color:${color};">${score}%</strong></div><div style="height:6px;border-radius:3px;background:var(--panel-border);margin-bottom:0.5rem;overflow:hidden;"><div style="height:100%;width:${score}%;background:${color};border-radius:3px;"></div></div>`;
                 if (bc.toxicPhrases && bc.toxicPhrases.length > 0) {
-                    html += `<div style="margin-bottom:0.4rem;font-weight:600;font-size:0.75rem;">Toxic phrases:</div>` + bc.toxicPhrases.map(p => `<span style="display:inline-block;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);padding:0.1rem 0.4rem;border-radius:3px;font-size:0.7rem;margin:0.1rem;">${p}</span>`).join('');
+                    html += `<div style="margin-bottom:0.4rem;font-weight:600;font-size:0.75rem;">Toxic phrases:</div>` + bc.toxicPhrases.map(p => `<span style="display:inline-block;background:rgba(212,165,116,0.1);color:#D4A574;border:1px solid rgba(212,165,116,0.2);padding:0.1rem 0.4rem;border-radius:3px;font-size:0.7rem;margin:0.1rem;">${p}</span>`).join('');
                 }
-                html += `<div style="margin-top:0.5rem;">Remote fit: <strong style="text-transform:uppercase;color:${bc.overemploymentFit === 'high' ? '#10b981' : bc.overemploymentFit === 'medium' ? '#f59e0b' : '#ef4444'}">${bc.overemploymentFit || '?'}</strong></div>`;
+                html += `<div style="margin-top:0.5rem;">Remote fit: <strong style="text-transform:uppercase;color:${bc.overemploymentFit === 'high' ? '#8A9A86' : bc.overemploymentFit === 'medium' ? '#D4A574' : '#C47A6E'}">${bc.overemploymentFit || '?'}</strong></div>`;
                 document.getElementById('insight-burnout-content').innerHTML = html;
             }
         }
@@ -1481,7 +1481,7 @@
                 let html = `
                 <div class="template-preview" style="background:${t.bg}; padding: 0; overflow: hidden; position: relative;">
                     <div style="transform: scale(0.2); transform-origin: top left; width: 500%; height: 500%; pointer-events: none;">
-                        <div class="resume-output rich-output-area ${t.id}" style="padding: 20px; min-height: 800px; box-shadow: none; border: none; --r-accent: ${t.accent}; ${t.layout === 'terminal' ? 'background: #0d1117;' : ''}">
+                        <div class="resume-output rich-output-area ${t.id}" style="padding: 20px; min-height: 800px; box-shadow: none; border: none; --r-accent: ${t.accent}; ${t.layout === 'terminal' ? 'background: #151821;' : ''}">
                             <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; text-align: ${t.layout === 'gallery' ? 'left' : 'center'}">JOHN DOE</h1>
                             <p style="text-align: center; margin-bottom: 20px;">john@email.com | 555-0192 | New York, NY</p>
                             <h2 style="${t.layout === 'gallery' ? 'margin-left: 0;' : ''}">EXPERIENCE</h2>
@@ -1645,7 +1645,7 @@
             }
 
             // Re-apply custom properties wiped by cssText = ''
-            if (colorAccent && colorAccent.value && colorAccent.value !== '#333333') {
+            if (colorAccent && colorAccent.value && colorAccent.value !== '#2A2E38') {
                 applyAccentColor(colorAccent.value);
             }
             if (fontSelect && fontSelect.value) {
@@ -1866,13 +1866,13 @@
             const filename = `${name}_${co}_Resume.docx`;
             const styles = window.getComputedStyle(resumeEl);
             const activeFont = styles.getPropertyValue('--r-font-family').trim() || "'Georgia', serif";
-            const activeAccent = styles.getPropertyValue('--r-accent-color').trim() || "#c9a84c";
+            const activeAccent = styles.getPropertyValue('--r-accent-color').trim() || "#A6842A";
             const activeBg = styles.getPropertyValue('--r-bg-color').trim() || "#fff";
-            const activeText = styles.getPropertyValue('--r-text-color').trim() || "#1a1a2e";
+            const activeText = styles.getPropertyValue('--r-text-color').trim() || "#151821";
             const inlineResumeHTML = resumeEl.innerHTML
                 .replace(/<h1(.*?)>/g, `<h1$1 style="color: ${styles.getPropertyValue('--r-h1-color').trim() || activeAccent}; border-bottom: ${styles.getPropertyValue('--r-h1-border').trim()}; text-align: ${styles.getPropertyValue('--r-h1-align').trim()}; text-transform: ${styles.getPropertyValue('--r-h1-transform').trim()}; margin-bottom: 0.25rem;">`)
                 .replace(/<h2(.*?)>/g, `<h2$1 style="color: ${styles.getPropertyValue('--r-h2-color').trim() || activeAccent}; border-bottom: ${styles.getPropertyValue('--r-h2-border').trim()}; text-transform: ${styles.getPropertyValue('--r-h2-transform').trim()}; margin-top: 1.5rem; padding-bottom: 0.25rem; font-size: 11pt;">`)
-                .replace(/<h3(.*?)>/g, `<h3$1 style="color: ${styles.getPropertyValue('--r-h3-color').trim() || '#1a1a2e'}; font-size: 10pt;">`)
+                .replace(/<h3(.*?)>/g, `<h3$1 style="color: ${styles.getPropertyValue('--r-h3-color').trim() || '#151821'}; font-size: 10pt;">`)
                 .replace(/<p(.*?)>/g, `<p$1 style="color: ${activeText}; margin-bottom: 6pt;">`)
                 .replace(/<span class="rdoc-date"(.*?)>/g, `<span class="rdoc-date"$1 style="color: #666; float: right; font-size: 9pt;">`);
             const docHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:${activeFont};line-height:${styles.getPropertyValue('--r-spacing') || '1.65'};color:${activeText};} ul{margin-top:4pt;padding-left:20pt;} li{margin-bottom:4pt;color:${activeText};} strong{color:${styles.getPropertyValue('--r-h1-color').trim() || activeAccent};}</style></head><body>${inlineResumeHTML}<script>
@@ -2065,7 +2065,7 @@ Return ONLY the JSON object, nothing else.`;
 
                 // Render score ring
                 const score = Math.min(100, Math.max(0, result.score));
-                const color = score >= 80 ? '#16a34a' : score >= 60 ? '#eab308' : '#dc2626';
+                const color = score >= 80 ? '#6E7E6A' : score >= 60 ? '#C4A060' : '#A85A50';
                 const circumference = 2 * Math.PI * 42;
                 const offset = circumference - (score / 100) * circumference;
 
