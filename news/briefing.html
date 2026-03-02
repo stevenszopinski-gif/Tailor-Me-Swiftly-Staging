@@ -2794,13 +2794,7 @@ FORMAT — use this EXACT HTML:
             const btn = document.getElementById('listen-btn');
             if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-pause"></i> Playing'; }
 
-            // ═══ Sprint 1.3: Focus Mode Audio ═══
-            audioEl.addEventListener('play', function () { document.body.classList.add('focus-mode'); });
-            audioEl.addEventListener('pause', function () { document.body.classList.remove('focus-mode'); });
-            audioEl.addEventListener('ended', function () { document.body.classList.remove('focus-mode'); });
 
-            // ═══ Sprint 4.5: Interactive Transcript ═══
-            _buildTranscript(audioEl);
         }
 
         async function listenToBriefing() {
@@ -2885,54 +2879,7 @@ FORMAT — use this EXACT HTML:
                 if (dotsInterval) clearInterval(dotsInterval);
             }
         }
-        // ═══ Sprint 4.5: Interactive Transcript ═══
-        function _buildTranscript(audioEl) {
-            const content = document.getElementById('briefing-content');
-            if (!content) return;
-            const text = content.textContent.trim();
-            if (!text) return;
 
-            // Split into sentences
-            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-            const totalDuration = audioEl.duration || (sentences.length * 3); // estimate 3s per sentence
-
-            let transcriptDiv = document.getElementById('interactive-transcript');
-            if (!transcriptDiv) {
-                transcriptDiv = document.createElement('div');
-                transcriptDiv.id = 'interactive-transcript';
-                transcriptDiv.style.cssText = 'margin-top:1rem;padding:1rem;background:var(--input-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);max-height:300px;overflow-y:auto;font-size:0.85rem;line-height:1.7;';
-                transcriptDiv.innerHTML = '<div style="font-weight:600;margin-bottom:0.5rem;font-size:0.8rem;color:var(--text-secondary);"><i class="fa-solid fa-scroll"></i> Transcript</div>';
-                const audioSection = document.getElementById('audio-section');
-                if (audioSection) audioSection.after(transcriptDiv);
-            }
-
-            const linesContainer = document.createElement('div');
-            sentences.forEach(function (sentence, i) {
-                const line = document.createElement('span');
-                line.className = 'transcript-line';
-                line.textContent = sentence.trim() + ' ';
-                line.setAttribute('data-index', i);
-                line.addEventListener('click', function () {
-                    const time = (i / sentences.length) * (audioEl.duration || totalDuration);
-                    audioEl.currentTime = time;
-                    audioEl.play();
-                });
-                linesContainer.appendChild(line);
-            });
-            // Clear and re-add
-            var existingLines = transcriptDiv.querySelectorAll('.transcript-line');
-            existingLines.forEach(function (el) { el.remove(); });
-            transcriptDiv.appendChild(linesContainer);
-
-            // Highlight current sentence during playback
-            audioEl.addEventListener('timeupdate', function () {
-                const progress = audioEl.currentTime / (audioEl.duration || totalDuration);
-                const activeIndex = Math.floor(progress * sentences.length);
-                linesContainer.querySelectorAll('.transcript-line').forEach(function (el, i) {
-                    el.classList.toggle('active', i === activeIndex);
-                });
-            });
-        }
 
         // ═══ Sprint 5.2: Shareable Briefing Bites ═══
         function shareBriefingBite(articleElement) {
