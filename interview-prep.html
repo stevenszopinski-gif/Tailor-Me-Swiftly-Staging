@@ -1291,10 +1291,11 @@ Format your response exactly like this:
           ttsCache[qIdx] = result.audioUrl;
           playAudio(result.audioUrl, btn);
         } catch (e) {
-          console.error('Inworld TTS error:', e);
+          console.error('TTS error:', e);
           btn.disabled = false;
           btn.classList.remove('speaking');
-          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — Tap to Retry';
+          const msg = (e.message || 'Unknown error').substring(0, 80);
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + msg + ' — Tap to Retry';
           btn.onclick = () => { btn.onclick = null; hearQuestionAt(qIdx); };
         }
       }
