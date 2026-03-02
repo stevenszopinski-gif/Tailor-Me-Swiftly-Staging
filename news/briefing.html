@@ -1245,8 +1245,8 @@
                         }
                     } catch (e) { /* silent */ }
                 }
-                // Always load 7-day briefing cache (needed for date strip)
-                if (!editMode) {
+                // Always load 7-day briefing cache (needed for date strip & edit mode)
+                {
                     const today = new Date().toISOString().split('T')[0];
                     const sevenDaysAgo = new Date();
                     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
@@ -1280,6 +1280,15 @@
 
                 if (editMode) {
                     editInterests();
+                    // Also show the latest briefing on the right side
+                    document.getElementById('result-section').style.display = 'block';
+                    const emptyState = document.getElementById('empty-state');
+                    const today = new Date().toISOString().split('T')[0];
+                    const activeDate = briefingCache[today] ? today : (Object.keys(briefingCache)[0] || null);
+                    if (activeDate && briefingCache[activeDate]) {
+                        if (emptyState) emptyState.style.display = 'none';
+                        showBriefingForDate(activeDate);
+                    }
                 } else {
                     // Authenticated users always land on briefing view
                     collapseSidebar();
