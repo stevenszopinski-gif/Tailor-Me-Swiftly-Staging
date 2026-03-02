@@ -138,8 +138,8 @@
         }).join(' | ');
 
         footer.innerHTML =
-            '<p>' + linksHtml + '</p>' +
-            '<p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>';
+            '<p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>' +
+            '<p>' + linksHtml + '</p>';
     }
 
     // ── Internal Cross-Links (Sprint 0.3) ──
