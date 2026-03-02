@@ -2971,7 +2971,9 @@ FORMAT — use this EXACT HTML:
 
                 let briefingText = currentText || extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
-                // Add spoken intro (briefing text already greets the user by name)
+                // Strip "Hey Name," greeting — the spoken intro already establishes context
+                briefingText = briefingText.replace(/^Hey\s+\w+,?\s*/i, '');
+                // Add spoken intro
                 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                 briefingText = `Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
 
