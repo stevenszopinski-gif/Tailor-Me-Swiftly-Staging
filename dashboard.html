@@ -496,6 +496,17 @@
         <div id="time-saved-container" style="margin-bottom:1rem;"></div>
 
 
+        <!-- Trending Tags (Sprint 4.2) -->
+        <div id="trending-tags" style="margin-bottom:1.5rem;display:none;">
+            <div class="dash-section-label"><i class="fa-solid fa-arrow-trend-up"></i> Trending Topics</div>
+            <div id="trending-chips" style="display:flex;gap:0.5rem;flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- Sponsored Resources (Sprint 8.5) -->
+        <div id="affiliate-section" style="margin-bottom:1.5rem;display:none;">
+            <div style="display:flex;gap:1rem;overflow-x:auto;padding:0.5rem 0;" id="affiliate-cards"></div>
+        </div>
+
         <!-- Tailor The News (loaded dynamically) -->
         <div id="dash-news-section">
             <div class="dash-section-label"><i class="fa-solid fa-newspaper"></i> Recent Briefings</div>
@@ -622,6 +633,7 @@
     <script src="shared/command-palette.js"></script>
     <script src="shared/onboarding.js"></script>
     <script src="shared/progressive-profiling.js"></script>
+    <script src="shared/router.js"></script>
     <script>
         // Hide news section when accessed via product switcher (Applications)
         if (new URLSearchParams(window.location.search).get('product') === 'apps') {
@@ -884,6 +896,60 @@
                 window.showUpgradeModal(toolName);
             }
         });
+
+        // ═══ Sprint 4.2: Trending Tags ═══
+        (async function loadTrendingTags() {
+            if (!window.supabaseClient) return;
+            try {
+                var { data } = await window.supabaseClient
+                    .from('daily_briefings')
+                    .select('interests')
+                    .order('created_at', { ascending: false })
+                    .limit(100);
+                if (!data || data.length === 0) return;
+
+                var counts = {};
+                data.forEach(function (row) {
+                    (row.interests || []).forEach(function (interest) {
+                        var key = interest.toLowerCase().trim();
+                        counts[key] = (counts[key] || 0) + 1;
+                    });
+                });
+
+                var sorted = Object.entries(counts).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 8);
+                if (sorted.length === 0) return;
+
+                var chips = document.getElementById('trending-chips');
+                sorted.forEach(function (entry) {
+                    var chip = document.createElement('a');
+                    chip.href = 'news/briefing.html?interests=' + encodeURIComponent(entry[0]);
+                    chip.className = 'tone-chip';
+                    chip.textContent = entry[0] + ' (' + entry[1] + ')';
+                    chip.style.textDecoration = 'none';
+                    chips.appendChild(chip);
+                });
+                document.getElementById('trending-tags').style.display = 'block';
+            } catch (e) { /* silent */ }
+        })();
+
+        // ═══ Sprint 8.5: Affiliate Integration ═══
+        (function () {
+            var AFFILIATES = [
+                { label: 'Sponsored', title: 'LinkedIn Premium', desc: 'Stand out to recruiters', icon: 'fa-linkedin', color: '#0077b5', url: 'https://www.linkedin.com/premium/' },
+                { label: 'Sponsored', title: 'Grammarly', desc: 'Polish your writing', icon: 'fa-spell-check', color: '#15c39a', url: 'https://www.grammarly.com/' },
+                { label: 'Sponsored', title: 'Coursera', desc: 'Build new skills', icon: 'fa-graduation-cap', color: '#0056d2', url: 'https://www.coursera.org/' }
+            ];
+            var container = document.getElementById('affiliate-cards');
+            if (!container) return;
+            AFFILIATES.forEach(function (a) {
+                container.innerHTML += '<div style="min-width:200px;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);padding:0.75rem 1rem;flex-shrink:0;">' +
+                    '<div style="font-size:0.65rem;color:var(--text-secondary);margin-bottom:0.3rem;">' + a.label + '</div>' +
+                    '<a href="' + a.url + '" target="_blank" rel="noopener" style="text-decoration:none;color:var(--text-primary);display:flex;align-items:center;gap:0.5rem;">' +
+                    '<i class="fa-brands ' + a.icon + '" style="font-size:1.2rem;color:' + a.color + ';"></i>' +
+                    '<div><strong style="font-size:0.85rem;">' + a.title + '</strong><br><span style="font-size:0.75rem;color:var(--text-secondary);">' + a.desc + '</span></div></a></div>';
+            });
+            document.getElementById('affiliate-section').style.display = 'block';
+        })();
 
         // ═══ Sprint 2.2: Filter & Sort ═══
         let _allDashCards = [];

@@ -1071,6 +1071,17 @@
     <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="app.js?v=6"></script>
+    <script src="shared/analytics.js"></script>
+    <script src="shared/sticky-header.js"></script>
+    <script src="shared/command-palette.js"></script>
+    <script src="shared/onboarding.js"></script>
+    <script src="shared/router.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function(e) { console.warn('SW registration failed:', e); });
+        }
+    </script>
     <script>
         // Tool Previews Logic
         const TOOL_INFO = {

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career DNA Profile | TailorMeSwiftly</title>
+    <link rel="icon" href="/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css?v=17">
+    <style>
+        .dna-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin:1.5rem 0; }
+        @media (max-width:768px) { .dna-grid { grid-template-columns:1fr; } }
+        .slider-group { margin-bottom:1rem; }
+        .slider-group label { display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:0.3rem; }
+        .slider-group input[type=range] { width:100%; accent-color:var(--primary-color); }
+        .chart-panel { background:var(--panel-bg); border:var(--brutal-border); border-radius:var(--brutal-radius); padding:1.5rem; box-shadow:var(--brutal-shadow); }
+        .compare-bar { display:flex; gap:0.5rem; align-items:center; margin:1rem 0; flex-wrap:wrap; }
+        .compare-bar select { padding:0.4rem 0.75rem; border:var(--brutal-border); border-radius:var(--brutal-radius); background:var(--input-bg); color:var(--text-primary); font-family:var(--font-family); }
+        .gap-item { display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0; border-bottom:1px dashed var(--panel-border); font-size:0.85rem; }
+        .gap-bar { height:6px; border-radius:3px; background:var(--danger-color); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <a href="../index.html" class="maker-mark"><span class="mark-border"><span class="mark-text" style="font-family:var(--font-script);font-size:1.1rem;">TMS</span></span></a>
+            <div class="header-actions">
+                <div id="product-switcher-placeholder"></div>
+                <a href="../login.html" class="btn primary-btn login-btn" id="login-btn" style="display:none;">Sign In</a>
+                <div class="avatar-menu" style="display:none;">
+                    <button class="avatar-btn" id="avatar-btn"></button>
+                    <div class="avatar-dropdown" id="avatar-dropdown"></div>
+                </div>
+            </div>
+        </header>
+
+        <h1 style="margin:0 0 0.5rem;"><i class="fa-solid fa-dna"></i> Career DNA Profile</h1>
+        <p style="color:var(--text-secondary);margin:0 0 1.5rem;">Rate your skills to build a profile, then compare against target roles.</p>
+
+        <div class="dna-grid">
+            <div>
+                <h3 style="margin:0 0 1rem;">Your Skills</h3>
+                <div id="sliders"></div>
+                <button class="btn primary-btn" style="margin-top:1rem;" onclick="saveProfile()"><i class="fa-solid fa-save"></i> Save Profile</button>
+            </div>
+            <div class="chart-panel">
+                <canvas id="radar-chart" width="400" height="400" style="width:100%;max-width:400px;margin:0 auto;display:block;"></canvas>
+            </div>
+        </div>
+
+        <div class="compare-bar">
+            <span style="font-size:0.85rem;font-weight:600;">Compare to:</span>
+            <select id="compare-role" onchange="drawChart()">
+                <option value="">None</option>
+                <option value="senior-engineer">Senior Software Engineer</option>
+                <option value="product-manager">Product Manager</option>
+                <option value="ux-lead">UX Design Lead</option>
+                <option value="marketing-director">Marketing Director</option>
+                <option value="data-scientist">Data Scientist</option>
+            </select>
+        </div>
+
+        <div id="gap-analysis" style="margin-top:1.5rem;display:none;">
+            <h3 style="margin:0 0 0.75rem;"><i class="fa-solid fa-chart-line"></i> Gap Analysis</h3>
+            <div id="gap-list"></div>
+        </div>
+
+        <footer class="site-footer" role="contentinfo"></footer>
+    </div>
+
+    <script>window.TMS_PATH_PREFIX = '../';</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="../brand-config.js"></script>
+    <script src="../auth.js?v=15"></script>
+    <script src="../components.js"></script>
+    <script src="../shared/analytics.js"></script>
+    <script src="../shared/sticky-header.js"></script>
+    <script src="../shared/command-palette.js"></script>
+    <script>
+        var AXES = ['Technical', 'Leadership', 'Communication', 'Problem Solving', 'Creativity', 'Domain Expertise'];
+        var STORAGE_KEY = 'tms_career_dna';
+
+        var ROLE_REQUIREMENTS = {
+            'senior-engineer': [9, 5, 6, 9, 6, 8],
+            'product-manager': [5, 8, 9, 8, 7, 7],
+            'ux-lead': [4, 7, 8, 7, 9, 6],
+            'marketing-director': [3, 8, 9, 6, 8, 7],
+            'data-scientist': [8, 4, 6, 9, 5, 9]
+        };
+
+        var scores = [5, 5, 5, 5, 5, 5];
+
+        // Load saved
+        try { var saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (saved && saved.length === 6) scores = saved; } catch(e) {}
+
+        // Render sliders
+        var slidersDiv = document.getElementById('sliders');
+        AXES.forEach(function(axis, i) {
+            var div = document.createElement('div');
+            div.className = 'slider-group';
+            div.innerHTML = '<label><span>' + axis + '</span><span id="val-' + i + '">' + scores[i] + '/10</span></label>' +
+                '<input type="range" min="1" max="10" value="' + scores[i] + '" data-index="' + i + '">';
+            slidersDiv.appendChild(div);
+
+            div.querySelector('input').addEventListener('input', function() {
+                scores[this.getAttribute('data-index')] = parseInt(this.value);
+                document.getElementById('val-' + this.getAttribute('data-index')).textContent = this.value + '/10';
+                drawChart();
+            });
+        });
+
+        function saveProfile() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(scores));
+            alert('Profile saved!');
+            if (typeof trackEvent === 'function') trackEvent('career_dna', 'save_profile');
+        }
+
+        function drawChart() {
+            var canvas = document.getElementById('radar-chart');
+            var ctx = canvas.getContext('2d');
+            var w = canvas.width, h = canvas.height;
+            var cx = w / 2, cy = h / 2;
+            var maxR = Math.min(cx, cy) - 50;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Grid circles
+            for (var level = 2; level <= 10; level += 2) {
+                ctx.beginPath();
+                var r = (level / 10) * maxR;
+                for (var j = 0; j <= AXES.length; j++) {
+                    var angle = (Math.PI * 2 * j / AXES.length) - Math.PI / 2;
+                    var px = cx + r * Math.cos(angle);
+                    var py = cy + r * Math.sin(angle);
+                    if (j === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                ctx.stroke();
+            }
+
+            // Axis lines and labels
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-secondary') || 'rgba(255,255,255,0.5)';
+            ctx.font = '12px "Space Grotesk", sans-serif';
+            ctx.textAlign = 'center';
+            AXES.forEach(function(axis, i) {
+                var angle = (Math.PI * 2 * i / AXES.length) - Math.PI / 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + maxR * Math.cos(angle), cy + maxR * Math.sin(angle));
+                ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+                ctx.stroke();
+
+                var lx = cx + (maxR + 30) * Math.cos(angle);
+                var ly = cy + (maxR + 30) * Math.sin(angle);
+                ctx.fillText(axis, lx, ly + 4);
+            });
+
+            // Compare role (if selected)
+            var compareRole = document.getElementById('compare-role').value;
+            if (compareRole && ROLE_REQUIREMENTS[compareRole]) {
+                drawPolygon(ctx, ROLE_REQUIREMENTS[compareRole], cx, cy, maxR, 'rgba(227,168,179,0.2)', 'rgba(227,168,179,0.7)');
+            }
+
+            // User scores
+            drawPolygon(ctx, scores, cx, cy, maxR, 'rgba(163,196,220,0.25)', '#A3C4DC');
+
+            // Gap analysis
+            if (compareRole && ROLE_REQUIREMENTS[compareRole]) {
+                var reqs = ROLE_REQUIREMENTS[compareRole];
+                var gapDiv = document.getElementById('gap-list');
+                gapDiv.innerHTML = '';
+                var hasGap = false;
+                AXES.forEach(function(axis, i) {
+                    var gap = reqs[i] - scores[i];
+                    if (gap > 0) {
+                        hasGap = true;
+                        var pct = Math.round((gap / 10) * 100);
+                        gapDiv.innerHTML += '<div class="gap-item"><span style="min-width:140px;">' + axis + '</span>' +
+                            '<div style="flex:1;background:var(--input-bg);border-radius:3px;height:6px;"><div class="gap-bar" style="width:' + pct + '%;"></div></div>' +
+                            '<span style="min-width:40px;text-align:right;color:var(--danger-color);">-' + gap + '</span></div>';
+                    }
+                });
+                document.getElementById('gap-analysis').style.display = hasGap ? 'block' : 'none';
+                if (!hasGap) {
+                    gapDiv.innerHTML = '<p style="color:var(--success-color);"><i class="fa-solid fa-check-circle"></i> Your skills meet or exceed the requirements for this role!</p>';
+                    document.getElementById('gap-analysis').style.display = 'block';
+                }
+            } else {
+                document.getElementById('gap-analysis').style.display = 'none';
+            }
+        }
+
+        function drawPolygon(ctx, values, cx, cy, maxR, fill, stroke) {
+            ctx.beginPath();
+            values.forEach(function(val, i) {
+                var angle = (Math.PI * 2 * i / values.length) - Math.PI / 2;
+                var r = (val / 10) * maxR;
+                var px = cx + r * Math.cos(angle);
+                var py = cy + r * Math.sin(angle);
+                if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+            });
+            ctx.closePath();
+            ctx.fillStyle = fill;
+            ctx.fill();
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Dots
+            values.forEach(function(val, i) {
+                var angle = (Math.PI * 2 * i / values.length) - Math.PI / 2;
+                var r = (val / 10) * maxR;
+                ctx.beginPath();
+                ctx.arc(cx + r * Math.cos(angle), cy + r * Math.sin(angle), 4, 0, Math.PI * 2);
+                ctx.fillStyle = stroke;
+                ctx.fill();
+            });
+        }
+
+        drawChart();
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview War Stories | TailorMeSwiftly</title>
+    <link rel="icon" href="/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css?v=17">
+    <style>
+        .story-card { background:var(--panel-bg); border:var(--brutal-border); border-radius:var(--brutal-radius); padding:1.25rem; margin-bottom:1rem; box-shadow:var(--brutal-shadow); }
+        .story-card h3 { margin:0 0 0.5rem; font-size:1rem; }
+        .story-meta { display:flex; gap:0.75rem; font-size:0.75rem; color:var(--text-secondary); margin-bottom:0.75rem; }
+        .story-body { font-size:0.88rem; line-height:1.7; color:var(--text-primary); }
+        .story-actions { display:flex; gap:0.75rem; margin-top:0.75rem; align-items:center; }
+        .vote-btn { background:none; border:1px solid var(--panel-border); border-radius:var(--brutal-radius); padding:0.2rem 0.6rem; cursor:pointer; font-size:0.8rem; color:var(--text-secondary); transition:all 0.15s; font-family:var(--font-family); }
+        .vote-btn:hover { border-color:var(--primary-color); color:var(--primary-color); }
+        .vote-btn.voted { background:var(--primary-color); color:var(--btn-primary-text); border-color:var(--primary-color); }
+        .submit-form { background:var(--panel-bg); border:var(--brutal-border); border-radius:var(--brutal-radius); padding:1.5rem; margin-bottom:2rem; box-shadow:var(--brutal-shadow); }
+        .submit-form input, .submit-form textarea, .submit-form select { width:100%; padding:0.6rem; border:var(--brutal-border); border-radius:var(--brutal-radius); background:var(--input-bg); color:var(--text-primary); font-family:var(--font-family); margin-bottom:0.75rem; font-size:0.9rem; }
+        .submit-form textarea { min-height:120px; resize:vertical; }
+        .filter-row { display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+        .filter-row select { padding:0.4rem 0.75rem; border:var(--brutal-border); border-radius:var(--brutal-radius); background:var(--input-bg); color:var(--text-primary); font-family:var(--font-family); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <a href="../index.html" class="maker-mark"><span class="mark-border"><span class="mark-text" style="font-family:var(--font-script);font-size:1.1rem;">TMS</span></span></a>
+            <div class="header-actions">
+                <div id="product-switcher-placeholder"></div>
+                <a href="../login.html" class="btn primary-btn login-btn" id="login-btn" style="display:none;">Sign In</a>
+                <div class="avatar-menu" style="display:none;">
+                    <button class="avatar-btn" id="avatar-btn"></button>
+                    <div class="avatar-dropdown" id="avatar-dropdown"></div>
+                </div>
+            </div>
+        </header>
+
+        <h1 style="margin:0 0 0.5rem;"><i class="fa-solid fa-book-open"></i> Interview War Stories</h1>
+        <p style="color:var(--text-secondary);margin:0 0 1.5rem;">Share your interview experiences anonymously. Learn from others.</p>
+
+        <div class="submit-form" id="submit-form">
+            <h3 style="margin:0 0 1rem;"><i class="fa-solid fa-pen"></i> Share Your Story</h3>
+            <input type="text" id="story-title" placeholder="Title (e.g. 'The 8-round interview at BigTech')">
+            <select id="story-industry">
+                <option value="">Select Industry...</option>
+                <option value="tech">Tech / Software</option>
+                <option value="finance">Finance / Banking</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="consulting">Consulting</option>
+                <option value="marketing">Marketing / Media</option>
+                <option value="education">Education</option>
+                <option value="other">Other</option>
+            </select>
+            <select id="story-type">
+                <option value="">Interview Type...</option>
+                <option value="phone">Phone Screen</option>
+                <option value="technical">Technical Interview</option>
+                <option value="behavioral">Behavioral Interview</option>
+                <option value="panel">Panel Interview</option>
+                <option value="case">Case Study</option>
+                <option value="onsite">Onsite / Full Loop</option>
+            </select>
+            <textarea id="story-body" placeholder="Tell your story... What happened? What did you learn?"></textarea>
+            <button class="btn primary-btn" onclick="submitStory()"><i class="fa-solid fa-paper-plane"></i> Submit Story</button>
+        </div>
+
+        <div class="filter-row">
+            <select id="filter-industry" onchange="loadStories()">
+                <option value="">All Industries</option>
+                <option value="tech">Tech</option>
+                <option value="finance">Finance</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="consulting">Consulting</option>
+                <option value="marketing">Marketing</option>
+                <option value="education">Education</option>
+            </select>
+            <select id="filter-sort" onchange="loadStories()">
+                <option value="newest">Newest</option>
+                <option value="top">Most Upvoted</option>
+            </select>
+        </div>
+
+        <div id="stories-feed"></div>
+        <div id="load-more-wrap" style="text-align:center;padding:1rem;display:none;">
+            <button class="btn ghost-btn" onclick="loadMore()">Load More</button>
+        </div>
+
+        <footer class="site-footer" role="contentinfo"></footer>
+    </div>
+
+    <script>window.TMS_PATH_PREFIX = '../';</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="../brand-config.js"></script>
+    <script src="../auth.js?v=15"></script>
+    <script src="../components.js"></script>
+    <script src="../shared/analytics.js"></script>
+    <script src="../shared/sticky-header.js"></script>
+    <script src="../shared/command-palette.js"></script>
+    <script>
+        var PAGE_SIZE = 10;
+        var currentOffset = 0;
+        var allStories = [];
+
+        async function submitStory() {
+            if (!window.supabaseClient) { alert('Please sign in to share your story.'); return; }
+            var title = document.getElementById('story-title').value.trim();
+            var body = document.getElementById('story-body').value.trim();
+            var industry = document.getElementById('story-industry').value;
+            var type = document.getElementById('story-type').value;
+            if (!title || !body) { alert('Please fill in a title and your story.'); return; }
+            try {
+                var { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) { alert('Please sign in first.'); return; }
+                var { error } = await window.supabaseClient.from('interview_stories').insert({
+                    user_id: user.id, title: title, body: body, industry: industry, interview_type: type, votes: 0
+                });
+                if (error) throw error;
+                document.getElementById('story-title').value = '';
+                document.getElementById('story-body').value = '';
+                document.getElementById('story-industry').value = '';
+                document.getElementById('story-type').value = '';
+                alert('Story submitted! Thank you for sharing.');
+                loadStories();
+                if (typeof trackEvent === 'function') trackEvent('community', 'submit_story', industry);
+            } catch (e) { alert('Error: ' + e.message); }
+        }
+
+        async function loadStories() {
+            currentOffset = 0;
+            var feed = document.getElementById('stories-feed');
+            feed.innerHTML = '<div class="skeleton" style="height:80px;margin-bottom:1rem;"></div>'.repeat(3);
+            var industry = document.getElementById('filter-industry').value;
+            var sort = document.getElementById('filter-sort').value;
+            try {
+                var query = window.supabaseClient.from('interview_stories')
+                    .select('*').range(0, PAGE_SIZE - 1);
+                if (industry) query = query.eq('industry', industry);
+                if (sort === 'top') query = query.order('votes', { ascending: false });
+                else query = query.order('created_at', { ascending: false });
+                var { data, error } = await query;
+                if (error) throw error;
+                allStories = data || [];
+                renderStories();
+                document.getElementById('load-more-wrap').style.display = allStories.length >= PAGE_SIZE ? 'block' : 'none';
+            } catch (e) {
+                feed.innerHTML = '<p style="color:var(--text-secondary);text-align:center;">Could not load stories. The community feature will be available once the database table is created.</p>';
+            }
+        }
+
+        function renderStories() {
+            var feed = document.getElementById('stories-feed');
+            if (allStories.length === 0) {
+                feed.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;">No stories yet. Be the first to share!</p>';
+                return;
+            }
+            feed.innerHTML = allStories.map(function(s) {
+                var date = new Date(s.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+                return '<div class="story-card fade-in-up">' +
+                    '<h3>' + escHtml(s.title) + '</h3>' +
+                    '<div class="story-meta">' +
+                    (s.industry ? '<span><i class="fa-solid fa-briefcase"></i> ' + s.industry + '</span>' : '') +
+                    (s.interview_type ? '<span><i class="fa-solid fa-microphone"></i> ' + s.interview_type + '</span>' : '') +
+                    '<span><i class="fa-regular fa-calendar"></i> ' + date + '</span>' +
+                    '</div>' +
+                    '<div class="story-body">' + escHtml(s.body).substring(0, 500) + (s.body.length > 500 ? '...' : '') + '</div>' +
+                    '<div class="story-actions">' +
+                    '<button class="vote-btn" onclick="vote(\'' + s.id + '\', 1)"><i class="fa-solid fa-thumbs-up"></i> ' + (s.votes || 0) + '</button>' +
+                    '</div></div>';
+            }).join('');
+        }
+
+        function escHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+        async function vote(storyId, direction) {
+            if (!window.supabaseClient) return;
+            try {
+                var { data: { user } } = await window.supabaseClient.auth.getUser();
+                if (!user) { alert('Sign in to vote.'); return; }
+                await window.supabaseClient.rpc('increment_story_votes', { story_id: storyId, vote_value: direction });
+                loadStories();
+            } catch (e) { console.warn('Vote error:', e.message); }
+        }
+
+        async function loadMore() {
+            currentOffset += PAGE_SIZE;
+            var industry = document.getElementById('filter-industry').value;
+            var sort = document.getElementById('filter-sort').value;
+            try {
+                var query = window.supabaseClient.from('interview_stories')
+                    .select('*').range(currentOffset, currentOffset + PAGE_SIZE - 1);
+                if (industry) query = query.eq('industry', industry);
+                if (sort === 'top') query = query.order('votes', { ascending: false });
+                else query = query.order('created_at', { ascending: false });
+                var { data } = await query;
+                if (data && data.length > 0) {
+                    allStories = allStories.concat(data);
+                    renderStories();
+                    if (data.length < PAGE_SIZE) document.getElementById('load-more-wrap').style.display = 'none';
+                } else {
+                    document.getElementById('load-more-wrap').style.display = 'none';
+                }
+            } catch (e) { console.warn(e); }
+        }
+
+        loadStories();
+    </script>
+</body>
+</html>

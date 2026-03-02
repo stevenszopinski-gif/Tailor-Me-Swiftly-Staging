@@ -6,7 +6,7 @@
     "permissions": ["activeTab", "storage"],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "icon.png"
+        "default_title": "Capture Job Description"
     },
     "content_scripts": [
         {
@@ -14,14 +14,10 @@
                 "*://*.linkedin.com/jobs/*",
                 "*://*.indeed.com/*",
                 "*://*.greenhouse.io/*",
-                "*://*.lever.co/*"
+                "*://*.lever.co/*",
+                "*://*.glassdoor.com/*"
             ],
-            "js": ["content.js"],
-            "run_at": "document_idle"
+            "js": ["content.js"]
         }
-    ],
-    "icons": {
-        "48": "icon.png",
-        "128": "icon.png"
-    }
+    ]
 }
