@@ -138,7 +138,7 @@
         }).join(' | ');
 
         footer.innerHTML =
-            '<p>&copy; ' + new Date().getFullYear() + ' TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>' +
+            '<p>&copy; ' + new Date().getFullYear() + ' TailorMeSwiftly.com</p>' +
             '<p>' + linksHtml + '</p>';
     }
 
