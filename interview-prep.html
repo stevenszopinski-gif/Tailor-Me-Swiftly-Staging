@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css?v=16">
   <link rel="stylesheet" href="templates.css">
-  
+
   <style>
     .result-page {
       max-width: 800px;
@@ -544,23 +544,22 @@
   <a href="#main-content" class="skip-nav">Skip to main content</a>
   <div class="app-container" style="min-height: auto;">
     <header class="app-header" role="banner">
-      <div class="logo maker-mark">
+      <a href="index.html" class="logo maker-mark" style="text-decoration:none;color:inherit;">
         <span class="mark-border">
           <span class="mark-text">TMS</span>
         </span>
         <div class="mark-name">
           <span class="mark-script">TailorMeSwiftly</span>
-          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
+          <span class="mark-sub">BESPOKE CAREER ENGINE</span>
         </div>
-      </div>
+      </a>
       <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
         <div id="user-profile"
           style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
           <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
             style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
             onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-          <span id="user-greeting"
-            style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
           <div id="avatar-dropdown" class="avatar-dropdown hidden">
             <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
               <i class="fa-solid fa-user-gear"></i> Account
@@ -580,7 +579,7 @@
 
   <!-- Ad Unit -->
   <div style="text-align:center;margin:0 auto 1rem;max-width:728px;padding:0 1.5rem;">
-    
+
     <script></script>
   </div>
 
@@ -601,7 +600,8 @@
       </div>
     </div>
 
-    <div style="background: rgba(138, 154, 134, 0.12); border: 1px solid var(--success-color); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; text-align: center;"
+    <div
+      style="background: rgba(138, 154, 134, 0.12); border: 1px solid var(--success-color); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; text-align: center;"
       id="info-banner">
       <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;"><i class="fa-solid fa-comments"
           style="margin-right:0.4rem;color:var(--primary-color);"></i>Your interviewer will ask questions one
@@ -691,6 +691,26 @@
       return (Math.abs((h1 ^ h2) >>> 0)).toString(36) + Math.abs(h2 >>> 0).toString(36);
     }
 
+    // Attempt to repair truncated JSON arrays from Gemini
+    function repairJson(raw) {
+      try {
+        return JSON.parse(raw);
+      } catch (_) {
+        // Find the last complete object in a truncated array
+        const lastClose = raw.lastIndexOf('}');
+        if (lastClose === -1) throw new Error('No valid JSON objects found in response');
+        const repaired = raw.substring(0, lastClose + 1) + ']';
+        try {
+          const arr = JSON.parse(repaired);
+          if (Array.isArray(arr) && arr.length > 0) {
+            console.warn(`JSON was truncated — recovered ${arr.length} of 10 questions`);
+            return arr;
+          }
+        } catch (_2) { /* fall through */ }
+        throw new Error('Could not parse AI response as JSON. Please retry.');
+      }
+    }
+
     let outputs, currentQ = 0, questions = [], visitedQs = new Set(),
       mediaRecorder, audioChunks = [], flashcardMode = false;
 
@@ -737,12 +757,12 @@
                   text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}`
                 }]
               }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+              generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
             }
           });
           if (error) throw new Error(error.message);
           let raw = data.candidates[0].content.parts[0].text.trim().replace(/```json|```/g, '').trim();
-          questions = JSON.parse(raw);
+          questions = repairJson(raw);
 
           outputs.interviewQa = questions;
           sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
@@ -1455,12 +1475,12 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
                   text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}`
                 }]
               }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+              generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
             }
           });
           if (error) throw new Error(error.message);
           let raw = data.candidates[0].content.parts[0].text.trim().replace(/```json|```/g, '').trim();
-          questions = JSON.parse(raw);
+          questions = repairJson(raw);
           outputs.interviewQa = questions;
           sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
           updateGenerationField(outputs.generationId, { interview_qa: outputs.interviewQa });
