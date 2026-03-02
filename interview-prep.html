@@ -1290,10 +1290,6 @@ Format your response exactly like this:
           stopTTS();
           return;
         }
-        if (window.speechSynthesis && window.speechSynthesis.speaking) {
-          stopTTS();
-          return;
-        }
 
         if (ttsCache[qIdx]) {
           playAudio(ttsCache[qIdx], btn);
@@ -1340,8 +1336,11 @@ Format your response exactly like this:
           };
           await currentAudio.play();
         } catch (e) {
-          console.error('Inworld TTS error (falling back to browser):', e);
-          playBrowserTTS(questions[qIdx].question, btn);
+          console.error('Inworld TTS error:', e);
+          btn.disabled = false;
+          btn.classList.remove('speaking');
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — Tap to Retry';
+          btn.onclick = () => { btn.onclick = null; hearQuestionAt(qIdx); };
         }
       }
 
@@ -1389,39 +1388,17 @@ Format your response exactly like this:
 
         currentAudio.onerror = () => {
           btn.classList.remove('speaking');
-          btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Audio Error';
           currentAudio = null;
-          playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
+          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
         };
 
         currentAudio.play().catch(err => {
           console.error('Audio play() failed:', err);
-          playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
-        });
-      }
-
-      function playBrowserTTS(text, btn) {
-        if (!window.speechSynthesis) {
-          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> TTS unavailable';
-          btn.disabled = false;
-          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
-          return;
-        }
-
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 0.95;
-        utterance.pitch = 1;
-
-        btn.disabled = false;
-        btn.classList.add('speaking');
-        btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
-
-        utterance.onend = () => {
           btn.classList.remove('speaking');
-          btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
-        };
-
-        window.speechSynthesis.speak(utterance);
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Playback Failed';
+          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
+        });
       }
 
       function stopTTS() {
@@ -1429,9 +1406,6 @@ Format your response exactly like this:
           currentAudio.pause();
           currentAudio.currentTime = 0;
           currentAudio = null;
-        }
-        if (window.speechSynthesis) {
-          window.speechSynthesis.cancel();
         }
         // Reset all visible TTS buttons
         document.querySelectorAll('[id^="tts-btn-"]').forEach(btn => {
