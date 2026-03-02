@@ -1227,27 +1227,20 @@
                     return;
                 }
 
-                const hasBriefings = Object.keys(briefingCache).length > 0;
-                const hasInterests = !!profile?.interests?.length;
-
-                if (hasInterests || hasBriefings) {
-                    if (editMode) {
-                        editInterests();
-                    } else {
-                        // Show result section with date strip
-                        document.getElementById('input-section').style.display = 'none';
-                        document.getElementById('result-section').style.display = 'block';
-                        const stepHeader = document.querySelector('.step-header');
-                        if (stepHeader) stepHeader.style.display = 'none';
-
-                        const today = new Date().toISOString().split('T')[0];
-                        // Auto-select: today if has briefing, otherwise most recent
-                        const activeDate = briefingCache[today] ? today : (Object.keys(briefingCache)[0] || today);
-                        showBriefingForDate(activeDate);
-                    }
-                } else if (editMode) {
-                    // No saved interests and no briefings but in edit mode — still show edit UI
+                if (editMode) {
                     editInterests();
+                } else {
+                    // Authenticated users always land on briefing view
+                    document.getElementById('input-section').style.display = 'none';
+                    document.getElementById('result-section').style.display = 'block';
+                    const emptyState = document.getElementById('empty-state');
+                    if (emptyState) emptyState.style.display = 'none';
+                    const stepHeader = document.querySelector('.step-header');
+                    if (stepHeader) stepHeader.style.display = 'none';
+
+                    const today = new Date().toISOString().split('T')[0];
+                    const activeDate = briefingCache[today] ? today : (Object.keys(briefingCache)[0] || today);
+                    showBriefingForDate(activeDate);
                 }
                 // Load recommended interests (always, even if generating)
                 loadRecommendedInterests();
