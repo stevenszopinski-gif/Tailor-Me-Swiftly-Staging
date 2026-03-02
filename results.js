@@ -1,7 +1,7 @@
 // results.js — shared utilities for all result pages
 // Reads the tms_outputs payload from sessionStorage
 
-const THEME_STORAGE = 'ats_theme_preference';
+const THEME_STORAGE = window.TMS_BRAND?.themeStorageKey || 'tms_theme_preference';
 
 // ───────────────────────────────────────────────
 // TOOL ACCESS TIERS & GATING
@@ -224,12 +224,15 @@ async function guardToolAccess(slug) {
 // Automatically invalidates when resume/job changes.
 // ───────────────────────────────────────────────
 function _gemCacheHash(str) {
-    let h = 0;
+    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
     for (let i = 0; i < str.length; i++) {
-        h = ((h << 5) - h) + str.charCodeAt(i);
-        h |= 0;
+        const ch = str.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334677);
     }
-    return Math.abs(h).toString(36);
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+    h2 = Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    return (Math.abs((h1 ^ h2) >>> 0)).toString(36) + Math.abs(h2 >>> 0).toString(36);
 }
 
 (function initGeminiCache() {
@@ -247,9 +250,9 @@ function _gemCacheHash(str) {
             // Skip caching if the call already uses server-side caching
             if (body.cacheKey) return _invoke(fn, opts);
 
-            // Build a fingerprint from system prompt + user content (first 300 chars each)
-            const sys = (body.systemInstruction?.parts?.[0]?.text || '').slice(0, 300);
-            const usr = (body.contents?.[0]?.parts?.[0]?.text || '').slice(0, 300);
+            // Build a fingerprint from system prompt + user content
+            const sys = body.systemInstruction?.parts?.[0]?.text || '';
+            const usr = body.contents?.[0]?.parts?.[0]?.text || '';
             const key = 'tms_gc_' + _gemCacheHash(sys + '|' + usr);
 
             // Cache check
@@ -705,7 +708,8 @@ async function updateGenerationField(generationId, fields) {
         await window.supabaseClient
             .from('generations')
             .update(fields)
-            .eq('id', generationId);
+            .eq('id', generationId)
+            .eq('user_id', user.id);
     } catch (e) {
         console.error('updateGenerationField:', e);
     }

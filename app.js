@@ -1,10 +1,26 @@
-const THEME_STORAGE = 'ats_theme_preference';
+const THEME_STORAGE = window.TMS_BRAND?.themeStorageKey || 'tms_theme_preference';
 const API_STORAGE = 'ats_api_config';
 const PREFS_STORAGE = 'ats_user_writing_preferences';
 
 // Supabase edge function URL for fetching job descriptions
 const SUPABASE_FETCH_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/fetch-url';
 const SUPABASE_ANON_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
+
+// Sanitize AI-generated HTML before injection
+function _sanitize(html) {
+    if (typeof DOMPurify !== 'undefined') return DOMPurify.sanitize(html);
+    const el = document.createElement('div');
+    el.innerHTML = html;
+    el.querySelectorAll('script,iframe,object,embed,form,meta,link,base').forEach(n => n.remove());
+    el.querySelectorAll('*').forEach(n => {
+        for (const a of [...n.attributes]) {
+            if (a.name.startsWith('on') || (a.name === 'href' && a.value.trimStart().startsWith('javascript:'))) {
+                n.removeAttribute(a.name);
+            }
+        }
+    });
+    return el.innerHTML;
+}
 
 // Timeout utility for API calls
 function withTimeout(promise, ms = 60000) {
@@ -871,7 +887,7 @@ async function incrementGenerationCount() {
     const { data: { session } } = await window.supabaseClient.auth.getSession();
     if (!session) return;
 
-    // Read current count, increment, write back
+    // Atomic-ish increment: read current count and use optimistic concurrency
     const { data: profile } = await window.supabaseClient
         .from('user_profiles')
         .select('generation_count')
@@ -879,9 +895,11 @@ async function incrementGenerationCount() {
         .maybeSingle();
 
     if (profile) {
+        const current = profile.generation_count || 0;
         await window.supabaseClient.from('user_profiles')
-            .update({ generation_count: (profile.generation_count || 0) + 1 })
-            .eq('user_id', session.user.id);
+            .update({ generation_count: current + 1 })
+            .eq('user_id', session.user.id)
+            .eq('generation_count', current);
     }
 }
 
@@ -1089,7 +1107,7 @@ async function parseAndRedirect(content) {
     let m;
     while ((m = pattern.exec(content)) !== null) matches.push(m[1].trim());
 
-    const resumeHtml = matches[0] || '';
+    const resumeHtml = _sanitize(matches[0] || '');
     let meta = {};
 
     try { meta = JSON.parse(matches[1] || '{}'); } catch (e) { }
@@ -1253,7 +1271,7 @@ async function processRefinement() {
         aiText = aiText.replace(/```(html)?|```/g, '').trim();
 
         // Update UI
-        targetTextarea.innerHTML = aiText;
+        targetTextarea.innerHTML = _sanitize(aiText);
 
         // Update History
         state.chatHistory.push({ role: 'user', content: prompt });
@@ -1341,12 +1359,12 @@ Output a JSON array like this (ONLY the JSON, no markdown, no extra text):
         raw = raw.replace(/```json|```/g, '').trim();
         const qas = JSON.parse(raw);
 
-        el.interviewOutput.innerHTML = qas.map(qa => `
+        el.interviewOutput.innerHTML = _sanitize(qas.map(qa => `
             <div class="qa-item">
                 <div class="qa-question">${qa.question}</div>
                 <div class="qa-answer">${qa.answer}</div>
             </div>
-        `).join('');
+        `).join(''));
     } catch (e) {
         el.interviewOutput.innerHTML = `<p class="error-text">Error generating questions: ${e.message}</p>`;
     } finally {
@@ -1391,9 +1409,9 @@ Output ONLY the email text (no HTML, no markdown, just plain text).`;
 
         const text = data.candidates[0].content.parts[0].text.trim();
         // Render as styled plain text
-        el.emailOut.innerHTML = text.split('\n').map(line =>
+        el.emailOut.innerHTML = _sanitize(text.split('\n').map(line =>
             line.startsWith('Subject:') ? `<strong style="color:var(--accent-color);">${line}</strong>` : `<p style="margin:0.4rem 0;">${line || '&nbsp;'}</p>`
-        ).join('');
+        ).join(''));
     } catch (e) {
         el.emailOut.innerHTML = `<p class="error-text">Error: ${e.message}</p>`;
     } finally {
@@ -1433,7 +1451,7 @@ Output ONLY the plain text (no HTML, no markdown, no quotes).`;
         }
 
         const text = data.candidates[0].content.parts[0].text.trim();
-        el.linkedinOutput.innerHTML = text.split('\n\n').map(p => `<p style="margin-bottom:0.9rem;">${p}</p>`).join('');
+        el.linkedinOutput.innerHTML = _sanitize(text.split('\n\n').map(p => `<p style="margin-bottom:0.9rem;">${p}</p>`).join(''));
     } catch (e) {
         el.linkedinOutput.innerHTML = `<p class="error-text">Error: ${e.message}</p>`;
     }
@@ -1502,8 +1520,8 @@ function loadSharedContent() {
             // Jump to results view
             el.generationControl && el.generationControl.classList.add('hidden');
             el.resultsView && el.resultsView.classList.remove('hidden');
-            el.resumeOut.innerHTML = payload.r;
-            if (el.coverOut && payload.c) el.coverOut.innerHTML = payload.c;
+            el.resumeOut.innerHTML = _sanitize(payload.r);
+            if (el.coverOut && payload.c) el.coverOut.innerHTML = _sanitize(payload.c);
             // Navigate to step 3
             goToStep(3);
         }

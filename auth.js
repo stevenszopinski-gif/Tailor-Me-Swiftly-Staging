@@ -291,7 +291,8 @@
                 document.getElementById('auth-error-message').style.display = 'block';
             } else {
                 const msgEl = document.getElementById('auth-error-message');
-                msgEl.innerHTML = "<strong>Check your email!</strong> We sent a confirmation link to <strong>" + emailInput.value + "</strong>. Click it to activate your account.";
+                const safeEmail = emailInput.value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                msgEl.innerHTML = "<strong>Check your email!</strong> We sent a confirmation link to <strong>" + safeEmail + "</strong>. Click it to activate your account.";
                 msgEl.style.color = "var(--success-color)";
                 msgEl.style.display = 'block';
             }

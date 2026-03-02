@@ -70,7 +70,7 @@
                     if (res.data.user) {
                         window.supabaseClient.from('user_profiles').update({
                             progressive_profile: data
-                        }).eq('id', res.data.user.id);
+                        }).eq('user_id', res.data.user.id);
                     }
                 });
             }

@@ -90,7 +90,7 @@
             if (!user) return;
             await window.supabaseClient.from('user_profiles').update({
                 streak_data: data
-            }).eq('id', user.id);
+            }).eq('user_id', user.id);
         } catch (e) {
             // Silent fail
         }
