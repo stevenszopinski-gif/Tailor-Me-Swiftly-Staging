@@ -9,7 +9,9 @@
     <meta name="description"
         content="Generate your personalized AI news briefing. Enter your interests and get a curated digest in seconds.">
     <meta property="og:site_name" content="TailorMeSwiftly">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
     <link rel="apple-touch-icon" href="/favicon.svg">
     <title>Today's Briefing | TailorMeSwiftly</title>
     <link rel="stylesheet" href="../style.css?v=16">
@@ -17,7 +19,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .settings-tab {
@@ -1235,6 +1239,19 @@
                 if (profile?.interests?.length) {
                     extractedInterests = profile.interests;
                     renderInterestTags(profile.interests);
+                    console.log('[auth-ready] Loaded', extractedInterests.length, 'interests from profile');
+                } else {
+                    // Fallback: check localStorage
+                    try {
+                        const cached = JSON.parse(localStorage.getItem('ttn_interests') || '[]');
+                        if (cached.length) {
+                            extractedInterests = cached;
+                            renderInterestTags(cached);
+                            console.log('[auth-ready] Loaded', cached.length, 'interests from localStorage (DB had none)');
+                            // Sync back to DB
+                            saveInterestsToProfile(cached);
+                        }
+                    } catch (e) { /* silent */ }
                 }
                 // Always load 7-day briefing cache (needed for date strip)
                 if (!editMode) {
@@ -1569,11 +1586,24 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
         async function saveInterestsToProfile(interests) {
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) return;
-                await window.supabaseClient.from('user_profiles')
+                if (!session) { console.warn('[saveInterests] No session — cannot save'); return; }
+                console.log('[saveInterests] Saving', interests.length, 'interests for user', session.user.id.substring(0, 8));
+                const { error } = await window.supabaseClient.from('user_profiles')
                     .update({ interests })
                     .eq('user_id', session.user.id);
-            } catch (e) { /* silent */ }
+                if (error) {
+                    console.error('[saveInterests] Update failed:', error.message, '— trying upsert');
+                    // Fallback: upsert in case row doesn't exist yet
+                    const { error: upsertErr } = await window.supabaseClient.from('user_profiles')
+                        .upsert({ user_id: session.user.id, interests }, { onConflict: 'user_id' });
+                    if (upsertErr) console.error('[saveInterests] Upsert also failed:', upsertErr.message);
+                    else console.log('[saveInterests] Upsert succeeded');
+                } else {
+                    console.log('[saveInterests] Saved successfully');
+                }
+                // Also save to localStorage as immediate fallback
+                localStorage.setItem('ttn_interests', JSON.stringify(interests));
+            } catch (e) { console.error('[saveInterests] Exception:', e.message); }
         }
 
         // ── Email Delivery Preferences ──
@@ -2920,7 +2950,7 @@ FORMAT — use this EXACT HTML:
             };
 
             if (navigator.share) {
-                navigator.share(shareData).catch(function () {});
+                navigator.share(shareData).catch(function () { });
             } else {
                 navigator.clipboard.writeText(text + '\n\n' + window.location.href).then(function () {
                     alert('Copied to clipboard!');
@@ -2969,12 +2999,12 @@ FORMAT — use this EXACT HTML:
         }
 
     </script>
-<script>
-    // Theme persistence
-    (function() {
-        var t = localStorage.getItem('ats_theme_preference');
-        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
-    })();
+    <script>
+        // Theme persistence
+        (function () {
+            var t = localStorage.getItem('ats_theme_preference');
+            if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+        })();
     </script>
 </body>
 
