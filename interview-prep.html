@@ -1303,6 +1303,13 @@ Format your response exactly like this:
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
 
+        // Warm up audio element IMMEDIATELY on user gesture to unlock autoplay
+        // (must happen synchronously within the click handler)
+        const warmAudio = new Audio();
+        warmAudio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
+        try { await warmAudio.play(); } catch (_) { /* silent */ }
+        warmAudio.pause();
+
         try {
           const { data, error } = await supabaseClient.functions.invoke('podcastfy', {
             body: { text: questions[qIdx].question }
@@ -1313,7 +1320,25 @@ Format your response exactly like this:
           if (!data?.audioUrl) throw new Error('No audio URL returned');
 
           ttsCache[qIdx] = data.audioUrl;
-          playAudio(data.audioUrl, btn);
+
+          // Reuse the warmed audio element — autoplay is already unlocked
+          warmAudio.src = data.audioUrl;
+          currentAudio = warmAudio;
+          btn.disabled = false;
+          btn.classList.add('speaking');
+          btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
+
+          currentAudio.onended = () => {
+            btn.classList.remove('speaking');
+            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Replay';
+            currentAudio = null;
+          };
+          currentAudio.onerror = () => {
+            btn.classList.remove('speaking');
+            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Replay';
+            currentAudio = null;
+          };
+          await currentAudio.play();
         } catch (e) {
           console.error('Inworld TTS error (falling back to browser):', e);
           playBrowserTTS(questions[qIdx].question, btn);
