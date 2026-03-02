@@ -751,7 +751,7 @@
                             <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="regenerateBriefing()">
                                 <i class="fa-solid fa-rotate"></i> Regenerate
                             </button>
-                            <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="editInterests()">
+                            <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="toggleSidebar()">
                                 <i class="fa-solid fa-sliders"></i> Settings
                             </button>
                         </div>
@@ -987,16 +987,37 @@
         }
 
         // ── Sidebar Collapse / Expand ──
-        // Collapse: hide settings content, keep sidebar with "← Dashboard" link
-        // Expand: show settings content inside sidebar
+        let _sidebarOpen = false;
+
         function collapseSidebar() {
-            document.getElementById('input-section').style.display = 'none';
-            const stepHeader = document.querySelector('.step-header');
-            if (stepHeader) stepHeader.style.display = 'none';
+            _sidebarOpen = false;
+            const sidebar = document.querySelector('.dashboard-sidebar');
+            const main = document.getElementById('main-content');
+            if (sidebar) sidebar.style.display = 'none';
+            if (main) main.style.gridTemplateColumns = '1fr';
         }
 
         function expandSidebar() {
+            _sidebarOpen = true;
+            const sidebar = document.querySelector('.dashboard-sidebar');
+            const main = document.getElementById('main-content');
+            if (sidebar) sidebar.style.display = '';
+            if (main) main.style.gridTemplateColumns = '360px 1fr';
             document.getElementById('input-section').style.display = 'block';
+        }
+
+        function toggleSidebar() {
+            if (_sidebarOpen) {
+                collapseSidebar();
+                // Restore URL (remove edit param)
+                const url = new URL(window.location);
+                url.searchParams.delete('edit');
+                history.replaceState(null, '', url);
+                restoreNewBriefingUI();
+                document.title = 'Your Briefing | TailorMeSwiftly';
+            } else {
+                editInterests();
+            }
         }
 
         // ── 7-Day Date Strip ──
