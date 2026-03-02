@@ -2875,7 +2875,10 @@ FORMAT — use this EXACT HTML:
         function extractBriefingText() {
             const content = document.getElementById('briefing-content');
             if (!content || !content.textContent.trim()) return '';
-            const text = content.textContent.replace(/\[.*?\]/g, '').trim();
+            // Clone so we can strip interactive elements without touching the DOM
+            const clone = content.cloneNode(true);
+            clone.querySelectorAll('.tell-me-more-btn, .deep-dive-card, .catch-up-card').forEach(el => el.remove());
+            const text = clone.textContent.replace(/\[.*?\]/g, '').trim();
             console.log('[tts] extractBriefingText length:', text.length, 'chars, first 200:', text.substring(0, 200));
             return text;
         }
