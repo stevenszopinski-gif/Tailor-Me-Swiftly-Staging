@@ -767,14 +767,6 @@
                     <div id="briefing-interests" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;">
                     </div>
 
-                    <!-- Market Mood Widget -->
-                    <div id="market-mood-widget" style="display:none;margin-bottom:1.25rem;padding:0.75rem 1rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);">
-                        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
-                            <i class="fa-solid fa-chart-line" style="color:var(--primary-color);"></i>
-                            <span style="font-weight:600;font-size:0.85rem;">Market Mood</span>
-                        </div>
-                        <div id="mood-gauges" style="display:flex;gap:0.75rem;flex-wrap:wrap;"></div>
-                    </div>
 
                     <!-- Audio Player -->
                     <div id="audio-section"
@@ -1576,6 +1568,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             if (!extractedInterests.length) {
                 document.getElementById('interest-tags-section').style.display = 'none';
             }
+            saveInterestsToProfile(extractedInterests);
         }
 
         function addInterestTag(val) {
@@ -1583,6 +1576,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             if (!val || extractedInterests.some(i => i.toLowerCase() === val.toLowerCase())) return;
             extractedInterests.push(val);
             renderInterestTags(extractedInterests);
+            saveInterestsToProfile(extractedInterests);
         }
 
         function showImportBadge(text) {
@@ -2255,8 +2249,7 @@ FORMAT — use this EXACT HTML:
                 systemPrompt += '\n\nIMPORTANT: Do NOT include any title, heading, or <h1>/<h2> at the beginning of your output. The page already displays "Today\'s Briefing" as the title. Start directly with the briefing-thesis paragraph.';
                 systemPrompt += `\n\nCRITICAL — INTEREST COVERAGE: The reader has ${interests.length} interests: ${interests.join(', ')}. You MUST cover a variety of these interests across the briefing — do not focus on just one or two topics. Aim to touch on at least ${Math.min(interests.length, 4)} different interest areas. Spread your coverage across the provided articles so the reader sees news relevant to multiple parts of their professional life.`;
 
-                // Market Mood Widget: ask Gemini to rate sentiment per interest
-                systemPrompt += `\n\nMARKET MOOD — At the very END of your output (after all briefing content), include a single HTML comment with sentiment ratings for each interest area you covered. Format: <!-- MARKET_MOOD: interest1=3, interest2=4, interest3=2 --> where each rating is 1-5 (1=very negative, 2=negative, 3=neutral, 4=positive, 5=very positive). Rate based on the overall tone and outlook of the news articles for that topic. Include ALL covered interests.`;
+
 
                 // Append optional modifiers to system prompt
                 if (document.getElementById('jargon-toggle')?.checked) {
@@ -2402,14 +2395,7 @@ FORMAT — use this EXACT HTML:
                     return `<span class="briefing-cite">[${safeName}]</span>`;
                 });
             }
-            // Parse and strip market mood comment before rendering
-            const moodMatch = processedHtml.match(/<!--\s*MARKET_MOOD:\s*(.+?)\s*-->/);
-            if (moodMatch) {
-                processedHtml = processedHtml.replace(/<!--\s*MARKET_MOOD:\s*.+?\s*-->/, '');
-                renderMarketMood(moodMatch[1]);
-            } else {
-                document.getElementById('market-mood-widget').style.display = 'none';
-            }
+
             document.getElementById('briefing-content').innerHTML = processedHtml;
             injectTellMeMoreButtons();
             setupPodcastSubscribe();
@@ -2440,41 +2426,7 @@ FORMAT — use this EXACT HTML:
             }).join('');
         }
 
-        // ── Market Mood Widget ──
-        function renderMarketMood(moodStr) {
-            const widget = document.getElementById('market-mood-widget');
-            const gauges = document.getElementById('mood-gauges');
-            if (!widget || !gauges) return;
 
-            // Parse "interest1=3, interest2=4" format
-            const entries = moodStr.split(',').map(s => s.trim()).filter(Boolean);
-            const moods = [];
-            entries.forEach(entry => {
-                const m = entry.match(/^(.+?)=(\d)$/);
-                if (m) moods.push({ interest: m[1].trim(), score: parseInt(m[2]) });
-            });
-
-            if (!moods.length) { widget.style.display = 'none'; return; }
-
-            const moodConfig = {
-                1: { emoji: '\uD83D\uDD34', label: 'Very Negative', color: '#ef4444' },
-                2: { emoji: '\uD83D\uDFE0', label: 'Negative', color: '#f97316' },
-                3: { emoji: '\uD83D\uDFE1', label: 'Neutral', color: '#eab308' },
-                4: { emoji: '\uD83D\uDFE2', label: 'Positive', color: '#22c55e' },
-                5: { emoji: '\uD83D\uDFE2', label: 'Very Positive', color: '#10b981' }
-            };
-
-            gauges.innerHTML = moods.map(m => {
-                const cfg = moodConfig[m.score] || moodConfig[3];
-                return `<div style="display:flex;align-items:center;gap:0.35rem;padding:0.3rem 0.6rem;background:var(--bg-color);border:var(--brutal-border);border-radius:var(--brutal-radius);font-size:0.78rem;">
-                    <span style="font-size:1rem;">${cfg.emoji}</span>
-                    <span style="font-weight:600;color:var(--text-primary);">${m.interest}</span>
-                    <span style="color:${cfg.color};font-weight:500;">${cfg.label}</span>
-                </div>`;
-            }).join('');
-
-            widget.style.display = 'block';
-        }
 
         // ── "Tell Me More" Deep Dive ──
         function injectTellMeMoreButtons() {
