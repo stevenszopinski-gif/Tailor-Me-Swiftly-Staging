@@ -987,21 +987,15 @@
         }
 
         // ── Sidebar Collapse / Expand ──
+        // Collapse: hide settings content, keep sidebar with "← Dashboard" link
+        // Expand: show settings content inside sidebar
         function collapseSidebar() {
-            const sidebar = document.querySelector('.dashboard-sidebar');
-            const main = document.getElementById('main-content');
-            const stepHeader = document.querySelector('.step-header');
-            if (sidebar) sidebar.style.display = 'none';
-            if (main) main.style.gridTemplateColumns = '1fr';
-            if (stepHeader) stepHeader.style.display = 'none';
             document.getElementById('input-section').style.display = 'none';
+            const stepHeader = document.querySelector('.step-header');
+            if (stepHeader) stepHeader.style.display = 'none';
         }
 
         function expandSidebar() {
-            const sidebar = document.querySelector('.dashboard-sidebar');
-            const main = document.getElementById('main-content');
-            if (sidebar) sidebar.style.display = '';
-            if (main) main.style.gridTemplateColumns = '360px 1fr';
             document.getElementById('input-section').style.display = 'block';
         }
 
@@ -1257,6 +1251,16 @@
 
                     const today = new Date().toISOString().split('T')[0];
                     const activeDate = briefingCache[today] ? today : (Object.keys(briefingCache)[0] || today);
+
+                    // If a briefing exists, set ?view= in URL so the page behaves
+                    // identically to the ?view= path (which the user considers ideal)
+                    const activeBriefing = briefingCache[activeDate];
+                    if (activeBriefing?.id) {
+                        const url = new URL(window.location);
+                        url.searchParams.set('view', activeBriefing.id);
+                        history.replaceState(null, '', url);
+                    }
+
                     showBriefingForDate(activeDate);
                 }
                 // Load recommended interests (always, even if generating)
@@ -2662,9 +2666,6 @@ FORMAT — use this EXACT HTML:
                 briefingCache[briefing.briefing_date] = briefing;
             }
 
-            // Hide the "Today's Briefing" header — this is a saved briefing, not a new one
-            const stepHeader = document.querySelector('.step-header');
-            if (stepHeader) stepHeader.style.display = 'none';
             document.title = 'Your Briefing | TailorMeSwiftly';
 
             // Display the saved briefing with date strip
@@ -2672,8 +2673,10 @@ FORMAT — use this EXACT HTML:
             const sources = briefing.sources || [];
             const html = briefing.briefing_html || briefing.briefing_text || '';
 
-            document.getElementById('input-section').style.display = 'none';
+            collapseSidebar();
             document.getElementById('result-section').style.display = 'block';
+            const emptyState = document.getElementById('empty-state');
+            if (emptyState) emptyState.style.display = 'none';
             renderDateStrip(briefing.briefing_date);
 
             // Update heading for the viewed date
