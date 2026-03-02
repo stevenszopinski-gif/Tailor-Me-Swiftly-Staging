@@ -464,6 +464,9 @@
             </div>
         </div>
 
+        <!-- Time Saved Counter (Sprint 3.2) -->
+        <div id="time-saved-container" style="margin-bottom:1rem;"></div>
+
         <!-- Quick Stats -->
         <div class="dash-stats" id="dash-stats" style="display:none;">
             <div class="dash-stat">
@@ -502,6 +505,26 @@
 
         <!-- Application Tracker -->
         <div class="dash-section-label"><i class="fa-solid fa-table-columns"></i> Tailor My Application Tracker</div>
+
+        <!-- Filter Bar (Sprint 2.2) -->
+        <div class="filter-bar" id="dash-filter-bar" style="display:none;">
+            <select id="filter-status" onchange="applyDashFilters()">
+                <option value="">All Statuses</option>
+                <option value="Tailored">Tailored</option>
+                <option value="Applied">Applied</option>
+                <option value="Interviewing">Interviewing</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <input type="text" id="filter-company" placeholder="Search company..." oninput="applyDashFilters()">
+            <select id="filter-sort" onchange="applyDashFilters()">
+                <option value="date-desc">Newest First</option>
+                <option value="date-asc">Oldest First</option>
+                <option value="company">Company A-Z</option>
+                <option value="score">Score (High-Low)</option>
+            </select>
+        </div>
+
         <div id="dash-kanban-content" style="margin-bottom: 2.5rem;">
             <div
                 style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;padding:0.5rem 0;">
@@ -565,6 +588,14 @@
     <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="results.js?v=8"></script>
+    <script src="shared/analytics.js"></script>
+    <script src="shared/sticky-header.js"></script>
+    <script src="shared/streaks.js"></script>
+    <script src="shared/notifications.js"></script>
+    <script src="shared/tone-selector.js"></script>
+    <script src="shared/command-palette.js"></script>
+    <script src="shared/onboarding.js"></script>
+    <script src="shared/progressive-profiling.js"></script>
     <script>
         // Hide news section when accessed via product switcher (Applications)
         if (new URLSearchParams(window.location.search).get('product') === 'apps') {
@@ -616,6 +647,13 @@
 
                 renderStats(data);
                 renderMiniKanban(data);
+
+                // Project X integrations
+                var nudgeContainer = document.getElementById('dash-kanban-content');
+                if (typeof checkStaleApps === 'function') checkStaleApps(nudgeContainer);
+                var timeSavedEl = document.getElementById('time-saved-container');
+                if (timeSavedEl && typeof showTimeSaved === 'function') showTimeSaved(timeSavedEl);
+                if (typeof checkProgressiveProfiling === 'function') checkProgressiveProfiling(nudgeContainer);
             } catch (e) {
                 console.error('Dashboard load error:', e);
                 document.getElementById('dash-kanban-content').innerHTML =
@@ -820,6 +858,31 @@
                 window.showUpgradeModal(toolName);
             }
         });
+
+        // ═══ Sprint 2.2: Filter & Sort ═══
+        let _allDashCards = [];
+
+        function applyDashFilters() {
+            const status = document.getElementById('filter-status').value;
+            const company = document.getElementById('filter-company').value.toLowerCase().trim();
+            const sort = document.getElementById('filter-sort').value;
+
+            let cards = Array.from(document.querySelectorAll('#dash-kanban-content .dash-app-card, #dash-kanban-content .dash-col'));
+            // Filter individual cards if using flat view
+            const flatCards = Array.from(document.querySelectorAll('#dash-kanban-content [data-company]'));
+            if (flatCards.length === 0) return;
+
+            flatCards.forEach(function (card) {
+                let show = true;
+                if (status && card.getAttribute('data-status') !== status) show = false;
+                if (company && (card.getAttribute('data-company') || '').toLowerCase().indexOf(company) === -1) show = false;
+                card.style.display = show ? '' : 'none';
+            });
+
+            if (typeof sessionStorage !== 'undefined') {
+                sessionStorage.setItem('tms_dash_filter', JSON.stringify({ status: status, company: company, sort: sort }));
+            }
+        }
 
     </script>
 </body>

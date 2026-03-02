@@ -349,12 +349,22 @@ body {
     box-shadow: var(--brutal-shadow);
 }
 
-/* Header */
+/* Header — Sticky on scroll */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0 2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-color);
+    background-image: var(--wool-texture);
+    transition: box-shadow 0.2s, padding 0.2s;
+}
+.app-header.scrolled {
+    padding: 0.6rem 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 .logo {
@@ -2649,5 +2659,549 @@ button[data-action="download"] {
     margin-bottom: 2rem;
     display: flex;
     justify-content: space-between;
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Micro-Interactions (Sprint 1.2)
+   ═══════════════════════════════════════════ */
+
+/* Button press feedback */
+.btn, .primary-btn, .secondary-btn, .ghost-btn {
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+.btn:active, .primary-btn:active, .secondary-btn:active, .ghost-btn:active {
+    transform: scale(0.96) !important;
+}
+
+/* Card hover lift */
+.output-card, .glass-panel, .dash-card, .asym-card {
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.output-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--brutal-shadow-hover);
+}
+
+/* Link underline animation */
+a:not(.btn):not(.primary-btn):not(.dropdown-item):not(.maker-mark) {
+    transition: color 0.15s;
+}
+
+/* Skeleton loading shimmer */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+.skeleton {
+    background: linear-gradient(90deg, var(--panel-bg) 25%, var(--input-bg) 50%, var(--panel-bg) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--brutal-radius);
+}
+
+/* Fade-in animation for dynamic content */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+    animation: fadeInUp 0.3s ease-out forwards;
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Focus Mode Audio (Sprint 1.3)
+   ═══════════════════════════════════════════ */
+body.focus-mode::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+body.focus-mode #audio-section {
+    position: relative;
+    z-index: 60;
+    background: var(--panel-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Confetti Canvas (Sprint 1.4)
+   ═══════════════════════════════════════════ */
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Onboarding Tour (Sprint 1.5)
+   ═══════════════════════════════════════════ */
+.onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 10000;
+    backdrop-filter: blur(2px);
+}
+.onboarding-spotlight {
+    position: absolute;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65);
+    z-index: 10001;
+    transition: all 0.3s ease;
+}
+.onboarding-tooltip {
+    position: absolute;
+    background: var(--panel-bg);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    max-width: 320px;
+    z-index: 10002;
+    box-shadow: 4px 4px 0 var(--primary-color);
+    animation: fadeInUp 0.3s ease-out;
+}
+.onboarding-tooltip h4 {
+    margin: 0 0 0.5rem;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+.onboarding-tooltip p {
+    margin: 0 0 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+.onboarding-tooltip .onboarding-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+.onboarding-progress {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0.75rem;
+}
+.onboarding-progress .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    opacity: 0.3;
+}
+.onboarding-progress .dot.active {
+    background: var(--primary-color);
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Diff View (Sprint 2.1)
+   ═══════════════════════════════════════════ */
+.diff-container {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    background: var(--input-bg);
+    border: var(--brutal-border);
+    border-radius: var(--brutal-radius);
+    padding: 1rem;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.diff-add {
+    background: rgba(163, 220, 167, 0.15);
+    color: var(--success-color);
+    text-decoration: none;
+}
+.diff-remove {
+    background: rgba(227, 168, 179, 0.15);
+    color: var(--danger-color);
+    text-decoration: line-through;
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Tone Selector (Sprint 2.5)
+   ═══════════════════════════════════════════ */
+.tone-selector {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+.tone-chip {
+    padding: 0.35rem 0.75rem;
+    border: var(--brutal-border);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+    color: var(--text-secondary);
+}
+.tone-chip:hover {
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+}
+.tone-chip.active {
+    background: var(--primary-color);
+    color: var(--btn-primary-text);
+    border-color: var(--primary-color);
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Streaks (Sprint 3.1)
+   ═══════════════════════════════════════════ */
+.streak-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--warning-color);
+    padding: 0.2rem 0.6rem;
+    border: 1px dashed var(--warning-color);
+    border-radius: 20px;
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Command Palette (Sprint 7.1)
+   ═══════════════════════════════════════════ */
+.command-palette-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 11000;
+    display: flex;
+    justify-content: center;
+    padding-top: 20vh;
+    backdrop-filter: blur(4px);
+}
+.command-palette {
+    width: 90%;
+    max-width: 520px;
+    background: var(--panel-bg);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 0.15s ease-out;
+}
+.command-palette input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--panel-border);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-family);
+    outline: none;
+}
+.command-palette input::placeholder {
+    color: var(--text-secondary);
+}
+.command-palette-results {
+    overflow-y: auto;
+    flex: 1;
+}
+.command-palette-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    transition: background 0.1s;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+.command-palette-item:hover, .command-palette-item.selected {
+    background: var(--input-bg);
+}
+.command-palette-item i {
+    width: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+.command-palette-item .shortcut {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════
+   PROJECT X — Dark Mode Improvements (Sprint 0.2)
+   ═══════════════════════════════════════════ */
+
+/* Modal overlays in dark mode */
+[data-theme="light"] .command-palette-overlay,
+[data-theme="light"] .onboarding-overlay {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* Ensure all inputs have proper dark mode colors */
+input, textarea, select {
+    color: var(--text-primary);
+    background: var(--input-bg);
+}
+input::placeholder, textarea::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Fix focus rings for accessibility */
+input:focus, textarea:focus, select:focus, button:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Scrollbar styling for dark mode */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--panel-border);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Selection highlight */
+::selection {
+    background: var(--primary-color);
+    color: var(--btn-primary-text);
+}
+
+/* Interactive transcript highlight */
+.transcript-line {
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--brutal-radius);
+    cursor: pointer;
+    transition: background 0.2s;
+    line-height: 1.7;
+}
+.transcript-line:hover {
+    background: var(--input-bg);
+}
+.transcript-line.active {
+    background: rgba(163, 196, 220, 0.15);
+    border-left: 3px solid var(--primary-color);
+}
+
+/* Share card canvas preview */
+.share-card-preview {
+    border: var(--brutal-border);
+    border-radius: var(--brutal-radius);
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+/* Stale nudge banner */
+.nudge-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(220, 227, 168, 0.1);
+    border: 1px dashed var(--warning-color);
+    border-radius: var(--brutal-radius);
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    animation: fadeInUp 0.3s ease-out;
+}
+.nudge-banner .nudge-dismiss {
+    margin-left: auto;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+}
+.nudge-banner .nudge-dismiss:hover {
+    opacity: 1;
+}
+
+/* Time saved counter */
+.time-saved {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--success-color);
+    font-weight: 600;
+}
+.time-saved i {
+    font-size: 1.1rem;
+}
+
+/* Filter bar for job listings */
+.filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.75rem 0;
+    margin-bottom: 1rem;
+}
+.filter-bar select, .filter-bar input {
+    padding: 0.4rem 0.75rem;
+    border: var(--brutal-border);
+    border-radius: var(--brutal-radius);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-family: var(--font-family);
+}
+
+/* Salary heatmap tooltip */
+.heatmap-tooltip {
+    position: absolute;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--brutal-radius);
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    pointer-events: none;
+    box-shadow: var(--brutal-shadow);
+    z-index: 100;
+    white-space: nowrap;
+}
+
+/* Career path nodes */
+.career-node {
+    background: var(--panel-bg);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--brutal-radius);
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.career-node:hover {
+    transform: scale(1.05);
+    box-shadow: var(--brutal-shadow-hover);
+}
+.career-node.current {
+    border-color: var(--accent-color);
+    background: rgba(227, 168, 179, 0.1);
+}
+
+/* Skill tree nodes */
+.skill-node {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: var(--brutal-border);
+    border-radius: var(--brutal-radius);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.skill-node.completed {
+    background: rgba(163, 220, 167, 0.15);
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+.skill-node.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Template gallery grid */
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+.template-card {
+    border: var(--brutal-border);
+    border-radius: var(--brutal-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--panel-bg);
+}
+.template-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--brutal-shadow-hover);
+}
+.template-card img {
+    width: 100%;
+    aspect-ratio: 8.5/11;
+    object-fit: cover;
+    border-bottom: var(--brutal-border);
+}
+.template-card .template-info {
+    padding: 0.75rem;
+}
+.template-card .template-info h4 {
+    margin: 0 0 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* Preview modal */
+.preview-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+.preview-modal {
+    background: white;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+.preview-modal .preview-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+/* Progressive profiling prompt */
+.profile-prompt {
+    background: var(--panel-bg);
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.3s ease-out;
+}
+.profile-prompt h4 {
+    margin: 0 0 0.5rem;
+    color: var(--primary-color);
+}
+.profile-prompt p {
+    margin: 0 0 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
 }
 

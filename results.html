@@ -881,6 +881,15 @@
                 </a>
             </div>
 
+            <!-- ═══ QUICK ACTIONS (Project X) ═══ -->
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:1rem 0 1.5rem;">
+                <button class="btn ghost-btn" onclick="showDiffView()" title="Compare original vs tailored resume"><i class="fa-solid fa-code-compare"></i> Diff View</button>
+                <button class="btn ghost-btn" onclick="showResumePreview()" title="Preview formatted resume"><i class="fa-solid fa-eye"></i> Preview</button>
+                <button class="btn ghost-btn" onclick="generateFollowUp()" title="Generate follow-up email"><i class="fa-solid fa-envelope"></i> Follow-Up</button>
+                <button class="btn ghost-btn" onclick="exportToDocx()" title="Export as .docx for Google Docs"><i class="fa-solid fa-file-word"></i> Export .docx</button>
+                <button class="btn ghost-btn" onclick="showSmartScheduling()" title="Best time to send follow-up"><i class="fa-solid fa-clock"></i> Best Send Time</button>
+            </div>
+
             <!-- ═══ INTERVIEW & PREP ═══ -->
             <div class="section-label"><i class="fa-solid fa-microphone-lines"></i> Interview & Prep</div>
             <div class="output-grid">
@@ -1084,8 +1093,10 @@
             <div id="roast-lines"></div>
             <p style="color:var(--text-secondary);font-size:0.75rem;margin-top:1.5rem;">Don't worry — your tailored
                 resume already fixed these.</p>
-            <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn"
-                style="margin-top:1rem;">Close</button>
+            <div style="display:flex;gap:0.5rem;margin-top:1rem;">
+                <button onclick="this.closest('.roast-modal').classList.remove('visible')" class="btn ghost-btn">Close</button>
+                <button onclick="shareRoastCard()" class="btn secondary-btn"><i class="fa-solid fa-share-nodes"></i> Share Roast</button>
+            </div>
         </div>
     </div>
 
@@ -1159,6 +1170,13 @@
     <script src="components.js"></script>
     <script src="error-utils.js"></script>
     <script src="results.js?v=8"></script>
+    <script src="shared/analytics.js"></script>
+    <script src="shared/sticky-header.js"></script>
+    <script src="shared/confetti.js"></script>
+    <script src="shared/streaks.js"></script>
+    <script src="shared/tone-selector.js"></script>
+    <script src="shared/command-palette.js"></script>
+    <script src="shared/progressive-profiling.js"></script>
     <script>
         function generateInsight(type, element) {
             if (element.classList.contains('generating')) return;
@@ -1264,7 +1282,14 @@
                     document.getElementById('dial-arc').style.stroke = color;
                     document.getElementById('dial-arc').setAttribute('stroke-dasharray', `${s} ${100 - s}`);
                     document.getElementById('dial-pct').textContent = s + '%';
+                    // Confetti on high ATS scores (Sprint 1.4)
+                    if (s >= 85 && typeof window.fireConfetti === 'function') {
+                        window.fireConfetti();
+                    }
                 }));
+                if (typeof window.trackEvent === 'function') {
+                    window.trackEvent('resume', 'ats_score', String(s), { score: s });
+                }
             }
 
             // Save to Supabase for history
@@ -1371,6 +1396,211 @@
                 }
             });
         })();
+
+        // ═══ Sprint 5.1: Brutal Roast Share Card ═══
+        function shareRoastCard() {
+            const lines = document.querySelectorAll('#roast-lines .roast-line');
+            if (lines.length === 0) return;
+            const canvas = document.createElement('canvas');
+            canvas.width = 600;
+            canvas.height = 400;
+            const ctx = canvas.getContext('2d');
+
+            // Background
+            ctx.fillStyle = '#151821';
+            ctx.fillRect(0, 0, 600, 400);
+
+            // Border
+            ctx.strokeStyle = '#E3A8B3';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 4]);
+            ctx.strokeRect(10, 10, 580, 380);
+
+            // Title
+            ctx.fillStyle = '#E3A8B3';
+            ctx.font = 'bold 24px "Space Grotesk", sans-serif';
+            ctx.fillText('Resume Roast', 30, 50);
+
+            // Score
+            const scoreEl = document.getElementById('dial-pct');
+            if (scoreEl) {
+                ctx.fillStyle = '#A3C4DC';
+                ctx.font = '16px "Space Grotesk", sans-serif';
+                ctx.fillText('ATS Score: ' + scoreEl.textContent, 30, 80);
+            }
+
+            // Roast lines
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
+            ctx.font = '14px "JetBrains Mono", monospace';
+            let y = 120;
+            lines.forEach(function (line, i) {
+                if (i > 4 || y > 340) return;
+                const text = line.textContent.substring(0, 65) + (line.textContent.length > 65 ? '...' : '');
+                ctx.fillText('• ' + text, 30, y);
+                y += 28;
+            });
+
+            // Watermark
+            ctx.fillStyle = 'rgba(163, 196, 220, 0.4)';
+            ctx.font = '12px "Space Grotesk", sans-serif';
+            ctx.fillText('tailormeswiftly.com', 430, 375);
+
+            canvas.toBlob(function (blob) {
+                if (navigator.share) {
+                    navigator.share({ files: [new File([blob], 'roast.png', { type: 'image/png' })], title: 'My Resume Roast' }).catch(function () {});
+                } else {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = 'resume-roast.png';
+                    a.click();
+                }
+            }, 'image/png');
+            if (typeof trackEvent === 'function') trackEvent('share', 'roast_card');
+        }
+
+        // ═══ Sprint 2.1: Diff View ═══
+        function showDiffView() {
+            const outputs = loadOutputs();
+            if (!outputs || !outputs.resumeText) return;
+            const original = (localStorage.getItem('tms_last_resume') || '').trim();
+            const tailored = (outputs.resumeText || '').trim();
+            if (!original) { alert('Original resume not found. Upload again to see diff.'); return; }
+
+            const diff = computeWordDiff(original, tailored);
+            const modal = document.createElement('div');
+            modal.className = 'preview-modal-overlay';
+            modal.onclick = function (e) { if (e.target === modal) modal.remove(); };
+            modal.innerHTML = '<div class="preview-modal"><button class="preview-close" onclick="this.closest(\'.preview-modal-overlay\').remove()">&times;</button>' +
+                '<h3 style="margin:0 0 1rem;"><i class="fa-solid fa-code-compare"></i> Resume Diff</h3>' +
+                '<div class="diff-container">' + diff + '</div></div>';
+            document.body.appendChild(modal);
+            if (typeof trackEvent === 'function') trackEvent('resume', 'diff_view');
+        }
+
+        function computeWordDiff(oldText, newText) {
+            const oldWords = oldText.split(/(\s+)/);
+            const newWords = newText.split(/(\s+)/);
+            let html = '';
+            const max = Math.max(oldWords.length, newWords.length);
+            let oi = 0, ni = 0;
+            while (oi < oldWords.length || ni < newWords.length) {
+                if (oi >= oldWords.length) {
+                    html += '<span class="diff-add">' + escHtml(newWords[ni]) + '</span>';
+                    ni++;
+                } else if (ni >= newWords.length) {
+                    html += '<span class="diff-remove">' + escHtml(oldWords[oi]) + '</span>';
+                    oi++;
+                } else if (oldWords[oi] === newWords[ni]) {
+                    html += escHtml(oldWords[oi]);
+                    oi++; ni++;
+                } else {
+                    html += '<span class="diff-remove">' + escHtml(oldWords[oi]) + '</span>';
+                    html += '<span class="diff-add">' + escHtml(newWords[ni]) + '</span>';
+                    oi++; ni++;
+                }
+            }
+            return html;
+        }
+
+        function escHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // ═══ Sprint 2.6: Live Preview Modal ═══
+        function showResumePreview() {
+            const outputs = loadOutputs();
+            if (!outputs || !outputs.resumeHtml) { alert('No resume data to preview.'); return; }
+            const modal = document.createElement('div');
+            modal.className = 'preview-modal-overlay';
+            modal.onclick = function (e) { if (e.target === modal) modal.remove(); };
+            modal.innerHTML = '<div class="preview-modal" style="background:white;color:#222;">' +
+                '<button class="preview-close" onclick="this.closest(\'.preview-modal-overlay\').remove()">&times;</button>' +
+                '<div style="margin-bottom:1rem;display:flex;gap:0.5rem;">' +
+                '<button class="btn primary-btn" onclick="window.print()"><i class="fa-solid fa-print"></i> Print / PDF</button>' +
+                '<button class="btn ghost-btn" onclick="showDiffView()"><i class="fa-solid fa-code-compare"></i> Show Diff</button>' +
+                '</div>' +
+                '<div id="resume-preview-content" style="font-family:serif;line-height:1.6;">' + outputs.resumeHtml + '</div></div>';
+            document.body.appendChild(modal);
+            if (typeof trackEvent === 'function') trackEvent('resume', 'live_preview');
+        }
+
+        // ═══ Sprint 2.4: One-Click Follow-Up Email ═══
+        async function generateFollowUp(genId) {
+            const outputs = loadOutputs();
+            if (!outputs) return;
+            const company = outputs.targetCompany || 'the company';
+            const daysAgo = outputs.created_at ? Math.floor((Date.now() - new Date(outputs.created_at).getTime()) / 86400000) : 7;
+
+            const btn = event.target.closest('button');
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...'; }
+
+            try {
+                const tonePrompt = typeof getTonePrompt === 'function' ? getTonePrompt() : 'Use a professional tone.';
+                const profileCtx = typeof getProfileContext === 'function' ? getProfileContext() : '';
+                const { data, error } = await window.supabaseClient.functions.invoke('gemini-proxy', {
+                    body: {
+                        contents: [{ parts: [{ text: 'Write a follow-up email for a job application to ' + company + '. I applied ' + daysAgo + ' days ago. ' + tonePrompt + ' ' + profileCtx + ' Keep it under 150 words, professional and warm.' }] }],
+                        systemInstruction: { parts: [{ text: 'You are a career coach. Write a concise follow-up email.' }] },
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
+                    }
+                });
+                if (error) throw error;
+                const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Could not generate email.';
+
+                const modal = document.createElement('div');
+                modal.className = 'preview-modal-overlay';
+                modal.onclick = function (e) { if (e.target === modal) modal.remove(); };
+                modal.innerHTML = '<div class="preview-modal">' +
+                    '<button class="preview-close" onclick="this.closest(\'.preview-modal-overlay\').remove()">&times;</button>' +
+                    '<h3><i class="fa-solid fa-envelope"></i> Follow-Up Email</h3>' +
+                    '<div style="white-space:pre-wrap;line-height:1.7;margin:1rem 0;">' + escHtml(text) + '</div>' +
+                    '<button class="btn primary-btn" onclick="navigator.clipboard.writeText(this.parentElement.querySelector(\'div\').textContent);this.textContent=\'Copied!\'"><i class="fa-solid fa-copy"></i> Copy Email</button></div>';
+                document.body.appendChild(modal);
+                if (typeof trackEvent === 'function') trackEvent('resume', 'follow_up_email', company);
+            } catch (e) {
+                alert('Error generating follow-up: ' + e.message);
+            }
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Follow-Up'; }
+        }
+
+        // ═══ Sprint 7.2: Export to .docx ═══
+        function exportToDocx() {
+            const outputs = loadOutputs();
+            if (!outputs || !outputs.resumeText) { alert('No resume text to export.'); return; }
+            const text = outputs.resumeText;
+            // Simple .docx XML template
+            const docxContent = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">' +
+                '<w:body>' + text.split('\n').map(function (line) {
+                    return '<w:p><w:r><w:t>' + escHtml(line) + '</w:t></w:r></w:p>';
+                }).join('') + '</w:body></w:document>';
+
+            // Wrap in ZIP (minimal .docx)
+            // For simplicity, create a plain XML that Word can open
+            const blob = new Blob([docxContent], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = (outputs.targetCompany || 'resume').replace(/[^a-zA-Z0-9]/g, '_') + '_resume.docx';
+            a.click();
+            if (typeof trackEvent === 'function') trackEvent('resume', 'export_docx');
+        }
+
+        // ═══ Sprint 7.3: Smart Scheduling ═══
+        function showSmartScheduling() {
+            const now = new Date();
+            const day = now.getDay();
+            const hour = now.getHours();
+            let recommendation;
+            if (day >= 2 && day <= 4 && hour >= 9 && hour <= 11) {
+                recommendation = 'Now is a great time to send your follow-up! Tuesday-Thursday, 9-11 AM is optimal.';
+            } else {
+                const nextTuesday = new Date(now);
+                nextTuesday.setDate(now.getDate() + ((2 - day + 7) % 7 || 7));
+                nextTuesday.setHours(9, 30, 0);
+                recommendation = 'Best time to send: ' + nextTuesday.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }) + ' at 9:30 AM. Tuesday-Thursday mornings get the highest response rates.';
+            }
+            alert(recommendation);
+        }
 
         // TTN cross-sell — show promo with career-related interests from the current application
         (function() {

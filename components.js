@@ -141,11 +141,40 @@
             '<p>' + linksHtml + '</p>';
     }
 
+    // ── Internal Cross-Links (Sprint 0.3) ──
+    function initCrossLinks() {
+        var path = window.location.pathname;
+        var container = document.querySelector('.site-footer') || document.querySelector('footer');
+        if (!container) return;
+
+        var crossLinks = [];
+        if (path.indexOf('results') !== -1 || path.indexOf('resume') !== -1) {
+            crossLinks.push({ href: P + 'news/briefing.html', icon: 'fa-newspaper', label: 'Read your News Briefing' });
+            crossLinks.push({ href: P + 'interview-prep.html', icon: 'fa-comments', label: 'Practice Interview Questions' });
+        } else if (path.indexOf('briefing') !== -1 || path.indexOf('news') !== -1) {
+            crossLinks.push({ href: P + 'app.html', icon: 'fa-file-lines', label: 'Tailor a Resume' });
+            crossLinks.push({ href: P + 'dashboard.html', icon: 'fa-compass', label: 'View Dashboard' });
+        } else if (path.indexOf('dashboard') !== -1) {
+            crossLinks.push({ href: P + 'app.html', icon: 'fa-plus', label: 'New Application' });
+            crossLinks.push({ href: P + 'news/briefing.html', icon: 'fa-newspaper', label: 'News Briefing' });
+        }
+
+        if (crossLinks.length === 0) return;
+
+        var linkBar = document.createElement('div');
+        linkBar.style.cssText = 'display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;padding:1rem 0;margin-top:1rem;border-top:1px dashed var(--panel-border);';
+        crossLinks.forEach(function (cl) {
+            linkBar.innerHTML += '<a href="' + cl.href + '" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;color:var(--primary-color);text-decoration:none;"><i class="fa-solid ' + cl.icon + '"></i> ' + cl.label + '</a>';
+        });
+        container.before(linkBar);
+    }
+
     // Auto-init when DOM is ready
     function init() {
         initDropdown();
         initProductSwitcher();
         initFooter();
+        initCrossLinks();
     }
 
     if (document.readyState === 'loading') {

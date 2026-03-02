@@ -748,6 +748,9 @@
                             <span id="briefing-read-time"
                                 style="font-size:0.78rem;color:var(--text-secondary);padding:0.2rem 0.6rem;background:var(--panel-bg);border-radius:var(--brutal-radius);border:var(--brutal-border);"><i
                                     class="fa-regular fa-clock" style="margin-right:0.3rem;"></i>—</span>
+                            <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="refreshNewsFeed()">
+                                <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                            </button>
                             <button class="btn ghost-btn" style="font-size:0.82rem;" onclick="regenerateBriefing()">
                                 <i class="fa-solid fa-rotate"></i> Regenerate
                             </button>
@@ -869,6 +872,11 @@
     <script src="../auth.js?v=15"></script>
     <script src="../billing.js?v=1"></script>
     <script src="../components.js"></script>
+    <script src="../shared/analytics.js"></script>
+    <script src="../shared/sticky-header.js"></script>
+    <script src="../shared/streaks.js"></script>
+    <script src="../shared/tone-selector.js"></script>
+    <script src="../shared/command-palette.js"></script>
     <script>
         let extractedInterests = [];
         let currentBriefingDate = null; // tracks which briefing is displayed
@@ -2760,6 +2768,14 @@ FORMAT — use this EXACT HTML:
 
             const btn = document.getElementById('listen-btn');
             if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-pause"></i> Playing'; }
+
+            // ═══ Sprint 1.3: Focus Mode Audio ═══
+            audioEl.addEventListener('play', function () { document.body.classList.add('focus-mode'); });
+            audioEl.addEventListener('pause', function () { document.body.classList.remove('focus-mode'); });
+            audioEl.addEventListener('ended', function () { document.body.classList.remove('focus-mode'); });
+
+            // ═══ Sprint 4.5: Interactive Transcript ═══
+            _buildTranscript(audioEl);
         }
 
         async function listenToBriefing() {
@@ -2844,6 +2860,114 @@ FORMAT — use this EXACT HTML:
                 if (dotsInterval) clearInterval(dotsInterval);
             }
         }
+        // ═══ Sprint 4.5: Interactive Transcript ═══
+        function _buildTranscript(audioEl) {
+            const content = document.getElementById('briefing-content');
+            if (!content) return;
+            const text = content.textContent.trim();
+            if (!text) return;
+
+            // Split into sentences
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+            const totalDuration = audioEl.duration || (sentences.length * 3); // estimate 3s per sentence
+
+            let transcriptDiv = document.getElementById('interactive-transcript');
+            if (!transcriptDiv) {
+                transcriptDiv = document.createElement('div');
+                transcriptDiv.id = 'interactive-transcript';
+                transcriptDiv.style.cssText = 'margin-top:1rem;padding:1rem;background:var(--input-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);max-height:300px;overflow-y:auto;font-size:0.85rem;line-height:1.7;';
+                transcriptDiv.innerHTML = '<div style="font-weight:600;margin-bottom:0.5rem;font-size:0.8rem;color:var(--text-secondary);"><i class="fa-solid fa-scroll"></i> Transcript</div>';
+                const audioSection = document.getElementById('audio-section');
+                if (audioSection) audioSection.after(transcriptDiv);
+            }
+
+            const linesContainer = document.createElement('div');
+            sentences.forEach(function (sentence, i) {
+                const line = document.createElement('span');
+                line.className = 'transcript-line';
+                line.textContent = sentence.trim() + ' ';
+                line.setAttribute('data-index', i);
+                line.addEventListener('click', function () {
+                    const time = (i / sentences.length) * (audioEl.duration || totalDuration);
+                    audioEl.currentTime = time;
+                    audioEl.play();
+                });
+                linesContainer.appendChild(line);
+            });
+            // Clear and re-add
+            var existingLines = transcriptDiv.querySelectorAll('.transcript-line');
+            existingLines.forEach(function (el) { el.remove(); });
+            transcriptDiv.appendChild(linesContainer);
+
+            // Highlight current sentence during playback
+            audioEl.addEventListener('timeupdate', function () {
+                const progress = audioEl.currentTime / (audioEl.duration || totalDuration);
+                const activeIndex = Math.floor(progress * sentences.length);
+                linesContainer.querySelectorAll('.transcript-line').forEach(function (el, i) {
+                    el.classList.toggle('active', i === activeIndex);
+                });
+            });
+        }
+
+        // ═══ Sprint 5.2: Shareable Briefing Bites ═══
+        function shareBriefingBite(articleElement) {
+            const title = articleElement.querySelector('h3')?.textContent || 'Briefing Bite';
+            const text = articleElement.textContent.substring(0, 280).trim() + '...';
+            const shareData = {
+                title: title,
+                text: text + '\n\n— via TailorMeSwiftly',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(function () {});
+            } else {
+                navigator.clipboard.writeText(text + '\n\n' + window.location.href).then(function () {
+                    alert('Copied to clipboard!');
+                });
+            }
+            if (typeof trackEvent === 'function') trackEvent('share', 'briefing_bite', title);
+        }
+
+        // Add share buttons to each briefing section
+        function addShareButtons() {
+            const sections = document.querySelectorAll('#briefing-content h3');
+            sections.forEach(function (h3) {
+                if (h3.querySelector('.share-bite-btn')) return;
+                const btn = document.createElement('button');
+                btn.className = 'btn ghost-btn share-bite-btn';
+                btn.style.cssText = 'font-size:0.7rem;padding:0.15rem 0.4rem;margin-left:0.5rem;vertical-align:middle;';
+                btn.innerHTML = '<i class="fa-solid fa-share-nodes"></i>';
+                btn.title = 'Share this section';
+                btn.addEventListener('click', function () { shareBriefingBite(h3.parentElement || h3.closest('section') || h3); });
+                h3.appendChild(btn);
+            });
+        }
+
+        // Auto-add share buttons after briefing renders
+        const _origShowBriefing = typeof showBriefing !== 'undefined' ? showBriefing : null;
+        if (_origShowBriefing) {
+            // Monkey-patch to add share buttons after render
+            const __originalShowBriefing = showBriefing;
+            showBriefing = function () {
+                __originalShowBriefing.apply(this, arguments);
+                setTimeout(addShareButtons, 500);
+            };
+        }
+
+        // ═══ Sprint 4.1: Live Data Feed Refresh ═══
+        function refreshNewsFeed() {
+            const btn = event.target.closest('button');
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Refreshing...'; }
+
+            // Simply re-trigger generation for today
+            generateBriefing(new Date().toISOString().split('T')[0]).then(function () {
+                if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Refresh'; }
+            }).catch(function () {
+                if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Refresh'; }
+            });
+        }
+
     </script>
 </body>
 
