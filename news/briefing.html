@@ -1054,6 +1054,10 @@
             currentBriefingDate = dateStr;
             renderDateStrip(dateStr);
 
+            // Clear any lingering error banners
+            const existingErr = document.querySelector('#result-section .error-text');
+            if (existingErr) existingErr.remove();
+
             // Update heading
             const heading = document.getElementById('briefing-date-heading');
             const today = new Date().toISOString().split('T')[0];
@@ -2214,16 +2218,17 @@ VOICE & TONE:
 - Sound like you're talking TO someone, not reading AT them
 - Bold key names, numbers, and facts for visual scanning (the TTS will ignore formatting)
 - NO parentheses, abbreviations, or symbols that sound awkward read aloud. Write "percent" not "%", "dollar" not "$"
+- NO Markdown formatting like ** or # — use the HTML tags specified below instead.
 
 STRUCTURE (use ALL sections in this order):
 1. OPENING — A warm, hooky 1-2 sentence opener that pulls the listener in. Greet the reader by first name if provided (e.g. "Hey Steve, here's something that might change your week."). Never say "Good morning" or any time-of-day greeting.
 2. THE BIG STORY — 2-3 short paragraphs telling the main narrative. Explicitly state WHY this impacts their specific work. Use transitions ("Here's why that matters to you..."). Keep paragraphs to 2-3 sentences.
 3. WHAT ELSE IS HAPPENING — 2-4 quick-hit items. Each is a mini-story in 1-2 sentences with a bold visual lead-in but written to flow naturally when read aloud. Briefly tie each to their interests.
-4. YOUR TAKEAWAY — 2-3 direct, actionable points written as advice. Start with verbs. ("Watch for...", "Keep an eye on...", "Consider...")
+4. THE PROFESSIONAL BOTTOM LINE — 2-3 direct, actionable points written as career advice. Be specific, not vague. Start with verbs. ("Watch for...", "Keep an eye on...", "Consider...")
 
 FORMAT — use this EXACT HTML:
 - Opener: <p class="briefing-thesis"><strong>TODAY'S BRIEFING:</strong> Your hooky opening line here.</p>
-- Section headers: <h3>The Big Story:</h3>, <h3>What Else Is Happening:</h3>, <h3>Your Takeaway:</h3>
+- Section headers: <h3>The Big Story:</h3>, <h3>What Else Is Happening:</h3>, <h3>The Professional Bottom Line:</h3>
 - Body: <p>Short paragraphs. Use <strong>bold</strong> for key facts. Cite sources with <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source Name]</a>.</p>
 - Quick hits: <ul><li><strong>Bold lead-in:</strong> One-two sentence summary with citation.</li></ul>
 - Takeaways: <ul><li>Actionable problem-solving advice starting with a verb</li></ul>
@@ -2319,6 +2324,13 @@ FORMAT — use this EXACT HTML:
                 const msg = e.message || 'Failed to generate briefing. Please try again.';
 
                 document.getElementById('loading-section').style.display = 'none';
+
+                // If a cached briefing exists for this date, restore it instead of showing error banner
+                if (briefingCache[targetDate]) {
+                    showBriefingForDate(targetDate);
+                    return;
+                }
+
                 document.getElementById('result-section').style.display = 'block';
                 collapseSidebar();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2342,6 +2354,10 @@ FORMAT — use this EXACT HTML:
             document.getElementById('loading-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'block';
 
+            // Clear any lingering error banners from failed generation attempts
+            const existingErr = document.querySelector('#result-section .error-text');
+            if (existingErr) existingErr.remove();
+
             // Hide the "Today's Briefing" header — the briefing is already generated
             const stepHeader = document.querySelector('.step-header');
             if (stepHeader) stepHeader.style.display = 'none';
@@ -2364,6 +2380,20 @@ FORMAT — use this EXACT HTML:
             let processedHtml = html.replace(/^\s*<h[12][^>]*>.*?<\/h[12]>\s*/i, '');
             // Also strip markdown-style headers at the very start
             processedHtml = processedHtml.replace(/^\s*#{1,2}\s+.+\n*/i, '');
+
+            // ═══ Markdown Fix: Convert **bold**, *italic*, and * list items if Gemini falls back to MD ═══
+            processedHtml = processedHtml.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Bullet points: lines starting with * or -
+            processedHtml = processedHtml.replace(/^\s*[\*\-]\s+(.+)$/gm, '<li>$1</li>');
+            // Wrap sets of <li> in <ul> if they aren't already
+            processedHtml = processedHtml.replace(/(<li>(?:.|\n)+?<\/li>)/g, (match) => {
+                if (!match.includes('<ul>')) return `<ul>${match}</ul>`;
+                return match;
+            });
+            // Final italic fix for any remaining single * (excluding things already in tags)
+            processedHtml = processedHtml.replace(/\*([^\*\s][^\*]*[^\*\s])\*/g, '<em>$1</em>');
+
+
             if (articles && articles.length) {
                 // Build a lookup map from source name to URL
                 const sourceMap = {};
@@ -2745,6 +2775,17 @@ FORMAT — use this EXACT HTML:
             }
 
             showBriefing(html, interests, sources);
+
+            // Show audio section and handle audio playback
+            document.getElementById('audio-section').style.display = '';
+            if (briefing.audio_url && briefing.audio_url.startsWith('http')) {
+                playAudioUrl(briefing.audio_url);
+            } else {
+                const audioContainer = document.getElementById('audio-container');
+                if (audioContainer) { audioContainer.style.display = 'none'; audioContainer.innerHTML = ''; }
+                // Auto-generate audio if none exists
+                setTimeout(() => { listenToBriefing(); }, 500);
+            }
         })();
 
         function extractBriefingText() {
