@@ -152,6 +152,21 @@
         <div class="legend-bar" id="legend"></div>
 
         <div class="stats-grid" id="stats-grid"></div>
+
+        <!-- Salary Leaderboard by Industry -->
+        <div style="margin-top:2.5rem;">
+            <h2 style="text-align:center;margin-bottom:0.5rem;"><i class="fa-solid fa-ranking-star" style="color:var(--accent-color);margin-right:0.5rem;"></i>Industry Salary Leaderboard</h2>
+            <p style="text-align:center;color:var(--text-secondary);font-size:0.85rem;margin-bottom:1.25rem;">Average salaries by industry with growth outlook. Filter by experience level.</p>
+            <div style="text-align:center;margin-bottom:1rem;">
+                <select id="exp-filter" onchange="renderLeaderboard()" style="padding:0.4rem 0.8rem;border:var(--brutal-border);border-radius:var(--brutal-radius);background:var(--panel-bg);color:var(--text-primary);font-family:inherit;font-size:0.85rem;">
+                    <option value="mid">Mid-Level (3-5 yrs)</option>
+                    <option value="entry">Entry Level (0-2 yrs)</option>
+                    <option value="senior">Senior (6-10 yrs)</option>
+                    <option value="exec">Executive (10+ yrs)</option>
+                </select>
+            </div>
+            <div id="leaderboard-list"></div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
@@ -446,6 +461,54 @@
 
         /* Expose for onchange */
         window.updateMap = updateMap;
+    })();
+
+    /* ── Salary Leaderboard by Industry ── */
+    (function() {
+        const INDUSTRIES = [
+            { name: 'Technology', icon: 'fa-microchip', entry: 78000, mid: 125000, senior: 175000, exec: 250000, growth: 15, openings: '1.2M' },
+            { name: 'Healthcare', icon: 'fa-heart-pulse', entry: 55000, mid: 85000, senior: 130000, exec: 210000, growth: 13, openings: '1.8M' },
+            { name: 'Finance', icon: 'fa-chart-pie', entry: 65000, mid: 110000, senior: 165000, exec: 280000, growth: 8, openings: '680K' },
+            { name: 'Consulting', icon: 'fa-briefcase', entry: 72000, mid: 115000, senior: 160000, exec: 240000, growth: 10, openings: '420K' },
+            { name: 'Energy', icon: 'fa-bolt', entry: 62000, mid: 100000, senior: 145000, exec: 220000, growth: 12, openings: '350K' },
+            { name: 'Manufacturing', icon: 'fa-industry', entry: 48000, mid: 75000, senior: 110000, exec: 185000, growth: 3, openings: '890K' },
+            { name: 'Education', icon: 'fa-graduation-cap', entry: 42000, mid: 62000, senior: 85000, exec: 130000, growth: 5, openings: '950K' },
+            { name: 'Retail', icon: 'fa-store', entry: 35000, mid: 52000, senior: 78000, exec: 145000, growth: 2, openings: '1.5M' },
+            { name: 'Government', icon: 'fa-landmark', entry: 45000, mid: 72000, senior: 105000, exec: 155000, growth: 4, openings: '520K' },
+            { name: 'Media & Entertainment', icon: 'fa-film', entry: 42000, mid: 70000, senior: 110000, exec: 195000, growth: 7, openings: '280K' }
+        ];
+
+        function fmt(n) { return '$' + n.toLocaleString(); }
+
+        window.renderLeaderboard = function() {
+            const level = document.getElementById('exp-filter').value;
+            const sorted = [...INDUSTRIES].sort((a, b) => b[level] - a[level]);
+            const maxSalary = sorted[0][level];
+
+            document.getElementById('leaderboard-list').innerHTML = sorted.map((ind, i) => {
+                const pct = Math.round((ind[level] / maxSalary) * 100);
+                const growthColor = ind.growth >= 10 ? '#10b981' : ind.growth >= 5 ? '#eab308' : 'var(--text-secondary)';
+                return `<div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.75rem;border:var(--brutal-border);border-radius:var(--brutal-radius);margin-bottom:0.5rem;background:var(--panel-bg);transition:transform 0.15s;" onmouseover="this.style.transform='translate(-1px,-1px)';this.style.boxShadow='var(--brutal-shadow)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <span style="font-weight:700;font-size:0.85rem;color:var(--text-secondary);min-width:1.5rem;text-align:center;">${i + 1}</span>
+                    <i class="fa-solid ${ind.icon}" style="font-size:1rem;color:var(--primary-color);min-width:1.25rem;text-align:center;"></i>
+                    <div style="flex:1;min-width:0;">
+                        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.25rem;">
+                            <span style="font-weight:600;font-size:0.88rem;">${ind.name}</span>
+                            <span style="font-weight:700;font-size:0.9rem;color:var(--primary-color);">${fmt(ind[level])}</span>
+                        </div>
+                        <div style="height:4px;background:var(--bg-color);border-radius:2px;overflow:hidden;">
+                            <div style="height:100%;width:${pct}%;background:var(--primary-color);border-radius:2px;transition:width 0.4s;"></div>
+                        </div>
+                        <div style="display:flex;gap:1rem;margin-top:0.3rem;font-size:0.72rem;color:var(--text-secondary);">
+                            <span><i class="fa-solid fa-arrow-trend-up" style="color:${growthColor};margin-right:0.2rem;"></i>${ind.growth}% growth</span>
+                            <span><i class="fa-solid fa-briefcase" style="margin-right:0.2rem;"></i>${ind.openings} openings</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        };
+
+        renderLeaderboard();
     })();
     </script>
 

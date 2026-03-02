@@ -24,7 +24,8 @@
         '/career-dna': '/tools/career-dna.html',
         '/templates': '/templates/gallery.html',
         '/stories': '/community/stories.html',
-        '/skill-trees': '/learn/skill-trees.html'
+        '/skill-trees': '/learn/skill-trees.html',
+        '/shadow-jobs': '/shadow-jobs.html'
     };
 
     // Expose for use in navigation
