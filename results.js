@@ -9,37 +9,37 @@ const THEME_STORAGE = 'ats_theme_preference';
 
 const TOOL_TIERS = {
     // Free — always accessible
-    'resume':            'free',
-    'results':           'free',
-    'history':           'free',
+    'resume': 'free',
+    'results': 'free',
+    'history': 'free',
 
     // Premium-only
-    'interview-prep':    'premium',
+    'interview-prep': 'premium',
     'salary-negotiator': 'premium',
-    'cover-letter':      'premium',
-    'pain-letter':       'premium',
-    'hook-generator':    'premium',
-    'outreach':          'premium',
-    'toxic-radar':       'premium',
-    'comp-decoder':      'premium',
-    'shadow-jobs':       'premium',
+    'cover-letter': 'premium',
+    'pain-letter': 'premium',
+    'hook-generator': 'premium',
+    'outreach': 'premium',
+    'toxic-radar': 'premium',
+    'comp-decoder': 'premium',
+    'shadow-jobs': 'premium',
     'guerrilla-tactics': 'premium',
-    'referral-mapper':   'premium',
-    'auto-app':          'premium',
-    'thank-you':         'premium',
+    'referral-mapper': 'premium',
+    'auto-app': 'premium',
+    'thank-you': 'premium',
 
     // Teaser — 1 free use, then locked
     'ghosting-predictor': 'teaser',
-    'linkedin-sync':      'teaser',
-    'video-intro':        'teaser',
-    'skills-tracker':     'teaser',
-    'day-in-life':        'teaser',
-    'reverse-interview':  'teaser',
+    'linkedin-sync': 'teaser',
+    'video-intro': 'teaser',
+    'skills-tracker': 'teaser',
+    'day-in-life': 'teaser',
+    'reverse-interview': 'teaser',
     'rejection-reverser': 'teaser',
-    'prove-it':           'teaser',
-    'tech-screen':        'teaser',
-    'cold-email':         'teaser',
-    'career-pivot':       'teaser'
+    'prove-it': 'teaser',
+    'tech-screen': 'teaser',
+    'cold-email': 'teaser',
+    'career-pivot': 'teaser'
 };
 
 function toolSlugFromPage(filenameOrSlug) {
@@ -101,29 +101,29 @@ async function incrementToolUsage(slug) {
 }
 
 const TOOL_PREVIEWS = {
-    'interview-prep':    { icon: 'fa-comments',       name: 'AI Mock Interview',      desc: '10 tailored questions with AI voice interviewer, real-time scoring, and detailed feedback on your answers.' },
-    'salary-negotiator': { icon: 'fa-sack-dollar',     name: 'Salary Negotiator',      desc: 'Practice salary conversations voice-to-voice with an AI HR rep trained on real negotiation tactics.' },
-    'cover-letter':      { icon: 'fa-envelope-open-text', name: 'Cover Letter Generator', desc: 'AI-crafted cover letters that weave your experience into a compelling narrative for each specific role.' },
-    'pain-letter':       { icon: 'fa-heart-crack',     name: 'Pain Letter',            desc: 'Research the company\'s challenges and generate a letter that shows you understand their pain points.' },
-    'hook-generator':    { icon: 'fa-magnet',          name: 'Hook Generator',         desc: 'Attention-grabbing opening lines for cold outreach, cover letters, and LinkedIn messages.' },
-    'outreach':          { icon: 'fa-paper-plane',     name: 'Intro Email',            desc: 'Personalized outreach emails with company intel, the right tone, and a clear call to action.' },
-    'toxic-radar':       { icon: 'fa-biohazard',       name: 'Toxic Culture Radar',    desc: 'Toxicity score, layoff risk analysis, and Glassdoor sentiment — know before you go.' },
-    'comp-decoder':      { icon: 'fa-scale-balanced',  name: 'Comp Decoder',           desc: 'Decode the true value of an offer with cost-of-living adjustments, equity breakdown, and benefits analysis.' },
-    'shadow-jobs':       { icon: 'fa-eye',             name: 'Shadow Jobs',            desc: 'Monitor company career pages for early-stage openings before they hit job boards.' },
-    'guerrilla-tactics': { icon: 'fa-user-ninja',      name: 'Guerrilla Tactics',      desc: 'Unconventional strategies to bypass ATS filters and get your resume directly to decision makers.' },
-    'referral-mapper':   { icon: 'fa-people-arrows',   name: 'Referral Mapper',        desc: 'Find backdoor referral paths into your target company with ready-to-send outreach scripts.' },
-    'auto-app':          { icon: 'fa-robot',           name: 'Auto-App Agent',         desc: 'AI scans job boards, finds matching roles, and generates tailored applications automatically.' },
-    'thank-you':         { icon: 'fa-envelope-circle-check', name: 'Thank-You Engine', desc: '3 variants of the perfect post-interview follow-up, personalized to your conversation.' },
-    'ghosting-predictor':{ icon: 'fa-ghost',           name: 'Ghosting Predictor',     desc: 'Detect ghost jobs and stale listings instantly so you don\'t waste time on dead-end applications.' },
-    'linkedin-sync':     { icon: 'fa-linkedin',        name: 'LinkedIn Sync',          desc: 'Pull your LinkedIn profile and auto-populate resume fields for faster tailoring.' },
-    'video-intro':       { icon: 'fa-video',           name: 'Video Intro',            desc: '60-second video intro script with built-in teleprompter — make a memorable first impression.' },
-    'skills-tracker':    { icon: 'fa-chart-line',      name: 'Skills Tracker',         desc: 'See which of your skills are rising in demand vs decaying, with market trend data.' },
-    'day-in-life':       { icon: 'fa-sun',             name: 'Day in the Life',        desc: 'Realistic simulation of a typical day in the role — meetings, tasks, and culture.' },
+    'interview-prep': { icon: 'fa-comments', name: 'AI Mock Interview', desc: '10 tailored questions with AI voice interviewer, real-time scoring, and detailed feedback on your answers.' },
+    'salary-negotiator': { icon: 'fa-sack-dollar', name: 'Salary Negotiator', desc: 'Practice salary conversations voice-to-voice with an AI HR rep trained on real negotiation tactics.' },
+    'cover-letter': { icon: 'fa-envelope-open-text', name: 'Cover Letter Generator', desc: 'AI-crafted cover letters that weave your experience into a compelling narrative for each specific role.' },
+    'pain-letter': { icon: 'fa-heart-crack', name: 'Pain Letter', desc: 'Research the company\'s challenges and generate a letter that shows you understand their pain points.' },
+    'hook-generator': { icon: 'fa-magnet', name: 'Hook Generator', desc: 'Attention-grabbing opening lines for cold outreach, cover letters, and LinkedIn messages.' },
+    'outreach': { icon: 'fa-paper-plane', name: 'Intro Email', desc: 'Personalized outreach emails with company intel, the right tone, and a clear call to action.' },
+    'toxic-radar': { icon: 'fa-biohazard', name: 'Toxic Culture Radar', desc: 'Toxicity score, layoff risk analysis, and Glassdoor sentiment — know before you go.' },
+    'comp-decoder': { icon: 'fa-scale-balanced', name: 'Comp Decoder', desc: 'Decode the true value of an offer with cost-of-living adjustments, equity breakdown, and benefits analysis.' },
+    'shadow-jobs': { icon: 'fa-eye', name: 'Shadow Jobs', desc: 'Monitor company career pages for early-stage openings before they hit job boards.' },
+    'guerrilla-tactics': { icon: 'fa-user-ninja', name: 'Guerrilla Tactics', desc: 'Unconventional strategies to bypass ATS filters and get your resume directly to decision makers.' },
+    'referral-mapper': { icon: 'fa-people-arrows', name: 'Referral Mapper', desc: 'Find backdoor referral paths into your target company with ready-to-send outreach scripts.' },
+    'auto-app': { icon: 'fa-robot', name: 'Auto-App Agent', desc: 'AI scans job boards, finds matching roles, and generates tailored applications automatically.' },
+    'thank-you': { icon: 'fa-envelope-circle-check', name: 'Thank-You Engine', desc: '3 variants of the perfect post-interview follow-up, personalized to your conversation.' },
+    'ghosting-predictor': { icon: 'fa-ghost', name: 'Ghosting Predictor', desc: 'Detect ghost jobs and stale listings instantly so you don\'t waste time on dead-end applications.' },
+    'linkedin-sync': { icon: 'fa-linkedin', name: 'LinkedIn Sync', desc: 'Pull your LinkedIn profile and auto-populate resume fields for faster tailoring.' },
+    'video-intro': { icon: 'fa-video', name: 'Video Intro', desc: '60-second video intro script with built-in teleprompter — make a memorable first impression.' },
+    'skills-tracker': { icon: 'fa-chart-line', name: 'Skills Tracker', desc: 'See which of your skills are rising in demand vs decaying, with market trend data.' },
+    'day-in-life': { icon: 'fa-sun', name: 'Day in the Life', desc: 'Realistic simulation of a typical day in the role — meetings, tasks, and culture.' },
     'reverse-interview': { icon: 'fa-magnifying-glass-arrow-right', name: 'Reverse Interview', desc: 'Smart, probing questions to ask your interviewer that reveal what it\'s really like inside.' },
-    'rejection-reverser':{ icon: 'fa-rotate-left',     name: 'Rejection Reverser',     desc: 'Turn a rejection into a networking opportunity with AI-drafted follow-up messages.' },
-    'prove-it':          { icon: 'fa-chart-column',    name: 'Prove It',               desc: 'Transform vague resume bullets into quantified, metric-driven accomplishments.' },
-    'tech-screen':       { icon: 'fa-fire',            name: 'Trial By Fire',          desc: 'Custom coding challenges with a built-in IDE, tailored to the exact role you\'re applying for.' },
-    'career-pivot':      { icon: 'fa-shuffle',         name: 'Career Pivot Advisor',   desc: 'AI-powered roadmap for switching industries — transferable skills, gap analysis, and action steps.' }
+    'rejection-reverser': { icon: 'fa-rotate-left', name: 'Rejection Reverser', desc: 'Turn a rejection into a networking opportunity with AI-drafted follow-up messages.' },
+    'prove-it': { icon: 'fa-chart-column', name: 'Prove It', desc: 'Transform vague resume bullets into quantified, metric-driven accomplishments.' },
+    'tech-screen': { icon: 'fa-fire', name: 'Trial By Fire', desc: 'Custom coding challenges with a built-in IDE, tailored to the exact role you\'re applying for.' },
+    'career-pivot': { icon: 'fa-shuffle', name: 'Career Pivot Advisor', desc: 'AI-powered roadmap for switching industries — transferable skills, gap analysis, and action steps.' }
 };
 
 function showToolUpgradeModal(reason, slug) {
@@ -259,7 +259,7 @@ function _gemCacheHash(str) {
                     console.log('[Gemini Cache] HIT', key);
                     return { data: JSON.parse(hit), error: null };
                 }
-            } catch {}
+            } catch { }
 
             // API call
             let res = await _invoke(fn, opts);
@@ -279,7 +279,7 @@ function _gemCacheHash(str) {
                         await window.supabaseClient.auth.signOut({ scope: 'local' });
                         res = await _invoke(fn, { ...opts, _retried: true });
                     }
-                } catch {}
+                } catch { }
             }
 
             // Detect edge function errors returned as 200 (error wrapped in data)
@@ -308,7 +308,7 @@ function _gemCacheHash(str) {
                             const k = sessionStorage.key(i);
                             if (k?.startsWith('tms_gc_')) { sessionStorage.removeItem(k); break; }
                         }
-                        try { sessionStorage.setItem(key, JSON.stringify(res.data)); } catch {}
+                        try { sessionStorage.setItem(key, JSON.stringify(res.data)); } catch { }
                     }
                 }
             }
@@ -371,7 +371,7 @@ function renderResumePrompt(container, onSubmit) {
     document.getElementById('global-resume-submit').addEventListener('click', () => {
         const text = document.getElementById('global-resume-paste').value.trim();
         if (!text) return;
-        try { localStorage.setItem('tms_last_resume', JSON.stringify({ text, name: 'Pasted Resume' })); } catch(e) {}
+        try { localStorage.setItem('tms_last_resume', JSON.stringify({ text, name: 'Pasted Resume' })); } catch (e) { }
         if (onSubmit) onSubmit(text);
     });
 }
@@ -533,7 +533,7 @@ function getSectionDragAfterElement(container, y) {
 }
 
 function initResultTheme() {
-    const saved = localStorage.getItem(THEME_STORAGE) || 'light';
+    const saved = localStorage.getItem(THEME_STORAGE) || 'dark';
     document.body.setAttribute('data-theme', saved);
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.innerHTML = saved === 'dark'

@@ -13,13 +13,13 @@
     padding: 1.75rem;
     margin-bottom: 1.5rem;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--brutal-shadow);
 }
 
 .briefing-card:hover {
     transform: translateY(-2px);
     border-color: var(--primary-color);
-    box-shadow: 4px 4px 0px color-mix(in srgb, var(--primary-color) 20%, transparent);
+    box-shadow: var(--brutal-shadow-hover);
 }
 
 /* Editorial Typography for Briefing Output */

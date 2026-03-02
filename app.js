@@ -131,7 +131,7 @@ function initDOMReferences() {
 let state = {
     currentStep: 1,
     model: 'gemini-3-flash-preview',
-    theme: localStorage.getItem(THEME_STORAGE) || 'light',
+    theme: localStorage.getItem(THEME_STORAGE) || 'dark',
     resumeText: '',
     jobText: '',
     applicantName: '',
