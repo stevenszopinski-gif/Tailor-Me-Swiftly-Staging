@@ -1293,12 +1293,18 @@ Format your response exactly like this:
           // functions.invoke may return parsed JSON or a string
           const result = (typeof data === 'string') ? JSON.parse(data) : data;
           if (result?.error) throw new Error(result.error);
-          if (!result?.audioUrl) throw new Error('No audio URL returned');
+          if (!result?.audioBase64) throw new Error('No audio data returned');
 
-          ttsCache[qIdx] = result.audioUrl;
+          // Convert base64 to Blob URL for reliable playback
+          const raw = atob(result.audioBase64);
+          const bytes = new Uint8Array(raw.length);
+          for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+          const blob = new Blob([bytes], { type: 'audio/mpeg' });
+          const blobUrl = URL.createObjectURL(blob);
+          ttsCache[qIdx] = blobUrl;
 
           // Reuse the warmed audio element — autoplay is already unlocked
-          warmAudio.src = result.audioUrl;
+          warmAudio.src = blobUrl;
           currentAudio = warmAudio;
           btn.disabled = false;
           btn.classList.add('speaking');
@@ -1519,9 +1525,9 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
   </script>
 
   <footer class="site-footer" role="contentinfo">
-    <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
     <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
         href="security.html">Security Policy</a></p>
+    <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
   </footer>
   <script>
     // Theme persistence
