@@ -31,6 +31,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.min.js"></script>
     <style>
+        /* ═══ PAGE-LEVEL OVERRIDES ═══ */
+        .app-container {
+            max-width: none;
+            padding: 0;
+            min-height: auto;
+        }
+
+        .app-header {
+            padding: 0.75rem 1.25rem;
+            background: var(--panel-bg);
+            background-image: none;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
         /* ═══ EDITOR LAYOUT ═══ */
         .editor-layout {
             display: flex;
@@ -1875,14 +1889,7 @@
                 .replace(/<h3(.*?)>/g, `<h3$1 style="color: ${styles.getPropertyValue('--r-h3-color').trim() || '#151821'}; font-size: 10pt;">`)
                 .replace(/<p(.*?)>/g, `<p$1 style="color: ${activeText}; margin-bottom: 6pt;">`)
                 .replace(/<span class="rdoc-date"(.*?)>/g, `<span class="rdoc-date"$1 style="color: #666; float: right; font-size: 9pt;">`);
-            const docHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:${activeFont};line-height:${styles.getPropertyValue('--r-spacing') || '1.65'};color:${activeText};} ul{margin-top:4pt;padding-left:20pt;} li{margin-bottom:4pt;color:${activeText};} strong{color:${styles.getPropertyValue('--r-h1-color').trim() || activeAccent};}</style></head><body>${inlineResumeHTML}<script>
-    // Theme persistence
-    (function() {
-        var t = localStorage.getItem('ats_theme_preference');
-        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
-    })();
-    </script>
-</body></html>`;
+            const docHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:${activeFont};line-height:${styles.getPropertyValue('--r-spacing') || '1.65'};color:${activeText};} ul{margin-top:4pt;padding-left:20pt;} li{margin-bottom:4pt;color:${activeText};} strong{color:${styles.getPropertyValue('--r-h1-color').trim() || activeAccent};}</style></head><body>${inlineResumeHTML}</body></html>`;
             saveAsBlob(htmlDocx.asBlob(docHtml), filename);
         });
 
