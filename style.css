@@ -44,6 +44,39 @@
     --grid-color: rgba(255, 255, 255, 0.05);
 }
 
+[data-theme="light"] {
+    /* "Tailor's Pattern Paper" Theme */
+    --bg-color: #F4F1ED;
+    --wool-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    
+    --panel-bg: #FFFFFF; 
+    --panel-border: rgba(0, 0, 0, 0.15); /* Faded Pencil */
+    --chalk-bright: rgba(0, 0, 0, 0.9); /* Hard Ink */
+    
+    --primary-color: #8A9A86; /* Sage Green */
+    --primary-hover: #9CB298;
+    --accent-color: #E07A5F; /* Terracotta */
+    
+    --text-primary: #2C302E; /* Charcoal */
+    --text-secondary: #707572; /* Faded Ink */
+    
+    --input-bg: rgba(255, 255, 255, 0.5); 
+    --input-border: 2px dashed rgba(0, 0, 0, 0.2); 
+    
+    --glass-bg: #FFFFFF;
+    --dropdown-bg: #F4F1ED;
+    --disabled-bg: #EAE6DF;
+    --disabled-text: rgba(0, 0, 0, 0.4);
+    --btn-primary-text: #FFFFFF;
+    
+    --grid-color: rgba(0, 0, 0, 0.05);
+
+    /* Subtle shadow flip for light mode */
+    --brutal-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+    --brutal-shadow-hover: 4px 4px 0px rgba(0,0,0,0.25);
+}
+
+
 body {
     background-color: var(--bg-color);
     background-image: var(--wool-texture);
