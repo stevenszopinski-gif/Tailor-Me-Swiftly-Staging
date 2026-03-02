@@ -5,8 +5,61 @@
     <link>https://tailormeswiftly.com</link>
     <description>Latest updates and new features for TailorMeSwiftly.com — the AI-powered resume tailoring tool.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 Feb 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 02 Mar 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://tailormeswiftly.com/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>v5.6.0 — Mobile Overhaul &amp; Performance</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v5.6.0</guid>
+      <pubDate>Mon, 02 Mar 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Mobile-First Resume Editor:</strong> The resume editor now collapses its sidebar navigation and editing panel into a compact overlay on phones, making the full editor usable on screens as small as 320px.</li>
+          <li><strong>Responsive Grids Everywhere:</strong> Score cards, insight panels, and output grids on the Results page now properly stack and resize on small screens.</li>
+          <li><strong>Touch-Friendly Targets:</strong> All dropdown items, buttons, and interactive controls now meet the 44px minimum touch target size on mobile.</li>
+          <li><strong>Ultra-Small Phone Support:</strong> Added a new 428px breakpoint with tighter padding, smaller modals, and optimized spacing for compact phones.</li>
+          <li><strong>Fixed Horizontal Scroll:</strong> Eliminated a viewport-wide horizontal scroll caused by background elements.</li>
+          <li><strong>iOS Zoom Prevention:</strong> Text inputs no longer trigger Safari's auto-zoom on focus.</li>
+          <li><strong>Faster App Loading:</strong> PDF.js, Mammoth, and html2pdf libraries now lazy-load only when needed.</li>
+          <li><strong>Server-Side Response Caching:</strong> Resume and interview prep calls now cache results server-side for instant repeat responses.</li>
+          <li><strong>Smarter Daily Briefings:</strong> Deduplication for users with identical interests and opt-in-only processing.</li>
+        </ul>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>v5.5.0 — Briefing Settings, Tone Previews &amp; Smart Features</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v5.5.0</guid>
+      <pubDate>Sun, 01 Mar 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Briefing Settings Page:</strong> Full settings hub with Interests and Settings tabs for tone, delivery, sources, and more.</li>
+          <li><strong>Tone Preview Examples:</strong> Each briefing tone shows a live example snippet before generating.</li>
+          <li><strong>Follow-up Q&amp;A Chat:</strong> Ask follow-up questions about your briefing with multi-turn AI conversation.</li>
+          <li><strong>"Catch Me Up" Cards:</strong> Get a reverse-chronological timeline of how a story developed.</li>
+          <li><strong>Recommended Interests:</strong> Suggested topic chips including trending topics and picks from your job applications.</li>
+          <li><strong>Plain English Mode:</strong> Toggle to replace jargon and acronyms with simple language.</li>
+          <li><strong>Daily Email Briefing:</strong> Automatic email delivery of your briefing every morning.</li>
+        </ul>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>v5.4.0 — Pill Navigation &amp; Free Tier Clarity</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v5.4.0</guid>
+      <pubDate>Sat, 28 Feb 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Pill-Based Navigation:</strong> The product switcher now uses a sleek pill-based segmented control.</li>
+          <li><strong>1 Free Application:</strong> Clarified the free tier — your first application is completely free.</li>
+          <li><strong>Dashboard Focus:</strong> The dashboard is now the central hub for the platform.</li>
+          <li><strong>UI Polish:</strong> Removed the persistent lock icon on the Tailor step when you have a free generation available.</li>
+        </ul>
+      ]]></description>
+    </item>
 
     <item>
       <title>v5.3.0 — Blog, Referrals, Accessibility &amp; Performance</title>

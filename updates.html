@@ -314,10 +314,29 @@
     // ── Release notes data ──
     const releases = [
       {
+        version: 'v5.6.0',
+        title: 'Mobile Overhaul & Performance',
+        date: 'Mar 2, 2026',
+        current: true,
+        items: [
+          '<strong>Mobile-First Resume Editor:</strong> The resume editor now collapses its sidebar navigation and editing panel into a compact overlay on phones, making the full editor usable on screens as small as 320px.',
+          '<strong>Responsive Grids Everywhere:</strong> Score cards, insight panels, and output grids on the Results page now properly stack and resize on small screens instead of overflowing.',
+          '<strong>Touch-Friendly Targets:</strong> All dropdown items, buttons, and interactive controls now meet the 44px minimum touch target size on mobile devices.',
+          '<strong>Ultra-Small Phone Support:</strong> Added a new 428px breakpoint with tighter padding, smaller modals, and optimized spacing for compact phones.',
+          '<strong>Fixed Horizontal Scroll:</strong> Eliminated a viewport-wide horizontal scroll caused by the background noise layer and other fixed-width elements.',
+          '<strong>Mobile Login &amp; Signup:</strong> Login and signup forms now fit comfortably on small screens with reduced padding, and password toggle buttons are properly touch-sized.',
+          '<strong>iOS Zoom Prevention:</strong> Text inputs no longer trigger Safari&rsquo;s auto-zoom on focus &mdash; all form fields use a 16px minimum font size on mobile.',
+          '<strong>Responsive Briefing Sidebar:</strong> The daily briefing layout now collapses to a single column on tablets and phones, with full-width settings inputs.',
+          '<strong>On-Demand Briefing Audio:</strong> Briefing audio now plays only when you tap the listen button instead of auto-playing on page load, saving bandwidth and reducing costs.',
+          '<strong>Faster App Loading:</strong> PDF.js, Mammoth, and html2pdf libraries now lazy-load only when needed, cutting initial page weight significantly.',
+          '<strong>Server-Side Response Caching:</strong> Resume section extraction and interview prep calls now cache results server-side, so repeated analyses return instantly.',
+          '<strong>Smarter Daily Briefings:</strong> The briefing engine now deduplicates generation for users with identical interests and only processes briefings for active users, reducing background processing.'
+        ]
+      },
+      {
         version: 'v5.5.0',
         title: 'Briefing Settings, Tone Previews & Smart Features',
         date: 'Mar 1, 2026',
-        current: true,
         items: [
           '<strong>Briefing Settings Page:</strong> The "Edit Interests" page is now a full <strong>Briefing Settings</strong> hub with two tabs &mdash; <em>Interests</em> (manage, add, or import topics) and <em>Settings</em> (tone, delivery, sources, and more).',
           '<strong>Tone Preview Examples:</strong> Each briefing tone (Public Radio Host, Morning Brew, Executive Summary, Deep Dive) now shows a live example snippet so you know exactly what to expect before generating.',
