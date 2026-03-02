@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
@@ -893,13 +893,34 @@
       <!-- Scripts -->
       <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
 
-      <!-- Parser Libraries -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+      <!-- Parser Libraries (lazy-loaded on first use to reduce initial page weight ~350KB) -->
       <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        (function () {
+          var libs = {};
+          function loadScript(url) {
+            if (libs[url]) return libs[url];
+            libs[url] = new Promise(function (resolve, reject) {
+              var s = document.createElement('script');
+              s.src = url;
+              s.onload = resolve;
+              s.onerror = function () { reject(new Error('Failed to load ' + url)); };
+              document.head.appendChild(s);
+            });
+            return libs[url];
+          }
+          window._loadPdfJs = function () {
+            return loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js').then(function () {
+              pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            });
+          };
+          window._loadMammoth = function () {
+            return loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+          };
+          window._loadHtml2Pdf = function () {
+            return loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js');
+          };
+        })();
       </script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
       <script src="brand-config.js"></script>
       <script src="auth.js?v=15"></script>

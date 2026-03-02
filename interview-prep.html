@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   
   <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css?v=16">
@@ -677,6 +677,14 @@
     initResultTheme();
     initResultAuth();
 
+    // Simple hash for server-side cache keys
+    function _ipHash(str) {
+      let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+      for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+      h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507); h2 = Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+      return (Math.abs((h1 ^ h2) >>> 0)).toString(36) + Math.abs(h2 >>> 0).toString(36);
+    }
+
     let outputs, currentQ = 0, questions = [], visitedQs = new Set(),
       mediaRecorder, audioChunks = [], flashcardMode = false;
 
@@ -711,6 +719,8 @@
           const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
             body: {
               model: 'gemini-3-flash-preview',
+              cacheKey: 'ip-q-' + _ipHash(outputs.resumeText + '|' + outputs.jobText),
+              cacheTtlSeconds: 86400,
               systemInstruction: {
                 parts: [{
                   text: `Generate exactly 10 role-specific interview questions with ideal answer frameworks based on the resume and job description provided. Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown, no backticks.`
@@ -1075,6 +1085,8 @@ Format your response exactly like this:
           const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
             body: {
               model: 'gemini-3-flash-preview',
+              cacheKey: 'ip-fb-' + _ipHash(questionText + '|' + text),
+              cacheTtlSeconds: 86400,
               systemInstruction: { parts: [{ text: sysPrompt }] },
               contents: [{
                 parts: [{ text: `Question: ${questionText}\n\nCandidate's Answer: ${text}` }]

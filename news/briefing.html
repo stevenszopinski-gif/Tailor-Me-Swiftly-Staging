@@ -1139,8 +1139,6 @@
                 } else {
                     const audioContainer = document.getElementById('audio-container');
                     if (audioContainer) { audioContainer.style.display = 'none'; audioContainer.innerHTML = ''; }
-                    // Auto-generate audio if none exists for this briefing
-                    setTimeout(() => { listenToBriefing(); }, 500);
                 }
             } else {
                 // No briefing for this date — show placeholder
@@ -2862,8 +2860,6 @@ FORMAT — use this EXACT HTML:
             } else {
                 const audioContainer = document.getElementById('audio-container');
                 if (audioContainer) { audioContainer.style.display = 'none'; audioContainer.innerHTML = ''; }
-                // Auto-generate audio if none exists
-                setTimeout(() => { listenToBriefing(); }, 500);
             }
         })();
 

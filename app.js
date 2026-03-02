@@ -604,6 +604,7 @@ Keep real metrics. Max 5 jobs, 3 education, 15 skills. NEVER invent email, phone
 }
 
 async function extractTextFromPDF(file) {
+    if (typeof pdfjsLib === 'undefined') await window._loadPdfJs();
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     let text = '';
@@ -618,6 +619,7 @@ async function extractTextFromPDF(file) {
 }
 
 async function extractTextFromDOCX(file) {
+    if (typeof mammoth === 'undefined') await window._loadMammoth();
     const arrayBuffer = await file.arrayBuffer();
     const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
     return result.value;
@@ -712,12 +714,13 @@ function handleCopy(e) {
     }
 }
 
-function handleDownloadPDF(e) {
+async function handleDownloadPDF(e) {
     const btn = e.target.closest('button');
     const targetId = btn.dataset.target;
     const targetEl = document.getElementById(targetId);
 
     if (!targetEl.innerHTML.trim()) return;
+    if (typeof html2pdf === 'undefined') await window._loadHtml2Pdf();
 
     // Generate dynamic filename
     const dateStr = new Date().toISOString().split('T')[0];
@@ -1158,7 +1161,7 @@ OUTPUT FORMAT: Exactly 2 fenced code blocks in order. NO other text.
                     model: state.model,
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: userPrompt }] }],
-                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 3072 }
                 }
             }),
             90000 // 90 second timeout for main generation
@@ -1364,7 +1367,7 @@ async function processRefinement() {
                 model: state.model,
                 systemInstruction: { parts: [{ text: systemPrompt }] },
                 contents: contents,
-                generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
+                generationConfig: { temperature: 0.7, maxOutputTokens: 3072 }
             }
         });
 
@@ -1903,7 +1906,7 @@ RULES:
                     model: 'gemini-3-flash-preview',
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: userPrompt }] }],
-                    generationConfig: { temperature: 0.1, maxOutputTokens: 4096 }
+                    generationConfig: { temperature: 0.1, maxOutputTokens: 3072 }
                 }
             }),
             30000
