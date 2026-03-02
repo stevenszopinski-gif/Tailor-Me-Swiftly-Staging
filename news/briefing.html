@@ -889,7 +889,7 @@
 
         // ── Tone Preview Examples ──
         const toneExamples = {
-            'npr': '<strong>Example:</strong> "Good morning. Let\'s start with what\'s moving markets today. The Federal Reserve signaled a pause on rate hikes, and investors are cautiously optimistic. Here\'s what that means for your portfolio..."',
+            'npr': '<strong>Example:</strong> "Let\'s start with what\'s moving markets today. The Federal Reserve signaled a pause on rate hikes, and investors are cautiously optimistic. Here\'s what that means for your portfolio..."',
             'morning-brew': '<strong>Example:</strong> "The Fed just hit the brakes on rate hikes and Wall Street is throwing a party. Meanwhile, your savings account is side-eyeing the whole situation. Let\'s break down who actually wins here..."',
             'executive': '<strong>Example:</strong> "<strong>Fed holds rates steady</strong> — signaling potential cuts in Q3. <strong>Impact:</strong> Bond yields fell 12bps; tech sector rallied 2.1%. <strong>Action:</strong> Review fixed-income allocation..."',
             'deep-dive': '<strong>Example:</strong> "The Federal Reserve\'s decision to maintain the federal funds rate at 5.25-5.50% marks the third consecutive hold, reflecting a nuanced shift in the FOMC\'s assessment of core PCE inflation trajectories..."'
@@ -2173,7 +2173,7 @@ STRUCTURE (use ALL sections in this order):
 4. THE BOTTOM LINE — 2-3 actionable takeaways. What to watch, what to do, what to think about.
 
 FORMAT — use this EXACT HTML:
-- Opener: <p class="briefing-thesis"><strong>GOOD MORNING:</strong> Your punchy hook here.</p>
+- Opener: <p class="briefing-thesis">Hey {NAME}, your punchy hook here.</p>
 - Section headers: <h3>The Big Story:</h3>, <h3>Quick Hits:</h3>, <h3>The Bottom Line:</h3>
 - Body: <p>Short paragraphs. Use <strong>bold</strong> for key facts. Cite sources with <a href="ARTICLE_URL" target="_blank" rel="noopener" class="briefing-cite">[Source Name]</a>.</p>
 - Quick hits: <ul><li><strong>Bold lead-in:</strong> One-two sentence summary with citation.</li></ul>
@@ -2226,7 +2226,7 @@ VOICE & TONE:
 - NO parentheses, abbreviations, or symbols that sound awkward read aloud. Write "percent" not "%", "dollar" not "$"
 
 STRUCTURE (use ALL sections in this order):
-1. OPENING — A warm, hooky 1-2 sentence opener that pulls the listener in. Think "Good morning — here's something that might change your week."
+1. OPENING — A warm, hooky 1-2 sentence opener that pulls the listener in. Greet the reader by first name if provided (e.g. "Hey Steve, here's something that might change your week."). Never say "Good morning" or any time-of-day greeting.
 2. THE BIG STORY — 2-3 short paragraphs telling the main narrative. Explicitly state WHY this impacts their specific work. Use transitions ("Here's why that matters to you..."). Keep paragraphs to 2-3 sentences.
 3. WHAT ELSE IS HAPPENING — 2-4 quick-hit items. Each is a mini-story in 1-2 sentences with a bold visual lead-in but written to flow naturally when read aloud. Briefly tie each to their interests.
 4. YOUR TAKEAWAY — 2-3 direct, actionable points written as advice. Start with verbs. ("Watch for...", "Keep an eye on...", "Consider...")
@@ -2261,7 +2261,7 @@ FORMAT — use this EXACT HTML:
                     `Title: ${a.title}\nSource: ${a.source}\nDate: ${a.publishedAt}\nDescription: ${a.description}\nURL: ${a.url}`
                 ).join('\n\n---\n\n');
 
-                const nameClause = userName ? `The reader's name is ${userName}. Address them by name in your opening line. ` : '';
+                const nameClause = userName ? `The reader's name is ${userName}. Greet them by first name in your opening line (e.g. "Hey ${userName}, ..."). Do NOT use "Good morning" or any time-of-day greeting. ` : '';
                 const userPrompt = `${nameClause}Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
 
                 console.log('[generateBriefing] Calling Gemini with tone:', tone);
@@ -2857,7 +2857,7 @@ FORMAT — use this EXACT HTML:
                 // Add spoken intro with personalized greeting
                 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                 const firstName = (session.user?.user_metadata?.full_name || '').split(' ')[0] || '';
-                const greeting = firstName ? `Hello ${firstName}, let's take a look at today's briefing. ` : '';
+                const greeting = firstName ? `Hey ${firstName}, let's take a look at today's briefing. ` : '';
                 briefingText = `${greeting}Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
 
                 const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 5000) });
