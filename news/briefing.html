@@ -1083,19 +1083,12 @@
                 showBriefing(briefing.briefing_html, briefing.interests || extractedInterests, briefing.sources || []);
                 // Restore audio if cached
                 if (briefing.audio_url && briefing.audio_url.startsWith('http')) {
-                    const audioContainer = document.getElementById('audio-container');
-                    if (audioContainer) {
-                        audioContainer.innerHTML = '<audio id="briefing-audio" controls style="width:100%;border-radius:8px;"></audio>';
-                        document.getElementById('briefing-audio').src = briefing.audio_url;
-                        audioContainer.style.display = 'block';
-                        const listenBtn = document.getElementById('listen-btn');
-                        if (listenBtn) listenBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
-                    }
+                    playAudioUrl(briefing.audio_url);
                 } else {
                     const audioContainer = document.getElementById('audio-container');
                     if (audioContainer) { audioContainer.style.display = 'none'; audioContainer.innerHTML = ''; }
-                    const listenBtn = document.getElementById('listen-btn');
-                    if (listenBtn) listenBtn.innerHTML = '<i class="fa-solid fa-play"></i> Listen';
+                    // Auto-generate audio if none exists for this briefing
+                    setTimeout(() => { listenToBriefing(); }, 500);
                 }
             } else {
                 // No briefing for this date — show placeholder
