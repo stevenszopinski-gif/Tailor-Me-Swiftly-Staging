@@ -398,6 +398,7 @@
 </head>
 
 <body>
+    <div class="bg-noise"></div>
     <a href="#main-content" class="skip-nav">Skip to main content</a>
     <!-- Generic background blobs removed for starker layout -->
 
@@ -452,87 +453,67 @@
 
     <main id="main-content" class="hp-main">
 
-        <!-- ═══════ HERO ═══════ -->
-        <section class="hp-hero">
-            <h2>Every Career Move.<br><span class="hp-gradient">Tailored.</span></h2>
-            <p class="hp-hero-sub">Paste any job description. Our AI tailors your resume, cover letter, and interview
-                prep in 60 seconds &mdash; not hours.</p>
-            <div style="margin-bottom: 1rem;">
-                <a href="login.html" class="hp-hero-cta"
-                    style="background: var(--primary-color); color: var(--btn-primary-text); box-shadow: var(--accent-glow); border-color: transparent;">
-                    <i class="fa-solid fa-arrow-right"></i> Enter TailorMeSwiftly
-                </a>
-            </div>
-            <div class="hp-hero-note">
-                <span><i class="fa-solid fa-ban" style="color: #ef4444;"></i> No credit card required</span>
-                <span><i class="fa-solid fa-bolt" style="color: #eab308;"></i> 30+ AI tools included</span>
-                <span><i class="fa-solid fa-shield-halved" style="color: var(--primary-color);"></i> Your data stays
-                    private</span>
+        
+        <!-- ═══════ HERO & EDITORIAL HUB ═══════ -->
+        <section style="padding: 6rem 0 3rem; text-align: left; max-width: 1200px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem;">
+            <p style="font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; border-bottom: 1px solid var(--text-primary); padding-bottom: 1rem; display: inline-block;">TailorMeSwiftly // Application Engine [v2.0]</p>
+            <h2 class="display-xl">Break the <br>algorithm.<br><span>Not your spirit.</span></h2>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; justify-content: space-between; border-top: 1px solid var(--text-primary); padding-top: 2rem; margin-top: 4rem;">
+                <p style="font-size: 1.25rem; max-width: 500px; color: var(--text-secondary); line-height: 1.6;">
+                    The job market is broken. Stop sending generic resumes into the void. Our AI reverse-engineers the ATS, crafting hyper-tailored applications that force human recruiters to pay attention.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <a href="login.html" class="btn primary-btn" style="border-radius: 0; padding: 1rem 2.5rem; font-size: 1.1rem; box-shadow: 4px 4px 0px var(--text-primary); border: 1px solid var(--text-primary);">
+                        Enter the Engine <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right;">[No Credit Card. 30+ Tools]</p>
+                </div>
             </div>
         </section>
 
-
-        <!-- ═══════ PRODUCT HUB ═══════ -->
-        <section style="padding: 3rem 0; border-top: 1px solid var(--panel-border);">
-            <div class="hp-section-head">
-                <h2>One Platform. Three Ways to Get Ahead.</h2>
-                <p>One account gives you access to our entire suite of professional tools.</p>
-            </div>
-            <div class="product-hub-grid">
-                <a href="app.html" class="product-hub-card"
-                    style="--card-color:#10b981;text-decoration:none;color:inherit;text-align:left;">
-                    <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i
-                            class="fa-solid fa-clipboard"></i></div>
-                    <span
-                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:rgba(16,185,129,0.12);color:#10b981;margin-bottom:0.5rem;">30+
-                        Tools</span>
-                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Application</h3>
-                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI
-                        resume tailoring, cover letters, mock interviews, and 30+ tools to land your next role.</p>
-                    <span class="btn ghost-btn"
-                        style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Learn More
-                        <i class="fa-solid fa-arrow-right"></i></span>
-                </a>
-                <a href="learning.html" class="product-hub-card"
-                    style="--card-color:#8b5cf6;text-decoration:none;color:inherit;text-align:left;opacity:0.8;">
-                    <div class="card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i
-                            class="fa-solid fa-graduation-cap"></i></div>
-                    <span
-                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:4px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:var(--bg-primary);border:1px solid #8b5cf6;color:#8b5cf6;margin-bottom:0.5rem;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Coming
-                        Soon</span>
-                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor My Learning</h3>
-                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">AI
-                        builds a hyper-personalized curriculum based on what you already know and what you need next.
+        <!-- ═══════ ASYMMETRICAL HUB ═══════ -->
+        <section style="padding: 0 2rem;">
+            <div class="asym-product-hub">
+                <a href="app.html" class="asym-card asym-card-main" style="text-decoration: none; color: inherit; background: var(--text-primary); color: #F4F1ED;">
+                    <div class="label" style="color: var(--primary-color);">
+                        <span>[01] Core</span>
+                        <span>LIVE</span>
+                    </div>
+                    <img src="app-mockup.png" style="width: 100%; filter: grayscale(100%); mix-blend-mode: screen; opacity: 0.8; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.2);" alt="App UI">
+                    <h3 style="color: #F4F1ED; font-size: 2.5rem;">Tailor My Application</h3>
+                    <p style="color: rgba(244, 241, 237, 0.7); font-size: 1.1rem; max-width: 400px; margin-bottom: 2rem;">
+                        Our flagship application engine. Instantly rewrite your resume, draft bespoke cover letters, and run simulated voice interviews based on the exact job description.
                     </p>
-                    <span class="btn ghost-btn"
-                        style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Join
-                        Waitlist
-                        <i class="fa-solid fa-arrow-right"></i></span>
+                    <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto;">ACCESS SUITE &rarr;</span>
                 </a>
-                <a href="news.html" class="product-hub-card"
-                    style="--card-color:#3b82f6;text-decoration:none;color:inherit;text-align:left;">
-                    <div class="card-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i
-                            class="fa-solid fa-newspaper"></i></div>
-                    <span
-                        style="display:inline-block;padding:0.2rem 0.6rem;border-radius:4px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:var(--bg-primary);border:1px solid #3b82f6;color:#3b82f6;margin-bottom:0.5rem;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">New</span>
-                    <h3 style="margin:0 0 0.5rem;font-size:1.15rem;">Tailor The News</h3>
-                    <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.5;margin:0 0 1rem;">
-                        5-minute daily intelligence briefings curated for your industry, role, and goals. Listen as a
-                        podcast.</p>
-                    <span class="btn ghost-btn"
-                        style="font-size:0.85rem;width:100%;text-align:center;margin-top:auto;">Learn More
-                        <i class="fa-solid fa-arrow-right"></i></span>
+
+                <a href="news.html" class="asym-card" style="text-decoration: none; color: inherit; background: var(--panel-bg);">
+                    <div class="label" style="color: var(--text-secondary);">
+                        <span>[02] Intelligence</span>
+                        <span>NEW</span>
+                    </div>
+                     <h3 style="font-size: 1.8rem; letter-spacing: -0.02em;">Tailor The News</h3>
+                     <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
+                         A daily 5-minute technical briefing curated specifically for your career goals, bypassing generic headlines for actionable intelligence. Listen as a podcast.
+                     </p>
+                     <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">READ BRIEFING &rarr;</span>
+                </a>
+
+                <a href="learning.html" class="asym-card" style="text-decoration: none; color: inherit; background: #EAE6DF;">
+                    <div class="label" style="color: var(--text-secondary);">
+                        <span>[03] Upskill</span>
+                        <span>WAITLIST</span>
+                    </div>
+                     <h3 style="font-size: 1.8rem; letter-spacing: -0.02em; color: var(--text-primary);">Tailor My Learning</h3>
+                     <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
+                         A hyper-personalized curriculum mapping exactly what you need to learn to bridge the gap to your next senior role.
+                     </p>
+                     <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">JOIN WAITLIST &rarr;</span>
                 </a>
             </div>
         </section>
-
-        <!-- Ad Unit -->
-        <div style="text-align:center;margin:1.5rem auto;max-width:728px;">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7832382680038641" data-ad-slot="auto"
-                data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-
+        
         <!-- ═══════ PLATFORM PILLARS ═══════ -->
 
         <!-- 1. Tailor My Application -->

@@ -2395,3 +2395,93 @@ button[data-action="download"] {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
     z-index: 100;
 }
+/* Phase 3: Editorial Typography */
+.display-xl {
+    font-family: var(--font-heading);
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    text-transform: none;
+}
+
+.display-xl span {
+    color: var(--accent-color);
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* Hard architectural borders and asymmetric padding */
+.editorial-border-top {
+    border-top: 1px solid var(--text-primary);
+    padding-top: 4rem;
+}
+.editorial-border-bottom {
+    border-bottom: 1px solid var(--text-primary);
+    padding-bottom: 4rem;
+}
+
+.bg-noise {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Asymmetric Product Hub Layout */
+.asym-product-hub {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+}
+
+@media (min-width: 900px) {
+    .asym-product-hub {
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto auto;
+    }
+    .asym-card-main {
+        grid-row: span 2;
+    }
+}
+
+.asym-card {
+    background: var(--panel-bg);
+    border: 1px solid var(--text-primary);
+    border-radius: 0; /* Brutalist sharp corners */
+    padding: 2.5rem;
+    position: relative;
+    box-shadow: 4px 4px 0px var(--text-primary);
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.asym-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px var(--text-primary);
+}
+
+.asym-card h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.asym-card .label {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
