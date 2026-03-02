@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
+    <meta name="description" content="Skill Trees — gamified learning paths for resume mastery, interview skills, and networking. Track your progress on TailorMeSwiftly.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <title>Skill Trees | TailorMeSwiftly</title>
+    <link rel="stylesheet" href="../style.css?v=17">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ── Skill Trees Page ── */
+        .skill-trees-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+
+        .skill-trees-hero {
+            text-align: center;
+            padding: 2rem 0 2.5rem;
+        }
+
+        .skill-trees-hero h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-trees-hero p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* ── Overall Progress Bar ── */
+        .overall-progress {
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
+            box-shadow: var(--brutal-shadow);
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .overall-progress-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .overall-progress-bar {
+            flex: 1;
+            height: 10px;
+            background: var(--input-bg);
+            border: 1px dashed var(--panel-border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .overall-progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            transition: width 0.4s ease;
+            border-radius: 1px;
+        }
+
+        .overall-progress-pct {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--success-color);
+            min-width: 40px;
+            text-align: right;
+        }
+
+        /* ── Tree Container ── */
+        .skill-tree {
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
+            box-shadow: var(--brutal-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tree-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed var(--panel-border);
+        }
+
+        .skill-tree-title {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .skill-tree-title h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .skill-tree-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--brutal-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            border: 1px dashed var(--panel-border);
+            box-shadow: var(--brutal-shadow);
+            flex-shrink: 0;
+        }
+
+        .tree-progress-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tree-progress-bar {
+            width: 80px;
+            height: 6px;
+            background: var(--input-bg);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .tree-progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            transition: width 0.4s ease;
+        }
+
+        .tree-progress-text {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 32px;
+            text-align: right;
+        }
+
+        /* ── Node Chain ── */
+        .skill-chain {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .skill-chain-step {
+            display: flex;
+            align-items: stretch;
+            position: relative;
+        }
+
+        /* Connector line between nodes */
+        .skill-connector {
+            width: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .skill-connector-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px dashed var(--panel-border);
+            background: var(--panel-bg);
+            flex-shrink: 0;
+            z-index: 1;
+            transition: all 0.2s;
+        }
+
+        .skill-connector-line {
+            width: 2px;
+            flex: 1;
+            border-left: 2px dashed var(--panel-border);
+            transition: border-color 0.2s;
+        }
+
+        /* Completed connector styling */
+        .skill-chain-step.step-completed .skill-connector-dot {
+            border-color: var(--success-color);
+            background: var(--success-color);
+        }
+
+        .skill-chain-step.step-completed .skill-connector-line {
+            border-left-color: var(--success-color);
+        }
+
+        /* Last step has no trailing line */
+        .skill-chain-step:last-child .skill-connector-line {
+            display: none;
+        }
+
+        /* ── Skill Node (extends style.css .skill-node) ── */
+        .skill-node {
+            flex: 1;
+            margin: 0.35rem 0;
+            padding: 0.65rem 1rem;
+            position: relative;
+            user-select: none;
+        }
+
+        .skill-node:hover:not(.locked) {
+            border-color: var(--chalk-bright);
+            box-shadow: var(--brutal-shadow-hover);
+            transform: translate(-1px, -1px);
+        }
+
+        .skill-node .node-index {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            min-width: 20px;
+        }
+
+        .skill-node .node-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .skill-node .node-icon {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .skill-node.completed .node-icon {
+            color: var(--success-color);
+        }
+
+        .skill-node.locked .node-icon {
+            color: var(--disabled-text);
+        }
+
+        .skill-node.locked .node-label {
+            color: var(--disabled-text);
+        }
+
+        .skill-node.locked .node-index {
+            color: var(--disabled-text);
+        }
+
+        /* ── Completion celebration flash ── */
+        @keyframes nodeComplete {
+            0% { box-shadow: 0 0 0 0 rgba(163, 220, 167, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(163, 220, 167, 0); }
+            100% { box-shadow: var(--brutal-shadow); }
+        }
+
+        .skill-node.just-completed {
+            animation: nodeComplete 0.5s ease-out;
+        }
+
+        /* ── Tree complete badge ── */
+        .tree-complete-badge {
+            display: none;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.7rem;
+            background: rgba(163, 220, 167, 0.12);
+            border: 1px dashed var(--success-color);
+            border-radius: var(--brutal-radius);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--success-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tree-complete-badge.visible {
+            display: inline-flex;
+        }
+
+        /* ── Back link ── */
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .back-link a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .back-link a:hover {
+            color: var(--text-primary);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .skill-trees-hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .overall-progress {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .overall-progress-label {
+                width: 100%;
+            }
+
+            .skill-tree {
+                padding: 1rem;
+            }
+
+            .skill-tree-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .tree-progress-bar {
+                width: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container">
+        <header class="app-header" role="banner">
+            <div class="logo">
+                <a href="../index.html" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">
+                    <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
+                    <h1>TailorMeSwiftly</h1>
+                </a>
+            </div>
+            <div id="product-switcher" class="product-switcher"></div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <a href="../login.html" id="login-btn" class="btn ghost-btn" style="font-size:0.85rem;">Log In</a>
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden"></div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content" class="skill-trees-page">
+            <!-- Hero -->
+            <div class="skill-trees-hero">
+                <div style="width:64px;height:64px;border-radius:var(--brutal-radius);border:2px dashed var(--accent-color);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.6rem;color:var(--accent-color);box-shadow:var(--brutal-shadow);">
+                    <i class="fa-solid fa-sitemap"></i>
+                </div>
+                <h2>Skill Trees</h2>
+                <p>Level up your job search. Complete each node to unlock the next skill and track your mastery across three career paths.</p>
+            </div>
+
+            <!-- Overall Progress -->
+            <div class="overall-progress">
+                <span class="overall-progress-label">Total Progress</span>
+                <div class="overall-progress-bar">
+                    <div class="overall-progress-fill" id="overall-fill" style="width:0%"></div>
+                </div>
+                <span class="overall-progress-pct" id="overall-pct">0%</span>
+            </div>
+
+            <!-- ── Tree 1: Resume Mastery ── -->
+            <div class="skill-tree" data-tree="resume">
+                <div class="skill-tree-header">
+                    <div class="skill-tree-title">
+                        <div class="skill-tree-icon" style="background:rgba(163,196,220,0.1);color:var(--primary-color);">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <div>
+                            <h3>Resume Mastery</h3>
+                            <span style="font-size:0.72rem;color:var(--text-secondary);font-family:var(--font-mono);">7 skills</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span class="tree-complete-badge" id="badge-resume"><i class="fa-solid fa-crown"></i> Mastered</span>
+                        <div class="tree-progress-info">
+                            <div class="tree-progress-bar"><div class="tree-progress-fill" id="bar-resume" style="width:0%"></div></div>
+                            <span class="tree-progress-text" id="pct-resume">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-chain" id="chain-resume">
+                    <div class="skill-chain-step" data-node="resume-0">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Basic Formatting">
+                            <span class="node-index">01</span>
+                            <span class="node-label">Basic Formatting</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="resume-1">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="ATS Keywords">
+                            <span class="node-index">02</span>
+                            <span class="node-label">ATS Keywords</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="resume-2">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Quantified Achievements">
+                            <span class="node-index">03</span>
+                            <span class="node-label">Quantified Achievements</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="resume-3">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Action Verbs">
+                            <span class="node-index">04</span>
+                            <span class="node-label">Action Verbs</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="resume-4">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Tailoring per Job">
+                            <span class="node-index">05</span>
+                            <span class="node-label">Tailoring per Job</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="resume-5">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Executive Summary">
+                            <span class="node-index">06</span>
+                            <span class="node-label">Executive Summary</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="resume-6">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Portfolio Links">
+                            <span class="node-index">07</span>
+                            <span class="node-label">Portfolio Links</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Tree 2: Interview Skills ── -->
+            <div class="skill-tree" data-tree="interview">
+                <div class="skill-tree-header">
+                    <div class="skill-tree-title">
+                        <div class="skill-tree-icon" style="background:rgba(227,168,179,0.1);color:var(--accent-color);">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <div>
+                            <h3>Interview Skills</h3>
+                            <span style="font-size:0.72rem;color:var(--text-secondary);font-family:var(--font-mono);">6 skills</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span class="tree-complete-badge" id="badge-interview"><i class="fa-solid fa-crown"></i> Mastered</span>
+                        <div class="tree-progress-info">
+                            <div class="tree-progress-bar"><div class="tree-progress-fill" id="bar-interview" style="width:0%"></div></div>
+                            <span class="tree-progress-text" id="pct-interview">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-chain" id="chain-interview">
+                    <div class="skill-chain-step" data-node="interview-0">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Research Company">
+                            <span class="node-index">01</span>
+                            <span class="node-label">Research Company</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="interview-1">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="STAR Method">
+                            <span class="node-index">02</span>
+                            <span class="node-label">STAR Method</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="interview-2">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Behavioral Questions">
+                            <span class="node-index">03</span>
+                            <span class="node-label">Behavioral Questions</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="interview-3">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Technical Prep">
+                            <span class="node-index">04</span>
+                            <span class="node-label">Technical Prep</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="interview-4">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Salary Negotiation">
+                            <span class="node-index">05</span>
+                            <span class="node-label">Salary Negotiation</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="interview-5">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Thank You Follow-up">
+                            <span class="node-index">06</span>
+                            <span class="node-label">Thank You Follow-up</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Tree 3: Networking ── -->
+            <div class="skill-tree" data-tree="networking">
+                <div class="skill-tree-header">
+                    <div class="skill-tree-title">
+                        <div class="skill-tree-icon" style="background:rgba(163,220,167,0.1);color:var(--success-color);">
+                            <i class="fa-solid fa-people-group"></i>
+                        </div>
+                        <div>
+                            <h3>Networking</h3>
+                            <span style="font-size:0.72rem;color:var(--text-secondary);font-family:var(--font-mono);">5 skills</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span class="tree-complete-badge" id="badge-networking"><i class="fa-solid fa-crown"></i> Mastered</span>
+                        <div class="tree-progress-info">
+                            <div class="tree-progress-bar"><div class="tree-progress-fill" id="bar-networking" style="width:0%"></div></div>
+                            <span class="tree-progress-text" id="pct-networking">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-chain" id="chain-networking">
+                    <div class="skill-chain-step" data-node="networking-0">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="LinkedIn Profile">
+                            <span class="node-index">01</span>
+                            <span class="node-label">LinkedIn Profile</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="networking-1">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Cold Outreach">
+                            <span class="node-index">02</span>
+                            <span class="node-label">Cold Outreach</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="networking-2">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Informational Interviews">
+                            <span class="node-index">03</span>
+                            <span class="node-label">Informational Interviews</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="networking-3">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Industry Events">
+                            <span class="node-index">04</span>
+                            <span class="node-label">Industry Events</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                    <div class="skill-chain-step" data-node="networking-4">
+                        <div class="skill-connector"><div class="skill-connector-dot"></div><div class="skill-connector-line"></div></div>
+                        <div class="skill-node" role="button" tabindex="0" aria-label="Referral Strategy">
+                            <span class="node-index">05</span>
+                            <span class="node-label">Referral Strategy</span>
+                            <span class="node-icon"><i class="fa-regular fa-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back link -->
+            <div class="back-link">
+                <a href="../index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </main>
+
+        <footer class="site-footer" role="contentinfo"></footer>
+    </div>
+
+    <script>window.TMS_PATH_PREFIX = '../';</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="../brand-config.js"></script>
+    <script src="../auth.js?v=15"></script>
+    <script src="../components.js"></script>
+    <script src="../shared/analytics.js"></script>
+    <script src="../shared/sticky-header.js"></script>
+    <script src="../shared/streaks.js"></script>
+    <script src="../shared/command-palette.js"></script>
+    <script>
+        /* ──────────────────────────────────────────────
+         *  Skill Trees — Progress Engine
+         * ────────────────────────────────────────────── */
+        (function () {
+            'use strict';
+
+            var STORAGE_KEY = 'tms_skill_progress';
+
+            // Tree definitions — order matters for progressive unlock
+            var TREES = {
+                resume: [
+                    'Basic Formatting',
+                    'ATS Keywords',
+                    'Quantified Achievements',
+                    'Action Verbs',
+                    'Tailoring per Job',
+                    'Executive Summary',
+                    'Portfolio Links'
+                ],
+                interview: [
+                    'Research Company',
+                    'STAR Method',
+                    'Behavioral Questions',
+                    'Technical Prep',
+                    'Salary Negotiation',
+                    'Thank You Follow-up'
+                ],
+                networking: [
+                    'LinkedIn Profile',
+                    'Cold Outreach',
+                    'Informational Interviews',
+                    'Industry Events',
+                    'Referral Strategy'
+                ]
+            };
+
+            // ── State ──
+
+            function loadProgress() {
+                try {
+                    var raw = localStorage.getItem(STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : {};
+                } catch (e) {
+                    return {};
+                }
+            }
+
+            function saveProgress(progress) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+                } catch (e) {
+                    // localStorage unavailable — silently fail
+                }
+            }
+
+            // ── Rendering ──
+
+            function isNodeCompleted(progress, treeId, index) {
+                return !!(progress[treeId] && progress[treeId][index]);
+            }
+
+            function isNodeUnlocked(progress, treeId, index) {
+                // First node is always unlocked
+                if (index === 0) return true;
+                // Unlocked if the previous node is completed
+                return isNodeCompleted(progress, treeId, index - 1);
+            }
+
+            function getTreeCompletedCount(progress, treeId) {
+                if (!progress[treeId]) return 0;
+                var count = 0;
+                var total = TREES[treeId].length;
+                for (var i = 0; i < total; i++) {
+                    if (progress[treeId][i]) count++;
+                }
+                return count;
+            }
+
+            function renderAllTrees() {
+                var progress = loadProgress();
+                var totalNodes = 0;
+                var totalCompleted = 0;
+
+                var treeIds = Object.keys(TREES);
+                for (var t = 0; t < treeIds.length; t++) {
+                    var treeId = treeIds[t];
+                    var skills = TREES[treeId];
+                    var chain = document.getElementById('chain-' + treeId);
+                    if (!chain) continue;
+
+                    var steps = chain.querySelectorAll('.skill-chain-step');
+                    var completedCount = 0;
+
+                    for (var i = 0; i < steps.length; i++) {
+                        var step = steps[i];
+                        var node = step.querySelector('.skill-node');
+                        var iconEl = step.querySelector('.node-icon i');
+                        var completed = isNodeCompleted(progress, treeId, i);
+                        var unlocked = isNodeUnlocked(progress, treeId, i);
+
+                        // Reset classes
+                        node.classList.remove('completed', 'locked');
+                        step.classList.remove('step-completed');
+
+                        if (completed) {
+                            node.classList.add('completed');
+                            step.classList.add('step-completed');
+                            completedCount++;
+                            if (iconEl) {
+                                iconEl.className = 'fa-solid fa-circle-check';
+                            }
+                        } else if (!unlocked) {
+                            node.classList.add('locked');
+                            if (iconEl) {
+                                iconEl.className = 'fa-solid fa-lock';
+                            }
+                        } else {
+                            // Unlocked but not completed
+                            if (iconEl) {
+                                iconEl.className = 'fa-regular fa-circle';
+                            }
+                        }
+                    }
+
+                    // Update tree progress bar
+                    var pct = skills.length > 0 ? Math.round((completedCount / skills.length) * 100) : 0;
+                    var barEl = document.getElementById('bar-' + treeId);
+                    var pctEl = document.getElementById('pct-' + treeId);
+                    var badgeEl = document.getElementById('badge-' + treeId);
+
+                    if (barEl) barEl.style.width = pct + '%';
+                    if (pctEl) pctEl.textContent = pct + '%';
+                    if (badgeEl) {
+                        if (completedCount === skills.length && skills.length > 0) {
+                            badgeEl.classList.add('visible');
+                        } else {
+                            badgeEl.classList.remove('visible');
+                        }
+                    }
+
+                    totalNodes += skills.length;
+                    totalCompleted += completedCount;
+                }
+
+                // Update overall progress
+                var overallPct = totalNodes > 0 ? Math.round((totalCompleted / totalNodes) * 100) : 0;
+                var overallFill = document.getElementById('overall-fill');
+                var overallPctEl = document.getElementById('overall-pct');
+                if (overallFill) overallFill.style.width = overallPct + '%';
+                if (overallPctEl) overallPctEl.textContent = overallPct + '%';
+            }
+
+            // ── Click / Keyboard Handlers ──
+
+            function handleNodeInteraction(treeId, index) {
+                var progress = loadProgress();
+                var unlocked = isNodeUnlocked(progress, treeId, index);
+
+                if (!unlocked) return; // Can't interact with locked nodes
+
+                // Initialize tree object if needed
+                if (!progress[treeId]) progress[treeId] = {};
+
+                var wasCompleted = !!progress[treeId][index];
+
+                if (wasCompleted) {
+                    // Uncomplete this node and all nodes after it (cascade lock)
+                    var skills = TREES[treeId];
+                    for (var i = index; i < skills.length; i++) {
+                        delete progress[treeId][i];
+                    }
+
+                    // Track uncomplete event
+                    if (typeof window.trackEvent === 'function') {
+                        window.trackEvent('skill_tree', 'uncomplete_node', treeId + ':' + TREES[treeId][index]);
+                    }
+                } else {
+                    // Complete this node
+                    progress[treeId][index] = true;
+
+                    // Track complete event
+                    if (typeof window.trackEvent === 'function') {
+                        window.trackEvent('skill_tree', 'complete_node', treeId + ':' + TREES[treeId][index]);
+                    }
+
+                    // Check if tree is now fully completed
+                    var allDone = true;
+                    for (var j = 0; j < TREES[treeId].length; j++) {
+                        if (!progress[treeId][j]) { allDone = false; break; }
+                    }
+                    if (allDone && typeof window.trackEvent === 'function') {
+                        window.trackEvent('skill_tree', 'complete_tree', treeId);
+                    }
+
+                    // Flash animation
+                    var chain = document.getElementById('chain-' + treeId);
+                    if (chain) {
+                        var steps = chain.querySelectorAll('.skill-chain-step');
+                        if (steps[index]) {
+                            var node = steps[index].querySelector('.skill-node');
+                            if (node) {
+                                node.classList.add('just-completed');
+                                setTimeout(function () {
+                                    node.classList.remove('just-completed');
+                                }, 500);
+                            }
+                        }
+                    }
+                }
+
+                saveProgress(progress);
+                renderAllTrees();
+            }
+
+            // ── Init ──
+
+            function init() {
+                // Bind click handlers to all skill nodes
+                var treeIds = Object.keys(TREES);
+                for (var t = 0; t < treeIds.length; t++) {
+                    var treeId = treeIds[t];
+                    var chain = document.getElementById('chain-' + treeId);
+                    if (!chain) continue;
+
+                    var steps = chain.querySelectorAll('.skill-chain-step');
+                    for (var i = 0; i < steps.length; i++) {
+                        (function (tid, idx) {
+                            var step = steps[idx];
+                            var node = step.querySelector('.skill-node');
+                            if (!node) return;
+
+                            node.addEventListener('click', function () {
+                                handleNodeInteraction(tid, idx);
+                            });
+
+                            node.addEventListener('keydown', function (e) {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    handleNodeInteraction(tid, idx);
+                                }
+                            });
+                        })(treeId, i);
+                    }
+                }
+
+                // Initial render
+                renderAllTrees();
+
+                // Track page view
+                if (typeof window.trackEvent === 'function') {
+                    window.trackEvent('page', 'view', 'skill-trees');
+                }
+            }
+
+            // Run when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+
+</html>

@@ -34,9 +34,9 @@
         .time-block { position: relative; margin-bottom: 1.5rem; }
         .time-block::before { content: ''; position: absolute; left: -1.65rem; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #6366f1; border: 2px solid var(--panel-bg); }
         .time-label { font-size: 0.75rem; font-weight: 700; color: #818cf8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; }
-        .time-content { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 1rem; font-size: 0.9rem; line-height: 1.6; }
+        .time-content { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1rem; font-size: 0.9rem; line-height: 1.6; }
         .time-content strong { color: var(--text-primary); }
-        .insight-box { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; padding: 1.25rem; margin-top: 2rem; }
+        .insight-box { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.2); border-radius: 4px; padding: 1.25rem; margin-top: 2rem; }
     </style>
 </head>
 
@@ -156,7 +156,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             }
 
             if (result.hiddenChallenges && result.hiddenChallenges.length > 0) {
-                html += `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:1.25rem;margin-top:1rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-eye" style="color:#f59e0b;margin-right:0.4rem;"></i> Hidden Challenges</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+                html += `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius: 4px;padding:1.25rem;margin-top:1rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-eye" style="color:#f59e0b;margin-right:0.4rem;"></i> Hidden Challenges</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
                 result.hiddenChallenges.forEach(c => { html += `<li>${c}</li>`; });
                 html += `</ul></div>`;
             }
@@ -173,6 +173,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

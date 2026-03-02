@@ -30,7 +30,7 @@
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
         .email-output { background: #fff; color: #111; border-radius: 8px; padding: 2rem; min-height: 200px; outline: none; line-height: 1.75; font-family: Georgia, serif; }
         [data-theme="dark"] .email-output { background: rgba(255,255,255,0.04); color: var(--text-primary); border: 1px solid var(--panel-border); }
-        .scenario-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .scenario-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; }
         .scenario-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 1px solid var(--panel-border); border-radius: 10px; cursor: pointer; margin-bottom: 0.5rem; transition: all 0.2s; }
         .scenario-option:hover { border-color: var(--primary-color); background: rgba(99,102,241,0.05); }
         .scenario-option.selected { border-color: var(--primary-color); background: rgba(99,102,241,0.1); }
@@ -164,7 +164,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
         function renderResponse(result) {
             const container = document.getElementById('response-output');
-            let html = `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:1rem;margin-bottom:1rem;">
+            let html = `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius: 4px;padding:1rem;margin-bottom:1rem;">
                 <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;"><i class="fa-solid fa-brain" style="color:#8b5cf6;margin-right:0.3rem;"></i> <strong>Strategy:</strong> ${result.strategy}</p>
             </div>`;
 
@@ -177,11 +177,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
             </div>`;
 
             html += `<div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
-                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;">
+                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1rem;">
                     <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-solid fa-clock" style="color:#f59e0b;margin-right:0.3rem;"></i> Follow Up</h4>
                     <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.followUpTiming}</p>
                 </div>
-                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;">
+                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1rem;">
                     <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-brands fa-linkedin" style="color:#0077b5;margin-right:0.3rem;"></i> LinkedIn Action</h4>
                     <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.linkedinAction}</p>
                 </div>
@@ -199,6 +199,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

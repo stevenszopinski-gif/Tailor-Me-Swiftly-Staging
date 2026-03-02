@@ -36,7 +36,7 @@
             background: rgba(var(--surface-color-rgb), 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
+            border-radius: 4px;
             border: 1px solid rgba(var(--border-color-rgb), 0.5);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -199,6 +199,13 @@
         </div>
     </div>
 
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

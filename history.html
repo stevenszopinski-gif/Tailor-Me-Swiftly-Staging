@@ -84,7 +84,7 @@
             flex-direction: column;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            border-radius: 4px;
             padding: 0.75rem;
             transition: border-color 0.2s, background 0.2s;
         }
@@ -161,7 +161,7 @@
         .kanban-card {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 12px;
+            border-radius: 4px;
             padding: 0.85rem;
             cursor: grab;
             transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s, opacity 0.15s;
@@ -237,7 +237,7 @@
         }
 
         .card-badge.has {
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(138, 154, 134, 0.12);
             color: #34d399;
             border-color: rgba(16, 185, 129, 0.2);
         }
@@ -350,7 +350,7 @@
             max-width: 480px;
             background: var(--dropdown-bg, var(--panel-bg));
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            border-radius: 4px;
             box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
             overflow: hidden;
         }
@@ -582,7 +582,7 @@
         </div>
 
         <div id="reminder-banner"
-            style="display:none;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.35);border-radius:12px;padding:0.85rem 1.2rem;margin:0 1.5rem 1rem;color:var(--text-primary);font-size:0.88rem;">
+            style="display:none;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.35);border-radius: 4px;padding:0.85rem 1.2rem;margin:0 1.5rem 1rem;color:var(--text-primary);font-size:0.88rem;">
             <i class="fa-solid fa-bell" style="color:#f59e0b;margin-right:0.4rem;"></i>
             <strong>Overdue follow-ups:</strong> <span id="reminder-list"></span>
         </div>
@@ -1332,6 +1332,13 @@
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

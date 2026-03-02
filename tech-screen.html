@@ -28,12 +28,12 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
     <style>
         .result-page { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .challenge-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .challenge-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; }
         .difficulty-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
         .difficulty-badge.easy { background: rgba(16,185,129,0.1); color: #10b981; }
         .difficulty-badge.medium { background: rgba(245,158,11,0.1); color: #f59e0b; }
         .difficulty-badge.hard { background: rgba(239,68,68,0.1); color: #ef4444; }
-        .ide-container { border: 1px solid var(--panel-border); border-radius: 12px; overflow: hidden; margin-bottom: 1.25rem; }
+        .ide-container { border: 1px solid var(--panel-border); border-radius: 4px; overflow: hidden; margin-bottom: 1.25rem; }
         .ide-header { background: rgba(0,0,0,0.3); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; }
         .ide-header span { font-size: 0.8rem; font-weight: 600; }
         .ide-textarea { width: 100%; min-height: 300px; padding: 1rem; border: none; background: #1e1e2e; color: #cdd6f4; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6; resize: vertical; outline: none; box-sizing: border-box; }
@@ -41,7 +41,7 @@
         .timer-display { font-size: 1.3rem; font-weight: 700; font-family: 'Outfit', monospace; }
         .timer-display.warning { color: #f59e0b; }
         .timer-display.danger { color: #ef4444; }
-        .review-section { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; }
+        .review-section { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; }
         .review-metric { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
         .review-metric:last-child { border-bottom: none; }
     </style>
@@ -306,6 +306,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

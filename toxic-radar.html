@@ -28,7 +28,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .radar-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+        .radar-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; }
         .toxicity-meter { text-align: center; margin-bottom: 1.5rem; }
         .toxicity-score { font-size: 4rem; font-weight: 800; font-family: 'Outfit', sans-serif; line-height: 1; }
         .toxicity-bar { height: 12px; border-radius: 6px; background: var(--panel-border); margin: 1rem auto; max-width: 400px; overflow: hidden; }
@@ -221,7 +221,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                 html += `</ul></div>`;
             }
 
-            html += `<div style="background:var(--glass-bg);border:2px solid ${color};border-radius:16px;padding:1.5rem;text-align:center;">
+            html += `<div style="background:var(--glass-bg);border:2px solid ${color};border-radius: 4px;padding:1.5rem;text-align:center;">
                 <p style="font-size:0.95rem;margin:0;line-height:1.6;">${result.bottomLine}</p>
             </div>`;
 
@@ -239,6 +239,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

@@ -156,7 +156,7 @@
         .callout-box {
             background: linear-gradient(135deg, rgba(var(--primary-rgb, 99, 91, 255), 0.08), rgba(var(--accent-rgb, 99, 91, 255), 0.04));
             border: 1px solid var(--primary-color);
-            border-radius: 12px;
+            border-radius: 4px;
             padding: 1.5rem;
             margin: 2rem 0;
         }
@@ -382,6 +382,13 @@
         </footer>
     </div>
 
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "TailorMeSwiftly - Auto Job Capture",
+    "version": "1.0.0",
+    "description": "Capture job descriptions from any job board and auto-fill TailorMeSwiftly",
+    "permissions": ["activeTab", "storage"],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icon.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.linkedin.com/jobs/*",
+                "*://*.indeed.com/*",
+                "*://*.greenhouse.io/*",
+                "*://*.lever.co/*"
+            ],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ],
+    "icons": {
+        "48": "icon.png",
+        "128": "icon.png"
+    }
+}

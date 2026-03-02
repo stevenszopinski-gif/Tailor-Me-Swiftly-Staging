@@ -199,7 +199,7 @@
         .cta-block {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            border-radius: 4px;
             padding: 2rem;
             margin: 3rem 0 1.5rem;
             text-align: center;
@@ -498,6 +498,13 @@
     <script src="../brand-config.js"></script>
     <script src="../auth.js?v=15"></script>
     <script src="../error-utils.js"></script>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

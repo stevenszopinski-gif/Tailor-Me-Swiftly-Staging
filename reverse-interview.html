@@ -28,7 +28,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .question-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
+        .question-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
         .q-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; margin-bottom: 0.75rem; }
         .q-category.weakness { background: rgba(239,68,68,0.1); color: #ef4444; }
         .q-category.culture { background: rgba(99,102,241,0.1); color: #6366f1; }
@@ -162,7 +162,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             let html = '';
 
             if (result.companyIntel) {
-                html += `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">
+                html += `<div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius: 4px;padding:1.25rem;margin-bottom:1.5rem;">
                     <h3 style="margin:0 0 0.5rem;font-size:0.95rem;"><i class="fa-solid fa-satellite-dish" style="color:#8b5cf6;margin-right:0.4rem;"></i> Company Intel</h3>
                     <p style="font-size:0.9rem;color:var(--text-secondary);margin:0;line-height:1.6;">${result.companyIntel}</p>
                 </div>`;
@@ -195,6 +195,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

@@ -29,7 +29,7 @@
         crossorigin="anonymous"></script>
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .hook-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; transition: border-color 0.2s; cursor: pointer; }
+        .hook-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; transition: border-color 0.2s; cursor: pointer; }
         .hook-card:hover { border-color: #f97316; }
         .hook-card.selected { border-color: #f97316; box-shadow: 0 0 0 1px #f97316; }
         .hook-number { position: absolute; top: -8px; left: 1rem; background: linear-gradient(135deg, #f97316, #fb923c); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; }
@@ -37,7 +37,7 @@
         .hook-why { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
         .hook-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
         .hook-actions button { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
-        .bad-opener { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 1rem; margin-bottom: 2rem; text-align: center; }
+        .bad-opener { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; padding: 1rem; margin-bottom: 2rem; text-align: center; }
         .bad-opener .bad-text { font-style: italic; color: #ef4444; text-decoration: line-through; font-size: 0.9rem; }
     </style>
 </head>
@@ -183,6 +183,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

@@ -259,7 +259,7 @@
 
         /* ── Heatmap Styles ── */
         .heatmap-active .hm-high {
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(138, 154, 134, 0.18);
             box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
             border-bottom: 2px solid #10b981;
             position: relative;
@@ -819,7 +819,7 @@
         .modal-inner {
             background: var(--bg-color, #1a1a2e);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            border-radius: 4px;
             padding: 1.5rem;
             max-width: 500px;
             width: 90%;
@@ -985,7 +985,7 @@
                 </div>
                 <div class="panel-body">
                     <div
-                        style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px;">
+                        style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(138, 154, 134, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 4px;">
                         <div
                             style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
                             <span style="font-size: 0.9rem; font-weight: 600;"><i class="fa-solid fa-fire"
@@ -1189,7 +1189,7 @@
                 <div class="panel-body">
                     <!-- Cultural Tone -->
                     <div
-                        style="margin-bottom:1.5rem;padding:1rem;background:rgba(244,114,182,0.05);border:1px solid rgba(244,114,182,0.2);border-radius:12px;">
+                        style="margin-bottom:1.5rem;padding:1rem;background:rgba(244,114,182,0.05);border:1px solid rgba(244,114,182,0.2);border-radius: 4px;">
                         <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
                                 class="fa-solid fa-heart-pulse" style="color:#f472b6;margin-right:0.4rem;"></i>Cultural
                             Tone</div>
@@ -1201,7 +1201,7 @@
 
                     <!-- Red Flags -->
                     <div
-                        style="margin-bottom:1.5rem;padding:1rem;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:12px;">
+                        style="margin-bottom:1.5rem;padding:1rem;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius: 4px;">
                         <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
                                 class="fa-solid fa-triangle-exclamation"
                                 style="color:#ef4444;margin-right:0.4rem;"></i>Red Flags</div>
@@ -1213,7 +1213,7 @@
 
                     <!-- Burnout Check -->
                     <div
-                        style="padding:1rem;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);border-radius:12px;">
+                        style="padding:1rem;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);border-radius: 4px;">
                         <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;"><i
                                 class="fa-solid fa-shield-halved" style="color:#f59e0b;margin-right:0.4rem;"></i>Burnout
                             Check</div>
@@ -1875,7 +1875,14 @@
                 .replace(/<h3(.*?)>/g, `<h3$1 style="color: ${styles.getPropertyValue('--r-h3-color').trim() || '#1a1a2e'}; font-size: 10pt;">`)
                 .replace(/<p(.*?)>/g, `<p$1 style="color: ${activeText}; margin-bottom: 6pt;">`)
                 .replace(/<span class="rdoc-date"(.*?)>/g, `<span class="rdoc-date"$1 style="color: #666; float: right; font-size: 9pt;">`);
-            const docHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:${activeFont};line-height:${styles.getPropertyValue('--r-spacing') || '1.65'};color:${activeText};} ul{margin-top:4pt;padding-left:20pt;} li{margin-bottom:4pt;color:${activeText};} strong{color:${styles.getPropertyValue('--r-h1-color').trim() || activeAccent};}</style></head><body>${inlineResumeHTML}</body></html>`;
+            const docHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:${activeFont};line-height:${styles.getPropertyValue('--r-spacing') || '1.65'};color:${activeText};} ul{margin-top:4pt;padding-left:20pt;} li{margin-bottom:4pt;color:${activeText};} strong{color:${styles.getPropertyValue('--r-h1-color').trim() || activeAccent};}</style></head><body>${inlineResumeHTML}<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
+</body></html>`;
             saveAsBlob(htmlDocx.asBlob(docHtml), filename);
         });
 
@@ -2189,6 +2196,13 @@ Return ONLY the JSON object, nothing else.`;
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
                 href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

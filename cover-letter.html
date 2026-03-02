@@ -187,7 +187,7 @@
     <div id="refine-modal"
         style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;">
         <div
-            style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:20px;padding:2rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
+            style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:2rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
                 <h3 style="margin:0;"><i class="fa-solid fa-wand-magic-sparkles"
                         style="color:var(--primary-color);margin-right:0.5rem;"></i>Refine Your Cover Letter</h3>
@@ -359,7 +359,14 @@ Clean semantic HTML only. No markdown formatting.`;
                 </style>
                 </head><body>
                 ${coverEl.innerHTML}
-                </body></html>
+                <script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
+</body></html>
             `;
 
             const converted = htmlDocx.asBlob(docHtml);
@@ -405,6 +412,13 @@ Clean semantic HTML only. No markdown formatting.`;
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

@@ -37,7 +37,7 @@
 
         .rn-item {
             border: 1px solid var(--panel-border);
-            border-radius: 12px;
+            border-radius: 4px;
             background: var(--glass-bg);
             overflow: hidden;
             transition: border-color 0.2s;
@@ -99,7 +99,7 @@
         }
 
         .rn-badge.current {
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(138, 154, 134, 0.18);
             color: var(--success-color);
         }
 
@@ -585,6 +585,13 @@
 
         // Initial render
         renderPage(1);
+    </script>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
     </script>
 </body>
 

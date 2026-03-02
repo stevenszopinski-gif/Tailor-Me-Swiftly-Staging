@@ -28,8 +28,8 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .tactic-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
-        .tactic-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
+        .tactic-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; position: relative; }
+        .tactic-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 4px 16px 0 0; }
         .tactic-card.high::before { background: linear-gradient(90deg, #ef4444, #f97316); }
         .tactic-card.medium::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
         .tactic-card.low::before { background: linear-gradient(90deg, #10b981, #34d399); }
@@ -182,7 +182,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             const dm = result.decisionMaker || {};
             const confidenceColor = dm.confidence === 'high' ? '#10b981' : dm.confidence === 'medium' ? '#f59e0b' : '#ef4444';
 
-            html += `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">`;
+            html += `<div style="background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1.25rem;margin-bottom:1.5rem;">`;
             html += `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;text-align:center;margin-bottom:1rem;">`;
             html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Target</div><strong>${result.company}</strong></div>`;
             html += `<div><div style="font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.08em;">Decision Maker</div><strong>${dm.name || 'Unknown'}</strong><div style="font-size:0.75rem;color:var(--text-secondary);">${dm.title || ''}</div></div>`;
@@ -219,7 +219,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
             });
 
             if (result.warningNote) {
-                html += `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:1rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;margin-right:0.3rem;"></i> ${result.warningNote}</div>`;
+                html += `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius: 4px;padding:1rem;text-align:center;font-size:0.8rem;color:var(--text-secondary);"><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;margin-right:0.3rem;"></i> ${result.warningNote}</div>`;
             }
 
             html += `<div style="text-align:center;margin-top:1.5rem;"><button class="btn ghost-btn" onclick="generateTactics()"><i class="fa-solid fa-rotate"></i> Regenerate Tactics</button></div>`;
@@ -237,6 +237,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

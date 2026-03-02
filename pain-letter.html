@@ -31,7 +31,7 @@
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
         .pain-output { background: #fff; color: #111; border-radius: 8px; padding: 2.5rem; min-height: 300px; outline: none; line-height: 1.75; font-family: Georgia, serif; }
         [data-theme="dark"] .pain-output { background: rgba(255,255,255,0.04); color: var(--text-primary); border: 1px solid var(--panel-border); }
-        .pain-insight { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.2); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+        .pain-insight { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.2); border-radius: 4px; padding: 1.25rem; margin-bottom: 1.5rem; }
     </style>
 </head>
 
@@ -152,6 +152,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

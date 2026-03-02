@@ -18,7 +18,7 @@
             background: rgba(var(--primary-color-rgb), 0.1);
             border: 1px solid var(--primary-color);
             padding: 2rem;
-            border-radius: 16px;
+            border-radius: 4px;
             text-align: center;
         }
 
@@ -74,7 +74,7 @@
             </div>
         </header>
 
-        <main id="main-content" class="glass-panel" style="padding: 2rem; border-radius: 20px;" id="admin-content">
+        <main id="main-content" class="glass-panel" style="padding: 2rem; border-radius: 4px;" id="admin-content">
             <div id="loading" style="text-align: center; padding: 4rem;">
                 <i class="fa-solid fa-spinner fa-spin fa-2x" style="color: var(--primary-color);"></i>
                 <p style="margin-top: 1rem; color: var(--text-secondary);">Verifying Admin Credentials...</p>
@@ -230,6 +230,13 @@
                 console.error("Admin fetch error: ", e);
             }
         });
+    </script>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
     </script>
 </body>
 

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 340px;
+            min-height: 280px;
+            background: #151821;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            padding: 1.25rem;
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+        }
+
+        .popup-logo {
+            width: 28px;
+            height: 28px;
+            border: 2px dashed #A3C4DC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.65rem;
+            color: #A3C4DC;
+            letter-spacing: 0.05em;
+            transform: rotate(-3deg);
+            flex-shrink: 0;
+        }
+
+        .popup-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #A3C4DC;
+        }
+
+        .popup-subtitle {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .capture-btn {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #A3C4DC;
+            color: #151821;
+            border: 1px dashed rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            font-family: inherit;
+        }
+
+        .capture-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        .capture-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .capture-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-area {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.5);
+            min-height: 60px;
+            max-height: 140px;
+            overflow-y: auto;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .status-area.has-data {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .status-area .status-label {
+            color: #A3C4DC;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .open-tms-btn {
+            display: block;
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.6rem 1rem;
+            background: transparent;
+            color: #A3C4DC;
+            border: 1px dashed rgba(163, 196, 220, 0.4);
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.15s, border-color 0.15s;
+            font-family: inherit;
+        }
+
+        .open-tms-btn:hover {
+            background: rgba(163, 196, 220, 0.1);
+            border-color: #A3C4DC;
+        }
+
+        .open-tms-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .unsupported-msg {
+            margin-top: 0.75rem;
+            padding: 0.6rem;
+            background: rgba(227, 168, 179, 0.1);
+            border: 1px dashed rgba(227, 168, 179, 0.3);
+            border-radius: 4px;
+            font-size: 0.78rem;
+            color: #E3A8B3;
+            line-height: 1.5;
+        }
+
+        .supported-sites {
+            margin-top: 0.75rem;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            line-height: 1.6;
+        }
+
+        .supported-sites strong {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-header">
+        <div class="popup-logo">TMS</div>
+        <div>
+            <div class="popup-title">TailorMeSwiftly</div>
+            <div class="popup-subtitle">Job Capture Extension</div>
+        </div>
+    </div>
+
+    <button id="capture-btn" class="capture-btn">Capture Job Description</button>
+
+    <div id="status-area" class="status-area">
+        Navigate to a job posting and click "Capture" to extract the job details.
+    </div>
+
+    <button id="open-tms-btn" class="open-tms-btn" disabled>Open in TailorMeSwiftly</button>
+
+    <div class="supported-sites">
+        <strong>Supported:</strong> LinkedIn Jobs, Indeed, Greenhouse, Lever
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

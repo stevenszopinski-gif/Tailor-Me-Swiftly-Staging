@@ -38,7 +38,7 @@
         .signal-icon.red { background: rgba(239,68,68,0.1); color: #ef4444; }
         .signal-icon.yellow { background: rgba(245,158,11,0.1); color: #f59e0b; }
         .signal-icon.green { background: rgba(16,185,129,0.1); color: #10b981; }
-        .recommendation-box { background: var(--glass-bg); border: 2px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
+        .recommendation-box { background: var(--glass-bg); border: 2px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
     </style>
 </head>
 
@@ -199,6 +199,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

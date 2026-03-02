@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
+    <meta name="description" content="Interactive salary heatmap showing median compensation by state for top career roles. Compare cost of living and pay across the US.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:url" content="https://tailormeswiftly.com/tools/salary-map.html">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="canonical" href="https://tailormeswiftly.com/tools/salary-map.html">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+    <title>Salary Heatmap – TailorMeSwiftly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css?v=17">
+    <link rel="stylesheet" href="../templates.css">
+    <style>
+        .tool-page { max-width: 1000px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+        .tool-header { text-align: center; margin-bottom: 2rem; }
+        .tool-header h1 { font-size: 1.6rem; margin: 0 0 0.5rem; }
+        .tool-header p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
+
+        .controls-bar {
+            display: flex; gap: 1rem; align-items: center; justify-content: center;
+            margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+        .controls-bar label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+        .controls-bar select {
+            padding: 0.5rem 0.75rem; border: var(--brutal-border); border-radius: var(--brutal-radius);
+            background: var(--input-bg); color: var(--text-primary); font-family: var(--font-family);
+            font-size: 0.85rem; box-shadow: var(--brutal-shadow); cursor: pointer;
+        }
+
+        .map-container {
+            background: var(--glass-bg); border: 1px dashed var(--panel-border);
+            border-radius: var(--brutal-radius); padding: 1.5rem; margin-bottom: 1.5rem;
+            box-shadow: var(--brutal-shadow); position: relative; overflow: hidden;
+        }
+        .map-container svg { width: 100%; height: auto; display: block; }
+        .map-container svg path {
+            stroke: var(--panel-border); stroke-width: 0.5; cursor: pointer;
+            transition: opacity 0.2s ease, stroke-width 0.2s ease;
+        }
+        .map-container svg path:hover { opacity: 0.85; stroke-width: 1.5; stroke: var(--text-primary); }
+
+        .salary-tooltip {
+            position: absolute; pointer-events: none; background: var(--panel-bg);
+            border: 1px dashed var(--panel-border); border-radius: var(--brutal-radius);
+            padding: 0.75rem 1rem; box-shadow: var(--brutal-shadow); z-index: 100;
+            font-size: 0.8rem; line-height: 1.5; display: none; min-width: 180px;
+        }
+        .salary-tooltip .tt-state { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; color: var(--text-primary); }
+        .salary-tooltip .tt-salary { color: var(--accent-color); font-family: var(--font-mono); font-weight: 600; }
+        .salary-tooltip .tt-col { color: var(--text-secondary); font-size: 0.75rem; }
+
+        .legend-bar {
+            display: flex; align-items: center; gap: 0.5rem; justify-content: center;
+            margin-top: 1rem; flex-wrap: wrap;
+        }
+        .legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; color: var(--text-secondary); }
+        .legend-swatch { width: 16px; height: 12px; border-radius: 2px; border: 1px solid var(--panel-border); }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem; margin-top: 1.5rem;
+        }
+        .stat-card {
+            background: var(--glass-bg); border: 1px dashed var(--panel-border);
+            border-radius: var(--brutal-radius); padding: 1rem; text-align: center;
+            box-shadow: var(--brutal-shadow);
+        }
+        .stat-card .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+        .stat-card .stat-value { font-size: 1.4rem; font-weight: 700; font-family: var(--font-mono); color: var(--primary-color); }
+        .stat-card .stat-sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+        @media (max-width: 600px) {
+            .tool-page { padding: 1rem 0.75rem 3rem; }
+            .map-container { padding: 0.75rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <div class="app-container" style="min-height: auto;">
+        <header class="app-header" role="banner">
+            <div class="logo maker-mark">
+                <span class="mark-border">
+                    <span class="mark-text">TMS</span>
+                </span>
+                <div class="mark-name">
+                    <span class="mark-script">TailorMeSwiftly</span>
+                    <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
+                </div>
+            </div>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
+                        <a href="../account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+                            <i class="fa-solid fa-user-gear"></i> Account
+                        </a>
+                        <a href="../dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
+                        <a href="../updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>
+                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div id="main-content" class="tool-page">
+        <div style="text-align:center;margin-bottom:1.5rem;">
+            <a href="../results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+        </div>
+
+        <div class="tool-header">
+            <h1><i class="fa-solid fa-map-location-dot" style="color:var(--accent-color);margin-right:0.5rem;"></i>Salary Heatmap</h1>
+            <p>Explore median salaries and cost of living across all 50 US states</p>
+        </div>
+
+        <div class="controls-bar">
+            <label for="role-select">Role:</label>
+            <select id="role-select" onchange="updateMap()">
+                <option value="swe">Software Engineer</option>
+                <option value="pm">Product Manager</option>
+                <option value="ds">Data Scientist</option>
+                <option value="mm">Marketing Manager</option>
+                <option value="ux">UX Designer</option>
+            </select>
+        </div>
+
+        <div class="map-container">
+            <div class="salary-tooltip" id="tooltip"></div>
+            <svg id="us-map" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" aria-label="US salary heatmap by state">
+            </svg>
+        </div>
+
+        <div class="legend-bar" id="legend"></div>
+
+        <div class="stats-grid" id="stats-grid"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+    <script src="../brand-config.js"></script>
+    <script src="../auth.js?v=15"></script>
+    <script src="../components.js"></script>
+    <script src="../shared/analytics.js"></script>
+    <script src="../shared/sticky-header.js"></script>
+    <script src="../shared/streaks.js"></script>
+    <script src="../shared/command-palette.js"></script>
+    <script>
+    (function() {
+        /* ============================================================
+           SALARY DATA — curated median salaries & cost-of-living index
+           ============================================================ */
+        const SALARY_DATA = {
+            swe: {
+                label: 'Software Engineer',
+                AL:{s:95000,c:89},AK:{s:110000,c:127},AZ:{s:112000,c:97},AR:{s:90000,c:86},CA:{s:155000,c:142},
+                CO:{s:130000,c:105},CT:{s:125000,c:111},DE:{s:115000,c:103},FL:{s:110000,c:100},GA:{s:115000,c:95},
+                HI:{s:120000,c:170},ID:{s:100000,c:97},IL:{s:125000,c:96},IN:{s:100000,c:90},IA:{s:95000,c:88},
+                KS:{s:98000,c:89},KY:{s:95000,c:90},LA:{s:95000,c:91},ME:{s:100000,c:101},MD:{s:130000,c:112},
+                MA:{s:140000,c:131},MI:{s:105000,c:91},MN:{s:120000,c:98},MS:{s:88000,c:84},MO:{s:100000,c:89},
+                MT:{s:98000,c:98},NE:{s:98000,c:90},NV:{s:110000,c:101},NH:{s:115000,c:108},NJ:{s:135000,c:120},
+                NM:{s:100000,c:94},NY:{s:145000,c:139},NC:{s:115000,c:96},ND:{s:95000,c:92},OH:{s:105000,c:90},
+                OK:{s:95000,c:87},OR:{s:125000,c:110},PA:{s:115000,c:98},RI:{s:115000,c:107},SC:{s:100000,c:93},
+                SD:{s:92000,c:91},TN:{s:105000,c:93},TX:{s:120000,c:93},UT:{s:115000,c:99},VT:{s:105000,c:106},
+                VA:{s:130000,c:107},WA:{s:150000,c:118},WV:{s:88000,c:86},WI:{s:105000,c:92},WY:{s:95000,c:95}
+            },
+            pm: {
+                label: 'Product Manager',
+                AL:{s:90000,c:89},AK:{s:100000,c:127},AZ:{s:108000,c:97},AR:{s:85000,c:86},CA:{s:155000,c:142},
+                CO:{s:128000,c:105},CT:{s:120000,c:111},DE:{s:110000,c:103},FL:{s:105000,c:100},GA:{s:110000,c:95},
+                HI:{s:110000,c:170},ID:{s:95000,c:97},IL:{s:120000,c:96},IN:{s:95000,c:90},IA:{s:90000,c:88},
+                KS:{s:92000,c:89},KY:{s:90000,c:90},LA:{s:88000,c:91},ME:{s:95000,c:101},MD:{s:125000,c:112},
+                MA:{s:138000,c:131},MI:{s:100000,c:91},MN:{s:115000,c:98},MS:{s:82000,c:84},MO:{s:95000,c:89},
+                MT:{s:92000,c:98},NE:{s:92000,c:90},NV:{s:105000,c:101},NH:{s:110000,c:108},NJ:{s:130000,c:120},
+                NM:{s:92000,c:94},NY:{s:145000,c:139},NC:{s:110000,c:96},ND:{s:88000,c:92},OH:{s:100000,c:90},
+                OK:{s:88000,c:87},OR:{s:120000,c:110},PA:{s:112000,c:98},RI:{s:108000,c:107},SC:{s:95000,c:93},
+                SD:{s:85000,c:91},TN:{s:100000,c:93},TX:{s:118000,c:93},UT:{s:110000,c:99},VT:{s:100000,c:106},
+                VA:{s:125000,c:107},WA:{s:148000,c:118},WV:{s:82000,c:86},WI:{s:100000,c:92},WY:{s:88000,c:95}
+            },
+            ds: {
+                label: 'Data Scientist',
+                AL:{s:92000,c:89},AK:{s:105000,c:127},AZ:{s:110000,c:97},AR:{s:88000,c:86},CA:{s:150000,c:142},
+                CO:{s:128000,c:105},CT:{s:122000,c:111},DE:{s:112000,c:103},FL:{s:108000,c:100},GA:{s:112000,c:95},
+                HI:{s:115000,c:170},ID:{s:98000,c:97},IL:{s:122000,c:96},IN:{s:98000,c:90},IA:{s:92000,c:88},
+                KS:{s:95000,c:89},KY:{s:92000,c:90},LA:{s:90000,c:91},ME:{s:98000,c:101},MD:{s:128000,c:112},
+                MA:{s:138000,c:131},MI:{s:102000,c:91},MN:{s:118000,c:98},MS:{s:85000,c:84},MO:{s:98000,c:89},
+                MT:{s:95000,c:98},NE:{s:95000,c:90},NV:{s:108000,c:101},NH:{s:112000,c:108},NJ:{s:132000,c:120},
+                NM:{s:98000,c:94},NY:{s:142000,c:139},NC:{s:112000,c:96},ND:{s:90000,c:92},OH:{s:102000,c:90},
+                OK:{s:90000,c:87},OR:{s:122000,c:110},PA:{s:112000,c:98},RI:{s:110000,c:107},SC:{s:98000,c:93},
+                SD:{s:88000,c:91},TN:{s:102000,c:93},TX:{s:118000,c:93},UT:{s:112000,c:99},VT:{s:102000,c:106},
+                VA:{s:128000,c:107},WA:{s:145000,c:118},WV:{s:85000,c:86},WI:{s:102000,c:92},WY:{s:90000,c:95}
+            },
+            mm: {
+                label: 'Marketing Manager',
+                AL:{s:72000,c:89},AK:{s:80000,c:127},AZ:{s:82000,c:97},AR:{s:68000,c:86},CA:{s:115000,c:142},
+                CO:{s:95000,c:105},CT:{s:98000,c:111},DE:{s:85000,c:103},FL:{s:82000,c:100},GA:{s:85000,c:95},
+                HI:{s:85000,c:170},ID:{s:72000,c:97},IL:{s:92000,c:96},IN:{s:75000,c:90},IA:{s:72000,c:88},
+                KS:{s:73000,c:89},KY:{s:72000,c:90},LA:{s:70000,c:91},ME:{s:75000,c:101},MD:{s:95000,c:112},
+                MA:{s:105000,c:131},MI:{s:78000,c:91},MN:{s:88000,c:98},MS:{s:65000,c:84},MO:{s:75000,c:89},
+                MT:{s:72000,c:98},NE:{s:73000,c:90},NV:{s:80000,c:101},NH:{s:85000,c:108},NJ:{s:100000,c:120},
+                NM:{s:72000,c:94},NY:{s:110000,c:139},NC:{s:82000,c:96},ND:{s:70000,c:92},OH:{s:78000,c:90},
+                OK:{s:70000,c:87},OR:{s:90000,c:110},PA:{s:85000,c:98},RI:{s:82000,c:107},SC:{s:75000,c:93},
+                SD:{s:68000,c:91},TN:{s:78000,c:93},TX:{s:88000,c:93},UT:{s:82000,c:99},VT:{s:78000,c:106},
+                VA:{s:92000,c:107},WA:{s:108000,c:118},WV:{s:65000,c:86},WI:{s:78000,c:92},WY:{s:70000,c:95}
+            },
+            ux: {
+                label: 'UX Designer',
+                AL:{s:78000,c:89},AK:{s:88000,c:127},AZ:{s:92000,c:97},AR:{s:75000,c:86},CA:{s:135000,c:142},
+                CO:{s:110000,c:105},CT:{s:105000,c:111},DE:{s:95000,c:103},FL:{s:92000,c:100},GA:{s:95000,c:95},
+                HI:{s:95000,c:170},ID:{s:82000,c:97},IL:{s:105000,c:96},IN:{s:82000,c:90},IA:{s:78000,c:88},
+                KS:{s:80000,c:89},KY:{s:78000,c:90},LA:{s:76000,c:91},ME:{s:82000,c:101},MD:{s:108000,c:112},
+                MA:{s:118000,c:131},MI:{s:88000,c:91},MN:{s:100000,c:98},MS:{s:72000,c:84},MO:{s:82000,c:89},
+                MT:{s:80000,c:98},NE:{s:80000,c:90},NV:{s:90000,c:101},NH:{s:95000,c:108},NJ:{s:112000,c:120},
+                NM:{s:82000,c:94},NY:{s:125000,c:139},NC:{s:95000,c:96},ND:{s:75000,c:92},OH:{s:88000,c:90},
+                OK:{s:76000,c:87},OR:{s:108000,c:110},PA:{s:95000,c:98},RI:{s:92000,c:107},SC:{s:82000,c:93},
+                SD:{s:75000,c:91},TN:{s:88000,c:93},TX:{s:98000,c:93},UT:{s:92000,c:99},VT:{s:85000,c:106},
+                VA:{s:108000,c:107},WA:{s:130000,c:118},WV:{s:70000,c:86},WI:{s:88000,c:92},WY:{s:75000,c:95}
+            }
+        };
+
+        const STATE_NAMES = {
+            AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
+            CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
+            IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',
+            ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',
+            MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',
+            NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',
+            OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',
+            TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',
+            WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming'
+        };
+
+        /* Simplified US state SVG paths (approximate outlines) */
+        const STATE_PATHS = {
+            AL: 'M628,430 L628,500 L610,520 L608,510 L598,500 L598,430 Z',
+            AK: 'M120,490 L160,490 L180,470 L200,480 L190,510 L150,520 L120,510 Z',
+            AZ: 'M200,400 L260,400 L260,480 L210,480 L200,460 Z',
+            AR: 'M548,430 L598,430 L598,480 L548,480 Z',
+            CA: 'M100,280 L140,260 L160,300 L180,360 L170,420 L140,440 L100,400 L90,340 Z',
+            CO: 'M280,320 L360,320 L360,380 L280,380 Z',
+            CT: 'M830,230 L855,220 L860,240 L840,250 L830,245 Z',
+            DE: 'M790,310 L805,300 L810,320 L800,330 L790,320 Z',
+            FL: 'M640,490 L700,480 L720,500 L710,550 L680,570 L650,550 L630,520 Z',
+            GA: 'M650,420 L700,410 L700,480 L640,490 L630,460 Z',
+            HI: 'M260,520 L300,510 L310,530 L280,540 L260,530 Z',
+            ID: 'M200,180 L240,170 L250,220 L240,280 L210,280 L200,240 Z',
+            IL: 'M560,280 L590,280 L595,350 L580,380 L558,380 L550,340 Z',
+            IN: 'M600,280 L630,280 L630,370 L600,370 Z',
+            IA: 'M490,260 L555,260 L555,320 L490,320 Z',
+            KS: 'M380,350 L470,350 L470,400 L380,400 Z',
+            KY: 'M600,370 L680,360 L700,380 L650,400 L600,400 Z',
+            LA: 'M540,480 L580,470 L590,500 L570,530 L540,520 L530,500 Z',
+            ME: 'M860,120 L880,110 L890,140 L880,180 L860,180 L850,150 Z',
+            MD: 'M740,310 L790,300 L800,330 L770,340 L740,330 Z',
+            MA: 'M840,210 L880,200 L885,215 L860,220 L840,220 Z',
+            MI: 'M580,180 L620,170 L640,200 L640,260 L610,270 L590,260 L580,220 Z',
+            MN: 'M470,140 L530,140 L530,230 L470,240 Z',
+            MS: 'M580,430 L610,420 L612,500 L580,510 L570,480 Z',
+            MO: 'M490,340 L555,340 L558,420 L540,430 L490,430 L480,390 Z',
+            MT: 'M240,130 L350,130 L350,190 L240,190 Z',
+            NE: 'M370,280 L460,270 L470,320 L380,330 Z',
+            NV: 'M160,260 L200,260 L210,340 L190,380 L160,360 Z',
+            NH: 'M850,150 L865,145 L868,190 L855,200 L848,180 Z',
+            NJ: 'M800,260 L820,250 L825,290 L810,310 L800,295 Z',
+            NM: 'M240,400 L320,400 L320,490 L240,490 Z',
+            NY: 'M750,180 L830,170 L840,210 L820,240 L780,250 L750,240 Z',
+            NC: 'M660,380 L770,370 L780,390 L720,400 L660,400 Z',
+            ND: 'M370,140 L460,140 L460,200 L370,200 Z',
+            OH: 'M640,270 L690,260 L700,310 L680,340 L640,340 Z',
+            OK: 'M370,400 L470,400 L480,430 L460,450 L380,450 L360,430 Z',
+            OR: 'M100,180 L190,170 L200,220 L180,260 L100,270 Z',
+            PA: 'M710,250 L790,240 L800,280 L740,290 L710,280 Z',
+            RI: 'M855,230 L868,225 L870,242 L858,245 Z',
+            SC: 'M680,400 L730,395 L740,420 L700,440 L680,420 Z',
+            SD: 'M370,200 L460,200 L460,270 L370,270 Z',
+            TN: 'M570,390 L680,380 L680,410 L570,420 Z',
+            TX: 'M320,420 L420,410 L450,460 L440,530 L400,560 L350,540 L310,500 L300,460 Z',
+            UT: 'M220,280 L280,280 L280,380 L240,380 L220,340 Z',
+            VT: 'M835,145 L850,140 L852,190 L838,200 L835,170 Z',
+            VA: 'M680,340 L770,330 L780,360 L720,380 L660,380 L670,360 Z',
+            WA: 'M110,100 L200,90 L210,140 L200,180 L130,190 L100,170 Z',
+            WV: 'M690,310 L730,300 L740,340 L720,360 L690,350 Z',
+            WI: 'M530,160 L580,150 L590,220 L560,260 L530,260 L520,210 Z',
+            WY: 'M260,200 L350,200 L350,280 L260,280 Z'
+        };
+
+        /* Color scale: 5 levels from low salary to high */
+        const HEAT_COLORS = ['#6b8fa3','#8ab4c7','#a3c4dc','#e3a8b3','#d4626e'];
+        const HEAT_LABELS = ['< $80k','$80k-$100k','$100k-$120k','$120k-$140k','$140k+'];
+
+        function getSalaryTier(salary) {
+            if (salary < 80000) return 0;
+            if (salary < 100000) return 1;
+            if (salary < 120000) return 2;
+            if (salary < 140000) return 3;
+            return 4;
+        }
+
+        function formatSalary(n) {
+            return '$' + n.toLocaleString();
+        }
+
+        /* Build the SVG map */
+        function buildMap() {
+            const svg = document.getElementById('us-map');
+            svg.innerHTML = '';
+            Object.keys(STATE_PATHS).forEach(abbr => {
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', STATE_PATHS[abbr]);
+                path.setAttribute('data-state', abbr);
+                path.setAttribute('aria-label', STATE_NAMES[abbr]);
+                path.setAttribute('role', 'button');
+                path.setAttribute('tabindex', '0');
+                svg.appendChild(path);
+            });
+            /* Add state labels */
+            Object.keys(STATE_PATHS).forEach(abbr => {
+                const d = STATE_PATHS[abbr];
+                const coords = d.match(/[\d.]+/g).map(Number);
+                let cx = 0, cy = 0, count = 0;
+                for (let i = 0; i < coords.length; i += 2) {
+                    cx += coords[i]; cy += coords[i+1]; count++;
+                }
+                cx /= count; cy /= count;
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', cx);
+                text.setAttribute('y', cy + 4);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('font-size', '10');
+                text.setAttribute('font-family', 'Space Grotesk, sans-serif');
+                text.setAttribute('font-weight', '600');
+                text.setAttribute('fill', 'var(--text-primary)');
+                text.setAttribute('pointer-events', 'none');
+                text.textContent = abbr;
+                svg.appendChild(text);
+            });
+        }
+
+        /* Color the map based on selected role */
+        function updateMap() {
+            const role = document.getElementById('role-select').value;
+            const data = SALARY_DATA[role];
+            const paths = document.querySelectorAll('#us-map path');
+            paths.forEach(p => {
+                const abbr = p.getAttribute('data-state');
+                if (data[abbr]) {
+                    const tier = getSalaryTier(data[abbr].s);
+                    p.setAttribute('fill', HEAT_COLORS[tier]);
+                }
+            });
+            renderLegend();
+            renderStats(data);
+            attachTooltips(data);
+        }
+
+        /* Legend */
+        function renderLegend() {
+            const legend = document.getElementById('legend');
+            legend.innerHTML = HEAT_LABELS.map((label, i) =>
+                `<div class="legend-item"><div class="legend-swatch" style="background:${HEAT_COLORS[i]}"></div>${label}</div>`
+            ).join('');
+        }
+
+        /* Stats summary */
+        function renderStats(data) {
+            const salaries = Object.values(data).filter(v => typeof v === 'object').map(v => v.s);
+            const min = Math.min(...salaries);
+            const max = Math.max(...salaries);
+            const avg = Math.round(salaries.reduce((a, b) => a + b, 0) / salaries.length);
+            const minState = Object.keys(data).find(k => typeof data[k] === 'object' && data[k].s === min);
+            const maxState = Object.keys(data).find(k => typeof data[k] === 'object' && data[k].s === max);
+
+            document.getElementById('stats-grid').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">Highest Salary</div>
+                    <div class="stat-value">${formatSalary(max)}</div>
+                    <div class="stat-sub">${STATE_NAMES[maxState]}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Lowest Salary</div>
+                    <div class="stat-value">${formatSalary(min)}</div>
+                    <div class="stat-sub">${STATE_NAMES[minState]}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">National Average</div>
+                    <div class="stat-value">${formatSalary(avg)}</div>
+                    <div class="stat-sub">Across 50 states</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Salary Spread</div>
+                    <div class="stat-value">${formatSalary(max - min)}</div>
+                    <div class="stat-sub">Max minus Min</div>
+                </div>
+            `;
+        }
+
+        /* Tooltip */
+        function attachTooltips(data) {
+            const tooltip = document.getElementById('tooltip');
+            const container = document.querySelector('.map-container');
+            document.querySelectorAll('#us-map path').forEach(p => {
+                p.onmouseenter = function(e) {
+                    const abbr = p.getAttribute('data-state');
+                    if (!data[abbr]) return;
+                    tooltip.innerHTML = `
+                        <div class="tt-state">${STATE_NAMES[abbr]}</div>
+                        <div class="tt-salary">Median: ${formatSalary(data[abbr].s)}</div>
+                        <div class="tt-col">Cost of Living Index: ${data[abbr].c}</div>
+                    `;
+                    tooltip.style.display = 'block';
+                };
+                p.onmousemove = function(e) {
+                    const rect = container.getBoundingClientRect();
+                    let x = e.clientX - rect.left + 15;
+                    let y = e.clientY - rect.top - 10;
+                    if (x + 200 > rect.width) x = e.clientX - rect.left - 200;
+                    tooltip.style.left = x + 'px';
+                    tooltip.style.top = y + 'px';
+                };
+                p.onmouseleave = function() {
+                    tooltip.style.display = 'none';
+                };
+            });
+        }
+
+        /* Init */
+        buildMap();
+        updateMap();
+
+        /* Expose for onchange */
+        window.updateMap = updateMap;
+    })();
+    </script>
+
+    <footer class="site-footer" role="contentinfo">
+        <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+        <p><a href="../terms.html">Terms & Conditions</a> | <a href="../privacy.html">Privacy Policy</a> | <a href="../security.html">Security Policy</a></p>
+    </footer>
+</body>
+
+</html>

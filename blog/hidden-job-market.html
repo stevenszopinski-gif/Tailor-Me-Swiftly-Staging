@@ -82,7 +82,7 @@
         .blog-article .callout-box {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 12px;
+            border-radius: 4px;
             padding: 1.25rem 1.5rem;
             margin: 2rem 0;
         }
@@ -109,7 +109,7 @@
             color: var(--accent-color);
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 20px;
+            border-radius: 4px;
             padding: 0.2rem 0.65rem;
         }
 
@@ -325,6 +325,13 @@
                     href="../security.html">Security Policy</a></p>
         </footer>
     </div>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

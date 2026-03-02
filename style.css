@@ -1779,7 +1779,7 @@ textarea:focus {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: linear-gradient(135deg, #D4A574, #B88A5A);
     color: var(--chalk-bright);
     padding: 2px 8px;
     border-radius: 99px;
@@ -2029,7 +2029,7 @@ textarea:focus {
     background: var(--panel-bg);
     backdrop-filter: var(--glass-blur);
     border: 1px solid var(--panel-border);
-    border-radius: 16px;
+    border-radius: var(--brutal-radius);
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -2469,7 +2469,7 @@ ins.adsbygoogle[data-ad-status="filled"] {
 #download-btn,
 .download-btn,
 button[data-action="download"] {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    background: linear-gradient(135deg, #7B8FA8, #A3C4DC) !important;
     color: #fff !important;
     border-color: #6366f1 !important;
 }
@@ -2839,7 +2839,7 @@ body.focus-mode #audio-section {
 .tone-chip {
     padding: 0.35rem 0.75rem;
     border: var(--brutal-border);
-    border-radius: 20px;
+    border-radius: var(--brutal-radius);
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.15s;
@@ -2868,7 +2868,7 @@ body.focus-mode #audio-section {
     color: var(--warning-color);
     padding: 0.2rem 0.6rem;
     border: 1px dashed var(--warning-color);
-    border-radius: 20px;
+    border-radius: var(--brutal-radius);
 }
 
 /* ═══════════════════════════════════════════

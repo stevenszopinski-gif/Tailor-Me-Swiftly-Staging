@@ -28,7 +28,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .company-tracker { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 1rem; }
+        .company-tracker { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 1rem; }
         .company-tracker .co-name { font-weight: 600; flex: 1; }
         .company-tracker .co-url { font-size: 0.75rem; color: var(--text-secondary); word-break: break-all; }
         .company-tracker .status { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; }
@@ -36,7 +36,7 @@
         .status.pending { background: rgba(245,158,11,0.1); color: #f59e0b; }
         .add-form { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .add-form input { flex: 1; min-width: 200px; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
-        .tip-box { background: rgba(71,85,105,0.08); border: 1px solid rgba(71,85,105,0.2); border-radius: 12px; padding: 1.25rem; margin-top: 1.5rem; }
+        .tip-box { background: rgba(71,85,105,0.08); border: 1px solid rgba(71,85,105,0.2); border-radius: 4px; padding: 1.25rem; margin-top: 1.5rem; }
     </style>
 </head>
 
@@ -247,6 +247,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

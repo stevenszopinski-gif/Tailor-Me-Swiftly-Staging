@@ -98,7 +98,7 @@
         }
 
         .product-tab.active[data-tab="applications"] {
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(138, 154, 134, 0.12);
             color: #10b981;
             border-color: rgba(16, 185, 129, 0.35);
         }
@@ -133,7 +133,7 @@
         .plan-card {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 20px;
+            border-radius: 4px;
             padding: 2.25rem 2rem;
             position: relative;
         }
@@ -161,7 +161,7 @@
 
         .plan-badge.badge-green {
             color: #10b981;
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(138, 154, 134, 0.15);
             border: 1px solid rgba(16, 185, 129, 0.25);
         }
 
@@ -235,7 +235,7 @@
             width: 100%;
             text-align: center;
             padding: 0.8rem 1rem;
-            border-radius: 12px;
+            border-radius: 4px;
             font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
@@ -255,7 +255,7 @@
         }
 
         .plan-cta.green {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, #8A9A86, #6E7E6A);
             color: #fff;
             border: none;
         }
@@ -275,7 +275,7 @@
         }
 
         .plan-cta.gold {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: linear-gradient(135deg, #D4A574, #B88A5A);
             color: #fff;
             border: none;
         }
@@ -299,7 +299,7 @@
             border-spacing: 0;
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            border-radius: 4px;
             overflow: hidden;
         }
 
@@ -634,7 +634,7 @@
 
             <div style="text-align: center; margin-top: 2.5rem;">
                 <a href="login.html" class="plan-cta green"
-                    style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 12px; text-decoration: none;">
+                    style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 4px; text-decoration: none;">
                     Get Started Now
                 </a>
             </div>
@@ -762,7 +762,7 @@
 
             <div style="text-align: center; margin-top: 2.5rem;">
                 <a href="login.html" class="plan-cta blue"
-                    style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 12px; text-decoration: none;">
+                    style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 4px; text-decoration: none;">
                     Get Started Now
                 </a>
             </div>
@@ -789,6 +789,13 @@
                 el.classList.toggle('active', el.id === 'section-' + tab);
             });
         }
+    </script>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
     </script>
 </body>
 

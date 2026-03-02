@@ -109,7 +109,7 @@
             background: var(--primary-color);
             color: #fff;
             padding: 0.15rem 0.55rem;
-            border-radius: 20px;
+            border-radius: 4px;
             letter-spacing: 0.3px;
             white-space: nowrap;
         }
@@ -410,6 +410,13 @@
         </footer>
     </div>
 
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

@@ -210,6 +210,13 @@
     <script src="auth.js?v=15"></script>
     <script src="components.js"></script>
     <script src="error-utils.js"></script>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

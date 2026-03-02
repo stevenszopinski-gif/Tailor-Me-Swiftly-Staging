@@ -8,5 +8,12 @@
 </head>
 <body>
     <p>Redirecting to <a href="learn/index.html">Tailor My Learning</a>…</p>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 </html>

@@ -10,6 +10,13 @@
 
 <body>
     <p>Redirecting to <a href="news/briefing.html">My Briefings</a>…</p>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

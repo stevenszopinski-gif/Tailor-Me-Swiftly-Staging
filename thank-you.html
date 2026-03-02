@@ -28,7 +28,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
     <style>
         .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .ty-form { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .ty-form { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.5rem; }
         .ty-row { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
         .ty-row label { font-size: 0.85rem; font-weight: 600; min-width: 120px; padding-top: 0.5rem; }
         .ty-row input, .ty-row textarea, .ty-row select { flex: 1; min-width: 200px; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
@@ -215,11 +215,11 @@ Return EXACTLY this JSON (no markdown, no code fences):
             </div>`;
 
             html += `<div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;">
-                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;">
+                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1rem;">
                     <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-solid fa-clock" style="color:#f59e0b;margin-right:0.3rem;"></i> When to Send</h4>
                     <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.sendTiming}</p>
                 </div>
-                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:12px;padding:1rem;">
+                <div style="flex:1;min-width:200px;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;padding:1rem;">
                     <h4 style="margin:0 0 0.5rem;font-size:0.85rem;"><i class="fa-solid fa-lightbulb" style="color:#10b981;margin-right:0.3rem;"></i> Pro Tip</h4>
                     <p style="font-size:0.82rem;color:var(--text-secondary);margin:0;">${result.proTip}</p>
                 </div>
@@ -238,6 +238,13 @@ Return EXACTLY this JSON (no markdown, no code fences):
         <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
         <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     </footer>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

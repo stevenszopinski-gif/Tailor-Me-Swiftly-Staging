@@ -78,7 +78,7 @@
             color: var(--accent-color);
             background: color-mix(in srgb, var(--accent-color) 12%, transparent);
             padding: 0.25rem 0.65rem;
-            border-radius: 20px;
+            border-radius: 4px;
         }
 
         .blog-post-title {
@@ -320,6 +320,13 @@
         </footer>
     </div>
 
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+    </script>
 </body>
 
 </html>

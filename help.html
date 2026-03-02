@@ -85,7 +85,7 @@
         .help-cat {
             background: var(--glass-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            border-radius: 4px;
             padding: 1.5rem 1.25rem;
             text-align: center;
             cursor: pointer;
@@ -936,7 +936,7 @@
 
         <!-- Contact -->
         <div
-            style="text-align:center;padding:2rem;margin-top:2rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius:16px;">
+            style="text-align:center;padding:2rem;margin-top:2rem;background:var(--glass-bg);border:1px solid var(--panel-border);border-radius: 4px;">
             <i class="fa-solid fa-envelope"
                 style="font-size:1.5rem;color:var(--primary-color);display:block;margin-bottom:0.75rem;"></i>
             <h3 style="margin-bottom:0.5rem;">Still need help?</h3>
@@ -987,6 +987,13 @@
                 el.style.display = text.toLowerCase().includes(q) ? '' : 'none';
             });
         });
+    </script>
+<script>
+    // Theme persistence
+    (function() {
+        var t = localStorage.getItem('ats_theme_preference');
+        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
     </script>
 </body>
 
