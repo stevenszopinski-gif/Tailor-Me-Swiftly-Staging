@@ -1,3 +1,170 @@
+
+:root {
+    /* "Tailor's Chalk & Slate" Theme */
+    --bg-color: #151821; /* Dark Wool Background */
+    --wool-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    
+    --panel-bg: #1E222D; /* Surface Fabric */
+    --panel-border: rgba(255, 255, 255, 0.25); /* Faded Chalk Dust */
+    --chalk-bright: rgba(255, 255, 255, 0.9);
+    
+    --primary-color: #A3C4DC; /* Pale Blue Chalk */
+    --primary-hover: #B8D5E9;
+    --accent-color: #E3A8B3; /* Dusty Pink Chalk */
+    --accent-glow: none; /* No glows on the drafting table */
+    
+    --text-primary: rgba(255, 255, 255, 0.9); /* Fresh Chalk */
+    --text-secondary: rgba(255, 255, 255, 0.5); /* Smudged Chalk */
+    
+    --input-bg: rgba(0, 0, 0, 0.2); /* Cut out fabric */
+    --input-border: 2px dashed rgba(255, 255, 255, 0.3); /* Basting lines */
+    
+    --glass-bg: #1E222D;
+    --dropdown-bg: #151821;
+    --disabled-bg: #2A2F3D;
+    --disabled-text: rgba(255, 255, 255, 0.3);
+    --btn-primary-text: #151821;
+    
+    --success-color: #A3DCA7; /* Pale Green Chalk */
+    --danger-color: #E3A8B3;
+    --warning-color: #DCE3A8;
+
+    /* Typography */
+    --font-family: 'Space Grotesk', -apple-system, sans-serif;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-script: 'Caveat', cursive;
+
+    /* Structural Elements (Drafting Table) */
+    --brutal-shadow: 2px 2px 0px rgba(0,0,0,0.5); /* Heavy cloth shadow */
+    --brutal-shadow-hover: 4px 4px 0px rgba(0,0,0,0.6);
+    --brutal-radius: 4px; /* Rigid cuts */
+    --radius-lg: 8px;
+    --brutal-border: 1px dashed var(--panel-border);
+    --grid-color: rgba(255, 255, 255, 0.05);
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image: var(--wool-texture);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    font-weight: 500;
+}
+
+/* Maker's Mark Logo */
+.maker-mark {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--chalk-bright);
+}
+.maker-mark .mark-border {
+    border: 2px dashed var(--primary-color);
+    padding: 0.3rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-3deg);
+}
+.maker-mark .mark-text {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: var(--primary-color);
+}
+.maker-mark .mark-name {
+    display: flex;
+    flex-direction: column;
+}
+.maker-mark .mark-script {
+    font-family: var(--font-script);
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--chalk-bright);
+    transform: translateY(4px);
+}
+.maker-mark .mark-sub {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+}
+
+/* Base Form Inputs (Chalk Boundaries) */
+input, select, textarea {
+    background-color: var(--input-bg);
+    border: var(--input-border);
+    color: var(--chalk-bright);
+    border-radius: 0px;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    font-family: var(--font-mono); /* Terminal/Measurement feel for inputs */
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border: 2px solid var(--chalk-bright);
+    box-shadow: none;
+}
+
+/* Fabric Swatch Buttons */
+.btn {
+    border-radius: 2px;
+    border: 1px dashed var(--panel-border);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    box-shadow: var(--brutal-shadow);
+}
+.primary-btn {
+    background: var(--primary-color);
+    color: var(--btn-primary-text);
+    border: 1px solid var(--chalk-bright);
+}
+.primary-btn:hover:not(:disabled) {
+    background: var(--primary-hover);
+    border: 1px solid #fff;
+    box-shadow: var(--brutal-shadow-hover);
+    transform: translate(-1px, -1px);
+}
+.secondary-btn {
+    background: transparent;
+    color: var(--chalk-bright);
+}
+.secondary-btn:hover {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--chalk-bright);
+}
+
+.upload-area {
+    border: 2px dashed var(--accent-color);
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.02),
+      rgba(255, 255, 255, 0.02) 10px,
+      rgba(255, 255, 255, 0) 10px,
+      rgba(255, 255, 255, 0) 20px
+    );
+}
+
+.asym-card {
+    background: var(--panel-bg);
+    border: 1px dashed var(--panel-border);
+    box-shadow: var(--brutal-shadow);
+}
+.asym-card:hover {
+    border: 1px dashed var(--chalk-bright);
+    box-shadow: var(--brutal-shadow-hover);
+}
+
 /* ── Loading Skeletons ── */
 @keyframes shimmer {
     0% {
@@ -13,7 +180,7 @@
     background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
     background-size: 800px 100%;
     animation: shimmer 1.5s infinite linear;
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
 }
 
 
@@ -75,7 +242,7 @@
     left: 50%;
     transform: translateX(-50%);
     background: var(--primary-color);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     padding: 0.6rem 1.5rem;
     border-radius: 0 0 8px 8px;
     font-weight: 600;
@@ -102,41 +269,7 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.02em;
 }
 
-:root {
-    /* Nordic Soft-Brutalism Theme */
-    --bg-color: #F4F1ED;
-    --panel-bg: #FFFFFF;
-    --panel-border: rgba(0, 0, 0, 0.06);
-    --primary-color: #8A9A86;
-    --primary-hover: #758572;
-    --accent-color: #E07A5F;
-    --accent-glow: 0 4px 14px rgba(224, 122, 95, 0.25);
-    --text-primary: #2C302E;
-    --text-secondary: #707572;
-    --input-bg: #FFFFFF;
-    --input-border: rgba(0, 0, 0, 0.08); /* Fallback */
-    --glass-bg: rgba(255, 255, 255, 0.95);
-    --dropdown-bg: #FFFFFF;
-    --disabled-bg: #EAE6DF;
-    --disabled-text: #A0A3A1;
-    --btn-primary-text: #FFFFFF;
-    --success-color: #8A9A86;
-    --danger-color: #E07A5F;
-    --warning-color: #E2B060;
 
-    /* Typography */
-    --font-family: 'DM Sans', -apple-system, sans-serif;
-    --font-heading: 'Syne', sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-
-    /* Structural Elements */
-    --brutal-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-    --brutal-shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04);
-    --brutal-radius: 28px;
-    --radius-lg: 36px;
-    --brutal-border: 1px solid var(--panel-border);
-    --grid-color: rgba(0, 0, 0, 0.03);
-}
 
 
 
@@ -149,7 +282,7 @@ h1, h2, h3, h4, h5, h6 {
 body {
     font-family: var(--font-family);
     background-color: var(--bg-color);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
@@ -179,7 +312,7 @@ body {
 .glass-panel {
     background: var(--panel-bg);
     border: var(--brutal-border);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     box-shadow: var(--brutal-shadow);
 }
 
@@ -201,7 +334,7 @@ body {
     background: var(--text-primary);
     width: 40px;
     height: 40px;
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     border: 2px solid var(--bg-color);
     display: flex;
     align-items: center;
@@ -234,7 +367,7 @@ body {
 
 .app-grid-btn:hover {
     background: var(--glass-bg);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .app-grid-popup {
@@ -243,7 +376,7 @@ body {
     right: 0;
     background: var(--dropdown-bg, var(--panel-bg));
     border: var(--brutal-border);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     padding: 1rem;
     min-width: 240px;
     box-shadow: var(--brutal-shadow);
@@ -266,7 +399,7 @@ body {
     padding: 0.75rem 0.5rem;
     border-radius: 12px;
     text-decoration: none;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     font-size: 0.72rem;
     font-weight: 500;
     text-align: center;
@@ -295,7 +428,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     transition: box-shadow 0.2s;
 }
 
@@ -346,7 +479,7 @@ body {
     font-family: var(--font-family);
     cursor: pointer;
     border: var(--brutal-border);
-    border-radius: 9999px;
+    border-radius: 2px;
     padding: 0.8rem 1.6rem;
     font-size: 0.95rem;
     font-weight: 600;
@@ -394,7 +527,7 @@ body {
 }
 
 .ghost-btn:hover {
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     background: rgba(255, 255, 255, 0.05);
 }
 
@@ -409,7 +542,7 @@ body {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
     background: var(--glass-bg);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     border: var(--brutal-border);
 }
 
@@ -448,7 +581,7 @@ body {
 .step-num {
     width: 36px;
     height: 36px;
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     background: var(--panel-bg);
     border: var(--brutal-border);
     display: flex;
@@ -460,7 +593,7 @@ body {
 
 .step.active .step-num {
     background: var(--text-primary);
-    border-color: var(--text-primary);
+    border-color: var(--chalk-bright);
     color: var(--bg-color);
     box-shadow: var(--brutal-shadow);
 }
@@ -529,7 +662,7 @@ body {
     text-align: center;
     padding: 3rem 1rem 4rem;
     background: var(--panel-bg);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     margin-bottom: 2rem;
     border: var(--brutal-border);
 }
@@ -543,7 +676,7 @@ body {
 }
 
 .intro-hero h1 span {
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .intro-hero p {
@@ -561,7 +694,7 @@ body {
     margin-bottom: 2.5rem;
     padding: 1.5rem;
     background: var(--panel-bg);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     border: var(--brutal-border);
 }
 
@@ -569,7 +702,7 @@ body {
     font-size: 1.6rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .user-welcome p {
@@ -588,7 +721,7 @@ body {
     align-items: center;
     padding: 1rem 1.5rem;
     background: var(--panel-bg);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     min-width: 90px;
     border: var(--brutal-border);
     box-shadow: var(--brutal-shadow);
@@ -639,19 +772,19 @@ body {
 .feature-item:hover i {
     transform: translateY(-5px);
     background: var(--accent-color);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .feature-item span {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 /* Form UI */
 .upload-area {
     border: 2px dashed var(--input-border);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     padding: 4rem 2rem;
     text-align: center;
     background: rgba(255, 255, 255, 0.02);
@@ -679,7 +812,7 @@ body {
     margin-top: 1rem;
     padding: 1rem;
     background: var(--panel-bg);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     border: var(--brutal-border);
     display: flex;
     justify-content: space-between;
@@ -732,8 +865,8 @@ textarea {
     font-family: var(--font-family);
     background-color: var(--input-bg);
     border: 1px solid var(--input-border);
-    color: var(--text-primary);
-    border-radius: var(--brutal-radius);
+    color: var(--chalk-bright);
+    border-radius: 2px;
     padding: 0.8rem 1rem;
     font-size: 1rem;
     transition: all 0.2s;
@@ -743,7 +876,7 @@ input:focus,
 select:focus,
 textarea:focus {
     outline: none;
-    border-color: var(--text-primary);
+    border-color: var(--chalk-bright);
     box-shadow: var(--brutal-shadow);
 }
 
@@ -843,7 +976,7 @@ textarea:focus {
 
 .tab-btn.active {
     background: var(--panel-border);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .output-content {
@@ -868,18 +1001,18 @@ textarea:focus {
     flex: 1;
     font-family: var(--font-family);
     font-size: 0.95rem;
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     background: var(--panel-bg);
     border: var(--brutal-border);
     padding: 2rem;
     overflow-y: auto;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     line-height: 1.6;
 }
 
 .rich-output-area:focus {
     outline: none;
-    border-color: var(--text-primary);
+    border-color: var(--chalk-bright);
     box-shadow: var(--brutal-shadow);
 }
 
@@ -903,7 +1036,7 @@ textarea:focus {
     margin-top: 1.2rem;
     margin-bottom: 0.3rem;
     padding-bottom: 0.3rem;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .rich-output-area h3 {
@@ -945,7 +1078,7 @@ textarea:focus {
 
 .rich-output-area b,
 .rich-output-area strong {
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     font-weight: 600;
 }
 
@@ -993,7 +1126,7 @@ textarea:focus {
     align-items: center;
     justify-content: center;
     z-index: 20;
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     text-align: center;
 }
 
@@ -1066,7 +1199,7 @@ textarea:focus {
     right: 0;
     background: var(--dropdown-bg, var(--panel-bg));
     border: var(--brutal-border);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     padding: 0.4rem;
     min-width: 220px;
     box-shadow: var(--brutal-shadow);
@@ -1087,11 +1220,11 @@ textarea:focus {
     padding: 0.6rem 0.85rem;
     border: none;
     background: transparent;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     font-size: 0.88rem;
     font-family: inherit;
     cursor: pointer;
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     transition: background 0.15s;
 }
 
@@ -1164,7 +1297,7 @@ textarea:focus {
 }
 
 .icon-btn:hover {
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .modal-body {
@@ -1188,7 +1321,7 @@ textarea:focus {
 .form-group label {
     font-weight: 500;
     font-size: 0.9rem;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 @keyframes spin {
@@ -1279,7 +1412,7 @@ textarea:focus {
     margin: 10% auto;
     padding: 0;
     border: var(--brutal-border);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     box-shadow: var(--brutal-shadow);
     overflow: hidden;
     animation: modalFade 0.3s ease-out;
@@ -1327,9 +1460,9 @@ textarea:focus {
     height: 120px;
     background: var(--input-bg);
     border: var(--brutal-border);
-    border-radius: var(--brutal-radius);
+    border-radius: 2px;
     padding: 0.8rem;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     font-family: inherit;
     resize: vertical;
     margin-bottom: 0.5rem;
@@ -1349,7 +1482,7 @@ textarea:focus {
 }
 
 .close:hover {
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 /* Auth Buttons */
@@ -1363,7 +1496,7 @@ textarea:focus {
     justify-content: center;
     background: rgba(var(--surface-color-rgb), 0.5);
     border: 1px solid rgba(var(--border-color-rgb), 0.5);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .auth-btn:hover {
@@ -1604,7 +1737,7 @@ textarea:focus {
     align-items: center;
     gap: 4px;
     background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     padding: 2px 8px;
     border-radius: 99px;
     font-size: 0.65rem;
@@ -1913,7 +2046,7 @@ textarea:focus {
 /* Missing Keywords Badges */
 .keywords-card h4 {
     font-size: 1rem;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -1982,13 +2115,13 @@ textarea:focus {
 }
 
 .template-btn:hover {
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     border-color: var(--text-secondary);
 }
 
 .template-btn.active {
     background: var(--panel-border);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     border-color: var(--primary-color);
     font-weight: 600;
     box-shadow: 0 0 0 1px var(--primary-color);
@@ -2035,7 +2168,7 @@ textarea:focus {
 .qa-question {
     font-weight: 600;
     font-size: 0.95rem;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     margin-bottom: 0.6rem;
     display: flex;
     gap: 0.5rem;
@@ -2093,7 +2226,7 @@ textarea:focus {
     left: 50%;
     transform: translateX(-50%);
     background: var(--success-color);
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
     font-weight: 600;
@@ -2354,7 +2487,7 @@ button[data-action="download"] {
     margin: 0;
     font-size: 1.05rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
 }
 
 .strategy-info p {
@@ -2402,7 +2535,7 @@ button[data-action="download"] {
     font-weight: 800;
     line-height: 0.95;
     letter-spacing: -0.04em;
-    color: var(--text-primary);
+    color: var(--chalk-bright);
     margin-bottom: 1.5rem;
     text-transform: none;
 }
