@@ -756,18 +756,43 @@
     }
 
     @media (max-width: 600px) {
+      .editor-nav {
+        width: 44px;
+        padding: 0.5rem 0;
+      }
+
+      .editor-nav .nav-tab {
+        width: 36px;
+        height: 36px;
+      }
+
+      .editor-nav .nav-logo {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+      }
+
       .editor-panel {
         position: fixed;
-        left: 56px;
+        left: 44px;
         top: 0;
         bottom: 0;
         z-index: 100;
-        width: 280px;
+        width: calc(100vw - 44px);
+        max-width: 320px;
         box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
       }
 
       .editor-panel.collapsed {
-        left: -280px;
+        left: -100vw;
+      }
+
+      .editor-main {
+        padding: 0.75rem;
+      }
+
+      .resume-output {
+        padding: 1.25rem;
       }
     }
 
