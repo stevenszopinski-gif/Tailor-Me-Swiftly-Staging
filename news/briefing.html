@@ -986,6 +986,25 @@
             return await resp.json().catch(() => ({}));
         }
 
+        // ── Sidebar Collapse / Expand ──
+        function collapseSidebar() {
+            const sidebar = document.querySelector('.dashboard-sidebar');
+            const main = document.getElementById('main-content');
+            const stepHeader = document.querySelector('.step-header');
+            if (sidebar) sidebar.style.display = 'none';
+            if (main) main.style.gridTemplateColumns = '1fr';
+            if (stepHeader) stepHeader.style.display = 'none';
+            document.getElementById('input-section').style.display = 'none';
+        }
+
+        function expandSidebar() {
+            const sidebar = document.querySelector('.dashboard-sidebar');
+            const main = document.getElementById('main-content');
+            if (sidebar) sidebar.style.display = '';
+            if (main) main.style.gridTemplateColumns = '360px 1fr';
+            document.getElementById('input-section').style.display = 'block';
+        }
+
         // ── 7-Day Date Strip ──
         function renderDateStrip(activeDateStr) {
             const strip = document.getElementById('date-strip');
@@ -1231,12 +1250,10 @@
                     editInterests();
                 } else {
                     // Authenticated users always land on briefing view
-                    document.getElementById('input-section').style.display = 'none';
+                    collapseSidebar();
                     document.getElementById('result-section').style.display = 'block';
                     const emptyState = document.getElementById('empty-state');
                     if (emptyState) emptyState.style.display = 'none';
-                    const stepHeader = document.querySelector('.step-header');
-                    if (stepHeader) stepHeader.style.display = 'none';
 
                     const today = new Date().toISOString().split('T')[0];
                     const activeDate = briefingCache[today] ? today : (Object.keys(briefingCache)[0] || today);
@@ -1748,8 +1765,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             url.searchParams.delete('view');
             history.replaceState(null, '', url);
 
-            // Show the settings sidebar and scroll to it
-            document.getElementById('input-section').style.display = 'block';
+            // Expand the sidebar and scroll to it
+            expandSidebar();
             document.getElementById('input-section').scrollIntoView({ behavior: 'smooth' });
 
             // Show and update header for edit mode
@@ -1837,13 +1854,9 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             url.searchParams.delete('edit');
             history.replaceState(null, '', url);
 
-            // Hide sidebar settings, show briefing result
-            document.getElementById('input-section').style.display = 'none';
+            // Collapse sidebar, show briefing result
+            collapseSidebar();
             document.getElementById('result-section').style.display = 'block';
-
-            // Hide the step header again (briefing is showing)
-            const stepHeader = document.querySelector('.step-header');
-            if (stepHeader) stepHeader.style.display = 'none';
             document.title = 'Your Briefing | TailorMeSwiftly';
 
             // Restore hidden elements for next time
@@ -1881,9 +1894,39 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
         async function generateBriefing(targetDate) {
             if (!targetDate) targetDate = new Date().toISOString().split('T')[0];
-            // Check interests before making any UI changes
+            // Check interests — try recovering from cached briefings or profile if needed
+            if (!extractedInterests.length) {
+                // Try recovering from most recent cached briefing
+                const cachedDates = Object.keys(briefingCache).sort().reverse();
+                for (const d of cachedDates) {
+                    if (briefingCache[d]?.interests?.length) {
+                        extractedInterests = briefingCache[d].interests;
+                        renderInterestTags(extractedInterests);
+                        break;
+                    }
+                }
+                // Still empty — try profile or latest briefing from DB
+                if (!extractedInterests.length) {
+                    try {
+                        const { data: { session: s } } = await window.supabaseClient.auth.getSession();
+                        if (s) {
+                            const { data: prof } = await window.supabaseClient.from('user_profiles')
+                                .select('interests').eq('user_id', s.user.id).maybeSingle();
+                            if (prof?.interests?.length) {
+                                extractedInterests = prof.interests;
+                            } else {
+                                const { data: latest } = await window.supabaseClient.from('daily_briefings')
+                                    .select('interests').eq('user_id', s.user.id)
+                                    .order('briefing_date', { ascending: false }).limit(1).maybeSingle();
+                                if (latest?.interests?.length) extractedInterests = latest.interests;
+                            }
+                            if (extractedInterests.length) renderInterestTags(extractedInterests);
+                        }
+                    } catch (e) { /* silent */ }
+                }
+            }
             let interests = [...extractedInterests];
-            if (!interests.length) { alert('Please enter or extract some interests first.'); return; }
+            if (!interests.length) { editInterests(); return; }
 
             // Disable generate buttons to prevent double-clicks
             const btns = document.querySelectorAll('[onclick="generateBriefing()"]');
