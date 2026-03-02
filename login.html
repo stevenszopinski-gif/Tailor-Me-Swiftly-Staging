@@ -96,7 +96,7 @@
           </div>
 
           <div id="auth-error-message" role="alert" aria-live="polite"
-            style="color: #D99B82; font-size: 0.85rem; display: none; text-align: center;"></div>
+            style="color: var(--error-color, #D99B82); font-size: 0.85rem; display: none; text-align: center;"></div>
 
           <div style="margin-top: 0.5rem;">
             <button type="button" id="email-login-btn" class="btn primary-btn" style="width: 100%;">Log
@@ -134,6 +134,20 @@
   <script src="components.js"></script>
   <script src="error-utils.js"></script>
   <script>
+    // Blur validation
+    (function() {
+      var emailIn = document.getElementById('email-input');
+      var pwIn = document.getElementById('password-input');
+      function showHint(input, msg) {
+        var hint = input.parentElement.querySelector('.field-hint');
+        if (!hint) { hint = document.createElement('span'); hint.className = 'field-hint'; hint.style.cssText = 'font-size:0.78rem;color:var(--error-color,#D99B82);display:block;margin-top:0.25rem;'; input.parentElement.appendChild(hint); }
+        hint.textContent = msg;
+      }
+      function clearHint(input) { var h = input.parentElement.querySelector('.field-hint'); if (h) h.textContent = ''; }
+      if (emailIn) emailIn.addEventListener('blur', function() { if (this.value && !this.validity.valid) showHint(this, 'Please enter a valid email address.'); else clearHint(this); });
+      if (pwIn) pwIn.addEventListener('blur', function() { if (this.value && this.value.length < 6) showHint(this, 'Password must be at least 6 characters.'); else clearHint(this); });
+    })();
+
     // Password toggle
     (function() {
       const pwField = document.getElementById('password-input');

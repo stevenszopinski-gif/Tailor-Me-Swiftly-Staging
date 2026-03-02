@@ -6,6 +6,23 @@ const PREFS_STORAGE = 'ats_user_writing_preferences';
 const SUPABASE_FETCH_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/fetch-url';
 const SUPABASE_ANON_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
+// Clipboard helper with fallback for older browsers
+function _copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function(resolve, reject) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;left:-9999px;';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); resolve(); }
+        catch (e) { reject(e); }
+        finally { ta.remove(); }
+    });
+}
+
 // Sanitize AI-generated HTML before injection
 function _sanitize(html) {
     if (typeof DOMPurify !== 'undefined') return DOMPurify.sanitize(html);
@@ -346,9 +363,10 @@ function attachEventListeners() {
         });
         if (el.closeLinkedinBtn) el.closeLinkedinBtn.addEventListener('click', () => el.linkedinModal.classList.remove('visible'));
         if (el.copyLinkedinBtn) el.copyLinkedinBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(el.linkedinOutput.innerText || el.linkedinOutput.textContent);
-            el.copyLinkedinBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-            setTimeout(() => { el.copyLinkedinBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy to Clipboard'; }, 2000);
+            _copyToClipboard(el.linkedinOutput.innerText || el.linkedinOutput.textContent).then(() => {
+                el.copyLinkedinBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                setTimeout(() => { el.copyLinkedinBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy to Clipboard'; }, 2000);
+            });
         });
     }
 
@@ -702,7 +720,7 @@ function handleCopy(e) {
     const txt = targetEl.innerText || targetEl.textContent;
 
     if (txt) {
-        navigator.clipboard.writeText(txt).then(() => {
+        _copyToClipboard(txt).then(() => {
             const temp = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
             btn.style.color = 'var(--success-color)';
@@ -1608,7 +1626,7 @@ function handleShare() {
         const payload = JSON.stringify({ r: resumeHtml, c: coverHtml });
         const encoded = btoa(unescape(encodeURIComponent(payload)));
         const url = `${location.origin}${location.pathname}#share=${encoded}`;
-        navigator.clipboard.writeText(url).then(() => showShareToast());
+        _copyToClipboard(url).then(() => showShareToast());
     } catch (e) {
         console.error('Share failed:', e);
     }

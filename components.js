@@ -170,12 +170,43 @@
         container.before(linkBar);
     }
 
+    // ── Offline Indicator ──
+    function initOfflineBanner() {
+        var banner = document.createElement('div');
+        banner.className = 'offline-banner';
+        banner.setAttribute('role', 'alert');
+        banner.textContent = 'You are offline. Some features may be unavailable.';
+        document.body.prepend(banner);
+
+        function update() { banner.classList.toggle('visible', !navigator.onLine); }
+        window.addEventListener('online', update);
+        window.addEventListener('offline', update);
+        update();
+    }
+
+    // ── Avatar Keyboard Accessibility ──
+    function initAvatarKeyboard() {
+        var avatar = document.getElementById('user-avatar');
+        if (!avatar) return;
+        avatar.setAttribute('tabindex', '0');
+        avatar.setAttribute('role', 'button');
+        avatar.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                var dd = document.getElementById('avatar-dropdown');
+                if (dd) dd.classList.toggle('hidden');
+            }
+        });
+    }
+
     // Auto-init when DOM is ready
     function init() {
         initDropdown();
         initProductSwitcher();
         initFooter();
         initCrossLinks();
+        initOfflineBanner();
+        initAvatarKeyboard();
     }
 
     if (document.readyState === 'loading') {
