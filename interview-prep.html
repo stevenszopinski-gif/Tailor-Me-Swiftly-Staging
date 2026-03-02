@@ -591,6 +591,8 @@
 
     <div class="result-header" style="justify-content:center;">
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+        <button id="autoread-toggle" class="btn small-btn primary-btn" onclick="toggleAutoRead()"
+          title="Auto-read questions aloud"><i class="fa-solid fa-volume-high"></i> Auto-Read: On</button>
         <button id="flashcard-toggle" class="btn small-btn ghost-btn" onclick="toggleFlashcardMode()"><i
             class="fa-solid fa-layer-group"></i> Flashcards</button>
         <button id="refine-btn" class="btn small-btn ghost-btn"><i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -712,7 +714,18 @@
     }
 
     let outputs, currentQ = 0, questions = [], visitedQs = new Set(),
-      mediaRecorder, audioChunks = [], flashcardMode = false;
+      mediaRecorder, audioChunks = [], flashcardMode = false,
+      autoReadEnabled = localStorage.getItem('tms_interview_autoread') !== 'off';
+
+    // Sync auto-read button state on load
+    (function initAutoReadBtn() {
+      const btn = document.getElementById('autoread-toggle');
+      if (btn && !autoReadEnabled) {
+        btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> Auto-Read: Off';
+        btn.classList.remove('primary-btn');
+        btn.classList.add('ghost-btn');
+      }
+    })();
 
     (async function () {
       if (!(await guardToolAccess())) return;
@@ -847,11 +860,21 @@
             <div style="font-weight:600;line-height:1.6;">"${qa.question}"</div>
             <div class="bubble-actions">
               <button id="tts-btn-${qIdx}" class="btn ghost-btn" onclick="hearQuestionAt(${qIdx})" style="font-size:0.8rem;padding:0.35rem 0.7rem;">
-                <i class="fa-solid fa-volume-high"></i> Listen
+                <i class="fa-solid fa-volume-high"></i> ${autoReadEnabled ? 'Replay' : 'Listen'}
               </button>
             </div>
           </div>
         </div>`);
+
+        // Auto-read the question aloud
+        if (autoReadEnabled) {
+          setTimeout(() => hearQuestionAt(qIdx), 300);
+        }
+
+        // Pre-fetch next question's audio in the background
+        if (qIdx + 1 < questions.length && !ttsCache[qIdx + 1]) {
+          prefetchAudio(qIdx + 1);
+        }
       }
 
       function appendUserBubble(content, isAudio) {
@@ -1303,6 +1326,50 @@ Format your response exactly like this:
         }
       }
 
+      // Pre-fetch audio for next question in the background (non-blocking)
+      async function prefetchAudio(qIdx) {
+        if (ttsCache[qIdx]) return; // Already cached
+        try {
+          const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          const token = session?.access_token;
+          if (!token) return;
+
+          const resp = await fetch(`${SUPABASE_URL}/functions/v1/podcastfy`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ text: questions[qIdx].question })
+          });
+
+          if (resp.ok) {
+            const result = await resp.json();
+            if (result.audioUrl) {
+              ttsCache[qIdx] = result.audioUrl;
+              console.log(`[tts] Pre-cached audio for Q${qIdx + 1}`);
+            }
+          }
+        } catch (e) {
+          console.warn('[tts] Prefetch failed (non-fatal):', e.message);
+        }
+      }
+
+      // Toggle auto-read on/off
+      function toggleAutoRead() {
+        autoReadEnabled = !autoReadEnabled;
+        localStorage.setItem('tms_interview_autoread', autoReadEnabled ? 'on' : 'off');
+        const btn = document.getElementById('autoread-toggle');
+        if (btn) {
+          btn.innerHTML = autoReadEnabled
+            ? '<i class="fa-solid fa-volume-high"></i> Auto-Read: On'
+            : '<i class="fa-solid fa-volume-xmark"></i> Auto-Read: Off';
+          btn.classList.toggle('primary-btn', autoReadEnabled);
+          btn.classList.toggle('ghost-btn', !autoReadEnabled);
+        }
+      }
+
       function playAudio(url, btn) {
         currentAudio = new Audio(url);
         btn.disabled = false;
@@ -1506,6 +1573,7 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
 
       // Expose functions to global scope for onclick handlers
       window.toggleFlashcardMode = toggleFlashcardMode;
+      window.toggleAutoRead = toggleAutoRead;
       window.applyRefinement = applyRefinement;
       window.generateOnDemand = generateOnDemand;
       window.hearQuestionAt = hearQuestionAt;
