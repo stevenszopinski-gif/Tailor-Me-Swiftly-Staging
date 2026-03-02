@@ -138,7 +138,7 @@
         }).join(' | ');
 
         footer.innerHTML =
-            '<p>&copy; ' + new Date().getFullYear() + ' TailorMeSwiftly.com</p>' +
+            '<p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>' +
             '<p>' + linksHtml + '</p>';
     }
 
