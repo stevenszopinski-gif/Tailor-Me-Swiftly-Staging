@@ -271,50 +271,6 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* ── Heatmap Styles ── */
-        .heatmap-active .hm-high {
-            background: rgba(138, 154, 134, 0.18);
-            box-shadow: 0 0 10px rgba(138, 154, 134, 0.3);
-            border-bottom: 2px solid #8A9A86;
-            position: relative;
-            cursor: help;
-        }
-
-        .heatmap-active .hm-medium {
-            background: rgba(212, 165, 116, 0.1);
-            box-shadow: 0 0 8px rgba(212, 165, 116, 0.2);
-            border-bottom: 2px solid #D4A574;
-            position: relative;
-            cursor: help;
-        }
-
-        .hm-tooltip {
-            visibility: hidden;
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1E222D;
-            color: #fff;
-            padding: 0.6rem 0.8rem;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            width: 220px;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-            line-height: 1.4;
-            font-weight: 400;
-        }
-
-        .hm-high:hover .hm-tooltip,
-        .hm-medium:hover .hm-tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
         /* ═══ TEMPLATE GRID ═══ */
         .template-grid {
             display: grid;
@@ -998,20 +954,6 @@
                     <button class="panel-close" onclick="closePanel()">&times;</button>
                 </div>
                 <div class="panel-body">
-                    <div
-                        style="margin-bottom: 1.5rem; padding: 1rem; background: rgba(138, 154, 134, 0.08); border: 1px solid rgba(138, 154, 134, 0.2); border-radius: 4px;">
-                        <div
-                            style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span style="font-size: 0.9rem; font-weight: 600;"><i class="fa-solid fa-fire"
-                                    style="color: #C47A6E; margin-right: 0.4rem;"></i>Recruiter Heatmap</span>
-                            <label class="switch">
-                                <input type="checkbox" id="heatmap-toggle" onchange="toggleHeatmap()">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin: 0;">See exactly which parts
-                            of your resume are attracting recruiter attention.</p>
-                    </div>
                     <!-- Page Margins -->
                     <div class="design-group">
                         <div class="design-label">
@@ -1432,54 +1374,6 @@
         // ═══════════════════════════════════════════
         const templateGrid = document.getElementById('template-grid');
         let currentTheme = 'theme-executive';
-
-        // ═══════════════════════════════════════════
-        // RECRUITER HEATMAP
-        // ═══════════════════════════════════════════
-        function toggleHeatmap() {
-            const active = document.getElementById('heatmap-toggle').checked;
-            const container = document.querySelector('.resume-output');
-
-            if (active) {
-                container.classList.add('heatmap-active');
-                applyHeatmapHighlights();
-            } else {
-                container.classList.remove('heatmap-active');
-                removeHeatmapHighlights();
-            }
-        }
-
-        function applyHeatmapHighlights() {
-            if (!outputs || !outputs.heatmapData || outputs.heatmapData.length === 0) return;
-
-            removeHeatmapHighlights(); // Clean start
-            let html = resumeEl.innerHTML;
-
-            outputs.heatmapData.forEach(item => {
-                const phrase = item.phrase;
-                const intensity = item.intensity === 'high' ? 'hm-high' : 'hm-medium';
-                const reason = item.reason;
-
-                // Escape regex special chars
-                const escapedPhrase = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const regex = new RegExp(`(${escapedPhrase})`, 'gi');
-
-                // Replace while avoiding double-nesting
-                html = html.replace(regex, `<span class="${intensity}">$1<span class="hm-tooltip"><strong>Impact Analysis:</strong><br>${reason}</span></span>`);
-            });
-
-            resumeEl.innerHTML = html;
-        }
-
-        function removeHeatmapHighlights() {
-            const hms = resumeEl.querySelectorAll('.hm-high, .hm-medium');
-            hms.forEach(hm => {
-                const tooltip = hm.querySelector('.hm-tooltip');
-                if (tooltip) tooltip.remove();
-                const text = hm.textContent;
-                hm.replaceWith(text);
-            });
-        }
 
         function renderTemplateGrid() {
             templateGrid.innerHTML = '';
