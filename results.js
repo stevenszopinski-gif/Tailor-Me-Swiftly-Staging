@@ -708,14 +708,23 @@ async function saveGenerationToSupabase(outputs) {
 
         let data, error;
         if (outputs.generationId) {
-            // Update existing row
+            // Try updating existing row
             ({ data, error } = await window.supabaseClient
                 .from('generations')
                 .update(row)
                 .eq('id', outputs.generationId)
                 .eq('user_id', user.id)
                 .select()
-                .single());
+                .maybeSingle());
+            // Row didn't exist — fall back to insert
+            if (!error && !data) {
+                outputs.generationId = null;
+                ({ data, error } = await window.supabaseClient
+                    .from('generations')
+                    .insert(row)
+                    .select()
+                    .single());
+            }
         } else {
             // Insert new row
             ({ data, error } = await window.supabaseClient
