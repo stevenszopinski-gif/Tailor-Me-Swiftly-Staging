@@ -10,6 +10,9 @@
     content="Practice mock interviews with AI-generated questions tailored to your target role. Get instant voice and text feedback on your answers.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TailorMeSwiftly">
+  <meta property="og:title" content="Interview Prep – TailorMeSwiftly">
+  <meta property="og:description"
+    content="Practice mock interviews with AI-generated questions tailored to your target role. Get instant voice and text feedback on your answers.">
   <meta property="og:url" content="https://tailormeswiftly.com/interview-prep.html">
   <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
   <meta name="twitter:card" content="summary">
@@ -29,8 +32,12 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print"
+    onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </noscript>
+  <link rel="stylesheet" href="style.css?v=17">
   <link rel="stylesheet" href="templates.css">
 
   <style>
@@ -1297,61 +1304,32 @@ Format your response exactly like this:
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
 
         try {
-          const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
-          const { data: { session } } = await supabaseClient.auth.getSession();
-          const token = session?.access_token;
-          if (!token) throw new Error('Not authenticated');
-
-          const resp = await fetch(`${SUPABASE_URL}/functions/v1/podcastfy`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ text: questions[qIdx].question })
+          const { data, error } = await supabaseClient.functions.invoke('podcastfy', {
+            body: { text: questions[qIdx].question }
           });
 
-          if (!resp.ok) {
-            const errBody = await resp.json().catch(() => ({}));
-            throw new Error(errBody.error || `TTS request failed (${resp.status})`);
-          }
+          if (error) throw new Error(error.message || 'TTS request failed');
+          if (data?.error) throw new Error(data.error);
+          if (!data?.audioUrl) throw new Error('No audio URL returned');
 
-          const result = await resp.json();
-          if (result.error) throw new Error(result.error);
-          if (!result.audioUrl) throw new Error('No audio URL returned');
-
-          ttsCache[qIdx] = result.audioUrl;
-          playAudio(result.audioUrl, btn);
+          ttsCache[qIdx] = data.audioUrl;
+          playAudio(data.audioUrl, btn);
         } catch (e) {
-          console.error('TTS error (falling back to browser):', e);
+          console.error('Inworld TTS error (falling back to browser):', e);
           playBrowserTTS(questions[qIdx].question, btn);
         }
       }
 
       // Pre-fetch audio for next question in the background (non-blocking)
       async function prefetchAudio(qIdx) {
-        if (ttsCache[qIdx]) return; // Already cached
+        if (ttsCache[qIdx]) return;
         try {
-          const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
-          const { data: { session } } = await supabaseClient.auth.getSession();
-          const token = session?.access_token;
-          if (!token) return;
-
-          const resp = await fetch(`${SUPABASE_URL}/functions/v1/podcastfy`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ text: questions[qIdx].question })
+          const { data, error } = await supabaseClient.functions.invoke('podcastfy', {
+            body: { text: questions[qIdx].question }
           });
-
-          if (resp.ok) {
-            const result = await resp.json();
-            if (result.audioUrl) {
-              ttsCache[qIdx] = result.audioUrl;
-              console.log(`[tts] Pre-cached audio for Q${qIdx + 1}`);
-            }
+          if (!error && data?.audioUrl) {
+            ttsCache[qIdx] = data.audioUrl;
+            console.log(`[tts] Pre-cached audio for Q${qIdx + 1}`);
           }
         } catch (e) {
           console.warn('[tts] Prefetch failed (non-fatal):', e.message);

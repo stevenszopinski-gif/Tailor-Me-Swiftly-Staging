@@ -234,4 +234,22 @@
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
+    <url>
+        <loc>https://tailormeswiftly.com/tools/salary-map.html</loc>
+        <lastmod>2026-03-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/tools/career-dna.html</loc>
+        <lastmod>2026-03-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://tailormeswiftly.com/tools/career-paths.html</loc>
+        <lastmod>2026-03-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
 </urlset>
