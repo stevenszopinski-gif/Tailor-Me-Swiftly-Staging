@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .settings-tab {
@@ -276,7 +276,7 @@
     </style>
 </head>
 
-<body data-theme="light">
+<body data-theme="dark">
     <a href="#main-content" class="skip-nav">Skip to main content</a>
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
@@ -1195,7 +1195,7 @@
                     renderInterestTags(profile.interests);
                 }
                 // Always load 7-day briefing cache (needed for date strip)
-                if (profile?.interests?.length && !editMode) {
+                if (!editMode) {
                     const today = new Date().toISOString().split('T')[0];
                     const sevenDaysAgo = new Date();
                     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
@@ -1226,7 +1226,11 @@
                     loadRecommendedInterests();
                     return;
                 }
-                if (profile?.interests?.length) {
+
+                const hasBriefings = Object.keys(briefingCache).length > 0;
+                const hasInterests = !!profile?.interests?.length;
+
+                if (hasInterests || hasBriefings) {
                     if (editMode) {
                         editInterests();
                     } else {
@@ -1242,7 +1246,7 @@
                         showBriefingForDate(activeDate);
                     }
                 } else if (editMode) {
-                    // No saved interests but in edit mode — still show edit UI
+                    // No saved interests and no briefings but in edit mode — still show edit UI
                     editInterests();
                 }
                 // Load recommended interests (always, even if generating)
@@ -2075,7 +2079,7 @@ FORMAT — use this EXACT HTML:
 - Quick hits: <ul><li><strong>Bold lead-in:</strong> One-two sentence summary with citation.</li></ul>
 - Bottom line: <ul><li>Actionable insight starting with a verb.</li></ul>
 - Use the exact article URL provided for each source link
-- No <html>, <body>, or <head> tags`;
+- No <html>, <body data-theme="dark">, or <head> tags`;
                 } else if (tone === 'deep-dive') {
                     systemPrompt = `You are an expert industry analyst writing an in-depth intelligence brief.
 
@@ -2134,7 +2138,7 @@ FORMAT — use this EXACT HTML:
 - Quick hits: <ul><li><strong>Bold lead-in:</strong> One-two sentence summary with citation.</li></ul>
 - Takeaways: <ul><li>Actionable problem-solving advice starting with a verb</li></ul>
 - Use the exact article URL provided for each source link
-- No <html>, <body>, or <head> tags
+- No <html>, <body data-theme="dark">, or <head> tags
 - CRITICAL: Write so every sentence sounds natural when read aloud. No jargon, no awkward constructions, no run-on sentences.`;
                 }
 
