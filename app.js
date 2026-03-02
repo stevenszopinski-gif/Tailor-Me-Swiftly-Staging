@@ -1000,6 +1000,7 @@ async function processGeneration() {
 BLOCK 1 — Resume HTML:
 - Rewrite the resume to match the job description with strong ATS-optimized keywords.
 - Every bullet starts with an action verb. Preserve all metrics.
+- ACCURACY IS PARAMOUNT: NEVER fabricate, exaggerate, or inflate responsibilities, achievements, job titles, or scope. Only rephrase what the candidate actually did. Do not add responsibilities they never had. Do not upgrade their role (e.g. turning "assisted with" into "led" or "managed"). If the original says they supported a process, do not claim they owned it.
 - NEVER fabricate contact info (email, phone, address). Use ONLY what appears in the source resume. If missing, use placeholders: [your email], [your phone], [your city, state].
 - Clean semantic HTML only (h1, h2, ul, li, strong). No full HTML document wrapper.
 
