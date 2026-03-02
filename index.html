@@ -2,1218 +2,1213 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
-    <meta name="description"
-        content="TailorMeSwiftly is an AI-powered career platform. Tailor your applications, build skills, and get personalized news briefings — all in one place.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="TailorMeSwiftly">
-    <meta property="og:url" content="https://tailormeswiftly.com/">
-    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
-    <link rel="canonical" href="https://tailormeswiftly.com/">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
-    <link rel="apple-touch-icon" href="/favicon.svg">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
-    <title>TailorMeSwiftly.com | AI Career Platform — Applications, Learning & News</title>
-    <link rel="stylesheet" href="style.css?v=17">
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
-        crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
+  <meta name="description"
+    content="TailorMeSwiftly is an AI-powered career platform. Tailor your applications, build skills, and get personalized news briefings — all in one place.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TailorMeSwiftly">
+  <meta property="og:url" content="https://tailormeswiftly.com/">
+  <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+  <link rel="canonical" href="https://tailormeswiftly.com/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+  <title>TailorMeSwiftly.com | AI Career Platform — Applications, Learning & News</title>
+  <link rel="stylesheet" href="style.css?v=17">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* ─── Homepage Styles ─── */
-        .hp-main {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-        /* Hero */
-        .hp-hero {
-            text-align: center;
-            padding: 4rem 0 3rem;
-        }
-
-        .hp-hero h2 {
-            font-size: clamp(2.2rem, 5.5vw, 3.6rem);
-            font-weight: 700;
-            line-height: 1.1;
-            color: var(--text-primary);
-            letter-spacing: -0.03em;
-        }
-
-        .hp-hero h2 .hp-gradient {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-        }
-
-        .hp-hero-sub {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 580px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .hp-hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 1.15rem;
-            padding: 0.9rem 2.5rem;
-            border-radius: var(--brutal-radius);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.2s ease-in-out;
-            border: 1px solid transparent;
-            box-shadow: var(--brutal-shadow);
-        }
-
-        .hp-hero-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--brutal-shadow-hover);
-        }
-
-        .hp-hero-note {
-            margin-top: 1.25rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .hp-hero-note span {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        /* Section Headings */
-        .hp-section-head {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .hp-section-head h2 {
-            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-            margin-bottom: 0.75rem;
-        }
-
-        .hp-section-head p {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* How It Works — 3-step */
-        .hp-steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            padding: 1rem 0 2rem;
-            position: relative;
-        }
-
-        .hp-steps::before {
-            content: '';
-            position: absolute;
-            top: calc(1rem + 28px);
-            left: 16.66%;
-            right: 16.66%;
-            height: 2px;
-            background: var(--text-primary);
-        }
-
-        .hp-step {
-            text-align: center;
-            position: relative;
-        }
-
-        .hp-step-num {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--brutal-radius);
-            background: var(--text-primary);
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hp-step h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .hp-step p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* ── Product Hub Cards ── */
-        .product-hub-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 960px;
-            margin: 0 auto 2rem;
-        }
-
-        .product-hub-card {
-            background: var(--glass-bg);
-            border: var(--brutal-border);
-            border-radius: var(--radius-lg);
-            padding: 2rem 1.5rem;
-            text-align: left;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            box-shadow: var(--brutal-shadow);
-        }
-
-        .product-hub-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-color);
-            box-shadow: var(--brutal-shadow-hover);
-        }
-
-        .product-hub-card .card-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--brutal-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        /* ═══ CATEGORIZED TOOLKIT ═══ */
-        .hp-cat-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .hp-cat-header {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 1rem;
-        }
-
-        .hp-cat-header i {
-            font-size: 1rem;
-        }
-
-        .hp-cat-header h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .hp-cat-header span {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-left: auto;
-        }
-
-        .hp-cat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.75rem;
-        }
-
-        .hp-tool-card {
-            background: var(--panel-bg);
-            border: var(--brutal-border);
-            border-radius: var(--brutal-radius);
-            padding: 1rem 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: all 0.2s ease;
-            position: relative;
-            box-shadow: var(--brutal-shadow);
-        }
-
-        .hp-premium-tag {
-            position: absolute;
-            top: 0.4rem;
-            right: 0.5rem;
-            font-size: 0.55rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            color: #B88A5A;
-            /* Warmer amber */
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            line-height: 1;
-        }
-
-        .hp-tool-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-color);
-            box-shadow: var(--brutal-shadow-hover);
-        }
-
-        .hp-tool-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 0.9rem;
-        }
-
-        .hp-tool-card h5 {
-            margin: 0;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .hp-tool-card p {
-            margin: 0.1rem 0 0;
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            line-height: 1.3;
-        }
-
-        /* Bottom CTA */
-        .hp-bottom-cta {
-            text-align: center;
-            padding: 4rem 2rem;
-            margin: 0 -1.5rem 3rem;
-            border-radius: var(--brutal-radius);
-            background: var(--panel-bg);
-            border: var(--brutal-border);
-        }
-
-        .hp-bottom-cta h2 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            margin-bottom: 0.75rem;
-        }
-
-        .hp-bottom-cta p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1.05rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hp-steps {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .hp-steps::before {
-                display: none;
-            }
-
-            .hp-hero h2 {
-                font-size: 1.8rem;
-            }
-
-            .product-hub-grid {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hp-hero-note {
-                flex-direction: column;
-                align-items: center;
-                gap: 0.5rem;
-            }
-        }
-    </style>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "TailorMeSwiftly",
-        "url": "https://tailormeswiftly.com",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web",
-        "description": "AI-powered resume tailoring tool that instantly optimizes your resume for any job description. Includes ATS optimization, cover letter generation, mock interviews, and 30+ career tools.",
-        "offers": [
-            {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD",
-                "name": "Free",
-                "description": "5 AI generations per month"
-            },
-            {
-                "@type": "Offer",
-                "price": "9.99",
-                "priceCurrency": "USD",
-                "name": "Premium",
-                "description": "Unlimited AI generations",
-                "billingIncrement": "P1M"
-            }
-        ],
-        "featureList": [
-            "AI Resume Tailoring",
-            "ATS Score Optimization",
-            "Cover Letter Generation",
-            "Mock Interview Prep",
-            "Application Tracking",
-            "Salary Negotiation Practice",
-            "Company Culture Analysis",
-            "Skills Gap Analysis"
-        ],
-        "screenshot": "https://tailormeswiftly.com/logo.png",
-        "creator": {
-            "@type": "Organization",
-            "name": "TailorMeSwiftly"
-        }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ─── Homepage Styles ─── */
+    .hp-main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
-    </script>
+
+    /* Hero */
+    .hp-hero {
+      text-align: center;
+      padding: 4rem 0 3rem;
+    }
+
+    .hp-hero h2 {
+      font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text-primary);
+      letter-spacing: -0.03em;
+    }
+
+    .hp-hero h2 .hp-gradient {
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+    }
+
+    .hp-hero-sub {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hp-hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.15rem;
+      padding: 0.9rem 2.5rem;
+      border-radius: var(--brutal-radius);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+      border: 1px solid transparent;
+      box-shadow: var(--brutal-shadow);
+    }
+
+    .hp-hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--brutal-shadow-hover);
+    }
+
+    .hp-hero-note {
+      margin-top: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hp-hero-note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Section Headings */
+    .hp-section-head {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .hp-section-head h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .hp-section-head p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* How It Works — 3-step */
+    .hp-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      padding: 1rem 0 2rem;
+      position: relative;
+    }
+
+    .hp-steps::before {
+      content: '';
+      position: absolute;
+      top: calc(1rem + 28px);
+      left: 16.66%;
+      right: 16.66%;
+      height: 2px;
+      background: var(--text-primary);
+    }
+
+    .hp-step {
+      text-align: center;
+      position: relative;
+    }
+
+    .hp-step-num {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--brutal-radius);
+      background: var(--text-primary);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hp-step h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hp-step p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ── Product Hub Cards ── */
+    .product-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 960px;
+      margin: 0 auto 2rem;
+    }
+
+    .product-hub-card {
+      background: var(--glass-bg);
+      border: var(--brutal-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: left;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      box-shadow: var(--brutal-shadow);
+    }
+
+    .product-hub-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-color);
+      box-shadow: var(--brutal-shadow-hover);
+    }
+
+    .product-hub-card .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--brutal-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    /* ═══ CATEGORIZED TOOLKIT ═══ */
+    .hp-cat-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .hp-cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .hp-cat-header i {
+      font-size: 1rem;
+    }
+
+    .hp-cat-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .hp-cat-header span {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-left: auto;
+    }
+
+    .hp-cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .hp-tool-card {
+      background: var(--panel-bg);
+      border: var(--brutal-border);
+      border-radius: var(--brutal-radius);
+      padding: 1rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s ease;
+      position: relative;
+      box-shadow: var(--brutal-shadow);
+    }
+
+    .hp-premium-tag {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.5rem;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #B88A5A;
+      /* Warmer amber */
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      line-height: 1;
+    }
+
+    .hp-tool-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-color);
+      box-shadow: var(--brutal-shadow-hover);
+    }
+
+    .hp-tool-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+
+    .hp-tool-card h5 {
+      margin: 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .hp-tool-card p {
+      margin: 0.1rem 0 0;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+
+    /* Bottom CTA */
+    .hp-bottom-cta {
+      text-align: center;
+      padding: 4rem 2rem;
+      margin: 0 -1.5rem 3rem;
+      border-radius: var(--brutal-radius);
+      background: var(--panel-bg);
+      border: var(--brutal-border);
+    }
+
+    .hp-bottom-cta h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .hp-bottom-cta p {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hp-steps {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hp-steps::before {
+        display: none;
+      }
+
+      .hp-hero h2 {
+        font-size: 1.8rem;
+      }
+
+      .product-hub-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hp-hero-note {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TailorMeSwiftly",
+    "url": "https://tailormeswiftly.com",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "AI-powered resume tailoring tool that instantly optimizes your resume for any job description. Includes ATS optimization, cover letter generation, mock interviews, salary negotiation, and a full suite of career tools.",
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "name": "Free",
+        "description": "5 AI generations per month"
+      },
+      {
+        "@type": "Offer",
+        "price": "9.99",
+        "priceCurrency": "USD",
+        "name": "Premium",
+        "description": "Unlimited AI generations",
+        "billingIncrement": "P1M"
+      }
+    ],
+    "featureList": [
+      "AI Resume Tailoring",
+      "ATS Score Optimization",
+      "Cover Letter Generation",
+      "Mock Interview Prep",
+      "Application Tracking",
+      "Salary Negotiation Practice",
+      "Company Culture Analysis",
+      "Skills Gap Analysis"
+    ],
+    "screenshot": "https://tailormeswiftly.com/logo.png",
+    "creator": {
+      "@type": "Organization",
+      "name": "TailorMeSwiftly"
+    }
+  }
+  </script>
 </head>
 
 <body>
-    <div class="bg-noise"></div>
-    <a href="#main-content" class="skip-nav">Skip to main content</a>
-    <!-- Generic background blobs removed for starker layout -->
+  <div class="bg-noise"></div>
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+  <!-- Generic background blobs removed for starker layout -->
 
-    <div class="app-container" style="min-height: auto;">
-        <!-- Header -->
-        <header class="app-header" role="banner">
-            <div class="logo maker-mark">
-                <span class="mark-border">
-                    <span class="mark-text">TMS</span>
-                </span>
-                <div class="mark-name">
-                    <span class="mark-script">TailorMeSwiftly</span>
-                    <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
-                </div>
-            </div>
-            <div class="header-actions" style="display: flex; gap: 0.25rem; align-items: center;">
-                <a href="pricing.html" title="Pricing"
-                    style="text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.6rem; border-radius: 8px; transition: color 0.2s;">
-                    <i class="fa-solid fa-gem"></i> Pricing
-                </a>
-                <a href="updates.html" title="Release Notes"
-                    style="text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.6rem; border-radius: 8px; transition: color 0.2s;">
-                    <i class="fa-solid fa-bullhorn"></i> Updates
-                </a>
-                <!-- Auth Section -->
-                <a href="login.html" id="login-btn" class="btn secondary-btn"
-                    style="padding: 0.45rem 0.9rem; text-decoration: none; font-size: 0.85rem; margin-left: 0.25rem;">
-                    Sign In
-                </a>
+  <div class="app-container" style="min-height: auto;">
+    <!-- Header -->
+    <header class="app-header" role="banner">
+      <div class="logo maker-mark">
+        <span class="mark-border">
+          <span class="mark-text">TMS</span>
+        </span>
+        <div class="mark-name">
+          <span class="mark-script">TailorMeSwiftly</span>
+          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
+        </div>
+      </div>
+      <div class="header-actions" style="display: flex; gap: 0.25rem; align-items: center;">
+        <a href="pricing.html" title="Pricing"
+          style="text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.6rem; border-radius: 8px; transition: color 0.2s;">
+          <i class="fa-solid fa-gem"></i> Pricing
+        </a>
+        <a href="updates.html" title="Release Notes"
+          style="text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.6rem; border-radius: 8px; transition: color 0.2s;">
+          <i class="fa-solid fa-bullhorn"></i> Updates
+        </a>
+        <!-- Auth Section -->
+        <a href="login.html?signup=true" id="login-btn" class="btn secondary-btn"
+          style="padding: 0.45rem 0.9rem; text-decoration: none; font-size: 0.85rem; margin-left: 0.25rem;">
+          Sign Up
+        </a>
 
-                <div id="user-profile" class="user-profile"
-                    style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
-                    <img id="user-avatar" aria-label="User menu" src="" alt="Profile"
-                        style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
-                        onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                    <span id="user-greeting"
-                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+        <div id="user-profile" class="user-profile"
+          style="display: none; flex-direction: column; align-items: center; gap: 0.2rem; position: relative;">
+          <img id="user-avatar" aria-label="User menu" src="" alt="Profile"
+            style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
+            onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+          <span id="user-greeting"
+            style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
 
-                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                        <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
-                            <i class="fa-solid fa-user-gear"></i> Account
-                        </a>
-                        <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i
-                                class="fa-solid fa-compass"></i> Dashboard</a>
-                        <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
-                            <i class="fa-solid fa-bullhorn"></i> Release Notes
-                        </a>
-                        <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
-                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </header>
-    </div>
-
-    <main id="main-content" class="hp-main">
-
-
-        <!-- ═══════ HERO & EDITORIAL HUB ═══════ -->
-        <section
-            style="padding: 6rem 0 3rem; text-align: left; max-width: 1200px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem;">
-            <p
-                style="font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; border-bottom: 1px solid var(--text-primary); padding-bottom: 1rem; display: inline-block;">
-                TailorMeSwiftly // Career Command Center [v2.0]</p>
-            <h2 class="display-xl">Custom AI Tools,<br>Tailored for Your<br><span>Career Growth.</span></h2>
-
-            <div
-                style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; justify-content: space-between; border-top: 1px solid var(--text-primary); padding-top: 2rem; margin-top: 4rem;">
-                <p style="font-size: 1.25rem; max-width: 500px; color: var(--text-secondary); line-height: 1.6;">
-                    From ATS-beating resumes to personalized news briefings and adaptive learning paths — every tool is
-                    built around your unique career trajectory.
-                </p>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <a href="login.html" class="btn primary-btn"
-                        style="border-radius: 0; padding: 1rem 2.5rem; font-size: 1.1rem; box-shadow: 4px 4px 0px var(--text-primary); border: 1px solid var(--text-primary);">
-                        Enter the Engine <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                    <p
-                        style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right;">
-                        [No Credit Card. 30+ Tools]</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════ ASYMMETRICAL HUB ═══════ -->
-        <section style="padding: 0 2rem;">
-            <div class="asym-product-hub">
-                <a href="app.html" class="asym-card asym-card-main"
-                    style="text-decoration: none; color: inherit; background: var(--text-primary); color: #F4F1ED;">
-                    <div class="label" style="color: var(--primary-color);">
-                        <span>[01] Core</span>
-                        <span>LIVE</span>
-                    </div>
-                    <img src="app-mockup.png"
-                        style="width: 100%; filter: grayscale(100%); mix-blend-mode: screen; opacity: 0.8; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.2);"
-                        alt="App UI">
-                    <h3 style="color: #F4F1ED; font-size: 2.5rem;">Tailor My Application</h3>
-                    <p
-                        style="color: rgba(244, 241, 237, 0.7); font-size: 1.1rem; max-width: 400px; margin-bottom: 2rem;">
-                        Our flagship application engine. Instantly rewrite your resume, draft bespoke cover letters, and
-                        run simulated voice interviews based on the exact job description.
-                    </p>
-                    <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto;">ACCESS SUITE
-                        &rarr;</span>
-                </a>
-
-                <a href="news.html" class="asym-card"
-                    style="text-decoration: none; color: inherit; background: var(--panel-bg);">
-                    <div class="label" style="color: var(--text-secondary);">
-                        <span>[02] Intelligence</span>
-                        <span>NEW</span>
-                    </div>
-                    <h3 style="font-size: 1.8rem; letter-spacing: -0.02em;">Tailor The News</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
-                        A daily 5-minute technical briefing curated specifically for your career goals, bypassing
-                        generic headlines for actionable intelligence. Listen as a podcast.
-                    </p>
-                    <span
-                        style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">READ
-                        BRIEFING &rarr;</span>
-                </a>
-
-                <a href="learning.html" class="asym-card"
-                    style="text-decoration: none; color: inherit; background: #EAE6DF;">
-                    <div class="label" style="color: var(--text-secondary);">
-                        <span>[03] Upskill</span>
-                        <span>WAITLIST</span>
-                    </div>
-                    <h3 style="font-size: 1.8rem; letter-spacing: -0.02em; color: var(--text-primary);">Tailor My
-                        Learning</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
-                        A hyper-personalized curriculum mapping exactly what you need to learn to bridge the gap to your
-                        next senior role.
-                    </p>
-                    <span
-                        style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">JOIN
-                        WAITLIST &rarr;</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- ═══════ PLATFORM PILLARS ═══════ -->
-
-        <!-- 1. Tailor My Application -->
-        <section style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); margin: 0 -1.5rem;">
-            <div
-                style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
-                <div style="flex: 1; min-width: 300px; text-align: left;">
-                    <div
-                        style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(138,154,134,0.15);color:#8A9A86;margin-bottom:1rem;">
-                        <i class="fa-solid fa-clipboard" style="margin-right:0.4rem;"></i> Tailor My Application
-                    </div>
-                    <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Build Bulletproof <span
-                            style="color:#8A9A86;">Applications</span></h2>
-                    <p
-                        style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                        Stop sending generic resumes into the void. Our AI engine instantly tailors your application
-                        materials to match any job description perfectly, significantly boosting your ATS score and
-                        interview rate.
-                    </p>
-                    <ul
-                        style="list-style: none; padding: 0; margin: 0 0 2rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
-                        <li><i class="fa-solid fa-check" style="color: #8A9A86; margin-right: 0.5rem;"></i> Generate
-                            ATS-optimized resumes in seconds</li>
-                        <li><i class="fa-solid fa-check" style="color: #8A9A86; margin-right: 0.5rem;"></i> Craft highly
-                            personalized cover letters</li>
-                        <li><i class="fa-solid fa-check" style="color: #8A9A86; margin-right: 0.5rem;"></i> Practice
-                            with voice-based AI mock interviews</li>
-                    </ul>
-                    <a href="app.html" class="btn primary-btn"
-                        style="background: linear-gradient(135deg, #8A9A86, #6E7E6A); font-size: 1rem; padding: 0.6rem 1.25rem;">Start
-                        the App Generator <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <div style="flex: 1; min-width: 300px; position: relative;">
-                    <img src="app-mockup.png" alt="Tailor My Application UI"
-                        style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. Tailor My Learning -->
-        <section
-            style="padding: 5rem 2rem; background: rgba(155, 142, 166, 0.03); border-top: 1px solid var(--panel-border); margin: 0 -1.5rem;">
-            <div
-                style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center; flex-direction: row-reverse;">
-                <div style="flex: 1; min-width: 300px; text-align: left;">
-                    <div
-                        style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(155,142,166,0.15);color:#9B8EA6;margin-bottom:1rem;">
-                        <i class="fa-solid fa-graduation-cap" style="margin-right:0.4rem;"></i> Tailor My Learning
-                    </div>
-                    <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Hyper-Personalized <span
-                            style="color:#9B8EA6;">Upskilling</span></h2>
-                    <p
-                        style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                        Stop taking generic 40-hour courses. We build custom, dynamic curricula that bridge the exact
-                        gap between your current knowledge and your ultimate career goals.
-                    </p>
-                    <ul
-                        style="list-style: none; padding: 0; margin: 0 0 2rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
-                        <li><i class="fa-solid fa-check" style="color: #9B8EA6; margin-right: 0.5rem;"></i> AI analyzes
-                            your current skills vs target role</li>
-                        <li><i class="fa-solid fa-check" style="color: #9B8EA6; margin-right: 0.5rem;"></i> Generates a
-                            step-by-step learning roadmap</li>
-                        <li><i class="fa-solid fa-check" style="color: #9B8EA6; margin-right: 0.5rem;"></i> Skips the
-                            basics you already know</li>
-                    </ul>
-                    <a href="learning.html" class="btn secondary-btn"
-                        style="font-size: 1rem; padding: 0.6rem 1.25rem; border-color: #9B8EA6; color: #9B8EA6;">Join
-                        the Waitlist <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <div style="flex: 1; min-width: 300px; position: relative;">
-                    <img src="learning-mockup.png" alt="Tailor My Learning Dashboard"
-                        style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Tailor The News -->
-        <section
-            style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); border-bottom: 1px solid var(--panel-border); margin: 0 -1.5rem 3rem;">
-            <div
-                style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
-                <div style="flex: 1; min-width: 300px; text-align: left;">
-                    <div
-                        style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(123,154,180,0.15);color:#7B9AB4;margin-bottom:1rem;">
-                        <i class="fa-solid fa-newspaper" style="margin-right:0.4rem;"></i> Tailor The News
-                    </div>
-                    <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Your Daily <span
-                            style="color:#7B9AB4;">Personalized News Briefing</span></h2>
-                    <p
-                        style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                        Stay ahead of trends without the noise. Our tool scours thousands of articles and newsletters to
-                        create a 5-minute technical digest tailored precisely to you.
-                    </p>
-                    <ul
-                        style="list-style: none; padding: 0; margin: 0 0 2rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
-                        <li><i class="fa-solid fa-check" style="color: #7B9AB4; margin-right: 0.5rem;"></i> Highly
-                            curated, strictly technical content</li>
-                        <li><i class="fa-solid fa-check" style="color: #7B9AB4; margin-right: 0.5rem;"></i> Listen as a
-                            podcast via ultra-realistic TTS</li>
-                        <li><i class="fa-solid fa-check" style="color: #7B9AB4; margin-right: 0.5rem;"></i> Filter by
-                            specific industries and tags</li>
-                    </ul>
-                    <a href="news.html" class="btn primary-btn"
-                        style="background: linear-gradient(135deg, #7B9AB4, #5C7A8A); font-size: 1rem; padding: 0.6rem 1.25rem;">Explore
-                        Your Briefing <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <div style="flex: 1; min-width: 300px; position: relative;">
-                    <img src="news-mockup.png" alt="Tailor The News Interface"
-                        style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════ CATEGORIZED TOOLKIT ═══════ -->
-        <section style="padding: 3rem 0;" id="career-command-center">
-            <div class="hp-section-head">
-                <h2>Your Complete Career Command Center</h2>
-                <p>From application to offer, every stage covered. What is your goal today?</p>
-            </div>
-
-            <!-- Tabs -->
-            <div class="hp-tool-tabs"
-                style="display:flex; justify-content:center; gap: 1rem; margin-bottom: 3.5rem; flex-wrap: wrap;">
-                <button class="btn primary-btn active-tab" data-target="apply-smarter"
-                    style="background:var(--primary-color);">I want to apply for a job</button>
-                <button class="btn secondary-btn" data-target="interview-prep">I have an interview</button>
-                <button class="btn secondary-btn" data-target="know-before">I'm exploring the market</button>
-                <button class="btn secondary-btn" data-target="get-edge">I need to stand out</button>
-                <button class="btn secondary-btn" data-target="career-growth">I want to grow my skills</button>
-            </div>
-
-            <!-- Category 1: Apply Smarter -->
-            <div class="hp-cat-section" id="apply-smarter" style="display: block;">
-                <div class="hp-cat-header">
-                    <i class="fa-solid fa-file-lines" style="color:#7B8FA8;"></i>
-                    <h3>Apply Smarter</h3>
-                    <span>Build bulletproof applications</span>
-                </div>
-                <div class="hp-cat-grid">
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7B8FA8,#9B8EA6);"><i
-                                class="fa-solid fa-file-lines" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>ATS Resume</h5>
-                            <p>15+ templates, keyword optimization</p>
-                        </div>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7BA5B4,#A3C4DC);"><i
-                                class="fa-solid fa-envelope-open-text" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Cover Letter</h5>
-                            <p>Tailored narrative for every role</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D4A574,#E3C8A0);"><i
-                                class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Intro Email</h5>
-                            <p>Outreach draft with company intel</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#A8B8A4);"><i
-                                class="fa-solid fa-fire" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Recruiter Heatmap</h5>
-                            <p>See what catches their eye</p>
-                        </div>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#D99B82);"><i
-                                class="fa-solid fa-fire-flame-curved" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Brutal Roast</h5>
-                            <p>Honest AI roast of weak spots</p>
-                        </div>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D4A574,#C47A6E);"><i
-                                class="fa-solid fa-triangle-exclamation" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Red Flag Detector</h5>
-                            <p>Find what gets you rejected</p>
-                        </div>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7BA5B4,#7BA5B4);"><i
-                                class="fa-solid fa-chart-column" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Prove It</h5>
-                            <p>Turn vague bullets into metrics</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#C4B5CF);"><i
-                                class="fa-solid fa-video" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Video Intro</h5>
-                            <p>60s script + teleprompter</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Category 2: Know Before You Go -->
-            <div class="hp-cat-section" id="know-before" style="display: none;">
-                <div class="hp-cat-header">
-                    <i class="fa-solid fa-satellite-dish" style="color:#C47A6E;"></i>
-                    <h3>Know Before You Go</h3>
-                    <span>Intelligence on every company</span>
-                </div>
-                <div class="hp-cat-grid">
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#7A3F38);"><i
-                                class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Toxic Culture Radar</h5>
-                            <p>Toxicity score + layoff risk</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C4B5CF,#9B8EA6);"><i
-                                class="fa-solid fa-ghost" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Ghosting Predictor</h5>
-                            <p>Detect ghost jobs instantly</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D99B82,#C4A060);"><i
-                                class="fa-solid fa-shield-halved" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Burnout Check</h5>
-                            <p>Toxic JD language + OE fit</p>
-                        </div>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#6E7E6A);"><i
-                                class="fa-solid fa-scale-balanced" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Comp Decoder</h5>
-                            <p>True offer value with COL</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7B8FA8,#A3B1C8);"><i
-                                class="fa-solid fa-sun" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Day in the Life</h5>
-                            <p>Realistic day simulation</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7BA5B4,#5F8A99);"><i
-                                class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Skills Tracker</h5>
-                            <p>Rising vs decaying skills</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Category 3: Interview Like a Pro -->
-            <div class="hp-cat-section" id="interview-prep" style="display: none;">
-                <div class="hp-cat-header">
-                    <i class="fa-solid fa-microphone-lines" style="color:#8A9A86;"></i>
-                    <h3>Interview Like a Pro</h3>
-                    <span>Prepare for every round</span>
-                </div>
-                <div class="hp-cat-grid">
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#A8B8A4);"><i
-                                class="fa-solid fa-comments" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Mock Interview</h5>
-                            <p>10 questions + AI voice + feedback</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#8A9A86);"><i
-                                class="fa-solid fa-sack-dollar" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Salary Negotiator</h5>
-                            <p>Voice-to-voice with AI HR rep</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#8B4A42);"><i
-                                class="fa-solid fa-fire" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Trial By Fire</h5>
-                            <p>Custom coding challenge + IDE</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#8A7B96);"><i
-                                class="fa-solid fa-magnifying-glass-arrow-right" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Reverse Interview</h5>
-                            <p>Probing questions for them</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#5A6B56);"><i
-                                class="fa-solid fa-envelope-circle-check" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Thank-You Engine</h5>
-                            <p>3 variants of perfect follow-up</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Category 4: Get the Edge -->
-            <div class="hp-cat-section" id="get-edge" style="display: none;">
-                <div class="hp-cat-header">
-                    <i class="fa-solid fa-rocket" style="color:#D4A574;"></i>
-                    <h3>Get the Edge</h3>
-                    <span>Outreach, networking, and tactics</span>
-                </div>
-                <div class="hp-cat-grid">
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7B8FA8,#5C6E82);"><i
-                                class="fa-solid fa-robot" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Auto-App Agent</h5>
-                            <p>AI finds + tailors matching jobs</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#3A3F4A,#4A505C);"><i
-                                class="fa-solid fa-eye" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Shadow Jobs</h5>
-                            <p>Monitor career pages early</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#6E7E6A);"><i
-                                class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Referral Mapper</h5>
-                            <p>Backdoor referrals + scripts</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#A85A50);"><i
-                                class="fa-solid fa-user-ninja" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Guerrilla Tactics</h5>
-                            <p>Bypass ATS, reach decision makers</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                    <div class="hp-tool-card">
-                        <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#6E5F7A);"><i
-                                class="fa-solid fa-rotate-left" style="color:#fff;"></i></div>
-                        <div>
-                            <h5>Rejection Reverser</h5>
-                            <p>Turn rejections into networking</p>
-                        </div>
-                        <span class="hp-premium-tag">PRO</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Category 5: Career Growth -->
-            <div class="hp-cat-section" id="career-growth" style="display: none;">
-                <div class="hp-cat-header">
-                    <i class="fa-solid fa-tree" style="color:#8A9A86;"></i>
-                    <h3>Career Growth</h3>
-                    <span>Continuous upskilling and trajectory planning</span>
-                </div>
-                <div style="text-align: center; padding: 2rem 0; color: var(--text-secondary);">
-                    <i class="fa-solid fa-seedling"
-                        style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color); opacity: 0.5;"></i>
-                    <p>New growth planning tools coming soon to Tailor My Learning.</p>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- ═══════ BOTTOM CTA ═══════ -->
-        <section class="hp-bottom-cta" style="margin-top: 1rem;">
-            <h2>Ready to Level Up?</h2>
-            <p>Join thousands of professionals who stopped doing career prep the hard way.</p>
-            <a href="login.html" class="btn primary-btn hp-hero-cta" style="font-size: 1.1rem;">
-                <i class="fa-solid fa-rocket"></i> Create Your Free Account
+          <div id="avatar-dropdown" class="avatar-dropdown hidden">
+            <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+              <i class="fa-solid fa-user-gear"></i> Account
             </a>
-        </section>
-
-    </main>
-
-    <!-- PREFERENCES MODAL -->
-    <div id="prefs-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-sliders"></i> Writing Preferences</h3>
-                <span id="close-prefs" class="close">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p class="field-label">Custom Tailoring Instructions</p>
-                <textarea id="user-prefs-input"
-                    placeholder="E.g. Use British English, keep it strictly under 1 page, focus on leadership, use a professional but friendly tone..."></textarea>
-                <p class="helper-text">These instructions will be applied to every document we generate for you.</p>
-                <button id="save-prefs" class="btn primary-btn" style="width: 100%; margin-top: 1rem;">Save
-                    Preferences</button>
-            </div>
+            <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i
+                class="fa-solid fa-compass"></i> Dashboard</a>
+            <a href="updates.html" class="dropdown-item" style="text-decoration: none; color: inherit;">
+              <i class="fa-solid fa-bullhorn"></i> Release Notes
+            </a>
+            <div style="height: 1px; background: var(--panel-border); margin: 0.3rem 0;"></div>
+            <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+            </button>
+          </div>
         </div>
-    </div>
+      </div>
+    </header>
+  </div>
 
-    <!-- TOOL PREVIEW MODAL -->
-    <div id="tool-preview-modal" class="modal">
-        <div class="modal-content glass-panel" style="max-width: 450px;">
-            <div class="modal-header"
-                style="border-bottom: 1px solid var(--panel-border); padding-bottom: 1rem; margin-bottom: 1rem; align-items: center;">
-                <div id="tp-modal-icon"
-                    style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; margin-right: 1rem;">
-                </div>
-                <h3 id="tp-modal-title" style="margin: 0; font-size: 1.25rem;">Tool Name</h3>
-                <span id="close-tool-preview" class="close" style="margin-left: auto;">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p id="tp-modal-desc"
-                    style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem;">
-                    Tool description goes here.</p>
-                <div id="tp-modal-example"
-                    style="display:none;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:1rem;overflow:hidden;position:relative;">
-                    <div id="tp-modal-text-wrap" style="padding:1rem;">
-                        <div
-                            style="font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.5rem;">
-                            <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.3rem;"></i> Example Output
-                        </div>
-                        <div id="tp-modal-example-text"
-                            style="color:var(--text-secondary);font-style:italic;font-size:0.82rem;line-height:1.6;">
-                        </div>
-                    </div>
-                    <img id="tp-modal-example-img" src="" alt="Tool Preview"
-                        style="display:none;width:100%;height:auto;display:block;">
-                </div>
-                <div
-                    style="background: rgba(138, 154, 134, 0.1); border: 1px solid rgba(138, 154, 134, 0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
-                    <strong
-                        style="color: var(--text-primary); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;"><i
-                            class="fa-solid fa-bolt" style="color: #8A9A86; margin-right: 0.4rem;"></i> Instantly
-                        available in your dashboard</strong>
-                    <span style="font-size: 0.8rem; color: var(--text-secondary);">Sign in to access this tool and 30+
-                        others designed to accelerate your career.</span>
-                </div>
-                <button onclick="window.location.href='login.html'" class="btn primary-btn" style="width: 100%;"><i
-                        class="fa-solid fa-rocket"></i> Get Started</button>
-            </div>
+  <main id="main-content" class="hp-main">
+
+
+    <!-- ═══════ HERO & EDITORIAL HUB ═══════ -->
+    <section
+      style="padding: 6rem 0 3rem; text-align: left; max-width: 1200px; margin: 0 auto; padding-left: 2rem; padding-right: 2rem;">
+      <p
+        style="font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; border-bottom: 1px solid var(--text-primary); padding-bottom: 1rem; display: inline-block;">
+        TailorMeSwiftly // Career Command Center [v2.0]</p>
+      <h2 class="display-xl">Custom AI Tools,<br>Tailored for Your<br><span>Career Growth.</span></h2>
+
+      <div
+        style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; justify-content: space-between; border-top: 1px solid var(--text-primary); padding-top: 2rem; margin-top: 4rem;">
+        <p style="font-size: 1.25rem; max-width: 500px; color: var(--text-secondary); line-height: 1.6;">
+          From ATS-beating resumes to personalized news briefings and adaptive learning paths — every tool is
+          built around your unique career trajectory.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <a href="login.html?signup=true" class="btn primary-btn"
+            style="border-radius: 0; padding: 1rem 2.5rem; font-size: 1.1rem; box-shadow: 4px 4px 0px var(--text-primary); border: 1px solid var(--text-primary);">
+            Enter the Engine <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <p
+            style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); text-align: right;">
+            [No Credit Card. Full AI Career Suite]</p>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <!-- LOGIN MODAL -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content glass-panel" style="max-width: 400px; text-align: center;">
-            <div class="modal-header" style="justify-content: center; position: relative;">
-                <h2 style="font-size: 1.5rem;"><i class="fa-solid fa-lock" style="color: var(--primary-color);"></i>
-                    Sign In Required</h2>
-                <span id="close-login" class="close" style="position: absolute; right: 0;">&times;</span>
-            </div>
-            <div class="modal-body" style="padding: 2rem 1rem;">
-                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Please sign in to save your generated
-                    resumes and access personalized features.</p>
+    <!-- ═══════ ASYMMETRICAL HUB ═══════ -->
+    <section style="padding: 0 2rem;">
+      <div class="asym-product-hub">
+        <a href="app.html" class="asym-card asym-card-main"
+          style="text-decoration: none; color: inherit; background: var(--text-primary); color: #F4F1ED;">
+          <div class="label" style="color: var(--primary-color);">
+            <span>[01] Core</span>
+            <span>LIVE</span>
+          </div>
+          <img src="app-mockup.png"
+            style="width: 100%; filter: grayscale(100%); mix-blend-mode: screen; opacity: 0.8; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.2);"
+            alt="App UI">
+          <h3 style="color: #F4F1ED; font-size: 2.5rem;">Tailor My Application</h3>
+          <p
+            style="color: rgba(244, 241, 237, 0.7); font-size: 1.1rem; max-width: 400px; margin-bottom: 2rem;">
+            Our flagship application engine. Instantly rewrite your resume, draft bespoke cover letters, and
+            run simulated voice interviews based on the exact job description.
+          </p>
+          <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto;">ACCESS SUITE
+            &rarr;</span>
+        </a>
 
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <button id="google-login-btn" class="btn auth-btn google-btn">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
-                            style="width: 20px; height: 20px; margin-right: 10px; display: inline-block; vertical-align: middle;">
-                        Continue with Google
-                    </button>
-                </div>
+        <a href="news.html" class="asym-card"
+          style="text-decoration: none; color: inherit; background: var(--panel-bg);">
+          <div class="label" style="color: var(--text-secondary);">
+            <span>[02] Intelligence</span>
+            <span>NEW</span>
+          </div>
+          <h3 style="font-size: 1.8rem; letter-spacing: -0.02em;">Tailor The News</h3>
+          <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
+            A daily 5-minute technical briefing curated specifically for your career goals, bypassing
+            generic headlines for actionable intelligence. Listen as a podcast.
+          </p>
+          <span
+            style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">READ
+            BRIEFING &rarr;</span>
+        </a>
 
-                <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-secondary);">
-                    By signing in, you agree to our <a href="terms.html" style="color: var(--primary-color);">Terms &
-                        Conditions</a> and <a href="privacy.html" style="color: var(--primary-color);">Privacy
-                        Policy</a>.
-                </p>
-            </div>
+        <a href="learning.html" class="asym-card"
+          style="text-decoration: none; color: inherit; background: #EAE6DF;">
+          <div class="label" style="color: var(--text-secondary);">
+            <span>[03] Upskill</span>
+            <span>WAITLIST</span>
+          </div>
+          <h3 style="font-size: 1.8rem; letter-spacing: -0.02em; color: var(--text-primary);">Tailor My
+            Learning</h3>
+          <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
+            A hyper-personalized curriculum mapping exactly what you need to learn to bridge the gap to your
+            next senior role.
+          </p>
+          <span
+            style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">JOIN
+            WAITLIST &rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════ PLATFORM PILLARS ═══════ -->
+
+    <!-- 1. Tailor My Application -->
+    <section style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); margin: 0 -1.5rem;">
+      <div
+        style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
+        <div style="flex: 1; min-width: 300px; text-align: left;">
+          <div
+            style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(138,154,134,0.15);color:#8A9A86;margin-bottom:1rem;">
+            <i class="fa-solid fa-clipboard" style="margin-right:0.4rem;"></i> Tailor My Application
+          </div>
+          <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Build Bulletproof <span
+              style="color:#8A9A86;">Applications</span></h2>
+          <p
+            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+            Stop sending generic resumes into the void. Our AI engine instantly tailors your application
+            materials to match any job description perfectly, significantly boosting your ATS score and
+            interview rate.
+          </p>
+          <ul
+            style="list-style: none; padding: 0; margin: 0 0 2rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+            <li><i class="fa-solid fa-check" style="color: #8A9A86; margin-right: 0.5rem;"></i> Generate
+              ATS-optimized resumes in seconds</li>
+            <li><i class="fa-solid fa-check" style="color: #8A9A86; margin-right: 0.5rem;"></i> Craft highly
+              personalized cover letters</li>
+            <li><i class="fa-solid fa-check" style="color: #8A9A86; margin-right: 0.5rem;"></i> Practice
+              with voice-based AI mock interviews</li>
+          </ul>
+          <a href="app.html" class="btn primary-btn"
+            style="background: linear-gradient(135deg, #8A9A86, #6E7E6A); font-size: 1rem; padding: 0.6rem 1.25rem;">Start
+            the App Generator <i class="fa-solid fa-arrow-right"></i></a>
         </div>
+        <div style="flex: 1; min-width: 300px; position: relative;">
+          <img src="app-mockup.png" alt="Tailor My Application UI"
+            style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Tailor My Learning -->
+    <section
+      style="padding: 5rem 2rem; background: rgba(155, 142, 166, 0.03); border-top: 1px solid var(--panel-border); margin: 0 -1.5rem;">
+      <div
+        style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center; flex-direction: row-reverse;">
+        <div style="flex: 1; min-width: 300px; text-align: left;">
+          <div
+            style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(155,142,166,0.15);color:#9B8EA6;margin-bottom:1rem;">
+            <i class="fa-solid fa-graduation-cap" style="margin-right:0.4rem;"></i> Tailor My Learning
+          </div>
+          <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Hyper-Personalized <span
+              style="color:#9B8EA6;">Upskilling</span></h2>
+          <p
+            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+            Stop taking generic 40-hour courses. We build custom, dynamic curricula that bridge the exact
+            gap between your current knowledge and your ultimate career goals.
+          </p>
+          <ul
+            style="list-style: none; padding: 0; margin: 0 0 2rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+            <li><i class="fa-solid fa-check" style="color: #9B8EA6; margin-right: 0.5rem;"></i> AI analyzes
+              your current skills vs target role</li>
+            <li><i class="fa-solid fa-check" style="color: #9B8EA6; margin-right: 0.5rem;"></i> Generates a
+              step-by-step learning roadmap</li>
+            <li><i class="fa-solid fa-check" style="color: #9B8EA6; margin-right: 0.5rem;"></i> Skips the
+              basics you already know</li>
+          </ul>
+          <a href="learning.html" class="btn secondary-btn"
+            style="font-size: 1rem; padding: 0.6rem 1.25rem; border-color: #9B8EA6; color: #9B8EA6;">Join
+            the Waitlist <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div style="flex: 1; min-width: 300px; position: relative;">
+          <img src="learning-mockup.png" alt="Tailor My Learning Dashboard"
+            style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Tailor The News -->
+    <section
+      style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); border-bottom: 1px solid var(--panel-border); margin: 0 -1.5rem 3rem;">
+      <div
+        style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
+        <div style="flex: 1; min-width: 300px; text-align: left;">
+          <div
+            style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(123,154,180,0.15);color:#7B9AB4;margin-bottom:1rem;">
+            <i class="fa-solid fa-newspaper" style="margin-right:0.4rem;"></i> Tailor The News
+          </div>
+          <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Your Daily <span
+              style="color:#7B9AB4;">Personalized News Briefing</span></h2>
+          <p
+            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+            Stay ahead of trends without the noise. Our tool scours thousands of articles and newsletters to
+            create a 5-minute technical digest tailored precisely to you.
+          </p>
+          <ul
+            style="list-style: none; padding: 0; margin: 0 0 2rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+            <li><i class="fa-solid fa-check" style="color: #7B9AB4; margin-right: 0.5rem;"></i> Highly
+              curated, strictly technical content</li>
+            <li><i class="fa-solid fa-check" style="color: #7B9AB4; margin-right: 0.5rem;"></i> Listen as a
+              podcast via ultra-realistic TTS</li>
+            <li><i class="fa-solid fa-check" style="color: #7B9AB4; margin-right: 0.5rem;"></i> Filter by
+              specific industries and tags</li>
+          </ul>
+          <a href="news.html" class="btn primary-btn"
+            style="background: linear-gradient(135deg, #7B9AB4, #5C7A8A); font-size: 1rem; padding: 0.6rem 1.25rem;">Explore
+            Your Briefing <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div style="flex: 1; min-width: 300px; position: relative;">
+          <img src="news-mockup.png" alt="Tailor The News Interface"
+            style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ CATEGORIZED TOOLKIT ═══════ -->
+    <section style="padding: 3rem 0;" id="career-command-center">
+      <div class="hp-section-head">
+        <h2>Your Complete Career Command Center</h2>
+        <p>From application to offer, every stage covered. What is your goal today?</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="hp-tool-tabs"
+        style="display:flex; justify-content:center; gap: 1rem; margin-bottom: 3.5rem; flex-wrap: wrap;">
+        <button class="btn primary-btn active-tab" data-target="apply-smarter"
+          style="background:var(--primary-color);">I want to apply for a job</button>
+        <button class="btn secondary-btn" data-target="interview-prep">I have an interview</button>
+        <button class="btn secondary-btn" data-target="know-before">I'm exploring the market</button>
+        <button class="btn secondary-btn" data-target="get-edge">I need to stand out</button>
+        <button class="btn secondary-btn" data-target="career-growth">I want to grow my skills</button>
+      </div>
+
+      <!-- Category 1: Apply Smarter -->
+      <div class="hp-cat-section" id="apply-smarter" style="display: block;">
+        <div class="hp-cat-header">
+          <i class="fa-solid fa-file-lines" style="color:#7B8FA8;"></i>
+          <h3>Apply Smarter</h3>
+          <span>Build bulletproof applications</span>
+        </div>
+        <div class="hp-cat-grid">
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7B8FA8,#9B8EA6);"><i
+                class="fa-solid fa-file-lines" style="color:#fff;"></i></div>
+            <div>
+              <h5>ATS Resume</h5>
+              <p>15+ templates, keyword optimization</p>
+            </div>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7BA5B4,#A3C4DC);"><i
+                class="fa-solid fa-envelope-open-text" style="color:#fff;"></i></div>
+            <div>
+              <h5>Cover Letter</h5>
+              <p>Tailored narrative for every role</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D4A574,#E3C8A0);"><i
+                class="fa-solid fa-paper-plane" style="color:#fff;"></i></div>
+            <div>
+              <h5>Intro Email</h5>
+              <p>Outreach draft with company intel</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#A8B8A4);"><i
+                class="fa-solid fa-fire" style="color:#fff;"></i></div>
+            <div>
+              <h5>Recruiter Heatmap</h5>
+              <p>See what catches their eye</p>
+            </div>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#D99B82);"><i
+                class="fa-solid fa-fire-flame-curved" style="color:#fff;"></i></div>
+            <div>
+              <h5>Brutal Roast</h5>
+              <p>Honest AI roast of weak spots</p>
+            </div>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D4A574,#C47A6E);"><i
+                class="fa-solid fa-triangle-exclamation" style="color:#fff;"></i></div>
+            <div>
+              <h5>Red Flag Detector</h5>
+              <p>Find what gets you rejected</p>
+            </div>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7BA5B4,#7BA5B4);"><i
+                class="fa-solid fa-chart-column" style="color:#fff;"></i></div>
+            <div>
+              <h5>Prove It</h5>
+              <p>Turn vague bullets into metrics</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#C4B5CF);"><i
+                class="fa-solid fa-video" style="color:#fff;"></i></div>
+            <div>
+              <h5>Video Intro</h5>
+              <p>60s script + teleprompter</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 2: Know Before You Go -->
+      <div class="hp-cat-section" id="know-before" style="display: none;">
+        <div class="hp-cat-header">
+          <i class="fa-solid fa-satellite-dish" style="color:#C47A6E;"></i>
+          <h3>Know Before You Go</h3>
+          <span>Intelligence on every company</span>
+        </div>
+        <div class="hp-cat-grid">
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#7A3F38);"><i
+                class="fa-solid fa-biohazard" style="color:#fff;"></i></div>
+            <div>
+              <h5>Toxic Culture Radar</h5>
+              <p>Toxicity score + layoff risk</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C4B5CF,#9B8EA6);"><i
+                class="fa-solid fa-ghost" style="color:#fff;"></i></div>
+            <div>
+              <h5>Ghosting Predictor</h5>
+              <p>Detect ghost jobs instantly</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D99B82,#C4A060);"><i
+                class="fa-solid fa-shield-halved" style="color:#fff;"></i></div>
+            <div>
+              <h5>Burnout Check</h5>
+              <p>Toxic JD language + OE fit</p>
+            </div>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#6E7E6A);"><i
+                class="fa-solid fa-scale-balanced" style="color:#fff;"></i></div>
+            <div>
+              <h5>Comp Decoder</h5>
+              <p>True offer value with COL</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7B8FA8,#A3B1C8);"><i
+                class="fa-solid fa-sun" style="color:#fff;"></i></div>
+            <div>
+              <h5>Day in the Life</h5>
+              <p>Realistic day simulation</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7BA5B4,#5F8A99);"><i
+                class="fa-solid fa-chart-line" style="color:#fff;"></i></div>
+            <div>
+              <h5>Skills Tracker</h5>
+              <p>Rising vs decaying skills</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 3: Interview Like a Pro -->
+      <div class="hp-cat-section" id="interview-prep" style="display: none;">
+        <div class="hp-cat-header">
+          <i class="fa-solid fa-microphone-lines" style="color:#8A9A86;"></i>
+          <h3>Interview Like a Pro</h3>
+          <span>Prepare for every round</span>
+        </div>
+        <div class="hp-cat-grid">
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#A8B8A4);"><i
+                class="fa-solid fa-comments" style="color:#fff;"></i></div>
+            <div>
+              <h5>Mock Interview</h5>
+              <p>10 questions + AI voice + feedback</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#8A9A86);"><i
+                class="fa-solid fa-sack-dollar" style="color:#fff;"></i></div>
+            <div>
+              <h5>Salary Negotiator</h5>
+              <p>Voice-to-voice with AI HR rep</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#8B4A42);"><i
+                class="fa-solid fa-fire" style="color:#fff;"></i></div>
+            <div>
+              <h5>Trial By Fire</h5>
+              <p>Custom coding challenge + IDE</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#8A7B96);"><i
+                class="fa-solid fa-magnifying-glass-arrow-right" style="color:#fff;"></i></div>
+            <div>
+              <h5>Reverse Interview</h5>
+              <p>Probing questions for them</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#5A6B56);"><i
+                class="fa-solid fa-envelope-circle-check" style="color:#fff;"></i></div>
+            <div>
+              <h5>Thank-You Engine</h5>
+              <p>3 variants of perfect follow-up</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4: Get the Edge -->
+      <div class="hp-cat-section" id="get-edge" style="display: none;">
+        <div class="hp-cat-header">
+          <i class="fa-solid fa-rocket" style="color:#D4A574;"></i>
+          <h3>Get the Edge</h3>
+          <span>Outreach, networking, and tactics</span>
+        </div>
+        <div class="hp-cat-grid">
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7B8FA8,#5C6E82);"><i
+                class="fa-solid fa-robot" style="color:#fff;"></i></div>
+            <div>
+              <h5>Auto-App Agent</h5>
+              <p>AI finds + tailors matching jobs</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#3A3F4A,#4A505C);"><i
+                class="fa-solid fa-eye" style="color:#fff;"></i></div>
+            <div>
+              <h5>Shadow Jobs</h5>
+              <p>Monitor career pages early</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#6E7E6A);"><i
+                class="fa-solid fa-people-arrows" style="color:#fff;"></i></div>
+            <div>
+              <h5>Referral Mapper</h5>
+              <p>Backdoor referrals + scripts</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C47A6E,#A85A50);"><i
+                class="fa-solid fa-user-ninja" style="color:#fff;"></i></div>
+            <div>
+              <h5>Guerrilla Tactics</h5>
+              <p>Bypass ATS, reach decision makers</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+          <div class="hp-tool-card">
+            <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#6E5F7A);"><i
+                class="fa-solid fa-rotate-left" style="color:#fff;"></i></div>
+            <div>
+              <h5>Rejection Reverser</h5>
+              <p>Turn rejections into networking</p>
+            </div>
+            <span class="hp-premium-tag">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 5: Career Growth -->
+      <div class="hp-cat-section" id="career-growth" style="display: none;">
+        <div class="hp-cat-header">
+          <i class="fa-solid fa-tree" style="color:#8A9A86;"></i>
+          <h3>Career Growth</h3>
+          <span>Continuous upskilling and trajectory planning</span>
+        </div>
+        <div style="text-align: center; padding: 2rem 0; color: var(--text-secondary);">
+          <i class="fa-solid fa-seedling"
+            style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color); opacity: 0.5;"></i>
+          <p>New growth planning tools coming soon to Tailor My Learning.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════ BOTTOM CTA ═══════ -->
+    <section class="hp-bottom-cta" style="margin-top: 1rem;">
+      <h2>Ready to Level Up?</h2>
+      <p>Join thousands of professionals who stopped doing career prep the hard way.</p>
+      <a href="login.html?signup=true" class="btn primary-btn hp-hero-cta" style="font-size: 1.1rem;">
+        <i class="fa-solid fa-rocket"></i> Create Your Free Account
+      </a>
+    </section>
+
+  </main>
+
+  <!-- PREFERENCES MODAL -->
+  <div id="prefs-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-sliders"></i> Writing Preferences</h3>
+        <span id="close-prefs" class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p class="field-label">Custom Tailoring Instructions</p>
+        <textarea id="user-prefs-input"
+          placeholder="E.g. Use British English, keep it strictly under 1 page, focus on leadership, use a professional but friendly tone..."></textarea>
+        <p class="helper-text">These instructions will be applied to every document we generate for you.</p>
+        <button id="save-prefs" class="btn primary-btn" style="width: 100%; margin-top: 1rem;">Save
+          Preferences</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Ad Unit -->
-    <div style="text-align:center;margin:1.5rem auto;max-width:728px;">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7832382680038641" data-ad-slot="auto"
-            data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- TOOL PREVIEW MODAL -->
+  <div id="tool-preview-modal" class="modal">
+    <div class="modal-content glass-panel" style="max-width: 450px;">
+      <div class="modal-header"
+        style="border-bottom: 1px solid var(--panel-border); padding-bottom: 1rem; margin-bottom: 1rem; align-items: center;">
+        <div id="tp-modal-icon"
+          style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; margin-right: 1rem;">
+        </div>
+        <h3 id="tp-modal-title" style="margin: 0; font-size: 1.25rem;">Tool Name</h3>
+        <span id="close-tool-preview" class="close" style="margin-left: auto;">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p id="tp-modal-desc"
+          style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem;">
+          Tool description goes here.</p>
+        <div id="tp-modal-example"
+          style="display:none;background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;margin-bottom:1rem;overflow:hidden;position:relative;">
+          <div id="tp-modal-text-wrap" style="padding:1rem;">
+            <div
+              style="font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary-color);margin-bottom:0.5rem;">
+              <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.3rem;"></i> Example Output
+            </div>
+            <div id="tp-modal-example-text"
+              style="color:var(--text-secondary);font-style:italic;font-size:0.82rem;line-height:1.6;">
+            </div>
+          </div>
+          <img id="tp-modal-example-img" src="" alt="Tool Preview"
+            style="display:none;width:100%;height:auto;display:block;">
+        </div>
+        <div
+          style="background: rgba(138, 154, 134, 0.1); border: 1px solid rgba(138, 154, 134, 0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+          <strong
+            style="color: var(--text-primary); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;"><i
+              class="fa-solid fa-bolt" style="color: #8A9A86; margin-right: 0.4rem;"></i> Instantly
+            available in your dashboard</strong>
+          <span style="font-size: 0.8rem; color: var(--text-secondary);">Sign in to access this tool and our full suite of
+            AI career tools.</span>
+        </div>
+        <button onclick="window.location.href='login.html?signup=true'" class="btn primary-btn" style="width: 100%;"><i
+            class="fa-solid fa-rocket"></i> Get Started</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Site Footer -->
-    <footer class="site-footer" role="contentinfo">
-        <p>&copy; 2026 TailorMeSwiftly.com. One platform for your entire career trajectory.</p>
-        <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a
-                href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
-    </footer>
+  <!-- LOGIN MODAL -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content glass-panel" style="max-width: 400px; text-align: center;">
+      <div class="modal-header" style="justify-content: center; position: relative;">
+        <h2 style="font-size: 1.5rem;"><i class="fa-solid fa-lock" style="color: var(--primary-color);"></i>
+          Sign In Required</h2>
+        <span id="close-login" class="close" style="position: absolute; right: 0;">&times;</span>
+      </div>
+      <div class="modal-body" style="padding: 2rem 1rem;">
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Please sign in to save your generated
+          resumes and access personalized features.</p>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="brand-config.js"></script>
-    <script src="auth.js?v=15"></script>
-    <script src="components.js"></script>
-    <script src="error-utils.js"></script>
-    <script src="app.js?v=6"></script>
-    <script src="shared/analytics.js"></script>
-    <script src="shared/sticky-header.js"></script>
-    <script src="shared/command-palette.js"></script>
-    <script src="shared/onboarding.js"></script>
-    <script src="shared/router.js"></script>
-    <script>
-        // Register Service Worker for PWA
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(function(e) { console.warn('SW registration failed:', e); });
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <button id="google-login-btn" class="btn auth-btn google-btn">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+              style="width: 20px; height: 20px; margin-right: 10px; display: inline-block; vertical-align: middle;">
+            Continue with Google
+          </button>
+        </div>
+
+        <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-secondary);">
+          By signing in, you agree to our <a href="terms.html" style="color: var(--primary-color);">Terms &
+            Conditions</a> and <a href="privacy.html" style="color: var(--primary-color);">Privacy
+            Policy</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <p>&copy; 2026 TailorMeSwiftly.com. One platform for your entire career trajectory.</p>
+    <p><a href="pricing.html">Pricing</a> | <a href="help.html">Help Center</a> | <a href="terms.html">Terms & Conditions</a> | <a
+        href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
+  <script src="components.js"></script>
+  <script src="error-utils.js"></script>
+  <script src="app.js?v=6"></script>
+  <script src="shared/analytics.js"></script>
+  <script src="shared/sticky-header.js"></script>
+  <script src="shared/command-palette.js"></script>
+  <script src="shared/onboarding.js"></script>
+  <script src="shared/router.js"></script>
+  <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function (e) { console.warn('SW registration failed:', e); });
+    }
+  </script>
+  <script>
+    // Tool Previews Logic
+    const TOOL_INFO = {
+      'ATS Resume': { desc: 'AI tailors your resume to match any job description. Optimizes keywords, formatting, and content for ATS scanners, with 15+ professional templates.', image: 'app-mockup.png' },
+      'Cover Letter': { desc: 'Generates a compelling, tailored cover letter that weaves your experience into a narrative matching the role. Pulls from company research for personalization.', image: 'tool-cover-letter.png' },
+      'Intro Email': { desc: 'Drafts a cold outreach email using company intelligence, recent news, and mutual connections to maximize response rates.', image: 'tool-intro-email.png' },
+      'Recruiter Heatmap': { desc: 'Visualizes which parts of your resume recruiters focus on first and which sections get skipped. Highlights attention hotspots and cold zones.', image: 'tool-heatmap.png' },
+      'Brutal Roast': { desc: 'An honest, no-holds-barred AI critique of your resume. Identifies weak spots, cliches, red flags, and missed opportunities that other tools miss.', image: 'tool-roast.png' },
+      'Red Flag Detector': { desc: 'Scans your resume for elements that commonly trigger automatic rejections — format issues, keyword gaps, experience mismatches, and ATS-breaking formatting.', image: 'tool-redflag.png' },
+      'Prove It': { desc: 'Transforms vague, generic bullet points into quantified, metrics-driven achievements that demonstrate real impact.', image: 'tool-prove-it.png' },
+      'Video Intro': { desc: 'Creates a 60-second video introduction script with teleprompter mode. Tailored to the company and role, designed for LinkedIn or direct recruiter outreach.', image: 'tool-video-intro.png' },
+      'Toxic Culture Radar': { desc: 'Analyzes company reviews, news, and job posting language to generate a toxicity score and layoff risk assessment before you invest time applying.', image: 'tool-toxic.png' },
+      'Ghosting Predictor': { desc: 'Detects ghost job postings — roles that have been open too long, reposted repeatedly, or show other signals of not being actively filled.', image: 'tool-ghosting.png' },
+      'Burnout Check': { desc: 'Analyzes job descriptions for toxic language patterns, unrealistic expectations, and work-life imbalance signals. Assesses overemployment compatibility.', image: 'tool-burnout.png' },
+      'Comp Decoder': { desc: 'Decodes total compensation packages including equity, benefits, and cost-of-living adjustments to reveal the true value of any offer.', image: 'tool-comp.png' },
+      'Day in the Life': { desc: 'Simulates a realistic day in the target role using company data, team structure, and role requirements so you know what you\'re signing up for.', image: 'tool-day.png' },
+      'Skills Tracker': { desc: 'Maps your skills against market demand trends. Shows which of your skills are rising in value, which are declining, and what gaps to close.', image: 'tool-skills.png' },
+      'Mock Interview': { desc: 'AI-powered mock interview with 10 role-specific questions, voice interaction, and detailed feedback on content, delivery, and confidence.', image: 'tool-mock.png' },
+      'Salary Negotiator': { desc: 'Practice salary negotiations voice-to-voice with an AI HR representative trained on real negotiation tactics. Get coached on strategy and counter-offers.', image: 'tool-salary.png' },
+      'Trial By Fire': { desc: 'Generates a custom coding challenge or case study matching the actual interview format of your target company, with a built-in IDE and timer.', image: 'tool-trial.png' },
+      'Reverse Interview': { desc: 'Generates insightful questions to ask your interviewer based on company research, recent news, and the specific role — helping you evaluate them.', image: 'tool-reverse.png' },
+      'Thank-You Engine': { desc: 'Creates 3 variants of the perfect post-interview follow-up email: professional, warm, and strategic. Personalized to your conversation topics.', image: 'tool-thank.png' },
+      'Auto-App Agent': { desc: 'AI agent that monitors job boards, finds matching positions, and auto-generates tailored applications. You review and submit with one click.', image: 'tool-auto.png' },
+      'Shadow Jobs': { desc: 'Monitors company career pages before positions are publicly listed. Get early alerts when roles matching your profile are about to open.', image: 'tool-shadow.png' },
+      'Referral Mapper': { desc: 'Finds backdoor referral paths into your target companies through your network connections, alumni networks, and mutual contacts.', image: 'tool-referral.png' },
+      'Guerrilla Tactics': { desc: 'Generates creative strategies to bypass ATS systems and reach hiring managers directly through unconventional but professional approaches.', image: 'tool-guerrilla.png' },
+      'Rejection Reverser': { desc: 'Turns rejection emails into networking opportunities. Generates follow-up strategies to stay on the radar for future roles.', image: 'tool-rejection.png' }
+    };
+
+    document.querySelectorAll('.hp-tool-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', () => {
+        const title = card.querySelector('h5').innerText;
+        const iconDiv = card.querySelector('.hp-tool-icon');
+        const info = TOOL_INFO[title];
+
+        document.getElementById('tp-modal-title').innerText = title;
+        document.getElementById('tp-modal-desc').innerText = info ? info.desc : card.querySelector('p').innerText;
+
+        const exampleEl = document.getElementById('tp-modal-example');
+        const textWrap = document.getElementById('tp-modal-text-wrap');
+        const exampleText = document.getElementById('tp-modal-example-text');
+        const exampleImg = document.getElementById('tp-modal-example-img');
+
+        if (info && (info.example || info.image)) {
+          exampleEl.style.display = 'block';
+          if (info.image) {
+            exampleImg.src = info.image;
+            exampleImg.style.display = 'block';
+            textWrap.style.display = 'none';
+          } else {
+            exampleImg.style.display = 'none';
+            exampleText.textContent = info.example;
+            textWrap.style.display = 'block';
+          }
+        } else {
+          exampleEl.style.display = 'none';
         }
-    </script>
-    <script>
-        // Tool Previews Logic
-        const TOOL_INFO = {
-            'ATS Resume': { desc: 'AI tailors your resume to match any job description. Optimizes keywords, formatting, and content for ATS scanners, with 15+ professional templates.', image: 'app-mockup.png' },
-            'Cover Letter': { desc: 'Generates a compelling, tailored cover letter that weaves your experience into a narrative matching the role. Pulls from company research for personalization.', image: 'tool-cover-letter.png' },
-            'Intro Email': { desc: 'Drafts a cold outreach email using company intelligence, recent news, and mutual connections to maximize response rates.', image: 'tool-intro-email.png' },
-            'Recruiter Heatmap': { desc: 'Visualizes which parts of your resume recruiters focus on first and which sections get skipped. Highlights attention hotspots and cold zones.', image: 'tool-heatmap.png' },
-            'Brutal Roast': { desc: 'An honest, no-holds-barred AI critique of your resume. Identifies weak spots, cliches, red flags, and missed opportunities that other tools miss.', image: 'tool-roast.png' },
-            'Red Flag Detector': { desc: 'Scans your resume for elements that commonly trigger automatic rejections — format issues, keyword gaps, experience mismatches, and ATS-breaking formatting.', image: 'tool-redflag.png' },
-            'Prove It': { desc: 'Transforms vague, generic bullet points into quantified, metrics-driven achievements that demonstrate real impact.', image: 'tool-prove-it.png' },
-            'Video Intro': { desc: 'Creates a 60-second video introduction script with teleprompter mode. Tailored to the company and role, designed for LinkedIn or direct recruiter outreach.', image: 'tool-video-intro.png' },
-            'Toxic Culture Radar': { desc: 'Analyzes company reviews, news, and job posting language to generate a toxicity score and layoff risk assessment before you invest time applying.', image: 'tool-toxic.png' },
-            'Ghosting Predictor': { desc: 'Detects ghost job postings — roles that have been open too long, reposted repeatedly, or show other signals of not being actively filled.', image: 'tool-ghosting.png' },
-            'Burnout Check': { desc: 'Analyzes job descriptions for toxic language patterns, unrealistic expectations, and work-life imbalance signals. Assesses overemployment compatibility.', image: 'tool-burnout.png' },
-            'Comp Decoder': { desc: 'Decodes total compensation packages including equity, benefits, and cost-of-living adjustments to reveal the true value of any offer.', image: 'tool-comp.png' },
-            'Day in the Life': { desc: 'Simulates a realistic day in the target role using company data, team structure, and role requirements so you know what you\'re signing up for.', image: 'tool-day.png' },
-            'Skills Tracker': { desc: 'Maps your skills against market demand trends. Shows which of your skills are rising in value, which are declining, and what gaps to close.', image: 'tool-skills.png' },
-            'Mock Interview': { desc: 'AI-powered mock interview with 10 role-specific questions, voice interaction, and detailed feedback on content, delivery, and confidence.', image: 'tool-mock.png' },
-            'Salary Negotiator': { desc: 'Practice salary negotiations voice-to-voice with an AI HR representative trained on real negotiation tactics. Get coached on strategy and counter-offers.', image: 'tool-salary.png' },
-            'Trial By Fire': { desc: 'Generates a custom coding challenge or case study matching the actual interview format of your target company, with a built-in IDE and timer.', image: 'tool-trial.png' },
-            'Reverse Interview': { desc: 'Generates insightful questions to ask your interviewer based on company research, recent news, and the specific role — helping you evaluate them.', image: 'tool-reverse.png' },
-            'Thank-You Engine': { desc: 'Creates 3 variants of the perfect post-interview follow-up email: professional, warm, and strategic. Personalized to your conversation topics.', image: 'tool-thank.png' },
-            'Auto-App Agent': { desc: 'AI agent that monitors job boards, finds matching positions, and auto-generates tailored applications. You review and submit with one click.', image: 'tool-auto.png' },
-            'Shadow Jobs': { desc: 'Monitors company career pages before positions are publicly listed. Get early alerts when roles matching your profile are about to open.', image: 'tool-shadow.png' },
-            'Referral Mapper': { desc: 'Finds backdoor referral paths into your target companies through your network connections, alumni networks, and mutual contacts.', image: 'tool-referral.png' },
-            'Guerrilla Tactics': { desc: 'Generates creative strategies to bypass ATS systems and reach hiring managers directly through unconventional but professional approaches.', image: 'tool-guerrilla.png' },
-            'Rejection Reverser': { desc: 'Turns rejection emails into networking opportunities. Generates follow-up strategies to stay on the radar for future roles.', image: 'tool-rejection.png' }
-        };
 
-        document.querySelectorAll('.hp-tool-card').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', () => {
-                const title = card.querySelector('h5').innerText;
-                const iconDiv = card.querySelector('.hp-tool-icon');
-                const info = TOOL_INFO[title];
+        const modalIcon = document.getElementById('tp-modal-icon');
+        modalIcon.innerHTML = iconDiv.innerHTML;
+        modalIcon.style.background = iconDiv.style.background;
 
-                document.getElementById('tp-modal-title').innerText = title;
-                document.getElementById('tp-modal-desc').innerText = info ? info.desc : card.querySelector('p').innerText;
+        document.getElementById('tool-preview-modal').style.display = 'flex';
+      });
+    });
 
-                const exampleEl = document.getElementById('tp-modal-example');
-                const textWrap = document.getElementById('tp-modal-text-wrap');
-                const exampleText = document.getElementById('tp-modal-example-text');
-                const exampleImg = document.getElementById('tp-modal-example-img');
+    document.getElementById('close-tool-preview')?.addEventListener('click', () => {
+      document.getElementById('tool-preview-modal').style.display = 'none';
+    });
+    document.getElementById('tool-preview-modal')?.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('tool-preview-modal')) {
+        document.getElementById('tool-preview-modal').style.display = 'none';
+      }
+    });
 
-                if (info && (info.example || info.image)) {
-                    exampleEl.style.display = 'block';
-                    if (info.image) {
-                        exampleImg.src = info.image;
-                        exampleImg.style.display = 'block';
-                        textWrap.style.display = 'none';
-                    } else {
-                        exampleImg.style.display = 'none';
-                        exampleText.textContent = info.example;
-                        textWrap.style.display = 'block';
-                    }
-                } else {
-                    exampleEl.style.display = 'none';
-                }
-
-                const modalIcon = document.getElementById('tp-modal-icon');
-                modalIcon.innerHTML = iconDiv.innerHTML;
-                modalIcon.style.background = iconDiv.style.background;
-
-                document.getElementById('tool-preview-modal').style.display = 'flex';
-            });
+    // Tab UI Logic
+    document.querySelectorAll('.hp-tool-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active styling from all buttons
+        document.querySelectorAll('.hp-tool-tabs button').forEach(b => {
+          b.className = 'btn secondary-btn';
+          b.style.background = '';
         });
 
-        document.getElementById('close-tool-preview')?.addEventListener('click', () => {
-            document.getElementById('tool-preview-modal').style.display = 'none';
-        });
-        document.getElementById('tool-preview-modal')?.addEventListener('click', (e) => {
-            if (e.target === document.getElementById('tool-preview-modal')) {
-                document.getElementById('tool-preview-modal').style.display = 'none';
-            }
-        });
+        // Add active styling to clicked button
+        btn.className = 'btn primary-btn active-tab';
+        btn.style.background = 'var(--primary-color)';
 
-        // Tab UI Logic
-        document.querySelectorAll('.hp-tool-tabs button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active styling from all buttons
-                document.querySelectorAll('.hp-tool-tabs button').forEach(b => {
-                    b.className = 'btn secondary-btn';
-                    b.style.background = '';
-                });
+        // Hide all sections
+        document.querySelectorAll('.hp-cat-section').forEach(sec => sec.style.display = 'none');
 
-                // Add active styling to clicked button
-                btn.className = 'btn primary-btn active-tab';
-                btn.style.background = 'var(--primary-color)';
+        // Show target section
+        const target = btn.getAttribute('data-target');
+        document.getElementById(target).style.display = 'block';
+      });
+    });
 
-                // Hide all sections
-                document.querySelectorAll('.hp-cat-section').forEach(sec => sec.style.display = 'none');
-
-                // Show target section
-                const target = btn.getAttribute('data-target');
-                document.getElementById(target).style.display = 'block';
-            });
-        });
-
-        async function handleEmailCapture(e) {
-            e.preventDefault();
-            const email = document.getElementById('capture-email').value.trim();
-            const status = document.getElementById('capture-status');
-            const btn = e.target.querySelector('button[type="submit"]');
-            if (!email) return false;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subscribing...';
-            try {
-                if (!window.supabaseClient) throw new Error('Service unavailable');
-                const { error } = await window.supabaseClient.from('email_subscribers').upsert(
-                    { email, source: 'homepage', subscribed_at: new Date().toISOString() },
-                    { onConflict: 'email' }
-                );
-                if (error) throw error;
-                status.style.color = 'var(--success-color, #8A9A86)';
-                status.textContent = 'You\'re in! Check your inbox on Tuesday.';
-                e.target.style.display = 'none';
-            } catch (err) {
-                status.style.color = '#C47A6E';
-                status.textContent = 'Something went wrong. Please try again.';
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Subscribe';
-            }
-            return false;
-        }
-    </script>
-    <script>
-        // Theme persistence
-        (function () {
-            var t = localStorage.getItem('ats_theme_preference');
-            if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
-        })();
-    </script>
+    async function handleEmailCapture(e) {
+      e.preventDefault();
+      const email = document.getElementById('capture-email').value.trim();
+      const status = document.getElementById('capture-status');
+      const btn = e.target.querySelector('button[type="submit"]');
+      if (!email) return false;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subscribing...';
+      try {
+        if (!window.supabaseClient) throw new Error('Service unavailable');
+        const { error } = await window.supabaseClient.from('email_subscribers').upsert(
+          { email, source: 'homepage', subscribed_at: new Date().toISOString() },
+          { onConflict: 'email' }
+        );
+        if (error) throw error;
+        status.style.color = 'var(--success-color, #8A9A86)';
+        status.textContent = 'You\'re in! Check your inbox on Tuesday.';
+        e.target.style.display = 'none';
+      } catch (err) {
+        status.style.color = '#C47A6E';
+        status.textContent = 'Something went wrong. Please try again.';
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Subscribe';
+      }
+      return false;
+    }
+  </script>
+  <script>
+    // Theme persistence
+    (function () {
+      var t = localStorage.getItem('tms_theme_preference');
+      if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    })();
+  </script>
 </body>
 
 </html>

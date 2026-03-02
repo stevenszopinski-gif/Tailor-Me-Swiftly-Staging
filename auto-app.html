@@ -2,261 +2,261 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
-    <meta name="description" content="Set your criteria and let AI auto-generate tailored applications for matching jobs. The autonomous job application agent.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="TailorMeSwiftly">
-    <meta property="og:url" content="https://tailormeswiftly.com/auto-app.html">
-    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
-    <link rel="canonical" href="https://tailormeswiftly.com/auto-app.html">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
-    <link rel="apple-touch-icon" href="/favicon.svg">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
-    <title>Auto-App Agent – TailorMeSwiftly</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=16">
-    <link rel="stylesheet" href="templates.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641" crossorigin="anonymous"></script>
-    <style>
-        .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .criteria-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; }
-        .criteria-row { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; align-items: center; }
-        .criteria-row label { font-size: 0.85rem; font-weight: 600; min-width: 100px; }
-        .criteria-row input, .criteria-row select { flex: 1; min-width: 180px; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
-        .exclude-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
-        .exclude-chip { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(196,122,110,0.08); color: #D99B82; border: 1px solid rgba(196,122,110,0.2); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; }
-        .exclude-chip button { background: none; border: none; color: inherit; cursor: pointer; font-size: 0.9rem; padding: 0; }
-        .job-match { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
-        .match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-        .match-score { font-weight: 700; font-size: 0.85rem; }
-        .match-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
-        .status-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600; }
-        .status-badge.ready { background: rgba(138,154,134,0.1); color: #8A9A86; }
-        .status-badge.applied { background: rgba(123,143,168,0.1); color: #7B8FA8; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
+  <meta name="description" content="Set your criteria and let AI auto-generate tailored applications for matching jobs. The autonomous job application agent.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TailorMeSwiftly">
+  <meta property="og:url" content="https://tailormeswiftly.com/auto-app.html">
+  <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+  <link rel="canonical" href="https://tailormeswiftly.com/auto-app.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+  <title>Auto-App Agent – TailorMeSwiftly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="templates.css">
+  
+  <style>
+    .result-page { max-width: 800px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+    .criteria-card { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .criteria-row { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .criteria-row label { font-size: 0.85rem; font-weight: 600; min-width: 100px; }
+    .criteria-row input, .criteria-row select { flex: 1; min-width: 180px; padding: 0.5rem 0.75rem; border: 1px solid var(--panel-border); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text-primary); font-family: inherit; }
+    .exclude-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .exclude-chip { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(196,122,110,0.08); color: #D99B82; border: 1px solid rgba(196,122,110,0.2); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; }
+    .exclude-chip button { background: none; border: none; color: inherit; cursor: pointer; font-size: 0.9rem; padding: 0; }
+    .job-match { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
+    .match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .match-score { font-weight: 700; font-size: 0.85rem; }
+    .match-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+    .status-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600; }
+    .status-badge.ready { background: rgba(138,154,134,0.1); color: #8A9A86; }
+    .status-badge.applied { background: rgba(123,143,168,0.1); color: #7B8FA8; }
+  </style>
 </head>
 
 <body>
-    <a href="#main-content" class="skip-nav">Skip to main content</a>
-    <div class="app-container" style="min-height: auto;">
-        <header class="app-header" role="banner">
-            <div class="logo maker-mark">
-                <span class="mark-border">
-                    <span class="mark-text">TMS</span>
-                </span>
-                <div class="mark-name">
-                    <span class="mark-script">TailorMeSwiftly</span>
-                    <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
-                </div>
-            </div>
-            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
-                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
-                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                        <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
-                            <i class="fa-solid fa-user-gear"></i> Account
-                        </a>
-                                                <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
-                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
-                    </div>
-                </div>
-            </div>
-        </header>
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+  <div class="app-container" style="min-height: auto;">
+    <header class="app-header" role="banner">
+      <div class="logo maker-mark">
+        <span class="mark-border">
+          <span class="mark-text">TMS</span>
+        </span>
+        <div class="mark-name">
+          <span class="mark-script">TailorMeSwiftly</span>
+          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
+        </div>
+      </div>
+      <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+        <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+          <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+          <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <div id="avatar-dropdown" class="avatar-dropdown hidden">
+            <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+              <i class="fa-solid fa-user-gear"></i> Account
+            </a>
+                        <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
+            <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>            <button class="dropdown-item" id="logout-btn" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <div id="main-content" class="result-page">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+    </div>
+    <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-robot" style="color:#7B8FA8;margin-right:0.5rem;"></i>Auto-App Agent</h1>
+    <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Set your criteria. AI finds matching jobs and generates tailored applications.</p>
+
+    <div class="criteria-card">
+      <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-sliders" style="color:#7B8FA8;margin-right:0.4rem;"></i> Your Criteria</h3>
+      <div class="criteria-row">
+        <label>Job Title</label>
+        <input id="criteria-title" placeholder="e.g., Senior React Developer">
+      </div>
+      <div class="criteria-row">
+        <label>Min Salary</label>
+        <input id="criteria-salary" placeholder="e.g., $140,000">
+      </div>
+      <div class="criteria-row">
+        <label>Work Style</label>
+        <select id="criteria-remote">
+          <option value="any">Any</option>
+          <option value="remote">Remote Only</option>
+          <option value="hybrid">Hybrid</option>
+          <option value="onsite">On-Site</option>
+        </select>
+      </div>
+      <div class="criteria-row">
+        <label>Location</label>
+        <input id="criteria-location" placeholder="e.g., San Francisco, CA (or 'Anywhere')">
+      </div>
+      <div class="criteria-row">
+        <label>Exclude</label>
+        <input id="criteria-exclude" placeholder="e.g., Crypto, Web3" onkeydown="if(event.key==='Enter'){addExclusion();event.preventDefault();}">
+      </div>
+      <div class="exclude-chips" id="exclude-chips"></div>
     </div>
 
-    <div id="main-content" class="result-page">
-        <div style="text-align:center;margin-bottom:1.5rem;">
-            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
-        </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-robot" style="color:#7B8FA8;margin-right:0.5rem;"></i>Auto-App Agent</h1>
-        <p style="text-align:center;color:var(--text-secondary);margin-bottom:2rem;">Set your criteria. AI finds matching jobs and generates tailored applications.</p>
-
-        <div class="criteria-card">
-            <h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-sliders" style="color:#7B8FA8;margin-right:0.4rem;"></i> Your Criteria</h3>
-            <div class="criteria-row">
-                <label>Job Title</label>
-                <input id="criteria-title" placeholder="e.g., Senior React Developer">
-            </div>
-            <div class="criteria-row">
-                <label>Min Salary</label>
-                <input id="criteria-salary" placeholder="e.g., $140,000">
-            </div>
-            <div class="criteria-row">
-                <label>Work Style</label>
-                <select id="criteria-remote">
-                    <option value="any">Any</option>
-                    <option value="remote">Remote Only</option>
-                    <option value="hybrid">Hybrid</option>
-                    <option value="onsite">On-Site</option>
-                </select>
-            </div>
-            <div class="criteria-row">
-                <label>Location</label>
-                <input id="criteria-location" placeholder="e.g., San Francisco, CA (or 'Anywhere')">
-            </div>
-            <div class="criteria-row">
-                <label>Exclude</label>
-                <input id="criteria-exclude" placeholder="e.g., Crypto, Web3" onkeydown="if(event.key==='Enter'){addExclusion();event.preventDefault();}">
-            </div>
-            <div class="exclude-chips" id="exclude-chips"></div>
-        </div>
-
-        <div style="text-align:center;margin-bottom:2rem;">
-            <button class="btn primary-btn" onclick="scanJobs()" id="scan-btn"><i class="fa-solid fa-radar"></i> Scan for Matching Jobs</button>
-        </div>
-
-        <div id="job-results"></div>
-
-        <div style="background:rgba(123,143,168,0.06);border:1px solid rgba(123,143,168,0.2);border-radius: 4px;padding:1.25rem;margin-top:1.5rem;">
-            <h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-robot" style="color:#7B8FA8;margin-right:0.4rem;"></i> How Auto-App Works</h3>
-            <ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
-                <li>Set strict criteria for your ideal role (title, salary, work style, exclusions)</li>
-                <li>AI scans job boards and matches postings against your requirements</li>
-                <li>For each match, it generates a tailored resume and cover letter on-the-fly</li>
-                <li>Review the generated materials, then apply with one click</li>
-            </ul>
-        </div>
+    <div style="text-align:center;margin-bottom:2rem;">
+      <button class="btn primary-btn" onclick="scanJobs()" id="scan-btn"><i class="fa-solid fa-radar"></i> Scan for Matching Jobs</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="brand-config.js"></script>
-    <script src="auth.js?v=15"></script>
-    <script src="components.js"></script>
-    <script src="error-utils.js"></script>
-    <script src="results.js?v=8"></script>
-    <script>
-        initResultTheme();
-        initResultAuth();
+    <div id="job-results"></div>
 
-        (async function() {
-        if (!(await guardToolAccess())) return;
-        const outputs = loadOutputs();
-        if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
+    <div style="background:rgba(123,143,168,0.06);border:1px solid rgba(123,143,168,0.2);border-radius: 4px;padding:1.25rem;margin-top:1.5rem;">
+      <h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-robot" style="color:#7B8FA8;margin-right:0.4rem;"></i> How Auto-App Works</h3>
+      <ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">
+        <li>Set strict criteria for your ideal role (title, salary, work style, exclusions)</li>
+        <li>AI scans job boards and matches postings against your requirements</li>
+        <li>For each match, it generates a tailored resume and cover letter on-the-fly</li>
+        <li>Review the generated materials, then apply with one click</li>
+      </ul>
+    </div>
+  </div>
 
-        let exclusions = [];
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
+  <script src="components.js"></script>
+  <script src="error-utils.js"></script>
+  <script src="results.js?v=8"></script>
+  <script>
+    initResultTheme();
+    initResultAuth();
 
-        function addExclusion() {
-            const input = document.getElementById('criteria-exclude');
-            const val = input.value.trim();
-            if (!val || exclusions.includes(val)) return;
-            exclusions.push(val);
-            input.value = '';
-            renderExclusions();
-        }
+    (async function() {
+    if (!(await guardToolAccess())) return;
+    const outputs = loadOutputs();
+    if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
 
-        function removeExclusion(idx) {
-            exclusions.splice(idx, 1);
-            renderExclusions();
-        }
+    let exclusions = [];
 
-        function renderExclusions() {
-            const container = document.getElementById('exclude-chips');
-            container.innerHTML = exclusions.map((e, i) => `<span class="exclude-chip">${e} <button onclick="removeExclusion(${i})">&times;</button></span>`).join('');
-        }
+    function addExclusion() {
+      const input = document.getElementById('criteria-exclude');
+      const val = input.value.trim();
+      if (!val || exclusions.includes(val)) return;
+      exclusions.push(val);
+      input.value = '';
+      renderExclusions();
+    }
 
-        async function scanJobs() {
-            const title = document.getElementById('criteria-title').value.trim() || 'Software Engineer';
-            const salary = document.getElementById('criteria-salary').value.trim() || '$100,000';
-            const remote = document.getElementById('criteria-remote').value;
-            const location = document.getElementById('criteria-location').value.trim() || 'Anywhere';
-            const excludeList = exclusions.join(', ');
+    function removeExclusion(idx) {
+      exclusions.splice(idx, 1);
+      renderExclusions();
+    }
 
-            const results = document.getElementById('job-results');
-            results.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Scanning job boards and matching against your criteria...</p>';
+    function renderExclusions() {
+      const container = document.getElementById('exclude-chips');
+      container.innerHTML = exclusions.map((e, i) => `<span class="exclude-chip">${e} <button onclick="removeExclusion(${i})">&times;</button></span>`).join('');
+    }
 
-            const systemPrompt = `You are an autonomous job search agent. Based on the candidate's resume and strict criteria, generate 5 realistic job postings that would match. For each job, generate a tailored 2-sentence cover letter opener.
+    async function scanJobs() {
+      const title = document.getElementById('criteria-title').value.trim() || 'Software Engineer';
+      const salary = document.getElementById('criteria-salary').value.trim() || '$100,000';
+      const remote = document.getElementById('criteria-remote').value;
+      const location = document.getElementById('criteria-location').value.trim() || 'Anywhere';
+      const excludeList = exclusions.join(', ');
+
+      const results = document.getElementById('job-results');
+      results.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:2rem;"><i class="fa-solid fa-spinner fa-spin"></i> Scanning job boards and matching against your criteria...</p>';
+
+      const systemPrompt = `You are an autonomous job search agent. Based on the candidate's resume and strict criteria, generate 5 realistic job postings that would match. For each job, generate a tailored 2-sentence cover letter opener.
 
 Return EXACTLY this JSON (no markdown, no code fences):
 {
-    "jobs": [
-        {
-            "title": "Job title",
-            "company": "Company name",
-            "location": "Location",
-            "salaryRange": "$X - $Y",
-            "matchScore": number (70-100),
-            "whyMatch": "1-sentence explanation of why this matches",
-            "coverOpener": "2-sentence tailored cover letter opener for this specific role",
-            "applyUrl": "Suggested search query to find this posting"
-        }
-    ]
+  "jobs": [
+    {
+      "title": "Job title",
+      "company": "Company name",
+      "location": "Location",
+      "salaryRange": "$X - $Y",
+      "matchScore": number (70-100),
+      "whyMatch": "1-sentence explanation of why this matches",
+      "coverOpener": "2-sentence tailored cover letter opener for this specific role",
+      "applyUrl": "Suggested search query to find this posting"
+    }
+  ]
 }`;
 
-            const userPrompt = `Resume:\n${outputs?.resumeText || 'No resume'}\n\nCriteria:\n- Title: ${title}\n- Min Salary: ${salary}\n- Work Style: ${remote}\n- Location: ${location}\n- Exclude: ${excludeList || 'None'}`;
+      const userPrompt = `Resume:\n${outputs?.resumeText || 'No resume'}\n\nCriteria:\n- Title: ${title}\n- Min Salary: ${salary}\n- Work Style: ${remote}\n- Location: ${location}\n- Exclude: ${excludeList || 'None'}`;
 
-            try {
-                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                    body: {
-                        model: 'gemini-3-flash-preview',
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        contents: [{ parts: [{ text: userPrompt }] }],
-                        generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-                    }
-                });
+      try {
+        const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+          body: {
+            model: 'gemini-3-flash-preview',
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents: [{ parts: [{ text: userPrompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+          }
+        });
 
-                if (error) throw new Error(error.message);
-                let text = data.candidates[0].content.parts[0].text.trim();
-                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
-                const result = JSON.parse(text);
-                renderJobs(result);
-            } catch (e) {
-                results.innerHTML = `<p style="color:var(--error-color);text-align:center;">Scan failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="scanJobs()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
-            }
-        }
+        if (error) throw new Error(error.message);
+        let text = data.candidates[0].content.parts[0].text.trim();
+        if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+        const result = JSON.parse(text);
+        renderJobs(result);
+      } catch (e) {
+        results.innerHTML = `<p style="color:var(--error-color);text-align:center;">Scan failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="scanJobs()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+      }
+    }
 
-        function renderJobs(data) {
-            const container = document.getElementById('job-results');
-            let html = '<h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-check" style="color:#7B8FA8;margin-right:0.4rem;"></i> Matching Jobs Found</h3>';
+    function renderJobs(data) {
+      const container = document.getElementById('job-results');
+      let html = '<h3 style="margin:0 0 1rem;font-size:1rem;"><i class="fa-solid fa-list-check" style="color:#7B8FA8;margin-right:0.4rem;"></i> Matching Jobs Found</h3>';
 
-            data.jobs.forEach((job, i) => {
-                const color = job.matchScore >= 85 ? '#8A9A86' : job.matchScore >= 70 ? '#D4A574' : '#C47A6E';
-                html += `<div class="job-match">
-                    <div class="match-header">
-                        <div><strong style="font-size:1rem;">${job.title}</strong><br><span style="font-size:0.85rem;color:var(--text-secondary);">${job.company} &bull; ${job.location}</span></div>
-                        <div style="text-align:right;"><span class="match-score" style="color:${color};">${job.matchScore}% match</span><br><span style="font-size:0.8rem;color:var(--text-secondary);">${job.salaryRange}</span></div>
-                    </div>
-                    <p style="font-size:0.85rem;color:var(--text-secondary);margin:0.5rem 0;">${job.whyMatch}</p>
-                    <div style="background:rgba(123,143,168,0.05);border:1px solid rgba(123,143,168,0.15);border-radius:8px;padding:0.75rem;margin-top:0.5rem;">
-                        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#7B8FA8;margin-bottom:0.3rem;">AI-Generated Cover Opener</div>
-                        <p style="font-size:0.85rem;margin:0;line-height:1.5;">${job.coverOpener}</p>
-                    </div>
-                    <div class="match-actions">
-                        <button class="btn small-btn primary-btn" onclick="navigator.clipboard.writeText('${job.coverOpener.replace(/'/g, "\\'")}');this.innerHTML='<i class=\\'fa-solid fa-check\\'></i> Copied';setTimeout(()=>this.innerHTML='<i class=\\'fa-regular fa-copy\\'></i> Copy Opener',1500)"><i class="fa-regular fa-copy"></i> Copy Opener</button>
-                        <span class="status-badge ready">Ready to Apply</span>
-                    </div>
-                </div>`;
-            });
+      data.jobs.forEach((job, i) => {
+        const color = job.matchScore >= 85 ? '#8A9A86' : job.matchScore >= 70 ? '#D4A574' : '#C47A6E';
+        html += `<div class="job-match">
+          <div class="match-header">
+            <div><strong style="font-size:1rem;">${job.title}</strong><br><span style="font-size:0.85rem;color:var(--text-secondary);">${job.company} &bull; ${job.location}</span></div>
+            <div style="text-align:right;"><span class="match-score" style="color:${color};">${job.matchScore}% match</span><br><span style="font-size:0.8rem;color:var(--text-secondary);">${job.salaryRange}</span></div>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);margin:0.5rem 0;">${job.whyMatch}</p>
+          <div style="background:rgba(123,143,168,0.05);border:1px solid rgba(123,143,168,0.15);border-radius:8px;padding:0.75rem;margin-top:0.5rem;">
+            <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#7B8FA8;margin-bottom:0.3rem;">AI-Generated Cover Opener</div>
+            <p style="font-size:0.85rem;margin:0;line-height:1.5;">${job.coverOpener}</p>
+          </div>
+          <div class="match-actions">
+            <button class="btn small-btn primary-btn" onclick="navigator.clipboard.writeText('${job.coverOpener.replace(/'/g, "\\'")}');this.innerHTML='<i class=\\'fa-solid fa-check\\'></i> Copied';setTimeout(()=>this.innerHTML='<i class=\\'fa-regular fa-copy\\'></i> Copy Opener',1500)"><i class="fa-regular fa-copy"></i> Copy Opener</button>
+            <span class="status-badge ready">Ready to Apply</span>
+          </div>
+        </div>`;
+      });
 
-            container.innerHTML = html;
-        }
-        
-    // Expose functions to global scope for onclick handlers
-    window.scanJobs = scanJobs;
-    window.removeExclusion = removeExclusion;
+      container.innerHTML = html;
+    }
+    
+  // Expose functions to global scope for onclick handlers
+  window.scanJobs = scanJobs;
+  window.removeExclusion = removeExclusion;
 })();
-    </script>
+  </script>
 
-    <footer class="site-footer" role="contentinfo">
-        <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
-        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
-    </footer>
+  <footer class="site-footer" role="contentinfo">
+    <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+    <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+  </footer>
 <script>
-    // Theme persistence
-    (function() {
-        var t = localStorage.getItem('ats_theme_preference');
-        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
-    })();
-    </script>
+  // Theme persistence
+  (function() {
+    var t = localStorage.getItem('tms_theme_preference');
+    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+  })();
+  </script>
 </body>
 
 </html>

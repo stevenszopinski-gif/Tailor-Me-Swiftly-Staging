@@ -2,7 +2,7 @@
     "name": "TailorMeSwiftly",
     "short_name": "TMS",
     "description": "AI-powered resume tailoring & career tools",
-    "start_url": "/dashboard.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#151821",
     "theme_color": "#A3C4DC",

@@ -7,287 +7,287 @@
 
 /* Briefing-specific styles */
 .briefing-card {
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
-    border-radius: 4px;
-    padding: 1.75rem;
-    margin-bottom: 1.5rem;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s;
-    box-shadow: var(--brutal-shadow);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s;
+  box-shadow: var(--brutal-shadow);
 }
 
 .briefing-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--primary-color);
-    box-shadow: var(--brutal-shadow-hover);
+  transform: translateY(-2px);
+  border-color: var(--primary-color);
+  box-shadow: var(--brutal-shadow-hover);
 }
 
 /* Editorial Typography for Briefing Output */
 .briefing-body {
-    font-family: var(--font-body), system-ui, sans-serif;
-    color: var(--text-primary);
+  font-family: var(--font-body), system-ui, sans-serif;
+  color: var(--text-primary);
 }
 
 .briefing-body h3 {
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 2px solid var(--text-primary);
-    padding-bottom: 0.5rem;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--text-primary);
+  padding-bottom: 0.5rem;
 }
 
 .briefing-body p {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: var(--text-secondary);
-    margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 1.2rem;
 }
 
 .briefing-body strong {
-    color: var(--text-primary);
-    font-weight: 600;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .briefing-body ul {
-    padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .briefing-body li {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--text-secondary);
-    margin-bottom: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
 }
 
 .briefing-source {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.78rem;
-    color: var(--text-secondary);
-    padding: 0.25rem 0.6rem;
-    background: var(--panel-bg);
-    border-radius: 6px;
-    text-decoration: none;
-    transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  padding: 0.25rem 0.6rem;
+  background: var(--panel-bg);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 .briefing-source:hover {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .interest-tag {
-    display: inline-block;
-    padding: 0.35rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    background: color-mix(in srgb, var(--primary-color) 10%, transparent);
-    color: var(--primary-color);
-    border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+  color: var(--primary-color);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
 }
 
 .interest-input-wrap {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .briefing-audio-player {
-    width: 100%;
-    margin-top: 1rem;
-    border-radius: 8px;
+  width: 100%;
+  margin-top: 1rem;
+  border-radius: 8px;
 }
 
 /* ── Tabbed Input ── */
 .input-tabs {
-    display: flex;
-    gap: 0.25rem;
-    margin-bottom: 1.25rem;
-    border-bottom: 1px solid var(--panel-border);
-    padding-bottom: 0;
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 0;
 }
 
 .input-tab {
-    padding: 0.6rem 1rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    font-family: inherit;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-    white-space: nowrap;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
 }
 
 .input-tab:hover {
-    color: var(--text-primary);
+  color: var(--text-primary);
 }
 
 .input-tab.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
 }
 
 .input-tab i {
-    margin-right: 0.35rem;
+  margin-right: 0.35rem;
 }
 
 .news-tab-content {
-    display: none;
+  display: none;
 }
 
 .news-tab-content.active {
-    display: block;
+  display: block;
 }
 
 /* ── Upload Zone ── */
 .upload-zone {
-    border: 2px dashed var(--panel-border);
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  border: 2px dashed var(--panel-border);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .upload-zone:hover,
 .upload-zone.dragover {
-    border-color: var(--primary-color);
-    background: color-mix(in srgb, var(--primary-color) 4%, transparent);
+  border-color: var(--primary-color);
+  background: color-mix(in srgb, var(--primary-color) 4%, transparent);
 }
 
 /* ── Import Divider ── */
 .import-divider {
-    display: flex;
-    align-items: center;
-    margin: 1rem 0;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
 }
 
 .import-divider::before,
 .import-divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid var(--panel-border);
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--panel-border);
 }
 
 .import-divider span {
-    padding: 0 0.75rem;
+  padding: 0 0.75rem;
 }
 
 /* ── TMS Import Button ── */
 .tms-import-btn {
-    width: 100%;
-    border: 1px solid color-mix(in srgb, var(--primary-color) 30%, transparent);
-    background: color-mix(in srgb, var(--primary-color) 6%, transparent);
-    color: var(--primary-color);
-    font-weight: 500;
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 30%, transparent);
+  background: color-mix(in srgb, var(--primary-color) 6%, transparent);
+  color: var(--primary-color);
+  font-weight: 500;
 }
 
 .tms-import-btn:hover {
-    background: color-mix(in srgb, var(--primary-color) 12%, transparent);
+  background: color-mix(in srgb, var(--primary-color) 12%, transparent);
 }
 
 /* ── Job Cards ── */
 .job-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--panel-border);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .job-card:hover {
-    border-color: var(--primary-color);
-    background: color-mix(in srgb, var(--primary-color) 3%, transparent);
+  border-color: var(--primary-color);
+  background: color-mix(in srgb, var(--primary-color) 3%, transparent);
 }
 
 .job-card input[type="checkbox"] {
-    margin-top: 0.2rem;
-    accent-color: var(--primary-color);
+  margin-top: 0.2rem;
+  accent-color: var(--primary-color);
 }
 
 .job-card-content {
-    flex: 1;
-    min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 /* ── Editable Interest Tags ── */
 .interest-tags-wrap {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .interest-tag.editable {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .interest-tag.editable button {
-    background: none;
-    border: none;
-    color: var(--primary-color);
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-    opacity: 0.6;
-    transition: opacity 0.2s;
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 }
 
 .interest-tag.editable button:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 /* ── Responsive ── */
 @media (max-width: 1000px) {
-    .dashboard-layout {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-        padding: 0 1.25rem !important;
-    }
+  .dashboard-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    padding: 0 1.25rem !important;
+  }
 
-    .dashboard-sidebar {
-        position: static !important;
-        width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-    }
+  .dashboard-sidebar {
+    position: static !important;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
-    .dashboard-reading-pane {
-        border-left: none !important;
-        padding-left: 0 !important;
-        max-width: 800px;
-        margin: 0 auto;
-    }
+  .dashboard-reading-pane {
+    border-left: none !important;
+    padding-left: 0 !important;
+    max-width: 800px;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 600px) {
-    .input-tabs {
-        overflow-x: auto;
-    }
+  .input-tabs {
+    overflow-x: auto;
+  }
 
-    .input-tab {
-        font-size: 0.78rem;
-        padding: 0.5rem 0.7rem;
-    }
+  .input-tab {
+    font-size: 0.78rem;
+    padding: 0.5rem 0.7rem;
+  }
 }

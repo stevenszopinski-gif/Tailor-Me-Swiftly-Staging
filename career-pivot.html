@@ -2,161 +2,160 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
-    <meta name="description" content="Translate your experience from one industry to another. AI-powered career pivot language translator.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="TailorMeSwiftly">
-    <meta property="og:url" content="https://tailormeswiftly.com/career-pivot.html">
-    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
-    <link rel="canonical" href="https://tailormeswiftly.com/career-pivot.html">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
-    <link rel="apple-touch-icon" href="/favicon.svg">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
-    <title>Career Pivot Translator – TailorMeSwiftly</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=16">
-    <link rel="stylesheet" href="templates.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
-        crossorigin="anonymous"></script>
-    <style>
-        .result-page { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-        .pivot-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: stretch; margin-bottom: 1rem; }
-        .pivot-col { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1rem; font-size: 0.85rem; line-height: 1.6; }
-        .pivot-col.original { border-left: 3px solid #C47A6E; }
-        .pivot-col.translated { border-left: 3px solid #8A9A86; }
-        .pivot-arrow { display: flex; align-items: center; font-size: 1.2rem; color: var(--primary-color); }
-        .pivot-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-        .pivot-label.old { color: #C47A6E; }
-        .pivot-label.new { color: #8A9A86; }
-        .industry-select { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
-        .industry-select select { padding: 0.5rem 1rem; border: 1px solid var(--panel-border); border-radius: 8px; background: var(--glass-bg); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
-        @media (max-width: 600px) { .pivot-row { grid-template-columns: 1fr; } .pivot-arrow { justify-content: center; transform: rotate(90deg); } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
+  <meta name="description" content="Translate your experience from one industry to another. AI-powered career pivot language translator.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TailorMeSwiftly">
+  <meta property="og:url" content="https://tailormeswiftly.com/career-pivot.html">
+  <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+  <link rel="canonical" href="https://tailormeswiftly.com/career-pivot.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+  <title>Career Pivot Translator – TailorMeSwiftly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="templates.css">
+  
+  <style>
+    .result-page { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+    .pivot-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: stretch; margin-bottom: 1rem; }
+    .pivot-col { background: var(--glass-bg); border: 1px solid var(--panel-border); border-radius: 4px; padding: 1rem; font-size: 0.85rem; line-height: 1.6; }
+    .pivot-col.original { border-left: 3px solid #C47A6E; }
+    .pivot-col.translated { border-left: 3px solid #8A9A86; }
+    .pivot-arrow { display: flex; align-items: center; font-size: 1.2rem; color: var(--primary-color); }
+    .pivot-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .pivot-label.old { color: #C47A6E; }
+    .pivot-label.new { color: #8A9A86; }
+    .industry-select { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
+    .industry-select select { padding: 0.5rem 1rem; border: 1px solid var(--panel-border); border-radius: 8px; background: var(--glass-bg); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; }
+    @media (max-width: 600px) { .pivot-row { grid-template-columns: 1fr; } .pivot-arrow { justify-content: center; transform: rotate(90deg); } }
+  </style>
 </head>
 
 <body>
-    <a href="#main-content" class="skip-nav">Skip to main content</a>
-    <div class="app-container" style="min-height: auto;">
-        <header class="app-header" role="banner">
-            <div class="logo maker-mark">
-                <span class="mark-border">
-                    <span class="mark-text">TMS</span>
-                </span>
-                <div class="mark-name">
-                    <span class="mark-script">TailorMeSwiftly</span>
-                    <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
-                </div>
-            </div>
-            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
-                <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                    <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
-                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                        <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
-                            <i class="fa-solid fa-user-gear"></i> Account
-                        </a>
-                                                <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
-                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>                        <button class="dropdown-item" id="logout-btn" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
-                    </div>
-                </div>
-            </div>
-        </header>
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+  <div class="app-container" style="min-height: auto;">
+    <header class="app-header" role="banner">
+      <div class="logo maker-mark">
+        <span class="mark-border">
+          <span class="mark-text">TMS</span>
+        </span>
+        <div class="mark-name">
+          <span class="mark-script">TailorMeSwiftly</span>
+          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
+        </div>
+      </div>
+      <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+        <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+          <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+          <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <div id="avatar-dropdown" class="avatar-dropdown hidden">
+            <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+              <i class="fa-solid fa-user-gear"></i> Account
+            </a>
+                        <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-compass"></i> Dashboard</a>
+            <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i class="fa-solid fa-bullhorn"></i> Release Notes</a>            <button class="dropdown-item" id="logout-btn" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <div id="main-content" class="result-page">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
+    </div>
+    <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-arrows-spin" style="color:#7BA5A0;margin-right:0.5rem;"></i>Career Pivot Translator</h1>
+    <p style="text-align:center;color:var(--text-secondary);margin-bottom:1.5rem;">Translate your experience into target industry language</p>
+
+    <div class="industry-select">
+      <div>
+        <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Current Industry</label>
+        <input type="text" id="current-industry" list="current-industries" placeholder="Type or select..." style="padding:0.5rem 1rem;border:1px solid var(--panel-border);border-radius:8px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;width:100%;">
+        <datalist id="current-industries">
+          <option value="Education / Teaching">
+          <option value="Military / Government">
+          <option value="Healthcare / Medical">
+          <option value="Retail / Hospitality">
+          <option value="Finance / Banking">
+          <option value="Manufacturing / Engineering">
+          <option value="Marketing / Advertising">
+          <option value="Legal / Law">
+          <option value="Nonprofit / NGO">
+          <option value="Technology / Software">
+          <option value="Data / Analytics">
+          <option value="Sales / Business Development">
+        </datalist>
+      </div>
+      <div>
+        <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Target Industry</label>
+        <input type="text" id="target-industry" list="target-industries" placeholder="Type or select..." style="padding:0.5rem 1rem;border:1px solid var(--panel-border);border-radius:8px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;width:100%;">
+        <datalist id="target-industries">
+          <option value="Technology / Software">
+          <option value="Finance / FinTech">
+          <option value="Healthcare / BioTech">
+          <option value="Marketing / Digital">
+          <option value="Consulting / Strategy">
+          <option value="Product Management">
+          <option value="Data / Analytics">
+          <option value="Operations / Supply Chain">
+          <option value="Sales / Business Development">
+          <option value="Education / EdTech">
+          <option value="AI / Machine Learning">
+          <option value="Cybersecurity">
+        </datalist>
+      </div>
     </div>
 
-    <div id="main-content" class="result-page">
-        <div style="text-align:center;margin-bottom:1.5rem;">
-            <a href="results.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i class="fa-solid fa-arrow-left"></i> Back to Results</a>
-        </div>
-        <h1 style="text-align:center;font-size:1.6rem;margin:0 0 0.5rem;"><i class="fa-solid fa-arrows-spin" style="color:#7BA5A0;margin-right:0.5rem;"></i>Career Pivot Translator</h1>
-        <p style="text-align:center;color:var(--text-secondary);margin-bottom:1.5rem;">Translate your experience into target industry language</p>
-
-        <div class="industry-select">
-            <div>
-                <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Current Industry</label>
-                <input type="text" id="current-industry" list="current-industries" placeholder="Type or select..." style="padding:0.5rem 1rem;border:1px solid var(--panel-border);border-radius:8px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;width:100%;">
-                <datalist id="current-industries">
-                    <option value="Education / Teaching">
-                    <option value="Military / Government">
-                    <option value="Healthcare / Medical">
-                    <option value="Retail / Hospitality">
-                    <option value="Finance / Banking">
-                    <option value="Manufacturing / Engineering">
-                    <option value="Marketing / Advertising">
-                    <option value="Legal / Law">
-                    <option value="Nonprofit / NGO">
-                    <option value="Technology / Software">
-                    <option value="Data / Analytics">
-                    <option value="Sales / Business Development">
-                </datalist>
-            </div>
-            <div>
-                <label style="font-size:0.8rem;color:var(--text-secondary);display:block;margin-bottom:0.3rem;">Target Industry</label>
-                <input type="text" id="target-industry" list="target-industries" placeholder="Type or select..." style="padding:0.5rem 1rem;border:1px solid var(--panel-border);border-radius:8px;background:var(--glass-bg);color:var(--text-primary);font-family:inherit;font-size:0.9rem;width:100%;">
-                <datalist id="target-industries">
-                    <option value="Technology / Software">
-                    <option value="Finance / FinTech">
-                    <option value="Healthcare / BioTech">
-                    <option value="Marketing / Digital">
-                    <option value="Consulting / Strategy">
-                    <option value="Product Management">
-                    <option value="Data / Analytics">
-                    <option value="Operations / Supply Chain">
-                    <option value="Sales / Business Development">
-                    <option value="Education / EdTech">
-                    <option value="AI / Machine Learning">
-                    <option value="Cybersecurity">
-                </datalist>
-            </div>
-        </div>
-
-        <div style="text-align:center;margin-bottom:2rem;">
-            <button class="btn primary-btn" onclick="generatePivot()"><i class="fa-solid fa-arrows-spin"></i> Translate My Experience</button>
-        </div>
-
-        <div id="pivot-output"></div>
+    <div style="text-align:center;margin-bottom:2rem;">
+      <button class="btn primary-btn" onclick="generatePivot()"><i class="fa-solid fa-arrows-spin"></i> Translate My Experience</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="brand-config.js"></script>
-    <script src="auth.js?v=15"></script>
-    <script src="components.js"></script>
-    <script src="error-utils.js"></script>
-    <script src="results.js?v=8"></script>
-    <script>
-        initResultTheme();
-        initResultAuth();
+    <div id="pivot-output"></div>
+  </div>
 
-        (async function() {
-        if (!(await guardToolAccess())) return;
-        const outputs = loadOutputs();
-        let resumeText = outputs?.resumeText || getResumeText();
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
+  <script src="components.js"></script>
+  <script src="error-utils.js"></script>
+  <script src="results.js?v=8"></script>
+  <script>
+    initResultTheme();
+    initResultAuth();
 
-        // Show experience input area (pre-filled with resume if available)
-        const pivotOutput = document.getElementById('pivot-output');
-        pivotOutput.innerHTML = `<div style="margin-bottom:1.5rem;">
-            <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;">Your Experience <span style="font-size:0.75rem;font-weight:400;color:var(--text-secondary);">(paste resume or describe your background)</span></label>
-            <textarea id="pivot-experience" rows="5" placeholder="Paste your resume, or describe your skills and experience..." style="width:100%;padding:0.75rem;border:var(--brutal-border);border-radius:var(--brutal-radius);background:var(--input-bg);color:var(--text-primary);font-family:inherit;font-size:0.85rem;resize:vertical;">${resumeText || ''}</textarea>
-        </div>`;
+    (async function() {
+    if (!(await guardToolAccess())) return;
+    const outputs = loadOutputs();
+    let resumeText = outputs?.resumeText || getResumeText();
 
-        async function generatePivot() {
-            const experienceText = document.getElementById('pivot-experience')?.value?.trim() || resumeText;
-            if (!experienceText) { alert('Please describe your experience or paste your resume.'); return; }
-            const container = document.getElementById('pivot-output');
-            container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Translating your experience...</p>';
+    // Show experience input area (pre-filled with resume if available)
+    const pivotOutput = document.getElementById('pivot-output');
+    pivotOutput.innerHTML = `<div style="margin-bottom:1.5rem;">
+      <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;">Your Experience <span style="font-size:0.75rem;font-weight:400;color:var(--text-secondary);">(paste resume or describe your background)</span></label>
+      <textarea id="pivot-experience" rows="5" placeholder="Paste your resume, or describe your skills and experience..." style="width:100%;padding:0.75rem;border:var(--brutal-border);border-radius:var(--brutal-radius);background:var(--input-bg);color:var(--text-primary);font-family:inherit;font-size:0.85rem;resize:vertical;">${resumeText || ''}</textarea>
+    </div>`;
 
-            const currentInd = document.getElementById('current-industry').value || 'auto-detect from experience';
-            const targetInd = document.getElementById('target-industry').value || 'auto-detect from job description';
+    async function generatePivot() {
+      const experienceText = document.getElementById('pivot-experience')?.value?.trim() || resumeText;
+      if (!experienceText) { alert('Please describe your experience or paste your resume.'); return; }
+      const container = document.getElementById('pivot-output');
+      container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Translating your experience...</p>';
 
-            const systemPrompt = `You are an expert Career Pivot Translator specializing in helping professionals transition between industries.
+      const currentInd = document.getElementById('current-industry').value || 'auto-detect from experience';
+      const targetInd = document.getElementById('target-industry').value || 'auto-detect from job description';
+
+      const systemPrompt = `You are an expert Career Pivot Translator specializing in helping professionals transition between industries.
 
 Analyze the candidate's experience (which may be a full resume or a brief description of their background and skills) and translate each major achievement or skill from the current industry's language into the target industry's jargon and vocabulary.
 
@@ -165,78 +164,78 @@ Target industry: ${targetInd}
 
 Return EXACTLY this JSON (no markdown, no code fences):
 {
-    "detectedCurrent": "The detected/confirmed current industry",
-    "detectedTarget": "The detected/confirmed target industry",
-    "translations": [
-        {
-            "original": "The original bullet point or experience description",
-            "translated": "The same achievement rewritten in target industry language",
-            "explanation": "Brief note on what changed and why"
-        }
-    ],
-    "tips": ["3-5 general tips for making this specific career pivot"]
+  "detectedCurrent": "The detected/confirmed current industry",
+  "detectedTarget": "The detected/confirmed target industry",
+  "translations": [
+    {
+      "original": "The original bullet point or experience description",
+      "translated": "The same achievement rewritten in target industry language",
+      "explanation": "Brief note on what changed and why"
+    }
+  ],
+  "tips": ["3-5 general tips for making this specific career pivot"]
 }`;
 
-            const userPrompt = `Experience:\n${experienceText}\n\nTarget Job Description:\n${getJobText() || 'Not provided'}`;
+      const userPrompt = `Experience:\n${experienceText}\n\nTarget Job Description:\n${getJobText() || 'Not provided'}`;
 
-            try {
-                const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-                    body: {
-                        model: 'gemini-3-flash-preview',
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        contents: [{ parts: [{ text: userPrompt }] }],
-                        generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
-                    }
-                });
+      try {
+        const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
+          body: {
+            model: 'gemini-3-flash-preview',
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents: [{ parts: [{ text: userPrompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+          }
+        });
 
-                if (error) throw new Error(error.message);
-                let text = data.candidates[0].content.parts[0].text.trim();
-                if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
-                const result = JSON.parse(text);
-                renderPivot(result);
-                incrementToolUsage();
-            } catch (e) {
-                container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generatePivot()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
-            }
-        }
+        if (error) throw new Error(error.message);
+        let text = data.candidates[0].content.parts[0].text.trim();
+        if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+        const result = JSON.parse(text);
+        renderPivot(result);
+        incrementToolUsage();
+      } catch (e) {
+        container.innerHTML = `<p style="color:var(--error-color);text-align:center;">Failed: ${e.message}<br><button class="btn small-btn primary-btn" style="margin-top:1rem;" onclick="generatePivot()"><i class="fa-solid fa-rotate-right"></i> Retry</button></p>`;
+      }
+    }
 
-        function renderPivot(result) {
-            const container = document.getElementById('pivot-output');
-            let html = `<div style="text-align:center;margin-bottom:1.5rem;font-size:0.9rem;color:var(--text-secondary);"><strong style="color:#C47A6E;">${result.detectedCurrent}</strong> <i class="fa-solid fa-arrow-right" style="margin:0 0.5rem;color:var(--primary-color);"></i> <strong style="color:#8A9A86;">${result.detectedTarget}</strong></div>`;
+    function renderPivot(result) {
+      const container = document.getElementById('pivot-output');
+      let html = `<div style="text-align:center;margin-bottom:1.5rem;font-size:0.9rem;color:var(--text-secondary);"><strong style="color:#C47A6E;">${result.detectedCurrent}</strong> <i class="fa-solid fa-arrow-right" style="margin:0 0.5rem;color:var(--primary-color);"></i> <strong style="color:#8A9A86;">${result.detectedTarget}</strong></div>`;
 
-            result.translations.forEach(t => {
-                html += `<div class="pivot-row">
-                    <div class="pivot-col original"><div class="pivot-label old">Original</div>${t.original}</div>
-                    <div class="pivot-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                    <div class="pivot-col translated"><div class="pivot-label new">Translated</div>${t.translated}<div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-secondary);font-style:italic;">${t.explanation}</div></div>
-                </div>`;
-            });
+      result.translations.forEach(t => {
+        html += `<div class="pivot-row">
+          <div class="pivot-col original"><div class="pivot-label old">Original</div>${t.original}</div>
+          <div class="pivot-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="pivot-col translated"><div class="pivot-label new">Translated</div>${t.translated}<div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-secondary);font-style:italic;">${t.explanation}</div></div>
+        </div>`;
+      });
 
-            if (result.tips && result.tips.length > 0) {
-                html += `<div style="background:rgba(20,184,166,0.05);border:1px solid rgba(20,184,166,0.2);border-radius: 4px;padding:1.25rem;margin-top:1.5rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#7BA5A0;margin-right:0.4rem;"></i> Pivot Tips</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
-                result.tips.forEach(tip => { html += `<li>${tip}</li>`; });
-                html += `</ul></div>`;
-            }
+      if (result.tips && result.tips.length > 0) {
+        html += `<div style="background:rgba(20,184,166,0.05);border:1px solid rgba(20,184,166,0.2);border-radius: 4px;padding:1.25rem;margin-top:1.5rem;"><h3 style="margin:0 0 0.75rem;font-size:0.95rem;"><i class="fa-solid fa-lightbulb" style="color:#7BA5A0;margin-right:0.4rem;"></i> Pivot Tips</h3><ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.7;color:var(--text-secondary);">`;
+        result.tips.forEach(tip => { html += `<li>${tip}</li>`; });
+        html += `</ul></div>`;
+      }
 
-            container.innerHTML = html;
-        }
-        
-    // Expose functions to global scope for onclick handlers
-    window.generatePivot = generatePivot;
+      container.innerHTML = html;
+    }
+    
+  // Expose functions to global scope for onclick handlers
+  window.generatePivot = generatePivot;
 })();
-    </script>
+  </script>
 
-    <footer class="site-footer" role="contentinfo">
-        <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
-        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
-    </footer>
+  <footer class="site-footer" role="contentinfo">
+    <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+    <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+  </footer>
 <script>
-    // Theme persistence
-    (function() {
-        var t = localStorage.getItem('ats_theme_preference');
-        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
-    })();
-    </script>
+  // Theme persistence
+  (function() {
+    var t = localStorage.getItem('tms_theme_preference');
+    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+  })();
+  </script>
 </body>
 
 </html>

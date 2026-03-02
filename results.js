@@ -185,7 +185,7 @@ function showToolUpgradeModal(reason, slug) {
 async function toolCreateCheckout() {
     if (!window.supabaseClient) return;
     const { data: { session } } = await window.supabaseClient.auth.getSession();
-    if (!session) { alert('Please sign in first.'); return; }
+    if (!session) { window.showToast('Please sign in first.', true); return; }
 
     try {
         const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
@@ -199,7 +199,7 @@ async function toolCreateCheckout() {
         if (data?.url) window.location.href = data.url;
     } catch (e) {
         console.error('Checkout error:', e);
-        alert('Unable to start checkout. Please try again.');
+        window.showToast('Unable to start checkout. Please try again.', true);
     }
 }
 
@@ -319,6 +319,40 @@ function _gemCacheHash(str) {
             return res;
         };
     }, 50);
+})();
+
+// ── Tool Switcher Nav (auto-inject on individual tool pages) ──
+(function initToolSwitcher() {
+    const slug = currentToolSlug();
+    if (!slug || slug === 'results' || slug === 'history' || slug === 'resume') return;
+    const page = document.querySelector('.result-page');
+    if (!page) return;
+
+    const tools = [
+        { slug: 'resume', icon: 'fa-file-lines', label: 'Resume' },
+        { slug: 'cover-letter', icon: 'fa-envelope-open-text', label: 'Cover Letter' },
+        { slug: 'interview-prep', icon: 'fa-comments', label: 'Interview' },
+        { slug: 'outreach', icon: 'fa-paper-plane', label: 'Email' },
+        { slug: 'results', icon: 'fa-grip', label: 'All Tools' }
+    ];
+
+    const nav = document.createElement('nav');
+    nav.style.cssText = 'display:flex;gap:0.4rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--panel-border);';
+    tools.forEach(t => {
+        const a = document.createElement('a');
+        a.href = t.slug + '.html';
+        a.style.cssText = 'display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.6rem;border-radius:4px;font-size:0.75rem;text-decoration:none;color:var(--text-secondary);transition:background 0.2s;';
+        if (t.slug === slug) {
+            a.style.color = 'var(--primary-color)';
+            a.style.fontWeight = '600';
+            a.style.background = 'rgba(138,154,134,0.1)';
+        }
+        a.innerHTML = '<i class="fa-solid ' + t.icon + '"></i> ' + t.label;
+        a.onmouseover = function() { this.style.background = 'var(--glass-bg)'; };
+        a.onmouseout = function() { if (t.slug !== slug) this.style.background = ''; };
+        nav.appendChild(a);
+    });
+    page.prepend(nav);
 })();
 
 function loadOutputs() {
@@ -692,6 +726,10 @@ async function saveGenerationToSupabase(outputs) {
             }
             // Persist gen ID in localStorage so it survives browser restarts
             localStorage.setItem('tms_last_gen_id', data.id);
+            // Update URL so refreshing the page restores this generation
+            if (!new URLSearchParams(window.location.search).get('gen')) {
+                history.replaceState(null, '', 'results.html?gen=' + data.id);
+            }
         }
         return data;
     } catch (e) {

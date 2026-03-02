@@ -19,7 +19,7 @@
             var theme = document.body.getAttribute('data-theme');
             var next = theme === 'light' ? 'dark' : 'light';
             document.body.setAttribute('data-theme', next);
-            localStorage.setItem('ats_theme_preference', next);
+            localStorage.setItem('tms_theme_preference', next);
         }},
         { label: 'Pricing', icon: 'fa-tag', action: function () { window.location.href = P + 'pricing.html'; } },
         { label: 'Help Center', icon: 'fa-circle-question', action: function () { window.location.href = P + 'help.html'; } },

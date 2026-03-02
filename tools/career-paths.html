@@ -1,143 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Paths | TailorMeSwiftly</title>
-    <link rel="icon" href="/logo.png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css?v=17">
-    <style>
-        .track-tabs { display:flex; gap:0.5rem; margin-bottom:2rem; flex-wrap:wrap; }
-        .track-tab { padding:0.5rem 1rem; border:var(--brutal-border); border-radius:var(--brutal-radius); cursor:pointer; font-size:0.85rem; background:transparent; color:var(--text-secondary); transition:all 0.15s; font-family:var(--font-family); }
-        .track-tab:hover { border-color:var(--primary-color); color:var(--text-primary); }
-        .track-tab.active { background:var(--primary-color); color:var(--btn-primary-text); border-color:var(--primary-color); }
-        .path-container { display:flex; gap:1rem; overflow-x:auto; padding:1rem 0; align-items:flex-start; }
-        .path-arrow { display:flex; align-items:center; color:var(--text-secondary); font-size:1.2rem; flex-shrink:0; padding-top:2rem; }
-        .path-node { min-width:180px; text-align:center; cursor:pointer; flex-shrink:0; }
-        .path-node .career-node { min-height:120px; display:flex; flex-direction:column; justify-content:center; }
-        .path-node .career-node h4 { margin:0 0 0.25rem; font-size:0.95rem; }
-        .path-node .career-node .years { font-size:0.75rem; color:var(--text-secondary); }
-        .path-node .career-node .salary { font-size:0.85rem; font-weight:600; color:var(--success-color); margin-top:0.5rem; }
-        .node-detail { background:var(--panel-bg); border:var(--brutal-border); border-radius:var(--brutal-radius); padding:1.5rem; margin-top:2rem; box-shadow:var(--brutal-shadow); display:none; }
-        .node-detail h3 { margin:0 0 1rem; }
-        .node-detail .skills-list { display:flex; gap:0.5rem; flex-wrap:wrap; margin:0.75rem 0; }
-        .node-detail .skill-tag { padding:0.2rem 0.6rem; border:var(--brutal-border); border-radius:20px; font-size:0.75rem; color:var(--text-secondary); }
-        .node-detail .next-steps { margin-top:1rem; padding-top:1rem; border-top:1px dashed var(--panel-border); }
-        .node-detail .next-steps li { margin-bottom:0.4rem; font-size:0.85rem; color:var(--text-secondary); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Paths | TailorMeSwiftly</title>
+  <link rel="icon" href="/logo.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../style.css?v=17">
+  <style>
+    .track-tabs { display:flex; gap:0.5rem; margin-bottom:2rem; flex-wrap:wrap; }
+    .track-tab { padding:0.5rem 1rem; border:var(--brutal-border); border-radius:var(--brutal-radius); cursor:pointer; font-size:0.85rem; background:transparent; color:var(--text-secondary); transition:all 0.15s; font-family:var(--font-family); }
+    .track-tab:hover { border-color:var(--primary-color); color:var(--text-primary); }
+    .track-tab.active { background:var(--primary-color); color:var(--btn-primary-text); border-color:var(--primary-color); }
+    .path-container { display:flex; gap:1rem; overflow-x:auto; padding:1rem 0; align-items:flex-start; }
+    .path-arrow { display:flex; align-items:center; color:var(--text-secondary); font-size:1.2rem; flex-shrink:0; padding-top:2rem; }
+    .path-node { min-width:180px; text-align:center; cursor:pointer; flex-shrink:0; }
+    .path-node .career-node { min-height:120px; display:flex; flex-direction:column; justify-content:center; }
+    .path-node .career-node h4 { margin:0 0 0.25rem; font-size:0.95rem; }
+    .path-node .career-node .years { font-size:0.75rem; color:var(--text-secondary); }
+    .path-node .career-node .salary { font-size:0.85rem; font-weight:600; color:var(--success-color); margin-top:0.5rem; }
+    .node-detail { background:var(--panel-bg); border:var(--brutal-border); border-radius:var(--brutal-radius); padding:1.5rem; margin-top:2rem; box-shadow:var(--brutal-shadow); display:none; }
+    .node-detail h3 { margin:0 0 1rem; }
+    .node-detail .skills-list { display:flex; gap:0.5rem; flex-wrap:wrap; margin:0.75rem 0; }
+    .node-detail .skill-tag { padding:0.2rem 0.6rem; border:var(--brutal-border); border-radius:20px; font-size:0.75rem; color:var(--text-secondary); }
+    .node-detail .next-steps { margin-top:1rem; padding-top:1rem; border-top:1px dashed var(--panel-border); }
+    .node-detail .next-steps li { margin-bottom:0.4rem; font-size:0.85rem; color:var(--text-secondary); }
+  </style>
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <a href="../index.html" class="maker-mark"><span class="mark-border"><span class="mark-text" style="font-family:var(--font-script);font-size:1.1rem;">TMS</span></span></a>
-            <div class="header-actions">
-                <div id="product-switcher-placeholder"></div>
-                <a href="../login.html" class="btn primary-btn login-btn" id="login-btn" style="display:none;">Sign In</a>
-                <div class="avatar-menu" style="display:none;">
-                    <button class="avatar-btn" id="avatar-btn"></button>
-                    <div class="avatar-dropdown" id="avatar-dropdown"></div>
-                </div>
-            </div>
-        </header>
-
-        <h1 style="margin:0 0 0.5rem;"><i class="fa-solid fa-route"></i> Career Paths</h1>
-        <p style="color:var(--text-secondary);margin:0 0 1.5rem;">Explore typical career progressions. Click a role to see details.</p>
-
-        <div class="track-tabs">
-            <button class="track-tab active" onclick="showTrack('engineering')">Engineering</button>
-            <button class="track-tab" onclick="showTrack('product')">Product</button>
-            <button class="track-tab" onclick="showTrack('design')">Design</button>
-            <button class="track-tab" onclick="showTrack('marketing')">Marketing</button>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="../index.html" class="maker-mark"><span class="mark-border"><span class="mark-text" style="font-family:var(--font-script);font-size:1.1rem;">TMS</span></span></a>
+      <div class="header-actions">
+        <div id="product-switcher-placeholder"></div>
+        <a href="../login.html" class="btn primary-btn login-btn" id="login-btn" style="display:none;">Sign In</a>
+        <div class="avatar-menu" style="display:none;">
+          <button class="avatar-btn" id="avatar-btn"></button>
+          <div class="avatar-dropdown" id="avatar-dropdown"></div>
         </div>
+      </div>
+    </header>
 
-        <div id="path-display" class="path-container"></div>
-        <div id="node-detail" class="node-detail"></div>
+    <h1 style="margin:0 0 0.5rem;"><i class="fa-solid fa-route"></i> Career Paths</h1>
+    <p style="color:var(--text-secondary);margin:0 0 1.5rem;">Explore typical career progressions. Click a role to see details.</p>
 
-        <footer class="site-footer" role="contentinfo"></footer>
+    <div class="track-tabs">
+      <button class="track-tab active" onclick="showTrack('engineering')">Engineering</button>
+      <button class="track-tab" onclick="showTrack('product')">Product</button>
+      <button class="track-tab" onclick="showTrack('design')">Design</button>
+      <button class="track-tab" onclick="showTrack('marketing')">Marketing</button>
     </div>
 
-    <script>window.TMS_PATH_PREFIX = '../';</script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="../brand-config.js"></script>
-    <script src="../auth.js?v=15"></script>
-    <script src="../components.js"></script>
-    <script src="../shared/analytics.js"></script>
-    <script src="../shared/sticky-header.js"></script>
-    <script src="../shared/command-palette.js"></script>
-    <script>
-        var TRACKS = {
-            engineering: [
-                { title:'Junior Engineer', years:'0-2 yrs', salary:'$65-90k', skills:['JavaScript','Python','Git','SQL','REST APIs'], next:['Build side projects','Contribute to open source','Get mentorship'] },
-                { title:'Software Engineer', years:'2-5 yrs', salary:'$90-130k', skills:['System Design','CI/CD','Cloud (AWS/GCP)','Testing','Code Review'], next:['Lead a feature end-to-end','Mentor juniors','Deep-dive into architecture'] },
-                { title:'Senior Engineer', years:'5-8 yrs', salary:'$130-180k', skills:['Architecture','Performance','Security','Cross-team collaboration','Technical Writing'], next:['Define technical strategy','Drive RFCs','Present at conferences'] },
-                { title:'Staff Engineer', years:'8-12 yrs', salary:'$180-250k', skills:['Org-wide architecture','Influence without authority','Strategic thinking','Mentoring leaders'], next:['Shape eng culture','Lead multi-team initiatives','Build internal tools'] },
-                { title:'Principal / VP Eng', years:'12+ yrs', salary:'$250-400k+', skills:['Business strategy','Hiring & org design','Board-level communication','Industry thought leadership'], next:['Define company technical vision','Build engineering brand','Advise startups'] }
-            ],
-            product: [
-                { title:'Associate PM', years:'0-2 yrs', salary:'$70-95k', skills:['User Research','Wireframing','Data Analysis','Agile/Scrum','Writing PRDs'], next:['Own a small feature','Run user interviews','Learn SQL'] },
-                { title:'Product Manager', years:'2-5 yrs', salary:'$95-140k', skills:['Roadmapping','A/B Testing','Stakeholder Management','Metrics/KPIs','Go-to-Market'], next:['Own a product area','Drive key metrics','Build cross-functional trust'] },
-                { title:'Senior PM', years:'5-8 yrs', salary:'$140-190k', skills:['Product Strategy','Market Analysis','Executive Communication','Team Leadership','P&L Awareness'], next:['Define product vision','Mentor PMs','Present to leadership'] },
-                { title:'Director of Product', years:'8-12 yrs', salary:'$190-280k', skills:['Portfolio Management','Org Design','Business Development','Board Presentations'], next:['Build PM team','Shape product culture','Drive revenue growth'] },
-                { title:'VP/CPO', years:'12+ yrs', salary:'$280-450k+', skills:['Company Strategy','Investor Relations','Brand Vision','Industry Influence'], next:['Define company direction','Build advisory board','Public speaking'] }
-            ],
-            design: [
-                { title:'Junior Designer', years:'0-2 yrs', salary:'$55-80k', skills:['Figma','UI Patterns','Typography','Color Theory','Prototyping'], next:['Build portfolio','Study design systems','Practice critiques'] },
-                { title:'UX Designer', years:'2-5 yrs', salary:'$80-120k', skills:['User Research','Interaction Design','Design Systems','Accessibility','Usability Testing'], next:['Lead redesign project','Build component library','Run workshops'] },
-                { title:'Senior Designer', years:'5-8 yrs', salary:'$120-165k', skills:['Design Strategy','Team Mentoring','Cross-platform Design','Motion Design','Data-Informed Design'], next:['Define design language','Mentor juniors','Present at conferences'] },
-                { title:'Design Lead', years:'8-12 yrs', salary:'$165-220k', skills:['Team Management','Design Ops','Executive Influence','Brand Strategy'], next:['Build design team','Shape org design culture','Partner with product/eng leaders'] },
-                { title:'VP/Head of Design', years:'12+ yrs', salary:'$220-350k+', skills:['Org Vision','Hiring Excellence','Industry Thought Leadership','Business Impact'], next:['Set company design vision','Build design brand','Board-level impact'] }
-            ],
-            marketing: [
-                { title:'Marketing Coordinator', years:'0-2 yrs', salary:'$45-65k', skills:['Social Media','Content Writing','Email Marketing','Analytics Basics','SEO Fundamentals'], next:['Run campaigns end-to-end','Learn GA4','Build writing portfolio'] },
-                { title:'Marketing Manager', years:'2-5 yrs', salary:'$65-100k', skills:['Campaign Strategy','Budget Management','CRM Tools','Content Strategy','Paid Ads (PPC/Social)'], next:['Own a channel','Drive measurable results','Build vendor relationships'] },
-                { title:'Senior Marketing Manager', years:'5-8 yrs', salary:'$100-145k', skills:['Brand Strategy','Team Leadership','Marketing Automation','Data-Driven Decisions','Cross-Channel Strategy'], next:['Define brand voice','Mentor team','Present ROI to leadership'] },
-                { title:'Director of Marketing', years:'8-12 yrs', salary:'$145-200k', skills:['Go-to-Market Strategy','P&L Ownership','Agency Management','Executive Communication'], next:['Build marketing org','Shape go-to-market playbook','Drive revenue attribution'] },
-                { title:'VP/CMO', years:'12+ yrs', salary:'$200-350k+', skills:['Company Strategy','Board Communication','Brand Building','Industry Influence','Revenue Leadership'], next:['Set company narrative','Build advisory board','Keynote speaking'] }
-            ]
-        };
+    <div id="path-display" class="path-container"></div>
+    <div id="node-detail" class="node-detail"></div>
 
-        var currentTrack = 'engineering';
+    <footer class="site-footer" role="contentinfo"></footer>
+  </div>
 
-        function showTrack(track) {
-            currentTrack = track;
-            document.querySelectorAll('.track-tab').forEach(function(t) { t.classList.remove('active'); });
-            event.target.classList.add('active');
-            renderPath();
-            document.getElementById('node-detail').style.display = 'none';
-        }
+  <script>window.TMS_PATH_PREFIX = '../';</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+  <script src="../brand-config.js"></script>
+  <script src="../auth.js?v=15"></script>
+  <script src="../components.js"></script>
+  <script src="../shared/analytics.js"></script>
+  <script src="../shared/sticky-header.js"></script>
+  <script src="../shared/command-palette.js"></script>
+  <script>
+    var TRACKS = {
+      engineering: [
+        { title:'Junior Engineer', years:'0-2 yrs', salary:'$65-90k', skills:['JavaScript','Python','Git','SQL','REST APIs'], next:['Build side projects','Contribute to open source','Get mentorship'] },
+        { title:'Software Engineer', years:'2-5 yrs', salary:'$90-130k', skills:['System Design','CI/CD','Cloud (AWS/GCP)','Testing','Code Review'], next:['Lead a feature end-to-end','Mentor juniors','Deep-dive into architecture'] },
+        { title:'Senior Engineer', years:'5-8 yrs', salary:'$130-180k', skills:['Architecture','Performance','Security','Cross-team collaboration','Technical Writing'], next:['Define technical strategy','Drive RFCs','Present at conferences'] },
+        { title:'Staff Engineer', years:'8-12 yrs', salary:'$180-250k', skills:['Org-wide architecture','Influence without authority','Strategic thinking','Mentoring leaders'], next:['Shape eng culture','Lead multi-team initiatives','Build internal tools'] },
+        { title:'Principal / VP Eng', years:'12+ yrs', salary:'$250-400k+', skills:['Business strategy','Hiring & org design','Board-level communication','Industry thought leadership'], next:['Define company technical vision','Build engineering brand','Advise startups'] }
+      ],
+      product: [
+        { title:'Associate PM', years:'0-2 yrs', salary:'$70-95k', skills:['User Research','Wireframing','Data Analysis','Agile/Scrum','Writing PRDs'], next:['Own a small feature','Run user interviews','Learn SQL'] },
+        { title:'Product Manager', years:'2-5 yrs', salary:'$95-140k', skills:['Roadmapping','A/B Testing','Stakeholder Management','Metrics/KPIs','Go-to-Market'], next:['Own a product area','Drive key metrics','Build cross-functional trust'] },
+        { title:'Senior PM', years:'5-8 yrs', salary:'$140-190k', skills:['Product Strategy','Market Analysis','Executive Communication','Team Leadership','P&L Awareness'], next:['Define product vision','Mentor PMs','Present to leadership'] },
+        { title:'Director of Product', years:'8-12 yrs', salary:'$190-280k', skills:['Portfolio Management','Org Design','Business Development','Board Presentations'], next:['Build PM team','Shape product culture','Drive revenue growth'] },
+        { title:'VP/CPO', years:'12+ yrs', salary:'$280-450k+', skills:['Company Strategy','Investor Relations','Brand Vision','Industry Influence'], next:['Define company direction','Build advisory board','Public speaking'] }
+      ],
+      design: [
+        { title:'Junior Designer', years:'0-2 yrs', salary:'$55-80k', skills:['Figma','UI Patterns','Typography','Color Theory','Prototyping'], next:['Build portfolio','Study design systems','Practice critiques'] },
+        { title:'UX Designer', years:'2-5 yrs', salary:'$80-120k', skills:['User Research','Interaction Design','Design Systems','Accessibility','Usability Testing'], next:['Lead redesign project','Build component library','Run workshops'] },
+        { title:'Senior Designer', years:'5-8 yrs', salary:'$120-165k', skills:['Design Strategy','Team Mentoring','Cross-platform Design','Motion Design','Data-Informed Design'], next:['Define design language','Mentor juniors','Present at conferences'] },
+        { title:'Design Lead', years:'8-12 yrs', salary:'$165-220k', skills:['Team Management','Design Ops','Executive Influence','Brand Strategy'], next:['Build design team','Shape org design culture','Partner with product/eng leaders'] },
+        { title:'VP/Head of Design', years:'12+ yrs', salary:'$220-350k+', skills:['Org Vision','Hiring Excellence','Industry Thought Leadership','Business Impact'], next:['Set company design vision','Build design brand','Board-level impact'] }
+      ],
+      marketing: [
+        { title:'Marketing Coordinator', years:'0-2 yrs', salary:'$45-65k', skills:['Social Media','Content Writing','Email Marketing','Analytics Basics','SEO Fundamentals'], next:['Run campaigns end-to-end','Learn GA4','Build writing portfolio'] },
+        { title:'Marketing Manager', years:'2-5 yrs', salary:'$65-100k', skills:['Campaign Strategy','Budget Management','CRM Tools','Content Strategy','Paid Ads (PPC/Social)'], next:['Own a channel','Drive measurable results','Build vendor relationships'] },
+        { title:'Senior Marketing Manager', years:'5-8 yrs', salary:'$100-145k', skills:['Brand Strategy','Team Leadership','Marketing Automation','Data-Driven Decisions','Cross-Channel Strategy'], next:['Define brand voice','Mentor team','Present ROI to leadership'] },
+        { title:'Director of Marketing', years:'8-12 yrs', salary:'$145-200k', skills:['Go-to-Market Strategy','P&L Ownership','Agency Management','Executive Communication'], next:['Build marketing org','Shape go-to-market playbook','Drive revenue attribution'] },
+        { title:'VP/CMO', years:'12+ yrs', salary:'$200-350k+', skills:['Company Strategy','Board Communication','Brand Building','Industry Influence','Revenue Leadership'], next:['Set company narrative','Build advisory board','Keynote speaking'] }
+      ]
+    };
 
-        function renderPath() {
-            var nodes = TRACKS[currentTrack];
-            var container = document.getElementById('path-display');
-            var html = '';
-            nodes.forEach(function(node, i) {
-                if (i > 0) html += '<div class="path-arrow"><i class="fa-solid fa-chevron-right"></i></div>';
-                html += '<div class="path-node" onclick="showNodeDetail(' + i + ')">' +
-                    '<div class="career-node"><h4>' + node.title + '</h4>' +
-                    '<div class="years"><i class="fa-regular fa-clock"></i> ' + node.years + '</div>' +
-                    '<div class="salary">' + node.salary + '</div></div></div>';
-            });
-            container.innerHTML = html;
-        }
+    var currentTrack = 'engineering';
 
-        function showNodeDetail(index) {
-            var node = TRACKS[currentTrack][index];
-            var detail = document.getElementById('node-detail');
-            var skillsHtml = node.skills.map(function(s) { return '<span class="skill-tag">' + s + '</span>'; }).join('');
-            var nextHtml = node.next.map(function(n) { return '<li>' + n + '</li>'; }).join('');
+    function showTrack(track) {
+      currentTrack = track;
+      document.querySelectorAll('.track-tab').forEach(function(t) { t.classList.remove('active'); });
+      event.target.classList.add('active');
+      renderPath();
+      document.getElementById('node-detail').style.display = 'none';
+    }
 
-            detail.innerHTML = '<h3>' + node.title + '</h3>' +
-                '<div><strong>Typical Timeline:</strong> ' + node.years + ' &nbsp;|&nbsp; <strong>Salary Range:</strong> <span style="color:var(--success-color);">' + node.salary + '</span></div>' +
-                '<div class="skills-list">' + skillsHtml + '</div>' +
-                '<div class="next-steps"><strong>How to get here:</strong><ul>' + nextHtml + '</ul></div>';
-            detail.style.display = 'block';
-            detail.scrollIntoView({ behavior:'smooth', block:'nearest' });
-            if (typeof trackEvent === 'function') trackEvent('career_paths', 'view_node', node.title);
-        }
+    function renderPath() {
+      var nodes = TRACKS[currentTrack];
+      var container = document.getElementById('path-display');
+      var html = '';
+      nodes.forEach(function(node, i) {
+        if (i > 0) html += '<div class="path-arrow"><i class="fa-solid fa-chevron-right"></i></div>';
+        html += '<div class="path-node" onclick="showNodeDetail(' + i + ')">' +
+          '<div class="career-node"><h4>' + node.title + '</h4>' +
+          '<div class="years"><i class="fa-regular fa-clock"></i> ' + node.years + '</div>' +
+          '<div class="salary">' + node.salary + '</div></div></div>';
+      });
+      container.innerHTML = html;
+    }
 
-        renderPath();
-    </script>
+    function showNodeDetail(index) {
+      var node = TRACKS[currentTrack][index];
+      var detail = document.getElementById('node-detail');
+      var skillsHtml = node.skills.map(function(s) { return '<span class="skill-tag">' + s + '</span>'; }).join('');
+      var nextHtml = node.next.map(function(n) { return '<li>' + n + '</li>'; }).join('');
+
+      detail.innerHTML = '<h3>' + node.title + '</h3>' +
+        '<div><strong>Typical Timeline:</strong> ' + node.years + ' &nbsp;|&nbsp; <strong>Salary Range:</strong> <span style="color:var(--success-color);">' + node.salary + '</span></div>' +
+        '<div class="skills-list">' + skillsHtml + '</div>' +
+        '<div class="next-steps"><strong>How to get here:</strong><ul>' + nextHtml + '</ul></div>';
+      detail.style.display = 'block';
+      detail.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      if (typeof trackEvent === 'function') trackEvent('career_paths', 'view_node', node.title);
+    }
+
+    renderPath();
+  </script>
 </body>
 </html>

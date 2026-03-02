@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { width:340px; background:#151821; color:rgba(255,255,255,0.9); font-family:'Segoe UI',system-ui,sans-serif; padding:1rem; }
-        h2 { font-size:1rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem; }
-        h2 span { color:#A3C4DC; }
-        .status { background:rgba(0,0,0,0.3); border:1px dashed rgba(255,255,255,0.2); border-radius:4px; padding:0.75rem; margin:0.75rem 0; font-size:0.82rem; min-height:60px; max-height:200px; overflow-y:auto; line-height:1.5; color:rgba(255,255,255,0.6); white-space:pre-wrap; }
-        .status.has-data { color:rgba(255,255,255,0.9); }
-        .btn { display:block; width:100%; padding:0.6rem; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600; margin-bottom:0.5rem; }
-        .btn-primary { background:#A3C4DC; color:#151821; }
-        .btn-primary:hover { background:#B8D5E9; }
-        .btn-secondary { background:transparent; border:1px dashed rgba(255,255,255,0.3); color:#A3C4DC; }
-        .btn-secondary:hover { border-color:#A3C4DC; }
-        .btn:disabled { opacity:0.5; cursor:not-allowed; }
-        .meta { font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem; text-align:center; }
-        .meta a { color:#A3C4DC; text-decoration:none; }
-    </style>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { width:340px; background:#151821; color:rgba(255,255,255,0.9); font-family:'Segoe UI',system-ui,sans-serif; padding:1rem; }
+    h2 { font-size:1rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem; }
+    h2 span { color:#A3C4DC; }
+    .status { background:rgba(0,0,0,0.3); border:1px dashed rgba(255,255,255,0.2); border-radius:4px; padding:0.75rem; margin:0.75rem 0; font-size:0.82rem; min-height:60px; max-height:200px; overflow-y:auto; line-height:1.5; color:rgba(255,255,255,0.6); white-space:pre-wrap; }
+    .status.has-data { color:rgba(255,255,255,0.9); }
+    .btn { display:block; width:100%; padding:0.6rem; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600; margin-bottom:0.5rem; }
+    .btn-primary { background:#A3C4DC; color:#151821; }
+    .btn-primary:hover { background:#B8D5E9; }
+    .btn-secondary { background:transparent; border:1px dashed rgba(255,255,255,0.3); color:#A3C4DC; }
+    .btn-secondary:hover { border-color:#A3C4DC; }
+    .btn:disabled { opacity:0.5; cursor:not-allowed; }
+    .meta { font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem; text-align:center; }
+    .meta a { color:#A3C4DC; text-decoration:none; }
+  </style>
 </head>
 <body>
-    <h2><span>TMS</span> Job Capture</h2>
-    <button class="btn btn-primary" id="capture-btn">Capture Job Description</button>
-    <div class="status" id="status">Click "Capture" on a job listing page to extract the job description.</div>
-    <button class="btn btn-secondary" id="open-btn" style="display:none;">Open in TailorMeSwiftly</button>
-    <p class="meta">Supports LinkedIn, Indeed, Greenhouse, Lever, Glassdoor</p>
-    <script src="popup.js"></script>
+  <h2><span>TMS</span> Job Capture</h2>
+  <button class="btn btn-primary" id="capture-btn">Capture Job Description</button>
+  <div class="status" id="status">Click "Capture" on a job listing page to extract the job description.</div>
+  <button class="btn btn-secondary" id="open-btn" style="display:none;">Open in TailorMeSwiftly</button>
+  <p class="meta">Supports LinkedIn, Indeed, Greenhouse, Lever, Glassdoor</p>
+  <script src="popup.js"></script>
 </body>
 </html>

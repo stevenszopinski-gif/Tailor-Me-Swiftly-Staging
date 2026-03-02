@@ -171,6 +171,24 @@ function init() {
 
     // Welcome message is set by auth.js updateUIForUser()
 
+    // Show remaining generations badge on Step 1
+    showGenerationsBadge();
+
+    // Post-upgrade: poll for premium status after Stripe checkout return
+    if (window.location.search.includes('session_id') || document.referrer.includes('checkout.stripe.com')) {
+        pollForPremiumStatus();
+    }
+
+    // Check for interrupted generation
+    if (sessionStorage.getItem('tms_generating')) {
+        sessionStorage.removeItem('tms_generating');
+        var genStatus = document.getElementById('generation-status');
+        if (genStatus) {
+            genStatus.innerHTML = '<span class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> Generation was interrupted. Please try again.</span>' +
+                '<button class="btn small-btn primary-btn" onclick="processGeneration()" style="margin-top: 0.75rem;"><i class="fa-solid fa-rotate-right"></i> Retry</button>';
+        }
+    }
+
     // Use Last Resume banner
     const lastResume = (() => { try { return JSON.parse(localStorage.getItem('tms_last_resume')); } catch (e) { return null; } })();
     if (lastResume && lastResume.text) {
@@ -390,6 +408,17 @@ function goToStep(num) {
 
 // ------ STEP 1: PARSING FILES ------
 async function handleFile(file) {
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+        if (el.parseStatus) {
+            el.parseStatus.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> File too large (max 5MB). Please upload a smaller file.';
+            el.parseStatus.className = 'parse-status error-text';
+        }
+        if (el.fileStatus) el.fileStatus.classList.remove('hidden');
+        if (el.fileName) el.fileName.textContent = file.name;
+        return;
+    }
+
     if (el.fileName) el.fileName.textContent = file.name;
     if (el.fileStatus) el.fileStatus.classList.remove('hidden');
     if (el.parseStatus) {
@@ -849,6 +878,68 @@ function stopFunnyQuotes() {
     clearInterval(quoteInterval);
 }
 
+async function pollForPremiumStatus() {
+    if (!window.supabaseClient) return;
+    var attempts = 0;
+    var maxAttempts = 10;
+    var poll = setInterval(async function() {
+        attempts++;
+        try {
+            var sess = await window.supabaseClient.auth.getSession();
+            if (!sess.data.session) { clearInterval(poll); return; }
+            var { data: profile } = await window.supabaseClient
+                .from('user_profiles')
+                .select('plan')
+                .eq('user_id', sess.data.session.user.id)
+                .maybeSingle();
+            if (profile?.plan === 'premium') {
+                clearInterval(poll);
+                showGenerationsBadge();
+                // Clean up URL
+                var url = new URL(window.location);
+                url.searchParams.delete('session_id');
+                history.replaceState(null, '', url);
+            }
+        } catch (e) { /* silent */ }
+        if (attempts >= maxAttempts) clearInterval(poll);
+    }, 3000);
+}
+
+async function showGenerationsBadge() {
+    if (!window.supabaseClient) return;
+    try {
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        if (!session) return;
+        const { data: profile } = await window.supabaseClient
+            .from('user_profiles')
+            .select('plan, generation_count, generation_reset_at')
+            .eq('user_id', session.user.id)
+            .maybeSingle();
+
+        const badge = document.getElementById('gen-remaining-badge');
+        const text = document.getElementById('gen-remaining-text');
+        if (!badge || !text) return;
+
+        if (!profile || profile.plan === 'premium') {
+            text.textContent = 'Unlimited generations (Premium)';
+            badge.style.display = 'block';
+            return;
+        }
+
+        // Check monthly reset
+        const resetAt = new Date(profile.generation_reset_at);
+        const now = new Date();
+        const monthDiff = (now.getFullYear() - resetAt.getFullYear()) * 12 + (now.getMonth() - resetAt.getMonth());
+        const used = monthDiff >= 1 ? 0 : (profile.generation_count || 0);
+        const remaining = Math.max(0, 1 - used);
+
+        text.textContent = remaining > 0
+            ? remaining + ' free generation remaining this month'
+            : 'Free generation used — upgrade for unlimited';
+        badge.style.display = 'block';
+    } catch (e) { /* silent */ }
+}
+
 // ------ API GENERATION ------
 async function checkGenerationLimit() {
     if (!window.supabaseClient) return false;
@@ -962,7 +1053,7 @@ function showLoginPrompt() {
 async function createCheckout() {
     if (!window.supabaseClient) return;
     const { data: { session } } = await window.supabaseClient.auth.getSession();
-    if (!session) { alert('Please sign in first.'); return; }
+    if (!session) { window.showToast('Please sign in first.', true); return; }
 
     try {
         const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
@@ -976,7 +1067,7 @@ async function createCheckout() {
         if (data?.url) window.location.href = data.url;
     } catch (e) {
         console.error('Checkout error:', e);
-        alert('Unable to start checkout. Please try again.');
+        window.showToast('Unable to start checkout. Please try again.', true);
     }
 }
 
@@ -996,6 +1087,8 @@ async function processGeneration() {
     }
 
     el.generationControl.classList.add('hidden');
+    sessionStorage.setItem('tms_generating', '1');
+    window.addEventListener('beforeunload', _warnDuringGeneration);
     if (el.loadingOverlay) {
         el.loadingOverlay.classList.remove('hidden');
         const title = document.getElementById('loading-title');
@@ -1093,12 +1186,19 @@ OUTPUT FORMAT: Exactly 2 fenced code blocks in order. NO other text.
         el.genStatus && (el.genStatus.innerHTML = `<span class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> ${errorMsg}</span>${retryHtml}`);
     } finally {
         // Always hide loading overlay so user isn't stuck
+        sessionStorage.removeItem('tms_generating');
+        window.removeEventListener('beforeunload', _warnDuringGeneration);
         if (el.loadingOverlay) {
             el.loadingOverlay.classList.add('hidden');
             stopFunnyQuotes();
         }
         el.generationControl.classList.remove('hidden');
     }
+}
+
+function _warnDuringGeneration(e) {
+    e.preventDefault();
+    e.returnValue = '';
 }
 
 async function parseAndRedirect(content) {
@@ -1110,7 +1210,15 @@ async function parseAndRedirect(content) {
     const resumeHtml = _sanitize(matches[0] || '');
     let meta = {};
 
-    try { meta = JSON.parse(matches[1] || '{}'); } catch (e) { }
+    try { meta = JSON.parse(matches[1] || '{}'); } catch (e) {
+        console.warn('Could not parse job metadata:', e);
+        var _toast = document.createElement('div');
+        _toast.className = 'fade-in-up';
+        _toast.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:var(--panel-bg);border:1px solid var(--warning-color);border-radius:var(--radius-lg,8px);padding:0.75rem 1.25rem;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.85rem;color:var(--text-secondary);max-width:360px;';
+        _toast.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--warning-color);margin-right:0.5rem;"></i>Could not parse job metadata — some fields may be missing.';
+        document.body.appendChild(_toast);
+        setTimeout(function() { _toast.remove(); }, 5000);
+    }
 
     if (meta.applicantName) state.applicantName = meta.applicantName;
     if (meta.targetCompany) state.targetCompany = meta.targetCompany;
@@ -1767,7 +1875,7 @@ function renderSkillsTable(tableId, skills) {
 // ═══════════════════════════════════════════
 
 async function fixATSIssue(issueLabel, issueDetails, section, rowEl, btnEl) {
-    if (!window.supabaseClient) { alert('Not ready. Please refresh the page.'); return false; }
+    if (!window.supabaseClient) { window.showToast('Not ready. Please refresh the page.', true); return false; }
     if (btnEl.classList.contains('fixing') || btnEl.classList.contains('fixed')) return false;
 
     btnEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="font-size:0.7rem;"></i> Fixing…';

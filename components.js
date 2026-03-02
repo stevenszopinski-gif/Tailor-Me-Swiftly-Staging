@@ -184,6 +184,44 @@
         init();
     }
 
+    // ── Safe localStorage wrapper (handles quota errors) ──
+    window.safeSetItem = function (key, value) {
+        try {
+            localStorage.setItem(key, value);
+            return true;
+        } catch (e) {
+            console.warn('localStorage quota exceeded for key:', key);
+            try {
+                ['tms_last_resume', 'tms_outputs_backup'].forEach(function (k) {
+                    if (k !== key) localStorage.removeItem(k);
+                });
+                localStorage.setItem(key, value);
+                return true;
+            } catch (e2) {
+                if (typeof window.showToast === 'function') {
+                    window.showToast('Storage full. Some data may not be saved.', true);
+                }
+                return false;
+            }
+        }
+    };
+
+    // ── Global Toast Notification ──
+    window.showToast = window.showToast || function (message, isError) {
+        var existing = document.getElementById('tms-toast');
+        if (existing) existing.remove();
+        var toast = document.createElement('div');
+        toast.id = 'tms-toast';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);padding:0.75rem 1.5rem;border-radius:8px;font-size:0.9rem;z-index:10000;max-width:90vw;text-align:center;animation:toastIn 0.3s ease;' +
+            (isError ? 'background:#3a2020;color:#E3A8B3;border:1px solid rgba(227,168,179,0.3);' : 'background:#1a2a1a;color:#8A9A86;border:1px solid rgba(138,154,134,0.3);');
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(function () { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; }, 3500);
+        setTimeout(function () { toast.remove(); }, 4000);
+    };
+
     // Expose for pages that need to re-init after dynamic rendering
     window.TMS_Components = { initDropdown: initDropdown, initProductSwitcher: initProductSwitcher, initFooter: initFooter };
 })();

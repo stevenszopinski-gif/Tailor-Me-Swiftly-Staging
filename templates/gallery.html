@@ -1,107 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Templates | TailorMeSwiftly</title>
-    <link rel="icon" href="/logo.png">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css?v=17">
-    <style>
-        .template-preview { background:white; color:#222; padding:2rem; border-radius:var(--brutal-radius); min-height:400px; position:relative; }
-        .template-preview h2 { font-size:1.5rem; margin:0 0 0.25rem; }
-        .template-preview .contact { font-size:0.8rem; color:#666; margin-bottom:1rem; }
-        .template-preview h3 { font-size:0.95rem; border-bottom:1px solid #ddd; padding-bottom:0.25rem; margin:1rem 0 0.5rem; text-transform:uppercase; letter-spacing:0.05em; }
-        .template-preview p, .template-preview li { font-size:0.82rem; line-height:1.6; }
-        .template-badge { position:absolute; top:0.75rem; right:0.75rem; background:var(--primary-color); color:var(--btn-primary-text); padding:0.2rem 0.5rem; border-radius:var(--brutal-radius); font-size:0.7rem; font-weight:600; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Templates | TailorMeSwiftly</title>
+  <link rel="icon" href="/logo.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../style.css?v=17">
+  <style>
+    .template-preview { background:white; color:#222; padding:2rem; border-radius:var(--brutal-radius); min-height:400px; position:relative; }
+    .template-preview h2 { font-size:1.5rem; margin:0 0 0.25rem; }
+    .template-preview .contact { font-size:0.8rem; color:#666; margin-bottom:1rem; }
+    .template-preview h3 { font-size:0.95rem; border-bottom:1px solid #ddd; padding-bottom:0.25rem; margin:1rem 0 0.5rem; text-transform:uppercase; letter-spacing:0.05em; }
+    .template-preview p, .template-preview li { font-size:0.82rem; line-height:1.6; }
+    .template-badge { position:absolute; top:0.75rem; right:0.75rem; background:var(--primary-color); color:var(--btn-primary-text); padding:0.2rem 0.5rem; border-radius:var(--brutal-radius); font-size:0.7rem; font-weight:600; }
+  </style>
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <a href="../index.html" class="maker-mark"><span class="mark-border"><span class="mark-text" style="font-family:var(--font-script);font-size:1.1rem;">TMS</span></span></a>
-            <div class="header-actions">
-                <div id="product-switcher-placeholder"></div>
-                <a href="../login.html" class="btn primary-btn login-btn" id="login-btn" style="display:none;">Sign In</a>
-                <div class="avatar-menu" style="display:none;">
-                    <button class="avatar-btn" id="avatar-btn"></button>
-                    <div class="avatar-dropdown" id="avatar-dropdown"></div>
-                </div>
-            </div>
-        </header>
-
-        <h1 style="margin:0 0 0.5rem;"><i class="fa-solid fa-palette"></i> Resume Templates</h1>
-        <p style="color:var(--text-secondary);margin:0 0 1.5rem;">Choose a template, then let AI tailor it to your target job.</p>
-
-        <div class="template-grid" id="template-grid"></div>
-
-        <div id="template-preview-modal" class="preview-modal-overlay" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
-            <div class="preview-modal" style="max-width:700px;">
-                <button class="preview-close" onclick="this.closest('.preview-modal-overlay').style.display='none'">&times;</button>
-                <div id="preview-content"></div>
-                <div style="margin-top:1.5rem;display:flex;gap:0.5rem;">
-                    <a id="use-template-btn" href="../app.html" class="btn primary-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Use This Template</a>
-                </div>
-            </div>
+  <div class="app-container">
+    <header class="app-header">
+      <a href="../index.html" class="maker-mark"><span class="mark-border"><span class="mark-text" style="font-family:var(--font-script);font-size:1.1rem;">TMS</span></span></a>
+      <div class="header-actions">
+        <div id="product-switcher-placeholder"></div>
+        <a href="../login.html" class="btn primary-btn login-btn" id="login-btn" style="display:none;">Sign In</a>
+        <div class="avatar-menu" style="display:none;">
+          <button class="avatar-btn" id="avatar-btn"></button>
+          <div class="avatar-dropdown" id="avatar-dropdown"></div>
         </div>
+      </div>
+    </header>
 
-        <footer class="site-footer" role="contentinfo"></footer>
+    <h1 style="margin:0 0 0.5rem;"><i class="fa-solid fa-palette"></i> Resume Templates</h1>
+    <p style="color:var(--text-secondary);margin:0 0 1.5rem;">Choose a template, then let AI tailor it to your target job.</p>
+
+    <div class="template-grid" id="template-grid"></div>
+
+    <div id="template-preview-modal" class="preview-modal-overlay" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
+      <div class="preview-modal" style="max-width:700px;">
+        <button class="preview-close" onclick="this.closest('.preview-modal-overlay').style.display='none'">&times;</button>
+        <div id="preview-content"></div>
+        <div style="margin-top:1.5rem;display:flex;gap:0.5rem;">
+          <a id="use-template-btn" href="../app.html" class="btn primary-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Use This Template</a>
+        </div>
+      </div>
     </div>
 
-    <script>window.TMS_PATH_PREFIX = '../';</script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="../brand-config.js"></script>
-    <script src="../auth.js?v=15"></script>
-    <script src="../components.js"></script>
-    <script src="../shared/analytics.js"></script>
-    <script src="../shared/sticky-header.js"></script>
-    <script src="../shared/command-palette.js"></script>
-    <script>
-        var TEMPLATES = [
-            { id:'classic', name:'Classic Professional', desc:'Clean, traditional format. Works for any industry.', badge:'Most Popular', style:'font-family:Georgia,serif;' },
-            { id:'modern', name:'Modern Minimal', desc:'Sleek two-column layout. Great for tech and design.', badge:'', style:'font-family:"Helvetica Neue",sans-serif;' },
-            { id:'executive', name:'Executive', desc:'Bold header, strong hierarchy. For senior roles.', badge:'Premium', style:'font-family:"Times New Roman",serif;' },
-            { id:'creative', name:'Creative', desc:'Color accents, unique layout. For creative roles.', badge:'', style:'font-family:"Segoe UI",sans-serif;' },
-            { id:'technical', name:'Technical', desc:'Skills-focused, project-oriented. For engineering.', badge:'', style:'font-family:"Courier New",monospace;' },
-            { id:'startup', name:'Startup', desc:'Concise, impact-driven. For fast-paced environments.', badge:'New', style:'font-family:system-ui,sans-serif;' }
-        ];
+    <footer class="site-footer" role="contentinfo"></footer>
+  </div>
 
-        var SAMPLE = {
-            name: 'Alex Johnson',
-            contact: 'alex.johnson@email.com | San Francisco, CA | linkedin.com/in/alexj',
-            summary: 'Results-driven professional with 5+ years of experience in product development and team leadership. Passionate about building user-centric products that drive business growth.',
-            experience: '<h3>Experience</h3><p><strong>Senior Product Manager</strong> — Acme Corp (2021-Present)</p><ul><li>Led cross-functional team of 12 to deliver $2M revenue feature</li><li>Improved user retention by 34% through data-driven experimentation</li></ul><p><strong>Product Manager</strong> — StartupXYZ (2019-2021)</p><ul><li>Launched mobile app achieving 50K downloads in first month</li><li>Reduced customer churn by 22% with onboarding redesign</li></ul>',
-            education: '<h3>Education</h3><p><strong>MBA</strong> — Stanford University, 2019</p><p><strong>BS Computer Science</strong> — UC Berkeley, 2017</p>',
-            skills: '<h3>Skills</h3><p>Product Strategy, Agile/Scrum, SQL, Python, A/B Testing, Figma, Jira, Stakeholder Management</p>'
-        };
+  <script>window.TMS_PATH_PREFIX = '../';</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+  <script src="../brand-config.js"></script>
+  <script src="../auth.js?v=15"></script>
+  <script src="../components.js"></script>
+  <script src="../shared/analytics.js"></script>
+  <script src="../shared/sticky-header.js"></script>
+  <script src="../shared/command-palette.js"></script>
+  <script>
+    var TEMPLATES = [
+      { id:'classic', name:'Classic Professional', desc:'Clean, traditional format. Works for any industry.', badge:'Most Popular', style:'font-family:Georgia,serif;' },
+      { id:'modern', name:'Modern Minimal', desc:'Sleek two-column layout. Great for tech and design.', badge:'', style:'font-family:"Helvetica Neue",sans-serif;' },
+      { id:'executive', name:'Executive', desc:'Bold header, strong hierarchy. For senior roles.', badge:'Premium', style:'font-family:"Times New Roman",serif;' },
+      { id:'creative', name:'Creative', desc:'Color accents, unique layout. For creative roles.', badge:'', style:'font-family:"Segoe UI",sans-serif;' },
+      { id:'technical', name:'Technical', desc:'Skills-focused, project-oriented. For engineering.', badge:'', style:'font-family:"Courier New",monospace;' },
+      { id:'startup', name:'Startup', desc:'Concise, impact-driven. For fast-paced environments.', badge:'New', style:'font-family:system-ui,sans-serif;' }
+    ];
 
-        var grid = document.getElementById('template-grid');
-        TEMPLATES.forEach(function(t) {
-            var card = document.createElement('div');
-            card.className = 'template-card';
-            card.onclick = function() { previewTemplate(t); };
-            card.innerHTML = '<div class="template-preview" style="' + t.style + 'height:300px;overflow:hidden;position:relative;padding:1.5rem;">' +
-                (t.badge ? '<span class="template-badge">' + t.badge + '</span>' : '') +
-                '<h2 style="font-size:1.1rem;">' + SAMPLE.name + '</h2>' +
-                '<div class="contact">' + SAMPLE.contact + '</div>' +
-                '<p style="font-size:0.72rem;">' + SAMPLE.summary.substring(0, 120) + '...</p>' +
-                '<div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,white);"></div>' +
-                '</div>' +
-                '<div class="template-info"><h4>' + t.name + '</h4><p style="font-size:0.8rem;color:var(--text-secondary);margin:0;">' + t.desc + '</p></div>';
-            grid.appendChild(card);
-        });
+    var SAMPLE = {
+      name: 'Alex Johnson',
+      contact: 'alex.johnson@email.com | San Francisco, CA | linkedin.com/in/alexj',
+      summary: 'Results-driven professional with 5+ years of experience in product development and team leadership. Passionate about building user-centric products that drive business growth.',
+      experience: '<h3>Experience</h3><p><strong>Senior Product Manager</strong> — Acme Corp (2021-Present)</p><ul><li>Led cross-functional team of 12 to deliver $2M revenue feature</li><li>Improved user retention by 34% through data-driven experimentation</li></ul><p><strong>Product Manager</strong> — StartupXYZ (2019-2021)</p><ul><li>Launched mobile app achieving 50K downloads in first month</li><li>Reduced customer churn by 22% with onboarding redesign</li></ul>',
+      education: '<h3>Education</h3><p><strong>MBA</strong> — Stanford University, 2019</p><p><strong>BS Computer Science</strong> — UC Berkeley, 2017</p>',
+      skills: '<h3>Skills</h3><p>Product Strategy, Agile/Scrum, SQL, Python, A/B Testing, Figma, Jira, Stakeholder Management</p>'
+    };
 
-        function previewTemplate(t) {
-            var content = document.getElementById('preview-content');
-            content.innerHTML = '<div class="template-preview" style="' + t.style + '">' +
-                '<h2>' + SAMPLE.name + '</h2><div class="contact">' + SAMPLE.contact + '</div>' +
-                '<p>' + SAMPLE.summary + '</p>' +
-                SAMPLE.experience + SAMPLE.education + SAMPLE.skills + '</div>';
-            document.getElementById('use-template-btn').href = '../app.html?template=' + t.id;
-            document.getElementById('template-preview-modal').style.display = 'flex';
-            if (typeof trackEvent === 'function') trackEvent('templates', 'preview', t.id);
-        }
-    </script>
+    var grid = document.getElementById('template-grid');
+    TEMPLATES.forEach(function(t) {
+      var card = document.createElement('div');
+      card.className = 'template-card';
+      card.onclick = function() { previewTemplate(t); };
+      card.innerHTML = '<div class="template-preview" style="' + t.style + 'height:300px;overflow:hidden;position:relative;padding:1.5rem;">' +
+        (t.badge ? '<span class="template-badge">' + t.badge + '</span>' : '') +
+        '<h2 style="font-size:1.1rem;">' + SAMPLE.name + '</h2>' +
+        '<div class="contact">' + SAMPLE.contact + '</div>' +
+        '<p style="font-size:0.72rem;">' + SAMPLE.summary.substring(0, 120) + '...</p>' +
+        '<div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,white);"></div>' +
+        '</div>' +
+        '<div class="template-info"><h4>' + t.name + '</h4><p style="font-size:0.8rem;color:var(--text-secondary);margin:0;">' + t.desc + '</p></div>';
+      grid.appendChild(card);
+    });
+
+    function previewTemplate(t) {
+      var content = document.getElementById('preview-content');
+      content.innerHTML = '<div class="template-preview" style="' + t.style + '">' +
+        '<h2>' + SAMPLE.name + '</h2><div class="contact">' + SAMPLE.contact + '</div>' +
+        '<p>' + SAMPLE.summary + '</p>' +
+        SAMPLE.experience + SAMPLE.education + SAMPLE.skills + '</div>';
+      document.getElementById('use-template-btn').href = '../app.html?template=' + t.id;
+      document.getElementById('template-preview-modal').style.display = 'flex';
+      if (typeof trackEvent === 'function') trackEvent('templates', 'preview', t.id);
+    }
+  </script>
 </body>
 </html>

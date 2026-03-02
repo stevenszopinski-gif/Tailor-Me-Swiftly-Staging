@@ -2,597 +2,596 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://pagead2.googlesyndication.com https://api.elevenlabs.io; frame-src https://js.stripe.com https://pagead2.googlesyndication.com;">
-    <meta name="description"
-        content="TailorMeSwiftly release notes and product updates. See the latest features, improvements, and bug fixes.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="TailorMeSwiftly">
-    <meta property="og:url" content="https://tailormeswiftly.com/updates.html">
-    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
-    <link rel="canonical" href="https://tailormeswiftly.com/updates.html">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
-    <link rel="apple-touch-icon" href="/favicon.svg">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
-    <title>Release Notes | TailorMeSwiftly</title>
-    <link rel="stylesheet" href="style.css?v=16">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7832382680038641"
-        crossorigin="anonymous"></script>
-    <style>
-        .rn-accordion {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
+  <meta name="description"
+    content="TailorMeSwiftly release notes and product updates. See the latest features, improvements, and bug fixes.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TailorMeSwiftly">
+  <meta property="og:url" content="https://tailormeswiftly.com/updates.html">
+  <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
+  <link rel="canonical" href="https://tailormeswiftly.com/updates.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
+  <title>Release Notes | TailorMeSwiftly</title>
+  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    .rn-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
 
-        .rn-item {
-            border: 1px solid var(--panel-border);
-            border-radius: 4px;
-            background: var(--glass-bg);
-            overflow: hidden;
-            transition: border-color 0.2s;
-        }
+    .rn-item {
+      border: 1px solid var(--panel-border);
+      border-radius: 4px;
+      background: var(--glass-bg);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
 
-        .rn-item:hover {
-            border-color: var(--text-secondary);
-        }
+    .rn-item:hover {
+      border-color: var(--text-secondary);
+    }
 
-        .rn-item.open {
-            border-color: var(--primary-color);
-        }
+    .rn-item.open {
+      border-color: var(--primary-color);
+    }
 
-        .rn-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.25rem;
-            cursor: pointer;
-            user-select: none;
-            gap: 1rem;
-        }
+    .rn-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      gap: 1rem;
+    }
 
-        .rn-header:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
+    .rn-header:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
 
-        .rn-header-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex: 1;
-            min-width: 0;
-        }
+    .rn-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+      min-width: 0;
+    }
 
-        .rn-header-left h3 {
-            margin: 0;
-            font-size: 1.05rem;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .rn-header-left h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-        .rn-date {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
+    .rn-date {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
 
-        .rn-badge {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 999px;
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
+    .rn-badge {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
 
-        .rn-badge.current {
-            background: rgba(138, 154, 134, 0.18);
-            color: var(--success-color);
-        }
+    .rn-badge.current {
+      background: rgba(138, 154, 134, 0.18);
+      color: var(--success-color);
+    }
 
-        .rn-badge.past {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
-        }
+    .rn-badge.past {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+    }
 
-        .rn-chevron {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            transition: transform 0.25s ease;
-            flex-shrink: 0;
-        }
+    .rn-chevron {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
 
-        .rn-item.open .rn-chevron {
-            transform: rotate(180deg);
-        }
+    .rn-item.open .rn-chevron {
+      transform: rotate(180deg);
+    }
 
-        .rn-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            padding: 0 1.25rem;
-        }
+    .rn-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 1.25rem;
+    }
 
-        .rn-item.open .rn-body {
-            max-height: 1000px;
-            padding: 0 1.25rem 1.25rem;
-        }
+    .rn-item.open .rn-body {
+      max-height: 1000px;
+      padding: 0 1.25rem 1.25rem;
+    }
 
-        .rn-body ul {
-            margin: 0;
-            padding-left: 1.2rem;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
+    .rn-body ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
 
-        .rn-body ul li {
-            margin-bottom: 0.6rem;
-        }
+    .rn-body ul li {
+      margin-bottom: 0.6rem;
+    }
 
-        .rn-body ul li:last-child {
-            margin-bottom: 0;
-        }
+    .rn-body ul li:last-child {
+      margin-bottom: 0;
+    }
 
-        .rn-body ul li strong {
-            color: var(--text-primary);
-        }
+    .rn-body ul li strong {
+      color: var(--text-primary);
+    }
 
-        .rn-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
+    .rn-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
 
-        .rn-toolbar button {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            cursor: pointer;
-            font-family: var(--font-family);
-            padding: 0.3rem 0;
-        }
+    .rn-toolbar button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: var(--font-family);
+      padding: 0.3rem 0;
+    }
 
-        .rn-toolbar button:hover {
-            color: var(--primary-color);
-        }
+    .rn-toolbar button:hover {
+      color: var(--primary-color);
+    }
 
-        .rn-pagination {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .rn-pagination {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .rn-pagination button {
-            background: var(--glass-bg);
-            border: 1px solid var(--panel-border);
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            cursor: pointer;
-            font-family: var(--font-family);
-            padding: 0.35rem 0.7rem;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
+    .rn-pagination button {
+      background: var(--glass-bg);
+      border: 1px solid var(--panel-border);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: var(--font-family);
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
 
-        .rn-pagination button:hover:not(:disabled) {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
+    .rn-pagination button:hover:not(:disabled) {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
 
-        .rn-pagination button:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
+    .rn-pagination button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
 
-        .rn-pagination .rn-page-info {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
+    .rn-pagination .rn-page-info {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
 
-        @media (max-width: 600px) {
-            .rn-header-left h3 {
-                font-size: 0.95rem;
-            }
+    @media (max-width: 600px) {
+      .rn-header-left h3 {
+        font-size: 0.95rem;
+      }
 
-            .rn-header {
-                padding: 0.85rem 1rem;
-            }
+      .rn-header {
+        padding: 0.85rem 1rem;
+      }
 
-            .rn-date {
-                display: none;
-            }
-        }
-    </style>
+      .rn-date {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <a href="#main-content" class="skip-nav">Skip to main content</a>
-    <!-- Background Elements -->
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-    <div class="bg-shape shape-3"></div>
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+  <!-- Background Elements -->
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-shape shape-3"></div>
 
-    <div class="app-container">
-        <!-- Header -->
-        <header class="app-header" role="banner">
-            <div class="logo maker-mark">
-                <span class="mark-border">
-                    <span class="mark-text">TMS</span>
-                </span>
-                <div class="mark-name">
-                    <span class="mark-script">TailorMeSwiftly</span>
-                    <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
-                </div>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header" role="banner">
+      <div class="logo maker-mark">
+        <span class="mark-border">
+          <span class="mark-text">TMS</span>
+        </span>
+        <div class="mark-name">
+          <span class="mark-script">TailorMeSwiftly</span>
+          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
+        </div>
+      </div>
+      <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+        <div id="user-profile"
+          style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
+          <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
+            style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
+            onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
+          <span id="user-greeting"
+            style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <div id="avatar-dropdown" class="avatar-dropdown hidden">
+            <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+              <i class="fa-solid fa-user-gear"></i> Account
+            </a>
+            <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i
+                class="fa-solid fa-compass"></i> Dashboard</a>
+            <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
+              <i class="fa-solid fa-bullhorn"></i> Release Notes
+            </a> <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="wizard-container glass-panel"
+      style="max-width: 800px; margin: 3rem auto; padding: 2.5rem;">
+
+      <div style="margin-bottom: 1.5rem;">
+        <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i
+            class="fa-solid fa-arrow-left"></i> Back to Home</a>
+      </div>
+
+      <div class="step-header"
+        style="text-align: left; margin-bottom: 2rem; border-bottom: 1px solid var(--panel-border); padding-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+          <i class="fa-solid fa-bullhorn" style="font-size: 2rem; color: var(--accent-color);"></i>
+          <h2 style="margin: 0;">Release Notes & Updates</h2>
+        </div>
+        <p>Stay up to date with the latest features, enhancements, and bug fixes.</p>
+      </div>
+
+      <div class="rn-toolbar">
+        <button id="rn-toggle-all"><i class="fa-solid fa-angles-down"></i> Expand All</button>
+        <div class="rn-pagination">
+          <button id="rn-prev" disabled><i class="fa-solid fa-chevron-left"></i> Prev</button>
+          <span class="rn-page-info" id="rn-page-info">Page 1 of 1</span>
+          <button id="rn-next"><i class="fa-solid fa-chevron-right"></i> Next</button>
+        </div>
+      </div>
+
+      <div class="rn-accordion" id="rn-accordion"></div>
+
+      <div style="margin-top: 2rem; text-align: center;">
+        <a href="app.html" class="btn primary-btn"><i class="fa-solid fa-arrow-left"></i> Back to Builder</a>
+      </div>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+      <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
+          href="security.html">Security Policy</a></p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
+  <script src="components.js"></script>
+  <script src="error-utils.js"></script>
+  <script>
+
+    // ── Release notes data ──
+    const releases = [
+      {
+        version: 'v5.5.0',
+        title: 'Briefing Settings, Tone Previews & Smart Features',
+        date: 'Mar 1, 2026',
+        current: true,
+        items: [
+          '<strong>Briefing Settings Page:</strong> The "Edit Interests" page is now a full <strong>Briefing Settings</strong> hub with two tabs &mdash; <em>Interests</em> (manage, add, or import topics) and <em>Settings</em> (tone, delivery, sources, and more).',
+          '<strong>Tone Preview Examples:</strong> Each briefing tone (Public Radio Host, Morning Brew, Executive Summary, Deep Dive) now shows a live example snippet so you know exactly what to expect before generating.',
+          '<strong>Follow-up Q&A Chat:</strong> Ask follow-up questions about your briefing directly from the results page. The AI retains your briefing context for a multi-turn conversation.',
+          '<strong>"Catch Me Up" Cards:</strong> Click "Catch Me Up" on any story to get a reverse-chronological timeline of how the story developed, plus a "Why It Matters Now" summary.',
+          '<strong>Recommended Interests:</strong> Suggested topic chips appear below your interests &mdash; including trending topics and personalized picks from your active job applications.',
+          '<strong>Plain English Mode:</strong> Toggle on to replace jargon, acronyms, and technical terms with simple everyday language in your briefing.',
+          '<strong>Silver Lining &amp; Opposing Views:</strong> Two new framing toggles in Settings &mdash; focus on constructive angles or see how different sources cover the same story.',
+          '<strong>Topic Muting:</strong> Temporarily hide any topic from your briefings for 1&ndash;30 days. Expired mutes auto-clean on the next visit.',
+          '<strong>Source Preferences:</strong> Whitelist your favorite news sources or block ones you want to avoid.',
+          '<strong>Location-Based News:</strong> Enter your city to automatically include local news in your briefing.',
+          '<strong>Daily Email Briefing:</strong> Enable automatic email delivery of your briefing every morning at your chosen time.',
+          '<strong>Friday Weekly Roundup:</strong> A "Did You Miss It?" email arrives every Friday summarizing the top stories from your week.',
+          '<strong>Industry Deep Dives:</strong> The briefing engine now auto-extracts niche industry keywords from your resume to surface more relevant stories.',
+          '<strong>Streamlined Interests Input:</strong> Removed the redundant textarea &mdash; all interest management now happens through tags with the "Add a topic&hellip;" input.'
+        ]
+      },
+      {
+        version: 'v5.4.0',
+        title: 'Pill Navigation & Free Tier Clarity',
+        date: 'Feb 28, 2026',
+        items: [
+          '<strong>Pill-Based Navigation:</strong> The product switcher now uses a sleek pill-based segmented control for a more modern feel.',
+          '<strong>1 Free Application:</strong> We clarified the free tier — your first application (including resume tailoring, cover letter, and ATS scan) is completely free.',
+          '<strong>Dashboard Focus:</strong> The dashboard is now the central hub for the platform, making it easier to see your history or start a new application.',
+          '<strong>UI Polish:</strong> Removed the persistent lock icon on the Tailor step when you have a free generation available.'
+        ]
+      },
+      {
+        version: 'v5.3.0',
+        title: 'Blog, Referrals, & Accessibility',
+        date: 'Feb 28, 2026',
+        items: [
+          '<strong>Blog:</strong> 6 SEO-optimized articles covering ATS strategy, resume mistakes, cover letter tips, salary negotiation scripts, interview prep, and the hidden job market.',
+          '<strong>Referral Program:</strong> Share your referral link from the Account page. When a friend signs up and generates their first resume, you both earn 5 bonus generations.',
+          '<strong>Accessibility:</strong> Added skip-to-content links, focus-visible outlines on all buttons/links, ARIA labels on icon-only controls, and landmark roles across all 41 pages.',
+          '<strong>Loading Skeletons:</strong> Dashboard and Results pages now show shimmer skeleton cards instead of blank spinners while loading.',
+          '<strong>Custom 404 Page:</strong> Branded error page with helpful navigation links instead of a default broken link page.'
+        ]
+      },
+      {
+        version: 'v5.2.0',
+        title: 'Help Center & Polish',
+        date: 'Feb 27, 2026',
+        items: [
+          '<strong>Help Center:</strong> New central hub with 17 searchable articles across 6 categories&mdash;Getting Started, Resume &amp; Cover Letter, Career Tools, Account &amp; Billing, Application Tracker, and Troubleshooting.',
+          '<strong>Forgot Password:</strong> Added a &ldquo;Forgot your password?&rdquo; flow to the login page with email-based reset.',
+          '<strong>Password Visibility Toggle:</strong> Login and signup forms now have a show/hide password eye icon.',
+          '<strong>Toast Notifications:</strong> Replaced all native browser alert() popups with sleek, non-blocking toast messages.',
+          '<strong>Start Over Confirmation:</strong> The &ldquo;Start Over&rdquo; button now asks for confirmation before clearing your work.',
+          '<strong>Dashboard Onboarding:</strong> New users see a 3-step getting started guide on the Dashboard instead of an empty state.',
+          '<strong>Secure Account Deletion:</strong> The delete-account flow now cancels any active premium subscription before removing the account entirely.'
+        ]
+      },
+      {
+        version: 'v5.1.0',
+        title: 'Dashboard & Navigation Overhaul',
+        date: 'Feb 27, 2026',
+        items: [
+          '<strong>New Dashboard:</strong> Logged-in users now land on a dedicated Dashboard with quick stats, a mini Kanban board, and one-click access to Career Command Center tools.',
+          '<strong>Clickable Kanban Cards:</strong> Each application card on the Dashboard links directly to its results page&mdash;no more hunting through the full tracker.',
+          '<strong>Streamlined Navigation:</strong> Removed the Application Tracker link from the avatar dropdown. The Dashboard now serves as the central hub with a &ldquo;Full Tracker&rdquo; CTA for the Kanban board.',
+          '<strong>Smart Redirects:</strong> Logged-in users visiting the landing page are automatically redirected to the Dashboard. Post-login flows now route to the Dashboard instead of the app page.',
+          '<strong>Tool Reorganization:</strong> Shadow Jobs, Toxic Culture Radar, and Referral Mapper moved from the global Career Command Center to the application-specific Outreach &amp; Edge section where they belong.'
+        ]
+      },
+      {
+        version: 'v5.0.0',
+        title: 'Mega Expansion: 11 New AI Tools + Voice Negotiator',
+        date: 'Feb 24, 2026',
+        items: [
+          '<strong>Auto-App Agent:</strong> Set your job criteria (title, salary, work style, location) and let AI scan for matching jobs, generating tailored cover letter openers for each match.',
+          '<strong>Reverse Interview Generator:</strong> AI analyzes the target company and generates 5 probing questions to ask your interviewer&mdash;complete with intel background and strategy for each.',
+          '<strong>Ghosting Predictor:</strong> AI cross-references the job posting for ghost job signals and gives a Ghosting Probability Score (0&ndash;100%) with actionable advice on whether to apply.',
+          '<strong>Compensation Decoder:</strong> Paste an offer&rsquo;s base salary, equity, bonus, and benefits. AI calculates the true annual value with COL adjustments, equity risk warnings, and hidden costs.',
+          '<strong>Skills Obsolescence Tracker:</strong> AI identifies which of your skills are rising, stable, or decaying in demand&mdash;plus a personalized 6-month upskill roadmap with weekly actions.',
+
+          '<strong>Trial By Fire Tech Screen:</strong> AI generates a custom 30-minute coding challenge based on the JD, with a built-in IDE, countdown timer, hints, and AI code review with a hire/no-hire grade.',
+          '<strong>Rejection Reverser:</strong> Turn rejections into networking opportunities. Select what happened (ghosted, rejected after screen/interview/final) and AI crafts a bridge-building feedback request email.',
+          '<strong>Toxic Culture Radar:</strong> AI scans the company for toxicity signals, layoff history, and JD red flags. Returns a Toxicity Score, Layoff Risk level, estimated Glassdoor rating, and culture-verification interview questions.',
+
+          '<strong>Thank-You Engine:</strong> Generate 3 variants (Professional, Warm, Bold) of a post-interview thank-you email in seconds. Includes send timing and pro tips.',
+          '<strong>Voice-to-Voice Salary Negotiator:</strong> The Salary Negotiator is now a full voice-to-voice experience. Speak naturally with the AI HR rep using your microphone, and hear responses spoken aloud. Text mode still available as a fallback.',
+          '<strong>Homepage Expansion:</strong> Updated toolkit grid now showcases 30+ features. New feature cards for all tools added to the landing page.'
+        ]
+      },
+      {
+        version: 'v4.0.0',
+        title: 'Career Toolkit Expansion',
+        date: 'Feb 24, 2026',
+        items: [
+          '<strong>Brutal Roast Mode:</strong> Before fixing your resume, the AI delivers a brutally honest, shareable roast of your weakest points. Highly engaging and great for social sharing.',
+          '<strong>Red Flag Detector:</strong> AI scans your resume for things that make recruiters cringe&mdash;clich&eacute; jargon, unexplained gaps, vague metrics, and exaggerated claims. Shows severity and how to fix each one.',
+          '<strong>Recruiter Heatmap:</strong> Toggle a visual heatmap on your resume that highlights which phrases attract recruiter attention, with tooltips explaining the impact of each highlight.',
+          '<strong>Burnout & Overemployment Check:</strong> Scans the JD for toxic corporate speak, generates a Flight Risk Score, and rates the role\'s suitability for remote/async work.',
+          '<strong>AI Salary Negotiator:</strong> Interactive chat simulator where you practice negotiating with a stubborn AI HR rep. Get real-time coaching tips and a performance score at the end.',
+          '<strong>Prove It Metric Extractor:</strong> Interactive wizard that finds your vague bullet points, asks probing questions to extract real numbers, and rewrites them with hard data.',
+          '<strong>Day in the Life Simulator:</strong> AI reads the JD and generates a realistic hour-by-hour day in the role, complete with interview ammunition and hidden challenges.',
+          '<strong>Video Intro Script & Teleprompter:</strong> AI writes a punchy 60-second video intro script, then opens a built-in webcam teleprompter so you can record it flawlessly.',
+          '<strong>Referral Network Mapper:</strong> Generates a step-by-step referral hunting strategy with ready-to-use LinkedIn connection requests, follow-up messages, and coffee chat scripts.',
+          '<strong>Shadow Job Market:</strong> Track company career pages and scan for new openings that match your resume before they\'re cross-posted to LinkedIn.',
+          '<strong>Guerrilla Tactics:</strong> For competitive roles, AI generates aggressive strategies to bypass the ATS&mdash;including likely email formats, decision maker titles, and ready-to-send scripts.',
+          '<strong>AI Insights Panel:</strong> New sidebar tab in the resume editor showing Red Flags and Burnout Check results at a glance.'
+        ]
+      },
+      {
+        version: 'v3.5.0',
+        title: 'Premium Tier, Mobile, & Flashcards',
+        date: 'Feb 23, 2026',
+        items: [
+          '<strong>Premium Tier:</strong> TailorMeSwiftly Premium ($9.99/mo) unlocks unlimited AI generations. Free users get 1 per month with a seamless upgrade flow.',
+          '<strong>Interview Flashcards:</strong> Toggle flashcard mode on the Interview Prep page&mdash;flip cards to reveal answers, swipe through on mobile, and track your progress.',
+          '<strong>Follow-up Reminders:</strong> Set reminder dates on any Kanban card. Overdue follow-ups surface in an amber banner at the top of your Application Tracker.',
+          '<strong>Mobile Responsiveness:</strong> Full responsive pass across all pages&mdash;easier touch targets, stacked layouts on small screens, and better readability.',
+          '<strong>Smarter Job URL Import:</strong> Paste a Greenhouse, Lever, or Workday link and the app extracts the job title, company, and description automatically.'
+        ]
+      },
+      {
+        version: 'v3.4.0',
+        title: 'Kanban Tracker, Notes & Company Intel',
+        date: 'Feb 22, 2026',
+        items: [
+          '<strong>Kanban Application Tracker:</strong> Your applications now live on a full drag-and-drop Kanban board with five columns&mdash;Tailored, Applied, Interviewing, Offer, and Rejected.',
+          '<strong>Click-to-Open Cards:</strong> Click any Kanban card to open a detail modal with notes, a &ldquo;Go to Application&rdquo; button, and Save/Cancel controls.',
+          '<strong>Application Notes:</strong> Add free-form notes to any application&mdash;interview dates, contact names, follow-up reminders.',
+          '<strong>Interview Details:</strong> Cards in the Interviewing column surface structured fields for interview date, contacts, and follow-ups.',
+          '<strong>Company Intel:</strong> The Introduction Email page now auto-fetches recent news and insights about your target company.',
+          '<strong>Light Theme Default:</strong> The app now defaults to light mode for new users.',
+          '<strong>UI Polish:</strong> Opaque dropdown menus, wider navigation labels, and improved auth session handling.'
+        ]
+      },
+      {
+        version: 'v3.3.0',
+        title: 'Past Applications & History',
+        date: 'Feb 15, 2026',
+        items: [
+          '<strong>Past Applications:</strong> All your generated resumes, cover letters, interview Q&amp;A, and outreach emails are now automatically saved to your account.',
+          '<strong>One-Click Restore:</strong> Instantly reload any previous application&rsquo;s outputs without re-generating.',
+          '<strong>Incremental Saves:</strong> When you generate a cover letter, interview questions, or outreach email on-demand, the save updates automatically.',
+          '<strong>History Navigation:</strong> Quick links to Past Applications are now available throughout the app.'
+        ]
+      },
+      {
+        version: 'v3.2.0',
+        title: 'Voice, Reliability & Design',
+        date: 'Feb 8, 2026',
+        items: [
+          '<strong>ElevenLabs TTS:</strong> Mock interview questions are now read aloud using a premium ElevenLabs AI voice, with browser TTS as a fallback.',
+          '<strong>Reliable Job URL Fetching:</strong> Pasting a job listing URL now fetches through our own server, replacing old third-party proxies.',
+          '<strong>Resume Quick Presets:</strong> Redesigned preset buttons with color-coded accent dots.',
+          '<strong>Use Last Resume:</strong> Returning users can instantly load their previously uploaded resume.',
+          '<strong>Results Page Refresh:</strong> Updated header and background to match the main app&rsquo;s look and feel.',
+          '<strong>Improved Skill Chips:</strong> Missing skills now have higher-contrast colors in both themes.',
+          '<strong>Personalized Greeting:</strong> A &ldquo;Hi, [Name]&rdquo; greeting now appears under your avatar.'
+        ]
+      },
+      {
+        version: 'v3.1.0',
+        title: 'UX Polish & Improvements',
+        date: 'Jan 30, 2026',
+        items: [
+          '<strong>10 Mock Interview Questions:</strong> Increased from 8 to 10 tailored interview questions.',
+          '<strong>Improved Text-to-Speech:</strong> More natural voice delivery with optimized rate and pitch.',
+          '<strong>Dark Resume Preset:</strong> New high-contrast &ldquo;Dark&rdquo; theme for maximum readability.',
+          '<strong>Results Grid Layout:</strong> All 4 outputs now display in a single row.',
+          '<strong>Updated Homepage:</strong> Cleaner header design with TailorMeSwiftly.com branding above the animation.',
+          '<strong>Streamlined Feature Set:</strong> Focused on core strengths for a more cohesive experience.',
+          '<strong>Enhanced Loading Experience:</strong> Improved funny quotes display.',
+          '<strong>Messaging Refresh:</strong> Updated homepage copy to highlight lightning-fast results.'
+        ]
+      },
+      {
+        version: 'v3.0.0',
+        title: 'Major Update',
+        date: 'Jan 18, 2026',
+        items: [
+          '<strong>Gaps Assistant:</strong> Renamed and refined the skill gap analysis step.',
+          '<strong>Mock Interview Mode:</strong> Hear questions read aloud with TTS. Practice one at a time with AI-powered feedback on recorded answers.',
+          '<strong>On-Demand Generation:</strong> Interview prep and email drafts generate only when you click their tab, making initial tailoring faster.',
+          '<strong>Application Tracker Fix:</strong> Kanban board now loads from the cloud with persistent drag-and-drop.',
+          '<strong>Resume Versions:</strong> All tailored resumes saved with version names. View and reload any past version.',
+          '<strong>Saved Jobs:</strong> Bookmark job descriptions and tailor resumes against them later.',
+          '<strong>Career Profile:</strong> Store a master career history in Preferences.',
+          '<strong>Loading Redesign:</strong> Full-screen centered loading overlay with blurred background.',
+          '<strong>Preferences Dropdown:</strong> Accessible from a clean dropdown on your profile avatar.',
+          '<strong>Generation Timeout:</strong> API calls now have timeouts with retry buttons.'
+        ]
+      },
+      {
+        version: 'v2.1.0',
+        title: 'Missing Skills Analysis Engine',
+        date: 'Dec 20, 2025',
+        items: [
+          '<strong>Design Customization:</strong> Granularly tweak typography, accent colors, and layout spacing.',
+          '<strong>Target Company Preset:</strong> Extracts brand colors of your targeted company and injects them into your resume.',
+          '<strong>Missing Skills Extraction:</strong> Automated extraction of job requirements missing from your resume.',
+          '<strong>AI Co-Pilot Integration:</strong> Select missing skills you possess and our engine weaves them into your bullet points.',
+          '<strong>Bug Fix:</strong> Resolved the routing issue where the Application Tracker blanked out.'
+        ]
+      }
+    ];
+
+    // ── Pagination ──
+    const PER_PAGE = 10;
+    let currentPage = 1;
+    const totalPages = Math.max(1, Math.ceil(releases.length / PER_PAGE));
+
+    const accordion = document.getElementById('rn-accordion');
+    const prevBtn = document.getElementById('rn-prev');
+    const nextBtn = document.getElementById('rn-next');
+    const pageInfo = document.getElementById('rn-page-info');
+
+    function renderPage(page) {
+      currentPage = page;
+      const start = (page - 1) * PER_PAGE;
+      const slice = releases.slice(start, start + PER_PAGE);
+
+      accordion.innerHTML = slice.map((r, i) => {
+        const isFirst = page === 1 && i === 0;
+        const badgeClass = r.current ? 'current' : 'past';
+        const badgeText = r.current ? 'Current' : r.version;
+        return `
+        <div class="rn-item${isFirst ? ' open' : ''}">
+          <div class="rn-header" onclick="toggleRN(this)">
+            <div class="rn-header-left">
+              <h3>${r.version} &mdash; ${r.title}</h3>
             </div>
-            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
-                <div id="user-profile"
-                    style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
-                    <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
-                        style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
-                        onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-                    <span id="user-greeting"
-                        style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
-                    <div id="avatar-dropdown" class="avatar-dropdown hidden">
-                        <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
-                            <i class="fa-solid fa-user-gear"></i> Account
-                        </a>
-                        <a href="dashboard.html" class="dropdown-item" style="text-decoration:none;color:inherit;"><i
-                                class="fa-solid fa-compass"></i> Dashboard</a>
-                        <a href="updates.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
-                            <i class="fa-solid fa-bullhorn"></i> Release Notes
-                        </a> <button class="dropdown-item" id="logout-btn" aria-label="Sign out">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </header>
+            <span class="rn-date">${r.date}</span>
+            <span class="rn-badge ${badgeClass}">${badgeText}</span>
+            <i class="fa-solid fa-chevron-down rn-chevron"></i>
+          </div>
+          <div class="rn-body">
+            <ul>${r.items.map(li => `<li>${li}</li>`).join('')}</ul>
+          </div>
+        </div>`;
+      }).join('');
 
-        <main id="main-content" class="wizard-container glass-panel"
-            style="max-width: 800px; margin: 3rem auto; padding: 2.5rem;">
+      pageInfo.textContent = `Page ${page} of ${totalPages}`;
+      prevBtn.disabled = page <= 1;
+      nextBtn.disabled = page >= totalPages;
 
-            <div style="margin-bottom: 1.5rem;">
-                <a href="index.html" style="color:var(--text-secondary);text-decoration:none;font-size:0.85rem;"><i
-                        class="fa-solid fa-arrow-left"></i> Back to Home</a>
-            </div>
+      // Reset expand/collapse button
+      const toggleBtn = document.getElementById('rn-toggle-all');
+      toggleBtn.innerHTML = '<i class="fa-solid fa-angles-down"></i> Expand All';
+    }
 
-            <div class="step-header"
-                style="text-align: left; margin-bottom: 2rem; border-bottom: 1px solid var(--panel-border); padding-bottom: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                    <i class="fa-solid fa-bullhorn" style="font-size: 2rem; color: var(--accent-color);"></i>
-                    <h2 style="margin: 0;">Release Notes & Updates</h2>
-                </div>
-                <p>Stay up to date with the latest features, enhancements, and bug fixes.</p>
-            </div>
+    prevBtn.addEventListener('click', () => { if (currentPage > 1) renderPage(currentPage - 1); });
+    nextBtn.addEventListener('click', () => { if (currentPage < totalPages) renderPage(currentPage + 1); });
 
-            <div class="rn-toolbar">
-                <button id="rn-toggle-all"><i class="fa-solid fa-angles-down"></i> Expand All</button>
-                <div class="rn-pagination">
-                    <button id="rn-prev" disabled><i class="fa-solid fa-chevron-left"></i> Prev</button>
-                    <span class="rn-page-info" id="rn-page-info">Page 1 of 1</span>
-                    <button id="rn-next"><i class="fa-solid fa-chevron-right"></i> Next</button>
-                </div>
-            </div>
+    // Accordion toggle
+    function toggleRN(header) {
+      header.closest('.rn-item').classList.toggle('open');
+    }
 
-            <div class="rn-accordion" id="rn-accordion"></div>
+    // Expand / Collapse All
+    document.getElementById('rn-toggle-all').addEventListener('click', function () {
+      const items = document.querySelectorAll('.rn-item');
+      const allOpen = [...items].every(i => i.classList.contains('open'));
+      items.forEach(i => allOpen ? i.classList.remove('open') : i.classList.add('open'));
+      this.innerHTML = allOpen
+        ? '<i class="fa-solid fa-angles-down"></i> Expand All'
+        : '<i class="fa-solid fa-angles-up"></i> Collapse All';
+    });
 
-            <div style="margin-top: 2rem; text-align: center;">
-                <a href="app.html" class="btn primary-btn"><i class="fa-solid fa-arrow-left"></i> Back to Builder</a>
-            </div>
-
-        </main>
-
-        <footer class="site-footer" role="contentinfo">
-            <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
-            <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
-                    href="security.html">Security Policy</a></p>
-        </footer>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-    <script src="brand-config.js"></script>
-    <script src="auth.js?v=15"></script>
-    <script src="components.js"></script>
-    <script src="error-utils.js"></script>
-    <script>
-
-        // ── Release notes data ──
-        const releases = [
-            {
-                version: 'v5.5.0',
-                title: 'Briefing Settings, Tone Previews & Smart Features',
-                date: 'Mar 1, 2026',
-                current: true,
-                items: [
-                    '<strong>Briefing Settings Page:</strong> The "Edit Interests" page is now a full <strong>Briefing Settings</strong> hub with two tabs &mdash; <em>Interests</em> (manage, add, or import topics) and <em>Settings</em> (tone, delivery, sources, and more).',
-                    '<strong>Tone Preview Examples:</strong> Each briefing tone (Public Radio Host, Morning Brew, Executive Summary, Deep Dive) now shows a live example snippet so you know exactly what to expect before generating.',
-                    '<strong>Follow-up Q&A Chat:</strong> Ask follow-up questions about your briefing directly from the results page. The AI retains your briefing context for a multi-turn conversation.',
-                    '<strong>"Catch Me Up" Cards:</strong> Click "Catch Me Up" on any story to get a reverse-chronological timeline of how the story developed, plus a "Why It Matters Now" summary.',
-                    '<strong>Recommended Interests:</strong> Suggested topic chips appear below your interests &mdash; including trending topics and personalized picks from your active job applications.',
-                    '<strong>Plain English Mode:</strong> Toggle on to replace jargon, acronyms, and technical terms with simple everyday language in your briefing.',
-                    '<strong>Silver Lining &amp; Opposing Views:</strong> Two new framing toggles in Settings &mdash; focus on constructive angles or see how different sources cover the same story.',
-                    '<strong>Topic Muting:</strong> Temporarily hide any topic from your briefings for 1&ndash;30 days. Expired mutes auto-clean on the next visit.',
-                    '<strong>Source Preferences:</strong> Whitelist your favorite news sources or block ones you want to avoid.',
-                    '<strong>Location-Based News:</strong> Enter your city to automatically include local news in your briefing.',
-                    '<strong>Daily Email Briefing:</strong> Enable automatic email delivery of your briefing every morning at your chosen time.',
-                    '<strong>Friday Weekly Roundup:</strong> A "Did You Miss It?" email arrives every Friday summarizing the top stories from your week.',
-                    '<strong>Industry Deep Dives:</strong> The briefing engine now auto-extracts niche industry keywords from your resume to surface more relevant stories.',
-                    '<strong>Streamlined Interests Input:</strong> Removed the redundant textarea &mdash; all interest management now happens through tags with the "Add a topic&hellip;" input.'
-                ]
-            },
-            {
-                version: 'v5.4.0',
-                title: 'Pill Navigation & Free Tier Clarity',
-                date: 'Feb 28, 2026',
-                items: [
-                    '<strong>Pill-Based Navigation:</strong> The product switcher now uses a sleek pill-based segmented control for a more modern feel.',
-                    '<strong>1 Free Application:</strong> We clarified the free tier — your first application (including resume tailoring, cover letter, and ATS scan) is completely free.',
-                    '<strong>Dashboard Focus:</strong> The dashboard is now the central hub for the platform, making it easier to see your history or start a new application.',
-                    '<strong>UI Polish:</strong> Removed the persistent lock icon on the Tailor step when you have a free generation available.'
-                ]
-            },
-            {
-                version: 'v5.3.0',
-                title: 'Blog, Referrals, & Accessibility',
-                date: 'Feb 28, 2026',
-                items: [
-                    '<strong>Blog:</strong> 6 SEO-optimized articles covering ATS strategy, resume mistakes, cover letter tips, salary negotiation scripts, interview prep, and the hidden job market.',
-                    '<strong>Referral Program:</strong> Share your referral link from the Account page. When a friend signs up and generates their first resume, you both earn 5 bonus generations.',
-                    '<strong>Accessibility:</strong> Added skip-to-content links, focus-visible outlines on all buttons/links, ARIA labels on icon-only controls, and landmark roles across all 41 pages.',
-                    '<strong>Loading Skeletons:</strong> Dashboard and Results pages now show shimmer skeleton cards instead of blank spinners while loading.',
-                    '<strong>Custom 404 Page:</strong> Branded error page with helpful navigation links instead of a default broken link page.'
-                ]
-            },
-            {
-                version: 'v5.2.0',
-                title: 'Help Center & Polish',
-                date: 'Feb 27, 2026',
-                items: [
-                    '<strong>Help Center:</strong> New central hub with 17 searchable articles across 6 categories&mdash;Getting Started, Resume &amp; Cover Letter, Career Tools, Account &amp; Billing, Application Tracker, and Troubleshooting.',
-                    '<strong>Forgot Password:</strong> Added a &ldquo;Forgot your password?&rdquo; flow to the login page with email-based reset.',
-                    '<strong>Password Visibility Toggle:</strong> Login and signup forms now have a show/hide password eye icon.',
-                    '<strong>Toast Notifications:</strong> Replaced all native browser alert() popups with sleek, non-blocking toast messages.',
-                    '<strong>Start Over Confirmation:</strong> The &ldquo;Start Over&rdquo; button now asks for confirmation before clearing your work.',
-                    '<strong>Dashboard Onboarding:</strong> New users see a 3-step getting started guide on the Dashboard instead of an empty state.',
-                    '<strong>Secure Account Deletion:</strong> The delete-account flow now cancels any active premium subscription before removing the account entirely.'
-                ]
-            },
-            {
-                version: 'v5.1.0',
-                title: 'Dashboard & Navigation Overhaul',
-                date: 'Feb 27, 2026',
-                items: [
-                    '<strong>New Dashboard:</strong> Logged-in users now land on a dedicated Dashboard with quick stats, a mini Kanban board, and one-click access to Career Command Center tools.',
-                    '<strong>Clickable Kanban Cards:</strong> Each application card on the Dashboard links directly to its results page&mdash;no more hunting through the full tracker.',
-                    '<strong>Streamlined Navigation:</strong> Removed the Application Tracker link from the avatar dropdown. The Dashboard now serves as the central hub with a &ldquo;Full Tracker&rdquo; CTA for the Kanban board.',
-                    '<strong>Smart Redirects:</strong> Logged-in users visiting the landing page are automatically redirected to the Dashboard. Post-login flows now route to the Dashboard instead of the app page.',
-                    '<strong>Tool Reorganization:</strong> Shadow Jobs, Toxic Culture Radar, and Referral Mapper moved from the global Career Command Center to the application-specific Outreach &amp; Edge section where they belong.'
-                ]
-            },
-            {
-                version: 'v5.0.0',
-                title: 'Mega Expansion: 11 New AI Tools + Voice Negotiator',
-                date: 'Feb 24, 2026',
-                items: [
-                    '<strong>Auto-App Agent:</strong> Set your job criteria (title, salary, work style, location) and let AI scan for matching jobs, generating tailored cover letter openers for each match.',
-                    '<strong>Reverse Interview Generator:</strong> AI analyzes the target company and generates 5 probing questions to ask your interviewer&mdash;complete with intel background and strategy for each.',
-                    '<strong>Ghosting Predictor:</strong> AI cross-references the job posting for ghost job signals and gives a Ghosting Probability Score (0&ndash;100%) with actionable advice on whether to apply.',
-                    '<strong>Compensation Decoder:</strong> Paste an offer&rsquo;s base salary, equity, bonus, and benefits. AI calculates the true annual value with COL adjustments, equity risk warnings, and hidden costs.',
-                    '<strong>Skills Obsolescence Tracker:</strong> AI identifies which of your skills are rising, stable, or decaying in demand&mdash;plus a personalized 6-month upskill roadmap with weekly actions.',
-
-                    '<strong>Trial By Fire Tech Screen:</strong> AI generates a custom 30-minute coding challenge based on the JD, with a built-in IDE, countdown timer, hints, and AI code review with a hire/no-hire grade.',
-                    '<strong>Rejection Reverser:</strong> Turn rejections into networking opportunities. Select what happened (ghosted, rejected after screen/interview/final) and AI crafts a bridge-building feedback request email.',
-                    '<strong>Toxic Culture Radar:</strong> AI scans the company for toxicity signals, layoff history, and JD red flags. Returns a Toxicity Score, Layoff Risk level, estimated Glassdoor rating, and culture-verification interview questions.',
-
-                    '<strong>Thank-You Engine:</strong> Generate 3 variants (Professional, Warm, Bold) of a post-interview thank-you email in seconds. Includes send timing and pro tips.',
-                    '<strong>Voice-to-Voice Salary Negotiator:</strong> The Salary Negotiator is now a full voice-to-voice experience. Speak naturally with the AI HR rep using your microphone, and hear responses spoken aloud. Text mode still available as a fallback.',
-                    '<strong>Homepage Expansion:</strong> Updated toolkit grid now showcases 30+ features. New feature cards for all tools added to the landing page.'
-                ]
-            },
-            {
-                version: 'v4.0.0',
-                title: 'Career Toolkit Expansion',
-                date: 'Feb 24, 2026',
-                items: [
-                    '<strong>Brutal Roast Mode:</strong> Before fixing your resume, the AI delivers a brutally honest, shareable roast of your weakest points. Highly engaging and great for social sharing.',
-                    '<strong>Red Flag Detector:</strong> AI scans your resume for things that make recruiters cringe&mdash;clich&eacute; jargon, unexplained gaps, vague metrics, and exaggerated claims. Shows severity and how to fix each one.',
-                    '<strong>Recruiter Heatmap:</strong> Toggle a visual heatmap on your resume that highlights which phrases attract recruiter attention, with tooltips explaining the impact of each highlight.',
-                    '<strong>Burnout & Overemployment Check:</strong> Scans the JD for toxic corporate speak, generates a Flight Risk Score, and rates the role\'s suitability for remote/async work.',
-                    '<strong>AI Salary Negotiator:</strong> Interactive chat simulator where you practice negotiating with a stubborn AI HR rep. Get real-time coaching tips and a performance score at the end.',
-                    '<strong>Prove It Metric Extractor:</strong> Interactive wizard that finds your vague bullet points, asks probing questions to extract real numbers, and rewrites them with hard data.',
-                    '<strong>Day in the Life Simulator:</strong> AI reads the JD and generates a realistic hour-by-hour day in the role, complete with interview ammunition and hidden challenges.',
-                    '<strong>Video Intro Script & Teleprompter:</strong> AI writes a punchy 60-second video intro script, then opens a built-in webcam teleprompter so you can record it flawlessly.',
-                    '<strong>Referral Network Mapper:</strong> Generates a step-by-step referral hunting strategy with ready-to-use LinkedIn connection requests, follow-up messages, and coffee chat scripts.',
-                    '<strong>Shadow Job Market:</strong> Track company career pages and scan for new openings that match your resume before they\'re cross-posted to LinkedIn.',
-                    '<strong>Guerrilla Tactics:</strong> For competitive roles, AI generates aggressive strategies to bypass the ATS&mdash;including likely email formats, decision maker titles, and ready-to-send scripts.',
-                    '<strong>AI Insights Panel:</strong> New sidebar tab in the resume editor showing Red Flags and Burnout Check results at a glance.'
-                ]
-            },
-            {
-                version: 'v3.5.0',
-                title: 'Premium Tier, Mobile, & Flashcards',
-                date: 'Feb 23, 2026',
-                items: [
-                    '<strong>Premium Tier:</strong> TailorMeSwiftly Premium ($9.99/mo) unlocks unlimited AI generations. Free users get 1 per month with a seamless upgrade flow.',
-                    '<strong>Interview Flashcards:</strong> Toggle flashcard mode on the Interview Prep page&mdash;flip cards to reveal answers, swipe through on mobile, and track your progress.',
-                    '<strong>Follow-up Reminders:</strong> Set reminder dates on any Kanban card. Overdue follow-ups surface in an amber banner at the top of your Application Tracker.',
-                    '<strong>Mobile Responsiveness:</strong> Full responsive pass across all pages&mdash;easier touch targets, stacked layouts on small screens, and better readability.',
-                    '<strong>Smarter Job URL Import:</strong> Paste a Greenhouse, Lever, or Workday link and the app extracts the job title, company, and description automatically.'
-                ]
-            },
-            {
-                version: 'v3.4.0',
-                title: 'Kanban Tracker, Notes & Company Intel',
-                date: 'Feb 22, 2026',
-                items: [
-                    '<strong>Kanban Application Tracker:</strong> Your applications now live on a full drag-and-drop Kanban board with five columns&mdash;Tailored, Applied, Interviewing, Offer, and Rejected.',
-                    '<strong>Click-to-Open Cards:</strong> Click any Kanban card to open a detail modal with notes, a &ldquo;Go to Application&rdquo; button, and Save/Cancel controls.',
-                    '<strong>Application Notes:</strong> Add free-form notes to any application&mdash;interview dates, contact names, follow-up reminders.',
-                    '<strong>Interview Details:</strong> Cards in the Interviewing column surface structured fields for interview date, contacts, and follow-ups.',
-                    '<strong>Company Intel:</strong> The Introduction Email page now auto-fetches recent news and insights about your target company.',
-                    '<strong>Light Theme Default:</strong> The app now defaults to light mode for new users.',
-                    '<strong>UI Polish:</strong> Opaque dropdown menus, wider navigation labels, and improved auth session handling.'
-                ]
-            },
-            {
-                version: 'v3.3.0',
-                title: 'Past Applications & History',
-                date: 'Feb 15, 2026',
-                items: [
-                    '<strong>Past Applications:</strong> All your generated resumes, cover letters, interview Q&amp;A, and outreach emails are now automatically saved to your account.',
-                    '<strong>One-Click Restore:</strong> Instantly reload any previous application&rsquo;s outputs without re-generating.',
-                    '<strong>Incremental Saves:</strong> When you generate a cover letter, interview questions, or outreach email on-demand, the save updates automatically.',
-                    '<strong>History Navigation:</strong> Quick links to Past Applications are now available throughout the app.'
-                ]
-            },
-            {
-                version: 'v3.2.0',
-                title: 'Voice, Reliability & Design',
-                date: 'Feb 8, 2026',
-                items: [
-                    '<strong>ElevenLabs TTS:</strong> Mock interview questions are now read aloud using a premium ElevenLabs AI voice, with browser TTS as a fallback.',
-                    '<strong>Reliable Job URL Fetching:</strong> Pasting a job listing URL now fetches through our own server, replacing old third-party proxies.',
-                    '<strong>Resume Quick Presets:</strong> Redesigned preset buttons with color-coded accent dots.',
-                    '<strong>Use Last Resume:</strong> Returning users can instantly load their previously uploaded resume.',
-                    '<strong>Results Page Refresh:</strong> Updated header and background to match the main app&rsquo;s look and feel.',
-                    '<strong>Improved Skill Chips:</strong> Missing skills now have higher-contrast colors in both themes.',
-                    '<strong>Personalized Greeting:</strong> A &ldquo;Hi, [Name]&rdquo; greeting now appears under your avatar.'
-                ]
-            },
-            {
-                version: 'v3.1.0',
-                title: 'UX Polish & Improvements',
-                date: 'Jan 30, 2026',
-                items: [
-                    '<strong>10 Mock Interview Questions:</strong> Increased from 8 to 10 tailored interview questions.',
-                    '<strong>Improved Text-to-Speech:</strong> More natural voice delivery with optimized rate and pitch.',
-                    '<strong>Dark Resume Preset:</strong> New high-contrast &ldquo;Dark&rdquo; theme for maximum readability.',
-                    '<strong>Results Grid Layout:</strong> All 4 outputs now display in a single row.',
-                    '<strong>Updated Homepage:</strong> Cleaner header design with TailorMeSwiftly.com branding above the animation.',
-                    '<strong>Streamlined Feature Set:</strong> Focused on core strengths for a more cohesive experience.',
-                    '<strong>Enhanced Loading Experience:</strong> Improved funny quotes display.',
-                    '<strong>Messaging Refresh:</strong> Updated homepage copy to highlight lightning-fast results.'
-                ]
-            },
-            {
-                version: 'v3.0.0',
-                title: 'Major Update',
-                date: 'Jan 18, 2026',
-                items: [
-                    '<strong>Gaps Assistant:</strong> Renamed and refined the skill gap analysis step.',
-                    '<strong>Mock Interview Mode:</strong> Hear questions read aloud with TTS. Practice one at a time with AI-powered feedback on recorded answers.',
-                    '<strong>On-Demand Generation:</strong> Interview prep and email drafts generate only when you click their tab, making initial tailoring faster.',
-                    '<strong>Application Tracker Fix:</strong> Kanban board now loads from the cloud with persistent drag-and-drop.',
-                    '<strong>Resume Versions:</strong> All tailored resumes saved with version names. View and reload any past version.',
-                    '<strong>Saved Jobs:</strong> Bookmark job descriptions and tailor resumes against them later.',
-                    '<strong>Career Profile:</strong> Store a master career history in Preferences.',
-                    '<strong>Loading Redesign:</strong> Full-screen centered loading overlay with blurred background.',
-                    '<strong>Preferences Dropdown:</strong> Accessible from a clean dropdown on your profile avatar.',
-                    '<strong>Generation Timeout:</strong> API calls now have timeouts with retry buttons.'
-                ]
-            },
-            {
-                version: 'v2.1.0',
-                title: 'Missing Skills Analysis Engine',
-                date: 'Dec 20, 2025',
-                items: [
-                    '<strong>Design Customization:</strong> Granularly tweak typography, accent colors, and layout spacing.',
-                    '<strong>Target Company Preset:</strong> Extracts brand colors of your targeted company and injects them into your resume.',
-                    '<strong>Missing Skills Extraction:</strong> Automated extraction of job requirements missing from your resume.',
-                    '<strong>AI Co-Pilot Integration:</strong> Select missing skills you possess and our engine weaves them into your bullet points.',
-                    '<strong>Bug Fix:</strong> Resolved the routing issue where the Application Tracker blanked out.'
-                ]
-            }
-        ];
-
-        // ── Pagination ──
-        const PER_PAGE = 10;
-        let currentPage = 1;
-        const totalPages = Math.max(1, Math.ceil(releases.length / PER_PAGE));
-
-        const accordion = document.getElementById('rn-accordion');
-        const prevBtn = document.getElementById('rn-prev');
-        const nextBtn = document.getElementById('rn-next');
-        const pageInfo = document.getElementById('rn-page-info');
-
-        function renderPage(page) {
-            currentPage = page;
-            const start = (page - 1) * PER_PAGE;
-            const slice = releases.slice(start, start + PER_PAGE);
-
-            accordion.innerHTML = slice.map((r, i) => {
-                const isFirst = page === 1 && i === 0;
-                const badgeClass = r.current ? 'current' : 'past';
-                const badgeText = r.current ? 'Current' : r.version;
-                return `
-                <div class="rn-item${isFirst ? ' open' : ''}">
-                    <div class="rn-header" onclick="toggleRN(this)">
-                        <div class="rn-header-left">
-                            <h3>${r.version} &mdash; ${r.title}</h3>
-                        </div>
-                        <span class="rn-date">${r.date}</span>
-                        <span class="rn-badge ${badgeClass}">${badgeText}</span>
-                        <i class="fa-solid fa-chevron-down rn-chevron"></i>
-                    </div>
-                    <div class="rn-body">
-                        <ul>${r.items.map(li => `<li>${li}</li>`).join('')}</ul>
-                    </div>
-                </div>`;
-            }).join('');
-
-            pageInfo.textContent = `Page ${page} of ${totalPages}`;
-            prevBtn.disabled = page <= 1;
-            nextBtn.disabled = page >= totalPages;
-
-            // Reset expand/collapse button
-            const toggleBtn = document.getElementById('rn-toggle-all');
-            toggleBtn.innerHTML = '<i class="fa-solid fa-angles-down"></i> Expand All';
-        }
-
-        prevBtn.addEventListener('click', () => { if (currentPage > 1) renderPage(currentPage - 1); });
-        nextBtn.addEventListener('click', () => { if (currentPage < totalPages) renderPage(currentPage + 1); });
-
-        // Accordion toggle
-        function toggleRN(header) {
-            header.closest('.rn-item').classList.toggle('open');
-        }
-
-        // Expand / Collapse All
-        document.getElementById('rn-toggle-all').addEventListener('click', function () {
-            const items = document.querySelectorAll('.rn-item');
-            const allOpen = [...items].every(i => i.classList.contains('open'));
-            items.forEach(i => allOpen ? i.classList.remove('open') : i.classList.add('open'));
-            this.innerHTML = allOpen
-                ? '<i class="fa-solid fa-angles-down"></i> Expand All'
-                : '<i class="fa-solid fa-angles-up"></i> Collapse All';
-        });
-
-        // Initial render
-        renderPage(1);
-    </script>
+    // Initial render
+    renderPage(1);
+  </script>
 <script>
-    // Theme persistence
-    (function() {
-        var t = localStorage.getItem('ats_theme_preference');
-        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
-    })();
-    </script>
+  // Theme persistence
+  (function() {
+    var t = localStorage.getItem('tms_theme_preference');
+    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+  })();
+  </script>
 </body>
 
 </html>

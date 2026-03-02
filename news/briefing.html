@@ -229,6 +229,41 @@
             }
         }
 
+        /* Mobile sidebar slide animation */
+        @media (max-width: 900px) {
+            .dashboard-sidebar {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0;
+                width: 90vw;
+                max-width: 360px;
+                height: 100vh;
+                z-index: 1000;
+                background: var(--bg-color);
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                padding: 1.5rem !important;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+            }
+            .dashboard-sidebar.sidebar-open {
+                transform: translateX(0);
+            }
+            .sidebar-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+            .sidebar-backdrop.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
         .rec-chip {
             display: inline-block;
             padding: 0.3rem 0.7rem;
@@ -281,6 +316,7 @@
 </head>
 
 <body data-theme="dark">
+    <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="collapseSidebar()"></div>
     <a href="#main-content" class="skip-nav">Skip to main content</a>
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
@@ -716,9 +752,15 @@
             <article class="dashboard-reading-pane"
                 style="min-height:75vh;padding-left:2.5rem;border-left:var(--brutal-border);">
                 <!-- Initial Empty State -->
-                <div id="empty-state" style="text-align:center;padding:4rem 0;color:var(--text-secondary);opacity:0.6;">
-                    <i class="fa-regular fa-newspaper" style="font-size:3rem;margin-bottom:1rem;display:block;"></i>
-                    <p style="font-size:1.1rem;">Your briefing will appear here.</p>
+                <div id="empty-state" style="text-align:center;padding:3rem 1.5rem;color:var(--text-secondary);">
+                    <i class="fa-regular fa-newspaper" style="font-size:3rem;margin-bottom:1rem;display:block;color:var(--primary-color);opacity:0.7;"></i>
+                    <h3 style="color:var(--text-primary);margin:0 0 0.5rem;font-size:1.2rem;">Your AI News Briefing</h3>
+                    <p style="font-size:0.95rem;max-width:420px;margin:0 auto 1.5rem;line-height:1.6;">
+                        Get a personalized daily briefing powered by AI. Set your interests and we'll curate the most relevant news for your career.
+                    </p>
+                    <button onclick="editInterests()" class="btn primary-btn" style="min-height:44px;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Set Your Interests & Generate
+                    </button>
                 </div>
 
                 <!-- Loading State -->
@@ -736,12 +778,13 @@
                     </style>
                 </div>
 
+                <!-- 7-Day Date Strip (always visible) -->
+                <div id="date-strip"
+                    style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.75rem;margin-bottom:1rem;border-bottom:var(--brutal-border);scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+                </div>
+
                 <!-- Result Section -->
                 <div id="result-section" style="display:none;">
-                    <!-- 7-Day Date Strip -->
-                    <div id="date-strip"
-                        style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.75rem;margin-bottom:1rem;border-bottom:var(--brutal-border);scrollbar-width:none;-webkit-overflow-scrolling:touch;">
-                    </div>
 
                     <div
                         style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
@@ -788,9 +831,8 @@
                         <!-- Podcast Subscribe -->
                         <div id="podcast-subscribe"
                             style="display:none;margin-top:0.75rem;padding-top:0.75rem;border-top:var(--brutal-border);">
-                            <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;">Subscribe
-                                to
-                                your briefings podcast:</div>
+                            <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.5rem;"><i class="fa-solid fa-podcast" style="margin-right:0.3rem;color:var(--primary-color);"></i>Subscribe
+                                to your daily briefings as a podcast:</div>
                             <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
                                 <a id="sub-apple" href="#" target="_blank" rel="noopener" class="btn ghost-btn"
                                     style="font-size:0.72rem;padding:0.3rem 0.6rem;gap:0.3rem;text-decoration:none;">
@@ -1000,16 +1042,28 @@
             _sidebarOpen = false;
             const sidebar = document.querySelector('.dashboard-sidebar');
             const main = document.getElementById('main-content');
-            if (sidebar) sidebar.style.display = 'none';
-            if (main) main.style.gridTemplateColumns = '1fr';
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (window.innerWidth <= 900) {
+                if (sidebar) sidebar.classList.remove('sidebar-open');
+                if (backdrop) backdrop.classList.remove('active');
+            } else {
+                if (sidebar) sidebar.style.display = 'none';
+                if (main) main.style.gridTemplateColumns = '1fr';
+            }
         }
 
         function expandSidebar() {
             _sidebarOpen = true;
             const sidebar = document.querySelector('.dashboard-sidebar');
             const main = document.getElementById('main-content');
-            if (sidebar) sidebar.style.display = '';
-            if (main) main.style.gridTemplateColumns = '360px 1fr';
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (window.innerWidth <= 900) {
+                if (sidebar) { sidebar.style.display = ''; sidebar.classList.add('sidebar-open'); }
+                if (backdrop) backdrop.classList.add('active');
+            } else {
+                if (sidebar) sidebar.style.display = '';
+                if (main) main.style.gridTemplateColumns = '360px 1fr';
+            }
             document.getElementById('input-section').style.display = 'block';
         }
 
@@ -1270,6 +1324,8 @@
                     }
                     console.log('[auth-ready] Cached', Object.keys(briefingCache).length, 'briefings');
                 }
+                // Always render date strip so users see the timeline
+                renderDateStrip(new Date().toISOString().split('T')[0]);
 
                 // If viewing a saved briefing by ID, let the view handler show it
                 // but still render the date strip (cache was loaded above)
@@ -2330,7 +2386,21 @@ FORMAT — use this EXACT HTML:
 
             } catch (e) {
                 console.error('Briefing error:', e);
-                const msg = e.message || 'Failed to generate briefing. Please try again.';
+                const raw = e.message || '';
+                let msg, hint;
+                if (!navigator.onLine || raw.includes('fetch') || raw.includes('network') || raw.includes('Failed to fetch')) {
+                    msg = 'Network error';
+                    hint = 'Check your internet connection and try again.';
+                } else if (raw.includes('rate') || raw.includes('limit') || raw.includes('429') || raw.includes('quota')) {
+                    msg = 'Rate limit reached';
+                    hint = 'You\'ve hit the daily generation limit. Try again tomorrow or upgrade to Premium.';
+                } else if (raw.includes('timed out') || raw.includes('timeout')) {
+                    msg = 'Request timed out';
+                    hint = 'The AI took too long to respond. Please try again.';
+                } else {
+                    msg = 'Generation failed';
+                    hint = raw || 'Something went wrong. Please try again.';
+                }
 
                 document.getElementById('loading-section').style.display = 'none';
 
@@ -2349,8 +2419,8 @@ FORMAT — use this EXACT HTML:
                 if (existingErr) existingErr.remove();
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-text';
-                errorDiv.style.cssText = 'margin-bottom:1rem;padding:1rem;text-align:center;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);color:var(--primary-color);';
-                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}<br><button class="btn ghost-btn" style="margin-top:0.75rem;font-size:0.82rem;" onclick="this.parentElement.remove();toggleSidebar();"><i class="fa-solid fa-sliders"></i> Open Settings</button>`;
+                errorDiv.style.cssText = 'margin-bottom:1rem;padding:1rem;text-align:center;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);color:var(--text-primary);';
+                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:var(--warning-color);"></i> <strong>${msg}</strong><br><span style="font-size:0.85rem;color:var(--text-secondary);">${hint}</span><br><div style="display:flex;gap:0.5rem;justify-content:center;margin-top:0.75rem;"><button class="btn primary-btn" style="font-size:0.82rem;" onclick="this.closest('.error-text').remove();generateBriefing();"><i class="fa-solid fa-rotate-right"></i> Retry</button><button class="btn ghost-btn" style="font-size:0.82rem;" onclick="this.closest('.error-text').remove();toggleSidebar();"><i class="fa-solid fa-sliders"></i> Settings</button></div>`;
                 document.getElementById('result-section').prepend(errorDiv);
             } finally {
                 // Re-enable generate buttons
@@ -2992,7 +3062,7 @@ FORMAT — use this EXACT HTML:
     <script>
         // Theme persistence
         (function () {
-            var t = localStorage.getItem('ats_theme_preference');
+            var t = localStorage.getItem('tms_theme_preference');
             if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
         })();
     </script>
