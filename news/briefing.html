@@ -2038,7 +2038,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             // Sync tags UI for the Edit screen later (use extractedInterests, not expanded)
             renderInterestTags(extractedInterests);
 
-            // Keep sidebar visible in Command Center grid
+            // Show loading in the reading pane, keep sidebar collapsed
+            collapseSidebar();
             document.getElementById('result-section').style.display = 'none';
             document.getElementById('loading-section').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2288,17 +2289,18 @@ FORMAT — use this EXACT HTML:
                 const msg = e.message || 'Failed to generate briefing. Please try again.';
 
                 document.getElementById('loading-section').style.display = 'none';
-                document.getElementById('input-section').style.display = 'block';
+                document.getElementById('result-section').style.display = 'block';
+                collapseSidebar();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                // Display error prominently at the top of input section
-                const existingErr = document.querySelector('#input-section .error-text');
+                // Display error in the reading pane (not the sidebar)
+                const existingErr = document.querySelector('#result-section .error-text');
                 if (existingErr) existingErr.remove();
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-text';
                 errorDiv.style.cssText = 'margin-bottom:1rem;padding:1rem;text-align:center;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);color:var(--primary-color);';
-                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}<br><button class="btn ghost-btn" style="margin-top:0.75rem;font-size:0.82rem;" onclick="this.parentElement.remove();editInterests();"><i class="fa-solid fa-arrow-left"></i> Back to Settings</button>`;
-                document.getElementById('input-section').prepend(errorDiv);
+                errorDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}<br><button class="btn ghost-btn" style="margin-top:0.75rem;font-size:0.82rem;" onclick="this.parentElement.remove();toggleSidebar();"><i class="fa-solid fa-sliders"></i> Open Settings</button>`;
+                document.getElementById('result-section').prepend(errorDiv);
             } finally {
                 // Re-enable generate buttons
                 const btns = document.querySelectorAll('[onclick="generateBriefing()"]');
