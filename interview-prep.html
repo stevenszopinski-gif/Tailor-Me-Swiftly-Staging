@@ -733,6 +733,10 @@
       outputs = loadOutputs();
       let reviewedCards = new Set();
 
+      // TTS state (must be declared before renderChatMode uses them)
+      const ttsCache = {};
+      let currentAudio = null;
+
       // Chat conversation state
       let chatHistory = [];    // Array of { id, type, html }
       let chatState = 'idle';   // idle | awaiting_response | recording | processing | feedback_shown
@@ -1269,8 +1273,6 @@ Format your response exactly like this:
       // ── TEXT-TO-SPEECH (Inworld via podcastfy) ──
       // ══════════════════════════════════════
 
-      const ttsCache = {};
-      let currentAudio = null;
 
       async function hearQuestionAt(qIdx) {
         const btn = document.getElementById(`tts-btn-${qIdx}`);
