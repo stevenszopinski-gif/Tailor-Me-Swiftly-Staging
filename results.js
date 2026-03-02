@@ -706,16 +706,24 @@ async function saveGenerationToSupabase(outputs) {
             missing_keywords: outputs.missingKeywords || []
         };
 
-        // If we already have an ID, update the existing row
+        let data, error;
         if (outputs.generationId) {
-            row.id = outputs.generationId;
+            // Update existing row
+            ({ data, error } = await window.supabaseClient
+                .from('generations')
+                .update(row)
+                .eq('id', outputs.generationId)
+                .eq('user_id', user.id)
+                .select()
+                .single());
+        } else {
+            // Insert new row
+            ({ data, error } = await window.supabaseClient
+                .from('generations')
+                .insert(row)
+                .select()
+                .single());
         }
-
-        const { data, error } = await window.supabaseClient
-            .from('generations')
-            .upsert(row, { onConflict: 'id' })
-            .select()
-            .single();
 
         if (error) { console.error('Save generation error:', error); return null; }
 
