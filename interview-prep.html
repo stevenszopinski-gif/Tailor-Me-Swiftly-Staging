@@ -1291,8 +1291,11 @@ Format your response exactly like this:
           ttsCache[qIdx] = result.audioUrl;
           playAudio(result.audioUrl, btn);
         } catch (e) {
-          console.error('Inworld TTS error (falling back to browser):', e);
-          playBrowserTTS(questions[qIdx].question, btn);
+          console.error('Inworld TTS error:', e);
+          btn.disabled = false;
+          btn.classList.remove('speaking');
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — Tap to Retry';
+          btn.onclick = () => { btn.onclick = null; hearQuestionAt(qIdx); };
         }
       }
 
@@ -1309,20 +1312,18 @@ Format your response exactly like this:
         };
 
         currentAudio.onerror = () => {
-          console.warn('Audio element error, falling back to browser TTS');
           btn.classList.remove('speaking');
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Audio Error';
           currentAudio = null;
-          // Extract question text from the bubble and use browser TTS
-          const text = btn.closest('.chat-bubble')?.querySelector('div')?.textContent?.replace(/^"|"$/g, '') || '';
-          playBrowserTTS(text, btn);
+          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
         };
 
         currentAudio.play().catch(err => {
-          console.warn('Audio play() blocked, falling back to browser TTS:', err.message);
+          console.error('Audio play() failed:', err);
           btn.classList.remove('speaking');
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Playback Failed';
           currentAudio = null;
-          const text = btn.closest('.chat-bubble')?.querySelector('div')?.textContent?.replace(/^"|"$/g, '') || '';
-          playBrowserTTS(text, btn);
+          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
         });
       }
 
