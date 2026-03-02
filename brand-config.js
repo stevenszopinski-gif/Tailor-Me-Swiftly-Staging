@@ -31,7 +31,7 @@
             accentGlow: 'rgba(16, 185, 129, 0.5)',
             icon: 'fa-clipboard',
             basePath: '',
-            homePath: 'dashboard.html?product=apps',
+            homePath: 'history.html',
             appPath: 'app.html'
         },
         learn: {
