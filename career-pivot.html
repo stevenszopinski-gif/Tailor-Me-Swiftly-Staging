@@ -140,24 +140,25 @@
         const outputs = loadOutputs();
         let resumeText = outputs?.resumeText || getResumeText();
 
-        if (!resumeText) {
-            renderResumePrompt(document.getElementById('pivot-output'), (text) => {
-                resumeText = text;
-                document.getElementById('pivot-output').innerHTML = '';
-            });
-        }
+        // Show experience input area (pre-filled with resume if available)
+        const pivotOutput = document.getElementById('pivot-output');
+        pivotOutput.innerHTML = `<div style="margin-bottom:1.5rem;">
+            <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;">Your Experience <span style="font-size:0.75rem;font-weight:400;color:var(--text-secondary);">(paste resume or describe your background)</span></label>
+            <textarea id="pivot-experience" rows="5" placeholder="Paste your resume, or describe your skills and experience..." style="width:100%;padding:0.75rem;border:var(--brutal-border);border-radius:var(--brutal-radius);background:var(--input-bg);color:var(--text-primary);font-family:inherit;font-size:0.85rem;resize:vertical;">${resumeText || ''}</textarea>
+        </div>`;
 
         async function generatePivot() {
-            if (!resumeText) { alert('Please paste your resume first.'); return; }
+            const experienceText = document.getElementById('pivot-experience')?.value?.trim() || resumeText;
+            if (!experienceText) { alert('Please describe your experience or paste your resume.'); return; }
             const container = document.getElementById('pivot-output');
             container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Translating your experience...</p>';
 
-            const currentInd = document.getElementById('current-industry').value || 'auto-detect from resume';
+            const currentInd = document.getElementById('current-industry').value || 'auto-detect from experience';
             const targetInd = document.getElementById('target-industry').value || 'auto-detect from job description';
 
             const systemPrompt = `You are an expert Career Pivot Translator specializing in helping professionals transition between industries.
 
-Analyze the resume and translate each major bullet point / achievement from the current industry's language into the target industry's jargon and vocabulary.
+Analyze the candidate's experience (which may be a full resume or a brief description of their background and skills) and translate each major achievement or skill from the current industry's language into the target industry's jargon and vocabulary.
 
 Current industry: ${currentInd}
 Target industry: ${targetInd}
@@ -176,7 +177,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
     "tips": ["3-5 general tips for making this specific career pivot"]
 }`;
 
-            const userPrompt = `Resume:\n${resumeText}\n\nTarget Job Description:\n${getJobText() || 'Not provided'}`;
+            const userPrompt = `Experience:\n${experienceText}\n\nTarget Job Description:\n${getJobText() || 'Not provided'}`;
 
             try {
                 const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {

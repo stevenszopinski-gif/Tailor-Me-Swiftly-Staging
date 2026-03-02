@@ -103,22 +103,23 @@
         const outputs = loadOutputs();
         let resumeText = outputs?.resumeText || getResumeText();
 
-        if (!resumeText) {
-            renderResumePrompt(document.getElementById('skills-output'), (text) => {
-                resumeText = text;
-                document.getElementById('skills-output').innerHTML = `<div style="text-align:center;padding:3rem;">
-                    <p style="color:var(--text-secondary);margin-bottom:1.5rem;">AI analyzes your resume against current market trends to identify skill gaps and opportunities.</p>
-                    <button class="btn primary-btn" onclick="analyzeSkills()"><i class="fa-solid fa-chart-line"></i> Analyze My Skills</button>
-                </div>`;
-            });
-        }
+        // Show skills input area (pre-filled with resume if available)
+        const skillsOutput = document.getElementById('skills-output');
+        skillsOutput.innerHTML = `<div style="margin-bottom:1.5rem;">
+            <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;">Your Skills & Experience <span style="font-size:0.75rem;font-weight:400;color:var(--text-secondary);">(paste resume or list your skills)</span></label>
+            <textarea id="skills-experience" rows="5" placeholder="Paste your resume, or list your skills and job title..." style="width:100%;padding:0.75rem;border:var(--brutal-border);border-radius:var(--brutal-radius);background:var(--input-bg);color:var(--text-primary);font-family:inherit;font-size:0.85rem;resize:vertical;">${resumeText || ''}</textarea>
+            <div style="text-align:center;margin-top:1rem;">
+                <button class="btn primary-btn" onclick="analyzeSkills()"><i class="fa-solid fa-chart-line"></i> Analyze My Skills</button>
+            </div>
+        </div>`;
 
         async function analyzeSkills() {
-            if (!resumeText) { alert('Please paste your resume first.'); return; }
+            const experienceText = document.getElementById('skills-experience')?.value?.trim() || resumeText;
+            if (!experienceText) { alert('Please describe your skills or paste your resume.'); return; }
             const container = document.getElementById('skills-output');
             container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Analyzing your skills against market trends...</p>';
 
-            const systemPrompt = `You are a career market analyst. Analyze the candidate's resume skills against current job market trends in their field. Identify decaying skills (becoming less in-demand), rising skills (increasingly required), and stable skills.
+            const systemPrompt = `You are a career market analyst. Analyze the candidate's skills and experience (which may be a full resume or a brief list of skills and job title) against current job market trends in their field. Identify decaying skills (becoming less in-demand), rising skills (increasingly required), and stable skills.
 
 Then generate a personalized 6-month upskill roadmap.
 
@@ -156,7 +157,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
                     body: {
                         model: 'gemini-3-flash-preview',
                         systemInstruction: { parts: [{ text: systemPrompt }] },
-                        contents: [{ parts: [{ text: `Resume:\n${resumeText}\n\nTarget Job Description:\n${getJobText() || 'General market analysis'}\n\nCompany: ${getCompanyName() || 'General market'}` }] }],
+                        contents: [{ parts: [{ text: `Experience:\n${experienceText}\n\nTarget Job Description:\n${getJobText() || 'General market analysis'}\n\nCompany: ${getCompanyName() || 'General market'}` }] }],
                         generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
                     }
                 });
