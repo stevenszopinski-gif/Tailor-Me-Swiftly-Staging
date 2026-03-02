@@ -63,6 +63,7 @@
         if (!container) return;
 
         var items = [
+            { key: 'dashboard', product: products.dashboard },
             { key: 'applications', product: products.applications },
             { key: 'news', product: products.news },
             { key: 'learn', product: products.learn }

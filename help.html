@@ -15,7 +15,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
     <link rel="canonical" href="https://tailormeswiftly.com/help.html">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
     <link rel="apple-touch-icon" href="/favicon.svg">
     <link rel="manifest" href="/manifest.json">
     <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
@@ -24,7 +24,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .help-page {
@@ -256,8 +258,6 @@
                 </div>
             </div>
             <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
-                <a href="dashboard.html" class="btn ghost-btn" style="text-decoration:none;font-size:0.85rem;"><i
-                        class="fa-solid fa-compass"></i> Dashboard</a>
             </div>
         </header>
     </div>
@@ -673,7 +673,8 @@
                     <p>If a page appears blank or stuck on a loading spinner:</p>
                     <ol>
                         <li><strong>Hard refresh</strong> — Press <code>Ctrl+Shift+R</code> (Windows) or
-                            <code>Cmd+Shift+R</code> (Mac).</li>
+                            <code>Cmd+Shift+R</code> (Mac).
+                        </li>
                         <li><strong>Clear cache</strong> — Cached CSS or JS files may be outdated. Clear your browser
                             cache or try incognito mode.</li>
                         <li><strong>Check your connection</strong> — A stable internet connection is required for AI
@@ -702,7 +703,8 @@
                         <li>Try saving your resume as <strong>DOCX</strong> and re-uploading — DOCX parsing is more
                             reliable for complex layouts.</li>
                         <li>As a last resort, paste your resume text directly into the text area using the
-                            <strong>"Paste text instead"</strong> option.</li>
+                            <strong>"Paste text instead"</strong> option.
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -796,7 +798,8 @@
                         to your career. There are three ways to add interests:</p>
                     <ul>
                         <li><strong>My Interests</strong> — Add topics directly using the tag input or pick from
-                            suggested topics (e.g., "AI in healthcare", "fintech regulation", "product management trends").</li>
+                            suggested topics (e.g., "AI in healthcare", "fintech regulation", "product management
+                            trends").</li>
                         <li><strong>From Resume</strong> — Upload or use your saved resume and the AI will
                             automatically extract your skills, industry, and experience as interest topics.</li>
                         <li><strong>From Jobs</strong> — Pull context from your tracked applications so
@@ -805,7 +808,8 @@
                     <p>Each briefing includes a concise summary of the top stories and actionable takeaways. You can
                         also listen to your briefing as a <strong>podcast-style audio</strong> narration, ask
                         <strong>follow-up questions</strong> in the Q&A chat, or click <strong>"Catch Me Up"</strong>
-                        on any story for a timeline of how it developed.</p>
+                        on any story for a timeline of how it developed.
+                    </p>
                 </div>
             </div>
 
@@ -874,7 +878,8 @@
                         <li><strong>Settings tab</strong> — Configure how your briefing is generated and delivered:</li>
                     </ul>
                     <ol>
-                        <li><strong>Tone &amp; Style</strong> — Choose between Public Radio Host, Morning Brew, Executive
+                        <li><strong>Tone &amp; Style</strong> — Choose between Public Radio Host, Morning Brew,
+                            Executive
                             Summary, or Deep Dive. A live preview shows an example of each tone.</li>
                         <li><strong>Daily Email Briefing</strong> — Toggle on to receive your briefing by email every
                             morning. Pick a delivery time (6&ndash;9 AM).</li>
@@ -988,12 +993,12 @@
             });
         });
     </script>
-<script>
-    // Theme persistence
-    (function() {
-        var t = localStorage.getItem('ats_theme_preference');
-        if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
-    })();
+    <script>
+        // Theme persistence
+        (function () {
+            var t = localStorage.getItem('ats_theme_preference');
+            if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+        })();
     </script>
 </body>
 

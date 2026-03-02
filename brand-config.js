@@ -61,6 +61,20 @@
             basePath: 'news/',
             homePath: 'news/briefing.html',
             appPath: 'news/briefing.html'
+        },
+        dashboard: {
+            id: 'dash',
+            name: 'Dashboard',
+            shortName: 'Dashboard',
+            tagline: 'Your Command Center',
+            primaryColor: '#7B8FA8',
+            primaryHover: '#5C6E82',
+            accentColor: '#A3C4DC',
+            accentGlow: 'rgba(123, 143, 168, 0.5)',
+            icon: 'fa-compass',
+            basePath: '',
+            homePath: 'dashboard.html',
+            appPath: 'dashboard.html'
         }
     };
 
@@ -83,7 +97,6 @@
     // Unified nav items (avatar dropdown) — same for all products
     const navItems = [
         { href: P + 'account.html', icon: 'fa-user-gear', label: 'Account' },
-        { href: P + 'dashboard.html', icon: 'fa-compass', label: 'Dashboard' },
         { href: P + 'updates.html', icon: 'fa-bullhorn', label: 'Release Notes' },
         { href: P + 'help.html', icon: 'fa-circle-question', label: 'Help Center' },
         { href: P + 'blog.html', icon: 'fa-newspaper', label: 'Blog' }
