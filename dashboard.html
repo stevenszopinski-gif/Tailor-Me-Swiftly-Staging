@@ -495,6 +495,23 @@
         <!-- Time Saved Counter (Sprint 3.2) -->
         <div id="time-saved-container" style="margin-bottom:1rem;"></div>
 
+
+        <!-- Tailor The News (loaded dynamically) -->
+        <div id="dash-news-section">
+            <div class="dash-section-label"><i class="fa-solid fa-newspaper"></i> Recent Briefings</div>
+            <div id="dash-news-content"
+                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
+                <div class="skeleton-card" style="min-height:120px;">
+                    <div class="skeleton skeleton-line long"></div>
+                    <div class="skeleton skeleton-line medium"></div>
+                    <div class="skeleton skeleton-line short"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Tracker -->
+        <div class="dash-section-label"><i class="fa-solid fa-table-columns"></i> Tailor My Application Tracker</div>
+
         <!-- Quick Stats -->
         <div class="dash-stats" id="dash-stats" style="display:none;">
             <div class="dash-stat">
@@ -514,22 +531,6 @@
                 <div class="dash-stat-label">Offers</div>
             </div>
         </div>
-
-        <!-- Tailor The News (loaded dynamically) -->
-        <div id="dash-news-section">
-            <div class="dash-section-label"><i class="fa-solid fa-newspaper"></i> Recent Briefings</div>
-            <div id="dash-news-content"
-                style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
-                <div class="skeleton-card" style="min-height:120px;">
-                    <div class="skeleton skeleton-line long"></div>
-                    <div class="skeleton skeleton-line medium"></div>
-                    <div class="skeleton skeleton-line short"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Application Tracker -->
-        <div class="dash-section-label"><i class="fa-solid fa-table-columns"></i> Tailor My Application Tracker</div>
 
         <!-- Filter Bar (Sprint 2.2) -->
         <div class="filter-bar" id="dash-filter-bar" style="display:none;">
