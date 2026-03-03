@@ -1066,15 +1066,12 @@
   <script src="components.js"></script>
   <script src="error-utils.js"></script>
   <script src="app.js?v=6"></script>
-  <script src="shared/analytics.js"></script>
-  <script src="shared/sticky-header.js"></script>
-  <script src="shared/command-palette.js"></script>
-  <script src="shared/onboarding.js"></script>
-  <script src="shared/router.js"></script>
   <script>
-    // Register Service Worker for PWA
+    // Unregister old service workers to prevent stale cache issues
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(function (e) { console.warn('SW registration failed:', e); });
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(r) { r.unregister(); });
+      });
     }
   </script>
   <script>
