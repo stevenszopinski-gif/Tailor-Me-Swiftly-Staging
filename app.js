@@ -2,7 +2,9 @@ const THEME_STORAGE = window.TMS_BRAND?.themeStorageKey || 'tms_theme_preference
 const API_STORAGE = 'ats_api_config';
 const PREFS_STORAGE = 'ats_user_writing_preferences';
 
-// Supabase edge function URL for fetching job descriptions
+// Supabase edge function URL for fetching job descriptions.
+// The anon key below is a publishable key — safe for client-side use.
+// Data access is protected by Row-Level Security (RLS) policies, not key secrecy.
 const SUPABASE_FETCH_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/fetch-url';
 const SUPABASE_ANON_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
@@ -1067,7 +1069,7 @@ function showUpgradeModal() {
             <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">You've used your 2 free tailors</h2>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
                 You've experienced real ATS optimization.<br>
-                Go Pro for <strong>unlimited</strong> generations and all 27 AI tools.
+                Go Pro for <strong>unlimited</strong> generations and all 26 AI tools.
             </p>
             <button class="btn primary-btn" onclick="createCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
                 <i class="fa-solid fa-bolt"></i> Go Pro — $9.99/mo
@@ -1269,7 +1271,6 @@ async function parseAndRedirect(content) {
     let meta = {};
 
     try { meta = JSON.parse(matches[1] || '{}'); } catch (e) {
-        console.warn('Could not parse job metadata:', e);
         var _toast = document.createElement('div');
         _toast.className = 'fade-in-up';
         _toast.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:var(--panel-bg);border:1px solid var(--warning-color);border-radius:var(--radius-lg,8px);padding:0.75rem 1.25rem;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.85rem;color:var(--text-secondary);max-width:360px;';

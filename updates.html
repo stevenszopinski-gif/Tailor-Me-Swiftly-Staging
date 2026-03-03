@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; frame-src https://js.stripe.com;">
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; frame-src https://js.stripe.com;">
   <meta name="description"
     content="TailorMeSwiftly release notes and product updates. See the latest features, improvements, and bug fixes.">
   <meta property="og:type" content="website">
@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
   <link rel="canonical" href="https://tailormeswiftly.com/updates.html">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.json">
   <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
@@ -316,10 +316,34 @@
     // ── Release notes data ──
     const releases = [
       {
+        version: 'v6.0.0',
+        title: 'React Rewrite, Premium Analytics & Full SPA',
+        date: 'Mar 3, 2026',
+        current: true,
+        items: [
+          '<strong>Complete React 19 Rewrite:</strong> The entire platform has been rebuilt as a single-page application using React 19, TypeScript 5.7, Vite 6, and React Router v7 with lazy-loaded code-split pages.',
+          '<strong>Salary Benchmarking (Premium):</strong> New dedicated page with salary percentile charts, company-by-company comparisons, location cost-of-living adjustments, and AI-powered negotiation range recommendations — all visualized with interactive Recharts bar charts.',
+          '<strong>Job Market Heatmap (Premium):</strong> Enter your skills and see a color-coded demand grid across 10+ metro regions. Includes trending related skills with rise/decline indicators and a top-regions bar chart.',
+          '<strong>Mock Interview with Webcam (Premium):</strong> Full interview simulator with live webcam feed, real-time speech-to-text via Web Speech API, per-answer AI scoring, and a comprehensive review phase with radar chart performance breakdown and letter grades.',
+          '<strong>Multi-Resume Profiles:</strong> Save and switch between multiple resume profiles (e.g., "Software Engineer", "Product Manager"). CRUD management with default profile support, synced across devices.',
+          '<strong>Collaborative Sharing:</strong> Generate public share links for your results. Links are valid for 30 days and accessible to anyone — great for getting feedback from mentors or friends.',
+          '<strong>Template Gallery:</strong> 15 professional resume templates (Classic, Modern, Minimal, Executive, Creative, and more) with mini preview thumbnails and accent color customization.',
+          '<strong>Export Menu:</strong> Download your results as PDF, DOCX, or plain text, or copy formatted content to your clipboard — all from a single dropdown.',
+          '<strong>Onboarding Tour:</strong> First-time users are guided through a 5-step spotlight tour highlighting key features: resume upload, job description, tools grid, theme toggle, and product switcher.',
+          '<strong>Usage Meter:</strong> Free users see a real-time progress bar showing remaining generations for the month, with a seamless upgrade CTA.',
+          '<strong>Freemium Blurred Preview:</strong> Premium tool outputs show a tasteful blurred preview with a "Go Pro" overlay for free users, encouraging conversion.',
+          '<strong>Rate Limiting:</strong> Server-side rate limiting on AI generation — 5 requests/hour for free accounts, 60/hour for Pro — enforced via Supabase edge functions.',
+          '<strong>PWA Support:</strong> Service worker with intelligent caching (cache-first for static assets, network-first for API calls, stale-while-revalidate for app shell). Install the app to your home screen for offline access.',
+          '<strong>Error Boundary:</strong> Client-side errors are caught by a React Error Boundary and logged to the database with component stack traces for faster debugging.',
+          '<strong>Legal & Support Pages:</strong> Terms, Privacy Policy, Security Policy, Help Center (28 searchable FAQs with category filters), and Feedback form are now full React SPA pages — no more static HTML redirects.',
+          '<strong>Analytics Dashboard:</strong> View your generation history, tool usage patterns, and account activity in a dedicated analytics page.',
+          '<strong>13 New AI Tools:</strong> Added Interview Prep, Cover Letter, Pain Letter, Hook Generator, Intro Email, Career Pivot Advisor, Cold Email, Prove It, Reverse Interview, Day in the Life, Video Intro, Rejection Reverser, and Ghosting Predictor — all accessible via a unified config-driven tool framework.'
+        ]
+      },
+      {
         version: 'v5.6.0',
         title: 'Mobile Overhaul & Performance',
         date: 'Mar 2, 2026',
-        current: true,
         items: [
           '<strong>Mobile-First Resume Editor:</strong> The resume editor now collapses its sidebar navigation and editing panel into a compact overlay on phones, making the full editor usable on screens as small as 320px.',
           '<strong>Responsive Grids Everywhere:</strong> Score cards, insight panels, and output grids on the Results page now properly stack and resize on small screens instead of overflowing.',

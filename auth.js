@@ -3,6 +3,9 @@
 
 // Wrap everything in error handling
 (function () {
+    // Supabase publishable (anon) key — safe for client-side use.
+    // All data access is controlled by Row-Level Security (RLS) policies on the database.
+    // This key only allows operations that RLS explicitly permits for the authenticated user.
     const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
 
@@ -10,7 +13,7 @@
     const _originalAlert = window.alert;
     window.alert = function (msg) {
         if (msg && /^invalid jwt/i.test(String(msg).trim())) {
-            console.warn('[Global Alert Catch] Suppressed JWT alert:', msg);
+            // Suppressed JWT alert
             return; // Just suppress — do NOT sign out
         }
         return _originalAlert.apply(this, arguments);
@@ -33,7 +36,6 @@
             if (!client) return false;
 
             window.supabaseClient = client;
-            console.log("[Auth] Supabase client ready");
 
             // Override the .functions getter to return our custom invoke
             // In Supabase JS v2, .functions is a getter that returns a NEW FunctionsClient
@@ -61,13 +63,10 @@
                     }
                     // 2. Token expired or missing — force refresh
                     if (session?.refresh_token) {
-                        console.log('[Auth] Token expired, refreshing...');
                         const { data: refreshed, error: refreshErr } = await client.auth.refreshSession();
                         if (refreshErr) {
-                            console.warn('[Auth] refreshSession error:', refreshErr.message);
                         }
                         if (refreshed?.session?.access_token) {
-                            console.log('[Auth] Token refreshed successfully');
                             return refreshed.session.access_token;
                         }
                     }
@@ -78,10 +77,8 @@
                         return stored;
                     }
                 } catch (e) {
-                    console.warn('[Auth] Session refresh failed:', e.message);
                 }
                 // Return null instead of a stale token — callers must handle null
-                console.warn('[Auth] No valid token available');
                 return null;
             }
 
@@ -391,7 +388,7 @@
                 <div class="confirm-box">
                     <div class="upgrade-modal-icon"><i class="fa-solid fa-crown"></i></div>
                     <h3>Go Pro</h3>
-                    <p>Unlock unlimited access to <strong>${featureName}</strong> and all 27 AI tools for $9.99/mo.</p>
+                    <p>Unlock unlimited access to <strong>${featureName}</strong> and all 26 AI tools for $9.99/mo.</p>
                     <div class="confirm-actions">
                         <button class="confirm-cancel" onclick="document.getElementById('upgrade-modal').remove()">Maybe Later</button>
                         <a href="account.html" class="plan-btn gold" style="text-decoration:none; display:flex; align-items:center; justify-content:center; flex:1; border-radius:10px; font-weight:600;">Go Pro &mdash; $9.99/mo</a>
@@ -517,7 +514,6 @@
                 }
             ]);
         } catch (e) {
-            console.warn("Analytics tracking skipped.");
         }
     };
 

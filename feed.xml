@@ -5,8 +5,33 @@
     <link>https://tailormeswiftly.com</link>
     <description>Latest updates and new features for TailorMeSwiftly.com — the AI-powered resume tailoring tool.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Mar 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 03 Mar 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://tailormeswiftly.com/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>v6.0.0 — React Rewrite, Premium Analytics &amp; Full SPA</title>
+      <link>https://tailormeswiftly.com/updates.html</link>
+      <guid isPermaLink="false">tailormeswiftly-v6.0.0</guid>
+      <pubDate>Tue, 03 Mar 2026 12:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Complete React 19 Rewrite:</strong> The entire platform rebuilt as a single-page application using React 19, TypeScript 5.7, Vite 6, and React Router v7 with lazy-loaded code-split pages.</li>
+          <li><strong>Salary Benchmarking (Premium):</strong> Salary percentile charts, company comparisons, location cost-of-living adjustments, and AI-powered negotiation range recommendations with interactive Recharts visualization.</li>
+          <li><strong>Job Market Heatmap (Premium):</strong> Color-coded demand grid across 10+ metro regions with trending skills indicators and top-regions bar chart.</li>
+          <li><strong>Mock Interview with Webcam (Premium):</strong> Full interview simulator with live webcam, real-time speech-to-text, per-answer AI scoring, radar chart performance breakdown, and letter grades.</li>
+          <li><strong>Multi-Resume Profiles:</strong> Save and switch between multiple resume profiles with CRUD management, synced across devices.</li>
+          <li><strong>Collaborative Sharing:</strong> Generate public share links for results, valid for 30 days.</li>
+          <li><strong>Template Gallery:</strong> 15 professional resume templates with mini preview thumbnails.</li>
+          <li><strong>Export Menu:</strong> Download results as PDF, DOCX, TXT, or copy to clipboard from a single dropdown.</li>
+          <li><strong>Onboarding Tour:</strong> 5-step spotlight tour for first-time users.</li>
+          <li><strong>Rate Limiting &amp; Usage Meter:</strong> Server-side rate limits (5/hr free, 60/hr Pro) with real-time usage progress bar.</li>
+          <li><strong>PWA Support:</strong> Service worker with intelligent caching and home screen installation.</li>
+          <li><strong>Error Boundary:</strong> React Error Boundary with database logging for faster debugging.</li>
+          <li><strong>Legal &amp; Support Pages:</strong> Terms, Privacy, Security, Help Center (28 FAQs), and Feedback form — all React SPA pages.</li>
+          <li><strong>13 New AI Tools:</strong> Interview Prep, Cover Letter, Pain Letter, Hook Generator, Intro Email, Career Pivot, Cold Email, Prove It, Reverse Interview, Day in the Life, Video Intro, Rejection Reverser, and Ghosting Predictor.</li>
+        </ul>
+      ]]></description>
+    </item>
 
     <item>
       <title>v5.6.0 — Mobile Overhaul &amp; Performance</title>

@@ -5,15 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; media-src 'self' https://*.supabase.co https://*.supabase.in blob: data:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://gnews.io; frame-src https://js.stripe.com;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; media-src 'self' https://*.supabase.co https://*.supabase.in blob: data:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://gnews.io; frame-src https://js.stripe.com;">
     <meta name="description"
         content="Generate your personalized AI news briefing. Enter your interests and get a curated digest in seconds.">
     <meta property="og:site_name" content="TailorMeSwiftly">
   <meta property="og:title" content="Today's Briefing | TailorMeSwiftly">
   <meta property="og:description" content="Generate your personalized AI news briefing. Enter your interests and get a curated digest in seconds.">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/favicon.svg">
     <title>Today's Briefing | TailorMeSwiftly</title>
     <link rel="stylesheet" href="../style.css?v=17">
@@ -869,6 +868,10 @@
                     </div>
 
                     <div id="briefing-content" class="briefing-body"></div>
+
+                    <div id="ai-briefing-disclosure" style="display:none;text-align:center;margin:1rem 0;padding:0.45rem 0.75rem;border-radius:6px;background:rgba(var(--surface-color-rgb,30,30,30),0.4);border:1px solid rgba(var(--border-color-rgb,60,60,60),0.2);">
+                        <span style="font-size:0.72rem;color:var(--text-secondary);"><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.25rem;color:var(--primary-color);"></i>AI-generated summary — verify facts with original sources below</span>
+                    </div>
 
                     <div id="briefing-sources"
                         style="margin-top:2rem;padding-top:1.25rem;border-top:var(--brutal-border);">
@@ -2524,6 +2527,8 @@ FORMAT — use this EXACT HTML:
             }
 
             document.getElementById('briefing-content').innerHTML = processedHtml;
+            const aiDisc = document.getElementById('ai-briefing-disclosure');
+            if (aiDisc) aiDisc.style.display = 'block';
             injectTellMeMoreButtons();
             setupPodcastSubscribe();
             markBookmarkedSources();
