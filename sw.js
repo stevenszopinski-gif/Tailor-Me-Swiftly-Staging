@@ -1,5 +1,5 @@
 // TailorMeSwiftly Service Worker — PWA Offline Support
-var CACHE_NAME = 'tms-cache-v15';
+var CACHE_NAME = 'tms-cache-v16';
 var STATIC_ASSETS = [
     '/', '/index.html',
     '/style.css', '/templates.css',
