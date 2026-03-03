@@ -1,10 +1,15 @@
 // TailorMeSwiftly Service Worker — PWA Offline Support
-var CACHE_NAME = 'tms-cache-v16';
+var CACHE_NAME = 'tms-cache-v4';
 var STATIC_ASSETS = [
-    '/', '/index.html',
-    '/style.css', '/templates.css',
-    '/auth.js', '/components.js', '/error-utils.js', '/brand-config.js',
-    '/favicon.svg', '/manifest.json'
+    '/', '/index.html', '/dashboard.html', '/app.html', '/results.html', '/login.html',
+    '/signup.html', '/pricing.html', '/help.html', '/account.html',
+    '/style.css', '/templates.css', '/auth.js', '/app.js', '/results.js',
+    '/components.js', '/error-utils.js', '/brand-config.js',
+    '/shared/brand-config.js', '/shared/analytics.js', '/shared/sticky-header.js',
+    '/shared/confetti.js', '/shared/onboarding.js', '/shared/command-palette.js',
+    '/shared/streaks.js', '/shared/tone-selector.js', '/shared/notifications.js',
+    '/shared/progressive-profiling.js', '/shared/router.js', '/shared/billing.js',
+    '/logo.png', '/favicon.svg', '/manifest.json'
 ];
 
 self.addEventListener('install', function (event) {

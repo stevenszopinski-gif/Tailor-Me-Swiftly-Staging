@@ -128,7 +128,6 @@
             { href: P + 'pricing.html', label: 'Pricing' },
             { href: P + 'blog.html', label: 'Blog' },
             { href: P + 'help.html', label: 'Help' },
-            { href: P + 'feedback.html', label: 'Feedback' },
             { href: P + 'terms.html', label: 'Terms & Conditions' },
             { href: P + 'privacy.html', label: 'Privacy Policy' },
             { href: P + 'security.html', label: 'Security Policy' }
@@ -139,8 +138,8 @@
         }).join(' | ');
 
         footer.innerHTML =
-            '<p>' + linksHtml + '</p>' +
-            '<p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>';
+            '<p>&copy; ' + new Date().getFullYear() + ' TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>' +
+            '<p>' + linksHtml + '</p>';
     }
 
     // ── Internal Cross-Links (Sprint 0.3) ──
@@ -171,43 +170,12 @@
         container.before(linkBar);
     }
 
-    // ── Offline Indicator ──
-    function initOfflineBanner() {
-        var banner = document.createElement('div');
-        banner.className = 'offline-banner';
-        banner.setAttribute('role', 'alert');
-        banner.textContent = 'You are offline. Some features may be unavailable.';
-        document.body.prepend(banner);
-
-        function update() { banner.classList.toggle('visible', !navigator.onLine); }
-        window.addEventListener('online', update);
-        window.addEventListener('offline', update);
-        update();
-    }
-
-    // ── Avatar Keyboard Accessibility ──
-    function initAvatarKeyboard() {
-        var avatar = document.getElementById('user-avatar');
-        if (!avatar) return;
-        avatar.setAttribute('tabindex', '0');
-        avatar.setAttribute('role', 'button');
-        avatar.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                var dd = document.getElementById('avatar-dropdown');
-                if (dd) dd.classList.toggle('hidden');
-            }
-        });
-    }
-
     // Auto-init when DOM is ready
     function init() {
         initDropdown();
         initProductSwitcher();
         initFooter();
         initCrossLinks();
-        initOfflineBanner();
-        initAvatarKeyboard();
     }
 
     if (document.readyState === 'loading') {

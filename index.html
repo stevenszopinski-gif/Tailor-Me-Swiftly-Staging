@@ -1,78 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- DEPLOY_VER: 101-FEEDBACK-PRESENT -->
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; frame-src https://js.stripe.com;">
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
   <meta name="description"
     content="TailorMeSwiftly is an AI-powered career platform. Tailor your applications, build skills, and get personalized news briefings — all in one place.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TailorMeSwiftly">
-  <meta property="og:title" content="TailorMeSwiftly.com | AI Career Platform — Applications, Learning & News">
-  <meta property="og:description"
-    content="TailorMeSwiftly is an AI-powered career platform. Tailor your applications, build skills, and get personalized news briefings — all in one place.">
   <meta property="og:url" content="https://tailormeswiftly.com/">
   <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
   <link rel="canonical" href="https://tailormeswiftly.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.json">
   <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
   <title>TailorMeSwiftly.com | AI Career Platform — Applications, Learning & News</title>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "TailorMeSwiftly",
-    "url": "https://tailormeswiftly.com",
-    "description": "AI-powered career platform with 26 tools for resume tailoring, cover letters, mock interviews, salary negotiation, and personalized news briefings.",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "offers": [
-      {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "name": "Free",
-        "description": "2 resume tailors/month, 3 briefings/week, 1 free use of every tool"
-      },
-      {
-        "@type": "Offer",
-        "price": "9.99",
-        "priceCurrency": "USD",
-        "name": "Pro",
-        "description": "Unlimited access to all 26 AI tools",
-        "priceSpecification": {
-          "@type": "UnitPriceSpecification",
-          "price": "9.99",
-          "priceCurrency": "USD",
-          "billingDuration": "P1M"
-        }
-      }
-    ],
-    "creator": {
-      "@type": "Organization",
-      "name": "Tailored Services LLC",
-      "url": "https://tailormeswiftly.com"
-    },
-    "featureList": [
-      "AI Resume Tailoring",
-      "ATS Score Analysis",
-      "Cover Letter Generator",
-      "AI Mock Interviews with Voice",
-      "Salary Negotiation Practice",
-      "Personalized News Briefings",
-      "AI Podcast Audio Briefings"
-    ]
-  }
-  </script>
   <link rel="stylesheet" href="style.css?v=17">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,13 +29,9 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print"
-    onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* ─── Homepage Styles ─── */
     .hp-main {
@@ -101,7 +46,7 @@
       padding: 4rem 0 3rem;
     }
 
-    .hp-hero h1 {
+    .hp-hero h2 {
       font-size: clamp(2.2rem, 5.5vw, 3.6rem);
       font-weight: 700;
       line-height: 1.1;
@@ -109,7 +54,7 @@
       letter-spacing: -0.03em;
     }
 
-    .hp-hero h1 .hp-gradient {
+    .hp-hero h2 .hp-gradient {
       background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -391,7 +336,7 @@
         display: none;
       }
 
-      .hp-hero h1 {
+      .hp-hero h2 {
         font-size: 1.8rem;
       }
 
@@ -462,15 +407,15 @@
   <div class="app-container" style="min-height: auto;">
     <!-- Header -->
     <header class="app-header" role="banner">
-      <a href="index.html" class="logo maker-mark" style="text-decoration:none;color:inherit;">
+      <div class="logo maker-mark">
         <span class="mark-border">
           <span class="mark-text">TMS</span>
         </span>
         <div class="mark-name">
           <span class="mark-script">TailorMeSwiftly</span>
-          <span class="mark-sub">BESPOKE CAREER ENGINE</span>
+          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
         </div>
-      </a>
+      </div>
       <div class="header-actions" style="display: flex; gap: 0.25rem; align-items: center;">
         <a href="pricing.html" title="Pricing"
           style="text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 500; padding: 0.4rem 0.6rem; border-radius: 8px; transition: color 0.2s;">
@@ -491,7 +436,8 @@
           <img id="user-avatar" aria-label="User menu" src="" alt="Profile"
             style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
             onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-          <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <span id="user-greeting"
+            style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
 
           <div id="avatar-dropdown" class="avatar-dropdown hidden">
             <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
@@ -521,7 +467,7 @@
       <p
         style="font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; border-bottom: 1px solid var(--text-primary); padding-bottom: 1rem; display: inline-block;">
         TailorMeSwiftly // Career Command Center [v2.0]</p>
-      <h1 class="display-xl">Custom AI Tools,<br>Tailored for Your<br><span>Career Growth.</span></h1>
+      <h2 class="display-xl">Custom AI Tools,<br>Tailored for Your<br><span>Career Growth.</span></h2>
 
       <div
         style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; justify-content: space-between; border-top: 1px solid var(--text-primary); padding-top: 2rem; margin-top: 4rem;">
@@ -545,8 +491,8 @@
     <section style="padding: 0 2rem;">
       <div class="asym-product-hub">
         <a href="app.html" class="asym-card asym-card-main"
-          style="text-decoration: none; background: #2C302E; color: #F4F1ED;">
-          <div class="label" style="color: #8A9A86;">
+          style="text-decoration: none; color: inherit; background: var(--text-primary); color: #F4F1ED;">
+          <div class="label" style="color: var(--primary-color);">
             <span>[01] Core</span>
             <span>LIVE</span>
           </div>
@@ -554,7 +500,8 @@
             style="width: 100%; filter: grayscale(100%); mix-blend-mode: screen; opacity: 0.8; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.2);"
             alt="App UI">
           <h3 style="color: #F4F1ED; font-size: 2.5rem;">Tailor My Application</h3>
-          <p style="color: rgba(244, 241, 237, 0.7); font-size: 1.1rem; max-width: 400px; margin-bottom: 2rem;">
+          <p
+            style="color: rgba(244, 241, 237, 0.7); font-size: 1.1rem; max-width: 400px; margin-bottom: 2rem;">
             Our flagship application engine. Instantly rewrite your resume, draft bespoke cover letters, and
             run simulated voice interviews based on the exact job description.
           </p>
@@ -573,22 +520,25 @@
             A daily 5-minute technical briefing curated specifically for your career goals, bypassing
             generic headlines for actionable intelligence. Listen as a podcast.
           </p>
-          <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">READ
+          <span
+            style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">READ
             BRIEFING &rarr;</span>
         </a>
 
-        <a href="learning.html" class="asym-card" style="text-decoration: none; color: #2C302E; background: #EAE6DF;">
-          <div class="label" style="color: #707572;">
+        <a href="learning.html" class="asym-card"
+          style="text-decoration: none; color: inherit; background: #EAE6DF;">
+          <div class="label" style="color: var(--text-secondary);">
             <span>[03] Upskill</span>
             <span>WAITLIST</span>
           </div>
-          <h3 style="font-size: 1.8rem; letter-spacing: -0.02em; color: #2C302E;">Tailor My
+          <h3 style="font-size: 1.8rem; letter-spacing: -0.02em; color: var(--text-primary);">Tailor My
             Learning</h3>
-          <p style="color: #555; line-height: 1.5; margin-bottom: 2rem;">
+          <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
             A hyper-personalized curriculum mapping exactly what you need to learn to bridge the gap to your
             next senior role.
           </p>
-          <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">JOIN
+          <span
+            style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">JOIN
             WAITLIST &rarr;</span>
         </a>
       </div>
@@ -598,7 +548,8 @@
 
     <!-- 1. Tailor My Application -->
     <section style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); margin: 0 -1.5rem;">
-      <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
+      <div
+        style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
         <div style="flex: 1; min-width: 300px; text-align: left;">
           <div
             style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(138,154,134,0.15);color:#8A9A86;margin-bottom:1rem;">
@@ -606,7 +557,8 @@
           </div>
           <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Build Bulletproof <span
               style="color:#8A9A86;">Applications</span></h2>
-          <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          <p
+            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
             Stop sending generic resumes into the void. Our AI engine instantly tailors your application
             materials to match any job description perfectly, significantly boosting your ATS score and
             interview rate.
@@ -625,7 +577,7 @@
             the App Generator <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         <div style="flex: 1; min-width: 300px; position: relative;">
-          <img src="app-mockup.png" alt="Tailor My Application UI" loading="lazy"
+          <img src="app-mockup.png" alt="Tailor My Application UI"
             style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
         </div>
       </div>
@@ -643,7 +595,8 @@
           </div>
           <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Hyper-Personalized <span
               style="color:#9B8EA6;">Upskilling</span></h2>
-          <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          <p
+            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
             Stop taking generic 40-hour courses. We build custom, dynamic curricula that bridge the exact
             gap between your current knowledge and your ultimate career goals.
           </p>
@@ -661,7 +614,7 @@
             the Waitlist <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         <div style="flex: 1; min-width: 300px; position: relative;">
-          <img src="learning-mockup.png" alt="Tailor My Learning Dashboard" loading="lazy"
+          <img src="learning-mockup.png" alt="Tailor My Learning Dashboard"
             style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
         </div>
       </div>
@@ -670,7 +623,8 @@
     <!-- 3. Tailor The News -->
     <section
       style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); border-bottom: 1px solid var(--panel-border); margin: 0 -1.5rem 3rem;">
-      <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
+      <div
+        style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
         <div style="flex: 1; min-width: 300px; text-align: left;">
           <div
             style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(123,154,180,0.15);color:#7B9AB4;margin-bottom:1rem;">
@@ -678,7 +632,8 @@
           </div>
           <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Your Daily <span
               style="color:#7B9AB4;">Personalized News Briefing</span></h2>
-          <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          <p
+            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
             Stay ahead of trends without the noise. Our tool scours thousands of articles and newsletters to
             create a 5-minute technical digest tailored precisely to you.
           </p>
@@ -696,7 +651,7 @@
             Your Briefing <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         <div style="flex: 1; min-width: 300px; position: relative;">
-          <img src="news-mockup.png" alt="Tailor The News Interface" loading="lazy"
+          <img src="news-mockup.png" alt="Tailor The News Interface"
             style="width: 100%; border-radius: 4px; box-shadow: var(--brutal-shadow); border: 1px solid rgba(255,255,255,0.1);">
         </div>
       </div>
@@ -743,7 +698,7 @@
               <h5>Cover Letter</h5>
               <p>Tailored narrative for every role</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D4A574,#E3C8A0);"><i
@@ -752,7 +707,7 @@
               <h5>Intro Email</h5>
               <p>Outreach draft with company intel</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#A8B8A4);"><i
@@ -785,7 +740,7 @@
               <h5>Prove It</h5>
               <p>Turn vague bullets into metrics</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#C4B5CF);"><i
@@ -794,7 +749,7 @@
               <h5>Video Intro</h5>
               <p>60s script + teleprompter</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
         </div>
       </div>
@@ -814,7 +769,7 @@
               <h5>Toxic Culture Radar</h5>
               <p>Toxicity score + layoff risk</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#C4B5CF,#9B8EA6);"><i
@@ -823,7 +778,7 @@
               <h5>Ghosting Predictor</h5>
               <p>Detect ghost jobs instantly</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#D99B82,#C4A060);"><i
@@ -840,7 +795,7 @@
               <h5>Comp Decoder</h5>
               <p>True offer value with COL</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7B8FA8,#A3B1C8);"><i
@@ -849,7 +804,7 @@
               <h5>Day in the Life</h5>
               <p>Realistic day simulation</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#7BA5B4,#5F8A99);"><i
@@ -858,7 +813,7 @@
               <h5>Skills Tracker</h5>
               <p>Rising vs decaying skills</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
         </div>
       </div>
@@ -878,7 +833,7 @@
               <h5>Mock Interview</h5>
               <p>10 questions + AI voice + feedback</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#8A9A86);"><i
@@ -887,7 +842,7 @@
               <h5>Salary Negotiator</h5>
               <p>Voice-to-voice with AI HR rep</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
 
           <div class="hp-tool-card">
@@ -897,7 +852,7 @@
               <h5>Trial By Fire</h5>
               <p>Custom coding challenge + IDE</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#8A7B96);"><i
@@ -906,7 +861,7 @@
               <h5>Reverse Interview</h5>
               <p>Probing questions for them</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#5A6B56);"><i
@@ -915,7 +870,7 @@
               <h5>Thank-You Engine</h5>
               <p>3 variants of perfect follow-up</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
         </div>
       </div>
@@ -935,7 +890,7 @@
               <h5>Auto-App Agent</h5>
               <p>AI finds + tailors matching jobs</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#3A3F4A,#4A505C);"><i
@@ -944,7 +899,7 @@
               <h5>Shadow Jobs</h5>
               <p>Monitor career pages early</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#8A9A86,#6E7E6A);"><i
@@ -953,7 +908,7 @@
               <h5>Referral Mapper</h5>
               <p>Backdoor referrals + scripts</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
 
           <div class="hp-tool-card">
@@ -963,7 +918,7 @@
               <h5>Guerrilla Tactics</h5>
               <p>Bypass ATS, reach decision makers</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
           <div class="hp-tool-card">
             <div class="hp-tool-icon" style="background:linear-gradient(135deg,#9B8EA6,#6E5F7A);"><i
@@ -972,7 +927,7 @@
               <h5>Rejection Reverser</h5>
               <p>Turn rejections into networking</p>
             </div>
-
+            <span class="hp-premium-tag">PRO</span>
           </div>
         </div>
       </div>
@@ -1053,11 +1008,11 @@
         </div>
         <div
           style="background: rgba(138, 154, 134, 0.1); border: 1px solid rgba(138, 154, 134, 0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
-          <strong style="color: var(--text-primary); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;"><i
+          <strong
+            style="color: var(--text-primary); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;"><i
               class="fa-solid fa-bolt" style="color: #8A9A86; margin-right: 0.4rem;"></i> Instantly
             available in your dashboard</strong>
-          <span style="font-size: 0.8rem; color: var(--text-secondary);">Sign in to access this tool and our full suite
-            of
+          <span style="font-size: 0.8rem; color: var(--text-secondary);">Sign in to access this tool and our full suite of
             AI career tools.</span>
         </div>
         <button onclick="window.location.href='login.html?signup=true'" class="btn primary-btn" style="width: 100%;"><i
@@ -1095,23 +1050,27 @@
     </div>
   </div>
 
-
+  
 
   <!-- Site Footer -->
   <footer class="site-footer" role="contentinfo">
-    <p><a href="pricing.html">Pricing</a> | <a href="blog.html">Blog</a> | <a href="help.html">Help</a> | <a
-        href="feedback.html">Feedback</a> | <a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy
-        Policy</a> | <a href="security.html">Security Policy</a></p>
-    <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
+    <p>&copy; 2026 TailorMeSwiftly.com. One platform for your entire career trajectory.</p>
+    <p><a href="pricing.html">Pricing</a> | <a href="help.html">Help Center</a> | <a href="terms.html">Terms & Conditions</a> | <a
+        href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
   </footer>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-  <script src="brand-config.js?v=2"></script>
-  <script src="auth.js?v=16"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
   <script src="components.js"></script>
   <script src="error-utils.js"></script>
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=6"></script>
+  <script src="shared/analytics.js"></script>
+  <script src="shared/sticky-header.js"></script>
+  <script src="shared/command-palette.js"></script>
+  <script src="shared/onboarding.js"></script>
+  <script src="shared/router.js"></script>
   <script>
     // Register Service Worker for PWA
     if ('serviceWorker' in navigator) {

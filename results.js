@@ -13,21 +13,24 @@ const TOOL_TIERS = {
     'results': 'free',
     'history': 'free',
 
-    // Teaser — 1 free use, then locked (all tools get a free try)
-    'interview-prep': 'teaser',
-    'salary-negotiator': 'teaser',
-    'cover-letter': 'teaser',
-    'pain-letter': 'teaser',
-    'hook-generator': 'teaser',
-    'outreach': 'teaser',
-    'toxic-radar': 'teaser',
-    'comp-decoder': 'teaser',
-    'shadow-jobs': 'teaser',
-    'guerrilla-tactics': 'teaser',
-    'referral-mapper': 'teaser',
-    'auto-app': 'teaser',
-    'thank-you': 'teaser',
+    // Premium-only
+    'interview-prep': 'premium',
+    'salary-negotiator': 'premium',
+    'cover-letter': 'premium',
+    'pain-letter': 'premium',
+    'hook-generator': 'premium',
+    'outreach': 'premium',
+    'toxic-radar': 'premium',
+    'comp-decoder': 'premium',
+    'shadow-jobs': 'premium',
+    'guerrilla-tactics': 'premium',
+    'referral-mapper': 'premium',
+    'auto-app': 'premium',
+    'thank-you': 'premium',
+
+    // Teaser — 1 free use, then locked
     'ghosting-predictor': 'teaser',
+    'linkedin-sync': 'teaser',
     'video-intro': 'teaser',
     'skills-tracker': 'teaser',
     'day-in-life': 'teaser',
@@ -64,15 +67,6 @@ async function checkToolAccess(slug) {
 
     if (!profile) return { allowed: true };
     if (profile.plan === 'premium') return { allowed: true };
-
-    // Check unified 'pro' subscription
-    const { data: proSub } = await window.supabaseClient
-        .from('user_subscriptions')
-        .select('plan')
-        .eq('user_id', user.id)
-        .eq('product_id', 'pro')
-        .maybeSingle();
-    if (proSub?.plan === 'premium') return { allowed: true };
 
     if (tier === 'premium') return { allowed: false, reason: 'premium' };
 
@@ -121,6 +115,7 @@ const TOOL_PREVIEWS = {
     'auto-app': { icon: 'fa-robot', name: 'Auto-App Agent', desc: 'AI scans job boards, finds matching roles, and generates tailored applications automatically.' },
     'thank-you': { icon: 'fa-envelope-circle-check', name: 'Thank-You Engine', desc: '3 variants of the perfect post-interview follow-up, personalized to your conversation.' },
     'ghosting-predictor': { icon: 'fa-ghost', name: 'Ghosting Predictor', desc: 'Detect ghost jobs and stale listings instantly so you don\'t waste time on dead-end applications.' },
+    'linkedin-sync': { icon: 'fa-linkedin', name: 'LinkedIn Sync', desc: 'Pull your LinkedIn profile and auto-populate resume fields for faster tailoring.' },
     'video-intro': { icon: 'fa-video', name: 'Video Intro', desc: '60-second video intro script with built-in teleprompter — make a memorable first impression.' },
     'skills-tracker': { icon: 'fa-chart-line', name: 'Skills Tracker', desc: 'See which of your skills are rising in demand vs decaying, with market trend data.' },
     'day-in-life': { icon: 'fa-sun', name: 'Day in the Life', desc: 'Realistic simulation of a typical day in the role — meetings, tasks, and culture.' },
@@ -135,8 +130,9 @@ function showToolUpgradeModal(reason, slug) {
     document.getElementById('tool-upgrade-modal')?.remove();
     if (!slug) slug = currentToolSlug();
 
+    const isPremiumLock = (reason === 'premium');
+    const title = isPremiumLock ? 'Premium Feature' : 'Free Trial Used';
     const preview = TOOL_PREVIEWS[slug];
-    const title = preview ? `You've experienced ${preview.name}` : 'Free Trial Used';
 
     // Build tool preview block
     let previewHtml = '';
@@ -154,12 +150,12 @@ function showToolUpgradeModal(reason, slug) {
     // Build highlights list
     const highlights = `
         <div style="text-align:left;margin-bottom:1.25rem;">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">Go Pro and unlock:</p>
+            <p style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">Premium includes:</p>
             <div style="display:flex;flex-direction:column;gap:0.3rem;">
-                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Unlimited resume tailoring</span>
-                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>All 26 AI tools, unlimited</span>
-                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Daily news briefings + podcast</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Unlimited generations</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>All 24 AI-powered tools</span>
                 <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Voice interviews & negotiation</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Company intelligence suite</span>
             </div>
         </div>`;
 
@@ -175,7 +171,7 @@ function showToolUpgradeModal(reason, slug) {
             ${previewHtml}
             ${highlights}
             <button class="btn primary-btn" onclick="toolCreateCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
-                <i class="fa-solid fa-bolt"></i> Go Pro — $9.99/mo
+                <i class="fa-solid fa-bolt"></i> Upgrade to Premium — $9.99/mo
             </button>
             <button class="btn ghost-btn" onclick="this.closest('#tool-upgrade-modal').remove();window.location.href='results.html';" style="width:100%;min-height:44px;">
                 Back to Dashboard
@@ -263,6 +259,7 @@ function _gemCacheHash(str) {
             try {
                 const hit = sessionStorage.getItem(key);
                 if (hit) {
+                    console.log('[Gemini Cache] HIT', key);
                     return { data: JSON.parse(hit), error: null };
                 }
             } catch { }
@@ -306,6 +303,7 @@ function _gemCacheHash(str) {
             if (!res.error && res.data?.candidates?.[0]) {
                 try {
                     sessionStorage.setItem(key, JSON.stringify(res.data));
+                    console.log('[Gemini Cache] STORED', key);
                 } catch (e) {
                     // sessionStorage full — evict oldest tool caches
                     if (e.name === 'QuotaExceededError') {
@@ -708,48 +706,16 @@ async function saveGenerationToSupabase(outputs) {
             missing_keywords: outputs.missingKeywords || []
         };
 
-        let data, error;
+        // If we already have an ID, update the existing row
         if (outputs.generationId) {
-            // Try updating existing row (no .select() to avoid 406 on 0-row match)
-            const upd = await window.supabaseClient
-                .from('generations')
-                .update(row)
-                .eq('id', outputs.generationId)
-                .eq('user_id', user.id);
-            if (upd.error) {
-                // Update failed — stale ID, insert fresh
-                outputs.generationId = null;
-                ({ data, error } = await window.supabaseClient
-                    .from('generations')
-                    .insert(row)
-                    .select()
-                    .single());
-            } else {
-                // Update succeeded (or matched 0 rows silently) — fetch the row
-                ({ data, error } = await window.supabaseClient
-                    .from('generations')
-                    .select()
-                    .eq('id', outputs.generationId)
-                    .eq('user_id', user.id)
-                    .maybeSingle());
-                if (!data) {
-                    // Row didn't exist — insert fresh
-                    outputs.generationId = null;
-                    ({ data, error } = await window.supabaseClient
-                        .from('generations')
-                        .insert(row)
-                        .select()
-                        .single());
-                }
-            }
-        } else {
-            // Insert new row
-            ({ data, error } = await window.supabaseClient
-                .from('generations')
-                .insert(row)
-                .select()
-                .single());
+            row.id = outputs.generationId;
         }
+
+        const { data, error } = await window.supabaseClient
+            .from('generations')
+            .upsert(row, { onConflict: 'id' })
+            .select()
+            .single();
 
         if (error) { console.error('Save generation error:', error); return null; }
 
@@ -788,23 +754,6 @@ async function updateGenerationField(generationId, fields) {
 }
 
 // Shared auth header update (show user avatar if logged in)
-// Auto-inject AI-generated content disclosure on tool output pages
-function injectAIDisclosure() {
-    // Skip the results hub — it has its own disclosure
-    if (/results\.html/.test(location.pathname)) return;
-    // Skip if already present
-    if (document.getElementById('ai-disclosure-banner')) return;
-    const anchor = document.querySelector('.result-header') || document.querySelector('.result-title');
-    if (!anchor) return;
-    const notice = document.createElement('div');
-    notice.id = 'ai-disclosure-banner';
-    notice.style.cssText = 'text-align:center;margin:0.5rem 0 1rem;padding:0.45rem 0.75rem;border-radius:6px;background:rgba(var(--surface-color-rgb,30,30,30),0.5);border:1px solid rgba(var(--border-color-rgb,60,60,60),0.3);';
-    notice.innerHTML = '<span style="font-size:0.75rem;color:var(--text-secondary);"><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.25rem;color:var(--primary-color);"></i>AI-generated content — review and verify before use</span>';
-    // Insert after the result-header or result-title
-    anchor.insertAdjacentElement('afterend', notice);
-}
-document.addEventListener('DOMContentLoaded', injectAIDisclosure);
-
 async function initResultAuth() {
     if (!window.supabaseClient) {
         // Poll until client is ready (up to 5s)

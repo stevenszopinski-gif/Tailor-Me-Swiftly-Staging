@@ -2,28 +2,9 @@ const THEME_STORAGE = window.TMS_BRAND?.themeStorageKey || 'tms_theme_preference
 const API_STORAGE = 'ats_api_config';
 const PREFS_STORAGE = 'ats_user_writing_preferences';
 
-// Supabase edge function URL for fetching job descriptions.
-// The anon key below is a publishable key — safe for client-side use.
-// Data access is protected by Row-Level Security (RLS) policies, not key secrecy.
+// Supabase edge function URL for fetching job descriptions
 const SUPABASE_FETCH_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/fetch-url';
 const SUPABASE_ANON_KEY = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
-
-// Clipboard helper with fallback for older browsers
-function _copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        return navigator.clipboard.writeText(text);
-    }
-    return new Promise(function(resolve, reject) {
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.cssText = 'position:fixed;left:-9999px;';
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); resolve(); }
-        catch (e) { reject(e); }
-        finally { ta.remove(); }
-    });
-}
 
 // Sanitize AI-generated HTML before injection
 function _sanitize(html) {
@@ -365,10 +346,9 @@ function attachEventListeners() {
         });
         if (el.closeLinkedinBtn) el.closeLinkedinBtn.addEventListener('click', () => el.linkedinModal.classList.remove('visible'));
         if (el.copyLinkedinBtn) el.copyLinkedinBtn.addEventListener('click', () => {
-            _copyToClipboard(el.linkedinOutput.innerText || el.linkedinOutput.textContent).then(() => {
-                el.copyLinkedinBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-                setTimeout(() => { el.copyLinkedinBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy to Clipboard'; }, 2000);
-            });
+            navigator.clipboard.writeText(el.linkedinOutput.innerText || el.linkedinOutput.textContent);
+            el.copyLinkedinBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            setTimeout(() => { el.copyLinkedinBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy to Clipboard'; }, 2000);
         });
     }
 
@@ -624,7 +604,6 @@ Keep real metrics. Max 5 jobs, 3 education, 15 skills. NEVER invent email, phone
 }
 
 async function extractTextFromPDF(file) {
-    if (typeof pdfjsLib === 'undefined') await window._loadPdfJs();
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     let text = '';
@@ -639,7 +618,6 @@ async function extractTextFromPDF(file) {
 }
 
 async function extractTextFromDOCX(file) {
-    if (typeof mammoth === 'undefined') await window._loadMammoth();
     const arrayBuffer = await file.arrayBuffer();
     const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
     return result.value;
@@ -722,7 +700,7 @@ function handleCopy(e) {
     const txt = targetEl.innerText || targetEl.textContent;
 
     if (txt) {
-        _copyToClipboard(txt).then(() => {
+        navigator.clipboard.writeText(txt).then(() => {
             const temp = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
             btn.style.color = 'var(--success-color)';
@@ -734,13 +712,12 @@ function handleCopy(e) {
     }
 }
 
-async function handleDownloadPDF(e) {
+function handleDownloadPDF(e) {
     const btn = e.target.closest('button');
     const targetId = btn.dataset.target;
     const targetEl = document.getElementById(targetId);
 
     if (!targetEl.innerHTML.trim()) return;
-    if (typeof html2pdf === 'undefined') await window._loadHtml2Pdf();
 
     // Generate dynamic filename
     const dateStr = new Date().toISOString().split('T')[0];
@@ -910,31 +887,15 @@ async function pollForPremiumStatus() {
         try {
             var sess = await window.supabaseClient.auth.getSession();
             if (!sess.data.session) { clearInterval(poll); return; }
-            var userId = sess.data.session.user.id;
-            var isPro = false;
-
-            // Check unified 'pro' subscription
-            var { data: proSub } = await window.supabaseClient
-                .from('user_subscriptions')
+            var { data: profile } = await window.supabaseClient
+                .from('user_profiles')
                 .select('plan')
-                .eq('user_id', userId)
-                .eq('product_id', 'pro')
+                .eq('user_id', sess.data.session.user.id)
                 .maybeSingle();
-            if (proSub?.plan === 'premium') isPro = true;
-
-            // Fallback to legacy user_profiles
-            if (!isPro) {
-                var { data: profile } = await window.supabaseClient
-                    .from('user_profiles')
-                    .select('plan')
-                    .eq('user_id', userId)
-                    .maybeSingle();
-                if (profile?.plan === 'premium') isPro = true;
-            }
-
-            if (isPro) {
+            if (profile?.plan === 'premium') {
                 clearInterval(poll);
                 showGenerationsBadge();
+                // Clean up URL
                 var url = new URL(window.location);
                 url.searchParams.delete('session_id');
                 history.replaceState(null, '', url);
@@ -955,24 +916,12 @@ async function showGenerationsBadge() {
             .eq('user_id', session.user.id)
             .maybeSingle();
 
-        // Check Pro subscription
-        let isPro = profile?.plan === 'premium';
-        if (!isPro) {
-            const { data: proSub } = await window.supabaseClient
-                .from('user_subscriptions')
-                .select('plan')
-                .eq('user_id', session.user.id)
-                .eq('product_id', 'pro')
-                .maybeSingle();
-            if (proSub?.plan === 'premium') isPro = true;
-        }
-
         const badge = document.getElementById('gen-remaining-badge');
         const text = document.getElementById('gen-remaining-text');
         if (!badge || !text) return;
 
-        if (!profile || isPro) {
-            text.textContent = 'Unlimited generations (Pro)';
+        if (!profile || profile.plan === 'premium') {
+            text.textContent = 'Unlimited generations (Premium)';
             badge.style.display = 'block';
             return;
         }
@@ -982,10 +931,10 @@ async function showGenerationsBadge() {
         const now = new Date();
         const monthDiff = (now.getFullYear() - resetAt.getFullYear()) * 12 + (now.getMonth() - resetAt.getMonth());
         const used = monthDiff >= 1 ? 0 : (profile.generation_count || 0);
-        const remaining = Math.max(0, 2 - used);
+        const remaining = Math.max(0, 1 - used);
 
         text.textContent = remaining > 0
-            ? remaining + ' free generation' + (remaining > 1 ? 's' : '') + ' remaining this month'
+            ? remaining + ' free generation remaining this month'
             : 'Free generation used — upgrade for unlimited';
         badge.style.display = 'block';
     } catch (e) { /* silent */ }
@@ -1005,17 +954,8 @@ async function checkGenerationLimit() {
 
     if (!profile) return true; // no profile row yet — allow
 
-    // Pro/Premium users: unlimited
+    // Premium users: unlimited
     if (profile.plan === 'premium') return true;
-
-    // Check unified 'pro' subscription
-    const { data: proSub } = await window.supabaseClient
-        .from('user_subscriptions')
-        .select('plan')
-        .eq('user_id', session.user.id)
-        .eq('product_id', 'pro')
-        .maybeSingle();
-    if (proSub?.plan === 'premium') return true;
 
     // Monthly reset check
     const resetAt = new Date(profile.generation_reset_at);
@@ -1028,8 +968,8 @@ async function checkGenerationLimit() {
         return true;
     }
 
-    // Free tier: 2 generations/month
-    if (profile.generation_count >= 2) return false;
+    // Free tier: 1 generation/month
+    if (profile.generation_count >= 1) return false;
     return true;
 }
 
@@ -1066,13 +1006,13 @@ function showUpgradeModal() {
     overlay.innerHTML = `
         <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;padding:2rem;max-width:420px;width:90%;text-align:center;">
             <i class="fa-solid fa-crown" style="font-size:2.5rem;color:#f59e0b;margin-bottom:1rem;display:block;"></i>
-            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">You've used your 2 free tailors</h2>
+            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Free Limit Reached</h2>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
-                You've experienced real ATS optimization.<br>
-                Go Pro for <strong>unlimited</strong> generations and all 26 AI tools.
+                You've used your free generation this month.<br>
+                Upgrade to Premium for <strong>unlimited</strong> generations.
             </p>
             <button class="btn primary-btn" onclick="createCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
-                <i class="fa-solid fa-bolt"></i> Go Pro — $9.99/mo
+                <i class="fa-solid fa-bolt"></i> Upgrade to Premium
             </button>
             <button class="btn ghost-btn" onclick="this.closest('#upgrade-modal-overlay').remove()" style="width:100%;min-height:44px;">
                 Maybe Later
@@ -1097,7 +1037,7 @@ function showLoginPrompt() {
             <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Account Required</h2>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
                 You need a free account to generate documents and run analyses. 
-                <br>Sign up to get 2 free generations every month!
+                <br>Sign up to get 1 free generation every month!
             </p>
             <button class="btn primary-btn" onclick="window.location.href='signup.html'" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
                 <i class="fa-solid fa-user-plus"></i> Create Free Account
@@ -1218,7 +1158,7 @@ OUTPUT FORMAT: Exactly 2 fenced code blocks in order. NO other text.
                     model: state.model,
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: userPrompt }] }],
-                    generationConfig: { temperature: 0.7, maxOutputTokens: 3072 }
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
                 }
             }),
             90000 // 90 second timeout for main generation
@@ -1271,6 +1211,7 @@ async function parseAndRedirect(content) {
     let meta = {};
 
     try { meta = JSON.parse(matches[1] || '{}'); } catch (e) {
+        console.warn('Could not parse job metadata:', e);
         var _toast = document.createElement('div');
         _toast.className = 'fade-in-up';
         _toast.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:var(--panel-bg);border:1px solid var(--warning-color);border-radius:var(--radius-lg,8px);padding:0.75rem 1.25rem;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.85rem;color:var(--text-secondary);max-width:360px;';
@@ -1423,7 +1364,7 @@ async function processRefinement() {
                 model: state.model,
                 systemInstruction: { parts: [{ text: systemPrompt }] },
                 contents: contents,
-                generationConfig: { temperature: 0.7, maxOutputTokens: 3072 }
+                generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
             }
         });
 
@@ -1664,7 +1605,7 @@ function handleShare() {
         const payload = JSON.stringify({ r: resumeHtml, c: coverHtml });
         const encoded = btoa(unescape(encodeURIComponent(payload)));
         const url = `${location.origin}${location.pathname}#share=${encoded}`;
-        _copyToClipboard(url).then(() => showShareToast());
+        navigator.clipboard.writeText(url).then(() => showShareToast());
     } catch (e) {
         console.error('Share failed:', e);
     }
@@ -1962,7 +1903,7 @@ RULES:
                     model: 'gemini-3-flash-preview',
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: userPrompt }] }],
-                    generationConfig: { temperature: 0.1, maxOutputTokens: 3072 }
+                    generationConfig: { temperature: 0.1, maxOutputTokens: 4096 }
                 }
             }),
             30000

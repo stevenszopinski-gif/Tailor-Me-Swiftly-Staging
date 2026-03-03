@@ -5,86 +5,8 @@
     <link>https://tailormeswiftly.com</link>
     <description>Latest updates and new features for TailorMeSwiftly.com — the AI-powered resume tailoring tool.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 Mar 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 28 Feb 2026 12:00:00 GMT</lastBuildDate>
     <atom:link href="https://tailormeswiftly.com/feed.xml" rel="self" type="application/rss+xml"/>
-
-    <item>
-      <title>v6.0.0 — React Rewrite, Premium Analytics &amp; Full SPA</title>
-      <link>https://tailormeswiftly.com/updates.html</link>
-      <guid isPermaLink="false">tailormeswiftly-v6.0.0</guid>
-      <pubDate>Tue, 03 Mar 2026 12:00:00 GMT</pubDate>
-      <description><![CDATA[
-        <ul>
-          <li><strong>Complete React 19 Rewrite:</strong> The entire platform rebuilt as a single-page application using React 19, TypeScript 5.7, Vite 6, and React Router v7 with lazy-loaded code-split pages.</li>
-          <li><strong>Salary Benchmarking (Premium):</strong> Salary percentile charts, company comparisons, location cost-of-living adjustments, and AI-powered negotiation range recommendations with interactive Recharts visualization.</li>
-          <li><strong>Job Market Heatmap (Premium):</strong> Color-coded demand grid across 10+ metro regions with trending skills indicators and top-regions bar chart.</li>
-          <li><strong>Mock Interview with Webcam (Premium):</strong> Full interview simulator with live webcam, real-time speech-to-text, per-answer AI scoring, radar chart performance breakdown, and letter grades.</li>
-          <li><strong>Multi-Resume Profiles:</strong> Save and switch between multiple resume profiles with CRUD management, synced across devices.</li>
-          <li><strong>Collaborative Sharing:</strong> Generate public share links for results, valid for 30 days.</li>
-          <li><strong>Template Gallery:</strong> 15 professional resume templates with mini preview thumbnails.</li>
-          <li><strong>Export Menu:</strong> Download results as PDF, DOCX, TXT, or copy to clipboard from a single dropdown.</li>
-          <li><strong>Onboarding Tour:</strong> 5-step spotlight tour for first-time users.</li>
-          <li><strong>Rate Limiting &amp; Usage Meter:</strong> Server-side rate limits (5/hr free, 60/hr Pro) with real-time usage progress bar.</li>
-          <li><strong>PWA Support:</strong> Service worker with intelligent caching and home screen installation.</li>
-          <li><strong>Error Boundary:</strong> React Error Boundary with database logging for faster debugging.</li>
-          <li><strong>Legal &amp; Support Pages:</strong> Terms, Privacy, Security, Help Center (28 FAQs), and Feedback form — all React SPA pages.</li>
-          <li><strong>13 New AI Tools:</strong> Interview Prep, Cover Letter, Pain Letter, Hook Generator, Intro Email, Career Pivot, Cold Email, Prove It, Reverse Interview, Day in the Life, Video Intro, Rejection Reverser, and Ghosting Predictor.</li>
-        </ul>
-      ]]></description>
-    </item>
-
-    <item>
-      <title>v5.6.0 — Mobile Overhaul &amp; Performance</title>
-      <link>https://tailormeswiftly.com/updates.html</link>
-      <guid isPermaLink="false">tailormeswiftly-v5.6.0</guid>
-      <pubDate>Mon, 02 Mar 2026 12:00:00 GMT</pubDate>
-      <description><![CDATA[
-        <ul>
-          <li><strong>Mobile-First Resume Editor:</strong> The resume editor now collapses its sidebar navigation and editing panel into a compact overlay on phones, making the full editor usable on screens as small as 320px.</li>
-          <li><strong>Responsive Grids Everywhere:</strong> Score cards, insight panels, and output grids on the Results page now properly stack and resize on small screens.</li>
-          <li><strong>Touch-Friendly Targets:</strong> All dropdown items, buttons, and interactive controls now meet the 44px minimum touch target size on mobile.</li>
-          <li><strong>Ultra-Small Phone Support:</strong> Added a new 428px breakpoint with tighter padding, smaller modals, and optimized spacing for compact phones.</li>
-          <li><strong>Fixed Horizontal Scroll:</strong> Eliminated a viewport-wide horizontal scroll caused by background elements.</li>
-          <li><strong>iOS Zoom Prevention:</strong> Text inputs no longer trigger Safari's auto-zoom on focus.</li>
-          <li><strong>Faster App Loading:</strong> PDF.js, Mammoth, and html2pdf libraries now lazy-load only when needed.</li>
-          <li><strong>Server-Side Response Caching:</strong> Resume and interview prep calls now cache results server-side for instant repeat responses.</li>
-          <li><strong>Smarter Daily Briefings:</strong> Deduplication for users with identical interests and opt-in-only processing.</li>
-        </ul>
-      ]]></description>
-    </item>
-
-    <item>
-      <title>v5.5.0 — Briefing Settings, Tone Previews &amp; Smart Features</title>
-      <link>https://tailormeswiftly.com/updates.html</link>
-      <guid isPermaLink="false">tailormeswiftly-v5.5.0</guid>
-      <pubDate>Sun, 01 Mar 2026 12:00:00 GMT</pubDate>
-      <description><![CDATA[
-        <ul>
-          <li><strong>Briefing Settings Page:</strong> Full settings hub with Interests and Settings tabs for tone, delivery, sources, and more.</li>
-          <li><strong>Tone Preview Examples:</strong> Each briefing tone shows a live example snippet before generating.</li>
-          <li><strong>Follow-up Q&amp;A Chat:</strong> Ask follow-up questions about your briefing with multi-turn AI conversation.</li>
-          <li><strong>"Catch Me Up" Cards:</strong> Get a reverse-chronological timeline of how a story developed.</li>
-          <li><strong>Recommended Interests:</strong> Suggested topic chips including trending topics and picks from your job applications.</li>
-          <li><strong>Plain English Mode:</strong> Toggle to replace jargon and acronyms with simple language.</li>
-          <li><strong>Daily Email Briefing:</strong> Automatic email delivery of your briefing every morning.</li>
-        </ul>
-      ]]></description>
-    </item>
-
-    <item>
-      <title>v5.4.0 — Pill Navigation &amp; Free Tier Clarity</title>
-      <link>https://tailormeswiftly.com/updates.html</link>
-      <guid isPermaLink="false">tailormeswiftly-v5.4.0</guid>
-      <pubDate>Sat, 28 Feb 2026 12:00:00 GMT</pubDate>
-      <description><![CDATA[
-        <ul>
-          <li><strong>Pill-Based Navigation:</strong> The product switcher now uses a sleek pill-based segmented control.</li>
-          <li><strong>1 Free Application:</strong> Clarified the free tier — your first application is completely free.</li>
-          <li><strong>Dashboard Focus:</strong> The dashboard is now the central hub for the platform.</li>
-          <li><strong>UI Polish:</strong> Removed the persistent lock icon on the Tailor step when you have a free generation available.</li>
-        </ul>
-      ]]></description>
-    </item>
 
     <item>
       <title>v5.3.0 — Blog, Referrals, Accessibility &amp; Performance</title>

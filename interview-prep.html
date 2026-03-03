@@ -5,21 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; frame-src https://js.stripe.com;">
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
   <meta name="description"
     content="Practice mock interviews with AI-generated questions tailored to your target role. Get instant voice and text feedback on your answers.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TailorMeSwiftly">
-  <meta property="og:title" content="Interview Prep – TailorMeSwiftly">
-  <meta property="og:description"
-    content="Practice mock interviews with AI-generated questions tailored to your target role. Get instant voice and text feedback on your answers.">
   <meta property="og:url" content="https://tailormeswiftly.com/interview-prep.html">
   <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
   <link rel="canonical" href="https://tailormeswiftly.com/interview-prep.html">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.json">
   <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
@@ -29,16 +27,12 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   
   <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print"
-    onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </noscript>
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css?v=16">
   <link rel="stylesheet" href="templates.css">
-
+  
   <style>
     .result-page {
       max-width: 800px;
@@ -503,12 +497,6 @@
       }
     }
 
-    @media (max-width: 428px) {
-      .chat-container {
-        max-height: 45vh;
-      }
-    }
-
     /* TTS pulsing */
     @keyframes speakerPulse {
 
@@ -550,22 +538,23 @@
   <a href="#main-content" class="skip-nav">Skip to main content</a>
   <div class="app-container" style="min-height: auto;">
     <header class="app-header" role="banner">
-      <a href="index.html" class="logo maker-mark" style="text-decoration:none;color:inherit;">
+      <div class="logo maker-mark">
         <span class="mark-border">
           <span class="mark-text">TMS</span>
         </span>
         <div class="mark-name">
           <span class="mark-script">TailorMeSwiftly</span>
-          <span class="mark-sub">BESPOKE CAREER ENGINE</span>
+          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
         </div>
-      </a>
+      </div>
       <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
         <div id="user-profile"
           style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
           <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
             style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
             onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-          <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <span id="user-greeting"
+            style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
           <div id="avatar-dropdown" class="avatar-dropdown hidden">
             <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
               <i class="fa-solid fa-user-gear"></i> Account
@@ -585,7 +574,7 @@
 
   <!-- Ad Unit -->
   <div style="text-align:center;margin:0 auto 1rem;max-width:728px;padding:0 1.5rem;">
-
+    
     <script></script>
   </div>
 
@@ -606,8 +595,7 @@
       </div>
     </div>
 
-    <div
-      style="background: rgba(138, 154, 134, 0.12); border: 1px solid var(--success-color); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; text-align: center;"
+    <div style="background: rgba(138, 154, 134, 0.12); border: 1px solid var(--success-color); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; text-align: center;"
       id="info-banner">
       <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;"><i class="fa-solid fa-comments"
           style="margin-right:0.4rem;color:var(--primary-color);"></i>Your interviewer will ask questions one
@@ -680,42 +668,14 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-  <script src="brand-config.js?v=2"></script>
-  <script src="auth.js?v=16"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
   <script src="components.js"></script>
   <script src="error-utils.js"></script>
-  <script src="results.js?v=11"></script>
+  <script src="results.js?v=8"></script>
   <script>
     initResultTheme();
     initResultAuth();
-
-    // Simple hash for server-side cache keys
-    function _ipHash(str) {
-      let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
-      for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
-      h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507); h2 = Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-      return (Math.abs((h1 ^ h2) >>> 0)).toString(36) + Math.abs(h2 >>> 0).toString(36);
-    }
-
-    // Attempt to repair truncated JSON arrays from Gemini
-    function repairJson(raw) {
-      try {
-        return JSON.parse(raw);
-      } catch (_) {
-        // Find the last complete object in a truncated array
-        const lastClose = raw.lastIndexOf('}');
-        if (lastClose === -1) throw new Error('No valid JSON objects found in response');
-        const repaired = raw.substring(0, lastClose + 1) + ']';
-        try {
-          const arr = JSON.parse(repaired);
-          if (Array.isArray(arr) && arr.length > 0) {
-            console.warn(`JSON was truncated — recovered ${arr.length} of 10 questions`);
-            return arr;
-          }
-        } catch (_2) { /* fall through */ }
-        throw new Error('Could not parse AI response as JSON. Please retry.');
-      }
-    }
 
     let outputs, currentQ = 0, questions = [], visitedQs = new Set(),
       mediaRecorder, audioChunks = [], flashcardMode = false;
@@ -725,10 +685,6 @@
 
       outputs = loadOutputs();
       let reviewedCards = new Set();
-
-      // TTS state (must be declared before renderChatMode uses them)
-      const ttsCache = {};
-      let currentAudio = null;
 
       // Chat conversation state
       let chatHistory = [];    // Array of { id, type, html }
@@ -755,8 +711,6 @@
           const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
             body: {
               model: 'gemini-3-flash-preview',
-              cacheKey: 'ip-q-' + _ipHash(outputs.resumeText + '|' + outputs.jobText),
-              cacheTtlSeconds: 86400,
               systemInstruction: {
                 parts: [{
                   text: `Generate exactly 10 role-specific interview questions with ideal answer frameworks based on the resume and job description provided. Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown, no backticks.`
@@ -767,12 +721,12 @@
                   text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}`
                 }]
               }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
+              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
             }
           });
           if (error) throw new Error(error.message);
           let raw = data.candidates[0].content.parts[0].text.trim().replace(/```json|```/g, '').trim();
-          questions = repairJson(raw);
+          questions = JSON.parse(raw);
 
           outputs.interviewQa = questions;
           sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
@@ -1121,8 +1075,6 @@ Format your response exactly like this:
           const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
             body: {
               model: 'gemini-3-flash-preview',
-              cacheKey: 'ip-fb-' + _ipHash(questionText + '|' + text),
-              cacheTtlSeconds: 86400,
               systemInstruction: { parts: [{ text: sysPrompt }] },
               contents: [{
                 parts: [{ text: `Question: ${questionText}\n\nCandidate's Answer: ${text}` }]
@@ -1256,6 +1208,8 @@ Format your response exactly like this:
       // ── TEXT-TO-SPEECH (Inworld via podcastfy) ──
       // ══════════════════════════════════════
 
+      const ttsCache = {};
+      let currentAudio = null;
 
       async function hearQuestionAt(qIdx) {
         const btn = document.getElementById(`tts-btn-${qIdx}`);
@@ -1263,6 +1217,10 @@ Format your response exactly like this:
 
         // If audio is playing, stop it
         if (currentAudio && !currentAudio.paused) {
+          stopTTS();
+          return;
+        }
+        if (window.speechSynthesis && window.speechSynthesis.speaking) {
           stopTTS();
           return;
         }
@@ -1275,65 +1233,35 @@ Format your response exactly like this:
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
 
-        // Warm up an Audio element IMMEDIATELY on user gesture to unlock autoplay.
-        // Browser autoplay policy requires play() within the synchronous click handler.
-        const warmAudio = new Audio();
-        warmAudio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=';
-        try { await warmAudio.play(); } catch (_) { /* silent */ }
-        warmAudio.pause();
-
         try {
-          // Fetch raw MP3 bytes directly from the edge function
+          const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
           const { data: { session } } = await supabaseClient.auth.getSession();
-          const resp = await fetch('https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/podcastfy', {
+          const token = session?.access_token;
+          if (!token) throw new Error('Not authenticated');
+
+          const resp = await fetch(`${SUPABASE_URL}/functions/v1/podcastfy`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + (session?.access_token || ''),
+              'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ text: questions[qIdx].question }),
+            body: JSON.stringify({ text: questions[qIdx].question })
           });
 
           if (!resp.ok) {
-            const err = await resp.json().catch(() => ({}));
-            throw new Error(err.error || 'TTS request failed (' + resp.status + ')');
+            const errBody = await resp.json().catch(() => ({}));
+            throw new Error(errBody.error || `TTS request failed (${resp.status})`);
           }
 
-          const contentType = resp.headers.get('content-type') || '';
-          if (contentType.includes('json')) {
-            const err = await resp.json();
-            throw new Error(err.error || 'Unexpected JSON response');
-          }
+          const result = await resp.json();
+          if (result.error) throw new Error(result.error);
+          if (!result.audioUrl) throw new Error('No audio URL returned');
 
-          const audioBlob = await resp.blob();
-          const blobUrl = URL.createObjectURL(audioBlob);
-          ttsCache[qIdx] = blobUrl;
-
-          // Reuse the warmed audio element — autoplay is already unlocked
-          warmAudio.src = blobUrl;
-          currentAudio = warmAudio;
-          btn.disabled = false;
-          btn.classList.add('speaking');
-          btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
-
-          currentAudio.onended = () => {
-            btn.classList.remove('speaking');
-            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Replay';
-            currentAudio = null;
-          };
-          currentAudio.onerror = () => {
-            btn.classList.remove('speaking');
-            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
-            currentAudio = null;
-          };
-          await currentAudio.play();
+          ttsCache[qIdx] = result.audioUrl;
+          playAudio(result.audioUrl, btn);
         } catch (e) {
-          console.error('TTS error:', e);
-          btn.disabled = false;
-          btn.classList.remove('speaking');
-          const msg = (e.message || 'Unknown error').substring(0, 80);
-          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + msg + ' — Tap to Retry';
-          btn.onclick = () => { btn.onclick = null; hearQuestionAt(qIdx); };
+          console.error('TTS error (falling back to browser):', e);
+          playBrowserTTS(questions[qIdx].question, btn);
         }
       }
 
@@ -1351,18 +1279,39 @@ Format your response exactly like this:
 
         currentAudio.onerror = () => {
           btn.classList.remove('speaking');
-          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Audio Error';
+          btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
           currentAudio = null;
-          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
+          playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
         };
 
         currentAudio.play().catch(err => {
           console.error('Audio play() failed:', err);
-          btn.classList.remove('speaking');
-          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Playback Failed';
-          currentAudio = null;
-          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
+          playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
         });
+      }
+
+      function playBrowserTTS(text, btn) {
+        if (!window.speechSynthesis) {
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> TTS unavailable';
+          btn.disabled = false;
+          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
+          return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.95;
+        utterance.pitch = 1;
+
+        btn.disabled = false;
+        btn.classList.add('speaking');
+        btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Stop';
+
+        utterance.onend = () => {
+          btn.classList.remove('speaking');
+          btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
+        };
+
+        window.speechSynthesis.speak(utterance);
       }
 
       function stopTTS() {
@@ -1370,6 +1319,9 @@ Format your response exactly like this:
           currentAudio.pause();
           currentAudio.currentTime = 0;
           currentAudio = null;
+        }
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
         }
         // Reset all visible TTS buttons
         document.querySelectorAll('[id^="tts-btn-"]').forEach(btn => {
@@ -1485,12 +1437,12 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
                   text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}`
                 }]
               }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
+              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
             }
           });
           if (error) throw new Error(error.message);
           let raw = data.candidates[0].content.parts[0].text.trim().replace(/```json|```/g, '').trim();
-          questions = repairJson(raw);
+          questions = JSON.parse(raw);
           outputs.interviewQa = questions;
           sessionStorage.setItem('tms_outputs', JSON.stringify(outputs));
           updateGenerationField(outputs.generationId, { interview_qa: outputs.interviewQa });
@@ -1531,8 +1483,9 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
   </script>
 
   <footer class="site-footer" role="contentinfo">
-    <p><a href="pricing.html">Pricing</a> | <a href="blog.html">Blog</a> | <a href="help.html">Help</a> | <a href="feedback.html">Feedback</a> | <a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
-    <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
+    <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+    <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
+        href="security.html">Security Policy</a></p>
   </footer>
   <script>
     // Theme persistence

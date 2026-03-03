@@ -5,26 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; media-src 'self' https://*.supabase.co https://*.supabase.in blob: data:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://gnews.io; frame-src https://js.stripe.com;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; media-src 'self' https://*.supabase.co https://*.supabase.in blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://gnews.io; frame-src https://js.stripe.com;">
     <meta name="description"
         content="Generate your personalized AI news briefing. Enter your interests and get a curated digest in seconds.">
     <meta property="og:site_name" content="TailorMeSwiftly">
-  <meta property="og:title" content="Today's Briefing | TailorMeSwiftly">
-  <meta property="og:description" content="Generate your personalized AI news briefing. Enter your interests and get a curated digest in seconds.">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
     <link rel="apple-touch-icon" href="/favicon.svg">
     <title>Today's Briefing | TailorMeSwiftly</title>
     <link rel="stylesheet" href="../style.css?v=17">
-    <link rel="stylesheet" href="news-style.css?v=17">
+    <link rel="stylesheet" href="news-style.css?v=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .settings-tab {
             flex: 1;
@@ -233,12 +231,6 @@
 
         /* Mobile sidebar slide animation */
         @media (max-width: 900px) {
-            .dashboard-layout {
-                grid-template-columns: 1fr !important;
-                padding: 0 1rem !important;
-                gap: 0 !important;
-            }
-
             .dashboard-sidebar {
                 position: fixed !important;
                 top: 0 !important;
@@ -269,11 +261,6 @@
             .sidebar-backdrop.active {
                 opacity: 1;
                 pointer-events: auto;
-            }
-
-            .dashboard-sidebar input[type="text"] {
-                width: 100% !important;
-                max-width: none !important;
             }
         }
 
@@ -338,7 +325,7 @@
     <div class="app-container" style="max-width:1440px;">
         <header class="app-header" role="banner">
             <div class="logo">
-                <a href="/"
+                <a href="../index.html"
                     style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">
                     <div class="logo-icon"><i class="fa-solid fa-clipboard"></i></div>
                     <h1>TailorMeSwiftly</h1>
@@ -869,10 +856,6 @@
 
                     <div id="briefing-content" class="briefing-body"></div>
 
-                    <div id="ai-briefing-disclosure" style="display:none;text-align:center;margin:1rem 0;padding:0.45rem 0.75rem;border-radius:6px;background:rgba(var(--surface-color-rgb,30,30,30),0.4);border:1px solid rgba(var(--border-color-rgb,60,60,60),0.2);">
-                        <span style="font-size:0.72rem;color:var(--text-secondary);"><i class="fa-solid fa-wand-magic-sparkles" style="margin-right:0.25rem;color:var(--primary-color);"></i>AI-generated summary — verify facts with original sources below</span>
-                    </div>
-
                     <div id="briefing-sources"
                         style="margin-top:2rem;padding-top:1.25rem;border-top:var(--brutal-border);">
                         <h4 style="font-size:0.95rem;margin-bottom:0.75rem;color:var(--text-secondary);"><i
@@ -927,9 +910,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="../brand-config.js"></script>
-    <script src="../auth.js?v=16"></script>
+    <script src="../auth.js?v=15"></script>
     <script src="../billing.js?v=1"></script>
     <script src="../components.js"></script>
+    <script src="../shared/analytics.js"></script>
+    <script src="../shared/sticky-header.js"></script>
+    <script src="../shared/streaks.js"></script>
+    <script src="../shared/tone-selector.js"></script>
+    <script src="../shared/command-palette.js"></script>
     <script>
         let extractedInterests = [];
         let currentBriefingDate = null; // tracks which briefing is displayed
@@ -1151,6 +1139,8 @@
                 } else {
                     const audioContainer = document.getElementById('audio-container');
                     if (audioContainer) { audioContainer.style.display = 'none'; audioContainer.innerHTML = ''; }
+                    // Auto-generate audio if none exists for this briefing
+                    setTimeout(() => { listenToBriefing(); }, 500);
                 }
             } else {
                 // No briefing for this date — show placeholder
@@ -2026,30 +2016,6 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
         async function generateBriefing(targetDate) {
             if (!targetDate) targetDate = new Date().toISOString().split('T')[0];
-
-            // Weekly briefing limit for free users (3/week)
-            if (!window.isPremiumUser && window.supabaseClient) {
-                try {
-                    const { data: { session: limSession } } = await window.supabaseClient.auth.getSession();
-                    if (limSession) {
-                        const now = new Date();
-                        const dayOfWeek = now.getDay(); // 0=Sun
-                        const weekStart = new Date(now);
-                        weekStart.setDate(now.getDate() - dayOfWeek);
-                        weekStart.setHours(0, 0, 0, 0);
-                        const { data: weekBriefings } = await window.supabaseClient
-                            .from('daily_briefings')
-                            .select('id')
-                            .eq('user_id', limSession.user.id)
-                            .gte('created_at', weekStart.toISOString());
-                        if (weekBriefings && weekBriefings.length >= 3) {
-                            window.showUpgradeModal('unlimited daily briefings');
-                            return;
-                        }
-                    }
-                } catch (e) { /* proceed on error */ }
-            }
-
             // Check interests — try recovering from cached briefings or profile if needed
             if (!extractedInterests.length) {
                 // Try recovering from most recent cached briefing
@@ -2357,7 +2323,7 @@ FORMAT — use this EXACT HTML:
                     `Title: ${a.title}\nSource: ${a.source}\nDate: ${a.publishedAt}\nDescription: ${a.description}\nURL: ${a.url}`
                 ).join('\n\n---\n\n');
 
-                const nameClause = userName ? `The reader's first name is ${userName}. ` : '';
+                const nameClause = userName ? `The reader's name is ${userName}. Greet them by first name in your opening line (e.g. "Hey ${userName}, ..."). Do NOT use "Good morning" or any time-of-day greeting. ` : '';
                 const userPrompt = `${nameClause}Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
 
                 console.log('[generateBriefing] Calling Gemini with tone:', tone);
@@ -2404,7 +2370,7 @@ FORMAT — use this EXACT HTML:
                     audio_url: null
                 };
                 renderDateStrip(targetDate);
-                _skipCachedAudio = true; // Skip stale cached audio after regeneration
+                _skipCachedAudio = false; // Reset so fresh audio can be cached
 
                 // Save only user's explicit interests (not auto-added companies/resume keywords/location)
                 saveInterestsToProfile(extractedInterests);
@@ -2427,7 +2393,7 @@ FORMAT — use this EXACT HTML:
                     hint = 'Check your internet connection and try again.';
                 } else if (raw.includes('rate') || raw.includes('limit') || raw.includes('429') || raw.includes('quota')) {
                     msg = 'Rate limit reached';
-                    hint = 'You\'ve hit the daily generation limit. Try again tomorrow or go Pro for unlimited.';
+                    hint = 'You\'ve hit the daily generation limit. Try again tomorrow or upgrade to Premium.';
                 } else if (raw.includes('timed out') || raw.includes('timeout')) {
                     msg = 'Request timed out';
                     hint = 'The AI took too long to respond. Please try again.';
@@ -2527,8 +2493,6 @@ FORMAT — use this EXACT HTML:
             }
 
             document.getElementById('briefing-content').innerHTML = processedHtml;
-            const aiDisc = document.getElementById('ai-briefing-disclosure');
-            if (aiDisc) aiDisc.style.display = 'block';
             injectTellMeMoreButtons();
             setupPodcastSubscribe();
             markBookmarkedSources();
@@ -2898,16 +2862,15 @@ FORMAT — use this EXACT HTML:
             } else {
                 const audioContainer = document.getElementById('audio-container');
                 if (audioContainer) { audioContainer.style.display = 'none'; audioContainer.innerHTML = ''; }
+                // Auto-generate audio if none exists
+                setTimeout(() => { listenToBriefing(); }, 500);
             }
         })();
 
         function extractBriefingText() {
             const content = document.getElementById('briefing-content');
             if (!content || !content.textContent.trim()) return '';
-            // Clone so we can strip interactive elements without touching the DOM
-            const clone = content.cloneNode(true);
-            clone.querySelectorAll('.tell-me-more-btn, .deep-dive-card, .catch-up-card').forEach(el => el.remove());
-            const text = clone.textContent.replace(/\[.*?\]/g, '').trim();
+            const text = content.textContent.replace(/\[.*?\]/g, '').trim();
             console.log('[tts] extractBriefingText length:', text.length, 'chars, first 200:', text.substring(0, 200));
             return text;
         }
@@ -3000,9 +2963,7 @@ FORMAT — use this EXACT HTML:
 
                 let briefingText = currentText || extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
-                // Strip "Hey Name," greeting anywhere — the spoken intro already establishes context
-                briefingText = briefingText.replace(/Hey\s+\w+,?\s*/gi, '');
-                // Add spoken intro
+                // Add spoken intro (briefing text already greets the user by name)
                 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                 briefingText = `Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
 

@@ -4,18 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; frame-src https://js.stripe.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
   <meta name="description" content="AI decodes your total compensation package — base, equity, benefits, and cost of living — to reveal the true value of any offer.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TailorMeSwiftly">
-  <meta property="og:title" content="Compensation Decoder – TailorMeSwiftly">
-  <meta property="og:description" content="AI decodes your total compensation package — base, equity, benefits, and cost of living — to reveal the true value of any offer.">
   <meta property="og:url" content="https://tailormeswiftly.com/comp-decoder.html">
   <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
   <link rel="canonical" href="https://tailormeswiftly.com/comp-decoder.html">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.json">
   <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
@@ -23,10 +21,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-  <link rel="stylesheet" href="style.css?v=17">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css?v=16">
   <link rel="stylesheet" href="templates.css">
   
   <style>
@@ -49,15 +46,15 @@
   <a href="#main-content" class="skip-nav">Skip to main content</a>
   <div class="app-container" style="min-height: auto;">
     <header class="app-header" role="banner">
-      <a href="index.html" class="logo maker-mark" style="text-decoration:none;color:inherit;">
+      <div class="logo maker-mark">
         <span class="mark-border">
           <span class="mark-text">TMS</span>
         </span>
         <div class="mark-name">
           <span class="mark-script">TailorMeSwiftly</span>
-          <span class="mark-sub">BESPOKE CAREER ENGINE</span>
+          <span class="mark-sub">BESPOKE APPLICATION ENGINE</span>
         </div>
-      </a>
+      </div>
       <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
         <div id="user-profile" style="display:none;flex-direction:column;align-items:center;gap:0.2rem;position:relative;">
           <img id="user-avatar" aria-label="User menu" src="" alt="Avatar" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;" onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
@@ -138,11 +135,11 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
-  <script src="brand-config.js?v=2"></script>
-  <script src="auth.js?v=16"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
   <script src="components.js"></script>
   <script src="error-utils.js"></script>
-  <script src="results.js?v=11"></script>
+  <script src="results.js?v=8"></script>
   <script>
     initResultTheme();
     initResultAuth();
@@ -248,8 +245,8 @@ Return EXACTLY this JSON (no markdown, no code fences):
   </script>
 
   <footer class="site-footer" role="contentinfo">
-    <p><a href="pricing.html">Pricing</a> | <a href="blog.html">Blog</a> | <a href="help.html">Help</a> | <a href="feedback.html">Feedback</a> | <a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
-    <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
+    <p>&copy; 2026 TailorMeSwiftly.com. This service is mostly free to use and supported by advertising.</p>
+    <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
   </footer>
 <script>
   // Theme persistence

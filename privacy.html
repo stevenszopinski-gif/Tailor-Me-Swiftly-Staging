@@ -4,18 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; frame-src https://js.stripe.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
   <meta name="description" content="TailorMeSwiftly privacy policy. Learn how we handle your data, resume information, and third-party service integrations.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TailorMeSwiftly">
-  <meta property="og:title" content="Privacy Policy - TailorMeSwiftly.com">
-  <meta property="og:description" content="TailorMeSwiftly privacy policy. Learn how we handle your data, resume information, and third-party service integrations.">
   <meta property="og:url" content="https://tailormeswiftly.com/privacy.html">
   <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:image" content="https://tailormeswiftly.com/logo.png">
   <link rel="canonical" href="https://tailormeswiftly.com/privacy.html">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IiMxNTE4MjEiLz4KPHJlY3QgeD0iNCIgeT0iNCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMykiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+Cjx0ZXh0IHg9IjMyIiB5PSI0MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsIHNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIiBsZXR0ZXItc3BhY2luZz0iLTEiPlRNUzwvdGV4dD4KPC9zdmc+">
   <link rel="apple-touch-icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.json">
   <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
@@ -24,9 +22,9 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=16">
 
   <style>
     .legal-container {
@@ -161,7 +159,7 @@
         <p>Your information is used solely for the following purposes:</p>
         <ul>
           <li><strong>Providing the Service:</strong> Your resume and job description data are processed by third-party AI providers (Google Gemini) to generate tailored documents and interview preparation materials. Your news interests are used to fetch relevant articles via GNews and generate personalized briefings.</li>
-          <li><strong>Audio Generation:</strong> Briefing text is processed by Inworld AI to generate narrated podcast audio and voice interview responses.</li>
+          <li><strong>Audio Generation:</strong> Briefing text is processed by Inworld AI to generate narrated podcast audio.</li>
           <li><strong>Email Delivery:</strong> If you enable daily email briefings, your email address is shared with Resend to deliver briefing emails.</li>
           <li><strong>Authentication:</strong> Your Google account information is used to manage your sign-in session via Supabase.</li>
           <li><strong>Service Improvement:</strong> Aggregated, non-identifiable usage data helps us improve the Service.</li>
@@ -180,7 +178,7 @@
         <p>We use the following third-party services to operate:</p>
         <ul>
           <li><strong>Google Gemini API:</strong> Processes your text data to generate tailored documents. Subject to <a href="https://policies.google.com/privacy" style="color:var(--primary-color);">Google's Privacy Policy</a>.</li>
-          <li><strong>Inworld AI:</strong> Converts briefing text to speech audio for the podcast feature and powers voice interviews. Subject to <a href="https://inworld.ai/privacy-policy" style="color:var(--primary-color);">Inworld AI's Privacy Policy</a>.</li>
+          <li><strong>Inworld AI:</strong> Converts briefing text to speech audio for the podcast feature. Subject to <a href="https://inworld.ai/privacy-policy" style="color:var(--primary-color);">Inworld AI's Privacy Policy</a>.</li>
           <li><strong>GNews API:</strong> Fetches news articles based on your selected interests. Subject to <a href="https://gnews.io/terms" style="color:var(--primary-color);">GNews Terms</a>.</li>
           <li><strong>Resend:</strong> Delivers daily email briefings if you opt in. Subject to <a href="https://resend.com/legal/privacy-policy" style="color:var(--primary-color);">Resend's Privacy Policy</a>.</li>
           <li><strong>Supabase:</strong> Manages authentication, database, and edge function hosting. Subject to <a href="https://supabase.com/privacy" style="color:var(--primary-color);">Supabase's Privacy Policy</a>.</li>
