@@ -333,14 +333,17 @@
     </div>
 
     <footer class="site-footer" role="contentinfo">
-        <p><a href="pricing.html">Pricing</a> | <a href="blog.html">Blog</a> | <a href="help.html">Help</a> | <a href="feedback.html">Feedback</a> | <a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+        <p><a href="pricing.html">Pricing</a> | <a href="blog.html">Blog</a> | <a href="help.html">Help</a> | <a
+                href="feedback.html">Feedback</a> | <a href="terms.html">Terms & Conditions</a> | <a
+                href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
         <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
     </footer>
 
     <script type="module">
         import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.0';
-        const SUPABASE_URL = 'https://czcpqdiauoaqizlyvfsg.supabase.co';
-        const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3BxZGlhdW9hcWl6bHl2ZnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5Mjk1NzQsImV4cCI6MjA1NTUwNTU3NH0.oo2jh-Yt7JjPIjCrQOXWLrtaFJYC5n6oQQdZwdsYvBs';
+        // Initialize Supabase with the correct project ID for TailorMeSwiftly
+        const SUPABASE_URL = 'https://gwmpdgjvcjzndbloctla.supabase.co';
+        const SUPABASE_ANON = 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8';
         const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
 
         // Check auth state
