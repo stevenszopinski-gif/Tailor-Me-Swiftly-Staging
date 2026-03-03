@@ -539,10 +539,10 @@
       <div class="plan-row">
         <div class="plan-info">
           <span class="plan-badge free" id="plan-badge">Free</span>
-          <span class="plan-desc" id="plan-desc">1 free generation per month</span>
+          <span class="plan-desc" id="plan-desc">2 free generations per month</span>
         </div>
         <button class="plan-btn gold" id="plan-action-btn">
-          <i class="fa-solid fa-bolt"></i> Upgrade to Premium
+          <i class="fa-solid fa-bolt"></i> Go Pro &mdash; $9.99/mo
         </button>
       </div>
       <div id="subscription-details" style="display:none;margin-top:0.75rem;padding:0.75rem;background:rgba(212,165,116,0.05);border:1px solid rgba(212,165,116,0.15);border-radius:4px;font-size:0.82rem;color:var(--text-secondary);">
@@ -553,7 +553,7 @@
 
       <div class="usage-meter" id="usage-meter">
         <div class="usage-label">
-          <span><span id="usage-count">0</span> / 1 generation used</span>
+          <span><span id="usage-count">0</span> / 2 generations used</span>
           <span id="usage-reset"></span>
         </div>
         <div class="usage-bar">
@@ -629,7 +629,7 @@
   </div>
 
   <footer class="site-footer" role="contentinfo">
-    <p><a href="pricing.html">Pricing</a> | <a href="terms.html">Terms & Conditions</a> | <a
+    <p><a href="pricing.html">Pricing</a> | <a href="feedback.html">Feedback</a> | <a href="terms.html">Terms & Conditions</a> | <a
         href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
     <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
   </footer>
@@ -705,7 +705,7 @@
       const meter = document.getElementById('usage-meter');
 
       if (isPremium) {
-        badge.textContent = 'Premium';
+        badge.textContent = 'Pro';
         badge.className = 'plan-badge premium';
         desc.textContent = 'Unlimited generations + all tools';
         if (profile?.stripe_customer_id) {
@@ -724,11 +724,11 @@
         meter.style.display = 'none';
       } else {
         const count = profile?.generation_count || 0;
-        const pct = Math.min((count / 1) * 100, 100);
+        const pct = Math.min((count / 2) * 100, 100);
         document.getElementById('usage-count').textContent = count;
         const fill = document.getElementById('usage-fill');
         fill.style.width = pct + '%';
-        if (count >= 1) fill.classList.add('warn');
+        if (count >= 2) fill.classList.add('warn');
 
         if (profile?.generation_reset_at) {
           const reset = new Date(profile.generation_reset_at);

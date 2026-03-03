@@ -350,13 +350,27 @@
     async function checkPremiumStatus(userId) {
         if (!window.supabaseClient) return false;
         try {
-            const { data, error } = await window.supabaseClient
+            // Check unified 'pro' subscription first
+            const { data: proSub } = await window.supabaseClient
+                .from('user_subscriptions')
+                .select('plan')
+                .eq('user_id', userId)
+                .eq('product_id', 'pro')
+                .maybeSingle();
+
+            if (proSub?.plan === 'premium') {
+                window.isPremiumUser = true;
+                return true;
+            }
+
+            // Fallback to legacy user_profiles
+            const { data } = await window.supabaseClient
                 .from('user_profiles')
                 .select('plan')
                 .eq('user_id', userId)
                 .maybeSingle();
 
-            if (data && data.plan === 'premium') {
+            if (data?.plan === 'premium') {
                 window.isPremiumUser = true;
                 return true;
             }
@@ -367,20 +381,20 @@
         return false;
     }
 
-    window.showUpgradeModal = function (featureName = "this premium feature") {
+    window.showUpgradeModal = function (featureName = "this feature") {
         let modal = document.getElementById('upgrade-modal');
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'upgrade-modal';
-            modal.className = 'confirm-overlay'; // Reusing confirmation overlay styles
+            modal.className = 'confirm-overlay';
             modal.innerHTML = `
                 <div class="confirm-box">
                     <div class="upgrade-modal-icon"><i class="fa-solid fa-crown"></i></div>
-                    <h3>Unlock Premium Access</h3>
-                    <p>Upgrade to ${window.TMS_BRAND?.name || 'TailorMeSwiftly'} Premium to access <strong>${featureName}</strong> and all premium features.</p>
+                    <h3>Go Pro</h3>
+                    <p>Unlock unlimited access to <strong>${featureName}</strong> and all 27 AI tools for $9.99/mo.</p>
                     <div class="confirm-actions">
                         <button class="confirm-cancel" onclick="document.getElementById('upgrade-modal').remove()">Maybe Later</button>
-                        <a href="account.html" class="plan-btn gold" style="text-decoration:none; display:flex; align-items:center; justify-content:center; flex:1; border-radius:10px; font-weight:600;">Upgrade Now</a>
+                        <a href="account.html" class="plan-btn gold" style="text-decoration:none; display:flex; align-items:center; justify-content:center; flex:1; border-radius:10px; font-weight:600;">Go Pro &mdash; $9.99/mo</a>
                     </div>
                 </div>
             `;

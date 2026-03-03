@@ -908,15 +908,31 @@ async function pollForPremiumStatus() {
         try {
             var sess = await window.supabaseClient.auth.getSession();
             if (!sess.data.session) { clearInterval(poll); return; }
-            var { data: profile } = await window.supabaseClient
-                .from('user_profiles')
+            var userId = sess.data.session.user.id;
+            var isPro = false;
+
+            // Check unified 'pro' subscription
+            var { data: proSub } = await window.supabaseClient
+                .from('user_subscriptions')
                 .select('plan')
-                .eq('user_id', sess.data.session.user.id)
+                .eq('user_id', userId)
+                .eq('product_id', 'pro')
                 .maybeSingle();
-            if (profile?.plan === 'premium') {
+            if (proSub?.plan === 'premium') isPro = true;
+
+            // Fallback to legacy user_profiles
+            if (!isPro) {
+                var { data: profile } = await window.supabaseClient
+                    .from('user_profiles')
+                    .select('plan')
+                    .eq('user_id', userId)
+                    .maybeSingle();
+                if (profile?.plan === 'premium') isPro = true;
+            }
+
+            if (isPro) {
                 clearInterval(poll);
                 showGenerationsBadge();
-                // Clean up URL
                 var url = new URL(window.location);
                 url.searchParams.delete('session_id');
                 history.replaceState(null, '', url);
@@ -937,12 +953,24 @@ async function showGenerationsBadge() {
             .eq('user_id', session.user.id)
             .maybeSingle();
 
+        // Check Pro subscription
+        let isPro = profile?.plan === 'premium';
+        if (!isPro) {
+            const { data: proSub } = await window.supabaseClient
+                .from('user_subscriptions')
+                .select('plan')
+                .eq('user_id', session.user.id)
+                .eq('product_id', 'pro')
+                .maybeSingle();
+            if (proSub?.plan === 'premium') isPro = true;
+        }
+
         const badge = document.getElementById('gen-remaining-badge');
         const text = document.getElementById('gen-remaining-text');
         if (!badge || !text) return;
 
-        if (!profile || profile.plan === 'premium') {
-            text.textContent = 'Unlimited generations (Premium)';
+        if (!profile || isPro) {
+            text.textContent = 'Unlimited generations (Pro)';
             badge.style.display = 'block';
             return;
         }
@@ -952,10 +980,10 @@ async function showGenerationsBadge() {
         const now = new Date();
         const monthDiff = (now.getFullYear() - resetAt.getFullYear()) * 12 + (now.getMonth() - resetAt.getMonth());
         const used = monthDiff >= 1 ? 0 : (profile.generation_count || 0);
-        const remaining = Math.max(0, 1 - used);
+        const remaining = Math.max(0, 2 - used);
 
         text.textContent = remaining > 0
-            ? remaining + ' free generation remaining this month'
+            ? remaining + ' free generation' + (remaining > 1 ? 's' : '') + ' remaining this month'
             : 'Free generation used — upgrade for unlimited';
         badge.style.display = 'block';
     } catch (e) { /* silent */ }
@@ -975,8 +1003,17 @@ async function checkGenerationLimit() {
 
     if (!profile) return true; // no profile row yet — allow
 
-    // Premium users: unlimited
+    // Pro/Premium users: unlimited
     if (profile.plan === 'premium') return true;
+
+    // Check unified 'pro' subscription
+    const { data: proSub } = await window.supabaseClient
+        .from('user_subscriptions')
+        .select('plan')
+        .eq('user_id', session.user.id)
+        .eq('product_id', 'pro')
+        .maybeSingle();
+    if (proSub?.plan === 'premium') return true;
 
     // Monthly reset check
     const resetAt = new Date(profile.generation_reset_at);
@@ -989,8 +1026,8 @@ async function checkGenerationLimit() {
         return true;
     }
 
-    // Free tier: 1 generation/month
-    if (profile.generation_count >= 1) return false;
+    // Free tier: 2 generations/month
+    if (profile.generation_count >= 2) return false;
     return true;
 }
 
@@ -1027,13 +1064,13 @@ function showUpgradeModal() {
     overlay.innerHTML = `
         <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;padding:2rem;max-width:420px;width:90%;text-align:center;">
             <i class="fa-solid fa-crown" style="font-size:2.5rem;color:#f59e0b;margin-bottom:1rem;display:block;"></i>
-            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Free Limit Reached</h2>
+            <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">You've used your 2 free tailors</h2>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
-                You've used your free generation this month.<br>
-                Upgrade to Premium for <strong>unlimited</strong> generations.
+                You've experienced real ATS optimization.<br>
+                Go Pro for <strong>unlimited</strong> generations and all 27 AI tools.
             </p>
             <button class="btn primary-btn" onclick="createCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
-                <i class="fa-solid fa-bolt"></i> Upgrade to Premium
+                <i class="fa-solid fa-bolt"></i> Go Pro — $9.99/mo
             </button>
             <button class="btn ghost-btn" onclick="this.closest('#upgrade-modal-overlay').remove()" style="width:100%;min-height:44px;">
                 Maybe Later
@@ -1058,7 +1095,7 @@ function showLoginPrompt() {
             <h2 style="margin:0 0 0.75rem;font-size:1.3rem;color:var(--text-primary);">Account Required</h2>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6;">
                 You need a free account to generate documents and run analyses. 
-                <br>Sign up to get 1 free generation every month!
+                <br>Sign up to get 2 free generations every month!
             </p>
             <button class="btn primary-btn" onclick="window.location.href='signup.html'" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
                 <i class="fa-solid fa-user-plus"></i> Create Free Account

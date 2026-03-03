@@ -595,7 +595,7 @@
       <a href="salary-negotiator.html" class="dash-tool-card">
         <div class="dash-tool-icon" style="background:linear-gradient(135deg, #8A9A86, #6E7E6A);"><i
             class="fa-solid fa-sack-dollar"></i></div>
-        <h3>Salary Negotiator <span class="premium-badge">Pro</span></h3>
+        <h3>Salary Negotiator</h3>
         <p>AI-powered scripts to maximize your total comp</p>
 
       </a>
@@ -794,15 +794,7 @@
       // Safety timeout — if no auth event fires within 4s, show not signed in
       setTimeout(() => { subscription.unsubscribe(); showNotSignedIn(); }, 4000);
     })();
-    // Premium tool guard
-    document.querySelector('.dash-tools-grid').addEventListener('click', (e) => {
-      const card = e.target.closest('.dash-tool-card');
-      if (card && card.querySelector('.premium-badge') && !window.isPremiumUser) {
-        e.preventDefault();
-        const toolName = card.querySelector('h3').textContent.replace(' Pro', '');
-        window.showUpgradeModal(toolName);
-      }
-    });
+    // All tools now use teaser gating (1 free use) — no dashboard-level premium block
 
     // ═══ Sprint 4.2: Trending Tags ═══
     (async function loadTrendingTags() {

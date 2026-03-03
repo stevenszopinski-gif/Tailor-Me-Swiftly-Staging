@@ -2023,6 +2023,30 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
 
         async function generateBriefing(targetDate) {
             if (!targetDate) targetDate = new Date().toISOString().split('T')[0];
+
+            // Weekly briefing limit for free users (3/week)
+            if (!window.isPremiumUser && window.supabaseClient) {
+                try {
+                    const { data: { session: limSession } } = await window.supabaseClient.auth.getSession();
+                    if (limSession) {
+                        const now = new Date();
+                        const dayOfWeek = now.getDay(); // 0=Sun
+                        const weekStart = new Date(now);
+                        weekStart.setDate(now.getDate() - dayOfWeek);
+                        weekStart.setHours(0, 0, 0, 0);
+                        const { data: weekBriefings } = await window.supabaseClient
+                            .from('daily_briefings')
+                            .select('id')
+                            .eq('user_id', limSession.user.id)
+                            .gte('created_at', weekStart.toISOString());
+                        if (weekBriefings && weekBriefings.length >= 3) {
+                            window.showUpgradeModal('unlimited daily briefings');
+                            return;
+                        }
+                    }
+                } catch (e) { /* proceed on error */ }
+            }
+
             // Check interests — try recovering from cached briefings or profile if needed
             if (!extractedInterests.length) {
                 // Try recovering from most recent cached briefing
@@ -2400,7 +2424,7 @@ FORMAT — use this EXACT HTML:
                     hint = 'Check your internet connection and try again.';
                 } else if (raw.includes('rate') || raw.includes('limit') || raw.includes('429') || raw.includes('quota')) {
                     msg = 'Rate limit reached';
-                    hint = 'You\'ve hit the daily generation limit. Try again tomorrow or upgrade to Premium.';
+                    hint = 'You\'ve hit the daily generation limit. Try again tomorrow or go Pro for unlimited.';
                 } else if (raw.includes('timed out') || raw.includes('timeout')) {
                     msg = 'Request timed out';
                     hint = 'The AI took too long to respond. Please try again.';

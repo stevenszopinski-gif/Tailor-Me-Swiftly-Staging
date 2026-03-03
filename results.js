@@ -13,22 +13,20 @@ const TOOL_TIERS = {
     'results': 'free',
     'history': 'free',
 
-    // Premium-only
-    'interview-prep': 'premium',
-    'salary-negotiator': 'premium',
-    'cover-letter': 'premium',
-    'pain-letter': 'premium',
-    'hook-generator': 'premium',
-    'outreach': 'premium',
-    'toxic-radar': 'premium',
-    'comp-decoder': 'premium',
-    'shadow-jobs': 'premium',
-    'guerrilla-tactics': 'premium',
-    'referral-mapper': 'premium',
-    'auto-app': 'premium',
-    'thank-you': 'premium',
-
-    // Teaser — 1 free use, then locked
+    // Teaser — 1 free use, then locked (all tools get a free try)
+    'interview-prep': 'teaser',
+    'salary-negotiator': 'teaser',
+    'cover-letter': 'teaser',
+    'pain-letter': 'teaser',
+    'hook-generator': 'teaser',
+    'outreach': 'teaser',
+    'toxic-radar': 'teaser',
+    'comp-decoder': 'teaser',
+    'shadow-jobs': 'teaser',
+    'guerrilla-tactics': 'teaser',
+    'referral-mapper': 'teaser',
+    'auto-app': 'teaser',
+    'thank-you': 'teaser',
     'ghosting-predictor': 'teaser',
     'linkedin-sync': 'teaser',
     'video-intro': 'teaser',
@@ -67,6 +65,15 @@ async function checkToolAccess(slug) {
 
     if (!profile) return { allowed: true };
     if (profile.plan === 'premium') return { allowed: true };
+
+    // Check unified 'pro' subscription
+    const { data: proSub } = await window.supabaseClient
+        .from('user_subscriptions')
+        .select('plan')
+        .eq('user_id', user.id)
+        .eq('product_id', 'pro')
+        .maybeSingle();
+    if (proSub?.plan === 'premium') return { allowed: true };
 
     if (tier === 'premium') return { allowed: false, reason: 'premium' };
 
@@ -130,9 +137,8 @@ function showToolUpgradeModal(reason, slug) {
     document.getElementById('tool-upgrade-modal')?.remove();
     if (!slug) slug = currentToolSlug();
 
-    const isPremiumLock = (reason === 'premium');
-    const title = isPremiumLock ? 'Premium Feature' : 'Free Trial Used';
     const preview = TOOL_PREVIEWS[slug];
+    const title = preview ? `You've experienced ${preview.name}` : 'Free Trial Used';
 
     // Build tool preview block
     let previewHtml = '';
@@ -150,12 +156,12 @@ function showToolUpgradeModal(reason, slug) {
     // Build highlights list
     const highlights = `
         <div style="text-align:left;margin-bottom:1.25rem;">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">Premium includes:</p>
+            <p style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">Go Pro and unlock:</p>
             <div style="display:flex;flex-direction:column;gap:0.3rem;">
-                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Unlimited generations</span>
-                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>All 24 AI-powered tools</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Unlimited resume tailoring</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>All 27 AI tools, unlimited</span>
+                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Daily news briefings + podcast</span>
                 <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Voice interviews & negotiation</span>
-                <span style="font-size:0.82rem;color:var(--text-secondary);"><i class="fa-solid fa-check" style="color:#10b981;margin-right:0.4rem;font-size:0.7rem;"></i>Company intelligence suite</span>
             </div>
         </div>`;
 
@@ -171,7 +177,7 @@ function showToolUpgradeModal(reason, slug) {
             ${previewHtml}
             ${highlights}
             <button class="btn primary-btn" onclick="toolCreateCheckout()" style="width:100%;margin-bottom:0.75rem;min-height:48px;">
-                <i class="fa-solid fa-bolt"></i> Upgrade to Premium — $9.99/mo
+                <i class="fa-solid fa-bolt"></i> Go Pro — $9.99/mo
             </button>
             <button class="btn ghost-btn" onclick="this.closest('#tool-upgrade-modal').remove();window.location.href='results.html';" style="width:100%;min-height:44px;">
                 Back to Dashboard

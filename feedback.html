@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; frame-src https://js.stripe.com;">
+    <meta name="description" content="Share your feedback to help us improve TailorMeSwiftly. We read every message.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TailorMeSwiftly">
+    <meta property="og:title" content="Send Feedback – TailorMeSwiftly">
+    <meta property="og:description" content="Share your feedback to help us improve TailorMeSwiftly.">
+    <meta property="og:url" content="https://tailormeswiftly.com/feedback.html">
+    <meta property="og:image" content="https://tailormeswiftly.com/logo.png">
+    <link rel="canonical" href="https://tailormeswiftly.com/feedback.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/favicon.svg">
+    <link rel="manifest" href="/manifest.json">
+    <title>Send Feedback – TailorMeSwiftly</title>
+    <link rel="stylesheet" href="style.css?v=17">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
+    <style>
+        .feedback-page {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+
+        .feedback-hero {
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+        }
+
+        .feedback-hero h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-hero p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .feedback-form {
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            padding: 1.75rem;
+            margin-top: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group label .label-hint {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* Star rating */
+        .star-rating {
+            display: flex;
+            gap: 0.35rem;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            cursor: pointer;
+            font-size: 1.6rem;
+            color: var(--panel-border);
+            transition: color 0.15s, transform 0.15s;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input:checked~label {
+            color: #e2a83e;
+            transform: scale(1.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success state */
+        .feedback-success {
+            text-align: center;
+            padding: 3rem 1rem;
+            display: none;
+        }
+
+        .feedback-success .check-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(138, 154, 134, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--primary-color);
+            animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .feedback-success h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-success p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-prompt {
+            text-align: center;
+            padding: 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .login-prompt p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        @media (max-width: 640px) {
+            .feedback-hero h1 {
+                font-size: 1.4rem;
+            }
+
+            .feedback-form {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div id="main-content" class="app-container" style="min-height:auto;max-width:1100px;">
+        <header class="app-header" role="banner">
+            <a href="index.html" class="logo maker-mark" style="text-decoration:none;color:inherit;">
+                <span class="mark-border">
+                    <span class="mark-text">TMS</span>
+                </span>
+                <div class="mark-name">
+                    <span class="mark-script">TailorMeSwiftly</span>
+                    <span class="mark-sub">BESPOKE CAREER ENGINE</span>
+                </div>
+            </a>
+            <div class="header-actions" style="display:flex;gap:1rem;align-items:center;">
+            </div>
+        </header>
+    </div>
+
+    <div class="feedback-page">
+        <div class="feedback-hero">
+            <h1><i class="fa-solid fa-comment-dots" style="color:var(--primary-color);margin-right:0.4rem;"></i>Send
+                Feedback</h1>
+            <p>Help us make TailorMeSwiftly better. We read every single message.</p>
+        </div>
+
+        <!-- Login prompt (shown if not authenticated) -->
+        <div id="login-prompt" class="login-prompt">
+            <i class="fa-solid fa-lock" style="font-size:1.5rem;color:var(--text-secondary);margin-bottom:0.5rem;"></i>
+            <p>Please log in to send feedback so we can follow up with you if needed.</p>
+            <a href="login.html" class="btn primary-btn" style="display:inline-flex;gap:0.5rem;align-items:center;">
+                <i class="fa-solid fa-right-to-bracket"></i> Log In
+            </a>
+        </div>
+
+        <!-- Feedback form (shown if authenticated) -->
+        <form id="feedback-form" class="feedback-form" style="display:none;" onsubmit="return submitFeedback(event)">
+            <div class="form-group">
+                <label>Category</label>
+                <select id="fb-category">
+                    <option value="general">General Feedback</option>
+                    <option value="bug">Bug Report</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="ux">Design / UX</option>
+                    <option value="praise">Something I Love</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>How would you rate your experience? <span class="label-hint">(optional)</span></label>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5"
+                        title="Excellent">★</label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="Good">★</label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="Average">★</label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="Poor">★</label>
+                    <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="Terrible">★</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Your Message</label>
+                <textarea id="fb-message"
+                    placeholder="What's on your mind? Tell us what you like, what's broken, or what you wish existed..."
+                    maxlength="2000" oninput="updateCharCount()"></textarea>
+                <div class="char-count"><span id="char-count">0</span> / 2,000</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submit-btn">
+                <i class="fa-solid fa-paper-plane"></i> Send Feedback
+            </button>
+        </form>
+
+        <!-- Success state -->
+        <div id="feedback-success" class="feedback-success">
+            <div class="check-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h2>Thank You!</h2>
+            <p>Your feedback has been received. We genuinely appreciate you taking the time to help us improve.</p>
+            <a href="index.html" class="btn primary-btn"
+                style="display:inline-flex;gap:0.5rem;align-items:center;margin-right:0.5rem;">
+                <i class="fa-solid fa-home"></i> Back to Home
+            </a>
+            <button class="btn ghost-btn" onclick="resetForm()"
+                style="display:inline-flex;gap:0.5rem;align-items:center;">
+                <i class="fa-solid fa-plus"></i> Send More
+            </button>
+        </div>
+    </div>
+
+    <footer class="site-footer" role="contentinfo">
+        <p><a href="pricing.html">Pricing</a> | <a href="help.html">Help Center</a> | <a href="terms.html">Terms &
+                Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a>
+        </p>
+        <p>&copy; 2026 Tailored Services LLC. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.0';
+        const SUPABASE_URL = 'https://czcpqdiauoaqizlyvfsg.supabase.co';
+        const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3BxZGlhdW9hcWl6bHl2ZnNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5Mjk1NzQsImV4cCI6MjA1NTUwNTU3NH0.oo2jh-Yt7JjPIjCrQOXWLrtaFJYC5n6oQQdZwdsYvBs';
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        // Check auth state
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            document.getElementById('feedback-form').style.display = 'block';
+            document.getElementById('login-prompt').style.display = 'none';
+        } else {
+            document.getElementById('feedback-form').style.display = 'none';
+            document.getElementById('login-prompt').style.display = 'block';
+        }
+
+        window.submitFeedback = async function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const message = document.getElementById('fb-message').value.trim();
+            const category = document.getElementById('fb-category').value;
+            const ratingEl = document.querySelector('input[name="rating"]:checked');
+            const rating = ratingEl ? parseInt(ratingEl.value) : null;
+
+            if (!message || message.length < 3) {
+                document.getElementById('fb-message').focus();
+                return false;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+            try {
+                // 1. Store in Database Table 'feedback'
+                // Note: For email notifications, set up a Database Webhook in Supabase 
+                // to call an email service (like Resend) when a new row is inserted.
+                const { error: dbError } = await supabase
+                    .from('feedback')
+                    .insert([
+                        {
+                            user_id: session.user.id,
+                            user_email: session.user.email,
+                            category,
+                            message,
+                            rating,
+                            page: document.referrer || window.location.href,
+                        }
+                    ]);
+
+                if (dbError) {
+                    // If table doesn't exist, try the Edge Function
+                    console.warn('DB Insert failed, trying Edge Function fallback...', dbError);
+                    const { data, error: fnError } = await supabase.functions.invoke('submit-feedback', {
+                        body: { category, message, rating, page: document.referrer || window.location.href }
+                    });
+                    if (fnError) throw new Error(fnError.message || 'Submission failed');
+                }
+
+                // Show success
+                document.getElementById('feedback-form').style.display = 'none';
+                document.getElementById('feedback-success').style.display = 'block';
+            } catch (err) {
+                console.error('Feedback error:', err);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — Try Again';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Feedback';
+                }, 3000);
+            }
+
+            return false;
+        };
+
+        window.updateCharCount = function () {
+            const len = document.getElementById('fb-message').value.length;
+            document.getElementById('char-count').textContent = len.toLocaleString();
+        };
+
+        window.resetForm = function () {
+            document.getElementById('fb-message').value = '';
+            document.getElementById('fb-category').value = 'general';
+            document.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
+            document.getElementById('char-count').textContent = '0';
+            document.getElementById('feedback-form').style.display = 'block';
+            document.getElementById('feedback-success').style.display = 'none';
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('submit-btn').innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Feedback';
+        };
+    </script>
+
+    <script>
+        // Theme persistence
+        (function () {
+            var t = localStorage.getItem('tms_theme_preference');
+            if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+        })();
+    </script>
+    <script src="components.js" defer></script>
+    <script src="shared/sticky-header.js" defer></script>
+</body>
+
+</html>

@@ -17,7 +17,20 @@
         if (!window.supabaseClient || !userId) return false;
 
         try {
-            // Try product-aware user_subscriptions first
+            // Check unified 'pro' subscription first
+            const { data: proSub } = await window.supabaseClient
+                .from('user_subscriptions')
+                .select('plan')
+                .eq('user_id', userId)
+                .eq('product_id', 'pro')
+                .maybeSingle();
+
+            if (proSub?.plan === 'premium') {
+                window.isPremiumUser = true;
+                return true;
+            }
+
+            // Fallback: check brand-specific subscription (legacy)
             const { data } = await window.supabaseClient
                 .from('user_subscriptions')
                 .select('plan')
@@ -62,7 +75,7 @@
 
         const url = returnUrl || window.location.href;
         const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
-            body: { returnUrl: url, productId: brand().id }
+            body: { returnUrl: url, productId: 'pro' }
         });
 
         if (error) {
