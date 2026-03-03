@@ -106,6 +106,7 @@
         { href: P + 'pricing.html', label: 'Pricing' },
         { href: P + 'blog.html', label: 'Blog' },
         { href: P + 'help.html', label: 'Help' },
+        { href: P + 'feedback.html', label: 'Feedback' },
         { href: P + 'terms.html', label: 'Terms & Conditions' },
         { href: P + 'privacy.html', label: 'Privacy Policy' },
         { href: P + 'security.html', label: 'Security Policy' }
