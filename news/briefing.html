@@ -2357,7 +2357,7 @@ FORMAT — use this EXACT HTML:
                     `Title: ${a.title}\nSource: ${a.source}\nDate: ${a.publishedAt}\nDescription: ${a.description}\nURL: ${a.url}`
                 ).join('\n\n---\n\n');
 
-                const nameClause = userName ? `The reader's name is ${userName}. Greet them by first name in your opening line (e.g. "Hey ${userName}, ..."). Do NOT use "Good morning" or any time-of-day greeting. ` : '';
+                const nameClause = userName ? `The reader's first name is ${userName}. ` : '';
                 const userPrompt = `${nameClause}Create a personalized news briefing for someone interested in: ${interests.join(', ')}\n\nHere are today's relevant articles:\n\n${articleSummaries}`;
 
                 console.log('[generateBriefing] Calling Gemini with tone:', tone);
@@ -2404,7 +2404,7 @@ FORMAT — use this EXACT HTML:
                     audio_url: null
                 };
                 renderDateStrip(targetDate);
-                _skipCachedAudio = false; // Reset so fresh audio can be cached
+                _skipCachedAudio = true; // Skip stale cached audio after regeneration
 
                 // Save only user's explicit interests (not auto-added companies/resume keywords/location)
                 saveInterestsToProfile(extractedInterests);
@@ -3000,8 +3000,8 @@ FORMAT — use this EXACT HTML:
 
                 let briefingText = currentText || extractBriefingText();
                 if (!briefingText || briefingText.length < 50) throw new Error('No briefing content to narrate.');
-                // Strip "Hey Name," greeting — the spoken intro already establishes context
-                briefingText = briefingText.replace(/^Hey\s+\w+,?\s*/i, '');
+                // Strip "Hey Name," greeting anywhere — the spoken intro already establishes context
+                briefingText = briefingText.replace(/Hey\s+\w+,?\s*/gi, '');
                 // Add spoken intro
                 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                 briefingText = `Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
