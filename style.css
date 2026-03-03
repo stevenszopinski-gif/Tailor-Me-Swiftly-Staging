@@ -428,17 +428,15 @@ body {
 }
 
 .logo-icon {
-  background: var(--text-primary);
-  width: 40px;
-  height: 40px;
-  border-radius: 2px;
-  border: 2px solid var(--bg-color);
+  background: var(--primary-color, #8A9A86);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  color: var(--bg-color);
-  box-shadow: 2px 2px 0px var(--text-primary);
+  font-size: 0.85rem;
+  color: #fff;
 }
 
 /* ── Product Switcher (Google-style App Grid) ── */
