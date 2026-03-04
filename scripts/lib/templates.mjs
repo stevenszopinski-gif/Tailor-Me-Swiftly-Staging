@@ -130,6 +130,16 @@ export function siteFooter() {
   </footer>`;
 }
 
+export function shareBar() {
+  return `    <div class="share-bar">
+      <span>Share:</span>
+      <a class="share-btn" title="Share on LinkedIn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="share-btn" title="Share on Facebook" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a class="share-btn" title="Share on X" aria-label="Share on X" onclick="window.open('https://x.com/intent/tweet?url='+encodeURIComponent(location.href)+'&text='+encodeURIComponent(document.title),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <button class="share-btn" title="Copy link" aria-label="Copy link" onclick="navigator.clipboard.writeText(location.href);this.classList.add('copied');this.innerHTML='<i class=\\'fa-solid fa-check\\'></i>';setTimeout(()=>{this.classList.remove('copied');this.innerHTML='<i class=\\'fa-solid fa-link\\'></i>';},2000)"><i class="fa-solid fa-link"></i></button>
+    </div>`;
+}
+
 export function internalLinks(currentSlug, relatedSlugs) {
   const baseLinks = [
     { href: '/', label: 'Home' },
