@@ -230,6 +230,30 @@
       }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Why AI-Tailored Cover Letters Get 3x More Callbacks",
+    "description": "Generic cover letters get ignored. Learn how AI-tailored cover letters match the job's language, address real pain points, and consistently earn 3x more callbacks.",
+    "url": "https://tailormeswiftly.com/blog/cover-letter-ai.html",
+    "datePublished": "2026-03-01",
+    "author": {
+      "@type": "Organization",
+      "name": "TailorMeSwiftly",
+      "url": "https://tailormeswiftly.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TailorMeSwiftly",
+      "url": "https://tailormeswiftly.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tailormeswiftly.com/logo.png"
+      }
+    }
+  }
+  </script>
 </head>
 
 <body data-theme="dark">
@@ -373,11 +397,10 @@
       </article>
 
         <div class="share-bar">
-      <span>Share:</span>
-      <a class="share-btn" title="Share on LinkedIn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-      <a class="share-btn" title="Share on Facebook" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-facebook-f"></i></a>
-      <a class="share-btn" title="Share on X" aria-label="Share on X" onclick="window.open('https://x.com/intent/tweet?url='+encodeURIComponent(location.href)+'&text='+encodeURIComponent(document.title),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-x-twitter"></i></a>
-      <button class="share-btn" title="Copy link" aria-label="Copy link" onclick="navigator.clipboard.writeText(location.href);this.classList.add('copied');this.innerHTML='<i class=&apos;fa-solid fa-check&apos;></i>';setTimeout(()=>{this.classList.remove('copied');this.innerHTML='<i class=&apos;fa-solid fa-link&apos;></i>';},2000)"><i class="fa-solid fa-link"></i></button>
+      <span>Connect:</span>
+      <a class="share-btn" title="Follow on Instagram" aria-label="Follow on Instagram" href="https://www.instagram.com/tailored_services_llm/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      <a class="share-btn" title="Follow on Facebook" aria-label="Follow on Facebook" href="https://www.facebook.com/profile.php?id=61585200480723" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+      <button class="share-btn" title="Copy link" aria-label="Copy link" onclick="navigator.clipboard.writeText(location.href);this.classList.add('copied');this.innerHTML='<i class=\'fa-solid fa-check\'></i>';setTimeout(()=>{this.classList.remove('copied');this.innerHTML='<i class=\'fa-solid fa-link\'></i>';},2000)"><i class="fa-solid fa-link"></i></button>
     </div>
 </main>
 
@@ -391,8 +414,8 @@
 <script>
   // Theme persistence
   (function() {
-    var t = localStorage.getItem('tms_theme_preference');
-    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
   })();
   </script>
 </body>

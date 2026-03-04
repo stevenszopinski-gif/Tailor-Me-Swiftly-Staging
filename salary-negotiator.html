@@ -659,8 +659,8 @@ Job title context from JD: ${outputs.jobText?.substring(0, 500) || 'Senior role'
   <script>
     // Theme persistence
     (function () {
-      var t = localStorage.getItem('tms_theme_preference');
-      if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+      var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
     })();
   </script>
 </body>

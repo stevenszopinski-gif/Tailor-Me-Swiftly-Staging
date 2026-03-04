@@ -571,9 +571,18 @@ body {
   max-height: 80vh;
   overflow-y: auto;
 }
-.modal-dialog.sm { max-width: 440px; }
-.modal-dialog.md { max-width: 560px; }
-.modal-dialog.lg { max-width: 640px; }
+
+.modal-dialog.sm {
+  max-width: 440px;
+}
+
+.modal-dialog.md {
+  max-width: 560px;
+}
+
+.modal-dialog.lg {
+  max-width: 640px;
+}
 
 /* ── Icon buttons (edit, delete, close) ──────────────────────── */
 .icon-btn {
@@ -584,7 +593,10 @@ body {
   font-size: 0.82rem;
   transition: opacity 0.2s;
 }
-.icon-btn:hover { opacity: 0.7; }
+
+.icon-btn:hover {
+  opacity: 0.7;
+}
 
 /* ── Inline badge ────────────────────────────────────────────── */
 .inline-badge {
@@ -2763,6 +2775,98 @@ button[data-action="download"] {
   justify-content: space-between;
 }
 
+.asym-card .cta-link {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  margin-top: auto;
+  font-weight: 600;
+}
+
+/* Specific Card Themes */
+/* Default (Dark Mode) */
+.asym-card-core {
+  background: #F4F1ED;
+  color: #151821;
+  border-color: #F4F1ED;
+}
+
+.asym-card-core h3,
+.asym-card-core p,
+.asym-card-core .cta-link {
+  color: #151821;
+}
+
+.asym-card-core .label {
+  color: #8A9A86;
+}
+
+.asym-card-core img {
+  width: 100%;
+  filter: grayscale(100%);
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] .asym-card-core {
+  background: #151821;
+  color: #F4F1ED;
+  border-color: #151821;
+}
+
+[data-theme="light"] .asym-card-core h3,
+[data-theme="light"] .asym-card-core p,
+[data-theme="light"] .asym-card-core .cta-link {
+  color: #F4F1ED;
+}
+
+[data-theme="light"] .asym-card-core .label {
+  color: #A3C4DC;
+}
+
+[data-theme="light"] .asym-card-core img {
+  mix-blend-mode: screen;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Upskill Card */
+/* Default (Dark Mode) */
+.asym-card-upskill {
+  background: #2A2F3D;
+  color: #F4F1ED;
+  border-color: var(--panel-border);
+}
+
+.asym-card-upskill h3,
+.asym-card-upskill p,
+.asym-card-upskill .cta-link {
+  color: #F4F1ED;
+}
+
+.asym-card-upskill .label {
+  color: var(--text-secondary);
+}
+
+/* Light Mode Overrides */
+[data-theme="light"] .asym-card-upskill {
+  background: #EAE6DF;
+  color: #2C302E;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .asym-card-upskill h3,
+[data-theme="light"] .asym-card-upskill p,
+[data-theme="light"] .asym-card-upskill .cta-link {
+  color: #2C302E;
+}
+
+[data-theme="light"] .asym-card-upskill .label {
+  color: #707572;
+}
+
+
 /* ═══════════════════════════════════════════
   PROJECT X — Micro-Interactions (Sprint 1.2)
   ═══════════════════════════════════════════ */
@@ -3377,12 +3481,14 @@ button:focus-visible {
   border-top: 1px dashed var(--panel-border);
   border-bottom: 1px dashed var(--panel-border);
 }
+
 .share-bar span {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-secondary);
   margin-right: 0.25rem;
 }
+
 .share-btn {
   display: inline-flex;
   align-items: center;
@@ -3398,11 +3504,13 @@ button:focus-visible {
   transition: background 0.2s, color 0.2s, border-color 0.2s;
   cursor: pointer;
 }
+
 .share-btn:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
-  background: rgba(163,196,220,0.08);
+  background: rgba(163, 196, 220, 0.08);
 }
+
 .share-btn.copied {
   border-color: #4ade80;
   color: #4ade80;

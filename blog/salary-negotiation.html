@@ -237,6 +237,30 @@
       color: var(--primary-color);
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Salary Negotiation Script That Adds $15K to Your Offer",
+    "description": "Most people accept the first offer — and lose $500K over a career. Here's the exact salary negotiation script, timing strategy, and counter-offer phrases that consistently add $15K or more.",
+    "url": "https://tailormeswiftly.com/blog/salary-negotiation.html",
+    "datePublished": "2026-03-01",
+    "author": {
+      "@type": "Organization",
+      "name": "TailorMeSwiftly",
+      "url": "https://tailormeswiftly.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TailorMeSwiftly",
+      "url": "https://tailormeswiftly.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tailormeswiftly.com/logo.png"
+      }
+    }
+  }
+  </script>
 </head>
 
 <body data-theme="dark">
@@ -415,8 +439,8 @@
 <script>
   // Theme persistence
   (function() {
-    var t = localStorage.getItem('tms_theme_preference');
-    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
   })();
   </script>
 </body>

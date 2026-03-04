@@ -1,6 +1,19 @@
 // TailorMeSwiftly Content Script v2
 (function () {
-    'use strict';
+    // If we are injecting into the TMS web app directly via the Tailor Now button
+    if (window.location.hostname.indexOf('tailormeswiftly.com') !== -1 && window.location.search.includes('ext_load=true')) {
+        chrome.storage.local.get('tms_job_data', function (result) {
+            if (result.tms_job_data) {
+                // Write directly to the page's localStorage so app.js can read it
+                localStorage.setItem('tms_ext_payload', JSON.stringify(result.tms_job_data));
+
+                // Dispatch a custom event — does NOT require unsafe-inline and is CSP-safe
+                window.dispatchEvent(new CustomEvent('tms_ext_payload_ready'));
+            }
+        });
+        return; // Don't run the extraction logic on our own app
+    }
+
     function extractJobData() {
         var host = window.location.hostname;
         var data = { title: '', company: '', description: '', url: window.location.href, source: host };

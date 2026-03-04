@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="description" content="TailorMeSwiftly - The bespoke application engine for your career.">
+  <meta name="description" content="End-to-end test suite for TailorMeSwiftly news briefing features — validates interests, topic muting, tone prompts, Q&A chat, and source filtering.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Briefing Feature Tests | TailorMeSwiftly</title>
@@ -672,8 +672,8 @@
 <script>
   // Theme persistence
   (function() {
-    var t = localStorage.getItem('tms_theme_preference');
-    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
   })();
   </script>
 </body>

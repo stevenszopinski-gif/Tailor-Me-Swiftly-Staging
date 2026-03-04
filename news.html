@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-  <meta name="description" content="TailorMeSwiftly - The bespoke application engine for your career.">
+  <meta name="description" content="Get your daily 5-minute AI career news briefing. Industry trends, job market updates, and personalized career intelligence from TailorMeSwiftly.">
   <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
   <meta http-equiv="refresh" content="0;url=news/briefing.html">
-  <title>Redirecting…</title>
+  <title>Career News Briefings | TailorMeSwiftly</title>
   <script>window.location.replace('news/briefing.html');</script>
 </head>
 
@@ -14,8 +15,8 @@
 <script>
   // Theme persistence
   (function() {
-    var t = localStorage.getItem('tms_theme_preference');
-    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
   })();
   </script>
 </body>

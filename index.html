@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io; frame-src https://js.stripe.com;">
   <meta name="description"
-    content="TailorMeSwiftly is an AI-powered career platform. Tailor your applications, build skills, and get personalized news briefings — all in one place.">
+    content="AI-powered resume tailoring, cover letters, interview prep, and salary negotiation. 23+ career tools built around your unique trajectory. Try free today.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TailorMeSwiftly">
   <meta property="og:url" content="https://tailormeswiftly.com/">
@@ -23,7 +23,45 @@
   <link rel="alternate" type="application/rss+xml" title="TailorMeSwiftly.com Release Notes" href="/feed.xml">
   <link rel="alternate" hreflang="en" href="https://tailormeswiftly.com/" />
   <link rel="alternate" hreflang="x-default" href="https://tailormeswiftly.com/" />
-  <title>TailorMeSwiftly.com | AI Career Platform — Applications, Learning & News</title>
+  <title>TailorMeSwiftly — Free AI Resume Builder & Career Tools 2026</title>
+  <meta property="og:title" content="TailorMeSwiftly — Free AI Resume Builder & Career Tools 2026">
+  <meta property="og:description"
+    content="AI-powered resume tailoring, cover letters, interview prep, and salary negotiation. 23+ career tools built around your unique trajectory. Try free.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TailorMeSwiftly",
+    "url": "https://tailormeswiftly.com",
+    "description": "AI-powered career platform with resume tailoring, cover letters, interview prep, and salary negotiation tools.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://tailormeswiftly.com/seo/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TailorMeSwiftly",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://tailormeswiftly.com",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free tier with 5 AI generations monthly"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "150"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="style.css?v=17">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +86,7 @@
       padding: 4rem 0 3rem;
     }
 
+    .hp-hero h1,
     .hp-hero h2 {
       font-size: clamp(2.2rem, 5.5vw, 3.6rem);
       font-weight: 700;
@@ -56,6 +95,7 @@
       letter-spacing: -0.03em;
     }
 
+    .hp-hero h1 .hp-gradient,
     .hp-hero h2 .hp-gradient {
       background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
       -webkit-background-clip: text;
@@ -438,8 +478,7 @@
           <img id="user-avatar" aria-label="User menu" src="" alt="Profile"
             style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); cursor: pointer;"
             onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-          <span id="user-greeting"
-            style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
 
           <div id="avatar-dropdown" class="avatar-dropdown hidden">
             <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
@@ -469,7 +508,7 @@
       <p
         style="font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; border-bottom: 1px solid var(--text-primary); padding-bottom: 1rem; display: inline-block;">
         TailorMeSwiftly // Career Command Center [v2.0]</p>
-      <h2 class="display-xl">Custom AI Tools,<br>Tailored for Your<br><span>Career Growth.</span></h2>
+      <h1 class="display-xl">Custom AI Tools,<br>Tailored for Your<br><span>Career Growth.</span></h1>
 
       <div
         style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; justify-content: space-between; border-top: 1px solid var(--text-primary); padding-top: 2rem; margin-top: 4rem;">
@@ -492,22 +531,21 @@
     <!-- ═══════ ASYMMETRICAL HUB ═══════ -->
     <section style="padding: 0 2rem;">
       <div class="asym-product-hub">
-        <a href="app.html" class="asym-card asym-card-main"
-          style="text-decoration: none; color: inherit; background: var(--text-primary); color: #F4F1ED;">
-          <div class="label" style="color: var(--primary-color);">
+        <a href="app.html" class="asym-card asym-card-main asym-card-core"
+          style="text-decoration: none;">
+          <div class="label">
             <span>[01] Core</span>
             <span>LIVE</span>
           </div>
           <img src="app-mockup.png"
-            style="width: 100%; filter: grayscale(100%); mix-blend-mode: screen; opacity: 0.8; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.2);"
+            style="margin-bottom: 2rem;"
             alt="App UI">
-          <h3 style="color: #F4F1ED; font-size: 2.5rem;">Tailor My Application</h3>
-          <p
-            style="color: rgba(244, 241, 237, 0.7); font-size: 1.1rem; max-width: 400px; margin-bottom: 2rem;">
+          <h3 style="font-size: 2.5rem;">Tailor My Application</h3>
+          <p style="font-size: 1.1rem; max-width: 400px; margin-bottom: 2rem;">
             Our flagship application engine. Instantly rewrite your resume, draft bespoke cover letters, and
             run simulated voice interviews based on the exact job description.
           </p>
-          <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto;">ACCESS SUITE
+          <span class="cta-link" style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto;">ACCESS SUITE
             &rarr;</span>
         </a>
 
@@ -518,29 +556,26 @@
             <span>NEW</span>
           </div>
           <h3 style="font-size: 1.8rem; letter-spacing: -0.02em;">Tailor The News</h3>
-          <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
+          <p style="color: var(--text-primary); line-height: 1.5; margin-bottom: 2rem;">
             A daily 5-minute technical briefing curated specifically for your career goals, bypassing
             generic headlines for actionable intelligence. Listen as a podcast.
           </p>
-          <span
-            style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">READ
+          <span style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">READ
             BRIEFING &rarr;</span>
         </a>
 
-        <a href="learning.html" class="asym-card"
-          style="text-decoration: none; color: inherit; background: #EAE6DF;">
-          <div class="label" style="color: var(--text-secondary);">
+        <a href="learning.html" class="asym-card asym-card-upskill" style="text-decoration: none;">
+          <div class="label">
             <span>[03] Upskill</span>
             <span>WAITLIST</span>
           </div>
-          <h3 style="font-size: 1.8rem; letter-spacing: -0.02em; color: var(--text-primary);">Tailor My
+          <h3 style="font-size: 1.8rem; letter-spacing: -0.02em;">Tailor My
             Learning</h3>
-          <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 2rem;">
+          <p style="line-height: 1.5; margin-bottom: 2rem;">
             A hyper-personalized curriculum mapping exactly what you need to learn to bridge the gap to your
             next senior role.
           </p>
-          <span
-            style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">JOIN
+          <span class="cta-link" style="font-family: var(--font-mono); font-size: 0.9rem; margin-top: auto; font-weight: 600;">JOIN
             WAITLIST &rarr;</span>
         </a>
       </div>
@@ -550,8 +585,7 @@
 
     <!-- 1. Tailor My Application -->
     <section style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); margin: 0 -1.5rem;">
-      <div
-        style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
+      <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
         <div style="flex: 1; min-width: 300px; text-align: left;">
           <div
             style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(138,154,134,0.15);color:#8A9A86;margin-bottom:1rem;">
@@ -559,8 +593,7 @@
           </div>
           <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Build Bulletproof <span
               style="color:#8A9A86;">Applications</span></h2>
-          <p
-            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
             Stop sending generic resumes into the void. Our AI engine instantly tailors your application
             materials to match any job description perfectly, significantly boosting your ATS score and
             interview rate.
@@ -597,8 +630,7 @@
           </div>
           <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Hyper-Personalized <span
               style="color:#9B8EA6;">Upskilling</span></h2>
-          <p
-            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
             Stop taking generic 40-hour courses. We build custom, dynamic curricula that bridge the exact
             gap between your current knowledge and your ultimate career goals.
           </p>
@@ -625,8 +657,7 @@
     <!-- 3. Tailor The News -->
     <section
       style="padding: 5rem 2rem; border-top: 1px solid var(--panel-border); border-bottom: 1px solid var(--panel-border); margin: 0 -1.5rem 3rem;">
-      <div
-        style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
+      <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 4rem; align-items: center;">
         <div style="flex: 1; min-width: 300px; text-align: left;">
           <div
             style="display:inline-block;padding:0.3rem 0.8rem;border-radius: 4px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;background:rgba(123,154,180,0.15);color:#7B9AB4;margin-bottom:1rem;">
@@ -634,8 +665,7 @@
           </div>
           <h2 style="font-size: 2.2rem; margin-bottom: 1rem; line-height: 1.2;">Your Daily <span
               style="color:#7B9AB4;">Personalized News Briefing</span></h2>
-          <p
-            style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
             Stay ahead of trends without the noise. Our tool scours thousands of articles and newsletters to
             create a 5-minute technical digest tailored precisely to you.
           </p>
@@ -959,14 +989,22 @@
       </a>
     </section>
 
-      <div class="share-bar">
+    <div class="share-bar">
       <span>Share:</span>
-      <a class="share-btn" title="Share on LinkedIn" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-      <a class="share-btn" title="Share on Facebook" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-facebook-f"></i></a>
-      <a class="share-btn" title="Share on X" aria-label="Share on X" onclick="window.open('https://x.com/intent/tweet?url='+encodeURIComponent(location.href)+'&text='+encodeURIComponent(document.title),'_blank','width=600,height=400');return false;" href="#"><i class="fa-brands fa-x-twitter"></i></a>
-      <button class="share-btn" title="Copy link" aria-label="Copy link" onclick="navigator.clipboard.writeText(location.href);this.classList.add('copied');this.innerHTML='<i class=&apos;fa-solid fa-check&apos;></i>';setTimeout(()=>{this.classList.remove('copied');this.innerHTML='<i class=&apos;fa-solid fa-link&apos;></i>';},2000)"><i class="fa-solid fa-link"></i></button>
+      <a class="share-btn" title="Share on LinkedIn" aria-label="Share on LinkedIn"
+        onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;"
+        href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="share-btn" title="Share on Facebook" aria-label="Share on Facebook"
+        onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank','width=600,height=400');return false;"
+        href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a class="share-btn" title="Share on X" aria-label="Share on X"
+        onclick="window.open('https://x.com/intent/tweet?url='+encodeURIComponent(location.href)+'&text='+encodeURIComponent(document.title),'_blank','width=600,height=400');return false;"
+        href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <button class="share-btn" title="Copy link" aria-label="Copy link"
+        onclick="navigator.clipboard.writeText(location.href);this.classList.add('copied');this.innerHTML='<i class=&apos;fa-solid fa-check&apos;></i>';setTimeout(()=>{this.classList.remove('copied');this.innerHTML='<i class=&apos;fa-solid fa-link&apos;></i>';},2000)"><i
+          class="fa-solid fa-link"></i></button>
     </div>
-</main>
+  </main>
 
   <!-- PREFERENCES MODAL -->
   <div id="prefs-modal" class="modal">
@@ -1017,11 +1055,11 @@
         </div>
         <div
           style="background: rgba(138, 154, 134, 0.1); border: 1px solid rgba(138, 154, 134, 0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
-          <strong
-            style="color: var(--text-primary); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;"><i
+          <strong style="color: var(--text-primary); font-size: 0.85rem; display: block; margin-bottom: 0.5rem;"><i
               class="fa-solid fa-bolt" style="color: #8A9A86; margin-right: 0.4rem;"></i> Instantly
             available in your dashboard</strong>
-          <span style="font-size: 0.8rem; color: var(--text-secondary);">Sign in to access this tool and our full suite of
+          <span style="font-size: 0.8rem; color: var(--text-secondary);">Sign in to access this tool and our full suite
+            of
             AI career tools.</span>
         </div>
         <button onclick="window.location.href='login.html?signup=true'" class="btn primary-btn" style="width: 100%;"><i
@@ -1059,13 +1097,88 @@
     </div>
   </div>
 
-  
+
 
   <!-- Site Footer -->
-  <footer class="site-footer" role="contentinfo">
-    <p>&copy; 2026 TailorMeSwiftly.com. One platform for your entire career trajectory.</p>
-    <p><a href="pricing.html">Pricing</a> | <a href="help.html">Help Center</a> | <a href="terms.html">Terms & Conditions</a> | <a
-        href="privacy.html">Privacy Policy</a> | <a href="security.html">Security Policy</a></p>
+  <footer class="site-footer" role="contentinfo" style="max-width:1100px;margin:0 auto;padding:3rem 1.5rem 2rem;">
+    <div
+      style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-bottom:2rem;text-align:left;">
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">Apply Smarter
+        </h4>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.82rem;">
+          <a href="app.html" style="color:var(--text-secondary);text-decoration:none;">ATS Resume Tailor</a>
+          <a href="cover-letter.html" style="color:var(--text-secondary);text-decoration:none;">Cover Letter
+            Generator</a>
+          <a href="auto-app.html" style="color:var(--text-secondary);text-decoration:none;">Auto Apply</a>
+          <a href="video-intro.html" style="color:var(--text-secondary);text-decoration:none;">Video Intro Builder</a>
+          <a href="hook-generator.html" style="color:var(--text-secondary);text-decoration:none;">Resume Hook
+            Generator</a>
+          <a href="linkedin-sync.html" style="color:var(--text-secondary);text-decoration:none;">LinkedIn Sync</a>
+          <a href="pain-letter.html" style="color:var(--text-secondary);text-decoration:none;">Pain Letter Writer</a>
+          <a href="outreach.html" style="color:var(--text-secondary);text-decoration:none;">Cold Outreach</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">Research & Intel
+        </h4>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.82rem;">
+          <a href="ghosting-predictor.html" style="color:var(--text-secondary);text-decoration:none;">Ghosting
+            Predictor</a>
+          <a href="toxic-radar.html" style="color:var(--text-secondary);text-decoration:none;">Toxic Culture Radar</a>
+          <a href="comp-decoder.html" style="color:var(--text-secondary);text-decoration:none;">Comp Decoder</a>
+          <a href="day-in-life.html" style="color:var(--text-secondary);text-decoration:none;">Day in the Life</a>
+          <a href="shadow-jobs.html" style="color:var(--text-secondary);text-decoration:none;">Shadow Job Board</a>
+          <a href="referral-mapper.html" style="color:var(--text-secondary);text-decoration:none;">Referral Mapper</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">Interview &
+          Negotiate</h4>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.82rem;">
+          <a href="interview-prep.html" style="color:var(--text-secondary);text-decoration:none;">AI Mock Interview</a>
+          <a href="salary-negotiator.html" style="color:var(--text-secondary);text-decoration:none;">Salary
+            Negotiator</a>
+          <a href="reverse-interview.html" style="color:var(--text-secondary);text-decoration:none;">Reverse Interview
+            Prep</a>
+          <a href="tech-screen.html" style="color:var(--text-secondary);text-decoration:none;">Tech Screen Practice</a>
+          <a href="prove-it.html" style="color:var(--text-secondary);text-decoration:none;">Prove It (Metrics)</a>
+          <a href="rejection-reverser.html" style="color:var(--text-secondary);text-decoration:none;">Rejection
+            Reverser</a>
+          <a href="thank-you.html" style="color:var(--text-secondary);text-decoration:none;">Thank You Note Writer</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">Career Growth
+        </h4>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.82rem;">
+          <a href="career-pivot.html" style="color:var(--text-secondary);text-decoration:none;">Career Pivot Planner</a>
+          <a href="skills-tracker.html" style="color:var(--text-secondary);text-decoration:none;">Skills Tracker</a>
+          <a href="guerrilla-tactics.html" style="color:var(--text-secondary);text-decoration:none;">Guerrilla Job
+            Tactics</a>
+          <a href="learn/index.html" style="color:var(--text-secondary);text-decoration:none;">Learning Hub</a>
+          <a href="news/briefing.html" style="color:var(--text-secondary);text-decoration:none;">Daily Briefings</a>
+          <a href="community/stories.html" style="color:var(--text-secondary);text-decoration:none;">Community
+            Stories</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--text-primary);">Resources</h4>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.82rem;">
+          <a href="blog.html" style="color:var(--text-secondary);text-decoration:none;">Blog</a>
+          <a href="seo/" style="color:var(--text-secondary);text-decoration:none;">SEO Tools Directory</a>
+          <a href="help.html" style="color:var(--text-secondary);text-decoration:none;">Help Center</a>
+          <a href="pricing.html" style="color:var(--text-secondary);text-decoration:none;">Pricing</a>
+          <a href="feedback.html" style="color:var(--text-secondary);text-decoration:none;">Feedback</a>
+          <a href="updates.html" style="color:var(--text-secondary);text-decoration:none;">Release Notes</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--panel-border);padding-top:1.5rem;text-align:center;">
+      <p>&copy; 2026 TailorMeSwiftly.com. One platform for your entire career trajectory.</p>
+      <p style="font-size:0.82rem;"><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy
+          Policy</a> | <a href="security.html">Security Policy</a></p>
+    </div>
   </footer>
 
   <!-- Scripts -->
@@ -1078,8 +1191,8 @@
   <script>
     // Unregister old service workers to prevent stale cache issues
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function(regs) {
-        regs.forEach(function(r) { r.unregister(); });
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        regs.forEach(function (r) { r.unregister(); });
       });
     }
   </script>
@@ -1211,8 +1324,8 @@
   <script>
     // Theme persistence
     (function () {
-      var t = localStorage.getItem('tms_theme_preference');
-      if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+      var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
     })();
   </script>
 </body>

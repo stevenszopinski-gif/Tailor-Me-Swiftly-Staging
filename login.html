@@ -52,8 +52,8 @@
     <main id="main-content" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
       <div class="glass-panel"
         style="max-width: 400px; width: 100%; text-align: center; padding: 3rem 2rem; border-radius: 4px;">
-        <h2 style="font-size: 2rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-arrow-right-to-bracket"
-            style="color: var(--primary-color);"></i> Log In</h2>
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-arrow-right-to-bracket"
+            style="color: var(--primary-color);"></i> Log In</h1>
         <p style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.5;">Welcome back! Log in to
           access your saved tailored resumes.</p>
 
@@ -182,8 +182,8 @@
 <script>
   // Theme persistence
   (function() {
-    var t = localStorage.getItem('tms_theme_preference');
-    if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+    var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
   })();
   </script>
 </body>

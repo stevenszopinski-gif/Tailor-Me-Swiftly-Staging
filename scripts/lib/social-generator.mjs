@@ -1,52 +1,59 @@
 /**
- * Social media content generator — creates LinkedIn and X/Twitter posts.
+ * Social media content generator — creates LinkedIn, Instagram, and Facebook posts.
  */
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
 const SOCIAL_SYSTEM_PROMPT = `You are a social media manager for TailorMeSwiftly.com, a career tool platform.
 Generate social media posts. Return ONLY a valid JSON array of objects, no markdown code fences.
-Each object must have: platform (string: "linkedin" or "twitter"), type (string: "tip"|"stat"|"myth"|"question"|"promotion"), text (string), hashtags (array of 3-5 strings).
-LinkedIn posts: professional, 800-1300 chars, use line breaks for readability, include a call-to-action.
-Twitter posts: punchy, under 280 chars including hashtags, one key insight.
+Each object must have: platform (string), type (string: "tip"|"stat"|"myth"|"question"|"insight"|"listicle"|"hook"), text (string), hashtags (array of strings).
 Rules:
 - Mix tones: authoritative tips, surprising stats, myth-busting, engagement questions
-- Each post must be unique
+- Each post must be unique and valuable standalone
 - 1-2 emojis max per post
 - Mention TailorMeSwiftly naturally in ~40% of posts
 - Include a [LINK] placeholder where a URL would go`;
 
 export async function generateSocialContent(client, root, { dryRun } = {}) {
   if (dryRun) {
-    console.log('\n  [dry-run] Would generate 30 social posts');
+    console.log('\n  [dry-run] Would generate 45 social posts');
     return;
   }
 
   console.log('\nGenerating social media content...');
 
-  // LinkedIn posts
+  // LinkedIn posts (professional, long-form)
   const linkedinContent = await client.generate(
-    'social-linkedin',
+    'social-linkedin-v2',
     SOCIAL_SYSTEM_PROMPT,
-    `Generate 15 LinkedIn posts about job searching, resume optimization, ATS systems, interview prep, salary negotiation, and career growth. Mix of tips, stats, myths, and questions. Each post should be 800-1300 characters.`
+    `Generate 15 LinkedIn posts about job searching, resume optimization, ATS systems, interview prep, salary negotiation, and career growth. Each post: platform "linkedin", 800-1300 chars, professional tone, use line breaks for readability, include a call-to-action, 3-5 hashtags.`
   );
 
-  // Twitter posts
-  const twitterContent = await client.generate(
-    'social-twitter',
+  // Instagram posts (visual-friendly captions, hashtag-heavy)
+  const instagramContent = await client.generate(
+    'social-instagram-v2',
     SOCIAL_SYSTEM_PROMPT,
-    `Generate 15 Twitter/X posts about job searching, resume tips, ATS systems, interview prep, and career advice. Each must be under 280 characters including hashtags. Punchy and engaging.`
+    `Generate 15 Instagram posts (captions) about job searching, resume tips, career advice, and interview prep. Each post: platform "instagram", 300-600 chars, conversational and motivational tone, use line breaks and short paragraphs, end with a strong CTA, 10-15 hashtags (mix of broad and niche career hashtags like #JobSearch #ResumeTips #CareerGoals #HiringNow #InterviewPrep #ATS #CareerAdvice #JobHunt2026 etc).`
+  );
+
+  // Facebook posts (conversational, shareable)
+  const facebookContent = await client.generate(
+    'social-facebook-v2',
+    SOCIAL_SYSTEM_PROMPT,
+    `Generate 15 Facebook posts about job searching, resume optimization, career growth, and interview tips. Each post: platform "facebook", 400-800 chars, conversational and relatable tone, ask questions to drive comments, use line breaks, 3-5 hashtags.`
   );
 
   // Parse and combine
   let posts = [];
   try {
-    const linkedin = JSON.parse(linkedinContent.replace(/```json?\n?/g, '').replace(/```/g, ''));
-    const twitter = JSON.parse(twitterContent.replace(/```json?\n?/g, '').replace(/```/g, ''));
-    posts = [...linkedin, ...twitter];
+    const strip = s => s.replace(/```json?\n?/g, '').replace(/```/g, '');
+    const linkedin = JSON.parse(strip(linkedinContent));
+    const instagram = JSON.parse(strip(instagramContent));
+    const facebook = JSON.parse(strip(facebookContent));
+    posts = [...linkedin, ...instagram, ...facebook];
   } catch (e) {
     console.error('  Warning: Could not parse social content as JSON, saving raw output.');
-    posts = [{ raw_linkedin: linkedinContent, raw_twitter: twitterContent }];
+    posts = [{ raw_linkedin: linkedinContent, raw_instagram: instagramContent, raw_facebook: facebookContent }];
   }
 
   const output = {

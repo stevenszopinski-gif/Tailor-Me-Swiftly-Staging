@@ -3073,8 +3073,8 @@ FORMAT — use this EXACT HTML:
     <script>
         // Theme persistence
         (function () {
-            var t = localStorage.getItem('tms_theme_preference');
-            if (t) { document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t); }
+            var t = localStorage.getItem('tms_theme_preference') || 'light';
+      document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);
         })();
     </script>
 </body>
