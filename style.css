@@ -929,7 +929,7 @@ body {
 .upload-area {
   border: 2px dashed var(--input-border);
   border-radius: 2px;
-  padding: 4rem 2rem;
+  padding: 1.5rem 2rem;
   text-align: center;
   background: rgba(255, 255, 255, 0.02);
   transition: all 0.3s;
@@ -937,7 +937,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .upload-area:hover,
