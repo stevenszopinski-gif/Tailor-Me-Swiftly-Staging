@@ -1803,7 +1803,7 @@ Be thorough and accurate. Check actual content, don't guess.`;
                     model: 'gemini-3-flash-preview',
                     systemInstruction: { parts: [{ text: systemPrompt }] },
                     contents: [{ parts: [{ text: `Resume:\n${state.resumeText}\n\nJob Description:\n${state.jobText}` }] }],
-                    generationConfig: { temperature: 0.1, maxOutputTokens: 2048 }
+                    generationConfig: { temperature: 0.1, maxOutputTokens: 4096 }
                 }
             }),
             45000
