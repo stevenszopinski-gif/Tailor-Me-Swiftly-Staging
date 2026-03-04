@@ -1186,7 +1186,6 @@ async function processGeneration() {
 
     el.generationControl.classList.add('hidden');
     sessionStorage.setItem('tms_generating', '1');
-    window.addEventListener('beforeunload', _warnDuringGeneration);
     if (el.loadingOverlay) {
         el.loadingOverlay.classList.remove('hidden');
         const title = document.getElementById('loading-title');
@@ -1285,18 +1284,12 @@ OUTPUT FORMAT: Exactly 2 fenced code blocks in order. NO other text.
     } finally {
         // Always hide loading overlay so user isn't stuck
         sessionStorage.removeItem('tms_generating');
-        window.removeEventListener('beforeunload', _warnDuringGeneration);
         if (el.loadingOverlay) {
             el.loadingOverlay.classList.add('hidden');
             stopFunnyQuotes();
         }
         el.generationControl.classList.remove('hidden');
     }
-}
-
-function _warnDuringGeneration(e) {
-    e.preventDefault();
-    e.returnValue = '';
 }
 
 async function parseAndRedirect(content) {
@@ -1343,11 +1336,6 @@ async function parseAndRedirect(content) {
 
     // Increment generation count for free tier tracking
     incrementGenerationCount();
-
-    // Remove the beforeunload guard BEFORE navigating, otherwise Chrome
-    // shows a "Leave site?" prompt when redirecting to results.
-    sessionStorage.removeItem('tms_generating');
-    window.removeEventListener('beforeunload', _warnDuringGeneration);
 
     window.location.href = 'results.html';
 }
