@@ -683,6 +683,13 @@ body {
   border: var(--brutal-border);
 }
 
+/* When small-btn is combined with primary-btn, primary colors must win */
+.small-btn.primary-btn {
+  background: var(--text-primary);
+  color: var(--bg-color);
+  border: 2px solid var(--text-primary);
+}
+
 /* Wizard Layout */
 .wizard-container {
   display: flex;
