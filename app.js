@@ -239,8 +239,8 @@ function activateExtensionSkeleton() {
     if (startDivider) startDivider.style.display = 'none';
     if (extBanner) extBanner.style.display = 'none';
     if (extJdCol) extJdCol.style.display = 'flex';
-    if (step1Title) step1Title.textContent = 'Choose a resume';
-    if (step1Sub) step1Sub.textContent = 'Upload a new resume or use a saved one to tailor for this role.';
+    if (step1Title) step1Title.style.display = 'none';
+    if (step1Sub) step1Sub.style.display = 'none';
 
     // Show the "OR UPLOAD YOUR RESUME" divider between captured job & upload area
     const extUploadDivider = document.getElementById('ext-upload-divider');
