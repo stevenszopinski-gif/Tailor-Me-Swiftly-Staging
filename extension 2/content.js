@@ -28,14 +28,18 @@
                 '.top-card-layout__second-subline a'
             );
             // Try multiple description containers — LinkedIn changes these often
+            // Also target the right-side detail panel on search/collections pages
             var descSelectors = [
                 '#job-details',
+                '.jobs-search__job-details #job-details',
                 '.jobs-description-content__text',
                 '.jobs-description__content',
                 '.jobs-description__content--condensed',
                 '.show-more-less-html__markup',
                 '.jobs-box__html-content',
+                '.jobs-search__job-details .show-more-less-html__markup',
                 '[class*="jobs-description"]',
+                '.scaffold-layout__detail [class*="description"]',
             ];
             var d = null;
             for (var di = 0; di < descSelectors.length; di++) {
@@ -48,6 +52,12 @@
             data.title = t ? t.textContent.trim() : '';
             data.company = c ? c.textContent.trim() : '';
             data.description = d ? d.innerText.trim() : '';
+
+            // On search/collections pages, use currentJobId for a direct job link
+            var jobIdMatch = window.location.search.match(/currentJobId=(\d+)/);
+            if (jobIdMatch) {
+                data.url = 'https://www.linkedin.com/jobs/view/' + jobIdMatch[1] + '/';
+            }
         } else if (host.indexOf('indeed.com') !== -1) {
             data.title = (document.querySelector('.jobsearch-JobInfoHeader-title, h1') || {}).textContent || '';
             data.company = (document.querySelector('[data-testid="inlineHeader-companyName"]') || {}).textContent || '';
@@ -119,21 +129,39 @@
         return data;
     }
 
+    function saveAndRespond(data, sendResponse) {
+        chrome.storage.local.get('tms_captures', function (result) {
+            var captures = result.tms_captures || [];
+            captures.unshift({ ...data, captured_at: new Date().toISOString() });
+            if (captures.length > 50) captures = captures.slice(0, 50);
+            chrome.storage.local.set({ tms_job_data: data, tms_captures: captures }, function () {
+                chrome.runtime.sendMessage({ action: 'update_badge', count: captures.length });
+                sendResponse(data);
+            });
+        });
+    }
+
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (request.action === 'extract') {
             var data = extractJobData();
-            // Save to storage and update badge
-            chrome.storage.local.get('tms_captures', function (result) {
-                var captures = result.tms_captures || [];
-                captures.unshift({ ...data, captured_at: new Date().toISOString() });
-                // Keep last 50 captures
-                if (captures.length > 50) captures = captures.slice(0, 50);
-                chrome.storage.local.set({ tms_job_data: data, tms_captures: captures }, function () {
-                    chrome.runtime.sendMessage({ action: 'update_badge', count: captures.length });
-                    sendResponse(data);
-                });
-            });
-            return true;
+
+            // LinkedIn split-view: right panel loads async when a job is clicked.
+            // If we didn't find a description, wait for it to render and retry.
+            if (!data.description && window.location.hostname.indexOf('linkedin.com') !== -1) {
+                var retries = 0;
+                var maxRetries = 3;
+                var retryInterval = setInterval(function () {
+                    retries++;
+                    var retryData = extractJobData();
+                    if (retryData.description || retries >= maxRetries) {
+                        clearInterval(retryInterval);
+                        saveAndRespond(retryData.description ? retryData : data, sendResponse);
+                    }
+                }, 800);
+            } else {
+                saveAndRespond(data, sendResponse);
+            }
+            return true; // keep message channel open for async response
         }
     });
 })();
