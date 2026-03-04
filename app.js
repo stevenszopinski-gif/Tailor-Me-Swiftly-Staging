@@ -242,6 +242,12 @@ function activateExtensionSkeleton() {
     if (step1Title) step1Title.textContent = 'Upload a resume to Tailor';
     if (step1Sub) step1Sub.textContent = 'We\'ve captured your job details. Upload or select a past resume to continue.';
 
+    // Move "Use Last Resume" bar to immediately after the captured job panel
+    const useLastBar = document.getElementById('use-last-resume-bar');
+    if (extJdCol && useLastBar) {
+        extJdCol.insertAdjacentElement('afterend', useLastBar);
+    }
+
     if (el.nextTo2Btn) el.nextTo2Btn.innerHTML = 'Scan & Tailor <i class="fa-solid fa-arrow-right"></i>';
 
     const step2Indicator = document.querySelector('.wizard-progress .step[data-step="2"]');
