@@ -205,8 +205,94 @@ function init() {
                 if (el.fileStatus) el.fileStatus.classList.remove('hidden');
                 bar.style.display = 'none';
                 checkStep1();
+
+                // Keep them on Step 1 to review, or jump to Step 3 if job text already exists (e.g., Extension mode)
+                if (window.isExtensionMode || state.jobText.trim()) goToStep(3);
             });
         }
+    }
+
+    // --- Extension Mode ---
+    // The URL already tells us we came from the extension.
+    // Activate the unified layout immediately, then poll for the text payload.
+    const isExtLoad = window.location.search.includes('ext_load=true');
+    if (isExtLoad) {
+        activateExtensionSkeleton(); // Show the layout instantly
+        pollForExtPayload(0);        // Start polling for the JD text
+    }
+
+    // Also listen for the custom event as a belt-and-suspenders fallback
+    window.addEventListener('tms_ext_payload_ready', function () { pollForExtPayload(0); });
+}
+
+// Called immediately when ext_load=true is in the URL — shows the unified layout
+// before the JD text arrives (which comes async from content.js)
+function activateExtensionSkeleton() {
+    const choiceGrid = document.getElementById('app-choice-grid');
+    const startDivider = document.getElementById('start-new-divider');
+    const extBanner = document.getElementById('extension-jd-banner');
+    const extJdCol = document.getElementById('ext-jd-col');
+    const step1Title = document.getElementById('step-1-title');
+    const step1Sub = document.getElementById('step-1-subtitle');
+
+    if (choiceGrid) choiceGrid.style.display = 'none';
+    if (startDivider) startDivider.style.display = 'none';
+    if (extBanner) extBanner.style.display = 'none';
+    if (extJdCol) extJdCol.style.display = 'flex';
+    if (step1Title) step1Title.textContent = 'Upload a resume to Tailor';
+    if (step1Sub) step1Sub.textContent = 'We\'ve captured your job details. Upload or select a past resume to continue.';
+
+    if (el.nextTo2Btn) el.nextTo2Btn.innerHTML = 'Scan & Tailor <i class="fa-solid fa-arrow-right"></i>';
+
+    const step2Indicator = document.querySelector('.wizard-progress .step[data-step="2"]');
+    if (step2Indicator) {
+        step2Indicator.classList.add('active');
+        const lbl = step2Indicator.querySelector('.step-label');
+        if (lbl) lbl.textContent = 'Role Captured';
+    }
+
+    window.isExtensionMode = true;
+}
+
+// Polls localStorage for the JD payload written by content.js
+function pollForExtPayload(attempt) {
+    const MAX = 30; // 30 x 200ms = 6 seconds
+    const raw = localStorage.getItem('tms_ext_payload');
+    if (raw) {
+        try {
+            const payload = JSON.parse(raw);
+            localStorage.removeItem('tms_ext_payload');
+
+            const jd = payload.description || payload.jd || '';
+            const title = payload.title || '';
+            const company = payload.company || '';
+
+            if (jd) {
+                state.jobText = jd;
+                if (el.jobDescRaw) el.jobDescRaw.value = jd;
+
+                const label = [title, company].filter(Boolean).join(' at ') || 'Imported Job';
+                if (el.jobUrlInput) el.jobUrlInput.value = label;
+                window.checkStep2();
+
+                const extTitleInput = document.getElementById('ext-job-title-input');
+                const extDescInput = document.getElementById('ext-job-desc-input');
+
+                if (extTitleInput) extTitleInput.value = label;
+                if (extDescInput) {
+                    extDescInput.value = jd;
+                    extDescInput.addEventListener('input', function (e) {
+                        state.jobText = e.target.value;
+                        if (el.jobDescRaw) el.jobDescRaw.value = e.target.value;
+                        window.checkStep2();
+                    });
+                }
+            }
+        } catch (e) {
+            console.error('[TMS] Failed to parse extension payload:', e);
+        }
+    } else if (attempt < MAX) {
+        setTimeout(function () { pollForExtPayload(attempt + 1); }, 200);
     }
 }
 
@@ -223,7 +309,13 @@ function updateThemeIcon(theme) {
 function attachEventListeners() {
     // Nav (Tool Only) — each button guarded independently
     if (el.nextTo2Btn) el.nextTo2Btn.addEventListener('click', () => {
-        if (state.resumeText.trim()) goToStep(2);
+        if (state.resumeText.trim()) {
+            if (window.isExtensionMode) {
+                goToStep(3);
+            } else {
+                goToStep(2);
+            }
+        }
     });
     if (el.nextTo3Btn) el.nextTo3Btn.addEventListener('click', () => {
         if (state.jobText.trim()) goToStep(3);
@@ -882,7 +974,7 @@ async function pollForPremiumStatus() {
     if (!window.supabaseClient) return;
     var attempts = 0;
     var maxAttempts = 10;
-    var poll = setInterval(async function() {
+    var poll = setInterval(async function () {
         attempts++;
         try {
             var sess = await window.supabaseClient.auth.getSession();
@@ -1217,7 +1309,7 @@ async function parseAndRedirect(content) {
         _toast.style.cssText = 'position:fixed;bottom:2rem;right:2rem;background:var(--panel-bg);border:1px solid var(--warning-color);border-radius:var(--radius-lg,8px);padding:0.75rem 1.25rem;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.85rem;color:var(--text-secondary);max-width:360px;';
         _toast.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--warning-color);margin-right:0.5rem;"></i>Could not parse job metadata — some fields may be missing.';
         document.body.appendChild(_toast);
-        setTimeout(function() { _toast.remove(); }, 5000);
+        setTimeout(function () { _toast.remove(); }, 5000);
     }
 
     if (meta.applicantName) state.applicantName = meta.applicantName;

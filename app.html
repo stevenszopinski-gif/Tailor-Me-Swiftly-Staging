@@ -124,10 +124,10 @@
               description captured! Upload a resume to continue.
             </div>
 
-            <div
+            <div id="app-choice-grid"
               style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.5rem; margin-bottom: 2rem;">
               <!-- Option 1: Past Applications -->
-              <a href="history.html" class="glass-panel"
+              <a href="history.html" id="past-apps-panel" class="glass-panel"
                 style="border: 1px solid var(--panel-border); border-radius: 4px; padding: 1.5rem; text-decoration: none; color: inherit; display: flex; flex-direction: row; align-items: center; gap: 1rem; transition: transform 0.2s, border-color 0.2s;"
                 onmouseover="this.style.borderColor='var(--primary-color)'; this.style.transform='translateY(-2px)';"
                 onmouseout="this.style.borderColor='var(--panel-border)'; this.style.transform='none';">
@@ -145,7 +145,7 @@
               </a>
 
               <!-- Option 2: New Application (Current State) -->
-              <div class="glass-panel"
+              <div id="new-app-panel" class="glass-panel"
                 style="border: 1px solid var(--primary-color); border-radius: 4px; padding: 1.5rem; display: flex; flex-direction: row; align-items: center; gap: 1rem; background: rgba(138, 154, 134, 0.08);">
                 <div
                   style="width: 44px; height: 44px; border-radius: 4px; background: linear-gradient(135deg, #8A9A86, #6E7E6A); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
@@ -159,7 +159,7 @@
               </div>
             </div>
 
-            <div class="divider"><span>START NEW APPLICATION</span></div>
+            <div id="start-new-divider" class="divider"><span>START NEW APPLICATION</span></div>
 
             <div id="gen-remaining-badge" style="display:none;text-align:center;margin-bottom:0.5rem;">
               <span
@@ -170,19 +170,44 @@
             </div>
 
             <div class="step-header" style="margin-top: 2rem;">
-              <h2>Start by uploading your resume</h2>
-              <p>We'll extract your core narrative while preserving the facts.</p>
+              <h2 id="step-1-title">Start by uploading your resume</h2>
+              <p id="step-1-subtitle">We'll extract your core narrative while preserving the facts.</p>
             </div>
 
-            <div class="upload-area" id="drop-zone">
-              <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display: none;">
-              <div class="upload-icon">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
+            <div id="ext-split-layout" style="display: flex; gap: 1.5rem; align-items: stretch; flex-wrap: wrap;">
+              <!-- Left side: Upload area -->
+              <div id="upload-col" style="flex: 1; min-width: 280px;">
+                <div class="upload-area" id="drop-zone" style="height: 100%;">
+                  <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display: none;">
+                  <div class="upload-icon">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                  </div>
+                  <h3>Drag & drop your resume here</h3>
+                  <p>Supports PDF, DOCX, and TXT (Max 5MB)</p>
+                  <button type="button" class="btn secondary-btn"
+                    onclick="document.getElementById('file-input').click()">Browse Files</button>
+                </div>
               </div>
-              <h3>Drag & drop your resume here</h3>
-              <p>Supports PDF, DOCX, and TXT (Max 5MB)</p>
-              <button type="button" class="btn secondary-btn"
-                onclick="document.getElementById('file-input').click()">Browse Files</button>
+
+              <!-- Right side: Captured Job Description (Hidden by default) -->
+              <div id="ext-jd-col" style="flex: 1; min-width: 280px; display: none; flex-direction: column;">
+                <div class="glass-panel"
+                  style="border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.25rem; height: 100%; display: flex; flex-direction: column; background: rgba(138, 154, 134, 0.03);">
+                  <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h3 style="margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem;">
+                      <i class="fa-solid fa-briefcase" style="color: var(--primary-color);"></i> Captured Job
+                    </h3>
+                    <span id="ext-jd-status" class="ats-badge important"
+                      style="background: rgba(138, 154, 134, 0.15); color: var(--primary-color);">Ready</span>
+                  </div>
+                  <input type="text" id="ext-job-title-input" class="input-field" placeholder="Job Title at Company"
+                    style="margin-bottom: 0.75rem; font-weight: 600; font-size: 0.95rem; padding: 0.6rem; border-color: var(--panel-border);">
+                  <textarea id="ext-job-desc-input" class="manual-jd"
+                    style="flex: 1; min-height: 150px; font-size: 0.85rem; padding: 0.75rem; border-color: var(--panel-border); margin: 0; resize: vertical;"
+                    placeholder="Job requirements and responsibilities..."></textarea>
+                </div>
+              </div>
             </div>
 
             <!-- LinkedIn import hidden until scraping solution found -->
@@ -906,7 +931,7 @@
       <script src="auth.js?v=15"></script>
       <script src="components.js"></script>
       <script src="error-utils.js"></script>
-      <script src="app.js?v=10"></script>
+      <script src="app.js?v=13"></script>
 
       <!-- Full viewport overlay -->
       <div id="loading-overlay" class="hidden">
