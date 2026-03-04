@@ -169,45 +169,40 @@
               </span>
             </div>
 
+            <!-- Captured Job panel — full width, shown only in extension mode -->
+            <div id="ext-jd-col" style="display: none; flex-direction: column; margin-top: 1.5rem;">
+              <div class="glass-panel"
+                style="border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; background: rgba(138, 154, 134, 0.03);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <h3 style="margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-briefcase" style="color: var(--primary-color);"></i> Captured Job
+                  </h3>
+                  <span id="ext-jd-status" class="ats-badge important"
+                    style="background: rgba(138, 154, 134, 0.15); color: var(--primary-color);">Ready</span>
+                </div>
+                <input type="text" id="ext-job-title-input" class="input-field" placeholder="Job Title at Company"
+                  style="margin-bottom: 0.75rem; font-weight: 600; font-size: 0.95rem; padding: 0.6rem; border-color: var(--panel-border);">
+                <textarea id="ext-job-desc-input" class="manual-jd"
+                  style="min-height: 120px; font-size: 0.85rem; padding: 0.75rem; border-color: var(--panel-border); margin: 0; resize: vertical;"
+                  placeholder="Job requirements and responsibilities..."></textarea>
+              </div>
+            </div>
+
             <div class="step-header" style="margin-top: 2rem;">
               <h2 id="step-1-title">Start by uploading your resume</h2>
               <p id="step-1-subtitle">We'll extract your core narrative while preserving the facts.</p>
             </div>
 
-            <div id="ext-split-layout" style="display: flex; gap: 1.5rem; align-items: stretch; flex-wrap: wrap;">
-              <!-- Left side: Upload area -->
-              <div id="upload-col" style="flex: 1; min-width: 280px;">
-                <div class="upload-area" id="drop-zone" style="height: 100%;">
-                  <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display: none;">
-                  <div class="upload-icon">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                  </div>
-                  <h3>Drag & drop your resume here</h3>
-                  <p>Supports PDF, DOCX, and TXT (Max 5MB)</p>
-                  <button type="button" class="btn secondary-btn"
-                    onclick="document.getElementById('file-input').click()">Browse Files</button>
-                </div>
+            <div class="upload-area" id="drop-zone">
+              <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display: none;">
+              <div class="upload-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
               </div>
-
-              <!-- Right side: Captured Job Description (Hidden by default) -->
-              <div id="ext-jd-col" style="flex: 1; min-width: 280px; display: none; flex-direction: column;">
-                <div class="glass-panel"
-                  style="border: 1px solid var(--primary-color); border-radius: 8px; padding: 1.25rem; height: 100%; display: flex; flex-direction: column; background: rgba(138, 154, 134, 0.03);">
-                  <div
-                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                    <h3 style="margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 0.5rem;">
-                      <i class="fa-solid fa-briefcase" style="color: var(--primary-color);"></i> Captured Job
-                    </h3>
-                    <span id="ext-jd-status" class="ats-badge important"
-                      style="background: rgba(138, 154, 134, 0.15); color: var(--primary-color);">Ready</span>
-                  </div>
-                  <input type="text" id="ext-job-title-input" class="input-field" placeholder="Job Title at Company"
-                    style="margin-bottom: 0.75rem; font-weight: 600; font-size: 0.95rem; padding: 0.6rem; border-color: var(--panel-border);">
-                  <textarea id="ext-job-desc-input" class="manual-jd"
-                    style="flex: 1; min-height: 150px; font-size: 0.85rem; padding: 0.75rem; border-color: var(--panel-border); margin: 0; resize: vertical;"
-                    placeholder="Job requirements and responsibilities..."></textarea>
-                </div>
-              </div>
+              <h3>Drag & drop your resume here</h3>
+              <p>Supports PDF, DOCX, and TXT (Max 5MB)</p>
+              <button type="button" class="btn secondary-btn"
+                onclick="document.getElementById('file-input').click()">Browse Files</button>
             </div>
 
             <!-- LinkedIn import hidden until scraping solution found -->
@@ -262,8 +257,8 @@
             <!-- Hidden text input for raw parsed text -->
             <textarea id="base-resume" hidden></textarea>
 
-            <!-- Use Last Resume shortcut -->
-            <div id="use-last-resume-bar" style="display:none; margin-top:0.75rem; text-align:center;">
+            <!-- Use Last Resume shortcut — moved here so it appears below the captured job panel -->
+            <div id="use-last-resume-bar" style="display:none; margin-top:0.75rem;">
               <div
                 style="background:var(--glass-bg); border:1px solid var(--panel-border); border-radius: 4px; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
                 <div style="display:flex; align-items:center; gap:0.6rem; font-size:0.88rem;">
