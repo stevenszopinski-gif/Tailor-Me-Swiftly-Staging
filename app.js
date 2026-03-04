@@ -239,8 +239,12 @@ function activateExtensionSkeleton() {
     if (startDivider) startDivider.style.display = 'none';
     if (extBanner) extBanner.style.display = 'none';
     if (extJdCol) extJdCol.style.display = 'flex';
-    if (step1Title) step1Title.textContent = 'Upload a resume to Tailor';
-    if (step1Sub) step1Sub.textContent = 'We\'ve captured your job details. Upload or select a past resume to continue.';
+    if (step1Title) step1Title.textContent = 'Choose a resume';
+    if (step1Sub) step1Sub.textContent = 'Upload a new resume or use a saved one to tailor for this role.';
+
+    // Show the "OR UPLOAD YOUR RESUME" divider between captured job & upload area
+    const extUploadDivider = document.getElementById('ext-upload-divider');
+    if (extUploadDivider) extUploadDivider.style.display = '';
 
     // Move "Use Last Resume" bar to immediately after the captured job panel
     const useLastBar = document.getElementById('use-last-resume-bar');
