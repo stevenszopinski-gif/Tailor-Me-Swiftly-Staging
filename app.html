@@ -189,7 +189,24 @@
               </div>
             </div>
 
-            <div id="ext-upload-divider" class="divider" style="display:none; margin-top:0.75rem;"><span>OR UPLOAD YOUR RESUME</span></div>
+            <!-- Use Last Resume shortcut -->
+            <div id="use-last-resume-bar" style="display:none; margin-top:0.75rem;">
+              <div
+                style="background:var(--glass-bg); border:1px solid var(--panel-border); border-radius: 4px; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+                <div style="display:flex; align-items:center; gap:0.6rem; font-size:0.88rem;">
+                  <i class="fa-solid fa-clock-rotate-left" style="color:var(--primary-color);"></i>
+                  <span>Use your last uploaded resume: <strong id="last-resume-name"
+                      style="color:var(--text-primary);">–</strong></span>
+                </div>
+                <button id="use-last-resume-btn"
+                  style="padding:0.5rem 1.2rem; font-size:0.88rem; font-weight:600; background:var(--text-primary); color:var(--bg-color); border:2px solid var(--text-primary); border-radius:4px; cursor:pointer; letter-spacing:0.03em;">
+                  <i class="fa-solid fa-bolt"></i> Use This
+                </button>
+              </div>
+            </div>
+
+            <div id="ext-upload-divider" class="divider" style="display:none; margin-top:0.75rem;"><span>OR UPLOAD YOUR
+                RESUME</span></div>
 
             <div class="upload-area" id="drop-zone" style="margin-top: 0.75rem;">
               <input type="file" id="file-input" accept=".pdf,.docx,.txt" style="display: none;">
@@ -237,7 +254,8 @@
             </div>
 
             <div id="manual-resume-wrap" class="hidden" style="margin-bottom:1.5rem;">
-              <textarea id="manual-resume-input" class="manual-jd" style="width:100%; height:150px; border:2px solid var(--text-secondary); border-radius:8px;"
+              <textarea id="manual-resume-input" class="manual-jd"
+                style="width:100%; height:150px; border:2px solid var(--text-secondary); border-radius:8px;"
                 placeholder="Paste your resume text here..."></textarea>
             </div>
 
@@ -254,21 +272,7 @@
             <!-- Hidden text input for raw parsed text -->
             <textarea id="base-resume" hidden></textarea>
 
-            <!-- Use Last Resume shortcut — moved here so it appears below the captured job panel -->
-            <div id="use-last-resume-bar" style="display:none; margin-top:0.75rem;">
-              <div
-                style="background:var(--glass-bg); border:1px solid var(--panel-border); border-radius: 4px; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
-                <div style="display:flex; align-items:center; gap:0.6rem; font-size:0.88rem;">
-                  <i class="fa-solid fa-clock-rotate-left" style="color:var(--primary-color);"></i>
-                  <span>Use your last uploaded resume: <strong id="last-resume-name"
-                      style="color:var(--text-primary);">–</strong></span>
-                </div>
-                <button id="use-last-resume-btn"
-                  style="padding:0.5rem 1.2rem; font-size:0.88rem; font-weight:600; background:var(--text-primary); color:var(--bg-color); border:2px solid var(--text-primary); border-radius:4px; cursor:pointer; letter-spacing:0.03em;">
-                  <i class="fa-solid fa-bolt"></i> Use This
-                </button>
-              </div>
-            </div>
+
 
             <div class="step-actions right">
               <button id="next-to-2" class="btn primary-btn" disabled>Next Step <i
@@ -903,7 +907,7 @@
 
       <!-- Site Footer -->
       <footer class="site-footer" role="contentinfo">
-                <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
+        <p><a href="terms.html">Terms & Conditions</a> | <a href="privacy.html">Privacy Policy</a> | <a
             href="security.html">Security Policy</a></p>
         <p>&copy; 2026 TailorMeSwiftly.com</p>
       </footer>
