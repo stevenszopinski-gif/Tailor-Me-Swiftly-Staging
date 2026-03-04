@@ -146,7 +146,10 @@
             openBtn.style.display = 'block';
           }
         } else {
-          status.textContent = 'No job description found. Navigate to a specific job listing.';
+          var isLinkedIn = response && response.source && response.source.indexOf('linkedin') !== -1;
+          status.textContent = isLinkedIn
+            ? 'No job description found. Click into a specific job posting first — feed and search pages don\'t have a single JD to capture.'
+            : 'No job description found. Navigate to a specific job listing.';
         }
       }
 
