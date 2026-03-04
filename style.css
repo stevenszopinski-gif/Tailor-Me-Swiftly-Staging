@@ -549,6 +549,51 @@ body {
   letter-spacing: -0.5px;
 }
 
+/* ── Modal overlay & dialog ─────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-dialog {
+  background: var(--panel-bg);
+  border: var(--brutal-border);
+  border-radius: var(--brutal-radius);
+  box-shadow: var(--brutal-shadow);
+  padding: 2rem;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-dialog.sm { max-width: 440px; }
+.modal-dialog.md { max-width: 560px; }
+.modal-dialog.lg { max-width: 640px; }
+
+/* ── Icon buttons (edit, delete, close) ──────────────────────── */
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  font-size: 0.82rem;
+  transition: opacity 0.2s;
+}
+.icon-btn:hover { opacity: 0.7; }
+
+/* ── Inline badge ────────────────────────────────────────────── */
+.inline-badge {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--brutal-radius);
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .workspace-header {
     flex-direction: column;

@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css?v=17">
   <link rel="stylesheet" href="templates.css">
-  
+
   <style>
     .dash-page {
       max-width: 1100px;
@@ -431,8 +431,7 @@
           <img id="user-avatar" aria-label="User menu" src="" alt="Avatar"
             style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--primary-color);cursor:pointer;"
             onclick="document.getElementById('avatar-dropdown').classList.toggle('hidden')">
-          <span id="user-greeting"
-            style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
+          <span id="user-greeting" style="font-size:0.7rem;color:var(--text-secondary);white-space:nowrap;"></span>
           <div id="avatar-dropdown" class="avatar-dropdown hidden">
             <a href="account.html" class="dropdown-item" style="text-decoration:none;color:inherit;">
               <i class="fa-solid fa-user-gear"></i> Account
@@ -454,7 +453,7 @@
 
   <!-- Ad Unit -->
   <div style="text-align:center;margin:0 auto 1rem;max-width:728px;padding:0 1.5rem;">
-    
+
     <script></script>
   </div>
 
@@ -483,8 +482,7 @@
             <i class="fa-solid fa-bolt"></i>
           </div>
           <div>
-            <div
-              style="font-weight:700; font-size:1rem; color:var(--text-primary); font-family:var(--font-mono);">
+            <div style="font-weight:700; font-size:1rem; color:var(--text-primary); font-family:var(--font-mono);">
               DAILY BRIEFING</div>
             <div style="font-size:0.82rem; color:var(--text-secondary); margin-top:0.15rem;">Your AI-curated
               news digest, personalized to your career interests</div>
@@ -550,8 +548,7 @@
     </div>
 
     <div id="dash-kanban-content" style="margin-bottom: 2.5rem;">
-      <div
-        style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;padding:0.5rem 0;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;padding:0.5rem 0;">
         <div class="skeleton-card">
           <div class="skeleton skeleton-line long"></div>
           <div class="skeleton skeleton-line short"></div>
@@ -625,8 +622,18 @@
     ];
 
     function showNotSignedIn() {
-      document.getElementById('dash-kanban-content').innerHTML =
-        '<div style="text-align:center;padding:2rem;"><a href="login.html" class="btn primary-btn">Sign In to View Applications</a></div>';
+      document.getElementById('dash-kanban-content').innerHTML = `
+        <div style="text-align:center;padding:2.5rem 1.5rem;background:var(--panel-bg);border:var(--brutal-border);border-radius:var(--brutal-radius);box-shadow:var(--brutal-shadow);">
+          <i class="fa-solid fa-rocket" style="font-size:2.5rem;color:var(--text-primary);display:block;margin-bottom:1rem;"></i>
+          <h3 style="margin-bottom:0.5rem;font-size:1.2rem;">Welcome to TailorMeSwiftly!</h3>
+          <p style="color:var(--text-secondary);margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;">Get started in 3 simple steps:</p>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;max-width:360px;margin:0 auto 1.5rem;text-align:left;">
+            <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--text-primary);color:var(--bg-color);width:28px;height:28px;border-radius:var(--brutal-radius);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">1</span><span style="font-size:0.9rem;">Upload your resume (PDF, DOCX, or TXT)</span></div>
+            <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--text-primary);color:var(--bg-color);width:28px;height:28px;border-radius:var(--brutal-radius);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">2</span><span style="font-size:0.9rem;">Paste a job URL or description</span></div>
+            <div style="display:flex;align-items:center;gap:0.75rem;"><span style="background:var(--text-primary);color:var(--bg-color);width:28px;height:28px;border-radius:var(--brutal-radius);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0;">3</span><span style="font-size:0.9rem;">AI tailors your resume, cover letter & interview prep</span></div>
+          </div>
+          <a href="login.html" class="btn primary-btn" style="display:inline-flex;align-items:center;gap:0.5rem;"><i class="fa-solid fa-user-plus"></i> Sign In to Get Started</a>
+        </div>`;
     }
 
     async function loadDashboard(user) {

@@ -1,0 +1,56 @@
+{
+    "manifest_version": 3,
+    "name": "TailorMeSwiftly - Auto Job Capture",
+    "version": "3.0.0",
+    "description": "Capture job descriptions, save to your Job Tracker, and tailor your resume — all from the browser",
+    "permissions": ["activeTab", "storage", "notifications", "identity", "scripting"],
+    "host_permissions": [
+        "https://gwmpdgjvcjzndbloctla.supabase.co/*"
+    ],
+    "icons": {
+        "16": "icon-16.png",
+        "48": "icon-48.png",
+        "128": "icon-128.png"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icon-16.png",
+            "48": "icon-48.png",
+            "128": "icon-128.png"
+        },
+        "default_title": "Capture Job Description"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.linkedin.com/jobs/*",
+                "*://*.indeed.com/*",
+                "*://*.greenhouse.io/*",
+                "*://*.lever.co/*",
+                "*://*.glassdoor.com/*",
+                "*://*.myworkdayjobs.com/*",
+                "*://*.workday.com/*",
+                "*://*.icims.com/*",
+                "*://*.smartrecruiters.com/*",
+                "*://*.bamboohr.com/*",
+                "*://*.ashbyhq.com/*",
+                "*://*.wellfound.com/*"
+            ],
+            "js": ["content.js"]
+        },
+        {
+            "matches": [
+                "*://*.myworkdayjobs.com/*/apply/*",
+                "*://*.workday.com/*/apply/*",
+                "*://boards.greenhouse.io/*/jobs/*/applications/*",
+                "*://*.greenhouse.io/*/applications/*"
+            ],
+            "js": ["autofill.js"],
+            "run_at": "document_idle"
+        }
+    ]
+}

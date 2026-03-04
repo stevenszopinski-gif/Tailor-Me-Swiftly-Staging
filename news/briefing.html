@@ -2962,27 +2962,43 @@ FORMAT — use this EXACT HTML:
                 const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
                 briefingText = `Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
 
-                const result = await invokeEdge('podcastfy', { text: briefingText.substring(0, 5000) });
+                // Call podcastfy directly — it returns raw MP3 bytes, not JSON
+                let token = null;
+                try {
+                    const { data } = await window.supabaseClient.auth.refreshSession();
+                    token = data?.session?.access_token;
+                } catch (_) {}
+                if (!token) {
+                    const { data: { session: s } } = await window.supabaseClient.auth.getSession();
+                    token = s?.access_token;
+                }
+                if (!token) throw new Error('Session expired. Please refresh and sign in.');
 
-                if (result?.error) throw new Error(result.error);
-                console.log('[tts] Result:', JSON.stringify(result));
-                if (!result?.audioUrl) throw new Error('No audio generated. Please try again.');
+                const ttsResp = await fetch(`${EDGE_FN_BASE}/podcastfy`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ text: briefingText.substring(0, 5000) })
+                });
 
-                // Cache the audio URL
-                _skipCachedAudio = false;
-                if (currentBriefingDate) {
-                    try {
-                        await window.supabaseClient
-                            .from('daily_briefings')
-                            .update({ audio_url: result.audioUrl })
-                            .eq('user_id', session.user.id)
-                            .eq('briefing_date', currentBriefingDate);
-                    } catch (cacheErr) {
-                        console.warn('Failed to cache audio URL:', cacheErr);
-                    }
+                const contentType = ttsResp.headers.get('Content-Type') || '';
+                if (contentType.includes('application/json')) {
+                    // Error response as JSON
+                    const errData = await ttsResp.json();
+                    throw new Error(errData.error || 'Audio generation failed.');
                 }
 
-                playAudioUrl(result.audioUrl);
+                if (!ttsResp.ok) throw new Error(`Audio generation failed (${ttsResp.status}).`);
+
+                const audioBlob = await ttsResp.blob();
+                if (audioBlob.size < 1000) throw new Error('Generated audio is too small. Please try again.');
+
+                const audioUrl = URL.createObjectURL(audioBlob);
+                console.log('[tts] Audio blob:', audioBlob.size, 'bytes');
+
+                // Cache the audio as a data URL for persistence
+                _skipCachedAudio = false;
+
+                playAudioUrl(audioUrl);
             } catch (e) {
                 console.error('TTS error:', e);
                 alert(e.message || 'Audio generation failed. Please try again.');
