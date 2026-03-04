@@ -148,33 +148,38 @@
       background: var(--panel-border);
     }
 
-    /* ─── Mini Kanban ─── */
+    /* ─── Compact Status Bar ─── */
     .dash-kanban {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.5rem;
       overflow-x: auto;
-      padding-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
     }
 
     .dash-kanban::-webkit-scrollbar {
-      height: 5px;
+      height: 4px;
     }
 
     .dash-kanban::-webkit-scrollbar-thumb {
       background: var(--panel-border);
-      border-radius: 3px;
+      border-radius: 2px;
     }
 
     .dash-col {
-      min-width: 220px;
-      max-width: 260px;
-      flex: 1 0 220px;
+      min-width: 140px;
+      flex: 1;
       background: var(--panel-bg);
       border: var(--brutal-border);
       border-radius: var(--brutal-radius);
-      padding: 0.6rem;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      text-align: center;
     }
 
     .dash-col-header {
@@ -508,25 +513,7 @@
     <!-- Application Tracker -->
     <div class="dash-section-label"><i class="fa-solid fa-table-columns"></i> Tailor My Application Tracker</div>
 
-    <!-- Quick Stats -->
-    <div class="dash-stats" id="dash-stats" style="display:none;">
-      <div class="dash-stat">
-        <div class="dash-stat-value" id="stat-total">0</div>
-        <div class="dash-stat-label">Total Apps</div>
-      </div>
-      <div class="dash-stat">
-        <div class="dash-stat-value" id="stat-applied">0</div>
-        <div class="dash-stat-label">Applied</div>
-      </div>
-      <div class="dash-stat">
-        <div class="dash-stat-value" id="stat-interviewing">0</div>
-        <div class="dash-stat-label">Interviewing</div>
-      </div>
-      <div class="dash-stat">
-        <div class="dash-stat-value" id="stat-offers">0</div>
-        <div class="dash-stat-label">Offers</div>
-      </div>
-    </div>
+
 
     <!-- Filter Bar (Sprint 2.2) -->
     <div class="filter-bar" id="dash-filter-bar" style="display:none;">
@@ -663,10 +650,12 @@
         }
 
         renderStats(data);
-        renderMiniKanban(data);
+
+        // Remove kanban rendering as requested by user
+        var nudgeContainer = document.getElementById('dash-kanban-content');
+        nudgeContainer.innerHTML = ''; // Clear skeletons
 
         // Project X integrations
-        var nudgeContainer = document.getElementById('dash-kanban-content');
         if (typeof checkStaleApps === 'function') checkStaleApps(nudgeContainer);
         var timeSavedEl = document.getElementById('time-saved-container');
         if (timeSavedEl && typeof showTimeSaved === 'function') showTimeSaved(timeSavedEl);
@@ -710,51 +699,28 @@
         column.className = 'dash-col';
         column.dataset.status = col.status;
 
+        // Sort items so newest is first
+        items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        const latestInfo = items.length > 0
+          ? `<a href="history.html?open=${items[0].id}" style="font-size:0.75rem; color:var(--text-secondary); text-decoration:none; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; margin-top:0.2rem;" title="Latest: ${items[0].target_company || 'Untitled'}">${items[0].target_company || 'Untitled'} &rarr;</a>`
+          : `<div style="font-size:0.75rem; color:var(--text-secondary); opacity:0.5; margin-top:0.2rem;">Empty</div>`;
+
         column.innerHTML = `
-          <div class="dash-col-header">
-            <div class="dash-col-title"><i class="fa-solid ${col.icon}"></i> ${col.status}</div>
-            <span class="dash-col-count">${items.length}</span>
+          <div style="font-size:1.5rem; color:var(--text-primary); margin-bottom:0.2rem;"><i class="fa-solid ${col.icon}"></i></div>
+          <div style="font-size:0.9rem; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:0.4rem;">
+            ${col.status} <span style="background:var(--bg-color); border:1px solid var(--panel-border); border-radius:10px; padding:0.1rem 0.4rem; font-size:0.7rem; color:var(--text-secondary);">${items.length}</span>
           </div>
-          <div class="dash-col-cards"></div>
+          ${latestInfo}
         `;
 
-        const cards = column.querySelector('.dash-col-cards');
-
-        if (items.length === 0) {
-          cards.innerHTML = '<div class="dash-col-empty"><i class="fa-solid fa-inbox"></i></div>';
-        } else {
-          items.forEach(gen => {
-            const card = document.createElement('a');
-            card.className = 'dash-card';
-            card.href = `history.html?open=${gen.id}`;
-            card.title = gen.target_company || 'View application';
-
-            const date = new Date(gen.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            const score = gen.match_score;
-            const scoreColor = score >= 75 ? '#8A9A86' : score >= 50 ? '#D4A574' : '#C47A6E';
-            const scoreBg = score >= 75 ? 'rgba(138,154,134,0.1)' : score >= 50 ? 'rgba(212,165,116,0.1)' : 'rgba(196,122,110,0.1)';
-            const dotColor = gen.company_primary_color || '#7B8FA8';
-            const company = gen.target_company || 'Untitled';
-
-            let ctxLink = '';
-            if (col.status === 'Offer') {
-              ctxLink = `<a href="salary-negotiator.html" class="dash-card-ctx-link" style="color:#8A9A86;" onclick="event.stopPropagation();">Negotiate salary &rarr;</a>`;
-            } else if (col.status === 'Rejected') {
-              ctxLink = `<a href="rejection-reverser.html" class="dash-card-ctx-link" style="color:#C47A6E;" onclick="event.stopPropagation();">Bounce back &rarr;</a>`;
-            }
-
-            card.innerHTML = `
-              <div class="dash-card-top">
-                <span class="dash-card-company"><span class="company-dot" style="background:${dotColor};"></span>${company}</span>
-                <span class="dash-card-date">${date}</span>
-              </div>
-              ${score ? `<div class="dash-card-score" style="background:${scoreBg};color:${scoreColor};"><i class="fa-solid fa-bullseye"></i> ${score}%</div>` : ''}
-              ${ctxLink}
-            `;
-
-            cards.appendChild(card);
-          });
-        }
+        // If they click anywhere on the column, take them to the history page filtered (if filter existed)
+        // For now, just take them to history
+        column.style.cursor = 'pointer';
+        column.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'A') {
+            window.location.href = 'history.html';
+          }
+        });
 
         board.appendChild(column);
       });
