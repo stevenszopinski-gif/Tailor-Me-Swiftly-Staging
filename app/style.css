@@ -1048,6 +1048,8 @@ textarea:focus {
 .manual-jd {
   height: 150px;
   resize: vertical;
+  border: 2px solid var(--text-secondary) !important;
+  border-radius: 8px;
 }
 
 /* Step Actions */
