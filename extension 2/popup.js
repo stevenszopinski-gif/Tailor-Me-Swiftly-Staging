@@ -237,13 +237,47 @@
   });
 
   function openInTMS(data) {
+    // We cannot reliably pass 10,000+ chars in a URL query string.
+    // Open the tab, then inject a script to write the payload into the
+    // page's localStorage so pollForExtPayload() picks it up.
     var params = new URLSearchParams();
-    if (data.title) params.set('title', data.title);
-    if (data.company) params.set('company', data.company);
-    if (data.url) params.set('jobUrl', data.url);
-    if (data.description) params.set('jd', data.description.substring(0, 3000));
+    params.set('t_nocache', Date.now());
     params.set('source', 'extension');
-    chrome.tabs.create({ url: 'https://tailormeswiftly.com/app/tailor?' + params.toString() });
+    params.set('ext_load', 'true');
+
+    var targetUrl = 'https://tailormeswiftly.com/app.html?' + params.toString();
+    var payload = JSON.stringify({
+      title: data.title || '',
+      company: data.company || '',
+      description: data.description || '',
+      url: data.url || '',
+      source: data.source || '',
+    });
+
+    chrome.tabs.create({ url: targetUrl }, function (tab) {
+      function injectPayload(tabId) {
+        chrome.scripting.executeScript({
+          target: { tabId: tabId },
+          func: function (payloadStr) {
+            localStorage.setItem('tms_ext_payload', payloadStr);
+            window.dispatchEvent(new Event('tms_ext_payload_ready'));
+          },
+          args: [payload],
+        }).catch(function () { /* tab may not be ready yet */ });
+      }
+
+      // Inject once the tab finishes loading
+      function onUpdated(tabId, changeInfo) {
+        if (tabId === tab.id && changeInfo.status === 'complete') {
+          chrome.tabs.onUpdated.removeListener(onUpdated);
+          injectPayload(tabId);
+        }
+      }
+      chrome.tabs.onUpdated.addListener(onUpdated);
+
+      // Also try after a short delay as fallback
+      setTimeout(function () { injectPayload(tab.id); }, 1500);
+    });
   }
 
   // ---- Background Generation ----

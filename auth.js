@@ -333,9 +333,11 @@
                 }
             } else if (!session && event === 'SIGNED_OUT') {
                 // Only redirect/update UI on explicit sign-out
-                if (isApp) {
+                // Don't redirect if we came from the extension — let the user stay
+                var isExtMode = window.location.search.includes('ext_load=true') || window.isExtensionMode;
+                if (isApp && !isExtMode) {
                     window.location.href = P + 'index.html';
-                } else {
+                } else if (!isApp) {
                     updateUIForLoggedOut();
                 }
             } else if (session) {

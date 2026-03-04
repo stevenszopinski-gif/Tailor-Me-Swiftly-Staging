@@ -3,21 +3,28 @@
     "name": "TailorMeSwiftly - Auto Job Capture",
     "version": "3.0.0",
     "description": "Capture job descriptions, save to your Job Tracker, and tailor your resume — all from the browser",
-    "permissions": ["activeTab", "storage", "notifications", "identity", "scripting"],
+    "permissions": [
+        "activeTab",
+        "storage",
+        "notifications",
+        "identity",
+        "scripting"
+    ],
     "host_permissions": [
-        "https://gwmpdgjvcjzndbloctla.supabase.co/*"
+        "https://gwmpdgjvcjzndbloctla.supabase.co/*",
+        "https://tailormeswiftly.com/*"
     ],
     "icons": {
-        "16": "icon-16.png",
-        "48": "icon-48.png",
-        "128": "icon-128.png"
+        "16": "tms-16.png",
+        "48": "tms-48.png",
+        "128": "tms-128.png"
     },
     "action": {
         "default_popup": "popup.html",
         "default_icon": {
-            "16": "icon-16.png",
-            "48": "icon-48.png",
-            "128": "icon-128.png"
+            "16": "tms-16.png",
+            "48": "tms-48.png",
+            "128": "tms-128.png"
         },
         "default_title": "Capture Job Description"
     },
@@ -38,9 +45,13 @@
                 "*://*.smartrecruiters.com/*",
                 "*://*.bamboohr.com/*",
                 "*://*.ashbyhq.com/*",
-                "*://*.wellfound.com/*"
+                "*://*.wellfound.com/*",
+                "*://tailormeswiftly.com/app.html*",
+                "*://www.tailormeswiftly.com/app.html*"
             ],
-            "js": ["content.js"]
+            "js": [
+                "content.js"
+            ]
         },
         {
             "matches": [
@@ -49,7 +60,9 @@
                 "*://boards.greenhouse.io/*/jobs/*/applications/*",
                 "*://*.greenhouse.io/*/applications/*"
             ],
-            "js": ["autofill.js"],
+            "js": [
+                "autofill.js"
+            ],
             "run_at": "document_idle"
         }
     ]
