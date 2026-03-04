@@ -232,15 +232,11 @@ function activateExtensionSkeleton() {
     const startDivider = document.getElementById('start-new-divider');
     const extBanner = document.getElementById('extension-jd-banner');
     const extJdCol = document.getElementById('ext-jd-col');
-    const step1Title = document.getElementById('step-1-title');
-    const step1Sub = document.getElementById('step-1-subtitle');
 
     if (choiceGrid) choiceGrid.style.display = 'none';
     if (startDivider) startDivider.style.display = 'none';
     if (extBanner) extBanner.style.display = 'none';
     if (extJdCol) extJdCol.style.display = 'flex';
-    if (step1Title) step1Title.style.display = 'none';
-    if (step1Sub) step1Sub.style.display = 'none';
 
     // Show the "OR UPLOAD YOUR RESUME" divider between captured job & upload area
     const extUploadDivider = document.getElementById('ext-upload-divider');
