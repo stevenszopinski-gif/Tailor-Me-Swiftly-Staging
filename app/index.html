@@ -24,6 +24,16 @@
    <link rel="stylesheet" crossorigin href="/app/assets/index-DVDDtdjD.css">
  </head>
  <body data-theme="dark">
+  <script>
+    // Restore SPA path after GitHub Pages 404 redirect
+    (function() {
+      var redirect = sessionStorage.getItem('spa-redirect');
+      if (redirect) {
+        sessionStorage.removeItem('spa-redirect');
+        window.history.replaceState(null, '', '/app' + redirect);
+      }
+    })();
+  </script>
   <div id="root"></div>
   <!-- pdf.js for resume parsing -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
