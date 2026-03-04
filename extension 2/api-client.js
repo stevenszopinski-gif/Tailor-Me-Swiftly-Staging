@@ -18,6 +18,26 @@
     };
   }
 
+  // Build fresh auth headers after a force token refresh
+  async function freshAuthHeaders() {
+    var token = await TmsAuth.forceRefresh();
+    if (!token) throw new Error('Session expired. Please sign out and sign in again.');
+    return {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + token,
+    };
+  }
+
+  // Detect RLS / auth errors from PostgREST responses
+  function isAuthOrRlsError(data) {
+    var msg = (data && (data.message || data.msg || '')) || '';
+    return msg.indexOf('row-level security') !== -1
+      || msg.indexOf('JWTExpired') !== -1
+      || msg.indexOf('JWT expired') !== -1
+      || msg.indexOf('permission denied') !== -1;
+  }
+
   // ---- Job Applications ----
 
   async function saveJobToKanban(jobData) {
@@ -27,21 +47,53 @@
     var user = await TmsAuth.getUser();
     if (!user || !user.id) throw new Error('Not authenticated');
 
+    var body = JSON.stringify({
+      user_id: user.id,
+      company: jobData.company || 'Unknown Company',
+      role: jobData.title || 'Unknown Role',
+      status: 'saved',
+      job_url: jobData.url || null,
+      job_description: (jobData.description || '').substring(0, 50000),
+      source: 'extension',
+    });
+
     var resp = await fetch(SUPABASE_URL + '/rest/v1/job_applications', {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify({
-        user_id: user.id,
+      body: body,
+    });
+
+    var data = await resp.json();
+
+    // If RLS/auth error, force refresh token and retry once
+    if (!resp.ok && isAuthOrRlsError(data)) {
+      console.warn('[tms-ext] RLS/auth error, refreshing token and retrying...');
+      var retryHeaders = await freshAuthHeaders();
+      retryHeaders['Prefer'] = 'return=representation';
+
+      // Re-fetch user after refresh (user_id might differ if session changed)
+      var freshUser = await TmsAuth.getUser();
+      if (!freshUser || !freshUser.id) throw new Error('Session expired. Please sign out and sign in again.');
+
+      var retryBody = JSON.stringify({
+        user_id: freshUser.id,
         company: jobData.company || 'Unknown Company',
         role: jobData.title || 'Unknown Role',
         status: 'saved',
         job_url: jobData.url || null,
         job_description: (jobData.description || '').substring(0, 50000),
         source: 'extension',
-      }),
-    });
+      });
 
-    var data = await resp.json();
+      resp = await fetch(SUPABASE_URL + '/rest/v1/job_applications', {
+        method: 'POST',
+        headers: retryHeaders,
+        body: retryBody,
+      });
+
+      data = await resp.json();
+    }
+
     if (!resp.ok) throw new Error(data.message || 'Failed to save job');
     return Array.isArray(data) ? data[0] : data;
   }

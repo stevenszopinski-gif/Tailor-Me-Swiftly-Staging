@@ -111,6 +111,22 @@
     return !!token;
   }
 
+  // Force refresh the token, bypassing expiry check
+  async function forceRefresh() {
+    var auth = await getStoredAuth();
+    if (!auth || !auth.refresh_token) {
+      await clearAuth();
+      return null;
+    }
+    try {
+      auth = await refreshToken(auth.refresh_token);
+      return auth.access_token;
+    } catch (e) {
+      console.error('[tms-ext] Force refresh failed:', e);
+      return null;
+    }
+  }
+
   async function signInWithGoogle() {
     var redirectUrl = chrome.identity.getRedirectURL();
     var authUrl = SUPABASE_URL + '/auth/v1/authorize?' +
@@ -197,5 +213,6 @@
     getAccessToken: getAccessToken,
     getUser: getUser,
     isAuthenticated: isAuthenticated,
+    forceRefresh: forceRefresh,
   };
 })();
