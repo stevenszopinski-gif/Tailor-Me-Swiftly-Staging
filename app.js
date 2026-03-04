@@ -1344,6 +1344,11 @@ async function parseAndRedirect(content) {
     // Increment generation count for free tier tracking
     incrementGenerationCount();
 
+    // Remove the beforeunload guard BEFORE navigating, otherwise Chrome
+    // shows a "Leave site?" prompt when redirecting to results.
+    sessionStorage.removeItem('tms_generating');
+    window.removeEventListener('beforeunload', _warnDuringGeneration);
+
     window.location.href = 'results.html';
 }
 
