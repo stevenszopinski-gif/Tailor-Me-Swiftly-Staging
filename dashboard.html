@@ -95,39 +95,6 @@
       box-shadow: var(--brutal-shadow);
     }
 
-    /* ─── Stats Row ─── */
-    .dash-stats {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .dash-stat {
-      background: var(--panel-bg);
-      border: var(--brutal-border);
-      border-radius: var(--brutal-radius);
-      box-shadow: var(--brutal-shadow);
-      padding: 1rem 1.5rem;
-      text-align: center;
-      min-width: 130px;
-    }
-
-    .dash-stat-value {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .dash-stat-label {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-top: 0.2rem;
-    }
-
     /* ─── Section Labels ─── */
     .dash-section-label {
       font-size: 0.8rem;
@@ -471,8 +438,6 @@
       <div class="dash-cta-row">
         <a href="app.html" class="dash-cta dash-cta-primary"><i class="fa-solid fa-plus"></i> New
           Application</a>
-        <a href="history.html" class="dash-cta dash-cta-secondary"><i class="fa-solid fa-table-columns"></i>
-          Full Tracker</a>
       </div>
     </div>
 
@@ -514,32 +479,6 @@
     <div class="dash-section-label"><i class="fa-solid fa-table-columns"></i> Tailor My Application Tracker</div>
 
 
-
-    <!-- Filter Bar (Sprint 2.2) -->
-    <div class="filter-bar" id="dash-filter-bar" style="display:none;">
-      <select id="filter-status" onchange="applyDashFilters()">
-        <option value="">All Statuses</option>
-        <option value="Tailored">Tailored</option>
-        <option value="Applied">Applied</option>
-        <option value="Interviewing">Interviewing</option>
-        <option value="Offer">Offer</option>
-        <option value="Rejected">Rejected</option>
-      </select>
-      <input type="text" id="filter-company" placeholder="Search company..." oninput="applyDashFilters()">
-      <select id="filter-sort" onchange="applyDashFilters()">
-        <option value="date-desc">Newest First</option>
-        <option value="date-asc">Oldest First</option>
-        <option value="company">Company A-Z</option>
-        <option value="score">Score (High-Low)</option>
-      </select>
-    </div>
-
-    <div id="dash-stats" class="dash-stats" style="display:none;">
-      <div class="dash-stat"><div class="dash-stat-value" id="stat-total">0</div><div class="dash-stat-label">Total</div></div>
-      <div class="dash-stat"><div class="dash-stat-value" id="stat-applied">0</div><div class="dash-stat-label">Applied</div></div>
-      <div class="dash-stat"><div class="dash-stat-value" id="stat-interviewing">0</div><div class="dash-stat-label">Interviewing</div></div>
-      <div class="dash-stat"><div class="dash-stat-value" id="stat-offers">0</div><div class="dash-stat-label">Offers</div></div>
-    </div>
 
     <div id="dash-kanban-content" style="margin-bottom: 2.5rem;">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;padding:0.5rem 0;">
@@ -656,13 +595,17 @@
           return;
         }
 
-        renderStats(data);
+        renderMiniKanban(data);
 
-        // Remove kanban rendering as requested by user
-        var nudgeContainer = document.getElementById('dash-kanban-content');
-        nudgeContainer.innerHTML = ''; // Clear skeletons
+        // Add "View Full Tracker" button below kanban
+        var kanbanContainer = document.getElementById('dash-kanban-content');
+        var trackerBtn = document.createElement('div');
+        trackerBtn.style.cssText = 'text-align:center;margin-top:1rem;';
+        trackerBtn.innerHTML = '<a href="history.html" class="dash-cta dash-cta-secondary" style="font-size:0.85rem;padding:0.6rem 1.25rem;"><i class="fa-solid fa-table-columns"></i> View Full Tracker</a>';
+        kanbanContainer.appendChild(trackerBtn);
 
         // Project X integrations
+        var nudgeContainer = kanbanContainer;
         if (typeof checkStaleApps === 'function') checkStaleApps(nudgeContainer);
         var timeSavedEl = document.getElementById('time-saved-container');
         if (timeSavedEl && typeof showTimeSaved === 'function') showTimeSaved(timeSavedEl);
@@ -672,22 +615,6 @@
         document.getElementById('dash-kanban-content').innerHTML =
           `<div style="text-align:center;padding:2rem;color:var(--text-secondary);"><p>Error loading applications. <button class="btn ghost-btn" onclick="location.reload()">Retry</button></p><p style="font-size:0.7rem;opacity:0.5;margin-top:0.5rem;">${e.message || e}</p></div>`;
       }
-    }
-
-    function renderStats(gens) {
-      const grouped = {};
-      gens.forEach(g => {
-        const s = g.application_status || 'Tailored';
-        grouped[s] = (grouped[s] || 0) + 1;
-      });
-
-      const el = (id) => document.getElementById(id);
-      if (!el('stat-total')) return;
-      el('stat-total').textContent = gens.length;
-      el('stat-applied').textContent = grouped['Applied'] || 0;
-      el('stat-interviewing').textContent = grouped['Interviewing'] || 0;
-      el('stat-offers').textContent = grouped['Offer'] || 0;
-      el('dash-stats').style.display = 'flex';
     }
 
     function renderMiniKanban(gens) {
