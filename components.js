@@ -170,12 +170,25 @@
         container.before(linkBar);
     }
 
+    // ── Google Analytics (GA4) ──
+    function initGA4() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-YFPP1X5HTT';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-YFPP1X5HTT');
+    }
+
     // Auto-init when DOM is ready
     function init() {
         initDropdown();
         initProductSwitcher();
         initFooter();
         initCrossLinks();
+        initGA4();
     }
 
     if (document.readyState === 'loading') {
