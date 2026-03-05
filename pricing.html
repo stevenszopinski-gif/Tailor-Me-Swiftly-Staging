@@ -518,7 +518,7 @@
             <li><i class="fa-solid fa-check"></i> Priority AI processing</li>
             <li><i class="fa-solid fa-check"></i> Resume version history</li>
           </ul>
-          <a href="login.html?signup=true" class="plan-cta green">Upgrade to Premium</a>
+          <button onclick="handleUpgrade('tms')" class="plan-cta green">Upgrade to Premium</button>
         </div>
       </div>
 
@@ -681,7 +681,7 @@
             <li><i class="fa-solid fa-check check-blue"></i> Priority AI processing</li>
             <li><i class="fa-solid fa-check check-blue"></i> Briefing archive & search</li>
           </ul>
-          <a href="login.html?signup=true" class="plan-cta blue">Upgrade to Premium</a>
+          <button onclick="handleUpgrade('ttn')" class="plan-cta blue">Upgrade to Premium</button>
         </div>
       </div>
 
@@ -776,6 +776,10 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.0"></script>
+  <script src="brand-config.js"></script>
+  <script src="auth.js?v=15"></script>
+  <script src="billing.js"></script>
   <script>
     // Theme persistence
     const saved = localStorage.getItem('tms_theme');
@@ -783,18 +787,38 @@
 
     // Product tab switcher
     function switchTab(tab) {
-      // Update tab buttons
       document.querySelectorAll('.product-tab').forEach(function (el) {
         el.classList.toggle('active', el.getAttribute('data-tab') === tab);
       });
-      // Update sections
       document.querySelectorAll('.product-section').forEach(function (el) {
         el.classList.toggle('active', el.id === 'section-' + tab);
       });
     }
+
+    // Upgrade button handler
+    async function handleUpgrade(productId) {
+      if (!window.supabaseClient) {
+        window.location.href = 'login.html?signup=true&redirect=pricing.html';
+        return;
+      }
+      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      if (!session) {
+        window.location.href = 'login.html?signup=true&redirect=pricing.html';
+        return;
+      }
+      try {
+        const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
+          body: { returnUrl: window.location.origin + '/account.html', productId: productId || 'tms' }
+        });
+        if (error) throw error;
+        if (data?.url) window.location.href = data.url;
+        else if (data?.error) alert(data.error);
+      } catch (e) {
+        alert('Unable to start checkout. Please try again.');
+      }
+    }
   </script>
   <script>
-    // Theme persistence
     (function () {
       var t = localStorage.getItem('tms_theme_preference') || 'light';
       document.documentElement.setAttribute('data-theme', t); document.body.setAttribute('data-theme', t);

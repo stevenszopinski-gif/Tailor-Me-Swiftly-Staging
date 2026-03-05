@@ -837,7 +837,7 @@
       if (!session) { window.showToast('Please sign in first.', true); return; }
       try {
         const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
-          body: { returnUrl: window.location.origin + '/account.html' }
+          body: { returnUrl: window.location.origin + '/account.html', productId: 'tms' }
         });
         if (error) throw error;
         if (data?.url) window.location.href = data.url;
@@ -853,7 +853,7 @@
       btn.disabled = true;
       try {
         const { data, error } = await window.supabaseClient.functions.invoke('create-portal-session', {
-          body: { returnUrl: window.location.origin + '/account.html' }
+          body: { returnUrl: window.location.origin + '/account.html', productId: 'tms' }
         });
         if (error) throw error;
         if (data?.url) window.location.href = data.url;
