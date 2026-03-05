@@ -1423,8 +1423,9 @@ Format your response exactly like this:
         document.getElementById('refine-modal').style.display = 'none';
         overlay.style.display = 'flex';
 
+        const sanitizedRefinement = refinement.replace(/"/g, '\\"');
         const systemPrompt = `Generate exactly 10 role-specific interview questions with ideal answer frameworks. Apply this refinement request to the questions:
-User refinement: "${refinement}"
+User refinement: "${sanitizedRefinement}"
 Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown, no backticks.`;
 
         try {
