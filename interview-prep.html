@@ -721,7 +721,7 @@
                   text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}`
                 }]
               }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+              generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
             }
           });
           if (error) throw new Error(error.message);
@@ -1438,7 +1438,7 @@ Output ONLY a valid JSON array: [{"question":"...","answer":"..."}]. No markdown
                   text: `Resume:\n${outputs.resumeText}\n\nJob Description:\n${outputs.jobText}`
                 }]
               }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+              generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
             }
           });
           if (error) throw new Error(error.message);
