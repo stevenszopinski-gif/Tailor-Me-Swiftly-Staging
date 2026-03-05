@@ -534,6 +534,13 @@
       </select>
     </div>
 
+    <div id="dash-stats" class="dash-stats" style="display:none;">
+      <div class="dash-stat"><div class="dash-stat-value" id="stat-total">0</div><div class="dash-stat-label">Total</div></div>
+      <div class="dash-stat"><div class="dash-stat-value" id="stat-applied">0</div><div class="dash-stat-label">Applied</div></div>
+      <div class="dash-stat"><div class="dash-stat-value" id="stat-interviewing">0</div><div class="dash-stat-label">Interviewing</div></div>
+      <div class="dash-stat"><div class="dash-stat-value" id="stat-offers">0</div><div class="dash-stat-label">Offers</div></div>
+    </div>
+
     <div id="dash-kanban-content" style="margin-bottom: 2.5rem;">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;padding:0.5rem 0;">
         <div class="skeleton-card">
@@ -674,11 +681,13 @@
         grouped[s] = (grouped[s] || 0) + 1;
       });
 
-      document.getElementById('stat-total').textContent = gens.length;
-      document.getElementById('stat-applied').textContent = grouped['Applied'] || 0;
-      document.getElementById('stat-interviewing').textContent = grouped['Interviewing'] || 0;
-      document.getElementById('stat-offers').textContent = grouped['Offer'] || 0;
-      document.getElementById('dash-stats').style.display = 'flex';
+      const el = (id) => document.getElementById(id);
+      if (!el('stat-total')) return;
+      el('stat-total').textContent = gens.length;
+      el('stat-applied').textContent = grouped['Applied'] || 0;
+      el('stat-interviewing').textContent = grouped['Interviewing'] || 0;
+      el('stat-offers').textContent = grouped['Offer'] || 0;
+      el('dash-stats').style.display = 'flex';
     }
 
     function renderMiniKanban(gens) {
