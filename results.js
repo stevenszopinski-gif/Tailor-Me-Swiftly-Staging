@@ -370,7 +370,12 @@ function getResumeText() {
     // 1. Try active session data
     const outputs = loadOutputs();
     if (outputs?.resumeText) return outputs.resumeText;
-    // 2. Try master resume from localStorage (saved during app.html flow)
+    // 2. Try extracting plain text from resume HTML (session may have HTML but not text)
+    if (outputs?.resumeHtml) {
+        var stripped = outputs.resumeHtml.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+        if (stripped) return stripped;
+    }
+    // 3. Try master resume from localStorage (saved during app.html flow)
     try {
         const stored = localStorage.getItem('tms_last_resume');
         if (stored) {

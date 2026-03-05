@@ -810,11 +810,13 @@
         const { data, error } = await window.supabaseClient.functions.invoke('create-checkout', {
           body: { returnUrl: window.location.origin + '/account.html', productId: productId || 'tms' }
         });
-        if (error) throw error;
+        if (error) throw new Error(error.message || 'Checkout request failed');
         if (data?.url) window.location.href = data.url;
-        else if (data?.error) alert(data.error);
+        else if (data?.error) alert('Checkout error: ' + data.error);
+        else alert('Checkout failed — no URL returned. Please try again.');
       } catch (e) {
-        alert('Unable to start checkout. Please try again.');
+        console.error('[Checkout]', e);
+        alert('Unable to start checkout: ' + (e.message || 'Unknown error') + '. Please try again.');
       }
     }
   </script>

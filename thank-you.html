@@ -183,7 +183,9 @@ Return EXACTLY this JSON (no markdown, no code fences):
 
         if (error) throw new Error(error.message);
         let text = data.candidates[0].content.parts[0].text.trim();
-        if (text.startsWith('```')) text = text.replace(/^```\w*\n?/, '').replace(/```$/, '').trim();
+        text = text.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/, '').trim();
+        var jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) text = jsonMatch[0];
         const result = JSON.parse(text);
         variants = result.variants;
         renderThankYou(result);

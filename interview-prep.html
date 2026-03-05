@@ -1263,8 +1263,10 @@ Format your response exactly like this:
           ttsCache[qIdx] = audioUrl;
           playAudio(audioUrl, btn);
         } catch (e) {
-          console.error('TTS error (falling back to browser):', e);
-          playBrowserTTS(questions[qIdx].question, btn);
+          console.error('TTS error:', e);
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Retry';
+          setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen'; }, 3000);
         }
       }
 
@@ -1284,12 +1286,13 @@ Format your response exactly like this:
           btn.classList.remove('speaking');
           btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
           currentAudio = null;
-          playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
         };
 
         currentAudio.play().catch(err => {
           console.error('Audio play() failed:', err);
-          playBrowserTTS(btn.closest('.chat-bubble')?.textContent || '', btn);
+          btn.classList.remove('speaking');
+          btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
+          currentAudio = null;
         });
       }
 
