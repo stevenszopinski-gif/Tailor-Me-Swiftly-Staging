@@ -1591,7 +1591,7 @@
           body: {
             contents: [{ parts: [{ text: 'Write a follow-up email for a job application to ' + company + '. I applied ' + daysAgo + ' days ago. ' + tonePrompt + ' ' + profileCtx + ' Keep it under 150 words, professional and warm.' }] }],
             systemInstruction: { parts: [{ text: 'You are a career coach. Write a concise follow-up email.' }] },
-            generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
+            generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
           }
         });
         if (error) throw error;

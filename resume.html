@@ -1970,7 +1970,7 @@ Return ONLY the JSON object, nothing else.`;
             model: 'gemini-3-flash-preview',
             systemInstruction: { parts: [{ text: 'You are an ATS resume analysis expert. Return ONLY valid JSON.' }] },
             contents: [{ parts: [{ text: `${prompt}\n\nResume:\n${resumeText}${jd ? '\n\nJob Description:\n' + jd : ''}` }] }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 1024 }
+            generationConfig: { temperature: 0.2, maxOutputTokens: 8192 }
           }
         });
         if (error) throw new Error(error.message);
@@ -2071,7 +2071,7 @@ Return ONLY the JSON object, nothing else.`;
           btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
           try {
             const { data, error } = await supabaseClient.functions.invoke('gemini-proxy', {
-              body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `Extract ONLY the "${meta.heading}" information from this resume/profile text. Format as clean HTML: an <h2> heading followed by <ul><li> items (or <p> for languages). Use <strong> for names/titles. If the source text has NO relevant ${meta.heading.toLowerCase()} information at all, respond with exactly: NO_DATA` }] }, contents: [{ parts: [{ text: sourceText }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 1024 } }
+              body: { model: 'gemini-3-flash-preview', systemInstruction: { parts: [{ text: `Extract ONLY the "${meta.heading}" information from this resume/profile text. Format as clean HTML: an <h2> heading followed by <ul><li> items (or <p> for languages). Use <strong> for names/titles. If the source text has NO relevant ${meta.heading.toLowerCase()} information at all, respond with exactly: NO_DATA` }] }, contents: [{ parts: [{ text: sourceText }] }], generationConfig: { temperature: 0.1, maxOutputTokens: 8192 } }
             });
             if (!error) {
               let html = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';

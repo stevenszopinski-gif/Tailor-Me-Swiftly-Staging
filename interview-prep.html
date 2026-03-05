@@ -1079,7 +1079,7 @@ Format your response exactly like this:
               contents: [{
                 parts: [{ text: `Question: ${questionText}\n\nCandidate's Answer: ${text}` }]
               }],
-              generationConfig: { temperature: 0.4, maxOutputTokens: 1024 }
+              generationConfig: { temperature: 0.4, maxOutputTokens: 8192 }
             }
           });
           if (error) throw new Error(error.message);
@@ -1188,7 +1188,7 @@ Format your response exactly like this:
                   { inlineData: { mimeType: mimeType, data: base64Audio } }
                 ]
               }],
-              generationConfig: { temperature: 0.4, maxOutputTokens: 1024 }
+              generationConfig: { temperature: 0.4, maxOutputTokens: 8192 }
             }
           });
 
