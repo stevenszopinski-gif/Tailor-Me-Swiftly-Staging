@@ -422,23 +422,58 @@
       }
 
       function speakText(text) {
-        return new Promise((resolve) => {
-          if (!('speechSynthesis' in window)) { resolve(); return; }
-
-          // Cancel any ongoing speech
-          speechSynthesis.cancel();
+        return new Promise(async (resolve) => {
           isSpeaking = true;
-
           const micBtn = document.getElementById('mic-btn');
           micBtn.classList.add('speaking');
           micBtn.classList.remove('listening');
           setVoiceStatus('speaking', 'HR Rep is speaking...');
 
+          // Try Inworld TTS via podcastfy first
+          try {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            const token = session?.access_token;
+            if (token) {
+              const resp = await fetch('https://gwmpdgjvcjzndbloctla.supabase.co/functions/v1/podcastfy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ text })
+              });
+              const contentType = resp.headers.get('Content-Type') || '';
+              if (!contentType.includes('application/json') && resp.ok) {
+                const audioBlob = await resp.blob();
+                if (audioBlob.size >= 1000) {
+                  const audioUrl = URL.createObjectURL(audioBlob);
+                  const audio = new Audio(audioUrl);
+                  audio.onended = () => {
+                    isSpeaking = false;
+                    micBtn.classList.remove('speaking');
+                    setVoiceStatus('', 'Tap to speak');
+                    resolve();
+                  };
+                  audio.onerror = () => {
+                    isSpeaking = false;
+                    micBtn.classList.remove('speaking');
+                    setVoiceStatus('', 'Tap to speak');
+                    resolve();
+                  };
+                  audio.play();
+                  return;
+                }
+              }
+            }
+          } catch (e) {
+            console.error('TTS error (falling back to browser):', e);
+          }
+
+          // Fallback to browser speechSynthesis
+          if (!('speechSynthesis' in window)) { isSpeaking = false; micBtn.classList.remove('speaking'); resolve(); return; }
+          speechSynthesis.cancel();
+
           const utterance = new SpeechSynthesisUtterance(text);
           utterance.rate = 1.0;
           utterance.pitch = 0.9;
 
-          // Try to find a good voice
           const voices = speechSynthesis.getVoices();
           const preferred = voices.find(v => v.name.includes('Daniel') || v.name.includes('Google UK English Male') || (v.lang === 'en-US' && v.name.includes('Male')));
           if (preferred) utterance.voice = preferred;
