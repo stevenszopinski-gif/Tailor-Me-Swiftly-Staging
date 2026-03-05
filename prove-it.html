@@ -160,6 +160,9 @@
       const outputs = loadOutputs();
       if (!outputs) { showSessionExpired(document.querySelector('.result-page')); return; }
 
+      window.analyzeBullets = analyzeBullets;
+      window.rewriteBullet = rewriteBullet;
+
       async function analyzeBullets() {
         const container = document.getElementById('prove-output');
         container.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:3rem 0;"><i class="fa-solid fa-spinner fa-spin"></i> Scanning your resume for vague bullet points...</p>';
@@ -188,7 +191,7 @@ Return EXACTLY this JSON (no markdown, no code fences):
               model: 'gemini-3-flash-preview',
               systemInstruction: { parts: [{ text: systemPrompt }] },
               contents: [{ parts: [{ text: userPrompt }] }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+              generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
             }
           });
 
@@ -251,9 +254,6 @@ Return EXACTLY this JSON (no markdown, no code fences):
         }
       }
 
-      // Expose functions to global scope for onclick handlers
-      window.analyzeBullets = analyzeBullets;
-      window.rewriteBullet = rewriteBullet;
     })();
   </script>
 

@@ -1248,17 +1248,20 @@ Format your response exactly like this:
             body: JSON.stringify({ text: questions[qIdx].question })
           });
 
-          if (!resp.ok) {
-            const errBody = await resp.json().catch(() => ({}));
-            throw new Error(errBody.error || `TTS request failed (${resp.status})`);
+          const contentType = resp.headers.get('Content-Type') || '';
+          if (contentType.includes('application/json')) {
+            const errData = await resp.json();
+            throw new Error(errData.error || `TTS request failed (${resp.status})`);
           }
 
-          const result = await resp.json();
-          if (result.error) throw new Error(result.error);
-          if (!result.audioUrl) throw new Error('No audio URL returned');
+          if (!resp.ok) throw new Error(`TTS request failed (${resp.status})`);
 
-          ttsCache[qIdx] = result.audioUrl;
-          playAudio(result.audioUrl, btn);
+          const audioBlob = await resp.blob();
+          if (audioBlob.size < 1000) throw new Error('Generated audio is too small');
+
+          const audioUrl = URL.createObjectURL(audioBlob);
+          ttsCache[qIdx] = audioUrl;
+          playAudio(audioUrl, btn);
         } catch (e) {
           console.error('TTS error (falling back to browser):', e);
           playBrowserTTS(questions[qIdx].question, btn);
