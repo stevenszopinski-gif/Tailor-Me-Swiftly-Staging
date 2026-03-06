@@ -9,28 +9,17 @@ node scripts/generate-sitemap.js
 
 echo "=== Step 3: Assemble deploy directory ==="
 mkdir -p deploy
-rsync -a \
-  --exclude='react-upgrade' \
-  --exclude='deploy' \
-  --exclude='.git' \
-  --exclude='.github' \
-  --exclude='.claude' \
-  --exclude='.gemini' \
-  --exclude='node_modules' \
-  --exclude='supabase' \
-  --exclude='tests' \
-  --exclude='test-results' \
-  --exclude='playwright.config.js' \
-  --exclude='vitest.config.js' \
-  --exclude='package.json' \
-  --exclude='package-lock.json' \
-  --exclude='.gitignore' \
-  --exclude='supabase_schema.sql' \
-  --exclude='shared' \
-  --exclude='scripts' \
-  --exclude='vercel.json' \
-  --exclude='.vercel' \
-  ./ deploy/
+
+# Copy all files except dev/build directories (no rsync on Vercel)
+for item in *; do
+  case "$item" in
+    react-upgrade|deploy|node_modules|supabase|tests|test-results|shared|scripts|.vercel) continue ;;
+    playwright.config.js|vitest.config.js|package.json|package-lock.json|supabase_schema.sql|vercel.json) continue ;;
+    *) cp -r "$item" deploy/ ;;
+  esac
+done
+# Also skip hidden dirs
+rm -rf deploy/.git deploy/.github deploy/.claude deploy/.gemini 2>/dev/null || true
 
 # Copy shared files into deploy root
 if [ -d shared ]; then
