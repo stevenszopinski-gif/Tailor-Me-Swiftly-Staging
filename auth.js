@@ -96,14 +96,33 @@
                         } catch (e) { /* silent */ }
                         if (!token) return { data: null, error: { message: 'Not authenticated' } };
                     }
-                    const resp = await fetch(EDGE_BASE + '/' + fnName, {
+                    var resp = await fetch(EDGE_BASE + '/' + fnName, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
+                            'Authorization': 'Bearer ' + token,
+                            'apikey': SUPABASE_KEY
                         },
                         body: JSON.stringify(opts?.body || {})
                     });
+                    // Retry once on 401 with a force-refreshed token
+                    if (resp.status === 401) {
+                        try {
+                            const { data: r } = await client.auth.refreshSession();
+                            var newToken = r?.session?.access_token;
+                            if (newToken) {
+                                resp = await fetch(EDGE_BASE + '/' + fnName, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ' + newToken,
+                                        'apikey': SUPABASE_KEY
+                                    },
+                                    body: JSON.stringify(opts?.body || {})
+                                });
+                            }
+                        } catch (e) { console.warn('[Auth] 401 retry refresh failed:', e.message); }
+                    }
                     const json = await resp.json().catch(() => ({}));
                     if (!resp.ok) {
                         const errMsg = json?.message || json?.error?.message || json?.error || 'Edge function error (' + resp.status + ')';
