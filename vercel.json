@@ -1,0 +1,8 @@
+{
+  "buildCommand": "bash scripts/build.sh",
+  "outputDirectory": "deploy",
+  "framework": null,
+  "rewrites": [
+    { "source": "/app/(.*)", "destination": "/app/index.html" }
+  ]
+}
