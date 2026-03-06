@@ -168,7 +168,7 @@
       <pubDate>Sun, 08 Feb 2026 12:00:00 GMT</pubDate>
       <description><![CDATA[
         <ul>
-          <li><strong>ElevenLabs TTS:</strong> Mock interview questions are now read aloud using a premium ElevenLabs AI voice, with browser TTS as a fallback.</li>
+          <li><strong>AI Voice TTS:</strong> Mock interview questions are now read aloud using a premium Inworld AI voice, with browser TTS as a fallback.</li>
           <li><strong>Reliable Job URL Fetching:</strong> Pasting a job listing URL now fetches through our own server, replacing old third-party proxies.</li>
           <li><strong>Resume Quick Presets:</strong> Redesigned preset buttons with color-coded accent dots.</li>
           <li><strong>Use Last Resume:</strong> Returning users can instantly load their previously uploaded resume.</li>

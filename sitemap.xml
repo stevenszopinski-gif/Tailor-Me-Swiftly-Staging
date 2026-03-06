@@ -7,12 +7,6 @@
         <priority>1</priority>
     </url>
     <url>
-        <loc>https://tailormeswiftly.com/auto-app.html</loc>
-        <lastmod>2026-03-04</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
         <loc>https://tailormeswiftly.com/blog.html</loc>
         <lastmod>2026-03-04</lastmod>
         <changefreq>weekly</changefreq>
@@ -145,12 +139,6 @@
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://tailormeswiftly.com/extension 2/popup.html</loc>
-        <lastmod>2026-03-04</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
-    <url>
         <loc>https://tailormeswiftly.com/feedback.html</loc>
         <lastmod>2026-03-04</lastmod>
         <changefreq>monthly</changefreq>
@@ -203,12 +191,6 @@
         <lastmod>2026-03-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://tailormeswiftly.com/login.html</loc>
-        <lastmod>2026-03-04</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://tailormeswiftly.com/news.html</loc>
@@ -2651,12 +2633,6 @@
         <lastmod>2026-03-04</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
-    </url>
-    <url>
-        <loc>https://tailormeswiftly.com/signup.html</loc>
-        <lastmod>2026-03-04</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://tailormeswiftly.com/skills-tracker.html</loc>

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com https://snap.licdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://api.elevenlabs.io https://px.ads.linkedin.com https://snap.licdn.com https://www.google-analytics.com; frame-src https://js.stripe.com https://snap.licdn.com;">
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://esm.sh https://js.stripe.com https://snap.licdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co https://px.ads.linkedin.com https://snap.licdn.com https://www.google-analytics.com; frame-src https://js.stripe.com https://snap.licdn.com;">
   <meta name="description"
     content="TailorMeSwiftly pricing plans. Compare Free vs Premium features — ATS resume tailoring, mock interviews, salary negotiation, and 24+ AI tools.">
   <meta property="og:type" content="website">
@@ -464,311 +464,224 @@
       <p>Start free with core tools. Go Premium for unlimited access to every AI-powered feature.</p>
     </div>
 
-    <!-- Product Tab Switcher -->
-    <div class="product-tabs">
-      <div class="product-tab active" data-tab="applications" onclick="switchTab('applications')">
-        <i class="fa-solid fa-file-lines"></i> Applications
-      </div>
-      <div class="product-tab" data-tab="news" onclick="switchTab('news')">
-        <i class="fa-solid fa-newspaper"></i> News
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════ -->
-    <!-- Tailor My Application          -->
-    <!-- ═══════════════════════════════════════ -->
-    <div class="product-section active" id="section-applications">
-
-      <!-- Plan Cards -->
-      <div class="plan-grid">
-        <!-- Free -->
-        <div class="plan-card">
-          <h2>Free</h2>
-          <div class="plan-price">$0 <span>/ month</span></div>
-          <p class="plan-sub">Get started with core job-search tools</p>
-          <ul class="plan-features">
-            <li><i class="fa-solid fa-check"></i> 1 AI resume tailoring per month</li>
-            <li><i class="fa-solid fa-check"></i> ATS compatibility score</li>
-            <li><i class="fa-solid fa-check"></i> Keyword gap analysis</li>
-            <li><i class="fa-solid fa-check"></i> Basic cover letter generation</li>
-            <li><i class="fa-solid fa-check"></i> Career Pivot Translator</li>
-            <li><i class="fa-solid fa-check"></i> Skills Tracker</li>
-            <li><i class="fa-solid fa-check"></i> Day-in-Life Explorer</li>
-            <li><i class="fa-solid fa-check"></i> LinkedIn Summary Sync</li>
-          </ul>
-          <a href="login.html?signup=true" class="plan-cta outline">Get Started Free</a>
-        </div>
-
-        <!-- Premium -->
-        <div class="plan-card featured-green">
-          <span class="plan-badge badge-green">Most Popular</span>
-          <h2>Premium</h2>
-          <div class="plan-price">$9.99 <span>/ month</span></div>
-          <p class="plan-sub">Everything in Free, plus the full arsenal</p>
-          <ul class="plan-features">
-            <li><i class="fa-solid fa-check"></i> Unlimited AI resume tailoring</li>
-            <li><i class="fa-solid fa-check"></i> Smart interview prep with mock Q&A</li>
-            <li><i class="fa-solid fa-check"></i> Salary Negotiator with market data</li>
-            <li><i class="fa-solid fa-check"></i> Toxic Workplace Radar</li>
-            <li><i class="fa-solid fa-check"></i> Guerrilla Job Tactics</li>
-            <li><i class="fa-solid fa-check"></i> Rejection Reverser playbooks</li>
-            <li><i class="fa-solid fa-check"></i> Cold Email & Outreach Generator</li>
-            <li><i class="fa-solid fa-check"></i> Shadow Job Market Scanner</li>
-            <li><i class="fa-solid fa-check"></i> Referral Network Mapper</li>
-            <li><i class="fa-solid fa-check"></i> Priority AI processing</li>
-            <li><i class="fa-solid fa-check"></i> Resume version history</li>
-          </ul>
-          <button onclick="handleUpgrade('tms')" class="plan-cta green">Upgrade to Premium</button>
-        </div>
+    <!-- Plan Cards -->
+    <div class="plan-grid">
+      <!-- Free -->
+      <div class="plan-card">
+        <h2>Free</h2>
+        <div class="plan-price">$0 <span>/ month</span></div>
+        <p class="plan-sub">Get started with core job-search tools</p>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> 1 AI resume tailoring per month</li>
+          <li><i class="fa-solid fa-check"></i> ATS compatibility score</li>
+          <li><i class="fa-solid fa-check"></i> Keyword gap analysis</li>
+          <li><i class="fa-solid fa-check"></i> Basic cover letter generation</li>
+          <li><i class="fa-solid fa-check"></i> Career Pivot Translator</li>
+          <li><i class="fa-solid fa-check"></i> Skills Tracker</li>
+          <li><i class="fa-solid fa-check"></i> Day-in-Life Explorer</li>
+          <li><i class="fa-solid fa-check"></i> LinkedIn Summary Sync</li>
+          <li><i class="fa-solid fa-check"></i> 1 AI news briefing per week</li>
+          <li><i class="fa-solid fa-check"></i> 3 news interest topics</li>
+        </ul>
+        <a href="login.html?signup=true" class="plan-cta outline">Get Started Free</a>
       </div>
 
-      <!-- Feature Comparison Table -->
-      <div class="compare-section">
-        <h2>Tailor My Application &mdash; Full Comparison</h2>
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Free</th>
-              <th>Premium</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="cat-row">
-              <td colspan="3">Core Tools</td>
-            </tr>
-            <tr>
-              <td>AI Resume Tailoring</td>
-              <td>1 / month</td>
-              <td>Unlimited</td>
-            </tr>
-            <tr>
-              <td>ATS Compatibility Score</td>
-              <td><i class="fa-solid fa-check check"></i></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Keyword Gap Analysis</td>
-              <td><i class="fa-solid fa-check check"></i></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Basic Cover Letter Generation</td>
-              <td><i class="fa-solid fa-check check"></i></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Career Pivot Translator</td>
-              <td><i class="fa-solid fa-check check"></i></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Skills Tracker</td>
-              <td><i class="fa-solid fa-check check"></i></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Day-in-Life Explorer</td>
-              <td><i class="fa-solid fa-check check"></i></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>LinkedIn Summary Sync</td>
-              <td><i class="fa-solid fa-check check"></i></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-
-            <tr class="cat-row">
-              <td colspan="3">Premium Tools</td>
-            </tr>
-            <tr>
-              <td>Smart Interview Prep with Mock Q&A</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Salary Negotiator with Market Data</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Toxic Workplace Radar</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Guerrilla Job Tactics</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Rejection Reverser Playbooks</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Cold Email & Outreach Generator</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Shadow Job Market Scanner</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Referral Network Mapper</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Priority AI Processing</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-            <tr>
-              <td>Resume Version History</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check"></i></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="text-align: center; margin-top: 2.5rem;">
-        <a href="login.html?signup=true" class="plan-cta green"
-          style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 4px; text-decoration: none;">
-          Get Started Now
-        </a>
+      <!-- Premium -->
+      <div class="plan-card featured-green">
+        <span class="plan-badge badge-green">Most Popular</span>
+        <h2>Premium</h2>
+        <div class="plan-price">$9.99 <span>/ month</span></div>
+        <p class="plan-sub">Everything in Free, plus the full arsenal</p>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> Unlimited AI resume tailoring</li>
+          <li><i class="fa-solid fa-check"></i> Smart interview prep with mock Q&A</li>
+          <li><i class="fa-solid fa-check"></i> Salary Negotiator with market data</li>
+          <li><i class="fa-solid fa-check"></i> Toxic Workplace Radar</li>
+          <li><i class="fa-solid fa-check"></i> Guerrilla Job Tactics</li>
+          <li><i class="fa-solid fa-check"></i> Rejection Reverser playbooks</li>
+          <li><i class="fa-solid fa-check"></i> Cold Email & Outreach Generator</li>
+          <li><i class="fa-solid fa-check"></i> Shadow Job Market Scanner</li>
+          <li><i class="fa-solid fa-check"></i> Referral Network Mapper</li>
+          <li><i class="fa-solid fa-check"></i> Unlimited daily news briefings</li>
+          <li><i class="fa-solid fa-check"></i> Up to 15 news interest topics</li>
+          <li><i class="fa-solid fa-check"></i> AI podcast audio briefings</li>
+          <li><i class="fa-solid fa-check"></i> Priority AI processing</li>
+          <li><i class="fa-solid fa-check"></i> Resume version history</li>
+        </ul>
+        <button onclick="handleUpgrade('tms')" class="plan-cta green">Upgrade to Premium</button>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════ -->
-    <!-- Tailor The News             -->
-    <!-- ═══════════════════════════════════════ -->
-    <div class="product-section" id="section-news">
+    <!-- Feature Comparison Table -->
+    <div class="compare-section">
+      <h2>Full Feature Comparison</h2>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Free</th>
+            <th>Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cat-row">
+            <td colspan="3">Application Tools</td>
+          </tr>
+          <tr>
+            <td>AI Resume Tailoring</td>
+            <td>1 / month</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr>
+            <td>ATS Compatibility Score</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Keyword Gap Analysis</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Basic Cover Letter Generation</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Career Pivot Translator</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Skills Tracker</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Day-in-Life Explorer</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>LinkedIn Summary Sync</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
 
-      <!-- Plan Cards -->
-      <div class="plan-grid">
-        <!-- Free -->
-        <div class="plan-card">
-          <h2>Free</h2>
-          <div class="plan-price">$0 <span>/ month</span></div>
-          <p class="plan-sub">Stay informed with a weekly AI briefing</p>
-          <ul class="plan-features">
-            <li><i class="fa-solid fa-check check-blue"></i> 1 AI briefing per week</li>
-            <li><i class="fa-solid fa-check check-blue"></i> 3 interest topics</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Basic news digest</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Web article sources</li>
-          </ul>
-          <a href="login.html?signup=true" class="plan-cta outline">Get Started Free</a>
-        </div>
+          <tr class="cat-row">
+            <td colspan="3">Premium Application Tools</td>
+          </tr>
+          <tr>
+            <td>Smart Interview Prep with Mock Q&A</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Salary Negotiator with Market Data</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Toxic Workplace Radar</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Guerrilla Job Tactics</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Rejection Reverser Playbooks</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Cold Email & Outreach Generator</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Shadow Job Market Scanner</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Referral Network Mapper</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Resume Version History</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
 
-        <!-- Premium -->
-        <div class="plan-card featured-blue">
-          <span class="plan-badge badge-blue">Best Value</span>
-          <h2>Premium</h2>
-          <div class="plan-price">$4.99 <span>/ month</span></div>
-          <p class="plan-sub">Everything in Free, plus daily AI briefings</p>
-          <ul class="plan-features">
-            <li><i class="fa-solid fa-check check-blue"></i> Unlimited daily briefings</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Up to 15 interest topics</li>
-            <li><i class="fa-solid fa-check check-blue"></i> AI podcast audio briefings</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Podcast RSS feed for your app</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Resume-based interest extraction</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Job application news alignment</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Briefing frequency control</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Priority AI processing</li>
-            <li><i class="fa-solid fa-check check-blue"></i> Briefing archive & search</li>
-          </ul>
-          <button onclick="handleUpgrade('ttn')" class="plan-cta blue">Upgrade to Premium</button>
-        </div>
-      </div>
+          <tr class="cat-row">
+            <td colspan="3">News Briefings</td>
+          </tr>
+          <tr>
+            <td>AI Briefing Frequency</td>
+            <td>1 / week</td>
+            <td>Unlimited daily</td>
+          </tr>
+          <tr>
+            <td>Interest Topics</td>
+            <td>3</td>
+            <td>Up to 15</td>
+          </tr>
+          <tr>
+            <td>Basic News Digest</td>
+            <td><i class="fa-solid fa-check check"></i></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>AI Podcast Audio Briefings</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Podcast RSS Feed</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+          <tr>
+            <td>Briefing Archive & Search</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
 
-      <!-- Feature Comparison Table -->
-      <div class="compare-section">
-        <h2>Tailor The News &mdash; Full Comparison</h2>
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Free</th>
-              <th>Premium</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="cat-row">
-              <td colspan="3">Core Briefings</td>
-            </tr>
-            <tr>
-              <td>AI Briefing Frequency</td>
-              <td>1 / week</td>
-              <td>Unlimited daily</td>
-            </tr>
-            <tr>
-              <td>Interest Topics</td>
-              <td>3</td>
-              <td>Up to 15</td>
-            </tr>
-            <tr>
-              <td>Basic News Digest</td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-            <tr>
-              <td>Web Article Sources</td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
+          <tr class="cat-row">
+            <td colspan="3">General</td>
+          </tr>
+          <tr>
+            <td>Priority AI Processing</td>
+            <td><span class="dash">&mdash;</span></td>
+            <td><i class="fa-solid fa-check check"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-            <tr class="cat-row">
-              <td colspan="3">Premium Features</td>
-            </tr>
-            <tr>
-              <td>AI Podcast Audio Briefings</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-            <tr>
-              <td>Podcast RSS Feed for Your App</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-            <tr>
-              <td>Resume-Based Interest Extraction</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-            <tr>
-              <td>Job Application News Alignment</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-            <tr>
-              <td>Briefing Frequency Control</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-            <tr>
-              <td>Priority AI Processing</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-            <tr>
-              <td>Briefing Archive & Search</td>
-              <td><span class="dash">&mdash;</span></td>
-              <td><i class="fa-solid fa-check check-blue"></i></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div style="text-align: center; margin-top: 2.5rem;">
+      <a href="login.html?signup=true" class="plan-cta green" id="cta-main"
+        style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 4px; text-decoration: none;">
+        Get Started Now
+      </a>
+    </div>
 
-      <div style="text-align: center; margin-top: 2.5rem;">
-        <a href="login.html?signup=true" class="plan-cta blue"
-          style="display: inline-block; width: auto; padding: 0.8rem 2.5rem; border-radius: 4px; text-decoration: none;">
-          Get Started Now
-        </a>
-      </div>
+    <!-- Manage / Cancel Subscription -->
+    <div id="manage-sub" style="display:none; text-align:center; margin-top:2rem; padding:1.5rem; background:var(--glass-bg); border:1px solid var(--panel-border); border-radius:4px;">
+      <p style="color:var(--text-secondary); margin-bottom:0.75rem; font-size:0.95rem;">
+        <i class="fa-solid fa-crown" style="color:#D4A574;"></i> You're on the <strong style="color:var(--text-primary);">Premium</strong> plan.
+      </p>
+      <button onclick="handleManageSub()" class="plan-cta outline"
+        style="display:inline-block; width:auto; padding:0.6rem 1.5rem; font-size:0.9rem;">
+        <i class="fa-solid fa-gear"></i> Manage Subscription
+      </button>
+      <p style="color:var(--text-secondary); margin-top:0.5rem; font-size:0.78rem;">
+        Update payment, change plan, or cancel anytime.
+      </p>
     </div>
 
     <div style="text-align: center;">
@@ -785,15 +698,42 @@
     const saved = localStorage.getItem('tms_theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
 
-    // Product tab switcher
-    function switchTab(tab) {
-      document.querySelectorAll('.product-tab').forEach(function (el) {
-        el.classList.toggle('active', el.getAttribute('data-tab') === tab);
-      });
-      document.querySelectorAll('.product-section').forEach(function (el) {
-        el.classList.toggle('active', el.id === 'section-' + tab);
-      });
+    // Check if user is premium and show manage section
+    async function checkPremiumStatus() {
+      if (!window.supabaseClient) return;
+      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      if (!session) return;
+      const isPremium = await window.checkProductPremium(session.user.id);
+      if (isPremium) {
+        document.getElementById('manage-sub').style.display = 'block';
+        // Swap upgrade button to "You're on Premium"
+        var upgradeBtn = document.querySelector('.plan-cta.green[onclick]');
+        if (upgradeBtn) {
+          upgradeBtn.textContent = 'Current Plan';
+          upgradeBtn.disabled = true;
+          upgradeBtn.style.opacity = '0.6';
+          upgradeBtn.style.cursor = 'default';
+          upgradeBtn.onclick = null;
+        }
+      }
     }
+
+    // Open Stripe billing portal to manage/cancel
+    async function handleManageSub() {
+      try {
+        var url = await window.openBillingPortal(window.location.href);
+        if (url) window.location.href = url;
+        else alert('Unable to open billing portal. Please try again.');
+      } catch (e) {
+        console.error('[Billing Portal]', e);
+        alert('Unable to open billing portal: ' + (e.message || 'Unknown error'));
+      }
+    }
+
+    // Run premium check after auth is ready
+    window.addEventListener('load', function () {
+      setTimeout(checkPremiumStatus, 500);
+    });
 
     // Upgrade button handler
     async function handleUpgrade(productId) {

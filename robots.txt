@@ -3,11 +3,14 @@ Allow: /
 
 # Auth-gated pages (require login)
 Disallow: /app.html
+Disallow: /auto-app.html
 Disallow: /dashboard.html
 Disallow: /history.html
 Disallow: /account.html
 Disallow: /results.html
 Disallow: /resume.html
+Disallow: /login.html
+Disallow: /signup.html
 Disallow: /system_dashboard.html
 
 # Redirect stubs (backward compat only)
@@ -25,6 +28,7 @@ Disallow: /.claude/
 Disallow: /.github/
 Disallow: /shared/
 Disallow: /extension/
+Disallow: /extension 2/
 
 # React app subpath (not yet primary)
 Disallow: /app/
