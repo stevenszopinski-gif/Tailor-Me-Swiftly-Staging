@@ -2430,6 +2430,18 @@ FORMAT — use this EXACT HTML:
             document.getElementById('loading-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'block';
 
+            // Ensure briefing content areas are visible (showBriefingForDate may have hidden them)
+            document.getElementById('briefing-content').style.display = '';
+            document.getElementById('audio-section').style.display = '';
+            document.getElementById('briefing-sources').style.display = '';
+            document.getElementById('briefing-interests').style.display = '';
+            // Remove any "no briefing" placeholder
+            const noPlaceholder = document.getElementById('no-briefing-placeholder');
+            if (noPlaceholder) noPlaceholder.remove();
+            // Hide empty state
+            const emptyState = document.getElementById('empty-state');
+            if (emptyState) emptyState.style.display = 'none';
+
             // Clear any lingering error banners from failed generation attempts
             const existingErr = document.querySelector('#result-section .error-text');
             if (existingErr) existingErr.remove();
