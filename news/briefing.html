@@ -2965,33 +2965,66 @@ FORMAT — use this EXACT HTML:
                 briefingText = `Here's your ${today} briefing from Tailor Me Swiftly. ` + briefingText;
 
                 // Call podcastfy directly — it returns raw MP3 bytes, not JSON
+                // Use same 3-tier token strategy as invokeEdge()
                 let token = null;
                 try {
-                    const { data } = await window.supabaseClient.auth.refreshSession();
-                    token = data?.session?.access_token;
-                } catch (_) {}
+                    const { data, error } = await window.supabaseClient.auth.refreshSession();
+                    if (error) console.warn('[tts] refreshSession error:', error.message);
+                    token = data?.session?.access_token || null;
+                    if (token) console.log('[tts] Got fresh token via refreshSession');
+                } catch (e) { console.warn('[tts] refreshSession threw:', e.message); }
                 if (!token) {
-                    const { data: { session: s } } = await window.supabaseClient.auth.getSession();
-                    token = s?.access_token;
+                    try {
+                        const { data: { session: s } } = await window.supabaseClient.auth.getSession();
+                        token = s?.access_token || null;
+                        if (token) console.log('[tts] Got token via getSession');
+                    } catch (e) { console.warn('[tts] getSession threw:', e.message); }
+                }
+                if (!token) {
+                    try {
+                        const raw = localStorage.getItem('sb-gwmpdgjvcjzndbloctla-auth-token');
+                        if (raw) {
+                            const parsed = JSON.parse(raw);
+                            token = parsed?.access_token || parsed?.currentSession?.access_token || null;
+                            if (token) console.log('[tts] Got token from localStorage');
+                        }
+                    } catch (_) {}
                 }
                 if (!token) throw new Error('Session expired. Please refresh and sign in.');
 
                 const ttsResp = await fetch(`${EDGE_FN_BASE}/podcastfy`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, 'apikey': 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8' },
                     body: JSON.stringify({ text: briefingText.substring(0, 5000) })
                 });
 
-                const contentType = ttsResp.headers.get('Content-Type') || '';
+                // Retry once on 401 with a force-refreshed token
+                let finalResp = ttsResp;
+                if (ttsResp.status === 401) {
+                    console.warn('[tts] Got 401, retrying with refreshed token...');
+                    try {
+                        const { data: r } = await window.supabaseClient.auth.refreshSession();
+                        const newToken = r?.session?.access_token;
+                        if (newToken) {
+                            finalResp = await fetch(`${EDGE_FN_BASE}/podcastfy`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${newToken}`, 'apikey': 'sb_publishable_Kor1B60TEAKofYE75aW7Ow_WL0cPOa8' },
+                                body: JSON.stringify({ text: briefingText.substring(0, 5000) })
+                            });
+                        }
+                    } catch (e) { console.warn('[tts] 401 retry failed:', e.message); }
+                }
+
+                const contentType = finalResp.headers.get('Content-Type') || '';
                 if (contentType.includes('application/json')) {
                     // Error response as JSON
-                    const errData = await ttsResp.json();
+                    const errData = await finalResp.json();
                     throw new Error(errData.error || 'Audio generation failed.');
                 }
 
-                if (!ttsResp.ok) throw new Error(`Audio generation failed (${ttsResp.status}).`);
+                if (!finalResp.ok) throw new Error(`Audio generation failed (${finalResp.status}).`);
 
-                const audioBlob = await ttsResp.blob();
+                const audioBlob = await finalResp.blob();
                 if (audioBlob.size < 1000) throw new Error('Generated audio is too small. Please try again.');
 
                 const audioUrl = URL.createObjectURL(audioBlob);
