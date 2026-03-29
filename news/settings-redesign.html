@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TMN — Settings Panel Redesign</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #f0ece5;
+      --panel-bg:      #fdfcfa;
+      --white:         #ffffff;
+      --navy:          #1a2235;
+      --navy-mid:      #2e3a50;
+      --muted:         #8a8e99;
+      --faint:         #b8bcc8;
+      --border:        #e5dfd6;
+      --border-light:  #ede9e2;
+      --teal:          #2a9d8f;
+      --teal-dim:      #c6e7e3;
+      --teal-light:    #eaf5f3;
+      --chip-bg:       #eeebe5;
+      --chip-hover:    #e6e2db;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+    }
+
+    .demo { display: flex; height: 100vh; }
+
+    .main-backdrop {
+      flex: 1;
+      padding: 40px 48px;
+      opacity: 0.3;
+      pointer-events: none;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .backdrop-heading { font-family: 'Cormorant', serif; font-size: 22px; color: var(--navy); margin-bottom: 4px; }
+    .backdrop-line { height: 9px; background: var(--border); border-radius: 4px; }
+    .backdrop-line.w80 { width: 80%; }
+    .backdrop-line.w60 { width: 60%; }
+    .backdrop-line.w90 { width: 90%; }
+    .backdrop-line.w70 { width: 70%; }
+
+    /* ── Panel ── */
+    .settings-panel {
+      width: 340px;
+      min-width: 340px;
+      height: 100vh;
+      background: var(--panel-bg);
+      border-right: 1px solid var(--border);
+      box-shadow: 2px 0 28px rgba(26,34,53,.07);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Header ── */
+    .panel-header { flex-shrink: 0; padding: 22px 24px 0; }
+
+    .panel-eyebrow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+
+    .panel-wordmark {
+      font-family: 'Cormorant', serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    .panel-close {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--faint);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+      transition: color .18s;
+    }
+    .panel-close:hover { color: var(--navy); }
+
+    .panel-title {
+      font-family: 'Cormorant', serif;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -.025em;
+      color: var(--navy);
+      margin-bottom: 18px;
+    }
+    .panel-title em { font-style: italic; color: var(--teal); }
+
+    /* ── Tabs ── */
+    .tab-nav { display: flex; border-bottom: 1px solid var(--border); margin: 0 24px; }
+
+    .tab-btn {
+      padding: 9px 0;
+      margin-right: 22px;
+      margin-bottom: -1px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      cursor: pointer;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      transition: color .18s, border-color .18s;
+    }
+    .tab-btn.active { color: var(--navy); border-bottom-color: var(--teal); }
+    .tab-btn:hover:not(.active) { color: var(--navy-mid); }
+
+    /* ── Body scroll ── */
+    .panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 128px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .panel-body::-webkit-scrollbar { width: 3px; }
+    .panel-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── Section ── */
+    .section { padding: 20px 24px; border-bottom: 1px solid var(--border-light); }
+    .section:last-child { border-bottom: none; }
+
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-meta { font-size: 11.5px; font-weight: 300; color: var(--faint); font-variant-numeric: tabular-nums; }
+
+    .section-action {
+      font-size: 11px;
+      color: var(--teal);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity .18s;
+    }
+    .section-action:hover { opacity: .65; }
+
+    /* ── Unsaved badge ── */
+    .unsaved-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      background: var(--teal-light);
+      color: var(--teal);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: .02em;
+      transition: opacity .2s;
+    }
+    .unsaved-badge.hidden { opacity: 0; pointer-events: none; }
+    .unsaved-dot { width: 5px; height: 5px; background: var(--teal); border-radius: 50%; }
+
+    /* ── Following chips ── */
+    .chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 8px 5px 11px;
+      background: var(--chip-bg);
+      border-radius: 100px;
+      font-size: 12px;
+      color: var(--navy);
+      cursor: default;
+      transition: background .15s;
+      animation: chipIn .18s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes chipIn { from { opacity:0; transform:scale(.82); } to { opacity:1; transform:scale(1); } }
+    .chip:hover { background: var(--chip-hover); }
+
+    .chip-x {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: background .15s, color .15s;
+    }
+    .chip-x:hover { background: var(--border); color: var(--navy); }
+    .chip-x svg { width: 7px; height: 7px; }
+
+    .empty-state { font-size: 12px; color: var(--faint); font-style: italic; }
+
+    /* ── Discover accordion ── */
+    .discover-list { display: flex; flex-direction: column; gap: 3px; }
+
+    .cat-item { border-radius: 9px; overflow: hidden; }
+
+    .cat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 11px;
+      cursor: pointer;
+      border-radius: 9px;
+      transition: background .15s;
+      user-select: none;
+    }
+    .cat-row:hover { background: var(--chip-bg); }
+    .cat-row.open  { background: var(--chip-bg); border-radius: 9px 9px 0 0; }
+
+    .cat-name { font-size: 12.5px; font-weight: 500; color: var(--navy); }
+
+    .cat-right { display: flex; align-items: center; gap: 7px; }
+
+    .cat-badge {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--teal);
+      padding: 2px 6px;
+      border-radius: 100px;
+      display: none;
+    }
+    .cat-badge.show { display: block; }
+
+    .cat-chevron { width: 13px; height: 13px; color: var(--faint); transition: transform .2s; }
+    .cat-chevron.open { transform: rotate(180deg); }
+
+    .cat-topics {
+      max-height: 0;
+      overflow: hidden;
+      background: var(--chip-bg);
+      border-radius: 0 0 9px 9px;
+      transition: max-height .24s ease;
+    }
+    .cat-topics.open { max-height: 340px; }
+
+    .cat-topics-inner { padding: 6px 11px 12px; display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .topic-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 11px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all .15s;
+      border: 1px solid transparent;
+    }
+    .topic-pill.off { background: var(--white); color: var(--navy); border-color: var(--border); }
+    .topic-pill.off:hover { border-color: var(--teal); color: var(--teal); }
+    .topic-pill.on  { background: var(--teal); color: var(--white); border-color: var(--teal); }
+
+    /* ── Import ── */
+    .import-list { display: flex; flex-direction: column; gap: 6px; }
+
+    .import-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .import-item:hover { border-color: var(--teal-dim); background: var(--teal-light); }
+
+    .import-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--chip-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+    .import-item:hover .import-icon-wrap { background: var(--teal-dim); }
+    .import-icon-wrap svg { width: 15px; height: 15px; color: var(--muted); transition: color .15s; }
+    .import-item:hover .import-icon-wrap svg { color: var(--teal); }
+
+    .import-copy { flex: 1; min-width: 0; }
+    .import-title { font-size: 12.5px; font-weight: 500; color: var(--navy); margin-bottom: 1px; }
+    .import-sub { font-size: 11px; color: var(--muted); }
+
+    .import-arrow { flex-shrink: 0; color: var(--faint); transition: transform .15s, color .15s; }
+    .import-item:hover .import-arrow { color: var(--teal); transform: translateX(2px); }
+
+    /* ── Signals ── */
+    .signal-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
+
+    .signal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 7px;
+      transition: background .15s;
+    }
+    .signal-row:hover { background: var(--chip-bg); }
+
+    .signal-name { font-size: 12.5px; color: var(--navy); }
+
+    .signal-rm {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--faint);
+      opacity: 0;
+      transition: opacity .15s, background .15s, color .15s;
+    }
+    .signal-row:hover .signal-rm { opacity: 1; }
+    .signal-rm:hover { background: var(--border); color: var(--navy); }
+
+    .signal-add {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 7px;
+      border: 1px dashed var(--border);
+      transition: border-color .15s;
+    }
+    .signal-add:focus-within { border-color: var(--teal); border-style: solid; }
+
+    .signal-add-icon { color: var(--faint); flex-shrink: 0; transition: color .15s; }
+    .signal-add:focus-within .signal-add-icon { color: var(--teal); }
+
+    .signal-input {
+      flex: 1;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px;
+      color: var(--navy);
+      background: none;
+      border: none;
+      outline: none;
+    }
+    .signal-input::placeholder { color: var(--faint); }
+
+    /* ── Preferences ── */
+    .pref-block { padding: 20px 24px; border-bottom: 1px solid var(--border-light); }
+
+    .pref-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .pref-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .pref-pill {
+      padding: 6px 13px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--navy);
+      cursor: pointer;
+      background: var(--white);
+      transition: all .15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .pref-pill.on { background: var(--teal-light); border-color: var(--teal); color: var(--teal); }
+    .pref-pill:not(.on):hover { border-color: var(--teal-dim); }
+
+    .pref-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; }
+    .pref-toggle-row + .pref-toggle-row { border-top: 1px solid var(--border-light); }
+    .pref-toggle-name { font-size: 12.5px; color: var(--navy); }
+    .pref-toggle-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .toggle {
+      width: 34px;
+      height: 19px;
+      background: var(--border);
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: background .2s;
+      padding: 0;
+    }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: var(--white);
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: transform .2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.14);
+    }
+    .toggle.on { background: var(--teal); }
+    .toggle.on::after { transform: translateX(15px); }
+
+    /* ── Footer ── */
+    .panel-footer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 14px 24px 22px;
+      background: linear-gradient(to bottom, rgba(253,252,250,0), var(--panel-bg) 28%);
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .save-btn {
+      width: 100%;
+      padding: 13px 20px;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background .2s, transform .14s;
+    }
+    .save-btn:hover { background: var(--teal); transform: translateY(-1px); }
+    .save-btn:active { transform: translateY(0); }
+    .save-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    .cancel-btn {
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--faint);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      transition: color .15s;
+    }
+    .cancel-btn:hover { color: var(--muted); }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="demo">
+
+  <!-- Settings panel -->
+  <div class="settings-panel">
+
+    <div class="panel-header">
+      <div class="panel-eyebrow">
+        <span class="panel-wordmark">TailorMyNews</span>
+        <button class="panel-close">Close ✕</button>
+      </div>
+      <h1 class="panel-title">Your <em>Briefing</em></h1>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="topics">Topics</button>
+      <button class="tab-btn" data-tab="prefs">Preferences</button>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- TOPICS -->
+      <div class="tab-pane active" id="pane-topics">
+
+        <div class="section">
+          <div class="section-header">
+            <span class="section-label">
+              Following
+              <span class="unsaved-badge hidden" id="unsaved-badge">
+                <span class="unsaved-dot"></span>unsaved
+              </span>
+            </span>
+            <span class="section-meta" id="following-count">—</span>
+          </div>
+          <div class="chips-wrap" id="chips-wrap"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <span class="section-label">Discover</span>
+            <button class="section-action">Browse all →</button>
+          </div>
+          <div class="discover-list" id="discover-list"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <span class="section-label">Import Context</span>
+          </div>
+          <div class="import-list" id="import-list"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <span class="section-label">Signals</span>
+            <span class="section-meta">Companies &amp; themes</span>
+          </div>
+          <div class="signal-list" id="signal-list"></div>
+          <div class="signal-add">
+            <svg class="signal-add-icon" width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M6.5 2v9M2 6.5h9"/>
+            </svg>
+            <input class="signal-input" id="signal-input" type="text" placeholder="Add company or theme…">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PREFERENCES -->
+      <div class="tab-pane" id="pane-prefs">
+
+        <div class="pref-block">
+          <div class="pref-label">Briefing Length</div>
+          <div class="pref-pills">
+            <button class="pref-pill">Brief</button>
+            <button class="pref-pill on">Standard</button>
+            <button class="pref-pill">Deep</button>
+          </div>
+        </div>
+
+        <div class="pref-block">
+          <div class="pref-label">Delivery Time</div>
+          <div class="pref-pills">
+            <button class="pref-pill on">6 AM</button>
+            <button class="pref-pill">8 AM</button>
+            <button class="pref-pill">12 PM</button>
+            <button class="pref-pill">Custom</button>
+          </div>
+        </div>
+
+        <div class="pref-block">
+          <div class="pref-label">Format</div>
+          <div class="pref-pills">
+            <button class="pref-pill on">Narrative</button>
+            <button class="pref-pill">Bullets</button>
+            <button class="pref-pill">Digest</button>
+          </div>
+        </div>
+
+        <div class="pref-block">
+          <div class="pref-label">Content</div>
+          <div id="toggle-rows"></div>
+        </div>
+
+      </div>
+
+    </div><!-- /body -->
+
+    <div class="panel-footer">
+      <button class="save-btn" id="save-btn">
+        <svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1.5 6.5l3.5 3.5 6-6.5"/>
+        </svg>
+        Save &amp; Regenerate
+      </button>
+      <button class="cancel-btn">Cancel</button>
+    </div>
+
+  </div><!-- /panel -->
+
+  <!-- Simulated backdrop -->
+  <div class="main-backdrop">
+    <div class="backdrop-heading">Today's Briefing</div>
+    <div class="backdrop-line w80"></div>
+    <div class="backdrop-line w60"></div>
+    <div class="backdrop-line w90"></div>
+    <div class="backdrop-line w70"></div>
+    <div class="backdrop-line w80"></div>
+    <div class="backdrop-line w60"></div>
+    <div class="backdrop-line w90"></div>
+    <div class="backdrop-line w70"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Data ──────────────────────────────────────────────────
+const INITIAL_FOLLOWING = [
+  'AI & Data','Machine Learning','Large Language Models','Generative AI',
+  'AI Ethics & Regulation','Business & Finance','Startup Ecosystems',
+  'IPOs & Markets','Go-To-Market','Data Science','AI Startups','EdTech'
+];
+
+const CATEGORIES = [
+  { name:'AI & Data',          topics:['AI in Healthcare','Machine Learning','Large Language Models','Generative AI','AI Ethics & Regulation','AI Startups','Computer Vision','MLOps'] },
+  { name:'Software & Dev',     topics:['DevOps & SRE','Programming Languages','Web Development','APIs & Platforms','Open Source','Cloud Infrastructure'] },
+  { name:'Hardware & Infra',   topics:['Semiconductors','Quantum Computing','Robotics','IoT & Smart Devices','Telecom & 5G','3D Printing'] },
+  { name:'Cybersecurity',      topics:['Data Privacy','Ransomware & Threats','Zero Trust Security','Identity & Access'] },
+  { name:'Business & Finance', topics:['Startup Ecosystems','IPOs & Markets','Venture Capital','M&A Activity','Electric Vehicles','Go-To-Market'] },
+  { name:'Policy & Society',   topics:['AI Regulation','Data Legislation','EdTech','Workforce Development','Climate Tech'] },
+];
+
+const IMPORTS = [
+  { title:'From Resume',      sub:'Extract topics from your work history',    icon:'resume' },
+  { title:'From Job Posting', sub:'Paste a role to infer relevant topics',    icon:'job'    },
+  { title:'From Source',      sub:'Add a publication or website',             icon:'source' },
+];
+
+const INITIAL_SIGNALS = ['Anthropic','OpenAI','Gecko Robotics','Salesforce'];
+
+const TOGGLE_PREFS = [
+  { name:'Intelligence View',  desc:'Strategic context & analysis',   on:true  },
+  { name:'Continuing Stories', desc:'Track developing narratives',    on:true  },
+  { name:'Audio Briefing',     desc:'Daily podcast episode',          on:false },
+  { name:'Quick Summaries',    desc:'TL;DR before each story',        on:true  },
+];
+
+// ── State ─────────────────────────────────────────────────
+let following = new Set(INITIAL_FOLLOWING);
+let signals   = [...INITIAL_SIGNALS];
+let dirty     = false;
+
+// ── Helpers ───────────────────────────────────────────────
+const byId = id => document.getElementById(id);
+
+function markDirty() {
+  dirty = true;
+  byId('unsaved-badge').classList.remove('hidden');
+}
+
+// SVG builder (all inline — no user data in SVG)
+function makeSvg(d, w, h, opts) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', opts.sw || '1.5');
+  svg.setAttribute('stroke-linecap', 'round');
+  if (opts.linejoin) svg.setAttribute('stroke-linejoin', opts.linejoin);
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('d', d);
+  svg.appendChild(path);
+  return svg;
+}
+
+// ── Following chips ───────────────────────────────────────
+function renderChips() {
+  const wrap = byId('chips-wrap');
+  wrap.textContent = '';
+
+  if (!following.size) {
+    const msg = document.createElement('span');
+    msg.className = 'empty-state';
+    msg.textContent = 'No topics yet — discover some below';
+    wrap.appendChild(msg);
+  } else {
+    following.forEach(t => wrap.appendChild(makeChip(t)));
+  }
+
+  byId('following-count').textContent = `${following.size} topic${following.size !== 1 ? 's' : ''}`;
+}
+
+function makeChip(topic) {
+  const chip = document.createElement('span');
+  chip.className = 'chip';
+
+  const label = document.createElement('span');
+  label.textContent = topic;
+  chip.appendChild(label);
+
+  const btn = document.createElement('button');
+  btn.className = 'chip-x';
+  btn.title = `Remove ${topic}`;
+  btn.appendChild(makeSvg('M1 1l6 6M7 1L1 7', 8, 8, { sw:'1.8' }));
+  btn.addEventListener('click', e => { e.stopPropagation(); removeTopic(topic); });
+  chip.appendChild(btn);
+
+  return chip;
+}
+
+function removeTopic(t) { following.delete(t); renderChips(); renderDiscover(); markDirty(); }
+function addTopic(t)    { following.add(t);    renderChips(); renderDiscover(); markDirty(); }
+
+// ── Discover accordion ────────────────────────────────────
+function renderDiscover() {
+  const list = byId('discover-list');
+  const openNames = new Set();
+  list.querySelectorAll('.cat-topics.open').forEach(el => openNames.add(el.dataset.catName));
+  list.textContent = '';
+
+  CATEGORIES.forEach(cat => {
+    const sel    = cat.topics.filter(t => following.has(t)).length;
+    const isOpen = openNames.has(cat.name);
+    list.appendChild(makeCatItem(cat, sel, isOpen));
+  });
+}
+
+function makeCatItem(cat, selCount, isOpen) {
+  const item = document.createElement('div');
+  item.className = 'cat-item';
+
+  // Row
+  const row = document.createElement('div');
+  row.className = 'cat-row' + (isOpen ? ' open' : '');
+
+  const nameEl = document.createElement('span');
+  nameEl.className = 'cat-name';
+  nameEl.textContent = cat.name;
+  row.appendChild(nameEl);
+
+  const right = document.createElement('div');
+  right.className = 'cat-right';
+
+  const badge = document.createElement('span');
+  badge.className = 'cat-badge' + (selCount > 0 ? ' show' : '');
+  badge.textContent = String(selCount);
+  right.appendChild(badge);
+
+  const chevron = document.createElement('span');
+  chevron.className = 'cat-chevron' + (isOpen ? ' open' : '');
+  chevron.appendChild(makeSvg('M3 4.5l3.5 4 3.5-4', 13, 13, {}));
+  right.appendChild(chevron);
+  row.appendChild(right);
+  item.appendChild(row);
+
+  // Topics drawer
+  const drawer = document.createElement('div');
+  drawer.className = 'cat-topics' + (isOpen ? ' open' : '');
+  drawer.dataset.catName = cat.name;
+
+  const inner = document.createElement('div');
+  inner.className = 'cat-topics-inner';
+
+  cat.topics.forEach(t => {
+    const pill = document.createElement('span');
+    pill.className = 'topic-pill ' + (following.has(t) ? 'on' : 'off');
+    pill.textContent = t;
+    pill.addEventListener('click', e => {
+      e.stopPropagation();
+      following.has(t) ? removeTopic(t) : addTopic(t);
+    });
+    inner.appendChild(pill);
+  });
+
+  drawer.appendChild(inner);
+  item.appendChild(drawer);
+
+  // Toggle open/close
+  row.addEventListener('click', () => {
+    const nowOpen = drawer.classList.toggle('open');
+    chevron.classList.toggle('open', nowOpen);
+    row.classList.toggle('open', nowOpen);
+  });
+
+  return item;
+}
+
+// ── Import items ──────────────────────────────────────────
+function renderImports() {
+  const iconPaths = {
+    resume: 'M2 1.5h9a1 1 0 011 1v11a1 1 0 01-1 1H2a1 1 0 01-1-1v-11a1 1 0 011-1zM3.5 5h6M3.5 7.5h4',
+    job:    'M1.5 4h10a1 1 0 011 1v7a1 1 0 01-1 1h-10a1 1 0 01-1-1V5a1 1 0 011-1zM4.5 4V2.5a1 1 0 011-1h2a1 1 0 011 1V4M4 7h5M4 9.5h3',
+    source: 'M7 1a6 6 0 100 12A6 6 0 007 1zM1 7h12M7 1c-1.5 2-2.5 3.8-2.5 6s1 4 2.5 6M7 1c1.5 2 2.5 3.8 2.5 6s-1 4-2.5 6',
+  };
+  const arrowPath = 'M2.5 6.5h8M7 3l3.5 3.5L7 10';
+
+  const list = byId('import-list');
+  list.textContent = '';
+
+  IMPORTS.forEach(imp => {
+    const item = document.createElement('div');
+    item.className = 'import-item';
+
+    const iconWrap = document.createElement('div');
+    iconWrap.className = 'import-icon-wrap';
+    const iconSvg = makeSvg(iconPaths[imp.icon], 14, 14, {});
+    iconWrap.appendChild(iconSvg);
+    item.appendChild(iconWrap);
+
+    const copy = document.createElement('div');
+    copy.className = 'import-copy';
+    const titleEl = document.createElement('div');
+    titleEl.className = 'import-title';
+    titleEl.textContent = imp.title;
+    const subEl = document.createElement('div');
+    subEl.className = 'import-sub';
+    subEl.textContent = imp.sub;
+    copy.appendChild(titleEl);
+    copy.appendChild(subEl);
+    item.appendChild(copy);
+
+    const arrow = document.createElement('span');
+    arrow.className = 'import-arrow';
+    arrow.appendChild(makeSvg(arrowPath, 13, 13, {}));
+    item.appendChild(arrow);
+
+    list.appendChild(item);
+  });
+}
+
+// ── Signals ───────────────────────────────────────────────
+function renderSignals() {
+  const list = byId('signal-list');
+  list.textContent = '';
+  signals.forEach(s => list.appendChild(makeSignalRow(s)));
+}
+
+function makeSignalRow(s) {
+  const row = document.createElement('div');
+  row.className = 'signal-row';
+
+  const name = document.createElement('span');
+  name.className = 'signal-name';
+  name.textContent = s;
+  row.appendChild(name);
+
+  const rm = document.createElement('button');
+  rm.className = 'signal-rm';
+  rm.appendChild(makeSvg('M1 1l7 7M8 1L1 8', 9, 9, { sw:'1.6' }));
+  rm.addEventListener('click', () => {
+    signals = signals.filter(x => x !== s);
+    renderSignals();
+    markDirty();
+  });
+  row.appendChild(rm);
+
+  return row;
+}
+
+byId('signal-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const v = e.target.value.trim();
+    if (v && !signals.includes(v)) {
+      signals.push(v);
+      renderSignals();
+      e.target.value = '';
+      markDirty();
+    }
+  }
+});
+
+// ── Toggle prefs ──────────────────────────────────────────
+function renderTogglePrefs() {
+  const container = byId('toggle-rows');
+  container.textContent = '';
+  TOGGLE_PREFS.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'pref-toggle-row';
+
+    const text = document.createElement('div');
+    const nameEl = document.createElement('div');
+    nameEl.className = 'pref-toggle-name';
+    nameEl.textContent = p.name;
+    const descEl = document.createElement('div');
+    descEl.className = 'pref-toggle-desc';
+    descEl.textContent = p.desc;
+    text.appendChild(nameEl);
+    text.appendChild(descEl);
+    row.appendChild(text);
+
+    const tog = document.createElement('button');
+    tog.className = 'toggle' + (p.on ? ' on' : '');
+    tog.addEventListener('click', () => { tog.classList.toggle('on'); markDirty(); });
+    row.appendChild(tog);
+
+    container.appendChild(row);
+  });
+}
+
+// ── Tabs ──────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    byId(`pane-${btn.dataset.tab}`).classList.add('active');
+  });
+});
+
+// ── Pref pills ────────────────────────────────────────────
+document.querySelectorAll('.pref-block').forEach(block => {
+  block.querySelectorAll('.pref-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      block.querySelectorAll('.pref-pill').forEach(p => p.classList.remove('on'));
+      pill.classList.add('on');
+      markDirty();
+    });
+  });
+});
+
+// ── Save ──────────────────────────────────────────────────
+byId('save-btn').addEventListener('click', () => {
+  const btn = byId('save-btn');
+  btn.textContent = '';
+  const checkSvg = makeSvg('M1.5 6.5l3.5 3.5 6-6.5', 13, 13, { sw:'1.8', linejoin:'round' });
+  const label = document.createElement('span');
+  label.textContent = 'Saved';
+  btn.appendChild(checkSvg);
+  btn.appendChild(label);
+  btn.style.background = 'var(--teal)';
+  byId('unsaved-badge').classList.add('hidden');
+  dirty = false;
+  setTimeout(() => {
+    btn.textContent = '';
+    const svg2 = makeSvg('M1.5 6.5l3.5 3.5 6-6.5', 13, 13, { sw:'1.8', linejoin:'round' });
+    const lbl2 = document.createElement('span');
+    lbl2.textContent = 'Save & Regenerate';
+    btn.appendChild(svg2);
+    btn.appendChild(lbl2);
+    btn.style.background = '';
+  }, 2200);
+});
+
+// ── Init ──────────────────────────────────────────────────
+renderChips();
+renderDiscover();
+renderImports();
+renderSignals();
+renderTogglePrefs();
+</script>
+</body>
+</html>
