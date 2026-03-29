@@ -550,8 +550,140 @@
             align-items: center;
             gap: 0.4rem;
         }
+        .watchlist-panel {
+            order: 2;
+        }
         .watchlist-panel h4 i { opacity: 0.5; font-size: 0.75em; }
         .watchlist-panel p { display: none; }
+        .interests-workspace {
+            display: grid;
+            gap: 0.9rem;
+            margin-top: 1rem;
+            min-width: 0;
+        }
+        .interests-card {
+            padding: 0.95rem 1rem;
+            background: var(--panel-bg);
+            border: var(--brutal-border);
+            border-radius: var(--brutal-radius);
+            box-shadow: var(--brutal-shadow);
+        }
+        .interests-card h4 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin: 0 0 0.35rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .interests-card p {
+            margin: 0 0 0.75rem;
+            font-size: 0.78rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        .interests-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+        .interest-group-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-primary);
+            margin-bottom: 0.35rem;
+            padding: 0.18rem 0.42rem;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.18);
+            display: inline-flex;
+            align-items: center;
+        }
+        .utility-card {
+            padding: 0.95rem 1rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px dashed var(--panel-border);
+            border-radius: var(--brutal-radius);
+        }
+        .utility-card h4 {
+            margin: 0 0 0.3rem;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+        }
+        .utility-card p {
+            margin: 0 0 0.75rem;
+            font-size: 0.76rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        .utility-card .input-tabs {
+            margin-bottom: 0.85rem;
+        }
+        .interest-add-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.6rem;
+            flex-wrap: wrap;
+        }
+        #interest-tags {
+            max-height: 390px;
+            overflow-y: auto;
+            padding-right: 0.15rem;
+        }
+        .dashboard-sidebar .interest-tags-wrap {
+            gap: 0.35rem;
+        }
+        .dashboard-sidebar .interest-tag {
+            padding: 0.24rem 0.58rem;
+            font-size: 0.72rem;
+            line-height: 1.2;
+        }
+        .dashboard-sidebar .interest-tag.editable {
+            gap: 0.28rem;
+        }
+        .dashboard-sidebar .interest-tag.editable button {
+            font-size: 0.85rem;
+        }
+        .interest-count-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.7rem;
+            padding: 0.12rem 0.45rem;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--primary-color);
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+        #recommended-interests {
+            margin-top: 0;
+            order: 3;
+        }
+        #recommended-interests .interest-tags-wrap {
+            gap: 0.45rem;
+        }
+        .interest-toggle-btn {
+            background: none;
+            border: 1px solid var(--panel-border);
+            border-radius: 999px;
+            padding: 0.32rem 0.7rem;
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .interest-toggle-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
         /* ── Settings sticky footer ── */
         #edit-actions-bar {
             position: sticky !important;
@@ -586,6 +718,29 @@
             transform: none !important;
         }
         #edit-actions-bar .ghost-btn i { display: none; }
+        @media (min-width: 1001px) {
+            #main-content {
+                grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) !important;
+                gap: 2rem !important;
+                max-width: 1380px !important;
+            }
+            .dashboard-sidebar {
+                width: 100%;
+                max-width: 320px !important;
+                min-width: 0;
+            }
+            .dashboard-reading-pane {
+                min-width: 0 !important;
+                max-width: 100% !important;
+                overflow-x: hidden !important;
+                padding-left: 2rem !important;
+            }
+        }
+        @media (max-width: 760px) {
+            .interest-add-row input {
+                width: 100% !important;
+            }
+        }
         .intelligence-summary {
             margin-bottom: 1rem;
             padding: 1rem 1.1rem;
@@ -616,8 +771,11 @@
         /* ── Dim reading pane in edit mode ── */
         .dashboard-reading-pane.settings-active {
             opacity: 0.3;
-            pointer-events: none;
+            cursor: pointer;
             transition: opacity 0.3s ease;
+        }
+        .dashboard-reading-pane.settings-active * {
+            pointer-events: none;
         }
     </style>
 </head>
@@ -658,10 +816,10 @@
         </header>
 
         <main id="main-content" class="dashboard-layout"
-            style="max-width:1400px;margin:2rem auto;padding:0 2rem;display:grid;grid-template-columns:360px 1fr;gap:2.5rem;align-items:start;">
+            style="max-width:1380px;margin:2rem auto;padding:0 2rem;display:grid;grid-template-columns:minmax(280px,320px) minmax(0,1fr);gap:2rem;align-items:start;">
 
             <!-- LEFT CONTROL PANEL (Sidebar) -->
-            <aside class="dashboard-sidebar" style="padding:1.5rem 0;position:sticky;top:2rem;max-width:100%;">
+            <aside class="dashboard-sidebar" style="padding:1.5rem 0;position:sticky;top:2rem;max-width:320px;width:100%;min-width:0;">
                 <div style="margin-bottom:1.5rem;">
                     <a class="link-muted-sm" href="../dashboard.html"
  ><i
@@ -689,7 +847,7 @@
                         </div>
                     </div>
 
-                    <!-- Interests panel (contains source tabs + tags + recommended) -->
+                    <!-- Topics panel -->
                     <div id="settings-panel-interests">
                         <!-- Source sub-tabs -->
                         <div class="input-tabs" id="source-tabs">
@@ -805,27 +963,27 @@
                             </div>
                             <div id="interests-collapsible">
                                 <div id="interest-tags" class="interest-tags-wrap"></div>
-                                <div style="margin-top:0.5rem;">
+                                <div class="interest-add-row">
                                     <input type="text" id="add-interest-input" placeholder="Add a topic..."
-                                        style="padding:0.4rem 0.75rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:180px;"
+                                        style="padding:0.4rem 0.75rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:220px;"
                                         title="Add topic"
                                         onkeydown="if(event.key==='Enter'){addInterestTag(this.value);this.value='';}">
+                                    <button id="interests-toggle-btn" class="interest-toggle-btn" style="display:none;" onclick="toggleInterestList()"></button>
                                 </div>
                             </div>
-                        </div>
 
                         <!-- Recommended Interests -->
                         <div id="recommended-interests" style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--panel-border);display:none;">
                             <div style="font-size:0.67rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:0.75rem;">
                                 Discover
                             </div>
-                            <div id="recommended-personalized" class="interest-tags-wrap" style="gap:0.4rem;"></div>
+                            <div id="recommended-personalized" class="interest-tags-wrap"></div>
                             <div id="recommended-groups"></div>
                         </div>
 
                         <div class="watchlist-panel">
                             <h4><i class="fa-solid fa-binoculars"></i> Signals</h4>
-                            <p>Track companies, skills, or themes you want TTN to keep surfacing.</p>
+                            <p>Personal Watchlist — Track companies, skills, or themes you want TTN to keep surfacing.</p>
                             <div id="watchlist-tags" class="interest-tags-wrap" style="min-height:24px;margin-bottom:0.45rem;"></div>
                             <input type="text" id="watchlist-input" placeholder="e.g. Anthropic, cybersecurity, AI hiring"
                                 style="padding:0.4rem 0.75rem;border-radius:var(--brutal-radius);border:var(--brutal-border);background:var(--input-bg);color:var(--text-primary);font-size:0.85rem;font-family:inherit;width:100%;box-sizing:border-box;"
@@ -867,7 +1025,7 @@
                         </div>
                     </div>
 
-                    <!-- Preferences panel (shown via Settings tab in settings mode) -->
+                    <!-- Preferences panel -->
                     <div id="settings-panel-preferences" style="display:none;">
 
                         <!-- Settings panels -->
@@ -1137,7 +1295,7 @@
 
             <!-- RIGHT READING PANE -->
             <article class="dashboard-reading-pane"
-                style="min-height:75vh;padding-left:2.5rem;border-left:var(--brutal-border);min-width:0;overflow:visible;">
+                style="min-height:75vh;padding-left:2rem;border-left:var(--brutal-border);min-width:0;max-width:100%;overflow-x:hidden;">
                 <!-- Initial Empty State -->
                 <div id="empty-state" style="text-align:center;padding:3rem 1.5rem;color:var(--text-secondary);">
                     <i class="fa-regular fa-newspaper" style="font-size:3rem;margin-bottom:1rem;display:block;color:var(--primary-color);opacity:0.7;"></i>
@@ -1200,7 +1358,7 @@
                         </div>
                     </div>
 
-                    <div id="briefing-interests" style="display:flex;row-gap:0.5rem;column-gap:0.4rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+                    <div id="briefing-interests" style="display:flex;gap:0.4rem;flex-wrap:nowrap;overflow-x:auto;margin-bottom:1.25rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(to right,black 92%,transparent);-webkit-mask-image:linear-gradient(to right,black 92%,transparent);padding-bottom:0.25rem;">
                     </div>
 
                     <div id="briefing-intelligence-summary" style="display:none;"></div>
@@ -1579,7 +1737,7 @@
                 if (backdrop) backdrop.classList.add('active');
             } else {
                 if (sidebar) sidebar.style.display = '';
-                if (main) main.style.gridTemplateColumns = '360px 1fr';
+                if (main) main.style.gridTemplateColumns = 'minmax(280px,320px) minmax(0,1fr)';
             }
             document.getElementById('input-section').style.display = 'block';
         }
@@ -1711,10 +1869,7 @@
             generateBriefing(dateStr);
         }
 
-        // PDF.js worker
-        if (typeof pdfjsLib !== 'undefined') {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        }
+        // PDF.js worker source is set lazily in extractTextFromPDF because pdf.min.js loads with defer
 
         // ── Tab Switching ──
         function switchTab(tab) {
@@ -1958,6 +2113,7 @@
         }
 
         async function extractTextFromPDF(file) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
             const arrayBuffer = await file.arrayBuffer();
             const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
             let text = '';
@@ -2168,10 +2324,13 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
         // ── Interest Tags UI ──
         // Lookup populated after TOPIC_GROUPS is defined (see below)
         var _topicToGroup = {};
+        var _interestsExpanded = false;
+        var INTERESTS_COLLAPSED_LIMIT = 12;
 
         function renderInterestTags(interests) {
             const section = document.getElementById('interest-tags-section');
             const container = document.getElementById('interest-tags');
+            const toggleBtn = document.getElementById('interests-toggle-btn');
             section.style.display = 'block';
             container.textContent = '';
 
@@ -2190,21 +2349,19 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 return a.localeCompare(b);
             });
 
+            const collapsed = !_interestsExpanded && interests.length > INTERESTS_COLLAPSED_LIMIT;
+            let renderedCount = 0;
+
             groupNames.forEach(function(group) {
                 var wrapper = document.createElement('div');
                 wrapper.style.cssText = 'margin-bottom:0.5rem;';
 
-                if (groupNames.length > 1) {
-                    var label = document.createElement('div');
-                    label.style.cssText = 'font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-secondary);margin-bottom:0.25rem;opacity:0.6;';
-                    label.textContent = group;
-                    wrapper.appendChild(label);
-                }
-
                 var row = document.createElement('div');
                 row.className = 'interest-tags-wrap';
                 row.style.gap = '0.3rem';
+                let groupRendered = 0;
                 grouped[group].forEach(function(item) {
+                    if (collapsed && renderedCount >= INTERESTS_COLLAPSED_LIMIT) return;
                     var span = document.createElement('span');
                     span.className = 'interest-tag editable';
                     span.textContent = item.tag + ' ';
@@ -2214,33 +2371,45 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                     btn.onclick = function() { removeInterestTag(item.index); };
                     span.appendChild(btn);
                     row.appendChild(span);
+                    renderedCount += 1;
+                    groupRendered += 1;
                 });
+                if (!groupRendered) return;
+
+                if (groupNames.length > 1) {
+                    var label = document.createElement('div');
+                    label.className = 'interest-group-label';
+                    label.textContent = group;
+                    wrapper.appendChild(label);
+                }
+
                 wrapper.appendChild(row);
                 container.appendChild(wrapper);
             });
 
             // Update count badge
             var countEl = document.getElementById('interests-count');
-            if (countEl) countEl.textContent = '(' + interests.length + ')';
+            if (countEl) countEl.textContent = String(interests.length);
+            if (toggleBtn) {
+                if (interests.length > INTERESTS_COLLAPSED_LIMIT) {
+                    toggleBtn.style.display = 'inline-flex';
+                    toggleBtn.textContent = _interestsExpanded
+                        ? 'Show fewer topics'
+                        : 'Show all ' + interests.length + ' topics';
+                } else {
+                    toggleBtn.style.display = 'none';
+                }
+            }
         }
 
-        let _interestsCollapsed = false;
-        function toggleInterestsCollapse() {
-            _interestsCollapsed = !_interestsCollapsed;
-            var body = document.getElementById('interests-collapsible');
-            var chevron = document.getElementById('interests-chevron');
-            var recommended = document.getElementById('recommended-interests');
-            if (body) body.style.display = _interestsCollapsed ? 'none' : '';
-            if (recommended) recommended.style.display = _interestsCollapsed ? 'none' : (recommended.dataset.wasVisible === 'true' ? '' : 'none');
-            if (chevron) chevron.style.transform = _interestsCollapsed ? 'rotate(-90deg)' : '';
-            // Remember visibility state for recommended section
-            if (!_interestsCollapsed && recommended) {
-                recommended.dataset.wasVisible = recommended.style.display !== 'none' ? 'true' : 'false';
-            }
+        function toggleInterestList() {
+            _interestsExpanded = !_interestsExpanded;
+            renderInterestTags(extractedInterests);
         }
 
         function removeInterestTag(index) {
             extractedInterests.splice(index, 1);
+            if (extractedInterests.length <= INTERESTS_COLLAPSED_LIMIT) _interestsExpanded = false;
             renderInterestTags(extractedInterests);
             if (!extractedInterests.length) {
                 document.getElementById('interest-tags-section').style.display = 'none';
@@ -2403,9 +2572,8 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             }
             _suggestedGroupsShown = 0;
 
-            if (!_filteredGroups.length && !personalized.length) { section.style.display = 'none'; section.dataset.wasVisible = 'false'; return; }
-            section.style.display = _interestsCollapsed ? 'none' : '';
-            section.dataset.wasVisible = 'true';
+            if (!_filteredGroups.length && !personalized.length) { section.style.display = 'none'; return; }
+            section.style.display = '';
             renderTopicGroups(false);
         }
 
@@ -2909,7 +3077,6 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
                 const buckets = [
                     { key: 'track', icon: 'fa-binoculars', label: 'Track' },
                     { key: 'interview', icon: 'fa-comments', label: 'Interview' },
-                    { key: 'learn', icon: 'fa-book-open', label: 'Learn' },
                 ];
 
                 buckets.forEach(function(b) {
@@ -3015,9 +3182,12 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             expandSidebar();
             document.getElementById('input-section').scrollIntoView({ behavior: 'smooth' });
 
-            // Dim reading pane to focus on settings
+            // Dim reading pane to focus on settings; click to dismiss
             const readingPane = document.querySelector('.dashboard-reading-pane');
-            if (readingPane) readingPane.classList.add('settings-active');
+            if (readingPane) {
+                readingPane.classList.add('settings-active');
+                readingPane.onclick = function() { cancelEditInterests(); };
+            }
 
             // Show and update header for edit mode
             const stepHeader = document.querySelector('.step-header');
@@ -3067,7 +3237,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             if (settingsTabs) settingsTabs.style.display = '';
             switchSettingsTab('interests');
 
-            // Keep source sub-tabs visible, default to My Interests
+            // Keep import tools available, default to the intro state
             switchTab('type');
 
             // Hide tone/generate bar — settings page uses the Settings tab
@@ -3116,7 +3286,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
         function restoreNewBriefingUI() {
             // Restore reading pane visibility
             const readingPane = document.querySelector('.dashboard-reading-pane');
-            if (readingPane) readingPane.classList.remove('settings-active');
+            if (readingPane) { readingPane.classList.remove('settings-active'); readingPane.onclick = null; }
 
             // Hide settings-mode tabs, show both panels for normal flow
             const settingsTabs = document.getElementById('settings-tabs');
@@ -3151,7 +3321,7 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             if (!targetDate) targetDate = localDateStr();
             // Restore reading pane when generating
             const readingPane = document.querySelector('.dashboard-reading-pane');
-            if (readingPane) readingPane.classList.remove('settings-active');
+            if (readingPane) { readingPane.classList.remove('settings-active'); readingPane.onclick = null; }
             // Check interests — try recovering from cached briefings or profile if needed
             if (!extractedInterests.length) {
                 // Try recovering from most recent cached briefing
@@ -5459,9 +5629,9 @@ Do NOT include any other text, headers, or explanations outside of the [HOST_A]/
                 postBtn.style.cssText = 'font-size:0.7rem;border-color:#0a66c2;color:#0a66c2;';
                 postBtn.innerHTML = '<i class="fa-brands fa-linkedin" style="margin-right:0.2rem;"></i>Post to LinkedIn';
                 postBtn.onclick = function() {
-                    navigator.clipboard.writeText(draftForCopy).then(function() {
-                        window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank', 'noopener');
-                    });
+                    var w = window.open('https://www.linkedin.com/feed/?shareActive=true', '_blank', 'noopener');
+                    navigator.clipboard.writeText(draftForCopy).catch(function() {});
+                    if (!w) postBtn.textContent = 'Popup blocked — allow popups and try again';
                 };
 
                 var closeBtn = document.createElement('button');
@@ -5669,9 +5839,9 @@ Do NOT include any other text, headers, or explanations outside of the [HOST_A]/
                 }
 
                 // Group by action bucket
-                const buckets = { track: [], interview: [], learn: [], post: [], saved: [], other: [] };
-                const bucketLabels = { track: 'Tracking', interview: 'Interview Angles', learn: 'Learn Later', post: 'Post Ideas', saved: 'Bookmarked', other: 'Other' };
-                const bucketIcons = { track: 'fa-binoculars', interview: 'fa-comments', learn: 'fa-book-open', post: 'fa-pen-nib', saved: 'fa-bookmark', other: 'fa-folder' };
+                const buckets = { track: [], interview: [], post: [], saved: [], other: [] };
+                const bucketLabels = { track: 'Tracking', interview: 'Interview Angles', post: 'Post Ideas', saved: 'Bookmarked', other: 'Other' };
+                const bucketIcons = { track: 'fa-binoculars', interview: 'fa-comments', post: 'fa-pen-nib', saved: 'fa-bookmark', other: 'fa-folder' };
 
                 saved.forEach(row => {
                     const meta = getSavedStoryMeta(row.notes);
@@ -5782,7 +5952,7 @@ Do NOT include any other text, headers, or explanations outside of the [HOST_A]/
                 } else {
                     // Markdown
                     var buckets = {};
-                    var bucketLabels = { track: 'Tracking', interview: 'Interview Angles', learn: 'Learn Later', post: 'Post Ideas', saved: 'Bookmarked', other: 'Other' };
+                    var bucketLabels = { track: 'Tracking', interview: 'Interview Angles', post: 'Post Ideas', saved: 'Bookmarked', other: 'Other' };
                     saved.forEach(function(r) {
                         var meta = getSavedStoryMeta(r.notes);
                         var bucket = r.action_bucket || meta?.actionBucket || 'other';
@@ -5958,7 +6128,7 @@ Do NOT include any other text, headers, or explanations outside of the [HOST_A]/
         window.showArticleReason = showArticleReason;
         window.copyShareLink = copyShareLink;
         window.reactToStory = reactToStory;
-        window.toggleInterestsCollapse = toggleInterestsCollapse;
+        window.toggleInterestList = toggleInterestList;
         window.toggleSavedIntelligence = toggleSavedIntelligence;
         window.loadAllSavedIntelligence = loadAllSavedIntelligence;
         window.saveStoryAction = saveStoryAction;
