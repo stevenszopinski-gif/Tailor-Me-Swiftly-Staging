@@ -613,6 +613,12 @@
         #calendar-export-btn {
             font-size: 0.82rem;
         }
+        /* ── Dim reading pane in edit mode ── */
+        .dashboard-reading-pane.settings-active {
+            opacity: 0.3;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
 
@@ -3009,6 +3015,10 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
             expandSidebar();
             document.getElementById('input-section').scrollIntoView({ behavior: 'smooth' });
 
+            // Dim reading pane to focus on settings
+            const readingPane = document.querySelector('.dashboard-reading-pane');
+            if (readingPane) readingPane.classList.add('settings-active');
+
             // Show and update header for edit mode
             const stepHeader = document.querySelector('.step-header');
             if (stepHeader) stepHeader.style.display = '';
@@ -3104,6 +3114,10 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
         }
 
         function restoreNewBriefingUI() {
+            // Restore reading pane visibility
+            const readingPane = document.querySelector('.dashboard-reading-pane');
+            if (readingPane) readingPane.classList.remove('settings-active');
+
             // Hide settings-mode tabs, show both panels for normal flow
             const settingsTabs = document.getElementById('settings-tabs');
             if (settingsTabs) settingsTabs.style.display = 'none';
@@ -3135,6 +3149,9 @@ Example output: ["AI/ML", "cloud computing", "fintech", "React", "startup fundin
         let _isRegeneration = false;
         async function generateBriefing(targetDate) {
             if (!targetDate) targetDate = localDateStr();
+            // Restore reading pane when generating
+            const readingPane = document.querySelector('.dashboard-reading-pane');
+            if (readingPane) readingPane.classList.remove('settings-active');
             // Check interests — try recovering from cached briefings or profile if needed
             if (!extractedInterests.length) {
                 // Try recovering from most recent cached briefing
