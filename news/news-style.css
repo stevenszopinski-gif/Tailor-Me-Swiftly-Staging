@@ -1,5 +1,5 @@
 /*
- * Tailor The News — Component Styles
+ * Tailor My News — Component Styles
  *
  * Briefing-specific UI components. Brand colors are handled
  * by brand-config.js setting CSS variables at runtime.
@@ -26,7 +26,10 @@
 .briefing-body {
   font-family: var(--font-body), system-ui, sans-serif;
   color: var(--text-primary);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
+
 
 .briefing-body h3 {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -54,15 +57,15 @@
 }
 
 .briefing-body ul {
-  padding-left: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+  margin-bottom: 0.75rem;
 }
 
 .briefing-body li {
   font-size: 1rem;
   line-height: 1.7;
   color: var(--text-secondary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.4rem;
 }
 
 .briefing-source {
@@ -245,17 +248,31 @@
 .interest-tag.editable button {
   background: none;
   border: none;
-  color: var(--primary-color);
-  font-size: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
   cursor: pointer;
   padding: 0;
   line-height: 1;
-  opacity: 0.6;
-  transition: opacity 0.2s;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
 }
 
 .interest-tag.editable button:hover {
-  opacity: 1;
+  background: color-mix(in srgb, var(--text-primary) 12%, transparent);
+  color: var(--text-primary);
+}
+
+/* Desktop only: contain grid overflow */
+@media (min-width: 1001px) {
+  .dashboard-reading-pane {
+    overflow: hidden;
+  }
 }
 
 /* ── Responsive ── */
@@ -263,11 +280,10 @@
   .dashboard-layout {
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
-    padding: 0 1.25rem !important;
+    padding: 0 1rem !important;
   }
 
   .dashboard-sidebar {
-    position: static !important;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
@@ -276,18 +292,63 @@
   .dashboard-reading-pane {
     border-left: none !important;
     padding-left: 0 !important;
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 600px) {
   .input-tabs {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .input-tab {
     font-size: 0.78rem;
     padding: 0.5rem 0.7rem;
+  }
+
+  .briefing-card {
+    padding: 1.25rem;
+  }
+}
+
+/* ── Briefing page mobile tweaks ── */
+@media (max-width: 480px) {
+  .dashboard-layout {
+    padding: 0 0.5rem !important;
+    margin: 1rem auto !important;
+    gap: 1.5rem !important;
+  }
+
+  .briefing-card {
+    padding: 1rem;
+  }
+
+  .briefing-body p {
+    font-size: 0.95rem;
+  }
+
+  .briefing-body h3 {
+    font-size: 0.85rem;
+  }
+
+  .interest-tag {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+/* Touch-only: prevent sticky hover states */
+@media (hover: none) {
+  .briefing-card:hover {
+    transform: none;
+    box-shadow: var(--brutal-shadow);
+    border-color: var(--panel-border);
   }
 }
